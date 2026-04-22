@@ -2074,6 +2074,8 @@ extension NetworkFirewallClientTypes {
 
     /// The high-level properties of a firewall policy. This, along with the [FirewallPolicy], define the policy. You can retrieve all objects for a firewall policy by calling [DescribeFirewallPolicy].
     public struct FirewallPolicyResponse: Swift.Sendable {
+        /// The total number of domain name specifications across all domain list rule groups in the firewall policy that use the stateful-domain-rulegroup resource type.
+        public var consumedStatefulDomainCapacity: Swift.Int?
         /// The number of capacity units currently consumed by the policy's stateful rules.
         public var consumedStatefulRuleCapacity: Swift.Int?
         /// The number of capacity units currently consumed by the policy's stateless rules.
@@ -2101,6 +2103,7 @@ extension NetworkFirewallClientTypes {
         public var tags: [NetworkFirewallClientTypes.Tag]?
 
         public init(
+            consumedStatefulDomainCapacity: Swift.Int? = nil,
             consumedStatefulRuleCapacity: Swift.Int? = nil,
             consumedStatelessRuleCapacity: Swift.Int? = nil,
             description: Swift.String? = nil,
@@ -2113,6 +2116,7 @@ extension NetworkFirewallClientTypes {
             numberOfAssociations: Swift.Int? = nil,
             tags: [NetworkFirewallClientTypes.Tag]? = nil
         ) {
+            self.consumedStatefulDomainCapacity = consumedStatefulDomainCapacity
             self.consumedStatefulRuleCapacity = consumedStatefulRuleCapacity
             self.consumedStatelessRuleCapacity = consumedStatelessRuleCapacity
             self.description = description
@@ -3557,12 +3561,14 @@ extension NetworkFirewallClientTypes {
 
     public enum RuleGroupType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case stateful
+        case statefulDomain
         case stateless
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RuleGroupType] {
             return [
                 .stateful,
+                .statefulDomain,
                 .stateless
             ]
         }
@@ -3575,6 +3581,7 @@ extension NetworkFirewallClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .stateful: return "STATEFUL"
+            case .statefulDomain: return "STATEFUL_DOMAIN"
             case .stateless: return "STATELESS"
             case let .sdkUnknown(s): return s
             }
@@ -11949,6 +11956,7 @@ extension NetworkFirewallClientTypes.FirewallPolicyResponse {
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.consumedStatelessRuleCapacity = try reader["ConsumedStatelessRuleCapacity"].readIfPresent()
         value.consumedStatefulRuleCapacity = try reader["ConsumedStatefulRuleCapacity"].readIfPresent()
+        value.consumedStatefulDomainCapacity = try reader["ConsumedStatefulDomainCapacity"].readIfPresent()
         value.numberOfAssociations = try reader["NumberOfAssociations"].readIfPresent()
         value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.EncryptionConfiguration.read(from:))
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)

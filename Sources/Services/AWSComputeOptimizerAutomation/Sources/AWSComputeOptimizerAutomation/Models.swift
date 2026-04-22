@@ -9,27 +9,27 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+@_spi(SmithyReadWrite) import class SmithyCBOR.Reader
+@_spi(SmithyReadWrite) import class SmithyCBOR.Writer
 import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Reader
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
-@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RpcV2CborError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient permissions to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct AccessDeniedException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -151,7 +151,7 @@ extension ComputeOptimizerAutomationClientTypes {
 }
 
 /// You are not authorized to perform this action.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ForbiddenException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -174,7 +174,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// The specified client token is already in use.
-public struct IdempotencyTokenInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct IdempotencyTokenInUseException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -197,7 +197,7 @@ public struct IdempotencyTokenInUseException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// Exception thrown when the same client token is used with different parameters, indicating a mismatch in idempotent request parameters.
-public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -220,7 +220,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
 }
 
 /// An internal error occurred while processing the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InternalServerException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -243,7 +243,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// One or more parameter values are not valid.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -266,7 +266,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The operation can only be performed by a management account.
-public struct NotManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct NotManagementAccountException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -289,7 +289,7 @@ public struct NotManagementAccountException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The account must be opted in to Compute Optimizer Automation before performing this action.
-public struct OptInRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct OptInRequiredException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -312,7 +312,7 @@ public struct OptInRequiredException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The service is temporarily unavailable.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -335,7 +335,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ThrottlingException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1245,7 +1245,7 @@ extension ComputeOptimizerAutomationClientTypes {
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1268,7 +1268,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request would exceed service quotas.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -2848,167 +2848,167 @@ public struct UpdateEnrollmentConfigurationOutput: Swift.Sendable {
 extension AssociateAccountsInput {
 
     static func urlPathProvider(_ value: AssociateAccountsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/AssociateAccounts"
     }
 }
 
 extension CreateAutomationRuleInput {
 
     static func urlPathProvider(_ value: CreateAutomationRuleInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/CreateAutomationRule"
     }
 }
 
 extension DeleteAutomationRuleInput {
 
     static func urlPathProvider(_ value: DeleteAutomationRuleInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/DeleteAutomationRule"
     }
 }
 
 extension DisassociateAccountsInput {
 
     static func urlPathProvider(_ value: DisassociateAccountsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/DisassociateAccounts"
     }
 }
 
 extension GetAutomationEventInput {
 
     static func urlPathProvider(_ value: GetAutomationEventInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/GetAutomationEvent"
     }
 }
 
 extension GetAutomationRuleInput {
 
     static func urlPathProvider(_ value: GetAutomationRuleInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/GetAutomationRule"
     }
 }
 
 extension GetEnrollmentConfigurationInput {
 
     static func urlPathProvider(_ value: GetEnrollmentConfigurationInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/GetEnrollmentConfiguration"
     }
 }
 
 extension ListAccountsInput {
 
     static func urlPathProvider(_ value: ListAccountsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/ListAccounts"
     }
 }
 
 extension ListAutomationEventsInput {
 
     static func urlPathProvider(_ value: ListAutomationEventsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/ListAutomationEvents"
     }
 }
 
 extension ListAutomationEventStepsInput {
 
     static func urlPathProvider(_ value: ListAutomationEventStepsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/ListAutomationEventSteps"
     }
 }
 
 extension ListAutomationEventSummariesInput {
 
     static func urlPathProvider(_ value: ListAutomationEventSummariesInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/ListAutomationEventSummaries"
     }
 }
 
 extension ListAutomationRulePreviewInput {
 
     static func urlPathProvider(_ value: ListAutomationRulePreviewInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/ListAutomationRulePreview"
     }
 }
 
 extension ListAutomationRulePreviewSummariesInput {
 
     static func urlPathProvider(_ value: ListAutomationRulePreviewSummariesInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/ListAutomationRulePreviewSummaries"
     }
 }
 
 extension ListAutomationRulesInput {
 
     static func urlPathProvider(_ value: ListAutomationRulesInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/ListAutomationRules"
     }
 }
 
 extension ListRecommendedActionsInput {
 
     static func urlPathProvider(_ value: ListRecommendedActionsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/ListRecommendedActions"
     }
 }
 
 extension ListRecommendedActionSummariesInput {
 
     static func urlPathProvider(_ value: ListRecommendedActionSummariesInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/ListRecommendedActionSummaries"
     }
 }
 
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/ListTagsForResource"
     }
 }
 
 extension RollbackAutomationEventInput {
 
     static func urlPathProvider(_ value: RollbackAutomationEventInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/RollbackAutomationEvent"
     }
 }
 
 extension StartAutomationEventInput {
 
     static func urlPathProvider(_ value: StartAutomationEventInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/StartAutomationEvent"
     }
 }
 
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/TagResource"
     }
 }
 
 extension UntagResourceInput {
 
     static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/UntagResource"
     }
 }
 
 extension UpdateAutomationRuleInput {
 
     static func urlPathProvider(_ value: UpdateAutomationRuleInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/UpdateAutomationRule"
     }
 }
 
 extension UpdateEnrollmentConfigurationInput {
 
     static func urlPathProvider(_ value: UpdateEnrollmentConfigurationInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerAutomationService/operation/UpdateEnrollmentConfiguration"
     }
 }
 
 extension AssociateAccountsInput {
 
-    static func write(value: AssociateAccountsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AssociateAccountsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
@@ -3017,7 +3017,7 @@ extension AssociateAccountsInput {
 
 extension CreateAutomationRuleInput {
 
-    static func write(value: CreateAutomationRuleInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CreateAutomationRuleInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["criteria"].write(value.criteria, with: ComputeOptimizerAutomationClientTypes.Criteria.write(value:to:))
@@ -3035,7 +3035,7 @@ extension CreateAutomationRuleInput {
 
 extension DeleteAutomationRuleInput {
 
-    static func write(value: DeleteAutomationRuleInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DeleteAutomationRuleInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["ruleArn"].write(value.ruleArn)
@@ -3045,7 +3045,7 @@ extension DeleteAutomationRuleInput {
 
 extension DisassociateAccountsInput {
 
-    static func write(value: DisassociateAccountsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DisassociateAccountsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
@@ -3054,7 +3054,7 @@ extension DisassociateAccountsInput {
 
 extension GetAutomationEventInput {
 
-    static func write(value: GetAutomationEventInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetAutomationEventInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["eventId"].write(value.eventId)
     }
@@ -3062,7 +3062,7 @@ extension GetAutomationEventInput {
 
 extension GetAutomationRuleInput {
 
-    static func write(value: GetAutomationRuleInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetAutomationRuleInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ruleArn"].write(value.ruleArn)
     }
@@ -3070,7 +3070,7 @@ extension GetAutomationRuleInput {
 
 extension GetEnrollmentConfigurationInput {
 
-    static func write(value: GetEnrollmentConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetEnrollmentConfigurationInput?, to writer: SmithyCBOR.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
     }
@@ -3078,7 +3078,7 @@ extension GetEnrollmentConfigurationInput {
 
 extension ListAccountsInput {
 
-    static func write(value: ListAccountsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListAccountsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
@@ -3087,7 +3087,7 @@ extension ListAccountsInput {
 
 extension ListAutomationEventsInput {
 
-    static func write(value: ListAutomationEventsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListAutomationEventsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["endTimeExclusive"].writeTimestamp(value.endTimeExclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerAutomationClientTypes.AutomationEventFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -3099,7 +3099,7 @@ extension ListAutomationEventsInput {
 
 extension ListAutomationEventStepsInput {
 
-    static func write(value: ListAutomationEventStepsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListAutomationEventStepsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["eventId"].write(value.eventId)
         try writer["maxResults"].write(value.maxResults)
@@ -3109,7 +3109,7 @@ extension ListAutomationEventStepsInput {
 
 extension ListAutomationEventSummariesInput {
 
-    static func write(value: ListAutomationEventSummariesInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListAutomationEventSummariesInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["endDateExclusive"].write(value.endDateExclusive)
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerAutomationClientTypes.AutomationEventFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -3121,7 +3121,7 @@ extension ListAutomationEventSummariesInput {
 
 extension ListAutomationRulePreviewInput {
 
-    static func write(value: ListAutomationRulePreviewInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListAutomationRulePreviewInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["criteria"].write(value.criteria, with: ComputeOptimizerAutomationClientTypes.Criteria.write(value:to:))
         try writer["maxResults"].write(value.maxResults)
@@ -3134,7 +3134,7 @@ extension ListAutomationRulePreviewInput {
 
 extension ListAutomationRulePreviewSummariesInput {
 
-    static func write(value: ListAutomationRulePreviewSummariesInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListAutomationRulePreviewSummariesInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["criteria"].write(value.criteria, with: ComputeOptimizerAutomationClientTypes.Criteria.write(value:to:))
         try writer["maxResults"].write(value.maxResults)
@@ -3147,7 +3147,7 @@ extension ListAutomationRulePreviewSummariesInput {
 
 extension ListAutomationRulesInput {
 
-    static func write(value: ListAutomationRulesInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListAutomationRulesInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerAutomationClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maxResults"].write(value.maxResults)
@@ -3157,7 +3157,7 @@ extension ListAutomationRulesInput {
 
 extension ListRecommendedActionsInput {
 
-    static func write(value: ListRecommendedActionsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListRecommendedActionsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerAutomationClientTypes.RecommendedActionFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maxResults"].write(value.maxResults)
@@ -3167,7 +3167,7 @@ extension ListRecommendedActionsInput {
 
 extension ListRecommendedActionSummariesInput {
 
-    static func write(value: ListRecommendedActionSummariesInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListRecommendedActionSummariesInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerAutomationClientTypes.RecommendedActionFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maxResults"].write(value.maxResults)
@@ -3177,7 +3177,7 @@ extension ListRecommendedActionSummariesInput {
 
 extension ListTagsForResourceInput {
 
-    static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ListTagsForResourceInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["resourceArn"].write(value.resourceArn)
     }
@@ -3185,7 +3185,7 @@ extension ListTagsForResourceInput {
 
 extension RollbackAutomationEventInput {
 
-    static func write(value: RollbackAutomationEventInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: RollbackAutomationEventInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["eventId"].write(value.eventId)
@@ -3194,7 +3194,7 @@ extension RollbackAutomationEventInput {
 
 extension StartAutomationEventInput {
 
-    static func write(value: StartAutomationEventInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: StartAutomationEventInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["recommendedActionId"].write(value.recommendedActionId)
@@ -3203,7 +3203,7 @@ extension StartAutomationEventInput {
 
 extension TagResourceInput {
 
-    static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TagResourceInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["resourceArn"].write(value.resourceArn)
@@ -3214,7 +3214,7 @@ extension TagResourceInput {
 
 extension UntagResourceInput {
 
-    static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: UntagResourceInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["resourceArn"].write(value.resourceArn)
@@ -3225,7 +3225,7 @@ extension UntagResourceInput {
 
 extension UpdateAutomationRuleInput {
 
-    static func write(value: UpdateAutomationRuleInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: UpdateAutomationRuleInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["criteria"].write(value.criteria, with: ComputeOptimizerAutomationClientTypes.Criteria.write(value:to:))
@@ -3244,7 +3244,7 @@ extension UpdateAutomationRuleInput {
 
 extension UpdateEnrollmentConfigurationInput {
 
-    static func write(value: UpdateEnrollmentConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: UpdateEnrollmentConfigurationInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["status"].write(value.status)
@@ -3255,7 +3255,7 @@ extension AssociateAccountsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateAccountsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = AssociateAccountsOutput()
         value.accountIds = try reader["accountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3268,7 +3268,7 @@ extension CreateAutomationRuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAutomationRuleOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = CreateAutomationRuleOutput()
         value.createdTimestamp = try reader["createdTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3300,7 +3300,7 @@ extension DisassociateAccountsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateAccountsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DisassociateAccountsOutput()
         value.accountIds = try reader["accountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3313,7 +3313,7 @@ extension GetAutomationEventOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAutomationEventOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetAutomationEventOutput()
         value.accountId = try reader["accountId"].readIfPresent()
@@ -3339,7 +3339,7 @@ extension GetAutomationRuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAutomationRuleOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetAutomationRuleOutput()
         value.accountId = try reader["accountId"].readIfPresent()
@@ -3366,7 +3366,7 @@ extension GetEnrollmentConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEnrollmentConfigurationOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetEnrollmentConfigurationOutput()
         value.lastUpdatedTimestamp = try reader["lastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3381,7 +3381,7 @@ extension ListAccountsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAccountsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListAccountsOutput()
         value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.AccountInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -3394,7 +3394,7 @@ extension ListAutomationEventsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAutomationEventsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListAutomationEventsOutput()
         value.automationEvents = try reader["automationEvents"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.AutomationEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3407,7 +3407,7 @@ extension ListAutomationEventStepsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAutomationEventStepsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListAutomationEventStepsOutput()
         value.automationEventSteps = try reader["automationEventSteps"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.AutomationEventStep.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3420,7 +3420,7 @@ extension ListAutomationEventSummariesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAutomationEventSummariesOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListAutomationEventSummariesOutput()
         value.automationEventSummaries = try reader["automationEventSummaries"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.AutomationEventSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3433,7 +3433,7 @@ extension ListAutomationRulePreviewOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAutomationRulePreviewOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListAutomationRulePreviewOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
@@ -3446,7 +3446,7 @@ extension ListAutomationRulePreviewSummariesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAutomationRulePreviewSummariesOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListAutomationRulePreviewSummariesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
@@ -3459,7 +3459,7 @@ extension ListAutomationRulesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAutomationRulesOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListAutomationRulesOutput()
         value.automationRules = try reader["automationRules"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.AutomationRule.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3472,7 +3472,7 @@ extension ListRecommendedActionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRecommendedActionsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListRecommendedActionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
@@ -3485,7 +3485,7 @@ extension ListRecommendedActionSummariesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRecommendedActionSummariesOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListRecommendedActionSummariesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
@@ -3498,7 +3498,7 @@ extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3510,7 +3510,7 @@ extension RollbackAutomationEventOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RollbackAutomationEventOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = RollbackAutomationEventOutput()
         value.eventId = try reader["eventId"].readIfPresent()
@@ -3523,7 +3523,7 @@ extension StartAutomationEventOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAutomationEventOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = StartAutomationEventOutput()
         value.eventId = try reader["eventId"].readIfPresent()
@@ -3551,7 +3551,7 @@ extension UpdateAutomationRuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAutomationRuleOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAutomationRuleOutput()
         value.createdTimestamp = try reader["createdTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3575,7 +3575,7 @@ extension UpdateEnrollmentConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEnrollmentConfigurationOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateEnrollmentConfigurationOutput()
         value.lastUpdatedTimestamp = try reader["lastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -3589,8 +3589,8 @@ enum AssociateAccountsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3612,8 +3612,8 @@ enum CreateAutomationRuleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3636,8 +3636,8 @@ enum DeleteAutomationRuleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3659,8 +3659,8 @@ enum DisassociateAccountsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3682,8 +3682,8 @@ enum GetAutomationEventOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3703,8 +3703,8 @@ enum GetAutomationRuleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3724,8 +3724,8 @@ enum GetEnrollmentConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3745,8 +3745,8 @@ enum ListAccountsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3766,8 +3766,8 @@ enum ListAutomationEventsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3786,8 +3786,8 @@ enum ListAutomationEventStepsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3807,8 +3807,8 @@ enum ListAutomationEventSummariesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3827,8 +3827,8 @@ enum ListAutomationRulePreviewOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3847,8 +3847,8 @@ enum ListAutomationRulePreviewSummariesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3867,8 +3867,8 @@ enum ListAutomationRulesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3887,8 +3887,8 @@ enum ListRecommendedActionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3907,8 +3907,8 @@ enum ListRecommendedActionSummariesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3927,8 +3927,8 @@ enum ListTagsForResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3948,8 +3948,8 @@ enum RollbackAutomationEventOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3971,8 +3971,8 @@ enum StartAutomationEventOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3995,8 +3995,8 @@ enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4018,8 +4018,8 @@ enum UntagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4041,8 +4041,8 @@ enum UpdateAutomationRuleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4064,8 +4064,8 @@ enum UpdateEnrollmentConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4086,7 +4086,7 @@ enum UpdateEnrollmentConfigurationOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4099,7 +4099,7 @@ extension AccessDeniedException {
 
 extension ForbiddenException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ForbiddenException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
         var value = ForbiddenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4112,7 +4112,7 @@ extension ForbiddenException {
 
 extension IdempotencyTokenInUseException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IdempotencyTokenInUseException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> IdempotencyTokenInUseException {
         let reader = baseError.errorBodyReader
         var value = IdempotencyTokenInUseException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4125,7 +4125,7 @@ extension IdempotencyTokenInUseException {
 
 extension IdempotentParameterMismatchException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IdempotentParameterMismatchException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> IdempotentParameterMismatchException {
         let reader = baseError.errorBodyReader
         var value = IdempotentParameterMismatchException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4138,7 +4138,7 @@ extension IdempotentParameterMismatchException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4151,7 +4151,7 @@ extension InternalServerException {
 
 extension InvalidParameterValueException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterValueException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4164,7 +4164,7 @@ extension InvalidParameterValueException {
 
 extension NotManagementAccountException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NotManagementAccountException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> NotManagementAccountException {
         let reader = baseError.errorBodyReader
         var value = NotManagementAccountException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4177,7 +4177,7 @@ extension NotManagementAccountException {
 
 extension OptInRequiredException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OptInRequiredException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> OptInRequiredException {
         let reader = baseError.errorBodyReader
         var value = OptInRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4190,7 +4190,7 @@ extension OptInRequiredException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4203,7 +4203,7 @@ extension ServiceUnavailableException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4216,7 +4216,7 @@ extension ThrottlingException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4229,7 +4229,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4242,7 +4242,7 @@ extension ServiceQuotaExceededException {
 
 extension ComputeOptimizerAutomationClientTypes.AccountInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.AccountInfo {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.AccountInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.AccountInfo()
         value.accountId = try reader["accountId"].readIfPresent() ?? ""
@@ -4256,7 +4256,7 @@ extension ComputeOptimizerAutomationClientTypes.AccountInfo {
 
 extension ComputeOptimizerAutomationClientTypes.AutomationEvent {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.AutomationEvent {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.AutomationEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.AutomationEvent()
         value.eventId = try reader["eventId"].readIfPresent()
@@ -4280,7 +4280,7 @@ extension ComputeOptimizerAutomationClientTypes.AutomationEvent {
 
 extension ComputeOptimizerAutomationClientTypes.AutomationEventFilter {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.AutomationEventFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.AutomationEventFilter?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -4289,7 +4289,7 @@ extension ComputeOptimizerAutomationClientTypes.AutomationEventFilter {
 
 extension ComputeOptimizerAutomationClientTypes.AutomationEventStep {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.AutomationEventStep {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.AutomationEventStep {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.AutomationEventStep()
         value.eventId = try reader["eventId"].readIfPresent()
@@ -4306,7 +4306,7 @@ extension ComputeOptimizerAutomationClientTypes.AutomationEventStep {
 
 extension ComputeOptimizerAutomationClientTypes.AutomationEventSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.AutomationEventSummary {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.AutomationEventSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.AutomationEventSummary()
         value.key = try reader["key"].readIfPresent()
@@ -4319,7 +4319,7 @@ extension ComputeOptimizerAutomationClientTypes.AutomationEventSummary {
 
 extension ComputeOptimizerAutomationClientTypes.AutomationRule {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.AutomationRule {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.AutomationRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.AutomationRule()
         value.ruleArn = try reader["ruleArn"].readIfPresent()
@@ -4342,7 +4342,7 @@ extension ComputeOptimizerAutomationClientTypes.AutomationRule {
 
 extension ComputeOptimizerAutomationClientTypes.Criteria {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.Criteria?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.Criteria?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ebsVolumeSizeInGib"].writeList(value.ebsVolumeSizeInGib, memberWritingClosure: ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ebsVolumeType"].writeList(value.ebsVolumeType, memberWritingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -4354,7 +4354,7 @@ extension ComputeOptimizerAutomationClientTypes.Criteria {
         try writer["restartNeeded"].writeList(value.restartNeeded, memberWritingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.Criteria {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.Criteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.Criteria()
         value.region = try reader["region"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -4371,13 +4371,13 @@ extension ComputeOptimizerAutomationClientTypes.Criteria {
 
 extension ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["comparison"].write(value.comparison)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition()
         value.comparison = try reader["comparison"].readIfPresent()
@@ -4388,7 +4388,7 @@ extension ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition {
 
 extension ComputeOptimizerAutomationClientTypes.EbsVolume {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.EbsVolume {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.EbsVolume {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.EbsVolume()
         value.configuration = try reader["configuration"].readIfPresent(with: ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration.read(from:))
@@ -4398,7 +4398,7 @@ extension ComputeOptimizerAutomationClientTypes.EbsVolume {
 
 extension ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration()
         value.type = try reader["type"].readIfPresent()
@@ -4411,7 +4411,7 @@ extension ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration {
 
 extension ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings()
         value.currency = try reader["currency"].readIfPresent() ?? ""
@@ -4424,7 +4424,7 @@ extension ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings {
 
 extension ComputeOptimizerAutomationClientTypes.Filter {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.Filter?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -4433,13 +4433,13 @@ extension ComputeOptimizerAutomationClientTypes.Filter {
 
 extension ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["comparison"].write(value.comparison)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition()
         value.comparison = try reader["comparison"].readIfPresent()
@@ -4450,13 +4450,13 @@ extension ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition {
 
 extension ComputeOptimizerAutomationClientTypes.OrganizationConfiguration {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.OrganizationConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.OrganizationConfiguration?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ruleApplyOrder"].write(value.ruleApplyOrder)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.OrganizationConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.OrganizationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.OrganizationConfiguration()
         value.ruleApplyOrder = try reader["ruleApplyOrder"].readIfPresent()
@@ -4467,7 +4467,7 @@ extension ComputeOptimizerAutomationClientTypes.OrganizationConfiguration {
 
 extension ComputeOptimizerAutomationClientTypes.OrganizationScope {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.OrganizationScope?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.OrganizationScope?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -4475,7 +4475,7 @@ extension ComputeOptimizerAutomationClientTypes.OrganizationScope {
 
 extension ComputeOptimizerAutomationClientTypes.PreviewResult {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.PreviewResult {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.PreviewResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.PreviewResult()
         value.recommendedActionId = try reader["recommendedActionId"].readIfPresent()
@@ -4499,7 +4499,7 @@ extension ComputeOptimizerAutomationClientTypes.PreviewResult {
 
 extension ComputeOptimizerAutomationClientTypes.PreviewResultSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.PreviewResultSummary {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.PreviewResultSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.PreviewResultSummary()
         value.key = try reader["key"].readIfPresent() ?? ""
@@ -4510,7 +4510,7 @@ extension ComputeOptimizerAutomationClientTypes.PreviewResultSummary {
 
 extension ComputeOptimizerAutomationClientTypes.RecommendedAction {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.RecommendedAction {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.RecommendedAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.RecommendedAction()
         value.recommendedActionId = try reader["recommendedActionId"].readIfPresent()
@@ -4534,7 +4534,7 @@ extension ComputeOptimizerAutomationClientTypes.RecommendedAction {
 
 extension ComputeOptimizerAutomationClientTypes.RecommendedActionFilter {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.RecommendedActionFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.RecommendedActionFilter?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -4543,7 +4543,7 @@ extension ComputeOptimizerAutomationClientTypes.RecommendedActionFilter {
 
 extension ComputeOptimizerAutomationClientTypes.RecommendedActionSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.RecommendedActionSummary {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.RecommendedActionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.RecommendedActionSummary()
         value.key = try reader["key"].readIfPresent() ?? ""
@@ -4554,7 +4554,7 @@ extension ComputeOptimizerAutomationClientTypes.RecommendedActionSummary {
 
 extension ComputeOptimizerAutomationClientTypes.RecommendedActionTotal {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.RecommendedActionTotal {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.RecommendedActionTotal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.RecommendedActionTotal()
         value.recommendedActionCount = try reader["recommendedActionCount"].readIfPresent() ?? 0
@@ -4565,7 +4565,7 @@ extension ComputeOptimizerAutomationClientTypes.RecommendedActionTotal {
 
 extension ComputeOptimizerAutomationClientTypes.ResourceDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.ResourceDetails {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.ResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
@@ -4579,14 +4579,14 @@ extension ComputeOptimizerAutomationClientTypes.ResourceDetails {
 
 extension ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["comparison"].write(value.comparison)
         try writer["key"].write(value.key)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition()
         value.comparison = try reader["comparison"].readIfPresent()
@@ -4598,7 +4598,7 @@ extension ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition {
 
 extension ComputeOptimizerAutomationClientTypes.RulePreviewTotal {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.RulePreviewTotal {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.RulePreviewTotal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.RulePreviewTotal()
         value.recommendedActionCount = try reader["recommendedActionCount"].readIfPresent() ?? 0
@@ -4609,14 +4609,14 @@ extension ComputeOptimizerAutomationClientTypes.RulePreviewTotal {
 
 extension ComputeOptimizerAutomationClientTypes.Schedule {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.Schedule?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.Schedule?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["executionWindowInMinutes"].write(value.executionWindowInMinutes)
         try writer["scheduleExpression"].write(value.scheduleExpression)
         try writer["scheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.Schedule {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.Schedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.Schedule()
         value.scheduleExpression = try reader["scheduleExpression"].readIfPresent()
@@ -4628,13 +4628,13 @@ extension ComputeOptimizerAutomationClientTypes.Schedule {
 
 extension ComputeOptimizerAutomationClientTypes.StringCriteriaCondition {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["comparison"].write(value.comparison)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.StringCriteriaCondition {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.StringCriteriaCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.StringCriteriaCondition()
         value.comparison = try reader["comparison"].readIfPresent()
@@ -4645,7 +4645,7 @@ extension ComputeOptimizerAutomationClientTypes.StringCriteriaCondition {
 
 extension ComputeOptimizerAutomationClientTypes.SummaryDimension {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.SummaryDimension {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.SummaryDimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.SummaryDimension()
         value.key = try reader["key"].readIfPresent() ?? .sdkUnknown("")
@@ -4656,7 +4656,7 @@ extension ComputeOptimizerAutomationClientTypes.SummaryDimension {
 
 extension ComputeOptimizerAutomationClientTypes.SummaryTotals {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.SummaryTotals {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.SummaryTotals {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.SummaryTotals()
         value.automationEventCount = try reader["automationEventCount"].readIfPresent()
@@ -4667,13 +4667,13 @@ extension ComputeOptimizerAutomationClientTypes.SummaryTotals {
 
 extension ComputeOptimizerAutomationClientTypes.Tag {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.Tag?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["key"].write(value.key)
         try writer["value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.Tag {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.Tag()
         value.key = try reader["key"].readIfPresent() ?? ""
@@ -4684,7 +4684,7 @@ extension ComputeOptimizerAutomationClientTypes.Tag {
 
 extension ComputeOptimizerAutomationClientTypes.TimePeriod {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.TimePeriod {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerAutomationClientTypes.TimePeriod {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerAutomationClientTypes.TimePeriod()
         value.startTimeInclusive = try reader["startTimeInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
