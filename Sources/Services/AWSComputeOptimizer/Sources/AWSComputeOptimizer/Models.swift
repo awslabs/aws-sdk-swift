@@ -9,27 +9,27 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+@_spi(SmithyReadWrite) import class SmithyCBOR.Reader
+@_spi(SmithyReadWrite) import class SmithyCBOR.Writer
 import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Reader
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 @_spi(SmithyReadWrite) import func SmithyReadWrite.timestampReadingClosure
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
-@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RpcV2CborError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct AccessDeniedException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -202,23 +202,23 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the configuration of an EC2 Amazon EC2 Auto Scaling group.
+    /// Describes the configuration of an EC2 Auto Scaling group.
     public struct AutoScalingGroupConfiguration: Swift.Sendable {
-        /// Describes the allocation strategy that the EC2 Amazon EC2 Auto Scaling group uses. This field is only available for EC2 Amazon EC2 Auto Scaling groups with mixed instance types.
+        /// Describes the allocation strategy that the EC2 Auto Scaling group uses. This field is only available for EC2 Auto Scaling groups with mixed instance types.
         public var allocationStrategy: ComputeOptimizerClientTypes.AllocationStrategy?
-        /// The desired capacity, or number of instances, for the EC2 Amazon EC2 Auto Scaling group.
+        /// The desired capacity, or number of instances, for the EC2 Auto Scaling group.
         public var desiredCapacity: Swift.Int
-        /// Describes the projected percentage reduction in instance hours after adopting the recommended configuration. This field is only available for EC2 Amazon EC2 Auto Scaling groups with scaling policies.
+        /// Describes the projected percentage reduction in instance hours after adopting the recommended configuration. This field is only available for EC2 Auto Scaling groups with scaling policies.
         public var estimatedInstanceHourReductionPercentage: Swift.Double?
-        /// The instance type for the EC2 Amazon EC2 Auto Scaling group.
+        /// The instance type for the EC2 Auto Scaling group.
         public var instanceType: Swift.String?
-        /// The maximum size, or maximum number of instances, for the EC2 Amazon EC2 Auto Scaling group.
+        /// The maximum size, or maximum number of instances, for the EC2 Auto Scaling group.
         public var maxSize: Swift.Int
-        /// The minimum size, or minimum number of instances, for the EC2 Amazon EC2 Auto Scaling group.
+        /// The minimum size, or minimum number of instances, for the EC2 Auto Scaling group.
         public var minSize: Swift.Int
-        /// List the instance types within an EC2 Amazon EC2 Auto Scaling group that has mixed instance types.
+        /// List the instance types within an EC2 Auto Scaling group that has mixed instance types.
         public var mixedInstanceTypes: [Swift.String]?
-        /// Describes whether the EC2 Amazon EC2 Auto Scaling group has a single instance type or a mixed instance type configuration.
+        /// Describes whether the EC2 Auto Scaling group has a single instance type or a mixed instance type configuration.
         public var type: ComputeOptimizerClientTypes.AsgType?
 
         public init(
@@ -274,7 +274,7 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EC2 Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances discounts.
+    /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances discounts.
     public struct AutoScalingGroupEstimatedMonthlySavings: Swift.Sendable {
         /// The currency of the estimated monthly savings.
         public var currency: ComputeOptimizerClientTypes.Currency?
@@ -771,7 +771,7 @@ extension ComputeOptimizerClientTypes {
 
     /// Describes the effective recommendation preferences for a resource.
     public struct EffectiveRecommendationPreferences: Swift.Sendable {
-        /// Describes the CPU vendor and architecture for an instance or Amazon EC2 Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:
+        /// Describes the CPU vendor and architecture for an instance or Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:
         ///
         /// * A [GetEC2InstanceRecommendations] or [GetAutoScalingGroupRecommendations] request, Compute Optimizer returns recommendations that consist of Graviton instance types only.
         ///
@@ -1131,11 +1131,11 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the savings opportunity for Amazon EC2 Auto Scaling group recommendations after applying the Savings Plans and Reserved Instances discounts. Savings opportunity represents the estimated monthly savings you can achieve by implementing Compute Optimizer recommendations.
+    /// Describes the savings opportunity for Auto Scaling group recommendations after applying the Savings Plans and Reserved Instances discounts. Savings opportunity represents the estimated monthly savings you can achieve by implementing Compute Optimizer recommendations.
     public struct AutoScalingGroupSavingsOpportunityAfterDiscounts: Swift.Sendable {
-        /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EC2 Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances pricing discounts.
+        /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances pricing discounts.
         public var estimatedMonthlySavings: ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings?
-        /// The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts. This saving can be achieved by adopting Compute Optimizer’s Amazon EC2 Auto Scaling group recommendations.
+        /// The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts. This saving can be achieved by adopting Compute Optimizer’s Auto Scaling group recommendations.
         public var savingsOpportunityPercentage: Swift.Double
 
         public init(
@@ -1150,23 +1150,23 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes a recommendation option for an Amazon EC2 Auto Scaling group.
+    /// Describes a recommendation option for an Auto Scaling group.
     public struct AutoScalingGroupRecommendationOption: Swift.Sendable {
-        /// An array of objects that describe an Amazon EC2 Auto Scaling group configuration.
+        /// An array of objects that describe an Auto Scaling group configuration.
         public var configuration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration?
-        /// Describes the GPU accelerator settings for the recommended instance type of the Amazon EC2 Auto Scaling group.
+        /// Describes the GPU accelerator settings for the recommended instance type of the Auto Scaling group.
         public var instanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo?
         /// The level of effort required to migrate from the current instance type to the recommended instance type. For example, the migration effort is Low if Amazon EMR is the inferred workload type and an Amazon Web Services Graviton instance type is recommended. The migration effort is Medium if a workload type couldn't be inferred but an Amazon Web Services Graviton instance type is recommended. The migration effort is VeryLow if both the current and recommended instance types are of the same CPU architecture.
         public var migrationEffort: ComputeOptimizerClientTypes.MigrationEffort?
-        /// The performance risk of the Amazon EC2 Auto Scaling group configuration recommendation. Performance risk indicates the likelihood of the recommended instance type not meeting the resource needs of your workload. Compute Optimizer calculates an individual performance risk score for each specification of the recommended instance, including CPU, memory, EBS throughput, EBS IOPS, disk throughput, disk IOPS, network throughput, and network PPS. The performance risk of the recommended instance is calculated as the maximum performance risk score across the analyzed resource specifications. The value ranges from 0 - 4, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
+        /// The performance risk of the Auto Scaling group configuration recommendation. Performance risk indicates the likelihood of the recommended instance type not meeting the resource needs of your workload. Compute Optimizer calculates an individual performance risk score for each specification of the recommended instance, including CPU, memory, EBS throughput, EBS IOPS, disk throughput, disk IOPS, network throughput, and network PPS. The performance risk of the recommended instance is calculated as the maximum performance risk score across the analyzed resource specifications. The value ranges from 0 - 4, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
         public var performanceRisk: Swift.Double
-        /// An array of objects that describe the projected utilization metrics of the Amazon EC2 Auto Scaling group recommendation option. The Cpu and Memory metrics are the only projected utilization metrics returned. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
+        /// An array of objects that describe the projected utilization metrics of the Auto Scaling group recommendation option. The Cpu and Memory metrics are the only projected utilization metrics returned. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
         public var projectedUtilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]?
-        /// The rank of the Amazon EC2 Auto Scaling group recommendation option. The top recommendation option is ranked as 1.
+        /// The rank of the Auto Scaling group recommendation option. The top recommendation option is ranked as 1.
         public var rank: Swift.Int
-        /// An object that describes the savings opportunity for the Amazon EC2 Auto Scaling group recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
+        /// An object that describes the savings opportunity for the Auto Scaling group recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
-        /// An object that describes the savings opportunity for the Amazon EC2 Auto Scaling group recommendation option that includes Savings Plans and Reserved Instances discounts. Savings opportunity includes the estimated monthly savings and percentage.
+        /// An object that describes the savings opportunity for the Auto Scaling group recommendation option that includes Savings Plans and Reserved Instances discounts. Savings opportunity includes the estimated monthly savings and percentage.
         public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts?
 
         public init(
@@ -1193,29 +1193,29 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes an Amazon EC2 Auto Scaling group recommendation.
+    /// Describes an Auto Scaling group recommendation.
     public struct AutoScalingGroupRecommendation: Swift.Sendable {
-        /// The Amazon Web Services account ID of the Amazon EC2 Auto Scaling group.
+        /// The Amazon Web Services account ID of the Auto Scaling group.
         public var accountId: Swift.String?
-        /// The Amazon Resource Name (ARN) of the Amazon EC2 Auto Scaling group.
+        /// The Amazon Resource Name (ARN) of the Auto Scaling group.
         public var autoScalingGroupArn: Swift.String?
-        /// The name of the Amazon EC2 Auto Scaling group.
+        /// The name of the Auto Scaling group.
         public var autoScalingGroupName: Swift.String?
-        /// An array of objects that describe the current configuration of the Amazon EC2 Auto Scaling group.
+        /// An array of objects that describe the current configuration of the Auto Scaling group.
         public var currentConfiguration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration?
-        /// Describes the GPU accelerator settings for the current instance type of the Amazon EC2 Auto Scaling group.
+        /// Describes the GPU accelerator settings for the current instance type of the Auto Scaling group.
         public var currentInstanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo?
-        /// The risk of the current Amazon EC2 Auto Scaling group not meeting the performance needs of its workloads. The higher the risk, the more likely the current Amazon EC2 Auto Scaling group configuration has insufficient capacity and cannot meet workload requirements.
+        /// The risk of the current Auto Scaling group not meeting the performance needs of its workloads. The higher the risk, the more likely the current Auto Scaling group configuration has insufficient capacity and cannot meet workload requirements.
         public var currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk?
-        /// An object that describes the effective recommendation preferences for the Amazon EC2 Auto Scaling group.
+        /// An object that describes the effective recommendation preferences for the Auto Scaling group.
         public var effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EffectiveRecommendationPreferences?
-        /// The finding classification of the Amazon EC2 Auto Scaling group. Findings for Amazon EC2 Auto Scaling groups include:
+        /// The finding classification of the Auto Scaling group. Findings for Auto Scaling groups include:
         ///
-        /// * NotOptimized —An Amazon EC2 Auto Scaling group is considered not optimized when Compute Optimizer identifies a recommendation that can provide better performance for your workload.
+        /// * NotOptimized —An Auto Scaling group is considered not optimized when Compute Optimizer identifies a recommendation that can provide better performance for your workload.
         ///
-        /// * Optimized —An Amazon EC2 Auto Scaling group is considered optimized when Compute Optimizer determines that the group is correctly provisioned to run your workload based on the chosen instance type. For optimized resources, Compute Optimizer might recommend a new generation instance type.
+        /// * Optimized —An Auto Scaling group is considered optimized when Compute Optimizer determines that the group is correctly provisioned to run your workload based on the chosen instance type. For optimized resources, Compute Optimizer might recommend a new generation instance type.
         public var finding: ComputeOptimizerClientTypes.Finding?
-        /// The applications that might be running on the instances in the Amazon EC2 Auto Scaling group as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instances:
+        /// The applications that might be running on the instances in the Auto Scaling group as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instances:
         ///
         /// * AmazonEmr - Infers that Amazon EMR might be running on the instances.
         ///
@@ -1235,13 +1235,13 @@ extension ComputeOptimizerClientTypes {
         ///
         /// * SQLServer - Infers that SQLServer might be running on the instance.
         public var inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]?
-        /// The timestamp of when the Amazon EC2 Auto Scaling group recommendation was last generated.
+        /// The timestamp of when the Auto Scaling group recommendation was last generated.
         public var lastRefreshTimestamp: Foundation.Date?
-        /// The number of days for which utilization metrics were analyzed for the Amazon EC2 Auto Scaling group.
+        /// The number of days for which utilization metrics were analyzed for the Auto Scaling group.
         public var lookBackPeriodInDays: Swift.Double
-        /// An array of objects that describe the recommendation options for the Amazon EC2 Auto Scaling group.
+        /// An array of objects that describe the recommendation options for the Auto Scaling group.
         public var recommendationOptions: [ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption]?
-        /// An array of objects that describe the utilization metrics of the Amazon EC2 Auto Scaling group.
+        /// An array of objects that describe the utilization metrics of the Auto Scaling group.
         public var utilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]?
 
         public init(
@@ -1277,7 +1277,7 @@ extension ComputeOptimizerClientTypes {
 }
 
 /// An internal error has occurred. Try your call again.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InternalServerException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1300,7 +1300,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The value supplied for the input parameter is out of range or not valid.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1323,7 +1323,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The request must contain either a valid (registered) Amazon Web Services access key ID or X.509 certificate.
-public struct MissingAuthenticationToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct MissingAuthenticationToken: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1346,7 +1346,7 @@ public struct MissingAuthenticationToken: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The account is not opted in to Compute Optimizer.
-public struct OptInRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct OptInRequiredException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1369,7 +1369,7 @@ public struct OptInRequiredException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// A resource that is required for the action doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1392,7 +1392,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request has failed due to a temporary failure of the server.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1415,7 +1415,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ThrottlingException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// This member is required.
@@ -1566,7 +1566,7 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the scope of a recommendation preference. Recommendation preferences can be created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide. You cannot create recommendation preferences for Amazon EC2 Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Amazon EC2 Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Amazon EC2 Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Amazon EC2 Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Amazon EC2 Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
+    /// Describes the scope of a recommendation preference. Recommendation preferences can be created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide. You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
     public struct Scope: Swift.Sendable {
         /// The name of the scope. The following scopes are possible:
         ///
@@ -1582,10 +1582,10 @@ extension ComputeOptimizerClientTypes {
         ///
         /// * AccountId - The value must be a 12-digit Amazon Web Services account ID.
         ///
-        /// * ResourceArn - The value must be the Amazon Resource Name (ARN) of an EC2 instance or an Amazon EC2 Auto Scaling group.
+        /// * ResourceArn - The value must be the Amazon Resource Name (ARN) of an EC2 instance or an Auto Scaling group.
         ///
         ///
-        /// Only EC2 instance and Amazon EC2 Auto Scaling group ARNs are currently supported.
+        /// Only EC2 instance and Auto Scaling group ARNs are currently supported.
         public var value: Swift.String?
 
         public init(
@@ -1602,7 +1602,7 @@ public struct DeleteRecommendationPreferencesInput: Swift.Sendable {
     /// The name of the recommendation preference to delete.
     /// This member is required.
     public var recommendationPreferenceNames: [ComputeOptimizerClientTypes.RecommendationPreferenceName]?
-    /// The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Amazon EC2 Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Amazon EC2 Auto Scaling group.
+    /// The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
     /// This member is required.
     public var resourceType: ComputeOptimizerClientTypes.ResourceType?
     /// An object that describes the scope of the recommendation preference to delete. You can delete recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
@@ -1827,7 +1827,7 @@ public struct DescribeRecommendationExportJobsOutput: Swift.Sendable {
 }
 
 /// The request exceeds a limit of the service.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct LimitExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -2160,7 +2160,7 @@ extension ComputeOptimizerClientTypes {
         public var name: ComputeOptimizerClientTypes.FilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter and the resource type that you wish to filter results for:
         ///
-        /// * Specify Optimized or NotOptimized if you specify the name parameter as Finding and you want to filter results for Amazon EC2 Auto Scaling groups.
+        /// * Specify Optimized or NotOptimized if you specify the name parameter as Finding and you want to filter results for Auto Scaling groups.
         ///
         /// * Specify Underprovisioned, Overprovisioned, or Optimized if you specify the name parameter as Finding and you want to filter results for EC2 instances.
         ///
@@ -2215,7 +2215,7 @@ extension ComputeOptimizerClientTypes {
 
     /// Describes the recommendation preferences to return in the response of a [GetAutoScalingGroupRecommendations], [GetEC2InstanceRecommendations], [GetEC2RecommendationProjectedMetrics], [GetRDSDatabaseRecommendations], and [GetRDSDatabaseRecommendationProjectedMetrics] request.
     public struct RecommendationPreferences: Swift.Sendable {
-        /// Specifies the CPU vendor and architecture for Amazon EC2 instance and Amazon EC2 Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:
+        /// Specifies the CPU vendor and architecture for Amazon EC2 instance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:
         ///
         /// * A [GetEC2InstanceRecommendations] or [GetAutoScalingGroupRecommendations] request, Compute Optimizer returns recommendations that consist of Graviton instance types only.
         ///
@@ -2252,17 +2252,17 @@ extension ComputeOptimizerClientTypes {
 }
 
 public struct ExportAutoScalingGroupRecommendationsInput: Swift.Sendable {
-    /// The IDs of the Amazon Web Services accounts for which to export Amazon EC2 Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
+    /// The IDs of the Amazon Web Services accounts for which to export Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
     public var accountIds: [Swift.String]?
     /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
     public var fieldsToExport: [ComputeOptimizerClientTypes.ExportableAutoScalingGroupField]?
     /// The format of the export file. The only export file format currently supported is Csv.
     public var fileFormat: ComputeOptimizerClientTypes.FileFormat?
-    /// An array of objects to specify a filter that exports a more specific set of Amazon EC2 Auto Scaling group recommendations.
+    /// An array of objects to specify a filter that exports a more specific set of Auto Scaling group recommendations.
     public var filters: [ComputeOptimizerClientTypes.Filter]?
     /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
     public var includeMemberAccounts: Swift.Bool?
-    /// An object to specify the preferences for the Amazon EC2 Auto Scaling group recommendations to export.
+    /// An object to specify the preferences for the Auto Scaling group recommendations to export.
     public var recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
     /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permissions policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html) in the Compute Optimizer User Guide.
     /// This member is required.
@@ -3983,17 +3983,17 @@ public struct ExportRDSDatabaseRecommendationsOutput: Swift.Sendable {
 }
 
 public struct GetAutoScalingGroupRecommendationsInput: Swift.Sendable {
-    /// The ID of the Amazon Web Services account for which to return Amazon EC2 Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return Amazon EC2 Auto Scaling group recommendations. Only one account ID can be specified per request.
+    /// The ID of the Amazon Web Services account for which to return Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return Auto Scaling group recommendations. Only one account ID can be specified per request.
     public var accountIds: [Swift.String]?
-    /// The Amazon Resource Name (ARN) of the Amazon EC2 Auto Scaling groups for which to return recommendations.
+    /// The Amazon Resource Name (ARN) of the Auto Scaling groups for which to return recommendations.
     public var autoScalingGroupArns: [Swift.String]?
-    /// An array of objects to specify a filter that returns a more specific list of Amazon EC2 Auto Scaling group recommendations.
+    /// An array of objects to specify a filter that returns a more specific list of Auto Scaling group recommendations.
     public var filters: [ComputeOptimizerClientTypes.Filter]?
-    /// The maximum number of Amazon EC2 Auto Scaling group recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
+    /// The maximum number of Auto Scaling group recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
     public var maxResults: Swift.Int?
-    /// The token to advance to the next page of Amazon EC2 Auto Scaling group recommendations.
+    /// The token to advance to the next page of Auto Scaling group recommendations.
     public var nextToken: Swift.String?
-    /// An object to specify the preferences for the Amazon EC2 Auto Scaling group recommendations to return in the response.
+    /// An object to specify the preferences for the Auto Scaling group recommendations to return in the response.
     public var recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
 
     public init(
@@ -4015,7 +4015,7 @@ public struct GetAutoScalingGroupRecommendationsInput: Swift.Sendable {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes an error experienced when getting recommendations. For example, an error is returned if you request recommendations for an unsupported Amazon EC2 Auto Scaling group, or if you request recommendations for an instance of an unsupported instance family.
+    /// Describes an error experienced when getting recommendations. For example, an error is returned if you request recommendations for an unsupported Auto Scaling group, or if you request recommendations for an instance of an unsupported instance family.
     public struct GetRecommendationError: Swift.Sendable {
         /// The error code.
         public var code: Swift.String?
@@ -4037,11 +4037,11 @@ extension ComputeOptimizerClientTypes {
 }
 
 public struct GetAutoScalingGroupRecommendationsOutput: Swift.Sendable {
-    /// An array of objects that describe Amazon EC2 Auto Scaling group recommendations.
+    /// An array of objects that describe Auto Scaling group recommendations.
     public var autoScalingGroupRecommendations: [ComputeOptimizerClientTypes.AutoScalingGroupRecommendation]?
-    /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an unsupported Amazon EC2 Auto Scaling group.
+    /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an unsupported Auto Scaling group.
     public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
-    /// The token to use to advance to the next page of Amazon EC2 Auto Scaling group recommendations. This value is null when there are no more pages of Amazon EC2 Auto Scaling group recommendations to return.
+    /// The token to use to advance to the next page of Auto Scaling group recommendations. This value is null when there are no more pages of Auto Scaling group recommendations to return.
     public var nextToken: Swift.String?
 
     public init(
@@ -4903,7 +4903,7 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the source of a recommendation, such as an Amazon EC2 instance or Amazon EC2 Auto Scaling group.
+    /// Describes the source of a recommendation, such as an Amazon EC2 instance or Auto Scaling group.
     public struct RecommendationSource: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the recommendation source.
         public var recommendationSourceArn: Swift.String?
@@ -5860,7 +5860,7 @@ public struct GetECSServiceRecommendationsOutput: Swift.Sendable {
 }
 
 public struct GetEffectiveRecommendationPreferencesInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource for which to confirm effective recommendation preferences. Only EC2 instance and Amazon EC2 Auto Scaling group ARNs are currently supported.
+    /// The Amazon Resource Name (ARN) of the resource for which to confirm effective recommendation preferences. Only EC2 instance and Auto Scaling group ARNs are currently supported.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -8214,7 +8214,7 @@ public struct GetRecommendationPreferencesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token to advance to the next page of recommendation preferences.
     public var nextToken: Swift.String?
-    /// The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Amazon EC2 Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Amazon EC2 Auto Scaling group.
+    /// The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
     /// This member is required.
     public var resourceType: ComputeOptimizerClientTypes.ResourceType?
     /// An object that describes the scope of the recommendation preference to return. You can return recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
@@ -8276,7 +8276,7 @@ extension ComputeOptimizerClientTypes {
         public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
         /// The preference to control which resource type values are considered when generating rightsizing recommendations. This object resolves any wildcard expressions and returns the effective list of candidate resource type values. If the preference isn’t set, this object is null.
         public var preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
-        /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Amazon EC2 Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Amazon EC2 Auto Scaling group.
+        /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
         public var resourceType: ComputeOptimizerClientTypes.ResourceType?
         /// Describes the savings estimation mode used for calculating savings opportunity. Only the account manager or delegated administrator of your organization can activate this preference.
         public var savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode?
@@ -8563,7 +8563,7 @@ extension ComputeOptimizerClientTypes {
 
     /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. For more information, see [ Rightsizing recommendation preferences](https://docs.aws.amazon.com/compute-optimizer/latest/ug/rightsizing-preferences.html) in the Compute Optimizer User Guide.
     ///
-    /// * This preference is only available for the Amazon EC2 instance and Amazon EC2 Auto Scaling group resource types.
+    /// * This preference is only available for the Amazon EC2 instance and Auto Scaling group resource types.
     ///
     /// * Compute Optimizer only supports the customization of Ec2InstanceTypes.
     public struct PreferredResource: Swift.Sendable {
@@ -8593,20 +8593,20 @@ public struct PutRecommendationPreferencesInput: Swift.Sendable {
     public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
     /// The status of the inferred workload types recommendation preference to create or update. The inferred workload type feature is active by default. To deactivate it, create a recommendation preference. Specify the Inactive status to deactivate the feature, or specify Active to activate it. For more information, see [Inferred workload types](https://docs.aws.amazon.com/compute-optimizer/latest/ug/inferred-workload-types.html) in the Compute Optimizer User Guide.
     public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
-    /// The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed. When this preference isn't specified, we use the default value DAYS_14. You can only set this preference for the Amazon EC2 instance and Amazon EC2 Auto Scaling group resource types.
+    /// The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed. When this preference isn't specified, we use the default value DAYS_14. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
     ///
     /// * Amazon EC2 instance lookback preferences can be set at the organization, account, and resource levels.
     ///
-    /// * Amazon EC2 Auto Scaling group lookback preferences can only be set at the resource level.
+    /// * Auto Scaling group lookback preferences can only be set at the resource level.
     public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
-    /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. You can only set this preference for the Amazon EC2 instance and Amazon EC2 Auto Scaling group resource types.
+    /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
     public var preferredResources: [ComputeOptimizerClientTypes.PreferredResource]?
-    /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Amazon EC2 Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Amazon EC2 Auto Scaling group.
+    /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
     /// This member is required.
     public var resourceType: ComputeOptimizerClientTypes.ResourceType?
     /// The status of the savings estimation mode preference to create or update. Specify the AfterDiscounts status to activate the preference, or specify BeforeDiscounts to deactivate the preference. Only the account manager or delegated administrator of your organization can activate this preference. For more information, see [ Savings estimation mode](https://docs.aws.amazon.com/compute-optimizer/latest/ug/savings-estimation-mode.html) in the Compute Optimizer User Guide.
     public var savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode?
-    /// An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide. You cannot create recommendation preferences for Amazon EC2 Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Amazon EC2 Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Amazon EC2 Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Amazon EC2 Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Amazon EC2 Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
+    /// An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide. You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
     public var scope: ComputeOptimizerClientTypes.Scope?
     /// The preference to control the resource’s CPU utilization threshold, CPU utilization headroom, and memory utilization headroom. When this preference isn't specified, we use the following default values. CPU utilization:
     ///
@@ -8696,202 +8696,202 @@ public struct UpdateEnrollmentStatusOutput: Swift.Sendable {
 extension DeleteRecommendationPreferencesInput {
 
     static func urlPathProvider(_ value: DeleteRecommendationPreferencesInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/DeleteRecommendationPreferences"
     }
 }
 
 extension DescribeRecommendationExportJobsInput {
 
     static func urlPathProvider(_ value: DescribeRecommendationExportJobsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/DescribeRecommendationExportJobs"
     }
 }
 
 extension ExportAutoScalingGroupRecommendationsInput {
 
     static func urlPathProvider(_ value: ExportAutoScalingGroupRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/ExportAutoScalingGroupRecommendations"
     }
 }
 
 extension ExportEBSVolumeRecommendationsInput {
 
     static func urlPathProvider(_ value: ExportEBSVolumeRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/ExportEBSVolumeRecommendations"
     }
 }
 
 extension ExportEC2InstanceRecommendationsInput {
 
     static func urlPathProvider(_ value: ExportEC2InstanceRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/ExportEC2InstanceRecommendations"
     }
 }
 
 extension ExportECSServiceRecommendationsInput {
 
     static func urlPathProvider(_ value: ExportECSServiceRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/ExportECSServiceRecommendations"
     }
 }
 
 extension ExportIdleRecommendationsInput {
 
     static func urlPathProvider(_ value: ExportIdleRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/ExportIdleRecommendations"
     }
 }
 
 extension ExportLambdaFunctionRecommendationsInput {
 
     static func urlPathProvider(_ value: ExportLambdaFunctionRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/ExportLambdaFunctionRecommendations"
     }
 }
 
 extension ExportLicenseRecommendationsInput {
 
     static func urlPathProvider(_ value: ExportLicenseRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/ExportLicenseRecommendations"
     }
 }
 
 extension ExportRDSDatabaseRecommendationsInput {
 
     static func urlPathProvider(_ value: ExportRDSDatabaseRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/ExportRDSDatabaseRecommendations"
     }
 }
 
 extension GetAutoScalingGroupRecommendationsInput {
 
     static func urlPathProvider(_ value: GetAutoScalingGroupRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetAutoScalingGroupRecommendations"
     }
 }
 
 extension GetEBSVolumeRecommendationsInput {
 
     static func urlPathProvider(_ value: GetEBSVolumeRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetEBSVolumeRecommendations"
     }
 }
 
 extension GetEC2InstanceRecommendationsInput {
 
     static func urlPathProvider(_ value: GetEC2InstanceRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetEC2InstanceRecommendations"
     }
 }
 
 extension GetEC2RecommendationProjectedMetricsInput {
 
     static func urlPathProvider(_ value: GetEC2RecommendationProjectedMetricsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetEC2RecommendationProjectedMetrics"
     }
 }
 
 extension GetECSServiceRecommendationProjectedMetricsInput {
 
     static func urlPathProvider(_ value: GetECSServiceRecommendationProjectedMetricsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetECSServiceRecommendationProjectedMetrics"
     }
 }
 
 extension GetECSServiceRecommendationsInput {
 
     static func urlPathProvider(_ value: GetECSServiceRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetECSServiceRecommendations"
     }
 }
 
 extension GetEffectiveRecommendationPreferencesInput {
 
     static func urlPathProvider(_ value: GetEffectiveRecommendationPreferencesInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetEffectiveRecommendationPreferences"
     }
 }
 
 extension GetEnrollmentStatusInput {
 
     static func urlPathProvider(_ value: GetEnrollmentStatusInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetEnrollmentStatus"
     }
 }
 
 extension GetEnrollmentStatusesForOrganizationInput {
 
     static func urlPathProvider(_ value: GetEnrollmentStatusesForOrganizationInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetEnrollmentStatusesForOrganization"
     }
 }
 
 extension GetIdleRecommendationsInput {
 
     static func urlPathProvider(_ value: GetIdleRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetIdleRecommendations"
     }
 }
 
 extension GetLambdaFunctionRecommendationsInput {
 
     static func urlPathProvider(_ value: GetLambdaFunctionRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetLambdaFunctionRecommendations"
     }
 }
 
 extension GetLicenseRecommendationsInput {
 
     static func urlPathProvider(_ value: GetLicenseRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetLicenseRecommendations"
     }
 }
 
 extension GetRDSDatabaseRecommendationProjectedMetricsInput {
 
     static func urlPathProvider(_ value: GetRDSDatabaseRecommendationProjectedMetricsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetRDSDatabaseRecommendationProjectedMetrics"
     }
 }
 
 extension GetRDSDatabaseRecommendationsInput {
 
     static func urlPathProvider(_ value: GetRDSDatabaseRecommendationsInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetRDSDatabaseRecommendations"
     }
 }
 
 extension GetRecommendationPreferencesInput {
 
     static func urlPathProvider(_ value: GetRecommendationPreferencesInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetRecommendationPreferences"
     }
 }
 
 extension GetRecommendationSummariesInput {
 
     static func urlPathProvider(_ value: GetRecommendationSummariesInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/GetRecommendationSummaries"
     }
 }
 
 extension PutRecommendationPreferencesInput {
 
     static func urlPathProvider(_ value: PutRecommendationPreferencesInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/PutRecommendationPreferences"
     }
 }
 
 extension UpdateEnrollmentStatusInput {
 
     static func urlPathProvider(_ value: UpdateEnrollmentStatusInput) -> Swift.String? {
-        return "/"
+        return "/service/ComputeOptimizerService/operation/UpdateEnrollmentStatus"
     }
 }
 
 extension DeleteRecommendationPreferencesInput {
 
-    static func write(value: DeleteRecommendationPreferencesInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DeleteRecommendationPreferencesInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["recommendationPreferenceNames"].writeList(value.recommendationPreferenceNames, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.RecommendationPreferenceName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["resourceType"].write(value.resourceType)
@@ -8901,7 +8901,7 @@ extension DeleteRecommendationPreferencesInput {
 
 extension DescribeRecommendationExportJobsInput {
 
-    static func write(value: DescribeRecommendationExportJobsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DescribeRecommendationExportJobsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.JobFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["jobIds"].writeList(value.jobIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8912,7 +8912,7 @@ extension DescribeRecommendationExportJobsInput {
 
 extension ExportAutoScalingGroupRecommendationsInput {
 
-    static func write(value: ExportAutoScalingGroupRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ExportAutoScalingGroupRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["fieldsToExport"].writeList(value.fieldsToExport, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.ExportableAutoScalingGroupField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8926,7 +8926,7 @@ extension ExportAutoScalingGroupRecommendationsInput {
 
 extension ExportEBSVolumeRecommendationsInput {
 
-    static func write(value: ExportEBSVolumeRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ExportEBSVolumeRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["fieldsToExport"].writeList(value.fieldsToExport, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.ExportableVolumeField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8939,7 +8939,7 @@ extension ExportEBSVolumeRecommendationsInput {
 
 extension ExportEC2InstanceRecommendationsInput {
 
-    static func write(value: ExportEC2InstanceRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ExportEC2InstanceRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["fieldsToExport"].writeList(value.fieldsToExport, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.ExportableInstanceField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8953,7 +8953,7 @@ extension ExportEC2InstanceRecommendationsInput {
 
 extension ExportECSServiceRecommendationsInput {
 
-    static func write(value: ExportECSServiceRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ExportECSServiceRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["fieldsToExport"].writeList(value.fieldsToExport, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.ExportableECSServiceField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8966,7 +8966,7 @@ extension ExportECSServiceRecommendationsInput {
 
 extension ExportIdleRecommendationsInput {
 
-    static func write(value: ExportIdleRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ExportIdleRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["fieldsToExport"].writeList(value.fieldsToExport, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.ExportableIdleField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8979,7 +8979,7 @@ extension ExportIdleRecommendationsInput {
 
 extension ExportLambdaFunctionRecommendationsInput {
 
-    static func write(value: ExportLambdaFunctionRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ExportLambdaFunctionRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["fieldsToExport"].writeList(value.fieldsToExport, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.ExportableLambdaFunctionField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8992,7 +8992,7 @@ extension ExportLambdaFunctionRecommendationsInput {
 
 extension ExportLicenseRecommendationsInput {
 
-    static func write(value: ExportLicenseRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ExportLicenseRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["fieldsToExport"].writeList(value.fieldsToExport, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.ExportableLicenseField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9005,7 +9005,7 @@ extension ExportLicenseRecommendationsInput {
 
 extension ExportRDSDatabaseRecommendationsInput {
 
-    static func write(value: ExportRDSDatabaseRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ExportRDSDatabaseRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["fieldsToExport"].writeList(value.fieldsToExport, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.ExportableRDSDBField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9019,7 +9019,7 @@ extension ExportRDSDatabaseRecommendationsInput {
 
 extension GetAutoScalingGroupRecommendationsInput {
 
-    static func write(value: GetAutoScalingGroupRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetAutoScalingGroupRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["autoScalingGroupArns"].writeList(value.autoScalingGroupArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9032,7 +9032,7 @@ extension GetAutoScalingGroupRecommendationsInput {
 
 extension GetEBSVolumeRecommendationsInput {
 
-    static func write(value: GetEBSVolumeRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetEBSVolumeRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.EBSFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9044,7 +9044,7 @@ extension GetEBSVolumeRecommendationsInput {
 
 extension GetEC2InstanceRecommendationsInput {
 
-    static func write(value: GetEC2InstanceRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetEC2InstanceRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9057,7 +9057,7 @@ extension GetEC2InstanceRecommendationsInput {
 
 extension GetEC2RecommendationProjectedMetricsInput {
 
-    static func write(value: GetEC2RecommendationProjectedMetricsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetEC2RecommendationProjectedMetricsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["instanceArn"].write(value.instanceArn)
@@ -9070,7 +9070,7 @@ extension GetEC2RecommendationProjectedMetricsInput {
 
 extension GetECSServiceRecommendationProjectedMetricsInput {
 
-    static func write(value: GetECSServiceRecommendationProjectedMetricsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetECSServiceRecommendationProjectedMetricsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["period"].write(value.period)
@@ -9082,7 +9082,7 @@ extension GetECSServiceRecommendationProjectedMetricsInput {
 
 extension GetECSServiceRecommendationsInput {
 
-    static func write(value: GetECSServiceRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetECSServiceRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.ECSServiceRecommendationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9094,7 +9094,7 @@ extension GetECSServiceRecommendationsInput {
 
 extension GetEffectiveRecommendationPreferencesInput {
 
-    static func write(value: GetEffectiveRecommendationPreferencesInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetEffectiveRecommendationPreferencesInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["resourceArn"].write(value.resourceArn)
     }
@@ -9102,7 +9102,7 @@ extension GetEffectiveRecommendationPreferencesInput {
 
 extension GetEnrollmentStatusInput {
 
-    static func write(value: GetEnrollmentStatusInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetEnrollmentStatusInput?, to writer: SmithyCBOR.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
     }
@@ -9110,7 +9110,7 @@ extension GetEnrollmentStatusInput {
 
 extension GetEnrollmentStatusesForOrganizationInput {
 
-    static func write(value: GetEnrollmentStatusesForOrganizationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetEnrollmentStatusesForOrganizationInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.EnrollmentFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maxResults"].write(value.maxResults)
@@ -9120,7 +9120,7 @@ extension GetEnrollmentStatusesForOrganizationInput {
 
 extension GetIdleRecommendationsInput {
 
-    static func write(value: GetIdleRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetIdleRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.IdleRecommendationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9133,7 +9133,7 @@ extension GetIdleRecommendationsInput {
 
 extension GetLambdaFunctionRecommendationsInput {
 
-    static func write(value: GetLambdaFunctionRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetLambdaFunctionRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9145,7 +9145,7 @@ extension GetLambdaFunctionRecommendationsInput {
 
 extension GetLicenseRecommendationsInput {
 
-    static func write(value: GetLicenseRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetLicenseRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.LicenseRecommendationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9157,7 +9157,7 @@ extension GetLicenseRecommendationsInput {
 
 extension GetRDSDatabaseRecommendationProjectedMetricsInput {
 
-    static func write(value: GetRDSDatabaseRecommendationProjectedMetricsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetRDSDatabaseRecommendationProjectedMetricsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["period"].write(value.period)
@@ -9170,7 +9170,7 @@ extension GetRDSDatabaseRecommendationProjectedMetricsInput {
 
 extension GetRDSDatabaseRecommendationsInput {
 
-    static func write(value: GetRDSDatabaseRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetRDSDatabaseRecommendationsInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.RDSDBRecommendationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9183,7 +9183,7 @@ extension GetRDSDatabaseRecommendationsInput {
 
 extension GetRecommendationPreferencesInput {
 
-    static func write(value: GetRecommendationPreferencesInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetRecommendationPreferencesInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
@@ -9194,7 +9194,7 @@ extension GetRecommendationPreferencesInput {
 
 extension GetRecommendationSummariesInput {
 
-    static func write(value: GetRecommendationSummariesInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GetRecommendationSummariesInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maxResults"].write(value.maxResults)
@@ -9204,7 +9204,7 @@ extension GetRecommendationSummariesInput {
 
 extension PutRecommendationPreferencesInput {
 
-    static func write(value: PutRecommendationPreferencesInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PutRecommendationPreferencesInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["enhancedInfrastructureMetrics"].write(value.enhancedInfrastructureMetrics)
         try writer["externalMetricsPreference"].write(value.externalMetricsPreference, with: ComputeOptimizerClientTypes.ExternalMetricsPreference.write(value:to:))
@@ -9220,7 +9220,7 @@ extension PutRecommendationPreferencesInput {
 
 extension UpdateEnrollmentStatusInput {
 
-    static func write(value: UpdateEnrollmentStatusInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: UpdateEnrollmentStatusInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["includeMemberAccounts"].write(value.includeMemberAccounts)
         try writer["status"].write(value.status)
@@ -9238,7 +9238,7 @@ extension DescribeRecommendationExportJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeRecommendationExportJobsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeRecommendationExportJobsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
@@ -9251,7 +9251,7 @@ extension ExportAutoScalingGroupRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportAutoScalingGroupRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ExportAutoScalingGroupRecommendationsOutput()
         value.jobId = try reader["jobId"].readIfPresent()
@@ -9264,7 +9264,7 @@ extension ExportEBSVolumeRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportEBSVolumeRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ExportEBSVolumeRecommendationsOutput()
         value.jobId = try reader["jobId"].readIfPresent()
@@ -9277,7 +9277,7 @@ extension ExportEC2InstanceRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportEC2InstanceRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ExportEC2InstanceRecommendationsOutput()
         value.jobId = try reader["jobId"].readIfPresent()
@@ -9290,7 +9290,7 @@ extension ExportECSServiceRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportECSServiceRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ExportECSServiceRecommendationsOutput()
         value.jobId = try reader["jobId"].readIfPresent()
@@ -9303,7 +9303,7 @@ extension ExportIdleRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportIdleRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ExportIdleRecommendationsOutput()
         value.jobId = try reader["jobId"].readIfPresent()
@@ -9316,7 +9316,7 @@ extension ExportLambdaFunctionRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportLambdaFunctionRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ExportLambdaFunctionRecommendationsOutput()
         value.jobId = try reader["jobId"].readIfPresent()
@@ -9329,7 +9329,7 @@ extension ExportLicenseRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportLicenseRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ExportLicenseRecommendationsOutput()
         value.jobId = try reader["jobId"].readIfPresent()
@@ -9342,7 +9342,7 @@ extension ExportRDSDatabaseRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportRDSDatabaseRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = ExportRDSDatabaseRecommendationsOutput()
         value.jobId = try reader["jobId"].readIfPresent()
@@ -9355,7 +9355,7 @@ extension GetAutoScalingGroupRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAutoScalingGroupRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetAutoScalingGroupRecommendationsOutput()
         value.autoScalingGroupRecommendations = try reader["autoScalingGroupRecommendations"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.AutoScalingGroupRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9369,7 +9369,7 @@ extension GetEBSVolumeRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEBSVolumeRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetEBSVolumeRecommendationsOutput()
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.GetRecommendationError.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9383,7 +9383,7 @@ extension GetEC2InstanceRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEC2InstanceRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetEC2InstanceRecommendationsOutput()
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.GetRecommendationError.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9397,7 +9397,7 @@ extension GetEC2RecommendationProjectedMetricsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEC2RecommendationProjectedMetricsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetEC2RecommendationProjectedMetricsOutput()
         value.recommendedOptionProjectedMetrics = try reader["recommendedOptionProjectedMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9409,7 +9409,7 @@ extension GetECSServiceRecommendationProjectedMetricsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetECSServiceRecommendationProjectedMetricsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetECSServiceRecommendationProjectedMetricsOutput()
         value.recommendedOptionProjectedMetrics = try reader["recommendedOptionProjectedMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9421,7 +9421,7 @@ extension GetECSServiceRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetECSServiceRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetECSServiceRecommendationsOutput()
         value.ecsServiceRecommendations = try reader["ecsServiceRecommendations"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ECSServiceRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9435,7 +9435,7 @@ extension GetEffectiveRecommendationPreferencesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEffectiveRecommendationPreferencesOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetEffectiveRecommendationPreferencesOutput()
         value.enhancedInfrastructureMetrics = try reader["enhancedInfrastructureMetrics"].readIfPresent()
@@ -9451,7 +9451,7 @@ extension GetEnrollmentStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEnrollmentStatusOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetEnrollmentStatusOutput()
         value.lastUpdatedTimestamp = try reader["lastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -9467,7 +9467,7 @@ extension GetEnrollmentStatusesForOrganizationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEnrollmentStatusesForOrganizationOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetEnrollmentStatusesForOrganizationOutput()
         value.accountEnrollmentStatuses = try reader["accountEnrollmentStatuses"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.AccountEnrollmentStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9480,7 +9480,7 @@ extension GetIdleRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIdleRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetIdleRecommendationsOutput()
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.IdleRecommendationError.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9494,7 +9494,7 @@ extension GetLambdaFunctionRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLambdaFunctionRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetLambdaFunctionRecommendationsOutput()
         value.lambdaFunctionRecommendations = try reader["lambdaFunctionRecommendations"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.LambdaFunctionRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9507,7 +9507,7 @@ extension GetLicenseRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLicenseRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetLicenseRecommendationsOutput()
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.GetRecommendationError.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9521,7 +9521,7 @@ extension GetRDSDatabaseRecommendationProjectedMetricsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRDSDatabaseRecommendationProjectedMetricsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetRDSDatabaseRecommendationProjectedMetricsOutput()
         value.recommendedOptionProjectedMetrics = try reader["recommendedOptionProjectedMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9533,7 +9533,7 @@ extension GetRDSDatabaseRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRDSDatabaseRecommendationsOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetRDSDatabaseRecommendationsOutput()
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.GetRecommendationError.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9547,7 +9547,7 @@ extension GetRecommendationPreferencesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRecommendationPreferencesOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetRecommendationPreferencesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
@@ -9560,7 +9560,7 @@ extension GetRecommendationSummariesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRecommendationSummariesOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = GetRecommendationSummariesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
@@ -9580,7 +9580,7 @@ extension UpdateEnrollmentStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEnrollmentStatusOutput {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateEnrollmentStatusOutput()
         value.status = try reader["status"].readIfPresent()
@@ -9593,8 +9593,8 @@ enum DeleteRecommendationPreferencesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9614,8 +9614,8 @@ enum DescribeRecommendationExportJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9635,8 +9635,8 @@ enum ExportAutoScalingGroupRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9656,8 +9656,8 @@ enum ExportEBSVolumeRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9677,8 +9677,8 @@ enum ExportEC2InstanceRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9698,8 +9698,8 @@ enum ExportECSServiceRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9719,8 +9719,8 @@ enum ExportIdleRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9740,8 +9740,8 @@ enum ExportLambdaFunctionRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9761,8 +9761,8 @@ enum ExportLicenseRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9782,8 +9782,8 @@ enum ExportRDSDatabaseRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9803,8 +9803,8 @@ enum GetAutoScalingGroupRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9824,8 +9824,8 @@ enum GetEBSVolumeRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9845,8 +9845,8 @@ enum GetEC2InstanceRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9866,8 +9866,8 @@ enum GetEC2RecommendationProjectedMetricsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9887,8 +9887,8 @@ enum GetECSServiceRecommendationProjectedMetricsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9908,8 +9908,8 @@ enum GetECSServiceRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9929,8 +9929,8 @@ enum GetEffectiveRecommendationPreferencesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9950,8 +9950,8 @@ enum GetEnrollmentStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9969,8 +9969,8 @@ enum GetEnrollmentStatusesForOrganizationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9988,8 +9988,8 @@ enum GetIdleRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10009,8 +10009,8 @@ enum GetLambdaFunctionRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10030,8 +10030,8 @@ enum GetLicenseRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10051,8 +10051,8 @@ enum GetRDSDatabaseRecommendationProjectedMetricsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10072,8 +10072,8 @@ enum GetRDSDatabaseRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10093,8 +10093,8 @@ enum GetRecommendationPreferencesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10114,8 +10114,8 @@ enum GetRecommendationSummariesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10134,8 +10134,8 @@ enum PutRecommendationPreferencesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10155,8 +10155,8 @@ enum UpdateEnrollmentStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -10172,7 +10172,7 @@ enum UpdateEnrollmentStatusOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10185,7 +10185,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10198,7 +10198,7 @@ extension InternalServerException {
 
 extension InvalidParameterValueException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterValueException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10211,7 +10211,7 @@ extension InvalidParameterValueException {
 
 extension MissingAuthenticationToken {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MissingAuthenticationToken {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> MissingAuthenticationToken {
         let reader = baseError.errorBodyReader
         var value = MissingAuthenticationToken()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10224,7 +10224,7 @@ extension MissingAuthenticationToken {
 
 extension OptInRequiredException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OptInRequiredException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> OptInRequiredException {
         let reader = baseError.errorBodyReader
         var value = OptInRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10237,7 +10237,7 @@ extension OptInRequiredException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10250,7 +10250,7 @@ extension ResourceNotFoundException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10263,7 +10263,7 @@ extension ServiceUnavailableException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -10276,7 +10276,7 @@ extension ThrottlingException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10289,7 +10289,7 @@ extension LimitExceededException {
 
 extension ComputeOptimizerClientTypes.AccountEnrollmentStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.AccountEnrollmentStatus {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.AccountEnrollmentStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.AccountEnrollmentStatus()
         value.accountId = try reader["accountId"].readIfPresent()
@@ -10302,7 +10302,7 @@ extension ComputeOptimizerClientTypes.AccountEnrollmentStatus {
 
 extension ComputeOptimizerClientTypes.AutoScalingGroupConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.AutoScalingGroupConfiguration()
         value.desiredCapacity = try reader["desiredCapacity"].readIfPresent() ?? 0
@@ -10319,7 +10319,7 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupConfiguration {
 
 extension ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings()
         value.currency = try reader["currency"].readIfPresent()
@@ -10330,7 +10330,7 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings {
 
 extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupRecommendation {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.AutoScalingGroupRecommendation()
         value.accountId = try reader["accountId"].readIfPresent()
@@ -10352,7 +10352,7 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation {
 
 extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption()
         value.configuration = try reader["configuration"].readIfPresent(with: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration.read(from:))
@@ -10369,7 +10369,7 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption {
 
 extension ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts()
         value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
@@ -10380,7 +10380,7 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDis
 
 extension ComputeOptimizerClientTypes.ContainerConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ContainerConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ContainerConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ContainerConfiguration()
         value.containerName = try reader["containerName"].readIfPresent()
@@ -10392,7 +10392,7 @@ extension ComputeOptimizerClientTypes.ContainerConfiguration {
 
 extension ComputeOptimizerClientTypes.ContainerRecommendation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ContainerRecommendation {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ContainerRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ContainerRecommendation()
         value.containerName = try reader["containerName"].readIfPresent()
@@ -10404,7 +10404,7 @@ extension ComputeOptimizerClientTypes.ContainerRecommendation {
 
 extension ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings()
         value.high = try reader["high"].readIfPresent() ?? 0
@@ -10417,13 +10417,13 @@ extension ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings {
 
 extension ComputeOptimizerClientTypes.CustomizableMetricParameters {
 
-    static func write(value: ComputeOptimizerClientTypes.CustomizableMetricParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.CustomizableMetricParameters?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["headroom"].write(value.headroom)
         try writer["threshold"].write(value.threshold)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.CustomizableMetricParameters {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.CustomizableMetricParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.CustomizableMetricParameters()
         value.threshold = try reader["threshold"].readIfPresent()
@@ -10434,7 +10434,7 @@ extension ComputeOptimizerClientTypes.CustomizableMetricParameters {
 
 extension ComputeOptimizerClientTypes.DBStorageConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.DBStorageConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.DBStorageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.DBStorageConfiguration()
         value.storageType = try reader["storageType"].readIfPresent()
@@ -10448,7 +10448,7 @@ extension ComputeOptimizerClientTypes.DBStorageConfiguration {
 
 extension ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences()
         value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent(with: ComputeOptimizerClientTypes.EBSSavingsEstimationMode.read(from:))
@@ -10458,7 +10458,7 @@ extension ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences {
 
 extension ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings()
         value.currency = try reader["currency"].readIfPresent()
@@ -10469,7 +10469,7 @@ extension ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings {
 
 extension ComputeOptimizerClientTypes.EBSFilter {
 
-    static func write(value: ComputeOptimizerClientTypes.EBSFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.EBSFilter?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10478,7 +10478,7 @@ extension ComputeOptimizerClientTypes.EBSFilter {
 
 extension ComputeOptimizerClientTypes.EBSSavingsEstimationMode {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EBSSavingsEstimationMode {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.EBSSavingsEstimationMode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.EBSSavingsEstimationMode()
         value.source = try reader["source"].readIfPresent()
@@ -10488,7 +10488,7 @@ extension ComputeOptimizerClientTypes.EBSSavingsEstimationMode {
 
 extension ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts()
         value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
@@ -10499,7 +10499,7 @@ extension ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts {
 
 extension ComputeOptimizerClientTypes.EBSUtilizationMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EBSUtilizationMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.EBSUtilizationMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.EBSUtilizationMetric()
         value.name = try reader["name"].readIfPresent()
@@ -10511,7 +10511,7 @@ extension ComputeOptimizerClientTypes.EBSUtilizationMetric {
 
 extension ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences()
         value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent(with: ComputeOptimizerClientTypes.ECSSavingsEstimationMode.read(from:))
@@ -10521,7 +10521,7 @@ extension ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences {
 
 extension ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings()
         value.currency = try reader["currency"].readIfPresent()
@@ -10532,7 +10532,7 @@ extension ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings {
 
 extension ComputeOptimizerClientTypes.ECSSavingsEstimationMode {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSSavingsEstimationMode {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ECSSavingsEstimationMode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ECSSavingsEstimationMode()
         value.source = try reader["source"].readIfPresent()
@@ -10542,7 +10542,7 @@ extension ComputeOptimizerClientTypes.ECSSavingsEstimationMode {
 
 extension ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts()
         value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
@@ -10553,7 +10553,7 @@ extension ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts {
 
 extension ComputeOptimizerClientTypes.ECSServiceProjectedMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceProjectedMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceProjectedMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ECSServiceProjectedMetric()
         value.name = try reader["name"].readIfPresent()
@@ -10566,7 +10566,7 @@ extension ComputeOptimizerClientTypes.ECSServiceProjectedMetric {
 
 extension ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric()
         value.name = try reader["name"].readIfPresent()
@@ -10579,7 +10579,7 @@ extension ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric {
 
 extension ComputeOptimizerClientTypes.ECSServiceRecommendation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceRecommendation {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ECSServiceRecommendation()
         value.serviceArn = try reader["serviceArn"].readIfPresent()
@@ -10601,7 +10601,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendation {
 
 extension ComputeOptimizerClientTypes.ECSServiceRecommendationFilter {
 
-    static func write(value: ComputeOptimizerClientTypes.ECSServiceRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.ECSServiceRecommendationFilter?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10610,7 +10610,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationFilter {
 
 extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceRecommendationOption {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceRecommendationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ECSServiceRecommendationOption()
         value.memory = try reader["memory"].readIfPresent()
@@ -10625,7 +10625,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption {
 
 extension ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric()
         value.recommendedCpuUnits = try reader["recommendedCpuUnits"].readIfPresent() ?? 0
@@ -10637,7 +10637,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric
 
 extension ComputeOptimizerClientTypes.ECSServiceUtilizationMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceUtilizationMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceUtilizationMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ECSServiceUtilizationMetric()
         value.name = try reader["name"].readIfPresent()
@@ -10649,7 +10649,7 @@ extension ComputeOptimizerClientTypes.ECSServiceUtilizationMetric {
 
 extension ComputeOptimizerClientTypes.EffectivePreferredResource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EffectivePreferredResource {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.EffectivePreferredResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.EffectivePreferredResource()
         value.name = try reader["name"].readIfPresent()
@@ -10662,7 +10662,7 @@ extension ComputeOptimizerClientTypes.EffectivePreferredResource {
 
 extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EffectiveRecommendationPreferences {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.EffectiveRecommendationPreferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.EffectiveRecommendationPreferences()
         value.cpuVendorArchitectures = try reader["cpuVendorArchitectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.CpuVendorArchitecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -10679,7 +10679,7 @@ extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences {
 
 extension ComputeOptimizerClientTypes.EnrollmentFilter {
 
-    static func write(value: ComputeOptimizerClientTypes.EnrollmentFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.EnrollmentFilter?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10688,7 +10688,7 @@ extension ComputeOptimizerClientTypes.EnrollmentFilter {
 
 extension ComputeOptimizerClientTypes.EstimatedMonthlySavings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EstimatedMonthlySavings {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.EstimatedMonthlySavings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.EstimatedMonthlySavings()
         value.currency = try reader["currency"].readIfPresent()
@@ -10699,7 +10699,7 @@ extension ComputeOptimizerClientTypes.EstimatedMonthlySavings {
 
 extension ComputeOptimizerClientTypes.ExportDestination {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ExportDestination {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ExportDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ExportDestination()
         value.s3 = try reader["s3"].readIfPresent(with: ComputeOptimizerClientTypes.S3Destination.read(from:))
@@ -10709,12 +10709,12 @@ extension ComputeOptimizerClientTypes.ExportDestination {
 
 extension ComputeOptimizerClientTypes.ExternalMetricsPreference {
 
-    static func write(value: ComputeOptimizerClientTypes.ExternalMetricsPreference?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.ExternalMetricsPreference?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["source"].write(value.source)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ExternalMetricsPreference {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ExternalMetricsPreference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ExternalMetricsPreference()
         value.source = try reader["source"].readIfPresent()
@@ -10724,7 +10724,7 @@ extension ComputeOptimizerClientTypes.ExternalMetricsPreference {
 
 extension ComputeOptimizerClientTypes.ExternalMetricStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ExternalMetricStatus {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ExternalMetricStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ExternalMetricStatus()
         value.statusCode = try reader["statusCode"].readIfPresent()
@@ -10735,7 +10735,7 @@ extension ComputeOptimizerClientTypes.ExternalMetricStatus {
 
 extension ComputeOptimizerClientTypes.Filter {
 
-    static func write(value: ComputeOptimizerClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.Filter?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10744,7 +10744,7 @@ extension ComputeOptimizerClientTypes.Filter {
 
 extension ComputeOptimizerClientTypes.GetRecommendationError {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.GetRecommendationError {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.GetRecommendationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.GetRecommendationError()
         value.identifier = try reader["identifier"].readIfPresent()
@@ -10756,7 +10756,7 @@ extension ComputeOptimizerClientTypes.GetRecommendationError {
 
 extension ComputeOptimizerClientTypes.Gpu {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Gpu {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.Gpu {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.Gpu()
         value.gpuCount = try reader["gpuCount"].readIfPresent() ?? 0
@@ -10767,7 +10767,7 @@ extension ComputeOptimizerClientTypes.Gpu {
 
 extension ComputeOptimizerClientTypes.GpuInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.GpuInfo {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.GpuInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.GpuInfo()
         value.gpus = try reader["gpus"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Gpu.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -10777,7 +10777,7 @@ extension ComputeOptimizerClientTypes.GpuInfo {
 
 extension ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings()
         value.currency = try reader["currency"].readIfPresent()
@@ -10788,7 +10788,7 @@ extension ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings {
 
 extension ComputeOptimizerClientTypes.IdleRecommendation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleRecommendation {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.IdleRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.IdleRecommendation()
         value.resourceArn = try reader["resourceArn"].readIfPresent()
@@ -10809,7 +10809,7 @@ extension ComputeOptimizerClientTypes.IdleRecommendation {
 
 extension ComputeOptimizerClientTypes.IdleRecommendationError {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleRecommendationError {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.IdleRecommendationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.IdleRecommendationError()
         value.identifier = try reader["identifier"].readIfPresent()
@@ -10822,7 +10822,7 @@ extension ComputeOptimizerClientTypes.IdleRecommendationError {
 
 extension ComputeOptimizerClientTypes.IdleRecommendationFilter {
 
-    static func write(value: ComputeOptimizerClientTypes.IdleRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.IdleRecommendationFilter?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10831,7 +10831,7 @@ extension ComputeOptimizerClientTypes.IdleRecommendationFilter {
 
 extension ComputeOptimizerClientTypes.IdleSavingsOpportunity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleSavingsOpportunity {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.IdleSavingsOpportunity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.IdleSavingsOpportunity()
         value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
@@ -10842,7 +10842,7 @@ extension ComputeOptimizerClientTypes.IdleSavingsOpportunity {
 
 extension ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts()
         value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
@@ -10853,7 +10853,7 @@ extension ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts {
 
 extension ComputeOptimizerClientTypes.IdleSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleSummary {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.IdleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.IdleSummary()
         value.name = try reader["name"].readIfPresent()
@@ -10864,7 +10864,7 @@ extension ComputeOptimizerClientTypes.IdleSummary {
 
 extension ComputeOptimizerClientTypes.IdleUtilizationMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleUtilizationMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.IdleUtilizationMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.IdleUtilizationMetric()
         value.name = try reader["name"].readIfPresent()
@@ -10876,7 +10876,7 @@ extension ComputeOptimizerClientTypes.IdleUtilizationMetric {
 
 extension ComputeOptimizerClientTypes.InferredWorkloadSaving {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InferredWorkloadSaving {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.InferredWorkloadSaving {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.InferredWorkloadSaving()
         value.inferredWorkloadTypes = try reader["inferredWorkloadTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.InferredWorkloadType>().read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -10887,7 +10887,7 @@ extension ComputeOptimizerClientTypes.InferredWorkloadSaving {
 
 extension ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings()
         value.currency = try reader["currency"].readIfPresent()
@@ -10898,7 +10898,7 @@ extension ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings {
 
 extension ComputeOptimizerClientTypes.InstanceRecommendation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InstanceRecommendation {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.InstanceRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.InstanceRecommendation()
         value.instanceArn = try reader["instanceArn"].readIfPresent()
@@ -10926,7 +10926,7 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation {
 
 extension ComputeOptimizerClientTypes.InstanceRecommendationOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InstanceRecommendationOption {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.InstanceRecommendationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.InstanceRecommendationOption()
         value.instanceType = try reader["instanceType"].readIfPresent()
@@ -10944,7 +10944,7 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption {
 
 extension ComputeOptimizerClientTypes.InstanceSavingsEstimationMode {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InstanceSavingsEstimationMode {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.InstanceSavingsEstimationMode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.InstanceSavingsEstimationMode()
         value.source = try reader["source"].readIfPresent()
@@ -10954,7 +10954,7 @@ extension ComputeOptimizerClientTypes.InstanceSavingsEstimationMode {
 
 extension ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts()
         value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
@@ -10965,7 +10965,7 @@ extension ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts {
 
 extension ComputeOptimizerClientTypes.JobFilter {
 
-    static func write(value: ComputeOptimizerClientTypes.JobFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.JobFilter?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10974,7 +10974,7 @@ extension ComputeOptimizerClientTypes.JobFilter {
 
 extension ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences()
         value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent(with: ComputeOptimizerClientTypes.LambdaSavingsEstimationMode.read(from:))
@@ -10984,7 +10984,7 @@ extension ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences {
 
 extension ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings()
         value.currency = try reader["currency"].readIfPresent()
@@ -10995,7 +10995,7 @@ extension ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings {
 
 extension ComputeOptimizerClientTypes.LambdaFunctionMemoryProjectedMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionMemoryProjectedMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionMemoryProjectedMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.LambdaFunctionMemoryProjectedMetric()
         value.name = try reader["name"].readIfPresent()
@@ -11007,7 +11007,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionMemoryProjectedMetric {
 
 extension ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption()
         value.rank = try reader["rank"].readIfPresent() ?? 0
@@ -11021,7 +11021,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption {
 
 extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionRecommendation {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.LambdaFunctionRecommendation()
         value.functionArn = try reader["functionArn"].readIfPresent()
@@ -11044,7 +11044,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation {
 
 extension ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter {
 
-    static func write(value: ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11053,7 +11053,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter {
 
 extension ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric()
         value.name = try reader["name"].readIfPresent()
@@ -11065,7 +11065,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric {
 
 extension ComputeOptimizerClientTypes.LambdaSavingsEstimationMode {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaSavingsEstimationMode {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.LambdaSavingsEstimationMode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.LambdaSavingsEstimationMode()
         value.source = try reader["source"].readIfPresent()
@@ -11075,7 +11075,7 @@ extension ComputeOptimizerClientTypes.LambdaSavingsEstimationMode {
 
 extension ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts()
         value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
@@ -11086,7 +11086,7 @@ extension ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts {
 
 extension ComputeOptimizerClientTypes.LicenseConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LicenseConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.LicenseConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.LicenseConfiguration()
         value.numberOfCores = try reader["numberOfCores"].readIfPresent() ?? 0
@@ -11103,7 +11103,7 @@ extension ComputeOptimizerClientTypes.LicenseConfiguration {
 
 extension ComputeOptimizerClientTypes.LicenseRecommendation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LicenseRecommendation {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.LicenseRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.LicenseRecommendation()
         value.resourceArn = try reader["resourceArn"].readIfPresent()
@@ -11121,7 +11121,7 @@ extension ComputeOptimizerClientTypes.LicenseRecommendation {
 
 extension ComputeOptimizerClientTypes.LicenseRecommendationFilter {
 
-    static func write(value: ComputeOptimizerClientTypes.LicenseRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.LicenseRecommendationFilter?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11130,7 +11130,7 @@ extension ComputeOptimizerClientTypes.LicenseRecommendationFilter {
 
 extension ComputeOptimizerClientTypes.LicenseRecommendationOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LicenseRecommendationOption {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.LicenseRecommendationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.LicenseRecommendationOption()
         value.rank = try reader["rank"].readIfPresent() ?? 0
@@ -11144,7 +11144,7 @@ extension ComputeOptimizerClientTypes.LicenseRecommendationOption {
 
 extension ComputeOptimizerClientTypes.MemorySizeConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.MemorySizeConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.MemorySizeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.MemorySizeConfiguration()
         value.memory = try reader["memory"].readIfPresent()
@@ -11155,7 +11155,7 @@ extension ComputeOptimizerClientTypes.MemorySizeConfiguration {
 
 extension ComputeOptimizerClientTypes.MetricSource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.MetricSource {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.MetricSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.MetricSource()
         value.provider = try reader["provider"].readIfPresent()
@@ -11166,7 +11166,7 @@ extension ComputeOptimizerClientTypes.MetricSource {
 
 extension ComputeOptimizerClientTypes.OrderBy {
 
-    static func write(value: ComputeOptimizerClientTypes.OrderBy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.OrderBy?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["dimension"].write(value.dimension)
         try writer["order"].write(value.order)
@@ -11175,7 +11175,7 @@ extension ComputeOptimizerClientTypes.OrderBy {
 
 extension ComputeOptimizerClientTypes.PreferredResource {
 
-    static func write(value: ComputeOptimizerClientTypes.PreferredResource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.PreferredResource?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["excludeList"].writeList(value.excludeList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["includeList"].writeList(value.includeList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11185,7 +11185,7 @@ extension ComputeOptimizerClientTypes.PreferredResource {
 
 extension ComputeOptimizerClientTypes.ProjectedMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ProjectedMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ProjectedMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ProjectedMetric()
         value.name = try reader["name"].readIfPresent()
@@ -11197,7 +11197,7 @@ extension ComputeOptimizerClientTypes.ProjectedMetric {
 
 extension ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric()
         value.name = try reader["name"].readIfPresent()
@@ -11209,7 +11209,7 @@ extension ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric {
 
 extension ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetric()
         value.recommendedDBInstanceClass = try reader["recommendedDBInstanceClass"].readIfPresent()
@@ -11221,7 +11221,7 @@ extension ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetri
 
 extension ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption()
         value.dbInstanceClass = try reader["dbInstanceClass"].readIfPresent()
@@ -11236,7 +11236,7 @@ extension ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption {
 
 extension ComputeOptimizerClientTypes.RDSDBRecommendation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDBRecommendation {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RDSDBRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RDSDBRecommendation()
         value.resourceArn = try reader["resourceArn"].readIfPresent()
@@ -11267,7 +11267,7 @@ extension ComputeOptimizerClientTypes.RDSDBRecommendation {
 
 extension ComputeOptimizerClientTypes.RDSDBRecommendationFilter {
 
-    static func write(value: ComputeOptimizerClientTypes.RDSDBRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.RDSDBRecommendationFilter?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11276,7 +11276,7 @@ extension ComputeOptimizerClientTypes.RDSDBRecommendationFilter {
 
 extension ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption()
         value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: ComputeOptimizerClientTypes.DBStorageConfiguration.read(from:))
@@ -11290,7 +11290,7 @@ extension ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption {
 
 extension ComputeOptimizerClientTypes.RDSDBUtilizationMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDBUtilizationMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RDSDBUtilizationMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RDSDBUtilizationMetric()
         value.name = try reader["name"].readIfPresent()
@@ -11302,7 +11302,7 @@ extension ComputeOptimizerClientTypes.RDSDBUtilizationMetric {
 
 extension ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences()
         value.cpuVendorArchitectures = try reader["cpuVendorArchitectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.CpuVendorArchitecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -11315,7 +11315,7 @@ extension ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences {
 
 extension ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings()
         value.currency = try reader["currency"].readIfPresent()
@@ -11326,7 +11326,7 @@ extension ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings {
 
 extension ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts()
         value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
@@ -11337,7 +11337,7 @@ extension ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscount
 
 extension ComputeOptimizerClientTypes.RDSSavingsEstimationMode {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSSavingsEstimationMode {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RDSSavingsEstimationMode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RDSSavingsEstimationMode()
         value.source = try reader["source"].readIfPresent()
@@ -11347,7 +11347,7 @@ extension ComputeOptimizerClientTypes.RDSSavingsEstimationMode {
 
 extension ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings()
         value.currency = try reader["currency"].readIfPresent()
@@ -11358,7 +11358,7 @@ extension ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings {
 
 extension ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts()
         value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
@@ -11369,7 +11369,7 @@ extension ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts
 
 extension ComputeOptimizerClientTypes.ReasonCodeSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ReasonCodeSummary {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ReasonCodeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ReasonCodeSummary()
         value.name = try reader["name"].readIfPresent()
@@ -11380,7 +11380,7 @@ extension ComputeOptimizerClientTypes.ReasonCodeSummary {
 
 extension ComputeOptimizerClientTypes.RecommendationExportJob {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RecommendationExportJob {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RecommendationExportJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RecommendationExportJob()
         value.jobId = try reader["jobId"].readIfPresent()
@@ -11396,7 +11396,7 @@ extension ComputeOptimizerClientTypes.RecommendationExportJob {
 
 extension ComputeOptimizerClientTypes.RecommendationPreferences {
 
-    static func write(value: ComputeOptimizerClientTypes.RecommendationPreferences?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.RecommendationPreferences?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["cpuVendorArchitectures"].writeList(value.cpuVendorArchitectures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.CpuVendorArchitecture>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -11404,7 +11404,7 @@ extension ComputeOptimizerClientTypes.RecommendationPreferences {
 
 extension ComputeOptimizerClientTypes.RecommendationPreferencesDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RecommendationPreferencesDetail {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RecommendationPreferencesDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RecommendationPreferencesDetail()
         value.scope = try reader["scope"].readIfPresent(with: ComputeOptimizerClientTypes.Scope.read(from:))
@@ -11422,7 +11422,7 @@ extension ComputeOptimizerClientTypes.RecommendationPreferencesDetail {
 
 extension ComputeOptimizerClientTypes.RecommendationSource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RecommendationSource {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RecommendationSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RecommendationSource()
         value.recommendationSourceArn = try reader["recommendationSourceArn"].readIfPresent()
@@ -11433,7 +11433,7 @@ extension ComputeOptimizerClientTypes.RecommendationSource {
 
 extension ComputeOptimizerClientTypes.RecommendationSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RecommendationSummary {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RecommendationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RecommendationSummary()
         value.summaries = try reader["summaries"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Summary.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -11451,7 +11451,7 @@ extension ComputeOptimizerClientTypes.RecommendationSummary {
 
 extension ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric()
         value.recommendedInstanceType = try reader["recommendedInstanceType"].readIfPresent()
@@ -11463,7 +11463,7 @@ extension ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric {
 
 extension ComputeOptimizerClientTypes.S3Destination {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.S3Destination {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.S3Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.S3Destination()
         value.bucket = try reader["bucket"].readIfPresent()
@@ -11475,7 +11475,7 @@ extension ComputeOptimizerClientTypes.S3Destination {
 
 extension ComputeOptimizerClientTypes.S3DestinationConfig {
 
-    static func write(value: ComputeOptimizerClientTypes.S3DestinationConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.S3DestinationConfig?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["bucket"].write(value.bucket)
         try writer["keyPrefix"].write(value.keyPrefix)
@@ -11484,7 +11484,7 @@ extension ComputeOptimizerClientTypes.S3DestinationConfig {
 
 extension ComputeOptimizerClientTypes.SavingsOpportunity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.SavingsOpportunity {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.SavingsOpportunity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.SavingsOpportunity()
         value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
@@ -11495,13 +11495,13 @@ extension ComputeOptimizerClientTypes.SavingsOpportunity {
 
 extension ComputeOptimizerClientTypes.Scope {
 
-    static func write(value: ComputeOptimizerClientTypes.Scope?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.Scope?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Scope {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.Scope {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.Scope()
         value.name = try reader["name"].readIfPresent()
@@ -11512,7 +11512,7 @@ extension ComputeOptimizerClientTypes.Scope {
 
 extension ComputeOptimizerClientTypes.ServiceConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ServiceConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.ServiceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.ServiceConfiguration()
         value.memory = try reader["memory"].readIfPresent()
@@ -11526,7 +11526,7 @@ extension ComputeOptimizerClientTypes.ServiceConfiguration {
 
 extension ComputeOptimizerClientTypes.Summary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Summary {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.Summary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.Summary()
         value.name = try reader["name"].readIfPresent()
@@ -11538,7 +11538,7 @@ extension ComputeOptimizerClientTypes.Summary {
 
 extension ComputeOptimizerClientTypes.Tag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Tag {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.Tag()
         value.key = try reader["key"].readIfPresent()
@@ -11549,7 +11549,7 @@ extension ComputeOptimizerClientTypes.Tag {
 
 extension ComputeOptimizerClientTypes.UtilizationMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.UtilizationMetric {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.UtilizationMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.UtilizationMetric()
         value.name = try reader["name"].readIfPresent()
@@ -11561,13 +11561,13 @@ extension ComputeOptimizerClientTypes.UtilizationMetric {
 
 extension ComputeOptimizerClientTypes.UtilizationPreference {
 
-    static func write(value: ComputeOptimizerClientTypes.UtilizationPreference?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.UtilizationPreference?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["metricName"].write(value.metricName)
         try writer["metricParameters"].write(value.metricParameters, with: ComputeOptimizerClientTypes.CustomizableMetricParameters.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.UtilizationPreference {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.UtilizationPreference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.UtilizationPreference()
         value.metricName = try reader["metricName"].readIfPresent()
@@ -11578,7 +11578,7 @@ extension ComputeOptimizerClientTypes.UtilizationPreference {
 
 extension ComputeOptimizerClientTypes.VolumeConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.VolumeConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.VolumeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.VolumeConfiguration()
         value.volumeType = try reader["volumeType"].readIfPresent()
@@ -11594,7 +11594,7 @@ extension ComputeOptimizerClientTypes.VolumeConfiguration {
 
 extension ComputeOptimizerClientTypes.VolumeRecommendation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.VolumeRecommendation {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.VolumeRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.VolumeRecommendation()
         value.volumeArn = try reader["volumeArn"].readIfPresent()
@@ -11614,7 +11614,7 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation {
 
 extension ComputeOptimizerClientTypes.VolumeRecommendationOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.VolumeRecommendationOption {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ComputeOptimizerClientTypes.VolumeRecommendationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.VolumeRecommendationOption()
         value.configuration = try reader["configuration"].readIfPresent(with: ComputeOptimizerClientTypes.VolumeConfiguration.read(from:))
