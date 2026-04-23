@@ -1359,7 +1359,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `CreateProvisioningProfile` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Create a provisioning profile for a device to execute the provisioning flows using a provisioning template. The provisioning template is a document that defines the set of resources and policies applied to a device during the provisioning process.
+    /// Create a provisioning profile for executing device provisioning flows. The provisioning profile is a document that defines the set of resources and policies applied to a device during the provisioning process.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateProvisioningProfileInput`)
     ///
@@ -2143,6 +2143,7 @@ extension IoTManagedIntegrationsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : User is not authorized.
+    /// - `ConflictException` : There is a conflict with the request.
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
@@ -3609,7 +3610,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `GetProvisioningProfile` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Get a provisioning profile by template name.
+    /// Get details of a provisioning profile.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetProvisioningProfileInput`)
     ///
