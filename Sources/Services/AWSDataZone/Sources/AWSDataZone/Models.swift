@@ -4961,6 +4961,21 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The lakehouse properties of a connection.
+    public struct LakehousePropertiesInput: Swift.Sendable {
+        /// Specifies whether to enable Glue lineage sync for tables managed by Glue crawlers.
+        public var glueLineageSyncEnabled: Swift.Bool?
+
+        public init(
+            glueLineageSyncEnabled: Swift.Bool? = nil
+        ) {
+            self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The MLflow properties of a connection.
     public struct MlflowPropertiesInput: Swift.Sendable {
         /// The tracking server ARN as part of the MLflow properties of a connection.
@@ -5280,6 +5295,8 @@ extension DataZoneClientTypes {
         case workflowsmwaaproperties(DataZoneClientTypes.WorkflowsMwaaPropertiesInput)
         /// The MWAA serverless properties of a connection.
         case workflowsserverlessproperties(DataZoneClientTypes.WorkflowsServerlessPropertiesInput)
+        /// The lakehouse properties of a connection.
+        case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5417,6 +5434,21 @@ extension DataZoneClientTypes {
             glueLineageSyncEnabled: Swift.Bool? = nil
         ) {
             self.environmentId = environmentId
+            self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The lakehouse properties of a connection.
+    public struct LakehousePropertiesOutput: Swift.Sendable {
+        /// Specifies whether Glue lineage sync is enabled for tables managed by Glue crawlers.
+        public var glueLineageSyncEnabled: Swift.Bool?
+
+        public init(
+            glueLineageSyncEnabled: Swift.Bool? = nil
+        ) {
             self.glueLineageSyncEnabled = glueLineageSyncEnabled
         }
     }
@@ -5769,6 +5801,8 @@ extension DataZoneClientTypes {
         case workflowsmwaaproperties(DataZoneClientTypes.WorkflowsMwaaPropertiesOutput)
         /// The MWAA serverless properties of a connection.
         case workflowsserverlessproperties(DataZoneClientTypes.WorkflowsServerlessPropertiesOutput)
+        /// The lakehouse properties of a connection.
+        case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5816,6 +5850,21 @@ extension DataZoneClientTypes {
     /// The IAM properties patch of a connection.
     public struct IamPropertiesPatch: Swift.Sendable {
         /// Specifies whether Amazon Web Services Glue lineage sync is enabled for a connection.
+        public var glueLineageSyncEnabled: Swift.Bool?
+
+        public init(
+            glueLineageSyncEnabled: Swift.Bool? = nil
+        ) {
+            self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The lakehouse properties of a connection properties patch.
+    public struct LakehousePropertiesPatch: Swift.Sendable {
+        /// Specifies whether to enable Glue lineage sync for tables managed by Glue crawlers.
         public var glueLineageSyncEnabled: Swift.Bool?
 
         public init(
@@ -5968,6 +6017,8 @@ extension DataZoneClientTypes {
         case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesPatch)
         /// The MLflow properties of a connection.
         case mlflowproperties(DataZoneClientTypes.MlflowPropertiesPatch)
+        /// The lakehouse properties of a connection properties patch.
+        case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesPatch)
         case sdkUnknown(Swift.String)
     }
 }
@@ -35756,6 +35807,8 @@ extension DataZoneClientTypes.ConnectionPropertiesInput {
                 try writer["hyperPodProperties"].write(hyperpodproperties, with: DataZoneClientTypes.HyperPodPropertiesInput.write(value:to:))
             case let .iamproperties(iamproperties):
                 try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesInput.write(value:to:))
+            case let .lakehouseproperties(lakehouseproperties):
+                try writer["lakehouseProperties"].write(lakehouseproperties, with: DataZoneClientTypes.LakehousePropertiesInput.write(value:to:))
             case let .mlflowproperties(mlflowproperties):
                 try writer["mlflowProperties"].write(mlflowproperties, with: DataZoneClientTypes.MlflowPropertiesInput.write(value:to:))
             case let .redshiftproperties(redshiftproperties):
@@ -35806,6 +35859,8 @@ extension DataZoneClientTypes.ConnectionPropertiesOutput {
                 return .workflowsmwaaproperties(try reader["workflowsMwaaProperties"].read(with: DataZoneClientTypes.WorkflowsMwaaPropertiesOutput.read(from:)))
             case "workflowsServerlessProperties":
                 return .workflowsserverlessproperties(try reader["workflowsServerlessProperties"].read(with: DataZoneClientTypes.WorkflowsServerlessPropertiesOutput.read(from:)))
+            case "lakehouseProperties":
+                return .lakehouseproperties(try reader["lakehouseProperties"].read(with: DataZoneClientTypes.LakehousePropertiesOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -35825,6 +35880,8 @@ extension DataZoneClientTypes.ConnectionPropertiesPatch {
                 try writer["glueProperties"].write(glueproperties, with: DataZoneClientTypes.GluePropertiesPatch.write(value:to:))
             case let .iamproperties(iamproperties):
                 try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesPatch.write(value:to:))
+            case let .lakehouseproperties(lakehouseproperties):
+                try writer["lakehouseProperties"].write(lakehouseproperties, with: DataZoneClientTypes.LakehousePropertiesPatch.write(value:to:))
             case let .mlflowproperties(mlflowproperties):
                 try writer["mlflowProperties"].write(mlflowproperties, with: DataZoneClientTypes.MlflowPropertiesPatch.write(value:to:))
             case let .redshiftproperties(redshiftproperties):
@@ -37372,6 +37429,32 @@ extension DataZoneClientTypes.LakeFormationConfiguration {
         value.locationRegistrationRole = try reader["locationRegistrationRole"].readIfPresent()
         value.locationRegistrationExcludeS3Locations = try reader["locationRegistrationExcludeS3Locations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension DataZoneClientTypes.LakehousePropertiesInput {
+
+    static func write(value: DataZoneClientTypes.LakehousePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["glueLineageSyncEnabled"].write(value.glueLineageSyncEnabled)
+    }
+}
+
+extension DataZoneClientTypes.LakehousePropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LakehousePropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LakehousePropertiesOutput()
+        value.glueLineageSyncEnabled = try reader["glueLineageSyncEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LakehousePropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.LakehousePropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["glueLineageSyncEnabled"].write(value.glueLineageSyncEnabled)
     }
 }
 
