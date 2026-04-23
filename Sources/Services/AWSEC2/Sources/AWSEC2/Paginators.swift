@@ -1458,6 +1458,7 @@ extension DescribeInstancesInput: ClientRuntime.PaginateToken {
         return DescribeInstancesInput(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             instanceIds: self.instanceIds,
             maxResults: self.maxResults,
             nextToken: token
@@ -1492,6 +1493,7 @@ extension DescribeInstanceStatusInput: ClientRuntime.PaginateToken {
             dryRun: self.dryRun,
             filters: self.filters,
             includeAllInstances: self.includeAllInstances,
+            includeManagedResources: self.includeManagedResources,
             instanceIds: self.instanceIds,
             maxResults: self.maxResults,
             nextToken: token
@@ -1923,6 +1925,7 @@ extension DescribeLaunchTemplatesInput: ClientRuntime.PaginateToken {
         return DescribeLaunchTemplatesInput(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             launchTemplateIds: self.launchTemplateIds,
             launchTemplateNames: self.launchTemplateNames,
             maxResults: self.maxResults,
@@ -1957,6 +1960,7 @@ extension DescribeLaunchTemplateVersionsInput: ClientRuntime.PaginateToken {
         return DescribeLaunchTemplateVersionsInput(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             launchTemplateId: self.launchTemplateId,
             launchTemplateName: self.launchTemplateName,
             maxResults: self.maxResults,
@@ -2560,6 +2564,7 @@ extension DescribeNetworkInterfacesInput: ClientRuntime.PaginateToken {
         return DescribeNetworkInterfacesInput(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             maxResults: self.maxResults,
             networkInterfaceIds: self.networkInterfaceIds,
             nextToken: token
@@ -4128,6 +4133,7 @@ extension DescribeVolumesInput: ClientRuntime.PaginateToken {
         return DescribeVolumesInput(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             maxResults: self.maxResults,
             nextToken: token,
             volumeIds: self.volumeIds
@@ -4194,6 +4200,7 @@ extension DescribeVolumeStatusInput: ClientRuntime.PaginateToken {
         return DescribeVolumeStatusInput(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             maxResults: self.maxResults,
             nextToken: token,
             volumeIds: self.volumeIds

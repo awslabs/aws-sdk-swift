@@ -633,6 +633,50 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    public enum AutoRepairActionsStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoRepairActionsStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The auto repair configuration for an Amazon ECS Managed Instances capacity provider. When enabled, Amazon ECS automatically replaces container instances that are detected as unhealthy based on container instance health checks, including accelerated compute device and daemon health checks.
+    public struct AutoRepairConfiguration: Swift.Sendable {
+        /// The status of auto repair actions for the capacity provider. When set to ENABLED, Amazon ECS automatically replaces container instances with an IMPAIRED health status. When set to DISABLED, Amazon ECS still monitors container instance health but does not automatically replace impaired instances.
+        public var actionsStatus: ECSClientTypes.AutoRepairActionsStatus?
+
+        public init(
+            actionsStatus: ECSClientTypes.AutoRepairActionsStatus? = nil
+        ) {
+            self.actionsStatus = actionsStatus
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The configuration that controls how Amazon ECS optimizes your infrastructure.
     public struct InfrastructureOptimization: Swift.Sendable {
         /// This parameter defines the number of seconds Amazon ECS Managed Instances waits before optimizing EC2 instances that have become idle or underutilized. A longer delay increases the likelihood of placing new tasks on idle or underutilized instances instances, reducing startup time. A shorter delay helps reduce infrastructure costs by optimizing idle or underutilized instances,instances more quickly. Valid values are:
@@ -1358,6 +1402,8 @@ extension ECSClientTypes {
 
     /// The configuration for creating a Amazon ECS Managed Instances provider. This specifies how Amazon ECS should manage Amazon EC2 instances, including the infrastructure role, instance launch template, and whether to propagate tags from the capacity provider to the instances.
     public struct CreateManagedInstancesProviderConfiguration: Swift.Sendable {
+        /// The auto repair configuration for the Amazon ECS Managed Instances capacity provider. Use this to enable or disable automatic replacement of container instances that are detected as unhealthy.
+        public var autoRepairConfiguration: ECSClientTypes.AutoRepairConfiguration?
         /// Defines how Amazon ECS Managed Instances optimizes the infrastastructure in your capacity provider. Provides control over the delay between when EC2 instances become idle or underutilized and when Amazon ECS optimizes them.
         public var infrastructureOptimization: ECSClientTypes.InfrastructureOptimization?
         /// The Amazon Resource Name (ARN) of the infrastructure role that Amazon ECS uses to manage instances on your behalf. This role must have permissions to launch, terminate, and manage Amazon EC2 instances, as well as access to other Amazon Web Services services required for Amazon ECS Managed Instances functionality. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
@@ -1370,11 +1416,13 @@ extension ECSClientTypes {
         public var propagateTags: ECSClientTypes.PropagateMITags?
 
         public init(
+            autoRepairConfiguration: ECSClientTypes.AutoRepairConfiguration? = nil,
             infrastructureOptimization: ECSClientTypes.InfrastructureOptimization? = nil,
             infrastructureRoleArn: Swift.String? = nil,
             instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplate? = nil,
             propagateTags: ECSClientTypes.PropagateMITags? = nil
         ) {
+            self.autoRepairConfiguration = autoRepairConfiguration
             self.infrastructureOptimization = infrastructureOptimization
             self.infrastructureRoleArn = infrastructureRoleArn
             self.instanceLaunchTemplate = instanceLaunchTemplate
@@ -1462,6 +1510,8 @@ extension ECSClientTypes {
 
     /// The configuration for a Amazon ECS Managed Instances provider. Amazon ECS uses this configuration to automatically launch, manage, and terminate Amazon EC2 instances on your behalf. Managed instances provide access to the full range of Amazon EC2 instance types and features while offloading infrastructure management to Amazon Web Services.
     public struct ManagedInstancesProvider: Swift.Sendable {
+        /// The auto repair configuration for the Amazon ECS Managed Instances capacity provider. Indicates whether Amazon ECS automatically replaces container instances that are detected as unhealthy.
+        public var autoRepairConfiguration: ECSClientTypes.AutoRepairConfiguration?
         /// Defines how Amazon ECS Managed Instances optimizes the infrastastructure in your capacity provider. Configure it to turn on or off the infrastructure optimization in your capacity provider, and to control the idle or underutilized EC2 instances optimization delay.
         public var infrastructureOptimization: ECSClientTypes.InfrastructureOptimization?
         /// The Amazon Resource Name (ARN) of the infrastructure role that Amazon ECS assumes to manage instances. This role must include permissions for Amazon EC2 instance lifecycle management, networking, and any additional Amazon Web Services services required for your workloads. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
@@ -1472,11 +1522,13 @@ extension ECSClientTypes {
         public var propagateTags: ECSClientTypes.PropagateMITags?
 
         public init(
+            autoRepairConfiguration: ECSClientTypes.AutoRepairConfiguration? = nil,
             infrastructureOptimization: ECSClientTypes.InfrastructureOptimization? = nil,
             infrastructureRoleArn: Swift.String? = nil,
             instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplate? = nil,
             propagateTags: ECSClientTypes.PropagateMITags? = nil
         ) {
+            self.autoRepairConfiguration = autoRepairConfiguration
             self.infrastructureOptimization = infrastructureOptimization
             self.infrastructureRoleArn = infrastructureRoleArn
             self.instanceLaunchTemplate = instanceLaunchTemplate
@@ -1873,6 +1925,8 @@ extension ECSClientTypes {
 
     /// The updated configuration for a Amazon ECS Managed Instances provider. You can modify the infrastructure role, instance launch template, and tag propagation settings. Changes apply to new instances launched after the update.
     public struct UpdateManagedInstancesProviderConfiguration: Swift.Sendable {
+        /// The updated auto repair configuration for the Amazon ECS Managed Instances capacity provider.
+        public var autoRepairConfiguration: ECSClientTypes.AutoRepairConfiguration?
         /// The updated infrastructure optimization configuration. Changes to this setting affect how Amazon ECS optimizes instances going forward.
         public var infrastructureOptimization: ECSClientTypes.InfrastructureOptimization?
         /// The updated Amazon Resource Name (ARN) of the infrastructure role. The new role must have the necessary permissions to manage instances and access required Amazon Web Services services. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
@@ -1885,11 +1939,13 @@ extension ECSClientTypes {
         public var propagateTags: ECSClientTypes.PropagateMITags?
 
         public init(
+            autoRepairConfiguration: ECSClientTypes.AutoRepairConfiguration? = nil,
             infrastructureOptimization: ECSClientTypes.InfrastructureOptimization? = nil,
             infrastructureRoleArn: Swift.String? = nil,
             instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplateUpdate? = nil,
             propagateTags: ECSClientTypes.PropagateMITags? = nil
         ) {
+            self.autoRepairConfiguration = autoRepairConfiguration
             self.infrastructureOptimization = infrastructureOptimization
             self.infrastructureRoleArn = infrastructureRoleArn
             self.instanceLaunchTemplate = instanceLaunchTemplate
@@ -2701,6 +2757,8 @@ extension ECSClientTypes {
         public var lastUpdated: Foundation.Date?
         /// The container instance health status.
         public var status: ECSClientTypes.InstanceHealthCheckState?
+        /// The reason for the container instance health status.
+        public var statusReason: Swift.String?
         /// The type of container instance health status that was verified.
         public var type: ECSClientTypes.InstanceHealthCheckType?
 
@@ -2708,11 +2766,13 @@ extension ECSClientTypes {
             lastStatusChange: Foundation.Date? = nil,
             lastUpdated: Foundation.Date? = nil,
             status: ECSClientTypes.InstanceHealthCheckState? = nil,
+            statusReason: Swift.String? = nil,
             type: ECSClientTypes.InstanceHealthCheckType? = nil
         ) {
             self.lastStatusChange = lastStatusChange
             self.lastUpdated = lastUpdated
             self.status = status
+            self.statusReason = statusReason
             self.type = type
         }
     }
@@ -18602,6 +18662,21 @@ extension ECSClientTypes.Attribute {
     }
 }
 
+extension ECSClientTypes.AutoRepairConfiguration {
+
+    static func write(value: ECSClientTypes.AutoRepairConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionsStatus"].write(value.actionsStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.AutoRepairConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.AutoRepairConfiguration()
+        value.actionsStatus = try reader["actionsStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension ECSClientTypes.AutoScalingGroupProvider {
 
     static func write(value: ECSClientTypes.AutoScalingGroupProvider?, to writer: SmithyJSON.Writer) throws {
@@ -19083,6 +19158,7 @@ extension ECSClientTypes.CreateManagedInstancesProviderConfiguration {
 
     static func write(value: ECSClientTypes.CreateManagedInstancesProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["autoRepairConfiguration"].write(value.autoRepairConfiguration, with: ECSClientTypes.AutoRepairConfiguration.write(value:to:))
         try writer["infrastructureOptimization"].write(value.infrastructureOptimization, with: ECSClientTypes.InfrastructureOptimization.write(value:to:))
         try writer["infrastructureRoleArn"].write(value.infrastructureRoleArn)
         try writer["instanceLaunchTemplate"].write(value.instanceLaunchTemplate, with: ECSClientTypes.InstanceLaunchTemplate.write(value:to:))
@@ -20089,6 +20165,7 @@ extension ECSClientTypes.InstanceHealthCheckResult {
         var value = ECSClientTypes.InstanceHealthCheckResult()
         value.type = try reader["type"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
         value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastStatusChange = try reader["lastStatusChange"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -20447,6 +20524,7 @@ extension ECSClientTypes.ManagedInstancesProvider {
         value.instanceLaunchTemplate = try reader["instanceLaunchTemplate"].readIfPresent(with: ECSClientTypes.InstanceLaunchTemplate.read(from:))
         value.propagateTags = try reader["propagateTags"].readIfPresent()
         value.infrastructureOptimization = try reader["infrastructureOptimization"].readIfPresent(with: ECSClientTypes.InfrastructureOptimization.read(from:))
+        value.autoRepairConfiguration = try reader["autoRepairConfiguration"].readIfPresent(with: ECSClientTypes.AutoRepairConfiguration.read(from:))
         return value
     }
 }
@@ -21802,6 +21880,7 @@ extension ECSClientTypes.UpdateManagedInstancesProviderConfiguration {
 
     static func write(value: ECSClientTypes.UpdateManagedInstancesProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["autoRepairConfiguration"].write(value.autoRepairConfiguration, with: ECSClientTypes.AutoRepairConfiguration.write(value:to:))
         try writer["infrastructureOptimization"].write(value.infrastructureOptimization, with: ECSClientTypes.InfrastructureOptimization.write(value:to:))
         try writer["infrastructureRoleArn"].write(value.infrastructureRoleArn)
         try writer["instanceLaunchTemplate"].write(value.instanceLaunchTemplate, with: ECSClientTypes.InstanceLaunchTemplateUpdate.write(value:to:))
