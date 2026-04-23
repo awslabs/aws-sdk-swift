@@ -3413,11 +3413,15 @@ extension OpenSearchClientTypes {
     public struct SoftwareUpdateOptions: Swift.Sendable {
         /// Whether automatic service software updates are enabled for the domain.
         public var autoSoftwareUpdateEnabled: Swift.Bool?
+        /// Whether the domain should use the latest service software version during a blue/green deployment. If enabled, the domain will automatically use the latest available service software when a blue/green deployment is triggered.
+        public var useLatestServiceSoftwareForBlueGreen: Swift.Bool?
 
         public init(
-            autoSoftwareUpdateEnabled: Swift.Bool? = nil
+            autoSoftwareUpdateEnabled: Swift.Bool? = nil,
+            useLatestServiceSoftwareForBlueGreen: Swift.Bool? = nil
         ) {
             self.autoSoftwareUpdateEnabled = autoSoftwareUpdateEnabled
+            self.useLatestServiceSoftwareForBlueGreen = useLatestServiceSoftwareForBlueGreen
         }
     }
 }
@@ -9552,6 +9556,58 @@ public struct RevokeVpcEndpointAccessOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Container for the request parameters to the RollbackServiceSoftwareUpdate operation.
+public struct RollbackServiceSoftwareUpdateInput: Swift.Sendable {
+    /// The name of the domain to roll back the service software update on.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Details about the rollback options for a service software update.
+    public struct RollbackServiceSoftwareOptions: Swift.Sendable {
+        /// The current service software version on the domain.
+        public var currentVersion: Swift.String?
+        /// A description of the rollback status.
+        public var description: Swift.String?
+        /// The service software version that the domain will roll back to.
+        public var newVersion: Swift.String?
+        /// Whether a service software rollback is available for the domain.
+        public var rollbackAvailable: Swift.Bool?
+
+        public init(
+            currentVersion: Swift.String? = nil,
+            description: Swift.String? = nil,
+            newVersion: Swift.String? = nil,
+            rollbackAvailable: Swift.Bool? = nil
+        ) {
+            self.currentVersion = currentVersion
+            self.description = description
+            self.newVersion = newVersion
+            self.rollbackAvailable = rollbackAvailable
+        }
+    }
+}
+
+/// Contains details about the rolled-back service software update.
+public struct RollbackServiceSoftwareUpdateOutput: Swift.Sendable {
+    /// The rollback options for the service software update.
+    public var rollbackServiceSoftwareOptions: OpenSearchClientTypes.RollbackServiceSoftwareOptions?
+
+    public init(
+        rollbackServiceSoftwareOptions: OpenSearchClientTypes.RollbackServiceSoftwareOptions? = nil
+    ) {
+        self.rollbackServiceSoftwareOptions = rollbackServiceSoftwareOptions
+    }
+}
+
 /// Container for the parameters to the StartDomainMaintenance operation.
 public struct StartDomainMaintenanceInput: Swift.Sendable {
     /// The name of the action.
@@ -11331,6 +11387,13 @@ extension RevokeVpcEndpointAccessInput {
     }
 }
 
+extension RollbackServiceSoftwareUpdateInput {
+
+    static func urlPathProvider(_ value: RollbackServiceSoftwareUpdateInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/serviceSoftwareUpdate/rollback"
+    }
+}
+
 extension StartDomainMaintenanceInput {
 
     static func urlPathProvider(_ value: StartDomainMaintenanceInput) -> Swift.String? {
@@ -11726,6 +11789,14 @@ extension RevokeVpcEndpointAccessInput {
         guard let value else { return }
         try writer["Account"].write(value.account)
         try writer["Service"].write(value.service)
+    }
+}
+
+extension RollbackServiceSoftwareUpdateInput {
+
+    static func write(value: RollbackServiceSoftwareUpdateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DomainName"].write(value.domainName)
     }
 }
 
@@ -12825,6 +12896,18 @@ extension RevokeVpcEndpointAccessOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RevokeVpcEndpointAccessOutput {
         return RevokeVpcEndpointAccessOutput()
+    }
+}
+
+extension RollbackServiceSoftwareUpdateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RollbackServiceSoftwareUpdateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RollbackServiceSoftwareUpdateOutput()
+        value.rollbackServiceSoftwareOptions = try reader["RollbackServiceSoftwareOptions"].readIfPresent(with: OpenSearchClientTypes.RollbackServiceSoftwareOptions.read(from:))
+        return value
     }
 }
 
@@ -14313,6 +14396,24 @@ enum RemoveTagsOutputError {
 }
 
 enum RevokeVpcEndpointAccessOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RollbackServiceSoftwareUpdateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -16467,6 +16568,19 @@ extension OpenSearchClientTypes.ReservedInstanceOffering {
     }
 }
 
+extension OpenSearchClientTypes.RollbackServiceSoftwareOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.RollbackServiceSoftwareOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.RollbackServiceSoftwareOptions()
+        value.currentVersion = try reader["CurrentVersion"].readIfPresent()
+        value.newVersion = try reader["NewVersion"].readIfPresent()
+        value.rollbackAvailable = try reader["RollbackAvailable"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.S3GlueDataCatalog {
 
     static func write(value: OpenSearchClientTypes.S3GlueDataCatalog?, to writer: SmithyJSON.Writer) throws {
@@ -16651,12 +16765,14 @@ extension OpenSearchClientTypes.SoftwareUpdateOptions {
     static func write(value: OpenSearchClientTypes.SoftwareUpdateOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AutoSoftwareUpdateEnabled"].write(value.autoSoftwareUpdateEnabled)
+        try writer["UseLatestServiceSoftwareForBlueGreen"].write(value.useLatestServiceSoftwareForBlueGreen)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.SoftwareUpdateOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.SoftwareUpdateOptions()
         value.autoSoftwareUpdateEnabled = try reader["AutoSoftwareUpdateEnabled"].readIfPresent()
+        value.useLatestServiceSoftwareForBlueGreen = try reader["UseLatestServiceSoftwareForBlueGreen"].readIfPresent()
         return value
     }
 }

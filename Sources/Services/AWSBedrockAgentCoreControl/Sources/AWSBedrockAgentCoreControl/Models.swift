@@ -9,6 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import SmithyJSON
 import class ClientRuntime.Indirect
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
@@ -5502,15 +5503,19 @@ extension BedrockAgentCoreControlClientTypes {
         public var listingMode: BedrockAgentCoreControlClientTypes.ListingMode?
         /// The tool schema configuration for the MCP server target. Supported only when the credential provider is configured with an authorization code grant type. Dynamic tool discovery/synchronization will be disabled when target is configured with mcpToolSchema.
         public var mcpToolSchema: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration?
+        /// Priority for resolving MCP server targets with shared resource URIs. Lower values take precedence. Defaults to 1000 when not set.
+        public var resourcePriority: Swift.Int?
 
         public init(
             endpoint: Swift.String? = nil,
             listingMode: BedrockAgentCoreControlClientTypes.ListingMode? = nil,
-            mcpToolSchema: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration? = nil
+            mcpToolSchema: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration? = nil,
+            resourcePriority: Swift.Int? = nil
         ) {
             self.endpoint = endpoint
             self.listingMode = listingMode
             self.mcpToolSchema = mcpToolSchema
+            self.resourcePriority = resourcePriority
         }
     }
 }
@@ -5728,6 +5733,8 @@ extension BedrockAgentCoreControlClientTypes {
         /// The name of the target.
         /// This member is required.
         public var name: Swift.String?
+        /// Priority for resolving resource URI conflicts across targets. Lower values take precedence. Defaults to 1000 when not set.
+        public var resourcePriority: Swift.Int?
         /// The current status of the target.
         /// This member is required.
         public var status: BedrockAgentCoreControlClientTypes.TargetStatus?
@@ -5742,6 +5749,7 @@ extension BedrockAgentCoreControlClientTypes {
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
+            resourcePriority: Swift.Int? = nil,
             status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
             targetId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
@@ -5749,6 +5757,7 @@ extension BedrockAgentCoreControlClientTypes {
             self.createdAt = createdAt
             self.description = description
             self.name = name
+            self.resourcePriority = resourcePriority
             self.status = status
             self.targetId = targetId
             self.updatedAt = updatedAt
@@ -5758,7 +5767,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.TargetSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TargetSummary(createdAt: \(Swift.String(describing: createdAt)), status: \(Swift.String(describing: status)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "TargetSummary(createdAt: \(Swift.String(describing: createdAt)), resourcePriority: \(Swift.String(describing: resourcePriority)), status: \(Swift.String(describing: status)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListGatewayTargetsOutput: Swift.Sendable {
@@ -5896,6 +5905,1118 @@ public struct GetTokenVaultOutput: Swift.Sendable {
         self.kmsConfiguration = kmsConfiguration
         self.lastModifiedDate = lastModifiedDate
         self.tokenVaultId = tokenVaultId
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The AgentCore Runtime environment request configuration.
+    public struct HarnessAgentCoreRuntimeEnvironmentRequest: Swift.Sendable {
+        /// The filesystem configurations for the runtime environment.
+        public var filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]?
+        /// LifecycleConfiguration lets you manage the lifecycle of runtime sessions and resources in AgentCore Runtime. This configuration helps optimize resource utilization by automatically cleaning up idle sessions and preventing long-running instances from consuming resources indefinitely.
+        public var lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?
+        /// SecurityConfig for the Agent.
+        public var networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration?
+
+        public init(
+            filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]? = nil,
+            lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration? = nil,
+            networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration? = nil
+        ) {
+            self.filesystemConfigurations = filesystemConfigurations
+            self.lifecycleConfiguration = lifecycleConfiguration
+            self.networkConfiguration = networkConfiguration
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The environment provider request configuration.
+    public enum HarnessEnvironmentProviderRequest: Swift.Sendable {
+        /// The AgentCore Runtime environment configuration.
+        case agentcoreruntimeenvironment(BedrockAgentCoreControlClientTypes.HarnessAgentCoreRuntimeEnvironmentRequest)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The environment artifact for a harness, such as a container image containing custom dependencies.
+    public enum HarnessEnvironmentArtifact: Swift.Sendable {
+        /// Representation of a container configuration.
+        case containerconfiguration(BedrockAgentCoreControlClientTypes.ContainerConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for memory retrieval within a namespace.
+    public struct HarnessAgentCoreMemoryRetrievalConfig: Swift.Sendable {
+        /// The minimum relevance score for retrieved memories.
+        public var relevanceScore: Swift.Float?
+        /// The ID of the retrieval strategy to use.
+        public var strategyId: Swift.String?
+        /// The maximum number of memory entries to retrieve.
+        public var topk: Swift.Int?
+
+        public init(
+            relevanceScore: Swift.Float? = nil,
+            strategyId: Swift.String? = nil,
+            topk: Swift.Int? = nil
+        ) {
+            self.relevanceScore = relevanceScore
+            self.strategyId = strategyId
+            self.topk = topk
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for AgentCore Memory integration.
+    public struct HarnessAgentCoreMemoryConfiguration: Swift.Sendable {
+        /// The actor ID for memory operations.
+        public var actorId: Swift.String?
+        /// The ARN of the AgentCore Memory resource.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The number of messages to retrieve from memory.
+        public var messagesCount: Swift.Int?
+        /// The retrieval configuration for long-term memory, mapping namespace path templates to retrieval settings.
+        public var retrievalConfig: [Swift.String: BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryRetrievalConfig]?
+
+        public init(
+            actorId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            messagesCount: Swift.Int? = nil,
+            retrievalConfig: [Swift.String: BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryRetrievalConfig]? = nil
+        ) {
+            self.actorId = actorId
+            self.arn = arn
+            self.messagesCount = messagesCount
+            self.retrievalConfig = retrievalConfig
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The memory configuration for a harness.
+    public enum HarnessMemoryConfiguration: Swift.Sendable {
+        /// The AgentCore Memory configuration.
+        case agentcorememoryconfiguration(BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for an Amazon Bedrock model provider.
+    public struct HarnessBedrockModelConfig: Swift.Sendable {
+        /// The maximum number of tokens to allow in the generated response per iteration.
+        public var maxTokens: Swift.Int?
+        /// The Bedrock model ID.
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The temperature to set when calling the model.
+        public var temperature: Swift.Float?
+        /// The topP set when calling the model.
+        public var topp: Swift.Float?
+
+        public init(
+            maxTokens: Swift.Int? = nil,
+            modelId: Swift.String? = nil,
+            temperature: Swift.Float? = nil,
+            topp: Swift.Float? = nil
+        ) {
+            self.maxTokens = maxTokens
+            self.modelId = modelId
+            self.temperature = temperature
+            self.topp = topp
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for a Google Gemini model provider. Requires an API key stored in AgentCore Identity.
+    public struct HarnessGeminiModelConfig: Swift.Sendable {
+        /// The ARN of your Gemini API key on AgentCore Identity.
+        /// This member is required.
+        public var apiKeyArn: Swift.String?
+        /// The maximum number of tokens to allow in the generated response per iteration.
+        public var maxTokens: Swift.Int?
+        /// The Gemini model ID.
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The temperature to set when calling the model.
+        public var temperature: Swift.Float?
+        /// The topK set when calling the model.
+        public var topk: Swift.Int?
+        /// The topP set when calling the model.
+        public var topp: Swift.Float?
+
+        public init(
+            apiKeyArn: Swift.String? = nil,
+            maxTokens: Swift.Int? = nil,
+            modelId: Swift.String? = nil,
+            temperature: Swift.Float? = nil,
+            topk: Swift.Int? = nil,
+            topp: Swift.Float? = nil
+        ) {
+            self.apiKeyArn = apiKeyArn
+            self.maxTokens = maxTokens
+            self.modelId = modelId
+            self.temperature = temperature
+            self.topk = topk
+            self.topp = topp
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for an OpenAI model provider. Requires an API key stored in AgentCore Identity.
+    public struct HarnessOpenAiModelConfig: Swift.Sendable {
+        /// The ARN of your OpenAI API key on AgentCore Identity.
+        /// This member is required.
+        public var apiKeyArn: Swift.String?
+        /// The maximum number of tokens to allow in the generated response per iteration.
+        public var maxTokens: Swift.Int?
+        /// The OpenAI model ID.
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The temperature to set when calling the model.
+        public var temperature: Swift.Float?
+        /// The topP set when calling the model.
+        public var topp: Swift.Float?
+
+        public init(
+            apiKeyArn: Swift.String? = nil,
+            maxTokens: Swift.Int? = nil,
+            modelId: Swift.String? = nil,
+            temperature: Swift.Float? = nil,
+            topp: Swift.Float? = nil
+        ) {
+            self.apiKeyArn = apiKeyArn
+            self.maxTokens = maxTokens
+            self.modelId = modelId
+            self.temperature = temperature
+            self.topp = topp
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Specification of which model to use.
+    public enum HarnessModelConfiguration: Swift.Sendable {
+        /// Configuration for an Amazon Bedrock model.
+        case bedrockmodelconfig(BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig)
+        /// Configuration for an OpenAI model.
+        case openaimodelconfig(BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig)
+        /// Configuration for a Google Gemini model.
+        case geminimodelconfig(BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A skill available to the agent.
+    public enum HarnessSkill: Swift.Sendable {
+        /// The filesystem path to the skill definition.
+        case path(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A content block in the system prompt.
+    public enum HarnessSystemContentBlock: Swift.Sendable {
+        /// The text content of the system prompt block.
+        case text(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for AgentCore Browser.
+    public struct HarnessAgentCoreBrowserConfig: Swift.Sendable {
+        /// If not populated, the built-in Browser ARN is used.
+        public var browserArn: Swift.String?
+
+        public init(
+            browserArn: Swift.String? = nil
+        ) {
+            self.browserArn = browserArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for AgentCore Code Interpreter.
+    public struct HarnessAgentCoreCodeInterpreterConfig: Swift.Sendable {
+        /// If not populated, the built-in Code Interpreter ARN is used.
+        public var codeInterpreterArn: Swift.String?
+
+        public init(
+            codeInterpreterArn: Swift.String? = nil
+        ) {
+            self.codeInterpreterArn = codeInterpreterArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public struct Unit: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Authentication method for calling a Gateway.
+    public enum HarnessGatewayOutboundAuth: Swift.Sendable {
+        /// SigV4-sign requests using the agent's execution role.
+        case awsiam(BedrockAgentCoreControlClientTypes.Unit)
+        /// No authentication.
+        case `none`(BedrockAgentCoreControlClientTypes.Unit)
+        /// An OAuth credential provider for gateway authentication. This structure contains the configuration for authenticating with the target endpoint using OAuth.
+        case oauth(BedrockAgentCoreControlClientTypes.OAuthCredentialProvider)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for AgentCore Gateway.
+    public struct HarnessAgentCoreGatewayConfig: Swift.Sendable {
+        /// The ARN of the desired AgentCore Gateway.
+        /// This member is required.
+        public var gatewayArn: Swift.String?
+        /// How Loopy authenticates to this Gateway. Defaults to AWS_IAM (SigV4) if omitted.
+        public var outboundAuth: BedrockAgentCoreControlClientTypes.HarnessGatewayOutboundAuth?
+
+        public init(
+            gatewayArn: Swift.String? = nil,
+            outboundAuth: BedrockAgentCoreControlClientTypes.HarnessGatewayOutboundAuth? = nil
+        ) {
+            self.gatewayArn = gatewayArn
+            self.outboundAuth = outboundAuth
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for an inline function tool. When the agent calls this tool, the tool call is returned to the caller for external execution.
+    public struct HarnessInlineFunctionConfig: Swift.Sendable {
+        /// Description of what the tool does, provided to the model.
+        /// This member is required.
+        public var description: Swift.String?
+        /// JSON Schema describing the tool's input parameters.
+        /// This member is required.
+        public var inputSchema: Smithy.Document?
+
+        public init(
+            description: Swift.String? = nil,
+            inputSchema: Smithy.Document? = nil
+        ) {
+            self.description = description
+            self.inputSchema = inputSchema
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessInlineFunctionConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HarnessInlineFunctionConfig(description: \"CONTENT_REDACTED\", inputSchema: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for connecting to a remote MCP server.
+    public struct HarnessRemoteMcpConfig: Swift.Sendable {
+        /// Map of key/value pairs for HTTP headers.
+        public var headers: [Swift.String: Swift.String]?
+        /// URL of the MCP endpoint.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            headers: [Swift.String: Swift.String]? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.headers = headers
+            self.url = url
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessRemoteMcpConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HarnessRemoteMcpConfig(headers: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration union for different tool types.
+    public enum HarnessToolConfiguration: Swift.Sendable {
+        /// Configuration for remote MCP server.
+        case remotemcp(BedrockAgentCoreControlClientTypes.HarnessRemoteMcpConfig)
+        /// Configuration for AgentCore Browser.
+        case agentcorebrowser(BedrockAgentCoreControlClientTypes.HarnessAgentCoreBrowserConfig)
+        /// Configuration for AgentCore Gateway.
+        case agentcoregateway(BedrockAgentCoreControlClientTypes.HarnessAgentCoreGatewayConfig)
+        /// Configuration for an inline function tool.
+        case inlinefunction(BedrockAgentCoreControlClientTypes.HarnessInlineFunctionConfig)
+        /// Configuration for AgentCore Code Interpreter.
+        case agentcorecodeinterpreter(BedrockAgentCoreControlClientTypes.HarnessAgentCoreCodeInterpreterConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum HarnessToolType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentcoreBrowser
+        case agentcoreCodeInterpreter
+        case agentcoreGateway
+        case inlineFunction
+        case remoteMcp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessToolType] {
+            return [
+                .agentcoreBrowser,
+                .agentcoreCodeInterpreter,
+                .agentcoreGateway,
+                .inlineFunction,
+                .remoteMcp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentcoreBrowser: return "agentcore_browser"
+            case .agentcoreCodeInterpreter: return "agentcore_code_interpreter"
+            case .agentcoreGateway: return "agentcore_gateway"
+            case .inlineFunction: return "inline_function"
+            case .remoteMcp: return "remote_mcp"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A tool available to the agent loop.
+    public struct HarnessTool: Swift.Sendable {
+        /// Tool-specific configuration.
+        public var config: BedrockAgentCoreControlClientTypes.HarnessToolConfiguration?
+        /// Unique name for the tool. If not provided, a name will be inferred or generated.
+        public var name: Swift.String?
+        /// The type of tool.
+        /// This member is required.
+        public var type: BedrockAgentCoreControlClientTypes.HarnessToolType?
+
+        public init(
+            config: BedrockAgentCoreControlClientTypes.HarnessToolConfiguration? = nil,
+            name: Swift.String? = nil,
+            type: BedrockAgentCoreControlClientTypes.HarnessToolType? = nil
+        ) {
+            self.config = config
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for sliding window truncation strategy.
+    public struct HarnessSlidingWindowConfiguration: Swift.Sendable {
+        /// The number of recent messages to retain in the context window.
+        public var messagesCount: Swift.Int?
+
+        public init(
+            messagesCount: Swift.Int? = nil
+        ) {
+            self.messagesCount = messagesCount
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for summarization-based truncation strategy.
+    public struct HarnessSummarizationConfiguration: Swift.Sendable {
+        /// The number of recent messages to preserve without summarization.
+        public var preserveRecentMessages: Swift.Int?
+        /// The system prompt used for generating summaries.
+        public var summarizationSystemPrompt: Swift.String?
+        /// The ratio of content to summarize.
+        public var summaryRatio: Swift.Float?
+
+        public init(
+            preserveRecentMessages: Swift.Int? = nil,
+            summarizationSystemPrompt: Swift.String? = nil,
+            summaryRatio: Swift.Float? = nil
+        ) {
+            self.preserveRecentMessages = preserveRecentMessages
+            self.summarizationSystemPrompt = summarizationSystemPrompt
+            self.summaryRatio = summaryRatio
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Strategy-specific truncation configuration.
+    public enum HarnessTruncationStrategyConfiguration: Swift.Sendable {
+        /// Configuration for sliding window truncation.
+        case slidingwindow(BedrockAgentCoreControlClientTypes.HarnessSlidingWindowConfiguration)
+        /// Configuration for summarization-based truncation.
+        case summarization(BedrockAgentCoreControlClientTypes.HarnessSummarizationConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum HarnessTruncationStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case slidingWindow
+        case summarization
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessTruncationStrategy] {
+            return [
+                .none,
+                .slidingWindow,
+                .summarization
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "none"
+            case .slidingWindow: return "sliding_window"
+            case .summarization: return "summarization"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for truncating conversation context when it exceeds model limits.
+    public struct HarnessTruncationConfiguration: Swift.Sendable {
+        /// The strategy-specific configuration.
+        public var config: BedrockAgentCoreControlClientTypes.HarnessTruncationStrategyConfiguration?
+        /// The truncation strategy to use.
+        /// This member is required.
+        public var strategy: BedrockAgentCoreControlClientTypes.HarnessTruncationStrategy?
+
+        public init(
+            config: BedrockAgentCoreControlClientTypes.HarnessTruncationStrategyConfiguration? = nil,
+            strategy: BedrockAgentCoreControlClientTypes.HarnessTruncationStrategy? = nil
+        ) {
+            self.config = config
+            self.strategy = strategy
+        }
+    }
+}
+
+public struct CreateHarnessInput: Swift.Sendable {
+    /// The tools that the agent is allowed to use. Supports glob patterns such as * for all tools, @builtin for all built-in tools, or @serverName/toolName for specific MCP server tools.
+    public var allowedTools: [Swift.String]?
+    /// Represents inbound authorization configuration options used to authenticate incoming requests.
+    public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The compute environment configuration for the harness, including network and lifecycle settings.
+    public var environment: BedrockAgentCoreControlClientTypes.HarnessEnvironmentProviderRequest?
+    /// The environment artifact for the harness, such as a custom container image containing additional dependencies.
+    public var environmentArtifact: BedrockAgentCoreControlClientTypes.HarnessEnvironmentArtifact?
+    /// Environment variables to set in the harness runtime environment.
+    public var environmentVariables: [Swift.String: Swift.String]?
+    /// The ARN of the IAM role that the harness assumes when running. This role must have permissions for the services the agent needs to access, such as Amazon Bedrock for model invocation.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The name of the harness. Must start with a letter and contain only alphanumeric characters and underscores.
+    /// This member is required.
+    public var harnessName: Swift.String?
+    /// The maximum number of iterations the agent loop can execute per invocation.
+    public var maxIterations: Swift.Int?
+    /// The maximum number of tokens the agent can generate per iteration.
+    public var maxTokens: Swift.Int?
+    /// The AgentCore Memory configuration for persisting conversation context across sessions.
+    public var memory: BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration?
+    /// The model configuration for the harness. Supports Amazon Bedrock, OpenAI, and Google Gemini model providers.
+    public var model: BedrockAgentCoreControlClientTypes.HarnessModelConfiguration?
+    /// The skills available to the agent. Skills are bundles of files that the agent can pull into its context on demand.
+    public var skills: [BedrockAgentCoreControlClientTypes.HarnessSkill]?
+    /// The system prompt that defines the agent's behavior and instructions.
+    public var systemPrompt: [BedrockAgentCoreControlClientTypes.HarnessSystemContentBlock]?
+    /// Tags to apply to the harness resource.
+    public var tags: [Swift.String: Swift.String]?
+    /// The maximum duration in seconds for the agent loop execution per invocation.
+    public var timeoutSeconds: Swift.Int?
+    /// The tools available to the agent, such as remote MCP servers, AgentCore Gateway, AgentCore Browser, Code Interpreter, or inline functions.
+    public var tools: [BedrockAgentCoreControlClientTypes.HarnessTool]?
+    /// The truncation configuration for managing conversation context when it exceeds model limits.
+    public var truncation: BedrockAgentCoreControlClientTypes.HarnessTruncationConfiguration?
+
+    public init(
+        allowedTools: [Swift.String]? = nil,
+        authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
+        clientToken: Swift.String? = nil,
+        environment: BedrockAgentCoreControlClientTypes.HarnessEnvironmentProviderRequest? = nil,
+        environmentArtifact: BedrockAgentCoreControlClientTypes.HarnessEnvironmentArtifact? = nil,
+        environmentVariables: [Swift.String: Swift.String]? = nil,
+        executionRoleArn: Swift.String? = nil,
+        harnessName: Swift.String? = nil,
+        maxIterations: Swift.Int? = nil,
+        maxTokens: Swift.Int? = nil,
+        memory: BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration? = nil,
+        model: BedrockAgentCoreControlClientTypes.HarnessModelConfiguration? = nil,
+        skills: [BedrockAgentCoreControlClientTypes.HarnessSkill]? = nil,
+        systemPrompt: [BedrockAgentCoreControlClientTypes.HarnessSystemContentBlock]? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        timeoutSeconds: Swift.Int? = nil,
+        tools: [BedrockAgentCoreControlClientTypes.HarnessTool]? = nil,
+        truncation: BedrockAgentCoreControlClientTypes.HarnessTruncationConfiguration? = nil
+    ) {
+        self.allowedTools = allowedTools
+        self.authorizerConfiguration = authorizerConfiguration
+        self.clientToken = clientToken
+        self.environment = environment
+        self.environmentArtifact = environmentArtifact
+        self.environmentVariables = environmentVariables
+        self.executionRoleArn = executionRoleArn
+        self.harnessName = harnessName
+        self.maxIterations = maxIterations
+        self.maxTokens = maxTokens
+        self.memory = memory
+        self.model = model
+        self.skills = skills
+        self.systemPrompt = systemPrompt
+        self.tags = tags
+        self.timeoutSeconds = timeoutSeconds
+        self.tools = tools
+        self.truncation = truncation
+    }
+}
+
+extension CreateHarnessInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateHarnessInput(allowedTools: \(Swift.String(describing: allowedTools)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), clientToken: \(Swift.String(describing: clientToken)), environment: \(Swift.String(describing: environment)), environmentArtifact: \(Swift.String(describing: environmentArtifact)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), harnessName: \(Swift.String(describing: harnessName)), maxIterations: \(Swift.String(describing: maxIterations)), maxTokens: \(Swift.String(describing: maxTokens)), memory: \(Swift.String(describing: memory)), model: \(Swift.String(describing: model)), skills: \(Swift.String(describing: skills)), systemPrompt: \(Swift.String(describing: systemPrompt)), tags: \(Swift.String(describing: tags)), timeoutSeconds: \(Swift.String(describing: timeoutSeconds)), tools: \(Swift.String(describing: tools)), truncation: \(Swift.String(describing: truncation)), environmentVariables: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The AgentCore Runtime environment for a harness.
+    public struct HarnessAgentCoreRuntimeEnvironment: Swift.Sendable {
+        /// The ARN of the underlying AgentCore Runtime.
+        /// This member is required.
+        public var agentRuntimeArn: Swift.String?
+        /// The ID of the underlying AgentCore Runtime.
+        /// This member is required.
+        public var agentRuntimeId: Swift.String?
+        /// The name of the underlying AgentCore Runtime.
+        /// This member is required.
+        public var agentRuntimeName: Swift.String?
+        /// The filesystem configurations for the runtime environment.
+        public var filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]?
+        /// LifecycleConfiguration lets you manage the lifecycle of runtime sessions and resources in AgentCore Runtime. This configuration helps optimize resource utilization by automatically cleaning up idle sessions and preventing long-running instances from consuming resources indefinitely.
+        /// This member is required.
+        public var lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?
+        /// SecurityConfig for the Agent.
+        /// This member is required.
+        public var networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration?
+
+        public init(
+            agentRuntimeArn: Swift.String? = nil,
+            agentRuntimeId: Swift.String? = nil,
+            agentRuntimeName: Swift.String? = nil,
+            filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]? = nil,
+            lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration? = nil,
+            networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration? = nil
+        ) {
+            self.agentRuntimeArn = agentRuntimeArn
+            self.agentRuntimeId = agentRuntimeId
+            self.agentRuntimeName = agentRuntimeName
+            self.filesystemConfigurations = filesystemConfigurations
+            self.lifecycleConfiguration = lifecycleConfiguration
+            self.networkConfiguration = networkConfiguration
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The environment provider for a harness.
+    public enum HarnessEnvironmentProvider: Swift.Sendable {
+        /// The AgentCore Runtime environment configuration.
+        case agentcoreruntimeenvironment(BedrockAgentCoreControlClientTypes.HarnessAgentCoreRuntimeEnvironment)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum HarnessStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createFailed
+        case creating
+        case deleteFailed
+        case deleting
+        case ready
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessStatus] {
+            return [
+                .createFailed,
+                .creating,
+                .deleteFailed,
+                .deleting,
+                .ready,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .ready: return "READY"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Representation of a Harness.
+    public struct Harness: Swift.Sendable {
+        /// The allowed tools of the Harness. All tools are allowed by default.
+        /// This member is required.
+        public var allowedTools: [Swift.String]?
+        /// The ARN of the Harness.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Represents inbound authorization configuration options used to authenticate incoming requests.
+        public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
+        /// The createdAt time of the Harness.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The compute environment on which the Harness runs.
+        /// This member is required.
+        public var environment: BedrockAgentCoreControlClientTypes.HarnessEnvironmentProvider?
+        /// The environment artifact (e.g., container) in which the Harness operates.
+        public var environmentArtifact: BedrockAgentCoreControlClientTypes.HarnessEnvironmentArtifact?
+        /// Environment variables exposed in the environment in which the Harness operates.
+        public var environmentVariables: [Swift.String: Swift.String]?
+        /// IAM role the Harness assumes when running.
+        /// This member is required.
+        public var executionRoleArn: Swift.String?
+        /// Reason why create or update operations fail.
+        public var failureReason: Swift.String?
+        /// The ID of the Harness.
+        /// This member is required.
+        public var harnessId: Swift.String?
+        /// The name of the Harness.
+        /// This member is required.
+        public var harnessName: Swift.String?
+        /// The maximum number of iterations in the agent loop allowed before exiting per invocation.
+        public var maxIterations: Swift.Int?
+        /// The maximum number of tokens allowed before exiting per invocation.
+        public var maxTokens: Swift.Int?
+        /// AgentCore Memory instance configuration for short and long term memory.
+        public var memory: BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration?
+        /// The configuration of the default model used by the Harness.
+        /// This member is required.
+        public var model: BedrockAgentCoreControlClientTypes.HarnessModelConfiguration?
+        /// The skills of the Harness.
+        /// This member is required.
+        public var skills: [BedrockAgentCoreControlClientTypes.HarnessSkill]?
+        /// The status of the Harness.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.HarnessStatus?
+        /// The system prompt of the Harness.
+        /// This member is required.
+        public var systemPrompt: [BedrockAgentCoreControlClientTypes.HarnessSystemContentBlock]?
+        /// The maximum duration per invocation.
+        public var timeoutSeconds: Swift.Int?
+        /// The tools of the Harness.
+        /// This member is required.
+        public var tools: [BedrockAgentCoreControlClientTypes.HarnessTool]?
+        /// Configuration for truncating model context.
+        /// This member is required.
+        public var truncation: BedrockAgentCoreControlClientTypes.HarnessTruncationConfiguration?
+        /// The updatedAt time of the Harness.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            allowedTools: [Swift.String]? = nil,
+            arn: Swift.String? = nil,
+            authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
+            createdAt: Foundation.Date? = nil,
+            environment: BedrockAgentCoreControlClientTypes.HarnessEnvironmentProvider? = nil,
+            environmentArtifact: BedrockAgentCoreControlClientTypes.HarnessEnvironmentArtifact? = nil,
+            environmentVariables: [Swift.String: Swift.String]? = nil,
+            executionRoleArn: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            harnessId: Swift.String? = nil,
+            harnessName: Swift.String? = nil,
+            maxIterations: Swift.Int? = nil,
+            maxTokens: Swift.Int? = nil,
+            memory: BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration? = nil,
+            model: BedrockAgentCoreControlClientTypes.HarnessModelConfiguration? = nil,
+            skills: [BedrockAgentCoreControlClientTypes.HarnessSkill]? = nil,
+            status: BedrockAgentCoreControlClientTypes.HarnessStatus? = nil,
+            systemPrompt: [BedrockAgentCoreControlClientTypes.HarnessSystemContentBlock]? = nil,
+            timeoutSeconds: Swift.Int? = nil,
+            tools: [BedrockAgentCoreControlClientTypes.HarnessTool]? = nil,
+            truncation: BedrockAgentCoreControlClientTypes.HarnessTruncationConfiguration? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.allowedTools = allowedTools
+            self.arn = arn
+            self.authorizerConfiguration = authorizerConfiguration
+            self.createdAt = createdAt
+            self.environment = environment
+            self.environmentArtifact = environmentArtifact
+            self.environmentVariables = environmentVariables
+            self.executionRoleArn = executionRoleArn
+            self.failureReason = failureReason
+            self.harnessId = harnessId
+            self.harnessName = harnessName
+            self.maxIterations = maxIterations
+            self.maxTokens = maxTokens
+            self.memory = memory
+            self.model = model
+            self.skills = skills
+            self.status = status
+            self.systemPrompt = systemPrompt
+            self.timeoutSeconds = timeoutSeconds
+            self.tools = tools
+            self.truncation = truncation
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Harness: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Harness(allowedTools: \(Swift.String(describing: allowedTools)), arn: \(Swift.String(describing: arn)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), createdAt: \(Swift.String(describing: createdAt)), environment: \(Swift.String(describing: environment)), environmentArtifact: \(Swift.String(describing: environmentArtifact)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), failureReason: \(Swift.String(describing: failureReason)), harnessId: \(Swift.String(describing: harnessId)), harnessName: \(Swift.String(describing: harnessName)), maxIterations: \(Swift.String(describing: maxIterations)), maxTokens: \(Swift.String(describing: maxTokens)), memory: \(Swift.String(describing: memory)), model: \(Swift.String(describing: model)), skills: \(Swift.String(describing: skills)), status: \(Swift.String(describing: status)), systemPrompt: \(Swift.String(describing: systemPrompt)), timeoutSeconds: \(Swift.String(describing: timeoutSeconds)), tools: \(Swift.String(describing: tools)), truncation: \(Swift.String(describing: truncation)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateHarnessOutput: Swift.Sendable {
+    /// The harness that was created.
+    /// This member is required.
+    public var harness: BedrockAgentCoreControlClientTypes.Harness?
+
+    public init(
+        harness: BedrockAgentCoreControlClientTypes.Harness? = nil
+    ) {
+        self.harness = harness
+    }
+}
+
+public struct DeleteHarnessInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ID of the harness to delete.
+    /// This member is required.
+    public var harnessId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        harnessId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.harnessId = harnessId
+    }
+}
+
+public struct DeleteHarnessOutput: Swift.Sendable {
+    /// The harness that was deleted.
+    public var harness: BedrockAgentCoreControlClientTypes.Harness?
+
+    public init(
+        harness: BedrockAgentCoreControlClientTypes.Harness? = nil
+    ) {
+        self.harness = harness
+    }
+}
+
+public struct GetHarnessInput: Swift.Sendable {
+    /// The ID of the harness to retrieve.
+    /// This member is required.
+    public var harnessId: Swift.String?
+
+    public init(
+        harnessId: Swift.String? = nil
+    ) {
+        self.harnessId = harnessId
+    }
+}
+
+public struct GetHarnessOutput: Swift.Sendable {
+    /// The harness resource.
+    /// This member is required.
+    public var harness: BedrockAgentCoreControlClientTypes.Harness?
+
+    public init(
+        harness: BedrockAgentCoreControlClientTypes.Harness? = nil
+    ) {
+        self.harness = harness
+    }
+}
+
+public struct ListHarnessesInput: Swift.Sendable {
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Summary information about a harness.
+    public struct HarnessSummary: Swift.Sendable {
+        /// The ARN of the harness.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The timestamp when the harness was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The ID of the harness.
+        /// This member is required.
+        public var harnessId: Swift.String?
+        /// The name of the harness.
+        /// This member is required.
+        public var harnessName: Swift.String?
+        /// The current status of the harness.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.HarnessStatus?
+        /// The timestamp when the harness was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            harnessId: Swift.String? = nil,
+            harnessName: Swift.String? = nil,
+            status: BedrockAgentCoreControlClientTypes.HarnessStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.harnessId = harnessId
+            self.harnessName = harnessName
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListHarnessesOutput: Swift.Sendable {
+    /// The list of harness summaries.
+    /// This member is required.
+    public var harnesses: [BedrockAgentCoreControlClientTypes.HarnessSummary]?
+    /// The token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        harnesses: [BedrockAgentCoreControlClientTypes.HarnessSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.harnesses = harnesses
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating an optional AuthorizerConfiguration field with PATCH semantics. When present in an update request, the authorizer configuration is replaced with optionalValue. When absent, the authorizer configuration is left unchanged. To unset, include the wrapper with optionalValue not specified.
+    public struct UpdatedAuthorizerConfiguration: Swift.Sendable {
+        /// The updated authorizer configuration value. If not specified, it will clear the current authorizer configuration of the resource.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating the environment artifact configuration.
+    public struct UpdatedHarnessEnvironmentArtifact: Swift.Sendable {
+        /// The updated environment artifact value, or null to clear the existing configuration.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.HarnessEnvironmentArtifact?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.HarnessEnvironmentArtifact? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Wrapper for updating the memory configuration.
+    public struct UpdatedHarnessMemoryConfiguration: Swift.Sendable {
+        /// The updated memory configuration value, or null to clear the existing configuration.
+        public var optionalValue: BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration?
+
+        public init(
+            optionalValue: BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+public struct UpdateHarnessInput: Swift.Sendable {
+    /// The tools that the agent is allowed to use. If specified, this replaces all existing allowed tools. If not specified, the existing value is retained.
+    public var allowedTools: [Swift.String]?
+    /// Wrapper for updating an optional AuthorizerConfiguration field with PATCH semantics. When present in an update request, the authorizer configuration is replaced with optionalValue. When absent, the authorizer configuration is left unchanged. To unset, include the wrapper with optionalValue not specified.
+    public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.UpdatedAuthorizerConfiguration?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The compute environment configuration for the harness. If not specified, the existing value is retained.
+    public var environment: BedrockAgentCoreControlClientTypes.HarnessEnvironmentProviderRequest?
+    /// The environment artifact for the harness. Use the optionalValue wrapper to set a new value, or set it to null to clear the existing configuration.
+    public var environmentArtifact: BedrockAgentCoreControlClientTypes.UpdatedHarnessEnvironmentArtifact?
+    /// Environment variables to set in the harness runtime environment. If specified, this replaces all existing environment variables. If not specified, the existing value is retained.
+    public var environmentVariables: [Swift.String: Swift.String]?
+    /// The ARN of the IAM role that the harness assumes when running. If not specified, the existing value is retained.
+    public var executionRoleArn: Swift.String?
+    /// The ID of the harness to update.
+    /// This member is required.
+    public var harnessId: Swift.String?
+    /// The maximum number of iterations the agent loop can execute per invocation. If not specified, the existing value is retained.
+    public var maxIterations: Swift.Int?
+    /// The maximum number of tokens the agent can generate per iteration. If not specified, the existing value is retained.
+    public var maxTokens: Swift.Int?
+    /// The AgentCore Memory configuration. Use the optionalValue wrapper to set a new value, or set it to null to clear the existing configuration.
+    public var memory: BedrockAgentCoreControlClientTypes.UpdatedHarnessMemoryConfiguration?
+    /// The model configuration for the harness. If not specified, the existing value is retained.
+    public var model: BedrockAgentCoreControlClientTypes.HarnessModelConfiguration?
+    /// The skills available to the agent. If specified, this replaces all existing skills. If not specified, the existing value is retained.
+    public var skills: [BedrockAgentCoreControlClientTypes.HarnessSkill]?
+    /// The system prompt that defines the agent's behavior. If not specified, the existing value is retained.
+    public var systemPrompt: [BedrockAgentCoreControlClientTypes.HarnessSystemContentBlock]?
+    /// The maximum duration in seconds for the agent loop execution per invocation. If not specified, the existing value is retained.
+    public var timeoutSeconds: Swift.Int?
+    /// The tools available to the agent. If specified, this replaces all existing tools. If not specified, the existing value is retained.
+    public var tools: [BedrockAgentCoreControlClientTypes.HarnessTool]?
+    /// The truncation configuration for managing conversation context. If not specified, the existing value is retained.
+    public var truncation: BedrockAgentCoreControlClientTypes.HarnessTruncationConfiguration?
+
+    public init(
+        allowedTools: [Swift.String]? = nil,
+        authorizerConfiguration: BedrockAgentCoreControlClientTypes.UpdatedAuthorizerConfiguration? = nil,
+        clientToken: Swift.String? = nil,
+        environment: BedrockAgentCoreControlClientTypes.HarnessEnvironmentProviderRequest? = nil,
+        environmentArtifact: BedrockAgentCoreControlClientTypes.UpdatedHarnessEnvironmentArtifact? = nil,
+        environmentVariables: [Swift.String: Swift.String]? = nil,
+        executionRoleArn: Swift.String? = nil,
+        harnessId: Swift.String? = nil,
+        maxIterations: Swift.Int? = nil,
+        maxTokens: Swift.Int? = nil,
+        memory: BedrockAgentCoreControlClientTypes.UpdatedHarnessMemoryConfiguration? = nil,
+        model: BedrockAgentCoreControlClientTypes.HarnessModelConfiguration? = nil,
+        skills: [BedrockAgentCoreControlClientTypes.HarnessSkill]? = nil,
+        systemPrompt: [BedrockAgentCoreControlClientTypes.HarnessSystemContentBlock]? = nil,
+        timeoutSeconds: Swift.Int? = nil,
+        tools: [BedrockAgentCoreControlClientTypes.HarnessTool]? = nil,
+        truncation: BedrockAgentCoreControlClientTypes.HarnessTruncationConfiguration? = nil
+    ) {
+        self.allowedTools = allowedTools
+        self.authorizerConfiguration = authorizerConfiguration
+        self.clientToken = clientToken
+        self.environment = environment
+        self.environmentArtifact = environmentArtifact
+        self.environmentVariables = environmentVariables
+        self.executionRoleArn = executionRoleArn
+        self.harnessId = harnessId
+        self.maxIterations = maxIterations
+        self.maxTokens = maxTokens
+        self.memory = memory
+        self.model = model
+        self.skills = skills
+        self.systemPrompt = systemPrompt
+        self.timeoutSeconds = timeoutSeconds
+        self.tools = tools
+        self.truncation = truncation
+    }
+}
+
+extension UpdateHarnessInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateHarnessInput(allowedTools: \(Swift.String(describing: allowedTools)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), clientToken: \(Swift.String(describing: clientToken)), environment: \(Swift.String(describing: environment)), environmentArtifact: \(Swift.String(describing: environmentArtifact)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), harnessId: \(Swift.String(describing: harnessId)), maxIterations: \(Swift.String(describing: maxIterations)), maxTokens: \(Swift.String(describing: maxTokens)), memory: \(Swift.String(describing: memory)), model: \(Swift.String(describing: model)), skills: \(Swift.String(describing: skills)), systemPrompt: \(Swift.String(describing: systemPrompt)), timeoutSeconds: \(Swift.String(describing: timeoutSeconds)), tools: \(Swift.String(describing: tools)), truncation: \(Swift.String(describing: truncation)), environmentVariables: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateHarnessOutput: Swift.Sendable {
+    /// The updated harness.
+    /// This member is required.
+    public var harness: BedrockAgentCoreControlClientTypes.Harness?
+
+    public init(
+        harness: BedrockAgentCoreControlClientTypes.Harness? = nil
+    ) {
+        self.harness = harness
     }
 }
 
@@ -9137,6 +10258,7 @@ extension BedrockAgentCoreControlClientTypes {
         case createFailed
         case creating
         case deleting
+        case error
         case updateFailed
         case updating
         case sdkUnknown(Swift.String)
@@ -9147,6 +10269,7 @@ extension BedrockAgentCoreControlClientTypes {
                 .createFailed,
                 .creating,
                 .deleting,
+                .error,
                 .updateFailed,
                 .updating
             ]
@@ -9163,6 +10286,7 @@ extension BedrockAgentCoreControlClientTypes {
             case .createFailed: return "CREATE_FAILED"
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
+            case .error: return "ERROR"
             case .updateFailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -12516,21 +13640,6 @@ extension BedrockAgentCoreControlClientTypes {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes {
-
-    /// Wrapper for updating an optional AuthorizerConfiguration field with PATCH semantics. When present in an update request, the authorizer configuration is replaced with optionalValue. When absent, the authorizer configuration is left unchanged. To unset, include the wrapper with optionalValue not specified.
-    public struct UpdatedAuthorizerConfiguration: Swift.Sendable {
-        /// The updated authorizer configuration value. If not specified, it will clear the current authorizer configuration of the resource.
-        public var optionalValue: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
-
-        public init(
-            optionalValue: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil
-        ) {
-            self.optionalValue = optionalValue
-        }
-    }
-}
-
 public struct UpdateRegistryInput: Swift.Sendable {
     /// The updated approval configuration for registry records. The updated configuration only affects new records that move to PENDING_APPROVAL status after the change. Existing records already in PENDING_APPROVAL status are not affected.
     public var approvalConfiguration: BedrockAgentCoreControlClientTypes.UpdatedApprovalConfiguration?
@@ -13553,6 +14662,13 @@ extension CreateGatewayTargetInput {
     }
 }
 
+extension CreateHarnessInput {
+
+    static func urlPathProvider(_ value: CreateHarnessInput) -> Swift.String? {
+        return "/harnesses"
+    }
+}
+
 extension CreateMemoryInput {
 
     static func urlPathProvider(_ value: CreateMemoryInput) -> Swift.String? {
@@ -13768,6 +14884,28 @@ extension DeleteGatewayTargetInput {
     }
 }
 
+extension DeleteHarnessInput {
+
+    static func urlPathProvider(_ value: DeleteHarnessInput) -> Swift.String? {
+        guard let harnessId = value.harnessId else {
+            return nil
+        }
+        return "/harnesses/\(harnessId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteHarnessInput {
+
+    static func queryItemProvider(_ value: DeleteHarnessInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteMemoryInput {
 
     static func urlPathProvider(_ value: DeleteMemoryInput) -> Swift.String? {
@@ -13972,6 +15110,16 @@ extension GetGatewayTargetInput {
             return nil
         }
         return "/gateways/\(gatewayIdentifier.urlPercentEncoding())/targets/\(targetId.urlPercentEncoding())"
+    }
+}
+
+extension GetHarnessInput {
+
+    static func urlPathProvider(_ value: GetHarnessInput) -> Swift.String? {
+        guard let harnessId = value.harnessId else {
+            return nil
+        }
+        return "/harnesses/\(harnessId.urlPercentEncoding())"
     }
 }
 
@@ -14315,6 +15463,29 @@ extension ListGatewayTargetsInput {
 extension ListGatewayTargetsInput {
 
     static func queryItemProvider(_ value: ListGatewayTargetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListHarnessesInput {
+
+    static func urlPathProvider(_ value: ListHarnessesInput) -> Swift.String? {
+        return "/harnesses"
+    }
+}
+
+extension ListHarnessesInput {
+
+    static func queryItemProvider(_ value: ListHarnessesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -14704,6 +15875,16 @@ extension UpdateGatewayTargetInput {
     }
 }
 
+extension UpdateHarnessInput {
+
+    static func urlPathProvider(_ value: UpdateHarnessInput) -> Swift.String? {
+        guard let harnessId = value.harnessId else {
+            return nil
+        }
+        return "/harnesses/\(harnessId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateMemoryInput {
 
     static func urlPathProvider(_ value: UpdateMemoryInput) -> Swift.String? {
@@ -14925,6 +16106,31 @@ extension CreateGatewayTargetInput {
         try writer["name"].write(value.name)
         try writer["privateEndpoint"].write(value.privateEndpoint, with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.write(value:to:))
         try writer["targetConfiguration"].write(value.targetConfiguration, with: BedrockAgentCoreControlClientTypes.TargetConfiguration.write(value:to:))
+    }
+}
+
+extension CreateHarnessInput {
+
+    static func write(value: CreateHarnessInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedTools"].writeList(value.allowedTools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["authorizerConfiguration"].write(value.authorizerConfiguration, with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.write(value:to:))
+        try writer["clientToken"].write(value.clientToken)
+        try writer["environment"].write(value.environment, with: BedrockAgentCoreControlClientTypes.HarnessEnvironmentProviderRequest.write(value:to:))
+        try writer["environmentArtifact"].write(value.environmentArtifact, with: BedrockAgentCoreControlClientTypes.HarnessEnvironmentArtifact.write(value:to:))
+        try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["harnessName"].write(value.harnessName)
+        try writer["maxIterations"].write(value.maxIterations)
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["memory"].write(value.memory, with: BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration.write(value:to:))
+        try writer["model"].write(value.model, with: BedrockAgentCoreControlClientTypes.HarnessModelConfiguration.write(value:to:))
+        try writer["skills"].writeList(value.skills, memberWritingClosure: BedrockAgentCoreControlClientTypes.HarnessSkill.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["systemPrompt"].writeList(value.systemPrompt, memberWritingClosure: BedrockAgentCoreControlClientTypes.HarnessSystemContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["timeoutSeconds"].write(value.timeoutSeconds)
+        try writer["tools"].writeList(value.tools, memberWritingClosure: BedrockAgentCoreControlClientTypes.HarnessTool.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["truncation"].write(value.truncation, with: BedrockAgentCoreControlClientTypes.HarnessTruncationConfiguration.write(value:to:))
     }
 }
 
@@ -15257,6 +16463,29 @@ extension UpdateGatewayTargetInput {
     }
 }
 
+extension UpdateHarnessInput {
+
+    static func write(value: UpdateHarnessInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedTools"].writeList(value.allowedTools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["authorizerConfiguration"].write(value.authorizerConfiguration, with: BedrockAgentCoreControlClientTypes.UpdatedAuthorizerConfiguration.write(value:to:))
+        try writer["clientToken"].write(value.clientToken)
+        try writer["environment"].write(value.environment, with: BedrockAgentCoreControlClientTypes.HarnessEnvironmentProviderRequest.write(value:to:))
+        try writer["environmentArtifact"].write(value.environmentArtifact, with: BedrockAgentCoreControlClientTypes.UpdatedHarnessEnvironmentArtifact.write(value:to:))
+        try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["maxIterations"].write(value.maxIterations)
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["memory"].write(value.memory, with: BedrockAgentCoreControlClientTypes.UpdatedHarnessMemoryConfiguration.write(value:to:))
+        try writer["model"].write(value.model, with: BedrockAgentCoreControlClientTypes.HarnessModelConfiguration.write(value:to:))
+        try writer["skills"].writeList(value.skills, memberWritingClosure: BedrockAgentCoreControlClientTypes.HarnessSkill.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["systemPrompt"].writeList(value.systemPrompt, memberWritingClosure: BedrockAgentCoreControlClientTypes.HarnessSystemContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["timeoutSeconds"].write(value.timeoutSeconds)
+        try writer["tools"].writeList(value.tools, memberWritingClosure: BedrockAgentCoreControlClientTypes.HarnessTool.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["truncation"].write(value.truncation, with: BedrockAgentCoreControlClientTypes.HarnessTruncationConfiguration.write(value:to:))
+    }
+}
+
 extension UpdateMemoryInput {
 
     static func write(value: UpdateMemoryInput?, to writer: SmithyJSON.Writer) throws {
@@ -15521,6 +16750,18 @@ extension CreateGatewayTargetOutput {
     }
 }
 
+extension CreateHarnessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateHarnessOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateHarnessOutput()
+        value.harness = try reader["harness"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Harness.read(from:))
+        return value
+    }
+}
+
 extension CreateMemoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMemoryOutput {
@@ -15764,6 +17005,18 @@ extension DeleteGatewayTargetOutput {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.targetId = try reader["targetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteHarnessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteHarnessOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteHarnessOutput()
+        value.harness = try reader["harness"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Harness.read(from:))
         return value
     }
 }
@@ -16086,6 +17339,18 @@ extension GetGatewayTargetOutput {
         value.targetConfiguration = try reader["targetConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.TargetConfiguration.read(from:))
         value.targetId = try reader["targetId"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension GetHarnessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetHarnessOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetHarnessOutput()
+        value.harness = try reader["harness"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Harness.read(from:))
         return value
     }
 }
@@ -16422,6 +17687,19 @@ extension ListGatewayTargetsOutput {
         let reader = responseReader
         var value = ListGatewayTargetsOutput()
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.TargetSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListHarnessesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListHarnessesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListHarnessesOutput()
+        value.harnesses = try reader["harnesses"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.HarnessSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -16781,6 +18059,18 @@ extension UpdateGatewayTargetOutput {
     }
 }
 
+extension UpdateHarnessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHarnessOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateHarnessOutput()
+        value.harness = try reader["harness"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Harness.read(from:))
+        return value
+    }
+}
+
 extension UpdateMemoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMemoryOutput {
@@ -17128,6 +18418,25 @@ enum CreateGatewayTargetOutputError {
     }
 }
 
+enum CreateHarnessOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateMemoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -17441,6 +18750,25 @@ enum DeleteGatewayOutputError {
 }
 
 enum DeleteGatewayTargetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteHarnessOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -17776,6 +19104,24 @@ enum GetGatewayOutputError {
 }
 
 enum GetGatewayTargetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetHarnessOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -18153,6 +19499,23 @@ enum ListGatewaysOutputError {
 }
 
 enum ListGatewayTargetsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListHarnessesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -18617,6 +19980,25 @@ enum UpdateGatewayTargetOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateHarnessOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -20488,6 +21870,592 @@ extension BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.Harness {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Harness {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.Harness()
+        value.harnessId = try reader["harnessId"].readIfPresent() ?? ""
+        value.harnessName = try reader["harnessName"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.model = try reader["model"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HarnessModelConfiguration.read(from:))
+        value.systemPrompt = try reader["systemPrompt"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.HarnessSystemContentBlock.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tools = try reader["tools"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.HarnessTool.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.skills = try reader["skills"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.HarnessSkill.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allowedTools = try reader["allowedTools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.truncation = try reader["truncation"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HarnessTruncationConfiguration.read(from:))
+        value.environment = try reader["environment"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HarnessEnvironmentProvider.read(from:))
+        value.environmentArtifact = try reader["environmentArtifact"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HarnessEnvironmentArtifact.read(from:))
+        value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.authorizerConfiguration = try reader["authorizerConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.read(from:))
+        value.memory = try reader["memory"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration.read(from:))
+        value.maxIterations = try reader["maxIterations"].readIfPresent()
+        value.maxTokens = try reader["maxTokens"].readIfPresent()
+        value.timeoutSeconds = try reader["timeoutSeconds"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessAgentCoreBrowserConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessAgentCoreBrowserConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["browserArn"].write(value.browserArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessAgentCoreBrowserConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessAgentCoreBrowserConfig()
+        value.browserArn = try reader["browserArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessAgentCoreCodeInterpreterConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessAgentCoreCodeInterpreterConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["codeInterpreterArn"].write(value.codeInterpreterArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessAgentCoreCodeInterpreterConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessAgentCoreCodeInterpreterConfig()
+        value.codeInterpreterArn = try reader["codeInterpreterArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessAgentCoreGatewayConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessAgentCoreGatewayConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["gatewayArn"].write(value.gatewayArn)
+        try writer["outboundAuth"].write(value.outboundAuth, with: BedrockAgentCoreControlClientTypes.HarnessGatewayOutboundAuth.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessAgentCoreGatewayConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessAgentCoreGatewayConfig()
+        value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
+        value.outboundAuth = try reader["outboundAuth"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HarnessGatewayOutboundAuth.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actorId"].write(value.actorId)
+        try writer["arn"].write(value.arn)
+        try writer["messagesCount"].write(value.messagesCount)
+        try writer["retrievalConfig"].writeMap(value.retrievalConfig, valueWritingClosure: BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryRetrievalConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryConfiguration()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.actorId = try reader["actorId"].readIfPresent()
+        value.messagesCount = try reader["messagesCount"].readIfPresent()
+        value.retrievalConfig = try reader["retrievalConfig"].readMapIfPresent(valueReadingClosure: BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryRetrievalConfig.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryRetrievalConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryRetrievalConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["relevanceScore"].write(value.relevanceScore)
+        try writer["strategyId"].write(value.strategyId)
+        try writer["topK"].write(value.topk)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryRetrievalConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryRetrievalConfig()
+        value.topk = try reader["topK"].readIfPresent()
+        value.relevanceScore = try reader["relevanceScore"].readIfPresent()
+        value.strategyId = try reader["strategyId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessAgentCoreRuntimeEnvironment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessAgentCoreRuntimeEnvironment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessAgentCoreRuntimeEnvironment()
+        value.agentRuntimeArn = try reader["agentRuntimeArn"].readIfPresent() ?? ""
+        value.agentRuntimeName = try reader["agentRuntimeName"].readIfPresent() ?? ""
+        value.agentRuntimeId = try reader["agentRuntimeId"].readIfPresent() ?? ""
+        value.lifecycleConfiguration = try reader["lifecycleConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.LifecycleConfiguration.read(from:))
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.NetworkConfiguration.read(from:))
+        value.filesystemConfigurations = try reader["filesystemConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.FilesystemConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessAgentCoreRuntimeEnvironmentRequest {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessAgentCoreRuntimeEnvironmentRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filesystemConfigurations"].writeList(value.filesystemConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.FilesystemConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["lifecycleConfiguration"].write(value.lifecycleConfiguration, with: BedrockAgentCoreControlClientTypes.LifecycleConfiguration.write(value:to:))
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: BedrockAgentCoreControlClientTypes.NetworkConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["modelId"].write(value.modelId)
+        try writer["temperature"].write(value.temperature)
+        try writer["topP"].write(value.topp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.maxTokens = try reader["maxTokens"].readIfPresent()
+        value.temperature = try reader["temperature"].readIfPresent()
+        value.topp = try reader["topP"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessEnvironmentArtifact {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessEnvironmentArtifact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .containerconfiguration(containerconfiguration):
+                try writer["containerConfiguration"].write(containerconfiguration, with: BedrockAgentCoreControlClientTypes.ContainerConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessEnvironmentArtifact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "containerConfiguration":
+                return .containerconfiguration(try reader["containerConfiguration"].read(with: BedrockAgentCoreControlClientTypes.ContainerConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessEnvironmentProvider {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessEnvironmentProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "agentCoreRuntimeEnvironment":
+                return .agentcoreruntimeenvironment(try reader["agentCoreRuntimeEnvironment"].read(with: BedrockAgentCoreControlClientTypes.HarnessAgentCoreRuntimeEnvironment.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessEnvironmentProviderRequest {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessEnvironmentProviderRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .agentcoreruntimeenvironment(agentcoreruntimeenvironment):
+                try writer["agentCoreRuntimeEnvironment"].write(agentcoreruntimeenvironment, with: BedrockAgentCoreControlClientTypes.HarnessAgentCoreRuntimeEnvironmentRequest.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessGatewayOutboundAuth {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessGatewayOutboundAuth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .awsiam(awsiam):
+                try writer["awsIam"].write(awsiam, with: BedrockAgentCoreControlClientTypes.Unit.write(value:to:))
+            case let .`none`(`none`):
+                try writer["none"].write(`none`, with: BedrockAgentCoreControlClientTypes.Unit.write(value:to:))
+            case let .oauth(oauth):
+                try writer["oauth"].write(oauth, with: BedrockAgentCoreControlClientTypes.OAuthCredentialProvider.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessGatewayOutboundAuth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "awsIam":
+                return .awsiam(try reader["awsIam"].read(with: BedrockAgentCoreControlClientTypes.Unit.read(from:)))
+            case "none":
+                return .`none`(try reader["none"].read(with: BedrockAgentCoreControlClientTypes.Unit.read(from:)))
+            case "oauth":
+                return .oauth(try reader["oauth"].read(with: BedrockAgentCoreControlClientTypes.OAuthCredentialProvider.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["apiKeyArn"].write(value.apiKeyArn)
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["modelId"].write(value.modelId)
+        try writer["temperature"].write(value.temperature)
+        try writer["topK"].write(value.topk)
+        try writer["topP"].write(value.topp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.apiKeyArn = try reader["apiKeyArn"].readIfPresent() ?? ""
+        value.maxTokens = try reader["maxTokens"].readIfPresent()
+        value.temperature = try reader["temperature"].readIfPresent()
+        value.topp = try reader["topP"].readIfPresent()
+        value.topk = try reader["topK"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessInlineFunctionConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessInlineFunctionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["inputSchema"].write(value.inputSchema)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessInlineFunctionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessInlineFunctionConfig()
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.inputSchema = try reader["inputSchema"].readIfPresent() ?? [:]
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .agentcorememoryconfiguration(agentcorememoryconfiguration):
+                try writer["agentCoreMemoryConfiguration"].write(agentcorememoryconfiguration, with: BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "agentCoreMemoryConfiguration":
+                return .agentcorememoryconfiguration(try reader["agentCoreMemoryConfiguration"].read(with: BedrockAgentCoreControlClientTypes.HarnessAgentCoreMemoryConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessModelConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessModelConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .bedrockmodelconfig(bedrockmodelconfig):
+                try writer["bedrockModelConfig"].write(bedrockmodelconfig, with: BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig.write(value:to:))
+            case let .geminimodelconfig(geminimodelconfig):
+                try writer["geminiModelConfig"].write(geminimodelconfig, with: BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig.write(value:to:))
+            case let .openaimodelconfig(openaimodelconfig):
+                try writer["openAiModelConfig"].write(openaimodelconfig, with: BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessModelConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "bedrockModelConfig":
+                return .bedrockmodelconfig(try reader["bedrockModelConfig"].read(with: BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig.read(from:)))
+            case "openAiModelConfig":
+                return .openaimodelconfig(try reader["openAiModelConfig"].read(with: BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig.read(from:)))
+            case "geminiModelConfig":
+                return .geminimodelconfig(try reader["geminiModelConfig"].read(with: BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["apiKeyArn"].write(value.apiKeyArn)
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["modelId"].write(value.modelId)
+        try writer["temperature"].write(value.temperature)
+        try writer["topP"].write(value.topp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.apiKeyArn = try reader["apiKeyArn"].readIfPresent() ?? ""
+        value.maxTokens = try reader["maxTokens"].readIfPresent()
+        value.temperature = try reader["temperature"].readIfPresent()
+        value.topp = try reader["topP"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessRemoteMcpConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessRemoteMcpConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessRemoteMcpConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessRemoteMcpConfig()
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.headers = try reader["headers"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessSkill {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessSkill?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .path(path):
+                try writer["path"].write(path)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessSkill {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "path":
+                return .path(try reader["path"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessSlidingWindowConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessSlidingWindowConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["messagesCount"].write(value.messagesCount)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessSlidingWindowConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessSlidingWindowConfiguration()
+        value.messagesCount = try reader["messagesCount"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessSummarizationConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessSummarizationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["preserveRecentMessages"].write(value.preserveRecentMessages)
+        try writer["summarizationSystemPrompt"].write(value.summarizationSystemPrompt)
+        try writer["summaryRatio"].write(value.summaryRatio)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessSummarizationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessSummarizationConfiguration()
+        value.summaryRatio = try reader["summaryRatio"].readIfPresent()
+        value.preserveRecentMessages = try reader["preserveRecentMessages"].readIfPresent()
+        value.summarizationSystemPrompt = try reader["summarizationSystemPrompt"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessSummary()
+        value.harnessId = try reader["harnessId"].readIfPresent() ?? ""
+        value.harnessName = try reader["harnessName"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessSystemContentBlock {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessSystemContentBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessSystemContentBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessTool {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessTool?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["config"].write(value.config, with: BedrockAgentCoreControlClientTypes.HarnessToolConfiguration.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessTool {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessTool()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent()
+        value.config = try reader["config"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HarnessToolConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessToolConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessToolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .agentcorebrowser(agentcorebrowser):
+                try writer["agentCoreBrowser"].write(agentcorebrowser, with: BedrockAgentCoreControlClientTypes.HarnessAgentCoreBrowserConfig.write(value:to:))
+            case let .agentcorecodeinterpreter(agentcorecodeinterpreter):
+                try writer["agentCoreCodeInterpreter"].write(agentcorecodeinterpreter, with: BedrockAgentCoreControlClientTypes.HarnessAgentCoreCodeInterpreterConfig.write(value:to:))
+            case let .agentcoregateway(agentcoregateway):
+                try writer["agentCoreGateway"].write(agentcoregateway, with: BedrockAgentCoreControlClientTypes.HarnessAgentCoreGatewayConfig.write(value:to:))
+            case let .inlinefunction(inlinefunction):
+                try writer["inlineFunction"].write(inlinefunction, with: BedrockAgentCoreControlClientTypes.HarnessInlineFunctionConfig.write(value:to:))
+            case let .remotemcp(remotemcp):
+                try writer["remoteMcp"].write(remotemcp, with: BedrockAgentCoreControlClientTypes.HarnessRemoteMcpConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessToolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "remoteMcp":
+                return .remotemcp(try reader["remoteMcp"].read(with: BedrockAgentCoreControlClientTypes.HarnessRemoteMcpConfig.read(from:)))
+            case "agentCoreBrowser":
+                return .agentcorebrowser(try reader["agentCoreBrowser"].read(with: BedrockAgentCoreControlClientTypes.HarnessAgentCoreBrowserConfig.read(from:)))
+            case "agentCoreGateway":
+                return .agentcoregateway(try reader["agentCoreGateway"].read(with: BedrockAgentCoreControlClientTypes.HarnessAgentCoreGatewayConfig.read(from:)))
+            case "inlineFunction":
+                return .inlinefunction(try reader["inlineFunction"].read(with: BedrockAgentCoreControlClientTypes.HarnessInlineFunctionConfig.read(from:)))
+            case "agentCoreCodeInterpreter":
+                return .agentcorecodeinterpreter(try reader["agentCoreCodeInterpreter"].read(with: BedrockAgentCoreControlClientTypes.HarnessAgentCoreCodeInterpreterConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessTruncationConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessTruncationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["config"].write(value.config, with: BedrockAgentCoreControlClientTypes.HarnessTruncationStrategyConfiguration.write(value:to:))
+        try writer["strategy"].write(value.strategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessTruncationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessTruncationConfiguration()
+        value.strategy = try reader["strategy"].readIfPresent() ?? .sdkUnknown("")
+        value.config = try reader["config"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HarnessTruncationStrategyConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessTruncationStrategyConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessTruncationStrategyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .slidingwindow(slidingwindow):
+                try writer["slidingWindow"].write(slidingwindow, with: BedrockAgentCoreControlClientTypes.HarnessSlidingWindowConfiguration.write(value:to:))
+            case let .summarization(summarization):
+                try writer["summarization"].write(summarization, with: BedrockAgentCoreControlClientTypes.HarnessSummarizationConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessTruncationStrategyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "slidingWindow":
+                return .slidingwindow(try reader["slidingWindow"].read(with: BedrockAgentCoreControlClientTypes.HarnessSlidingWindowConfiguration.read(from:)))
+            case "summarization":
+                return .summarization(try reader["summarization"].read(with: BedrockAgentCoreControlClientTypes.HarnessSummarizationConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.IamCredentialProvider {
 
     static func write(value: BedrockAgentCoreControlClientTypes.IamCredentialProvider?, to writer: SmithyJSON.Writer) throws {
@@ -20827,6 +22795,7 @@ extension BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
         try writer["endpoint"].write(value.endpoint)
         try writer["listingMode"].write(value.listingMode)
         try writer["mcpToolSchema"].write(value.mcpToolSchema, with: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration.write(value:to:))
+        try writer["resourcePriority"].write(value.resourcePriority)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
@@ -20834,6 +22803,7 @@ extension BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
         var value = BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration()
         value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
         value.mcpToolSchema = try reader["mcpToolSchema"].readIfPresent(with: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration.read(from:))
+        value.resourcePriority = try reader["resourcePriority"].readIfPresent()
         value.listingMode = try reader["listingMode"].readIfPresent()
         return value
     }
@@ -22268,6 +24238,7 @@ extension BedrockAgentCoreControlClientTypes.TargetSummary {
         value.description = try reader["description"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.resourcePriority = try reader["resourcePriority"].readIfPresent()
         return value
     }
 }
@@ -22485,6 +24456,22 @@ extension BedrockAgentCoreControlClientTypes.UpdatedDescriptorsUnion {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.UpdatedHarnessEnvironmentArtifact {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedHarnessEnvironmentArtifact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.HarnessEnvironmentArtifact.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UpdatedHarnessMemoryConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UpdatedHarnessMemoryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration.write(value:to:))
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.UpdatedMcpDescriptor {
 
     static func write(value: BedrockAgentCoreControlClientTypes.UpdatedMcpDescriptor?, to writer: SmithyJSON.Writer) throws {
@@ -22656,6 +24643,19 @@ extension BedrockAgentCoreControlClientTypes.WorkloadIdentityType {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.workloadIdentityArn = try reader["workloadIdentityArn"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Unit {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Unit?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Unit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return BedrockAgentCoreControlClientTypes.Unit()
     }
 }
 

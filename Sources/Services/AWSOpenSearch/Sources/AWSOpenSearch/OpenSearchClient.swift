@@ -5886,6 +5886,78 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RollbackServiceSoftwareUpdate` operation on the `OpenSearch` service.
+    ///
+    /// Rolls back a service software update for a domain to the previous version. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
+    ///
+    /// - Parameter input: Container for the request parameters to the RollbackServiceSoftwareUpdate operation. (Type: `RollbackServiceSoftwareUpdateInput`)
+    ///
+    /// - Returns: Contains details about the rolled-back service software update. (Type: `RollbackServiceSoftwareUpdateOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    public func rollbackServiceSoftwareUpdate(input: RollbackServiceSoftwareUpdateInput) async throws -> RollbackServiceSoftwareUpdateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "rollbackServiceSoftwareUpdate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RollbackServiceSoftwareUpdateInput, RollbackServiceSoftwareUpdateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RollbackServiceSoftwareUpdateInput, RollbackServiceSoftwareUpdateOutput>(RollbackServiceSoftwareUpdateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RollbackServiceSoftwareUpdateInput, RollbackServiceSoftwareUpdateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RollbackServiceSoftwareUpdateInput, RollbackServiceSoftwareUpdateOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RollbackServiceSoftwareUpdateInput, RollbackServiceSoftwareUpdateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RollbackServiceSoftwareUpdateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RollbackServiceSoftwareUpdateInput, RollbackServiceSoftwareUpdateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RollbackServiceSoftwareUpdateOutput>(RollbackServiceSoftwareUpdateOutput.httpOutput(from:), RollbackServiceSoftwareUpdateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RollbackServiceSoftwareUpdateInput, RollbackServiceSoftwareUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RollbackServiceSoftwareUpdateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RollbackServiceSoftwareUpdateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RollbackServiceSoftwareUpdateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RollbackServiceSoftwareUpdateInput, RollbackServiceSoftwareUpdateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RollbackServiceSoftwareUpdateInput, RollbackServiceSoftwareUpdateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RollbackServiceSoftwareUpdateInput, RollbackServiceSoftwareUpdateOutput>(serviceID: serviceName, version: OpenSearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RollbackServiceSoftwareUpdate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartDomainMaintenance` operation on the `OpenSearch` service.
     ///
     /// Starts the node maintenance process on the data node. These processes can include a node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana restart.

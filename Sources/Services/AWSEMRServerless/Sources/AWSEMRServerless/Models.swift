@@ -210,14 +210,18 @@ extension EMRServerlessClientTypes {
     public struct InteractiveConfiguration: Swift.Sendable {
         /// Enables an Apache Livy endpoint that you can connect to and run interactive jobs.
         public var livyEndpointEnabled: Swift.Bool?
+        /// Enables interactive sessions on the application. When set to true, you can start interactive sessions using the StartSession operation.
+        public var sessionEnabled: Swift.Bool?
         /// Enables you to connect an application to Amazon EMR Studio to run interactive workloads in a notebook.
         public var studioEnabled: Swift.Bool?
 
         public init(
             livyEndpointEnabled: Swift.Bool? = nil,
+            sessionEnabled: Swift.Bool? = nil,
             studioEnabled: Swift.Bool? = nil
         ) {
             self.livyEndpointEnabled = livyEndpointEnabled
+            self.sessionEnabled = sessionEnabled
             self.studioEnabled = studioEnabled
         }
     }
@@ -726,6 +730,65 @@ public struct GetApplicationInput: Swift.Sendable {
         applicationId: Swift.String? = nil
     ) {
         self.applicationId = applicationId
+    }
+}
+
+extension EMRServerlessClientTypes {
+
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case session
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceType] {
+            return [
+                .session
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .session: return "SESSION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetResourceDashboardInput: Swift.Sendable {
+    /// The ID of the application that the resource belongs to.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The ID of the resource.
+    /// This member is required.
+    public var resourceId: Swift.String?
+    /// The type of resource to access the dashboard for. Currently, only Session is supported.
+    /// This member is required.
+    public var resourceType: EMRServerlessClientTypes.ResourceType?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: EMRServerlessClientTypes.ResourceType? = nil
+    ) {
+        self.applicationId = applicationId
+        self.resourceId = resourceId
+        self.resourceType = resourceType
+    }
+}
+
+public struct GetResourceDashboardOutput: Swift.Sendable {
+    /// A URL to the resource dashboard. For an active resource, this URL opens the live application UI. For a terminated resource, this URL opens the persistent application UI. This value is not included in the response if the URL is not available.
+    public var url: Swift.String?
+
+    public init(
+        url: Swift.String? = nil
+    ) {
+        self.url = url
     }
 }
 
@@ -1455,6 +1518,293 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+public struct GetSessionInput: Swift.Sendable {
+    /// The ID of the application that the session belongs to.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The ID of the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.sessionId = sessionId
+    }
+}
+
+extension EMRServerlessClientTypes {
+
+    public enum SessionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case busy
+        case failed
+        case idle
+        case started
+        case starting
+        case submitted
+        case terminated
+        case terminating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionState] {
+            return [
+                .busy,
+                .failed,
+                .idle,
+                .started,
+                .starting,
+                .submitted,
+                .terminated,
+                .terminating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .busy: return "BUSY"
+            case .failed: return "FAILED"
+            case .idle: return "IDLE"
+            case .started: return "STARTED"
+            case .starting: return "STARTING"
+            case .submitted: return "SUBMITTED"
+            case .terminated: return "TERMINATED"
+            case .terminating: return "TERMINATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetSessionEndpointInput: Swift.Sendable {
+    /// The ID of the application that the session belongs to.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The ID of the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.sessionId = sessionId
+    }
+}
+
+public struct GetSessionEndpointOutput: Swift.Sendable {
+    /// The output contains the ID of the application.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// Authentication token for accessing the session endpoint.
+    /// This member is required.
+    public var authToken: Swift.String?
+    /// The expiration time of the authentication token.
+    /// This member is required.
+    public var authTokenExpiresAt: Foundation.Date?
+    /// The endpoint URL for connecting to the session.
+    /// This member is required.
+    public var endpoint: Swift.String?
+    /// The output contains the ID of the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        authToken: Swift.String? = nil,
+        authTokenExpiresAt: Foundation.Date? = nil,
+        endpoint: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.authToken = authToken
+        self.authTokenExpiresAt = authTokenExpiresAt
+        self.endpoint = endpoint
+        self.sessionId = sessionId
+    }
+}
+
+extension GetSessionEndpointOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetSessionEndpointOutput(applicationId: \(Swift.String(describing: applicationId)), authTokenExpiresAt: \(Swift.String(describing: authTokenExpiresAt)), endpoint: \(Swift.String(describing: endpoint)), sessionId: \(Swift.String(describing: sessionId)), authToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListSessionsInput: Swift.Sendable {
+    /// The ID of the application to list sessions for.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The lower bound of the option to filter by creation date and time.
+    public var createdAtAfter: Foundation.Date?
+    /// The upper bound of the option to filter by creation date and time.
+    public var createdAtBefore: Foundation.Date?
+    /// The maximum number of sessions to return in each page of results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of session results.
+    public var nextToken: Swift.String?
+    /// An optional filter for session states. Note that if this filter contains multiple states, the resulting list will be grouped by the state.
+    public var states: [EMRServerlessClientTypes.SessionState]?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        createdAtAfter: Foundation.Date? = nil,
+        createdAtBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        states: [EMRServerlessClientTypes.SessionState]? = nil
+    ) {
+        self.applicationId = applicationId
+        self.createdAtAfter = createdAtAfter
+        self.createdAtBefore = createdAtBefore
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.states = states
+    }
+}
+
+extension EMRServerlessClientTypes {
+
+    /// The summary of attributes associated with a session.
+    public struct SessionSummary: Swift.Sendable {
+        /// The ID of the application that the session belongs to.
+        /// This member is required.
+        public var applicationId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the session.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time that the session was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The IAM principal that created the session.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The Amazon Resource Name (ARN) of the execution role for the session.
+        /// This member is required.
+        public var executionRoleArn: Swift.String?
+        /// The optional name of the session.
+        public var name: Swift.String?
+        /// The Amazon EMR release label associated with the session.
+        /// This member is required.
+        public var releaseLabel: Swift.String?
+        /// The ID of the session.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The state of the session.
+        /// This member is required.
+        public var state: EMRServerlessClientTypes.SessionState?
+        /// Additional details about the current state of the session.
+        /// This member is required.
+        public var stateDetails: Swift.String?
+        /// The date and time that the session was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            applicationId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            executionRoleArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            releaseLabel: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            state: EMRServerlessClientTypes.SessionState? = nil,
+            stateDetails: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.applicationId = applicationId
+            self.arn = arn
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.executionRoleArn = executionRoleArn
+            self.name = name
+            self.releaseLabel = releaseLabel
+            self.sessionId = sessionId
+            self.state = state
+            self.stateDetails = stateDetails
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListSessionsOutput: Swift.Sendable {
+    /// The output displays the token for the next set of session results. This is required for pagination and is available as a response of the previous request.
+    public var nextToken: Swift.String?
+    /// The output lists information about the specified sessions.
+    /// This member is required.
+    public var sessions: [EMRServerlessClientTypes.SessionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sessions: [EMRServerlessClientTypes.SessionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sessions = sessions
+    }
+}
+
+public struct StartSessionOutput: Swift.Sendable {
+    /// The output contains the application ID on which the session was started.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The output contains the ARN of the session.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The output contains the ID of the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.arn = arn
+        self.sessionId = sessionId
+    }
+}
+
+public struct TerminateSessionInput: Swift.Sendable {
+    /// The ID of the application that the session belongs to.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The ID of the session to terminate.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.sessionId = sessionId
+    }
+}
+
+public struct TerminateSessionOutput: Swift.Sendable {
+    /// The output contains the application ID on which the session was terminated.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The output contains the ID of the terminated session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.sessionId = sessionId
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs.
     /// This member is required.
@@ -1665,6 +2015,21 @@ extension EMRServerlessClientTypes {
             self.applicationConfiguration = applicationConfiguration
             self.diskEncryptionConfiguration = diskEncryptionConfiguration
             self.monitoringConfiguration = monitoringConfiguration
+        }
+    }
+}
+
+extension EMRServerlessClientTypes {
+
+    /// The configuration overrides for a session.
+    public struct SessionConfigurationOverrides: Swift.Sendable {
+        /// The runtime configuration for the session. Contains Spark configuration properties specified at session creation time.
+        public var runtimeConfiguration: [EMRServerlessClientTypes.Configuration]?
+
+        public init(
+            runtimeConfiguration: [EMRServerlessClientTypes.Configuration]? = nil
+        ) {
+            self.runtimeConfiguration = runtimeConfiguration
         }
     }
 }
@@ -1974,6 +2339,111 @@ extension EMRServerlessClientTypes {
     }
 }
 
+extension EMRServerlessClientTypes {
+
+    /// Information about a session, including the session state, configuration, and timestamps.
+    public struct Session: Swift.Sendable {
+        /// The ID of the application that the session belongs to.
+        /// This member is required.
+        public var applicationId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the session.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The aggregate vCPU, memory, and storage that Amazon Web Services has billed for the session. The billed resources include a 1-minute minimum usage for workers, plus additional storage over 20 GB per worker. Note that billed resources do not include usage for idle pre-initialized workers.
+        public var billedResourceUtilization: EMRServerlessClientTypes.ResourceUtilization?
+        /// The configuration overrides for the session, including runtime configuration properties.
+        public var configurationOverrides: EMRServerlessClientTypes.SessionConfigurationOverrides?
+        /// The date and time that the session was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The IAM principal that created the session.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The date and time that the session was terminated or failed.
+        public var endedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the execution role for the session.
+        /// This member is required.
+        public var executionRoleArn: Swift.String?
+        /// The date and time that the session became idle.
+        public var idleSince: Foundation.Date?
+        /// The idle timeout in minutes for the session. After the session remains idle for this duration, it is automatically terminated.
+        public var idleTimeoutMinutes: Swift.Int?
+        /// The optional name of the session.
+        public var name: Swift.String?
+        /// The network configuration for customer VPC connectivity for the session.
+        public var networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
+        /// The Amazon EMR release label associated with the session.
+        /// This member is required.
+        public var releaseLabel: Swift.String?
+        /// The ID of the session.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The date and time that the session moved to a running state.
+        public var startedAt: Foundation.Date?
+        /// The state of the session.
+        /// This member is required.
+        public var state: EMRServerlessClientTypes.SessionState?
+        /// Additional details about the current state of the session.
+        /// This member is required.
+        public var stateDetails: Swift.String?
+        /// The tags assigned to the session.
+        public var tags: [Swift.String: Swift.String]?
+        /// The total execution duration of the session in seconds.
+        public var totalExecutionDurationSeconds: Swift.Int?
+        /// The aggregate vCPU, memory, and storage resources used from the time the session starts to execute, until the time the session terminates, rounded up to the nearest second.
+        public var totalResourceUtilization: EMRServerlessClientTypes.TotalResourceUtilization?
+        /// The date and time that the session was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            applicationId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            billedResourceUtilization: EMRServerlessClientTypes.ResourceUtilization? = nil,
+            configurationOverrides: EMRServerlessClientTypes.SessionConfigurationOverrides? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            endedAt: Foundation.Date? = nil,
+            executionRoleArn: Swift.String? = nil,
+            idleSince: Foundation.Date? = nil,
+            idleTimeoutMinutes: Swift.Int? = 0,
+            name: Swift.String? = nil,
+            networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
+            releaseLabel: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            state: EMRServerlessClientTypes.SessionState? = nil,
+            stateDetails: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            totalExecutionDurationSeconds: Swift.Int? = nil,
+            totalResourceUtilization: EMRServerlessClientTypes.TotalResourceUtilization? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.applicationId = applicationId
+            self.arn = arn
+            self.billedResourceUtilization = billedResourceUtilization
+            self.configurationOverrides = configurationOverrides
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.endedAt = endedAt
+            self.executionRoleArn = executionRoleArn
+            self.idleSince = idleSince
+            self.idleTimeoutMinutes = idleTimeoutMinutes
+            self.name = name
+            self.networkConfiguration = networkConfiguration
+            self.releaseLabel = releaseLabel
+            self.sessionId = sessionId
+            self.startedAt = startedAt
+            self.state = state
+            self.stateDetails = stateDetails
+            self.tags = tags
+            self.totalExecutionDurationSeconds = totalExecutionDurationSeconds
+            self.totalResourceUtilization = totalResourceUtilization
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
 public struct GetApplicationOutput: Swift.Sendable {
     /// The output displays information about the specified application.
     /// This member is required.
@@ -2040,6 +2510,44 @@ public struct StartJobRunInput: Swift.Sendable {
     }
 }
 
+public struct StartSessionInput: Swift.Sendable {
+    /// The ID of the application on which to start the session.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token, the server returns the successful response without performing the operation again.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The configuration overrides for the session. Only runtime configuration overrides are supported.
+    public var configurationOverrides: EMRServerlessClientTypes.SessionConfigurationOverrides?
+    /// The execution role ARN for the session. Amazon EMR Serverless uses this role to access Amazon Web Services resources on your behalf during session execution.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The idle timeout in minutes for the session. After the session remains idle for this duration, Amazon EMR Serverless automatically terminates it.
+    public var idleTimeoutMinutes: Swift.Int?
+    /// The optional name for the session.
+    public var name: Swift.String?
+    /// The tags to assign to the session.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        configurationOverrides: EMRServerlessClientTypes.SessionConfigurationOverrides? = nil,
+        executionRoleArn: Swift.String? = nil,
+        idleTimeoutMinutes: Swift.Int? = 0,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.applicationId = applicationId
+        self.clientToken = clientToken
+        self.configurationOverrides = configurationOverrides
+        self.executionRoleArn = executionRoleArn
+        self.idleTimeoutMinutes = idleTimeoutMinutes
+        self.name = name
+        self.tags = tags
+    }
+}
+
 public struct UpdateApplicationOutput: Swift.Sendable {
     /// Information about the updated application.
     /// This member is required.
@@ -2061,6 +2569,18 @@ public struct GetJobRunOutput: Swift.Sendable {
         jobRun: EMRServerlessClientTypes.JobRun? = nil
     ) {
         self.jobRun = jobRun
+    }
+}
+
+public struct GetSessionOutput: Swift.Sendable {
+    /// The output displays information about the session.
+    /// This member is required.
+    public var session: EMRServerlessClientTypes.Session?
+
+    public init(
+        session: EMRServerlessClientTypes.Session? = nil
+    ) {
+        self.session = session
     }
 }
 
@@ -2170,6 +2690,62 @@ extension GetJobRunInput {
     }
 }
 
+extension GetResourceDashboardInput {
+
+    static func urlPathProvider(_ value: GetResourceDashboardInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/dashboard"
+    }
+}
+
+extension GetResourceDashboardInput {
+
+    static func queryItemProvider(_ value: GetResourceDashboardInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let resourceId = value.resourceId else {
+            let message = "Creating a URL Query Item failed. resourceId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let resourceIdQueryItem = Smithy.URIQueryItem(name: "resourceId".urlPercentEncoding(), value: Swift.String(resourceId).urlPercentEncoding())
+        items.append(resourceIdQueryItem)
+        guard let resourceType = value.resourceType else {
+            let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let resourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+        items.append(resourceTypeQueryItem)
+        return items
+    }
+}
+
+extension GetSessionInput {
+
+    static func urlPathProvider(_ value: GetSessionInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let sessionId = value.sessionId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
+    }
+}
+
+extension GetSessionEndpointInput {
+
+    static func urlPathProvider(_ value: GetSessionEndpointInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let sessionId = value.sessionId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())/endpoint"
+    }
+}
+
 extension ListApplicationsInput {
 
     static func urlPathProvider(_ value: ListApplicationsInput) -> Swift.String? {
@@ -2272,6 +2848,46 @@ extension ListJobRunsInput {
     }
 }
 
+extension ListSessionsInput {
+
+    static func urlPathProvider(_ value: ListSessionsInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/sessions"
+    }
+}
+
+extension ListSessionsInput {
+
+    static func queryItemProvider(_ value: ListSessionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let createdAtAfter = value.createdAtAfter {
+            let createdAtAfterQueryItem = Smithy.URIQueryItem(name: "createdAtAfter".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: createdAtAfter)).urlPercentEncoding())
+            items.append(createdAtAfterQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let createdAtBefore = value.createdAtBefore {
+            let createdAtBeforeQueryItem = Smithy.URIQueryItem(name: "createdAtBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: createdAtBefore)).urlPercentEncoding())
+            items.append(createdAtBeforeQueryItem)
+        }
+        if let states = value.states {
+            states.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -2302,6 +2918,16 @@ extension StartJobRunInput {
     }
 }
 
+extension StartSessionInput {
+
+    static func urlPathProvider(_ value: StartSessionInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/sessions"
+    }
+}
+
 extension StopApplicationInput {
 
     static func urlPathProvider(_ value: StopApplicationInput) -> Swift.String? {
@@ -2319,6 +2945,19 @@ extension TagResourceInput {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension TerminateSessionInput {
+
+    static func urlPathProvider(_ value: TerminateSessionInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let sessionId = value.sessionId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
     }
 }
 
@@ -2398,6 +3037,19 @@ extension StartJobRunInput {
         try writer["mode"].write(value.mode)
         try writer["name"].write(value.name)
         try writer["retryPolicy"].write(value.retryPolicy, with: EMRServerlessClientTypes.RetryPolicy.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension StartSessionInput {
+
+    static func write(value: StartSessionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configurationOverrides"].write(value.configurationOverrides, with: EMRServerlessClientTypes.SessionConfigurationOverrides.write(value:to:))
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["idleTimeoutMinutes"].write(value.idleTimeoutMinutes)
+        try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2504,6 +3156,46 @@ extension GetJobRunOutput {
     }
 }
 
+extension GetResourceDashboardOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourceDashboardOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourceDashboardOutput()
+        value.url = try reader["url"].readIfPresent()
+        return value
+    }
+}
+
+extension GetSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSessionOutput()
+        value.session = try reader["session"].readIfPresent(with: EMRServerlessClientTypes.Session.read(from:))
+        return value
+    }
+}
+
+extension GetSessionEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSessionEndpointOutput()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.authToken = try reader["authToken"].readIfPresent() ?? ""
+        value.authTokenExpiresAt = try reader["authTokenExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ListApplicationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListApplicationsOutput {
@@ -2543,6 +3235,19 @@ extension ListJobRunsOutput {
     }
 }
 
+extension ListSessionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSessionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSessionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.sessions = try reader["sessions"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.SessionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -2576,6 +3281,20 @@ extension StartJobRunOutput {
     }
 }
 
+extension StartSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartSessionOutput()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension StopApplicationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopApplicationOutput {
@@ -2587,6 +3306,19 @@ extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
+    }
+}
+
+extension TerminateSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TerminateSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = TerminateSessionOutput()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -2706,6 +3438,54 @@ enum GetJobRunOutputError {
     }
 }
 
+enum GetResourceDashboardOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSessionEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListApplicationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2746,6 +3526,22 @@ enum ListJobRunsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSessionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2802,6 +3598,24 @@ enum StartJobRunOutputError {
     }
 }
 
+enum StartSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopApplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2819,6 +3633,22 @@ enum StopApplicationOutputError {
 }
 
 enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TerminateSessionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3175,6 +4005,7 @@ extension EMRServerlessClientTypes.InteractiveConfiguration {
     static func write(value: EMRServerlessClientTypes.InteractiveConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["livyEndpointEnabled"].write(value.livyEndpointEnabled)
+        try writer["sessionEnabled"].write(value.sessionEnabled)
         try writer["studioEnabled"].write(value.studioEnabled)
     }
 
@@ -3183,6 +4014,7 @@ extension EMRServerlessClientTypes.InteractiveConfiguration {
         var value = EMRServerlessClientTypes.InteractiveConfiguration()
         value.studioEnabled = try reader["studioEnabled"].readIfPresent()
         value.livyEndpointEnabled = try reader["livyEndpointEnabled"].readIfPresent()
+        value.sessionEnabled = try reader["sessionEnabled"].readIfPresent()
         return value
     }
 }
@@ -3481,6 +4313,71 @@ extension EMRServerlessClientTypes.SchedulerConfiguration {
         var value = EMRServerlessClientTypes.SchedulerConfiguration()
         value.queueTimeoutMinutes = try reader["queueTimeoutMinutes"].readIfPresent()
         value.maxConcurrentRuns = try reader["maxConcurrentRuns"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.Session {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.Session {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.Session()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.stateDetails = try reader["stateDetails"].readIfPresent() ?? ""
+        value.releaseLabel = try reader["releaseLabel"].readIfPresent() ?? ""
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.idleSince = try reader["idleSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.configurationOverrides = try reader["configurationOverrides"].readIfPresent(with: EMRServerlessClientTypes.SessionConfigurationOverrides.read(from:))
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: EMRServerlessClientTypes.NetworkConfiguration.read(from:))
+        value.idleTimeoutMinutes = try reader["idleTimeoutMinutes"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.totalResourceUtilization = try reader["totalResourceUtilization"].readIfPresent(with: EMRServerlessClientTypes.TotalResourceUtilization.read(from:))
+        value.billedResourceUtilization = try reader["billedResourceUtilization"].readIfPresent(with: EMRServerlessClientTypes.ResourceUtilization.read(from:))
+        value.totalExecutionDurationSeconds = try reader["totalExecutionDurationSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.SessionConfigurationOverrides {
+
+    static func write(value: EMRServerlessClientTypes.SessionConfigurationOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["runtimeConfiguration"].writeList(value.runtimeConfiguration, memberWritingClosure: EMRServerlessClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.SessionConfigurationOverrides {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.SessionConfigurationOverrides()
+        value.runtimeConfiguration = try reader["runtimeConfiguration"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.SessionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.SessionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.SessionSummary()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.stateDetails = try reader["stateDetails"].readIfPresent() ?? ""
+        value.releaseLabel = try reader["releaseLabel"].readIfPresent() ?? ""
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

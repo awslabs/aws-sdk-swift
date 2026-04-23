@@ -11,6 +11,36 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension IvsClient {
+    /// Paginate over `[ListAdConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAdConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAdConfigurationsOutput`
+    public func listAdConfigurationsPaginated(input: ListAdConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListAdConfigurationsInput, ListAdConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAdConfigurationsInput, ListAdConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAdConfigurations(input:))
+    }
+}
+
+extension ListAdConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAdConfigurationsInput {
+        return ListAdConfigurationsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAdConfigurationsInput, OperationStackOutput == ListAdConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAdConfigurationsPaginated`
+    /// to access the nested member `[IvsClientTypes.AdConfigurationSummary]`
+    /// - Returns: `[IvsClientTypes.AdConfigurationSummary]`
+    public func adConfigurations() async throws -> [IvsClientTypes.AdConfigurationSummary] {
+        return try await self.asyncCompactMap { item in item.adConfigurations }
+    }
+}
+extension IvsClient {
     /// Paginate over `[ListChannelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -27,6 +57,7 @@ extension IvsClient {
 extension ListChannelsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListChannelsInput {
         return ListChannelsInput(
+            filterByAdConfigurationArn: self.filterByAdConfigurationArn,
             filterByName: self.filterByName,
             filterByPlaybackRestrictionPolicyArn: self.filterByPlaybackRestrictionPolicyArn,
             filterByRecordingConfigurationArn: self.filterByRecordingConfigurationArn,
