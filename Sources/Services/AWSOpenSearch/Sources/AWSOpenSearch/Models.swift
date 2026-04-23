@@ -1769,6 +1769,21 @@ extension OpenSearchClientTypes {
     }
 }
 
+extension OpenSearchClientTypes {
+
+    /// Options for the service, such as the supported Regions.
+    public struct ServiceOptions: Swift.Sendable {
+        /// The list of supported Regions for the service.
+        public var supportedRegions: [Swift.String]?
+
+        public init(
+            supportedRegions: [Swift.String]? = nil
+        ) {
+            self.supportedRegions = supportedRegions
+        }
+    }
+}
+
 public struct AuthorizeVpcEndpointAccessInput: Swift.Sendable {
     /// The Amazon Web Services account ID to grant access to.
     public var account: Swift.String?
@@ -1777,15 +1792,19 @@ public struct AuthorizeVpcEndpointAccessInput: Swift.Sendable {
     public var domainName: Swift.String?
     /// The Amazon Web Services service SP to grant access to.
     public var service: OpenSearchClientTypes.AWSServicePrincipal?
+    /// The options for the service, including the supported Regions for the endpoint access.
+    public var serviceOptions: OpenSearchClientTypes.ServiceOptions?
 
     public init(
         account: Swift.String? = nil,
         domainName: Swift.String? = nil,
-        service: OpenSearchClientTypes.AWSServicePrincipal? = nil
+        service: OpenSearchClientTypes.AWSServicePrincipal? = nil,
+        serviceOptions: OpenSearchClientTypes.ServiceOptions? = nil
     ) {
         self.account = account
         self.domainName = domainName
         self.service = service
+        self.serviceOptions = serviceOptions
     }
 }
 
@@ -1826,13 +1845,17 @@ extension OpenSearchClientTypes {
         public var principal: Swift.String?
         /// The type of principal.
         public var principalType: OpenSearchClientTypes.PrincipalType?
+        /// The options for the service, including the supported Regions for the endpoint access.
+        public var serviceOptions: OpenSearchClientTypes.ServiceOptions?
 
         public init(
             principal: Swift.String? = nil,
-            principalType: OpenSearchClientTypes.PrincipalType? = nil
+            principalType: OpenSearchClientTypes.PrincipalType? = nil,
+            serviceOptions: OpenSearchClientTypes.ServiceOptions? = nil
         ) {
             self.principal = principal
             self.principalType = principalType
+            self.serviceOptions = serviceOptions
         }
     }
 }
@@ -3211,6 +3234,8 @@ extension OpenSearchClientTypes {
         public var enabledAPIAccess: Swift.Bool?
         /// The ARN of the IAM Identity Center instance used to create an OpenSearch UI application that uses IAM Identity Center for authentication.
         public var identityCenterInstanceARN: Swift.String?
+        /// The Region of the IAM Identity Center instance.
+        public var identityCenterInstanceRegion: Swift.String?
         /// Specifies the attribute that contains the backend role identifier (such as group name or group ID) in IAM Identity Center.
         public var rolesKey: OpenSearchClientTypes.RolesKeyIdCOption?
         /// Specifies the attribute that contains the subject identifier (such as username, user ID, or email) in IAM Identity Center.
@@ -3219,11 +3244,13 @@ extension OpenSearchClientTypes {
         public init(
             enabledAPIAccess: Swift.Bool? = nil,
             identityCenterInstanceARN: Swift.String? = nil,
+            identityCenterInstanceRegion: Swift.String? = nil,
             rolesKey: OpenSearchClientTypes.RolesKeyIdCOption? = nil,
             subjectKey: OpenSearchClientTypes.SubjectKeyIdCOption? = nil
         ) {
             self.enabledAPIAccess = enabledAPIAccess
             self.identityCenterInstanceARN = identityCenterInstanceARN
+            self.identityCenterInstanceRegion = identityCenterInstanceRegion
             self.rolesKey = rolesKey
             self.subjectKey = subjectKey
         }
@@ -3791,6 +3818,8 @@ extension OpenSearchClientTypes {
         public var identityCenterApplicationARN: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
         public var identityCenterInstanceARN: Swift.String?
+        /// The Region of the IAM Identity Center instance.
+        public var identityCenterInstanceRegion: Swift.String?
         /// The identifier of the IAM Identity Store.
         public var identityStoreId: Swift.String?
         /// Specifies the attribute that contains the backend role identifier (such as group name or group ID) in IAM Identity Center.
@@ -3802,6 +3831,7 @@ extension OpenSearchClientTypes {
             enabledAPIAccess: Swift.Bool? = nil,
             identityCenterApplicationARN: Swift.String? = nil,
             identityCenterInstanceARN: Swift.String? = nil,
+            identityCenterInstanceRegion: Swift.String? = nil,
             identityStoreId: Swift.String? = nil,
             rolesKey: OpenSearchClientTypes.RolesKeyIdCOption? = nil,
             subjectKey: OpenSearchClientTypes.SubjectKeyIdCOption? = nil
@@ -3809,6 +3839,7 @@ extension OpenSearchClientTypes {
             self.enabledAPIAccess = enabledAPIAccess
             self.identityCenterApplicationARN = identityCenterApplicationARN
             self.identityCenterInstanceARN = identityCenterInstanceARN
+            self.identityCenterInstanceRegion = identityCenterInstanceRegion
             self.identityStoreId = identityStoreId
             self.rolesKey = rolesKey
             self.subjectKey = subjectKey
@@ -9539,15 +9570,19 @@ public struct RevokeVpcEndpointAccessInput: Swift.Sendable {
     public var domainName: Swift.String?
     /// The service SP to revoke access from.
     public var service: OpenSearchClientTypes.AWSServicePrincipal?
+    /// The options for the service, including the supported Regions for the endpoint access.
+    public var serviceOptions: OpenSearchClientTypes.ServiceOptions?
 
     public init(
         account: Swift.String? = nil,
         domainName: Swift.String? = nil,
-        service: OpenSearchClientTypes.AWSServicePrincipal? = nil
+        service: OpenSearchClientTypes.AWSServicePrincipal? = nil,
+        serviceOptions: OpenSearchClientTypes.ServiceOptions? = nil
     ) {
         self.account = account
         self.domainName = domainName
         self.service = service
+        self.serviceOptions = serviceOptions
     }
 }
 
@@ -11561,6 +11596,7 @@ extension AuthorizeVpcEndpointAccessInput {
         guard let value else { return }
         try writer["Account"].write(value.account)
         try writer["Service"].write(value.service)
+        try writer["ServiceOptions"].write(value.serviceOptions, with: OpenSearchClientTypes.ServiceOptions.write(value:to:))
     }
 }
 
@@ -11789,6 +11825,7 @@ extension RevokeVpcEndpointAccessInput {
         guard let value else { return }
         try writer["Account"].write(value.account)
         try writer["Service"].write(value.service)
+        try writer["ServiceOptions"].write(value.serviceOptions, with: OpenSearchClientTypes.ServiceOptions.write(value:to:))
     }
 }
 
@@ -15014,6 +15051,7 @@ extension OpenSearchClientTypes.AuthorizedPrincipal {
         var value = OpenSearchClientTypes.AuthorizedPrincipal()
         value.principalType = try reader["PrincipalType"].readIfPresent()
         value.principal = try reader["Principal"].readIfPresent()
+        value.serviceOptions = try reader["ServiceOptions"].readIfPresent(with: OpenSearchClientTypes.ServiceOptions.read(from:))
         return value
     }
 }
@@ -15940,6 +15978,7 @@ extension OpenSearchClientTypes.IdentityCenterOptions {
         var value = OpenSearchClientTypes.IdentityCenterOptions()
         value.enabledAPIAccess = try reader["EnabledAPIAccess"].readIfPresent()
         value.identityCenterInstanceARN = try reader["IdentityCenterInstanceARN"].readIfPresent()
+        value.identityCenterInstanceRegion = try reader["IdentityCenterInstanceRegion"].readIfPresent()
         value.subjectKey = try reader["SubjectKey"].readIfPresent()
         value.rolesKey = try reader["RolesKey"].readIfPresent()
         value.identityCenterApplicationARN = try reader["IdentityCenterApplicationARN"].readIfPresent()
@@ -15954,6 +15993,7 @@ extension OpenSearchClientTypes.IdentityCenterOptionsInput {
         guard let value else { return }
         try writer["EnabledAPIAccess"].write(value.enabledAPIAccess)
         try writer["IdentityCenterInstanceARN"].write(value.identityCenterInstanceARN)
+        try writer["IdentityCenterInstanceRegion"].write(value.identityCenterInstanceRegion)
         try writer["RolesKey"].write(value.rolesKey)
         try writer["SubjectKey"].write(value.subjectKey)
     }
@@ -16713,6 +16753,21 @@ extension OpenSearchClientTypes.ServerlessVectorAcceleration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.ServerlessVectorAcceleration()
         value.enabled = try reader["Enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.ServiceOptions {
+
+    static func write(value: OpenSearchClientTypes.ServiceOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SupportedRegions"].writeList(value.supportedRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ServiceOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.ServiceOptions()
+        value.supportedRegions = try reader["SupportedRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

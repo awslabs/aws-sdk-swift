@@ -933,7 +933,7 @@ extension IoTManagedIntegrationsClientTypes {
 
     /// The updated authentication configuration details for a connector destination.
     public struct AuthConfigUpdate: Swift.Sendable {
-        /// The General Authorization update information containing authorization materials to add or update in Kinesis Data Streams.
+        /// The General Authorization update information containing authorization materials to add or update.
         public var generalAuthorizationUpdate: IoTManagedIntegrationsClientTypes.GeneralAuthorizationUpdate?
         /// The updated OAuth configuration settings for the authentication configuration.
         public var oAuthUpdate: IoTManagedIntegrationsClientTypes.OAuthUpdate?
@@ -2129,6 +2129,7 @@ public struct CreateManagedThingInput: Swift.Sendable {
     /// The brand of the device.
     public var brand: Swift.String?
     /// The capabilities of the device such as light bulb.
+    @available(*, deprecated, message: "Capabilities has been deprecated, use CapabilityReport instead API deprecated since 06-25-2025")
     public var capabilities: Swift.String?
     /// A report of the capabilities for the managed thing.
     public var capabilityReport: IoTManagedIntegrationsClientTypes.CapabilityReport?
@@ -2808,13 +2809,13 @@ extension IoTManagedIntegrationsClientTypes {
 }
 
 public struct CreateProvisioningProfileInput: Swift.Sendable {
-    /// The id of the certificate authority (CA) certificate.
+    /// The body of the PEM-encoded certificate authority (CA) certificate.
     public var caCertificate: Swift.String?
-    /// The claim certificate.
+    /// The body of the PEM-encoded claim certificate. If a claim certificate is provided, it will be used for the provisioning profile. Otherwise, a claim certificate will be generated.
     public var claimCertificate: Swift.String?
     /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
     public var clientToken: Swift.String?
-    /// The name of the provisioning template.
+    /// The name of the provisioning profile.
     public var name: Swift.String?
     /// The type of provisioning workflow the device uses for onboarding to IoT managed integrations.
     /// This member is required.
@@ -2844,19 +2845,59 @@ extension CreateProvisioningProfileInput: Swift.CustomDebugStringConvertible {
         "CreateProvisioningProfileInput(clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), provisioningType: \(Swift.String(describing: provisioningType)), caCertificate: \"CONTENT_REDACTED\", claimCertificate: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
+extension IoTManagedIntegrationsClientTypes {
+
+    public enum ProvisioningProfileStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case createFailed
+        case createInProgress
+        case deleteFailed
+        case deleteInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProvisioningProfileStatus] {
+            return [
+                .created,
+                .createFailed,
+                .createInProgress,
+                .deleteFailed,
+                .deleteInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateProvisioningProfileOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the provisioning template used in the provisioning profile.
+    /// The Amazon Resource Name (ARN) of the provisioning profile.
     public var arn: Swift.String?
-    /// The id of the claim certificate.
+    /// The body of the PEM-encoded claim certificate.
     public var claimCertificate: Swift.String?
-    /// The private key of the claim certificate. This is stored securely on the device for validating the connection endpoint with IoT managed integrations using the public key.
+    /// The private key of the claim certificate. This may be stored securely on the device for validating the connection endpoint with IoT managed integrations using the public key.
     public var claimCertificatePrivateKey: Swift.String?
     /// The identifier of the provisioning profile.
     public var id: Swift.String?
-    /// The name of the provisioning template.
+    /// The name of the provisioning profile.
     public var name: Swift.String?
     /// The type of provisioning workflow the device uses for onboarding to IoT managed integrations.
     public var provisioningType: IoTManagedIntegrationsClientTypes.ProvisioningType?
+    /// The status of a provisioning profile.
+    public var status: IoTManagedIntegrationsClientTypes.ProvisioningProfileStatus?
 
     public init(
         arn: Swift.String? = nil,
@@ -2864,7 +2905,8 @@ public struct CreateProvisioningProfileOutput: Swift.Sendable {
         claimCertificatePrivateKey: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
-        provisioningType: IoTManagedIntegrationsClientTypes.ProvisioningType? = nil
+        provisioningType: IoTManagedIntegrationsClientTypes.ProvisioningType? = nil,
+        status: IoTManagedIntegrationsClientTypes.ProvisioningProfileStatus? = nil
     ) {
         self.arn = arn
         self.claimCertificate = claimCertificate
@@ -2872,12 +2914,13 @@ public struct CreateProvisioningProfileOutput: Swift.Sendable {
         self.id = id
         self.name = name
         self.provisioningType = provisioningType
+        self.status = status
     }
 }
 
 extension CreateProvisioningProfileOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProvisioningProfileOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provisioningType: \(Swift.String(describing: provisioningType)), claimCertificate: \"CONTENT_REDACTED\", claimCertificatePrivateKey: \"CONTENT_REDACTED\")"}
+        "CreateProvisioningProfileOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provisioningType: \(Swift.String(describing: provisioningType)), status: \(Swift.String(describing: status)), claimCertificate: \"CONTENT_REDACTED\", claimCertificatePrivateKey: \"CONTENT_REDACTED\")"}
 }
 
 extension IoTManagedIntegrationsClientTypes {
@@ -3098,7 +3141,7 @@ public struct DeleteOtaTaskConfigurationInput: Swift.Sendable {
 }
 
 public struct DeleteProvisioningProfileInput: Swift.Sendable {
-    /// The name of the provisioning template.
+    /// The id of the provisioning profile.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -4426,6 +4469,7 @@ public struct GetManagedThingCapabilitiesInput: Swift.Sendable {
 
 public struct GetManagedThingCapabilitiesOutput: Swift.Sendable {
     /// The capabilities of the device such as light bulb.
+    @available(*, deprecated, message: "Capabilities has been deprecated, use CapabilityReport instead API deprecated since 06-25-2025")
     public var capabilities: Swift.String?
     /// A report of the capabilities for the managed thing.
     public var capabilityReport: IoTManagedIntegrationsClientTypes.CapabilityReport?
@@ -4879,7 +4923,7 @@ extension GetOtaTaskConfigurationOutput: Swift.CustomDebugStringConvertible {
 }
 
 public struct GetProvisioningProfileInput: Swift.Sendable {
-    /// The provisioning template the device uses for the provisioning process.
+    /// The id of a provisioning profile.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -4891,16 +4935,18 @@ public struct GetProvisioningProfileInput: Swift.Sendable {
 }
 
 public struct GetProvisioningProfileOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the provisioning template used in the provisioning profile.
+    /// The Amazon Resource Name (ARN) of the provisioning profile.
     public var arn: Swift.String?
-    /// The id of the claim certificate.
+    /// The body of the PEM-encoded claim certificate.
     public var claimCertificate: Swift.String?
     /// The provisioning profile id.
     public var id: Swift.String?
-    /// The name of the provisioning template.
+    /// The name of the provisioning profile.
     public var name: Swift.String?
     /// The type of provisioning workflow the device uses for onboarding to IoT managed integrations.
     public var provisioningType: IoTManagedIntegrationsClientTypes.ProvisioningType?
+    /// The status of a provisioning profile.
+    public var status: IoTManagedIntegrationsClientTypes.ProvisioningProfileStatus?
     /// A set of key/value pairs that are used to manage the provisioning profile.
     public var tags: [Swift.String: Swift.String]?
 
@@ -4910,6 +4956,7 @@ public struct GetProvisioningProfileOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         provisioningType: IoTManagedIntegrationsClientTypes.ProvisioningType? = nil,
+        status: IoTManagedIntegrationsClientTypes.ProvisioningProfileStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.arn = arn
@@ -4917,13 +4964,14 @@ public struct GetProvisioningProfileOutput: Swift.Sendable {
         self.id = id
         self.name = name
         self.provisioningType = provisioningType
+        self.status = status
         self.tags = tags
     }
 }
 
 extension GetProvisioningProfileOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetProvisioningProfileOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provisioningType: \(Swift.String(describing: provisioningType)), claimCertificate: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "GetProvisioningProfileOutput(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provisioningType: \(Swift.String(describing: provisioningType)), status: \(Swift.String(describing: status)), claimCertificate: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetRuntimeLogConfigurationInput: Swift.Sendable {
@@ -5624,6 +5672,7 @@ public struct UpdateManagedThingInput: Swift.Sendable {
     /// The brand of the device.
     public var brand: Swift.String?
     /// The capabilities of the device such as light bulb.
+    @available(*, deprecated, message: "Capabilities has been deprecated, use CapabilityReport instead API deprecated since 06-25-2025")
     public var capabilities: Swift.String?
     /// A report of the capabilities for the managed thing.
     public var capabilityReport: IoTManagedIntegrationsClientTypes.CapabilityReport?
@@ -6053,25 +6102,29 @@ extension IoTManagedIntegrationsClientTypes {
 
     /// Structure describing a provisioning profile.
     public struct ProvisioningProfileSummary: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the provisioning template used in the provisioning profile.
+        /// The Amazon Resource Name (ARN) of the provisioning profile.
         public var arn: Swift.String?
         /// The identifier of the provisioning profile.
         public var id: Swift.String?
-        /// The name of the provisioning template.
+        /// The name of the provisioning profile.
         public var name: Swift.String?
         /// The type of provisioning workflow the device uses for onboarding to IoT managed integrations.
         public var provisioningType: IoTManagedIntegrationsClientTypes.ProvisioningType?
+        /// The status of a provisioning profile.
+        public var status: IoTManagedIntegrationsClientTypes.ProvisioningProfileStatus?
 
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
-            provisioningType: IoTManagedIntegrationsClientTypes.ProvisioningType? = nil
+            provisioningType: IoTManagedIntegrationsClientTypes.ProvisioningType? = nil,
+            status: IoTManagedIntegrationsClientTypes.ProvisioningProfileStatus? = nil
         ) {
             self.arn = arn
             self.id = id
             self.name = name
             self.provisioningType = provisioningType
+            self.status = status
         }
     }
 }
@@ -8015,6 +8068,7 @@ extension CreateProvisioningProfileOutput {
         value.id = try reader["Id"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.provisioningType = try reader["ProvisioningType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -8447,6 +8501,7 @@ extension GetProvisioningProfileOutput {
         value.id = try reader["Id"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.provisioningType = try reader["ProvisioningType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -9311,6 +9366,7 @@ enum DeleteProvisioningProfileOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -11345,6 +11401,7 @@ extension IoTManagedIntegrationsClientTypes.ProvisioningProfileSummary {
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.provisioningType = try reader["ProvisioningType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
