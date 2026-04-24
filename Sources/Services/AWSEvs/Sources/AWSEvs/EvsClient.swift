@@ -686,6 +686,78 @@ extension EvsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateEntitlement` operation on the `Evs` service.
+    ///
+    /// Creates a Windows Server License entitlement for virtual machines in an Amazon EVS environment using the provided vCenter Server connector. This is an asynchronous operation. Amazon EVS validates the specified virtual machines before starting usage tracking.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateEntitlementInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateEntitlementOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
+    /// - `ThrottlingException` : The operation could not be performed because the service is throttling requests. This exception is thrown when the service endpoint receives too many concurrent requests.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints. You will see this exception if invalid inputs are provided for any of the Amazon EVS environment operations, or if a list operation is performed on an environment resource that is still initializing.
+    public func createEntitlement(input: CreateEntitlementInput) async throws -> CreateEntitlementOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createEntitlement")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "evs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateEntitlementInput, CreateEntitlementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(CreateEntitlementInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEntitlementInput, CreateEntitlementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEntitlementInput, CreateEntitlementOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEntitlementOutput>(CreateEntitlementOutput.httpOutput(from:), CreateEntitlementOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateEntitlementOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("evs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEntitlementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.CreateEntitlement"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateEntitlementInput, CreateEntitlementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEntitlementInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEntitlementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEntitlementInput, CreateEntitlementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(serviceID: serviceName, version: EvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Evs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateEntitlement")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateEnvironment` operation on the `Evs` service.
     ///
     /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF in the vSphere user interface according to your needs. When creating a new environment, the default ESX version for the selected VCF version will be used, you cannot choose a specific ESX version in CreateEnvironment action. When a host has been added with a specific ESX version, it can only be upgraded using vCenter Lifecycle Manager. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.
@@ -749,6 +821,78 @@ extension EvsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Evs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateEnvironment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateEnvironmentConnector` operation on the `Evs` service.
+    ///
+    /// Creates a connector for an Amazon EVS environment. A connector establishes a connection to a VCF appliance, such as vCenter, using a fully qualified domain name and an Amazon Web Services Secrets Manager secret that stores the appliance credentials.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
+    /// - `ThrottlingException` : The operation could not be performed because the service is throttling requests. This exception is thrown when the service endpoint receives too many concurrent requests.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints. You will see this exception if invalid inputs are provided for any of the Amazon EVS environment operations, or if a list operation is performed on an environment resource that is still initializing.
+    public func createEnvironmentConnector(input: CreateEnvironmentConnectorInput) async throws -> CreateEnvironmentConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createEnvironmentConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "evs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateEnvironmentConnectorInput, CreateEnvironmentConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateEnvironmentConnectorInput, CreateEnvironmentConnectorOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEnvironmentConnectorInput, CreateEnvironmentConnectorOutput>(CreateEnvironmentConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEnvironmentConnectorInput, CreateEnvironmentConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentConnectorInput, CreateEnvironmentConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentConnectorOutput>(CreateEnvironmentConnectorOutput.httpOutput(from:), CreateEnvironmentConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentConnectorInput, CreateEnvironmentConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("evs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEnvironmentConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEnvironmentConnectorInput, CreateEnvironmentConnectorOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.CreateEnvironmentConnector"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateEnvironmentConnectorInput, CreateEnvironmentConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEnvironmentConnectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEnvironmentConnectorInput, CreateEnvironmentConnectorOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEnvironmentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEnvironmentConnectorInput, CreateEnvironmentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateEnvironmentConnectorInput, CreateEnvironmentConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateEnvironmentConnectorInput, CreateEnvironmentConnectorOutput>(serviceID: serviceName, version: EvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Evs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateEnvironmentConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -837,6 +981,78 @@ extension EvsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteEntitlement` operation on the `Evs` service.
+    ///
+    /// Deletes a Windows Server License entitlement for virtual machines in an Amazon EVS environment. Deleting an entitlement stops usage tracking for the specified virtual machines.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteEntitlementInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteEntitlementOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
+    /// - `ThrottlingException` : The operation could not be performed because the service is throttling requests. This exception is thrown when the service endpoint receives too many concurrent requests.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints. You will see this exception if invalid inputs are provided for any of the Amazon EVS environment operations, or if a list operation is performed on an environment resource that is still initializing.
+    public func deleteEntitlement(input: DeleteEntitlementInput) async throws -> DeleteEntitlementOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteEntitlement")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "evs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteEntitlementInput, DeleteEntitlementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(DeleteEntitlementInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEntitlementOutput>(DeleteEntitlementOutput.httpOutput(from:), DeleteEntitlementOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEntitlementOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("evs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEntitlementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.DeleteEntitlement"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEntitlementInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEntitlementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(serviceID: serviceName, version: EvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Evs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteEntitlement")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteEnvironment` operation on the `Evs` service.
     ///
     /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets and Amazon Web Services Secrets Manager secrets that Amazon EVS created. Amazon Web Services resources that you create are not deleted. These resources may continue to incur costs.
@@ -901,6 +1117,78 @@ extension EvsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Evs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteEnvironment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteEnvironmentConnector` operation on the `Evs` service.
+    ///
+    /// Deletes a connector from an Amazon EVS environment. Before deleting a connector, you must remove all entitlements that are associated with the same vCenter.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
+    /// - `ThrottlingException` : The operation could not be performed because the service is throttling requests. This exception is thrown when the service endpoint receives too many concurrent requests.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints. You will see this exception if invalid inputs are provided for any of the Amazon EVS environment operations, or if a list operation is performed on an environment resource that is still initializing.
+    public func deleteEnvironmentConnector(input: DeleteEnvironmentConnectorInput) async throws -> DeleteEnvironmentConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteEnvironmentConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "evs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteEnvironmentConnectorInput, DeleteEnvironmentConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteEnvironmentConnectorInput, DeleteEnvironmentConnectorOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEnvironmentConnectorInput, DeleteEnvironmentConnectorOutput>(DeleteEnvironmentConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEnvironmentConnectorInput, DeleteEnvironmentConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentConnectorInput, DeleteEnvironmentConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentConnectorOutput>(DeleteEnvironmentConnectorOutput.httpOutput(from:), DeleteEnvironmentConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentConnectorInput, DeleteEnvironmentConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("evs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEnvironmentConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEnvironmentConnectorInput, DeleteEnvironmentConnectorOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.DeleteEnvironmentConnector"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEnvironmentConnectorInput, DeleteEnvironmentConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEnvironmentConnectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEnvironmentConnectorInput, DeleteEnvironmentConnectorOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEnvironmentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEnvironmentConnectorInput, DeleteEnvironmentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteEnvironmentConnectorInput, DeleteEnvironmentConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteEnvironmentConnectorInput, DeleteEnvironmentConnectorOutput>(serviceID: serviceName, version: EvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Evs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteEnvironmentConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1216,6 +1504,76 @@ extension EvsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListEnvironmentConnectors` operation on the `Evs` service.
+    ///
+    /// Lists the connectors within an environment. Returns the status of each connector and its applicable checks, among other connector details.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentConnectorsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentConnectorsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints. You will see this exception if invalid inputs are provided for any of the Amazon EVS environment operations, or if a list operation is performed on an environment resource that is still initializing.
+    public func listEnvironmentConnectors(input: ListEnvironmentConnectorsInput) async throws -> ListEnvironmentConnectorsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEnvironmentConnectors")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "evs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListEnvironmentConnectorsInput, ListEnvironmentConnectorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEnvironmentConnectorsInput, ListEnvironmentConnectorsOutput>(ListEnvironmentConnectorsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEnvironmentConnectorsInput, ListEnvironmentConnectorsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentConnectorsInput, ListEnvironmentConnectorsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentConnectorsOutput>(ListEnvironmentConnectorsOutput.httpOutput(from:), ListEnvironmentConnectorsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentConnectorsInput, ListEnvironmentConnectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentConnectorsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("evs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEnvironmentConnectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEnvironmentConnectorsInput, ListEnvironmentConnectorsOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.ListEnvironmentConnectors"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListEnvironmentConnectorsInput, ListEnvironmentConnectorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEnvironmentConnectorsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEnvironmentConnectorsInput, ListEnvironmentConnectorsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnvironmentConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEnvironmentConnectorsInput, ListEnvironmentConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEnvironmentConnectorsInput, ListEnvironmentConnectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEnvironmentConnectorsInput, ListEnvironmentConnectorsOutput>(serviceID: serviceName, version: EvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Evs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEnvironmentConnectors")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListEnvironmentHosts` operation on the `Evs` service.
     ///
     /// List the hosts within an environment.
@@ -1514,6 +1872,76 @@ extension EvsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListVmEntitlements` operation on the `Evs` service.
+    ///
+    /// Lists the Windows Server License entitlements for virtual machines in an Amazon EVS environment. Returns existing entitlements for virtual machines associated with the specified environment and connector.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListVmEntitlementsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListVmEntitlementsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints. You will see this exception if invalid inputs are provided for any of the Amazon EVS environment operations, or if a list operation is performed on an environment resource that is still initializing.
+    public func listVmEntitlements(input: ListVmEntitlementsInput) async throws -> ListVmEntitlementsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listVmEntitlements")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "evs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListVmEntitlementsInput, ListVmEntitlementsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListVmEntitlementsInput, ListVmEntitlementsOutput>(ListVmEntitlementsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVmEntitlementsInput, ListVmEntitlementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVmEntitlementsInput, ListVmEntitlementsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVmEntitlementsOutput>(ListVmEntitlementsOutput.httpOutput(from:), ListVmEntitlementsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVmEntitlementsInput, ListVmEntitlementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListVmEntitlementsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("evs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVmEntitlementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVmEntitlementsInput, ListVmEntitlementsOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.ListVmEntitlements"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListVmEntitlementsInput, ListVmEntitlementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListVmEntitlementsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVmEntitlementsInput, ListVmEntitlementsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVmEntitlementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVmEntitlementsInput, ListVmEntitlementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListVmEntitlementsInput, ListVmEntitlementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListVmEntitlementsInput, ListVmEntitlementsOutput>(serviceID: serviceName, version: EvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Evs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListVmEntitlements")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `Evs` service.
     ///
     /// Associates the specified tags to an Amazon EVS resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propagate to the VLAN subnets and hosts associated with the environment.
@@ -1654,6 +2082,78 @@ extension EvsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Evs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateEnvironmentConnector` operation on the `Evs` service.
+    ///
+    /// Updates a connector for an Amazon EVS environment. You can update the Amazon Web Services Secrets Manager secret ARN or the appliance FQDN to reconfigure the connector metadata. You cannot update both the secret and the FQDN in the same request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
+    /// - `ThrottlingException` : The operation could not be performed because the service is throttling requests. This exception is thrown when the service endpoint receives too many concurrent requests.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints. You will see this exception if invalid inputs are provided for any of the Amazon EVS environment operations, or if a list operation is performed on an environment resource that is still initializing.
+    public func updateEnvironmentConnector(input: UpdateEnvironmentConnectorInput) async throws -> UpdateEnvironmentConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateEnvironmentConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "evs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateEnvironmentConnectorInput, UpdateEnvironmentConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateEnvironmentConnectorInput, UpdateEnvironmentConnectorOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEnvironmentConnectorInput, UpdateEnvironmentConnectorOutput>(UpdateEnvironmentConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEnvironmentConnectorInput, UpdateEnvironmentConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentConnectorInput, UpdateEnvironmentConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentConnectorOutput>(UpdateEnvironmentConnectorOutput.httpOutput(from:), UpdateEnvironmentConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentConnectorInput, UpdateEnvironmentConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("evs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEnvironmentConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEnvironmentConnectorInput, UpdateEnvironmentConnectorOutput>(overrides: ["X-Amz-Target": "AmazonElasticVMwareService.UpdateEnvironmentConnector"]))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEnvironmentConnectorInput, UpdateEnvironmentConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEnvironmentConnectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEnvironmentConnectorInput, UpdateEnvironmentConnectorOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEnvironmentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEnvironmentConnectorInput, UpdateEnvironmentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateEnvironmentConnectorInput, UpdateEnvironmentConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateEnvironmentConnectorInput, UpdateEnvironmentConnectorOutput>(serviceID: serviceName, version: EvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Evs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateEnvironmentConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -19,11 +19,14 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
+@_spi(SmithyReadWrite) import class SmithyCBOR.Writer
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
+import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -35,21 +38,23 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
-import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
+@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
@@ -57,9 +62,8 @@ import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
+import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
-import struct SmithyAWSJSON.HTTPClientProtocol
-import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -625,12 +629,6 @@ extension ComprehendMedicalClient {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func describeEntitiesDetectionV2Job(input: DescribeEntitiesDetectionV2JobInput) async throws -> DescribeEntitiesDetectionV2JobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.describeEntitiesDetectionV2JobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -643,30 +641,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>(DescribeEntitiesDetectionV2JobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEntitiesDetectionV2JobOutput>(DescribeEntitiesDetectionV2JobOutput.httpOutput(from:), DescribeEntitiesDetectionV2JobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEntitiesDetectionV2JobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEntitiesDetectionV2JobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.DescribeEntitiesDetectionV2Job"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEntitiesDetectionV2JobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -702,12 +704,6 @@ extension ComprehendMedicalClient {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func describeICD10CMInferenceJob(input: DescribeICD10CMInferenceJobInput) async throws -> DescribeICD10CMInferenceJobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.describeICD10CMInferenceJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -720,30 +716,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>(DescribeICD10CMInferenceJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeICD10CMInferenceJobOutput>(DescribeICD10CMInferenceJobOutput.httpOutput(from:), DescribeICD10CMInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeICD10CMInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeICD10CMInferenceJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.DescribeICD10CMInferenceJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeICD10CMInferenceJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeICD10CMInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -779,12 +779,6 @@ extension ComprehendMedicalClient {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func describePHIDetectionJob(input: DescribePHIDetectionJobInput) async throws -> DescribePHIDetectionJobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.describePHIDetectionJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -797,30 +791,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>(DescribePHIDetectionJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePHIDetectionJobOutput>(DescribePHIDetectionJobOutput.httpOutput(from:), DescribePHIDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePHIDetectionJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePHIDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.DescribePHIDetectionJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePHIDetectionJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePHIDetectionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -856,12 +854,6 @@ extension ComprehendMedicalClient {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func describeRxNormInferenceJob(input: DescribeRxNormInferenceJobInput) async throws -> DescribeRxNormInferenceJobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.describeRxNormInferenceJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -874,30 +866,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>(DescribeRxNormInferenceJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRxNormInferenceJobOutput>(DescribeRxNormInferenceJobOutput.httpOutput(from:), DescribeRxNormInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRxNormInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRxNormInferenceJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.DescribeRxNormInferenceJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRxNormInferenceJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRxNormInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -933,12 +929,6 @@ extension ComprehendMedicalClient {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func describeSNOMEDCTInferenceJob(input: DescribeSNOMEDCTInferenceJobInput) async throws -> DescribeSNOMEDCTInferenceJobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.describeSNOMEDCTInferenceJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -951,30 +941,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>(DescribeSNOMEDCTInferenceJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSNOMEDCTInferenceJobOutput>(DescribeSNOMEDCTInferenceJobOutput.httpOutput(from:), DescribeSNOMEDCTInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSNOMEDCTInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSNOMEDCTInferenceJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.DescribeSNOMEDCTInferenceJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSNOMEDCTInferenceJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1013,12 +1007,6 @@ extension ComprehendMedicalClient {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func detectEntities(input: DetectEntitiesInput) async throws -> DetectEntitiesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.detectEntitiesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1031,30 +1019,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DetectEntitiesInput, DetectEntitiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(DetectEntitiesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectEntitiesInput, DetectEntitiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectEntitiesInput, DetectEntitiesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectEntitiesOutput>(DetectEntitiesOutput.httpOutput(from:), DetectEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectEntitiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectEntitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.DetectEntities"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DetectEntitiesInput, DetectEntitiesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DetectEntitiesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DetectEntitiesInput, DetectEntitiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectEntitiesInput, DetectEntitiesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectEntitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectEntitiesInput, DetectEntitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1092,12 +1084,6 @@ extension ComprehendMedicalClient {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func detectEntitiesV2(input: DetectEntitiesV2Input) async throws -> DetectEntitiesV2Output {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.detectEntitiesV2Operation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1110,30 +1096,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DetectEntitiesV2Input, DetectEntitiesV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>(DetectEntitiesV2Input.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectEntitiesV2Output>(DetectEntitiesV2Output.httpOutput(from:), DetectEntitiesV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectEntitiesV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectEntitiesV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.DetectEntitiesV2"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DetectEntitiesV2Input.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectEntitiesV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1171,12 +1161,6 @@ extension ComprehendMedicalClient {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func detectPHI(input: DetectPHIInput) async throws -> DetectPHIOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.detectPHIOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1189,30 +1173,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DetectPHIInput, DetectPHIOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectPHIInput, DetectPHIOutput>(DetectPHIInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectPHIInput, DetectPHIOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectPHIInput, DetectPHIOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectPHIInput, DetectPHIOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectPHIOutput>(DetectPHIOutput.httpOutput(from:), DetectPHIOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectPHIInput, DetectPHIOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectPHIOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectPHIOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectPHIInput, DetectPHIOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.DetectPHI"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectPHIInput, DetectPHIOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DetectPHIInput, DetectPHIOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DetectPHIInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectPHIInput, DetectPHIOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DetectPHIInput, DetectPHIOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectPHIInput, DetectPHIOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectPHIInput, DetectPHIOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectPHIOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectPHIInput, DetectPHIOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetectPHIInput, DetectPHIOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1250,12 +1238,6 @@ extension ComprehendMedicalClient {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func inferICD10CM(input: InferICD10CMInput) async throws -> InferICD10CMOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.inferICD10CMOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1268,30 +1250,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<InferICD10CMInput, InferICD10CMOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<InferICD10CMInput, InferICD10CMOutput>(InferICD10CMInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<InferICD10CMInput, InferICD10CMOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InferICD10CMInput, InferICD10CMOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InferICD10CMInput, InferICD10CMOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<InferICD10CMOutput>(InferICD10CMOutput.httpOutput(from:), InferICD10CMOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InferICD10CMInput, InferICD10CMOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InferICD10CMOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InferICD10CMOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InferICD10CMInput, InferICD10CMOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.InferICD10CM"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InferICD10CMInput, InferICD10CMOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<InferICD10CMInput, InferICD10CMOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: InferICD10CMInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InferICD10CMInput, InferICD10CMOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<InferICD10CMInput, InferICD10CMOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InferICD10CMInput, InferICD10CMOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InferICD10CMInput, InferICD10CMOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InferICD10CMOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InferICD10CMInput, InferICD10CMOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InferICD10CMInput, InferICD10CMOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1329,12 +1315,6 @@ extension ComprehendMedicalClient {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func inferRxNorm(input: InferRxNormInput) async throws -> InferRxNormOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.inferRxNormOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1347,30 +1327,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<InferRxNormInput, InferRxNormOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<InferRxNormInput, InferRxNormOutput>(InferRxNormInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<InferRxNormInput, InferRxNormOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InferRxNormInput, InferRxNormOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InferRxNormInput, InferRxNormOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<InferRxNormOutput>(InferRxNormOutput.httpOutput(from:), InferRxNormOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InferRxNormInput, InferRxNormOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InferRxNormOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InferRxNormOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InferRxNormInput, InferRxNormOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.InferRxNorm"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InferRxNormInput, InferRxNormOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<InferRxNormInput, InferRxNormOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: InferRxNormInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InferRxNormInput, InferRxNormOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<InferRxNormInput, InferRxNormOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InferRxNormInput, InferRxNormOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InferRxNormInput, InferRxNormOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InferRxNormOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InferRxNormInput, InferRxNormOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InferRxNormInput, InferRxNormOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1408,12 +1392,6 @@ extension ComprehendMedicalClient {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func inferSNOMEDCT(input: InferSNOMEDCTInput) async throws -> InferSNOMEDCTOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.inferSNOMEDCTOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1426,30 +1404,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<InferSNOMEDCTInput, InferSNOMEDCTOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>(InferSNOMEDCTInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<InferSNOMEDCTOutput>(InferSNOMEDCTOutput.httpOutput(from:), InferSNOMEDCTOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InferSNOMEDCTOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InferSNOMEDCTOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.InferSNOMEDCT"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: InferSNOMEDCTInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InferSNOMEDCTOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1485,12 +1467,6 @@ extension ComprehendMedicalClient {
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     public func listEntitiesDetectionV2Jobs(input: ListEntitiesDetectionV2JobsInput) async throws -> ListEntitiesDetectionV2JobsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.listEntitiesDetectionV2JobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1503,30 +1479,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>(ListEntitiesDetectionV2JobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntitiesDetectionV2JobsOutput>(ListEntitiesDetectionV2JobsOutput.httpOutput(from:), ListEntitiesDetectionV2JobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntitiesDetectionV2JobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEntitiesDetectionV2JobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.ListEntitiesDetectionV2Jobs"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListEntitiesDetectionV2JobsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntitiesDetectionV2JobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1562,12 +1542,6 @@ extension ComprehendMedicalClient {
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     public func listICD10CMInferenceJobs(input: ListICD10CMInferenceJobsInput) async throws -> ListICD10CMInferenceJobsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.listICD10CMInferenceJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1580,30 +1554,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>(ListICD10CMInferenceJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListICD10CMInferenceJobsOutput>(ListICD10CMInferenceJobsOutput.httpOutput(from:), ListICD10CMInferenceJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListICD10CMInferenceJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListICD10CMInferenceJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.ListICD10CMInferenceJobs"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListICD10CMInferenceJobsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListICD10CMInferenceJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1639,12 +1617,6 @@ extension ComprehendMedicalClient {
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     public func listPHIDetectionJobs(input: ListPHIDetectionJobsInput) async throws -> ListPHIDetectionJobsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.listPHIDetectionJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1657,30 +1629,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>(ListPHIDetectionJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPHIDetectionJobsOutput>(ListPHIDetectionJobsOutput.httpOutput(from:), ListPHIDetectionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPHIDetectionJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPHIDetectionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.ListPHIDetectionJobs"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListPHIDetectionJobsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPHIDetectionJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1716,12 +1692,6 @@ extension ComprehendMedicalClient {
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     public func listRxNormInferenceJobs(input: ListRxNormInferenceJobsInput) async throws -> ListRxNormInferenceJobsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.listRxNormInferenceJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1734,30 +1704,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>(ListRxNormInferenceJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRxNormInferenceJobsOutput>(ListRxNormInferenceJobsOutput.httpOutput(from:), ListRxNormInferenceJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRxNormInferenceJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRxNormInferenceJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.ListRxNormInferenceJobs"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListRxNormInferenceJobsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRxNormInferenceJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1793,12 +1767,6 @@ extension ComprehendMedicalClient {
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     public func listSNOMEDCTInferenceJobs(input: ListSNOMEDCTInferenceJobsInput) async throws -> ListSNOMEDCTInferenceJobsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.listSNOMEDCTInferenceJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1811,30 +1779,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>(ListSNOMEDCTInferenceJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSNOMEDCTInferenceJobsOutput>(ListSNOMEDCTInferenceJobsOutput.httpOutput(from:), ListSNOMEDCTInferenceJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSNOMEDCTInferenceJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSNOMEDCTInferenceJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.ListSNOMEDCTInferenceJobs"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListSNOMEDCTInferenceJobsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSNOMEDCTInferenceJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1870,12 +1842,6 @@ extension ComprehendMedicalClient {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func startEntitiesDetectionV2Job(input: StartEntitiesDetectionV2JobInput) async throws -> StartEntitiesDetectionV2JobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.startEntitiesDetectionV2JobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1888,10 +1854,8 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1899,20 +1863,26 @@ extension ComprehendMedicalClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>(StartEntitiesDetectionV2JobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartEntitiesDetectionV2JobOutput>(StartEntitiesDetectionV2JobOutput.httpOutput(from:), StartEntitiesDetectionV2JobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartEntitiesDetectionV2JobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartEntitiesDetectionV2JobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.StartEntitiesDetectionV2Job"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StartEntitiesDetectionV2JobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1948,12 +1918,6 @@ extension ComprehendMedicalClient {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func startICD10CMInferenceJob(input: StartICD10CMInferenceJobInput) async throws -> StartICD10CMInferenceJobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.startICD10CMInferenceJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1966,10 +1930,8 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1977,20 +1939,26 @@ extension ComprehendMedicalClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>(StartICD10CMInferenceJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartICD10CMInferenceJobOutput>(StartICD10CMInferenceJobOutput.httpOutput(from:), StartICD10CMInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartICD10CMInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartICD10CMInferenceJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.StartICD10CMInferenceJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StartICD10CMInferenceJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartICD10CMInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2026,12 +1994,6 @@ extension ComprehendMedicalClient {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func startPHIDetectionJob(input: StartPHIDetectionJobInput) async throws -> StartPHIDetectionJobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.startPHIDetectionJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2044,10 +2006,8 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StartPHIDetectionJobInput, StartPHIDetectionJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2055,20 +2015,26 @@ extension ComprehendMedicalClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>(StartPHIDetectionJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPHIDetectionJobOutput>(StartPHIDetectionJobOutput.httpOutput(from:), StartPHIDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPHIDetectionJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartPHIDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.StartPHIDetectionJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StartPHIDetectionJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartPHIDetectionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2104,12 +2070,6 @@ extension ComprehendMedicalClient {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func startRxNormInferenceJob(input: StartRxNormInferenceJobInput) async throws -> StartRxNormInferenceJobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.startRxNormInferenceJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2122,10 +2082,8 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2133,20 +2091,26 @@ extension ComprehendMedicalClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>(StartRxNormInferenceJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRxNormInferenceJobOutput>(StartRxNormInferenceJobOutput.httpOutput(from:), StartRxNormInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRxNormInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartRxNormInferenceJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.StartRxNormInferenceJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StartRxNormInferenceJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartRxNormInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2182,12 +2146,6 @@ extension ComprehendMedicalClient {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func startSNOMEDCTInferenceJob(input: StartSNOMEDCTInferenceJobInput) async throws -> StartSNOMEDCTInferenceJobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.startSNOMEDCTInferenceJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2200,10 +2158,8 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2211,20 +2167,26 @@ extension ComprehendMedicalClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>(StartSNOMEDCTInferenceJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSNOMEDCTInferenceJobOutput>(StartSNOMEDCTInferenceJobOutput.httpOutput(from:), StartSNOMEDCTInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSNOMEDCTInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartSNOMEDCTInferenceJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.StartSNOMEDCTInferenceJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StartSNOMEDCTInferenceJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2259,12 +2221,6 @@ extension ComprehendMedicalClient {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     public func stopEntitiesDetectionV2Job(input: StopEntitiesDetectionV2JobInput) async throws -> StopEntitiesDetectionV2JobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.stopEntitiesDetectionV2JobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2277,30 +2233,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>(StopEntitiesDetectionV2JobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopEntitiesDetectionV2JobOutput>(StopEntitiesDetectionV2JobOutput.httpOutput(from:), StopEntitiesDetectionV2JobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopEntitiesDetectionV2JobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopEntitiesDetectionV2JobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.StopEntitiesDetectionV2Job"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StopEntitiesDetectionV2JobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2335,12 +2295,6 @@ extension ComprehendMedicalClient {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     public func stopICD10CMInferenceJob(input: StopICD10CMInferenceJobInput) async throws -> StopICD10CMInferenceJobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.stopICD10CMInferenceJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2353,30 +2307,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>(StopICD10CMInferenceJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopICD10CMInferenceJobOutput>(StopICD10CMInferenceJobOutput.httpOutput(from:), StopICD10CMInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopICD10CMInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopICD10CMInferenceJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.StopICD10CMInferenceJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StopICD10CMInferenceJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopICD10CMInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2411,12 +2369,6 @@ extension ComprehendMedicalClient {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     public func stopPHIDetectionJob(input: StopPHIDetectionJobInput) async throws -> StopPHIDetectionJobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.stopPHIDetectionJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2429,30 +2381,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StopPHIDetectionJobInput, StopPHIDetectionJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>(StopPHIDetectionJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopPHIDetectionJobOutput>(StopPHIDetectionJobOutput.httpOutput(from:), StopPHIDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopPHIDetectionJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopPHIDetectionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.StopPHIDetectionJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StopPHIDetectionJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopPHIDetectionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2487,12 +2443,6 @@ extension ComprehendMedicalClient {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     public func stopRxNormInferenceJob(input: StopRxNormInferenceJobInput) async throws -> StopRxNormInferenceJobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.stopRxNormInferenceJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2505,30 +2455,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>(StopRxNormInferenceJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopRxNormInferenceJobOutput>(StopRxNormInferenceJobOutput.httpOutput(from:), StopRxNormInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopRxNormInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopRxNormInferenceJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.StopRxNormInferenceJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StopRxNormInferenceJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopRxNormInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2564,12 +2518,6 @@ extension ComprehendMedicalClient {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public func stopSNOMEDCTInferenceJob(input: StopSNOMEDCTInferenceJobInput) async throws -> StopSNOMEDCTInferenceJobOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComprehendMedicalClient.stopSNOMEDCTInferenceJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2582,30 +2530,34 @@ extension ComprehendMedicalClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>(StopSNOMEDCTInferenceJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopSNOMEDCTInferenceJobOutput>(StopSNOMEDCTInferenceJobOutput.httpOutput(from:), StopSNOMEDCTInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopSNOMEDCTInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopSNOMEDCTInferenceJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>(overrides: ["X-Amz-Target": "ComprehendMedical_20181030.StopSNOMEDCTInferenceJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StopSNOMEDCTInferenceJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

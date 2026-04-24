@@ -4418,6 +4418,7 @@ extension LambdaClientTypes {
         case ruby32
         case ruby33
         case ruby34
+        case ruby40
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Runtime] {
@@ -4466,7 +4467,8 @@ extension LambdaClientTypes {
                 .ruby27,
                 .ruby32,
                 .ruby33,
-                .ruby34
+                .ruby34,
+                .ruby40
             ]
         }
 
@@ -4522,6 +4524,7 @@ extension LambdaClientTypes {
             case .ruby32: return "ruby3.2"
             case .ruby33: return "ruby3.3"
             case .ruby34: return "ruby3.4"
+            case .ruby40: return "ruby4.0"
             case let .sdkUnknown(s): return s
             }
         }

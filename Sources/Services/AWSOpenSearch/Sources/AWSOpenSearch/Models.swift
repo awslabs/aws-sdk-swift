@@ -1769,6 +1769,21 @@ extension OpenSearchClientTypes {
     }
 }
 
+extension OpenSearchClientTypes {
+
+    /// Options for the service, such as the supported Regions.
+    public struct ServiceOptions: Swift.Sendable {
+        /// The list of supported Regions for the service.
+        public var supportedRegions: [Swift.String]?
+
+        public init(
+            supportedRegions: [Swift.String]? = nil
+        ) {
+            self.supportedRegions = supportedRegions
+        }
+    }
+}
+
 public struct AuthorizeVpcEndpointAccessInput: Swift.Sendable {
     /// The Amazon Web Services account ID to grant access to.
     public var account: Swift.String?
@@ -1777,15 +1792,19 @@ public struct AuthorizeVpcEndpointAccessInput: Swift.Sendable {
     public var domainName: Swift.String?
     /// The Amazon Web Services service SP to grant access to.
     public var service: OpenSearchClientTypes.AWSServicePrincipal?
+    /// The options for the service, including the supported Regions for the endpoint access.
+    public var serviceOptions: OpenSearchClientTypes.ServiceOptions?
 
     public init(
         account: Swift.String? = nil,
         domainName: Swift.String? = nil,
-        service: OpenSearchClientTypes.AWSServicePrincipal? = nil
+        service: OpenSearchClientTypes.AWSServicePrincipal? = nil,
+        serviceOptions: OpenSearchClientTypes.ServiceOptions? = nil
     ) {
         self.account = account
         self.domainName = domainName
         self.service = service
+        self.serviceOptions = serviceOptions
     }
 }
 
@@ -1826,13 +1845,17 @@ extension OpenSearchClientTypes {
         public var principal: Swift.String?
         /// The type of principal.
         public var principalType: OpenSearchClientTypes.PrincipalType?
+        /// The options for the service, including the supported Regions for the endpoint access.
+        public var serviceOptions: OpenSearchClientTypes.ServiceOptions?
 
         public init(
             principal: Swift.String? = nil,
-            principalType: OpenSearchClientTypes.PrincipalType? = nil
+            principalType: OpenSearchClientTypes.PrincipalType? = nil,
+            serviceOptions: OpenSearchClientTypes.ServiceOptions? = nil
         ) {
             self.principal = principal
             self.principalType = principalType
+            self.serviceOptions = serviceOptions
         }
     }
 }
@@ -3211,6 +3234,8 @@ extension OpenSearchClientTypes {
         public var enabledAPIAccess: Swift.Bool?
         /// The ARN of the IAM Identity Center instance used to create an OpenSearch UI application that uses IAM Identity Center for authentication.
         public var identityCenterInstanceARN: Swift.String?
+        /// The Region of the IAM Identity Center instance.
+        public var identityCenterInstanceRegion: Swift.String?
         /// Specifies the attribute that contains the backend role identifier (such as group name or group ID) in IAM Identity Center.
         public var rolesKey: OpenSearchClientTypes.RolesKeyIdCOption?
         /// Specifies the attribute that contains the subject identifier (such as username, user ID, or email) in IAM Identity Center.
@@ -3219,11 +3244,13 @@ extension OpenSearchClientTypes {
         public init(
             enabledAPIAccess: Swift.Bool? = nil,
             identityCenterInstanceARN: Swift.String? = nil,
+            identityCenterInstanceRegion: Swift.String? = nil,
             rolesKey: OpenSearchClientTypes.RolesKeyIdCOption? = nil,
             subjectKey: OpenSearchClientTypes.SubjectKeyIdCOption? = nil
         ) {
             self.enabledAPIAccess = enabledAPIAccess
             self.identityCenterInstanceARN = identityCenterInstanceARN
+            self.identityCenterInstanceRegion = identityCenterInstanceRegion
             self.rolesKey = rolesKey
             self.subjectKey = subjectKey
         }
@@ -3413,11 +3440,15 @@ extension OpenSearchClientTypes {
     public struct SoftwareUpdateOptions: Swift.Sendable {
         /// Whether automatic service software updates are enabled for the domain.
         public var autoSoftwareUpdateEnabled: Swift.Bool?
+        /// Whether the domain should use the latest service software version during a blue/green deployment. If enabled, the domain will automatically use the latest available service software when a blue/green deployment is triggered.
+        public var useLatestServiceSoftwareForBlueGreen: Swift.Bool?
 
         public init(
-            autoSoftwareUpdateEnabled: Swift.Bool? = nil
+            autoSoftwareUpdateEnabled: Swift.Bool? = nil,
+            useLatestServiceSoftwareForBlueGreen: Swift.Bool? = nil
         ) {
             self.autoSoftwareUpdateEnabled = autoSoftwareUpdateEnabled
+            self.useLatestServiceSoftwareForBlueGreen = useLatestServiceSoftwareForBlueGreen
         }
     }
 }
@@ -3787,6 +3818,8 @@ extension OpenSearchClientTypes {
         public var identityCenterApplicationARN: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
         public var identityCenterInstanceARN: Swift.String?
+        /// The Region of the IAM Identity Center instance.
+        public var identityCenterInstanceRegion: Swift.String?
         /// The identifier of the IAM Identity Store.
         public var identityStoreId: Swift.String?
         /// Specifies the attribute that contains the backend role identifier (such as group name or group ID) in IAM Identity Center.
@@ -3798,6 +3831,7 @@ extension OpenSearchClientTypes {
             enabledAPIAccess: Swift.Bool? = nil,
             identityCenterApplicationARN: Swift.String? = nil,
             identityCenterInstanceARN: Swift.String? = nil,
+            identityCenterInstanceRegion: Swift.String? = nil,
             identityStoreId: Swift.String? = nil,
             rolesKey: OpenSearchClientTypes.RolesKeyIdCOption? = nil,
             subjectKey: OpenSearchClientTypes.SubjectKeyIdCOption? = nil
@@ -3805,6 +3839,7 @@ extension OpenSearchClientTypes {
             self.enabledAPIAccess = enabledAPIAccess
             self.identityCenterApplicationARN = identityCenterApplicationARN
             self.identityCenterInstanceARN = identityCenterInstanceARN
+            self.identityCenterInstanceRegion = identityCenterInstanceRegion
             self.identityStoreId = identityStoreId
             self.rolesKey = rolesKey
             self.subjectKey = subjectKey
@@ -9535,21 +9570,77 @@ public struct RevokeVpcEndpointAccessInput: Swift.Sendable {
     public var domainName: Swift.String?
     /// The service SP to revoke access from.
     public var service: OpenSearchClientTypes.AWSServicePrincipal?
+    /// The options for the service, including the supported Regions for the endpoint access.
+    public var serviceOptions: OpenSearchClientTypes.ServiceOptions?
 
     public init(
         account: Swift.String? = nil,
         domainName: Swift.String? = nil,
-        service: OpenSearchClientTypes.AWSServicePrincipal? = nil
+        service: OpenSearchClientTypes.AWSServicePrincipal? = nil,
+        serviceOptions: OpenSearchClientTypes.ServiceOptions? = nil
     ) {
         self.account = account
         self.domainName = domainName
         self.service = service
+        self.serviceOptions = serviceOptions
     }
 }
 
 public struct RevokeVpcEndpointAccessOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// Container for the request parameters to the RollbackServiceSoftwareUpdate operation.
+public struct RollbackServiceSoftwareUpdateInput: Swift.Sendable {
+    /// The name of the domain to roll back the service software update on.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Details about the rollback options for a service software update.
+    public struct RollbackServiceSoftwareOptions: Swift.Sendable {
+        /// The current service software version on the domain.
+        public var currentVersion: Swift.String?
+        /// A description of the rollback status.
+        public var description: Swift.String?
+        /// The service software version that the domain will roll back to.
+        public var newVersion: Swift.String?
+        /// Whether a service software rollback is available for the domain.
+        public var rollbackAvailable: Swift.Bool?
+
+        public init(
+            currentVersion: Swift.String? = nil,
+            description: Swift.String? = nil,
+            newVersion: Swift.String? = nil,
+            rollbackAvailable: Swift.Bool? = nil
+        ) {
+            self.currentVersion = currentVersion
+            self.description = description
+            self.newVersion = newVersion
+            self.rollbackAvailable = rollbackAvailable
+        }
+    }
+}
+
+/// Contains details about the rolled-back service software update.
+public struct RollbackServiceSoftwareUpdateOutput: Swift.Sendable {
+    /// The rollback options for the service software update.
+    public var rollbackServiceSoftwareOptions: OpenSearchClientTypes.RollbackServiceSoftwareOptions?
+
+    public init(
+        rollbackServiceSoftwareOptions: OpenSearchClientTypes.RollbackServiceSoftwareOptions? = nil
+    ) {
+        self.rollbackServiceSoftwareOptions = rollbackServiceSoftwareOptions
+    }
 }
 
 /// Container for the parameters to the StartDomainMaintenance operation.
@@ -11331,6 +11422,13 @@ extension RevokeVpcEndpointAccessInput {
     }
 }
 
+extension RollbackServiceSoftwareUpdateInput {
+
+    static func urlPathProvider(_ value: RollbackServiceSoftwareUpdateInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/serviceSoftwareUpdate/rollback"
+    }
+}
+
 extension StartDomainMaintenanceInput {
 
     static func urlPathProvider(_ value: StartDomainMaintenanceInput) -> Swift.String? {
@@ -11498,6 +11596,7 @@ extension AuthorizeVpcEndpointAccessInput {
         guard let value else { return }
         try writer["Account"].write(value.account)
         try writer["Service"].write(value.service)
+        try writer["ServiceOptions"].write(value.serviceOptions, with: OpenSearchClientTypes.ServiceOptions.write(value:to:))
     }
 }
 
@@ -11726,6 +11825,15 @@ extension RevokeVpcEndpointAccessInput {
         guard let value else { return }
         try writer["Account"].write(value.account)
         try writer["Service"].write(value.service)
+        try writer["ServiceOptions"].write(value.serviceOptions, with: OpenSearchClientTypes.ServiceOptions.write(value:to:))
+    }
+}
+
+extension RollbackServiceSoftwareUpdateInput {
+
+    static func write(value: RollbackServiceSoftwareUpdateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DomainName"].write(value.domainName)
     }
 }
 
@@ -12825,6 +12933,18 @@ extension RevokeVpcEndpointAccessOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RevokeVpcEndpointAccessOutput {
         return RevokeVpcEndpointAccessOutput()
+    }
+}
+
+extension RollbackServiceSoftwareUpdateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RollbackServiceSoftwareUpdateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RollbackServiceSoftwareUpdateOutput()
+        value.rollbackServiceSoftwareOptions = try reader["RollbackServiceSoftwareOptions"].readIfPresent(with: OpenSearchClientTypes.RollbackServiceSoftwareOptions.read(from:))
+        return value
     }
 }
 
@@ -14330,6 +14450,24 @@ enum RevokeVpcEndpointAccessOutputError {
     }
 }
 
+enum RollbackServiceSoftwareUpdateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartDomainMaintenanceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14913,6 +15051,7 @@ extension OpenSearchClientTypes.AuthorizedPrincipal {
         var value = OpenSearchClientTypes.AuthorizedPrincipal()
         value.principalType = try reader["PrincipalType"].readIfPresent()
         value.principal = try reader["Principal"].readIfPresent()
+        value.serviceOptions = try reader["ServiceOptions"].readIfPresent(with: OpenSearchClientTypes.ServiceOptions.read(from:))
         return value
     }
 }
@@ -15839,6 +15978,7 @@ extension OpenSearchClientTypes.IdentityCenterOptions {
         var value = OpenSearchClientTypes.IdentityCenterOptions()
         value.enabledAPIAccess = try reader["EnabledAPIAccess"].readIfPresent()
         value.identityCenterInstanceARN = try reader["IdentityCenterInstanceARN"].readIfPresent()
+        value.identityCenterInstanceRegion = try reader["IdentityCenterInstanceRegion"].readIfPresent()
         value.subjectKey = try reader["SubjectKey"].readIfPresent()
         value.rolesKey = try reader["RolesKey"].readIfPresent()
         value.identityCenterApplicationARN = try reader["IdentityCenterApplicationARN"].readIfPresent()
@@ -15853,6 +15993,7 @@ extension OpenSearchClientTypes.IdentityCenterOptionsInput {
         guard let value else { return }
         try writer["EnabledAPIAccess"].write(value.enabledAPIAccess)
         try writer["IdentityCenterInstanceARN"].write(value.identityCenterInstanceARN)
+        try writer["IdentityCenterInstanceRegion"].write(value.identityCenterInstanceRegion)
         try writer["RolesKey"].write(value.rolesKey)
         try writer["SubjectKey"].write(value.subjectKey)
     }
@@ -16467,6 +16608,19 @@ extension OpenSearchClientTypes.ReservedInstanceOffering {
     }
 }
 
+extension OpenSearchClientTypes.RollbackServiceSoftwareOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.RollbackServiceSoftwareOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.RollbackServiceSoftwareOptions()
+        value.currentVersion = try reader["CurrentVersion"].readIfPresent()
+        value.newVersion = try reader["NewVersion"].readIfPresent()
+        value.rollbackAvailable = try reader["RollbackAvailable"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.S3GlueDataCatalog {
 
     static func write(value: OpenSearchClientTypes.S3GlueDataCatalog?, to writer: SmithyJSON.Writer) throws {
@@ -16603,6 +16757,21 @@ extension OpenSearchClientTypes.ServerlessVectorAcceleration {
     }
 }
 
+extension OpenSearchClientTypes.ServiceOptions {
+
+    static func write(value: OpenSearchClientTypes.ServiceOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SupportedRegions"].writeList(value.supportedRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ServiceOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.ServiceOptions()
+        value.supportedRegions = try reader["SupportedRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.ServiceSoftwareOptions {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ServiceSoftwareOptions {
@@ -16651,12 +16820,14 @@ extension OpenSearchClientTypes.SoftwareUpdateOptions {
     static func write(value: OpenSearchClientTypes.SoftwareUpdateOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AutoSoftwareUpdateEnabled"].write(value.autoSoftwareUpdateEnabled)
+        try writer["UseLatestServiceSoftwareForBlueGreen"].write(value.useLatestServiceSoftwareForBlueGreen)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.SoftwareUpdateOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.SoftwareUpdateOptions()
         value.autoSoftwareUpdateEnabled = try reader["AutoSoftwareUpdateEnabled"].readIfPresent()
+        value.useLatestServiceSoftwareForBlueGreen = try reader["UseLatestServiceSoftwareForBlueGreen"].readIfPresent()
         return value
     }
 }

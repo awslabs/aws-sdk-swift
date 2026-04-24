@@ -1477,6 +1477,8 @@ public struct ListAuditFindingsInput: Swift.Sendable {
     ///
     /// * log - LogAuditor: Extracts insights from application logs, categorizing error types and ranking severity by frequency during the Analysis phase
     ///
+    /// * change_indicator - ChangeIndicatorAuditor: Detects change events (deployments, configuration changes) that occurred within 10 minutes before and during a detected anomaly, and surfaces them as findings with deployment timestamps in the Analysis phase. When changes are detected, the top_contributor auditor skips its analysis to avoid redundancy.
+    ///
     ///
     /// InitAuditor and Summarizer auditors are not configurable as they are automatically triggered during the audit process.
     public var auditors: [Swift.String]?
@@ -2873,19 +2875,17 @@ extension ApplicationSignalsClientTypes {
 
     /// This structure specifies the information about the service and the performance metric that a period-based SLO is to monitor.
     public struct ServiceLevelIndicatorConfig: Swift.Sendable {
-        /// The arithmetic operation to use when comparing the specified metric to the threshold.
-        /// This member is required.
+        /// The arithmetic operation to use when comparing the specified metric to the threshold. This is not required if CreateRecommendedSlo is set to true.
         public var comparisonOperator: ApplicationSignalsClientTypes.ServiceLevelIndicatorComparisonOperator?
-        /// This parameter is used only when a request-based SLO tracks the Latency metric. Specify the threshold value that the observed Latency metric values are to be compared to.
-        /// This member is required.
+        /// This parameter is used only when a request-based SLO tracks the Latency metric. Specify the threshold value that the observed Latency metric values are to be compared to. This is not required if CreateRecommendedSlo is set to true.
         public var metricThreshold: Swift.Double?
         /// Use this structure to specify the metric to be used for the SLO.
         /// This member is required.
         public var sliMetricConfig: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig?
 
         public init(
-            comparisonOperator: ApplicationSignalsClientTypes.ServiceLevelIndicatorComparisonOperator? = nil,
-            metricThreshold: Swift.Double? = nil,
+            comparisonOperator: ApplicationSignalsClientTypes.ServiceLevelIndicatorComparisonOperator? = .lessThan,
+            metricThreshold: Swift.Double? = 0.0,
             sliMetricConfig: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig? = nil
         ) {
             self.comparisonOperator = comparisonOperator
@@ -2898,6 +2898,8 @@ extension ApplicationSignalsClientTypes {
 public struct CreateServiceLevelObjectiveInput: Swift.Sendable {
     /// Use this array to create burn rates for this SLO. Each burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
     public var burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]?
+    /// Set this to true to create a recommended SLO out of the box. When set to true, you don't need to specify the MetricThreshold or ComparisonOperator in the SliConfig or RequestBasedSliConfig. The default value is false. This is supported for SLOs on a service, service operation, or a dependency.
+    public var createRecommendedSlo: Swift.Bool?
     /// An optional description for this SLO.
     public var description: Swift.String?
     /// This structure contains the attributes that determine the goal of the SLO.
@@ -2914,6 +2916,7 @@ public struct CreateServiceLevelObjectiveInput: Swift.Sendable {
 
     public init(
         burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]? = nil,
+        createRecommendedSlo: Swift.Bool? = nil,
         description: Swift.String? = nil,
         goal: ApplicationSignalsClientTypes.Goal? = nil,
         name: Swift.String? = nil,
@@ -2922,6 +2925,7 @@ public struct CreateServiceLevelObjectiveInput: Swift.Sendable {
         tags: [ApplicationSignalsClientTypes.Tag]? = nil
     ) {
         self.burnRateConfigurations = burnRateConfigurations
+        self.createRecommendedSlo = createRecommendedSlo
         self.description = description
         self.goal = goal
         self.name = name
@@ -3797,6 +3801,7 @@ extension CreateServiceLevelObjectiveInput {
     static func write(value: CreateServiceLevelObjectiveInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["BurnRateConfigurations"].writeList(value.burnRateConfigurations, memberWritingClosure: ApplicationSignalsClientTypes.BurnRateConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CreateRecommendedSlo"].write(value.createRecommendedSlo)
         try writer["Description"].write(value.description)
         try writer["Goal"].write(value.goal, with: ApplicationSignalsClientTypes.Goal.write(value:to:))
         try writer["Name"].write(value.name)

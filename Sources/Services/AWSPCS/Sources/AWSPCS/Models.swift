@@ -1138,7 +1138,7 @@ extension PCSClientTypes {
         /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 24.11 | 25.05
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 24.11 | 25.05 | 25.11
         /// This member is required.
         public var version: Swift.String?
 
@@ -1477,7 +1477,7 @@ extension PCSClientTypes {
         /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11 | 25.05
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11 | 25.05 | 25.11
         /// This member is required.
         public var version: Swift.String?
 

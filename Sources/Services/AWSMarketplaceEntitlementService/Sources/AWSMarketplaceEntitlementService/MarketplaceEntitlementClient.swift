@@ -19,11 +19,14 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
+@_spi(SmithyReadWrite) import class SmithyCBOR.Writer
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
+import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -35,30 +38,31 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
-import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
+@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
+import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
-import struct SmithyAWSJSON.HTTPClientProtocol
-import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -623,12 +627,6 @@ extension MarketplaceEntitlementClient {
     /// - `InvalidParameterException` : One or more parameters in your request was invalid.
     /// - `ThrottlingException` : The calls to the GetEntitlements API are throttled.
     public func getEntitlements(input: GetEntitlementsInput) async throws -> GetEntitlementsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = MarketplaceEntitlementClient.getEntitlementsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -641,30 +639,34 @@ extension MarketplaceEntitlementClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetEntitlementsInput, GetEntitlementsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEntitlementsInput, GetEntitlementsOutput>(GetEntitlementsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEntitlementsInput, GetEntitlementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEntitlementsInput, GetEntitlementsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEntitlementsInput, GetEntitlementsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEntitlementsOutput>(GetEntitlementsOutput.httpOutput(from:), GetEntitlementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEntitlementsInput, GetEntitlementsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEntitlementsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Entitlement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEntitlementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEntitlementsInput, GetEntitlementsOutput>(overrides: ["X-Amz-Target": "AWSMPEntitlementService.GetEntitlements"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEntitlementsInput, GetEntitlementsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetEntitlementsInput, GetEntitlementsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetEntitlementsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEntitlementsInput, GetEntitlementsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetEntitlementsInput, GetEntitlementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEntitlementsInput, GetEntitlementsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEntitlementsInput, GetEntitlementsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEntitlementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEntitlementsInput, GetEntitlementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEntitlementsInput, GetEntitlementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

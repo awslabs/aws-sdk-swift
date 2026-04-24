@@ -2533,6 +2533,10 @@ extension S3ControlClientTypes {
         case md5
         case sha1
         case sha256
+        case sha512
+        case xxhash128
+        case xxhash3
+        case xxhash64
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ComputeObjectChecksumAlgorithm] {
@@ -2542,7 +2546,11 @@ extension S3ControlClientTypes {
                 .crc64nvme,
                 .md5,
                 .sha1,
-                .sha256
+                .sha256,
+                .sha512,
+                .xxhash128,
+                .xxhash3,
+                .xxhash64
             ]
         }
 
@@ -2559,6 +2567,10 @@ extension S3ControlClientTypes {
             case .md5: return "MD5"
             case .sha1: return "SHA1"
             case .sha256: return "SHA256"
+            case .sha512: return "SHA512"
+            case .xxhash128: return "XXHASH128"
+            case .xxhash3: return "XXHASH3"
+            case .xxhash64: return "XXHASH64"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2905,8 +2917,13 @@ extension S3ControlClientTypes {
         case crc32
         case crc32c
         case crc64nvme
+        case md5
         case sha1
         case sha256
+        case sha512
+        case xxhash128
+        case xxhash3
+        case xxhash64
         case sdkUnknown(Swift.String)
 
         public static var allCases: [S3ChecksumAlgorithm] {
@@ -2914,8 +2931,13 @@ extension S3ControlClientTypes {
                 .crc32,
                 .crc32c,
                 .crc64nvme,
+                .md5,
                 .sha1,
-                .sha256
+                .sha256,
+                .sha512,
+                .xxhash128,
+                .xxhash3,
+                .xxhash64
             ]
         }
 
@@ -2929,8 +2951,13 @@ extension S3ControlClientTypes {
             case .crc32: return "CRC32"
             case .crc32c: return "CRC32C"
             case .crc64nvme: return "CRC64NVME"
+            case .md5: return "MD5"
             case .sha1: return "SHA1"
             case .sha256: return "SHA256"
+            case .sha512: return "SHA512"
+            case .xxhash128: return "XXHASH128"
+            case .xxhash3: return "XXHASH3"
+            case .xxhash64: return "XXHASH64"
             case let .sdkUnknown(s): return s
             }
         }

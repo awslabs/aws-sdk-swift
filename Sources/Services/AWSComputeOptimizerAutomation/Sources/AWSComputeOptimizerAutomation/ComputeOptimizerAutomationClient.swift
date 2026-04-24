@@ -20,11 +20,14 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
+@_spi(SmithyReadWrite) import class SmithyCBOR.Writer
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
+import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -36,21 +39,23 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
-import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
+@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
@@ -58,9 +63,8 @@ import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
+import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
-import struct SmithyAWSJSON.HTTPClientProtocol
-import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -632,12 +636,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func associateAccounts(input: AssociateAccountsInput) async throws -> AssociateAccountsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.associateAccountsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -650,10 +648,8 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateAccountsInput, AssociateAccountsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -661,20 +657,26 @@ extension ComputeOptimizerAutomationClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(AssociateAccountsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateAccountsInput, AssociateAccountsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAccountsInput, AssociateAccountsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAccountsOutput>(AssociateAccountsOutput.httpOutput(from:), AssociateAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAccountsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateAccountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.AssociateAccounts"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateAccountsInput, AssociateAccountsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateAccountsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AssociateAccountsInput, AssociateAccountsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAccountsInput, AssociateAccountsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateAccountsInput, AssociateAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -717,12 +719,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createAutomationRule(input: CreateAutomationRuleInput) async throws -> CreateAutomationRuleOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.createAutomationRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -735,10 +731,8 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateAutomationRuleInput, CreateAutomationRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -746,20 +740,26 @@ extension ComputeOptimizerAutomationClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(CreateAutomationRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAutomationRuleOutput>(CreateAutomationRuleOutput.httpOutput(from:), CreateAutomationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAutomationRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAutomationRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.CreateAutomationRule"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAutomationRuleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAutomationRuleInput, CreateAutomationRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -801,12 +801,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func deleteAutomationRule(input: DeleteAutomationRuleInput) async throws -> DeleteAutomationRuleOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.deleteAutomationRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -819,10 +813,8 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAutomationRuleInput, DeleteAutomationRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -830,20 +822,26 @@ extension ComputeOptimizerAutomationClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(DeleteAutomationRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAutomationRuleOutput>(DeleteAutomationRuleOutput.httpOutput(from:), DeleteAutomationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAutomationRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAutomationRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.DeleteAutomationRule"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAutomationRuleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAutomationRuleInput, DeleteAutomationRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -885,12 +883,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func disassociateAccounts(input: DisassociateAccountsInput) async throws -> DisassociateAccountsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.disassociateAccountsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -903,10 +895,8 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateAccountsInput, DisassociateAccountsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -914,20 +904,26 @@ extension ComputeOptimizerAutomationClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(DisassociateAccountsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateAccountsOutput>(DisassociateAccountsOutput.httpOutput(from:), DisassociateAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAccountsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateAccountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.DisassociateAccounts"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateAccountsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -967,12 +963,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getAutomationEvent(input: GetAutomationEventInput) async throws -> GetAutomationEventOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.getAutomationEventOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -985,30 +975,34 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetAutomationEventInput, GetAutomationEventOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(GetAutomationEventInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAutomationEventInput, GetAutomationEventOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAutomationEventInput, GetAutomationEventOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutomationEventOutput>(GetAutomationEventOutput.httpOutput(from:), GetAutomationEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomationEventOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAutomationEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.GetAutomationEvent"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetAutomationEventInput, GetAutomationEventOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetAutomationEventInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAutomationEventInput, GetAutomationEventOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAutomationEventInput, GetAutomationEventOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAutomationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAutomationEventInput, GetAutomationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAutomationEventInput, GetAutomationEventOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1048,12 +1042,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getAutomationRule(input: GetAutomationRuleInput) async throws -> GetAutomationRuleOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.getAutomationRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1066,30 +1054,34 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetAutomationRuleInput, GetAutomationRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(GetAutomationRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutomationRuleOutput>(GetAutomationRuleOutput.httpOutput(from:), GetAutomationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomationRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAutomationRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.GetAutomationRule"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetAutomationRuleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAutomationRuleInput, GetAutomationRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1129,12 +1121,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getEnrollmentConfiguration(input: GetEnrollmentConfigurationInput) async throws -> GetEnrollmentConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.getEnrollmentConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1147,30 +1133,33 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>(GetEnrollmentConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnrollmentConfigurationOutput>(GetEnrollmentConfigurationOutput.httpOutput(from:), GetEnrollmentConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnrollmentConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEnrollmentConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.GetEnrollmentConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetEnrollmentConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEnrollmentConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEnrollmentConfigurationInput, GetEnrollmentConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1210,12 +1199,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listAccounts(input: ListAccountsInput) async throws -> ListAccountsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.listAccountsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1228,30 +1211,34 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListAccountsInput, ListAccountsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAccountsInput, ListAccountsOutput>(ListAccountsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccountsInput, ListAccountsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountsInput, ListAccountsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountsInput, ListAccountsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountsOutput>(ListAccountsOutput.httpOutput(from:), ListAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountsInput, ListAccountsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAccountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAccountsInput, ListAccountsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAccounts"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountsInput, ListAccountsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAccountsInput, ListAccountsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAccountsInput, ListAccountsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAccountsInput, ListAccountsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountsInput, ListAccountsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountsInput, ListAccountsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccountsInput, ListAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAccountsInput, ListAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1291,12 +1278,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listAutomationEventSteps(input: ListAutomationEventStepsInput) async throws -> ListAutomationEventStepsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.listAutomationEventStepsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1309,30 +1290,34 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListAutomationEventStepsInput, ListAutomationEventStepsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(ListAutomationEventStepsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomationEventStepsOutput>(ListAutomationEventStepsOutput.httpOutput(from:), ListAutomationEventStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationEventStepsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutomationEventStepsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAutomationEventSteps"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutomationEventStepsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationEventStepsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationEventStepsInput, ListAutomationEventStepsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1371,12 +1356,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listAutomationEventSummaries(input: ListAutomationEventSummariesInput) async throws -> ListAutomationEventSummariesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.listAutomationEventSummariesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1389,30 +1368,34 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(ListAutomationEventSummariesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomationEventSummariesOutput>(ListAutomationEventSummariesOutput.httpOutput(from:), ListAutomationEventSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationEventSummariesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutomationEventSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAutomationEventSummaries"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutomationEventSummariesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationEventSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationEventSummariesInput, ListAutomationEventSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1451,12 +1434,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listAutomationEvents(input: ListAutomationEventsInput) async throws -> ListAutomationEventsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.listAutomationEventsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1469,30 +1446,34 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListAutomationEventsInput, ListAutomationEventsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(ListAutomationEventsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomationEventsOutput>(ListAutomationEventsOutput.httpOutput(from:), ListAutomationEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationEventsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutomationEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAutomationEvents"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutomationEventsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationEventsInput, ListAutomationEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1531,12 +1512,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listAutomationRulePreview(input: ListAutomationRulePreviewInput) async throws -> ListAutomationRulePreviewOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.listAutomationRulePreviewOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1549,30 +1524,34 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(ListAutomationRulePreviewInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomationRulePreviewOutput>(ListAutomationRulePreviewOutput.httpOutput(from:), ListAutomationRulePreviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationRulePreviewOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutomationRulePreviewOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAutomationRulePreview"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutomationRulePreviewInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationRulePreviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationRulePreviewInput, ListAutomationRulePreviewOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1611,12 +1590,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listAutomationRulePreviewSummaries(input: ListAutomationRulePreviewSummariesInput) async throws -> ListAutomationRulePreviewSummariesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.listAutomationRulePreviewSummariesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1629,30 +1602,34 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(ListAutomationRulePreviewSummariesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomationRulePreviewSummariesOutput>(ListAutomationRulePreviewSummariesOutput.httpOutput(from:), ListAutomationRulePreviewSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationRulePreviewSummariesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutomationRulePreviewSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAutomationRulePreviewSummaries"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutomationRulePreviewSummariesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationRulePreviewSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationRulePreviewSummariesInput, ListAutomationRulePreviewSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1691,12 +1668,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listAutomationRules(input: ListAutomationRulesInput) async throws -> ListAutomationRulesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.listAutomationRulesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1709,30 +1680,34 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListAutomationRulesInput, ListAutomationRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(ListAutomationRulesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomationRulesOutput>(ListAutomationRulesOutput.httpOutput(from:), ListAutomationRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomationRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutomationRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListAutomationRules"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutomationRulesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomationRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAutomationRulesInput, ListAutomationRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1771,12 +1746,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listRecommendedActionSummaries(input: ListRecommendedActionSummariesInput) async throws -> ListRecommendedActionSummariesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.listRecommendedActionSummariesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1789,30 +1758,34 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(ListRecommendedActionSummariesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecommendedActionSummariesOutput>(ListRecommendedActionSummariesOutput.httpOutput(from:), ListRecommendedActionSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendedActionSummariesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecommendedActionSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListRecommendedActionSummaries"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListRecommendedActionSummariesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecommendedActionSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecommendedActionSummariesInput, ListRecommendedActionSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1851,12 +1824,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listRecommendedActions(input: ListRecommendedActionsInput) async throws -> ListRecommendedActionsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.listRecommendedActionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1869,30 +1836,34 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListRecommendedActionsInput, ListRecommendedActionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(ListRecommendedActionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecommendedActionsOutput>(ListRecommendedActionsOutput.httpOutput(from:), ListRecommendedActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendedActionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecommendedActionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListRecommendedActions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListRecommendedActionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecommendedActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1932,12 +1903,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1950,30 +1915,34 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.ListTagsForResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2015,12 +1984,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func rollbackAutomationEvent(input: RollbackAutomationEventInput) async throws -> RollbackAutomationEventOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.rollbackAutomationEventOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2033,10 +1996,8 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<RollbackAutomationEventInput, RollbackAutomationEventOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2044,20 +2005,26 @@ extension ComputeOptimizerAutomationClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(RollbackAutomationEventInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RollbackAutomationEventOutput>(RollbackAutomationEventOutput.httpOutput(from:), RollbackAutomationEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RollbackAutomationEventOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RollbackAutomationEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.RollbackAutomationEvent"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: RollbackAutomationEventInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RollbackAutomationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RollbackAutomationEventInput, RollbackAutomationEventOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2100,12 +2067,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func startAutomationEvent(input: StartAutomationEventInput) async throws -> StartAutomationEventOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.startAutomationEventOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2118,10 +2079,8 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StartAutomationEventInput, StartAutomationEventOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2129,20 +2088,26 @@ extension ComputeOptimizerAutomationClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(StartAutomationEventInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartAutomationEventInput, StartAutomationEventOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAutomationEventInput, StartAutomationEventOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAutomationEventOutput>(StartAutomationEventOutput.httpOutput(from:), StartAutomationEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAutomationEventOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAutomationEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.StartAutomationEvent"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartAutomationEventInput, StartAutomationEventOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StartAutomationEventInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartAutomationEventInput, StartAutomationEventOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAutomationEventInput, StartAutomationEventOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAutomationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAutomationEventInput, StartAutomationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAutomationEventInput, StartAutomationEventOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2184,12 +2149,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2202,10 +2161,8 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2213,20 +2170,26 @@ extension ComputeOptimizerAutomationClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<TagResourceInput, TagResourceOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.TagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2268,12 +2231,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2286,10 +2243,8 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2297,20 +2252,26 @@ extension ComputeOptimizerAutomationClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UntagResourceInput, UntagResourceOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.UntagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2352,12 +2313,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateAutomationRule(input: UpdateAutomationRuleInput) async throws -> UpdateAutomationRuleOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.updateAutomationRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2370,10 +2325,8 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateAutomationRuleInput, UpdateAutomationRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2381,20 +2334,26 @@ extension ComputeOptimizerAutomationClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(UpdateAutomationRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAutomationRuleOutput>(UpdateAutomationRuleOutput.httpOutput(from:), UpdateAutomationRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAutomationRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAutomationRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.UpdateAutomationRule"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAutomationRuleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAutomationRuleInput, UpdateAutomationRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2437,12 +2396,6 @@ extension ComputeOptimizerAutomationClient {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateEnrollmentConfiguration(input: UpdateEnrollmentConfigurationInput) async throws -> UpdateEnrollmentConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = ComputeOptimizerAutomationClient.updateEnrollmentConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2455,10 +2408,8 @@ extension ComputeOptimizerAutomationClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aco-automation")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2466,20 +2417,26 @@ extension ComputeOptimizerAutomationClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(UpdateEnrollmentConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnrollmentConfigurationOutput>(UpdateEnrollmentConfigurationOutput.httpOutput(from:), UpdateEnrollmentConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnrollmentConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Compute Optimizer Automation", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEnrollmentConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerAutomationService.UpdateEnrollmentConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEnrollmentConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEnrollmentConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateEnrollmentConfigurationInput, UpdateEnrollmentConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

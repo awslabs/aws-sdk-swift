@@ -3542,6 +3542,1093 @@ public struct InvokeCodeInterpreterOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreClientTypes {
+
+    /// A block of reasoning text from the model.
+    public struct HarnessReasoningTextBlock: Swift.Sendable {
+        /// Signature for verifying the reasoning content.
+        public var signature: Swift.String?
+        /// The reasoning text.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            signature: Swift.String? = nil,
+            text: Swift.String? = nil
+        ) {
+            self.signature = signature
+            self.text = text
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessReasoningTextBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Reasoning content from the model.
+    public enum HarnessReasoningContentBlock: Swift.Sendable {
+        /// The reasoning text.
+        case reasoningtext(BedrockAgentCoreClientTypes.HarnessReasoningTextBlock)
+        /// Redacted reasoning content.
+        case redactedcontent(Foundation.Data)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A content block within a tool result.
+    public enum HarnessToolResultContentBlock: Swift.Sendable {
+        /// Text content.
+        case text(Swift.String)
+        /// JSON content.
+        case json(Smithy.Document)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum HarnessToolUseStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case error
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessToolUseStatus] {
+            return [
+                .error,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "error"
+            case .success: return "success"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum HarnessToolUseType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mcpToolUse
+        case serverToolUse
+        case toolUse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessToolUseType] {
+            return [
+                .mcpToolUse,
+                .serverToolUse,
+                .toolUse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mcpToolUse: return "mcp_tool_use"
+            case .serverToolUse: return "server_tool_use"
+            case .toolUse: return "tool_use"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The result of a tool execution.
+    public struct HarnessToolResultBlock: Swift.Sendable {
+        /// The content of the tool result.
+        /// This member is required.
+        public var content: [BedrockAgentCoreClientTypes.HarnessToolResultContentBlock]?
+        /// The status of the tool execution.
+        public var status: BedrockAgentCoreClientTypes.HarnessToolUseStatus?
+        /// The tool use ID that this result corresponds to.
+        /// This member is required.
+        public var toolUseId: Swift.String?
+        /// The type of tool use that produced this result.
+        public var type: BedrockAgentCoreClientTypes.HarnessToolUseType?
+
+        public init(
+            content: [BedrockAgentCoreClientTypes.HarnessToolResultContentBlock]? = nil,
+            status: BedrockAgentCoreClientTypes.HarnessToolUseStatus? = nil,
+            toolUseId: Swift.String? = nil,
+            type: BedrockAgentCoreClientTypes.HarnessToolUseType? = nil
+        ) {
+            self.content = content
+            self.status = status
+            self.toolUseId = toolUseId
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A tool use request from the model.
+    public struct HarnessToolUseBlock: Swift.Sendable {
+        /// The JSON input to pass to the tool.
+        /// This member is required.
+        public var input: Smithy.Document?
+        /// The name of the tool to call.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The name of the MCP server providing this tool.
+        public var serverName: Swift.String?
+        /// The unique ID of this tool use.
+        /// This member is required.
+        public var toolUseId: Swift.String?
+        /// The type of tool use.
+        public var type: BedrockAgentCoreClientTypes.HarnessToolUseType?
+
+        public init(
+            input: Smithy.Document? = nil,
+            name: Swift.String? = nil,
+            serverName: Swift.String? = nil,
+            toolUseId: Swift.String? = nil,
+            type: BedrockAgentCoreClientTypes.HarnessToolUseType? = nil
+        ) {
+            self.input = input
+            self.name = name
+            self.serverName = serverName
+            self.toolUseId = toolUseId
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolUseBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HarnessToolUseBlock(name: \(Swift.String(describing: name)), serverName: \(Swift.String(describing: serverName)), toolUseId: \(Swift.String(describing: toolUseId)), type: \(Swift.String(describing: type)), input: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A content block within a message.
+    public enum HarnessContentBlock: Swift.Sendable {
+        /// Text content.
+        case text(Swift.String)
+        /// A tool use request from the model.
+        case tooluse(BedrockAgentCoreClientTypes.HarnessToolUseBlock)
+        /// A tool execution result.
+        case toolresult(BedrockAgentCoreClientTypes.HarnessToolResultBlock)
+        /// Model reasoning content.
+        case reasoningcontent(BedrockAgentCoreClientTypes.HarnessReasoningContentBlock)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum HarnessConversationRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case assistant
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessConversationRole] {
+            return [
+                .assistant,
+                .user
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .assistant: return "assistant"
+            case .user: return "user"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A message in the conversation.
+    public struct HarnessMessage: Swift.Sendable {
+        /// The content blocks of the message.
+        /// This member is required.
+        public var content: [BedrockAgentCoreClientTypes.HarnessContentBlock]?
+        /// The role of the message sender.
+        /// This member is required.
+        public var role: BedrockAgentCoreClientTypes.HarnessConversationRole?
+
+        public init(
+            content: [BedrockAgentCoreClientTypes.HarnessContentBlock]? = nil,
+            role: BedrockAgentCoreClientTypes.HarnessConversationRole? = nil
+        ) {
+            self.content = content
+            self.role = role
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for an Amazon Bedrock model provider.
+    public struct HarnessBedrockModelConfig: Swift.Sendable {
+        /// The maximum number of tokens to allow in the generated response per iteration.
+        public var maxTokens: Swift.Int?
+        /// The Bedrock model ID.
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The temperature to set when calling the model.
+        public var temperature: Swift.Float?
+        /// The topP set when calling the model.
+        public var topp: Swift.Float?
+
+        public init(
+            maxTokens: Swift.Int? = nil,
+            modelId: Swift.String? = nil,
+            temperature: Swift.Float? = nil,
+            topp: Swift.Float? = nil
+        ) {
+            self.maxTokens = maxTokens
+            self.modelId = modelId
+            self.temperature = temperature
+            self.topp = topp
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for a Google Gemini model provider. Requires an API key stored in AgentCore Identity.
+    public struct HarnessGeminiModelConfig: Swift.Sendable {
+        /// The ARN of your Gemini API key on AgentCore Identity.
+        /// This member is required.
+        public var apiKeyArn: Swift.String?
+        /// The maximum number of tokens to allow in the generated response per iteration.
+        public var maxTokens: Swift.Int?
+        /// The Gemini model ID.
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The temperature to set when calling the model.
+        public var temperature: Swift.Float?
+        /// The topK set when calling the model.
+        public var topk: Swift.Int?
+        /// The topP set when calling the model.
+        public var topp: Swift.Float?
+
+        public init(
+            apiKeyArn: Swift.String? = nil,
+            maxTokens: Swift.Int? = nil,
+            modelId: Swift.String? = nil,
+            temperature: Swift.Float? = nil,
+            topk: Swift.Int? = nil,
+            topp: Swift.Float? = nil
+        ) {
+            self.apiKeyArn = apiKeyArn
+            self.maxTokens = maxTokens
+            self.modelId = modelId
+            self.temperature = temperature
+            self.topk = topk
+            self.topp = topp
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for an OpenAI model provider. Requires an API key stored in AgentCore Identity.
+    public struct HarnessOpenAiModelConfig: Swift.Sendable {
+        /// The ARN of your OpenAI API key on AgentCore Identity.
+        /// This member is required.
+        public var apiKeyArn: Swift.String?
+        /// The maximum number of tokens to allow in the generated response per iteration.
+        public var maxTokens: Swift.Int?
+        /// The OpenAI model ID.
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The temperature to set when calling the model.
+        public var temperature: Swift.Float?
+        /// The topP set when calling the model.
+        public var topp: Swift.Float?
+
+        public init(
+            apiKeyArn: Swift.String? = nil,
+            maxTokens: Swift.Int? = nil,
+            modelId: Swift.String? = nil,
+            temperature: Swift.Float? = nil,
+            topp: Swift.Float? = nil
+        ) {
+            self.apiKeyArn = apiKeyArn
+            self.maxTokens = maxTokens
+            self.modelId = modelId
+            self.temperature = temperature
+            self.topp = topp
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Specification of which model to use.
+    public enum HarnessModelConfiguration: Swift.Sendable {
+        /// Configuration for an Amazon Bedrock model.
+        case bedrockmodelconfig(BedrockAgentCoreClientTypes.HarnessBedrockModelConfig)
+        /// Configuration for an OpenAI model.
+        case openaimodelconfig(BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig)
+        /// Configuration for a Google Gemini model.
+        case geminimodelconfig(BedrockAgentCoreClientTypes.HarnessGeminiModelConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A skill available to the agent.
+    public enum HarnessSkill: Swift.Sendable {
+        /// The filesystem path to the skill definition.
+        case path(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A content block in the system prompt.
+    public enum HarnessSystemContentBlock: Swift.Sendable {
+        /// The text content of the system prompt block.
+        case text(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for AgentCore Browser.
+    public struct HarnessAgentCoreBrowserConfig: Swift.Sendable {
+        /// If not populated, the built-in Browser ARN is used.
+        public var browserArn: Swift.String?
+
+        public init(
+            browserArn: Swift.String? = nil
+        ) {
+            self.browserArn = browserArn
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for AgentCore Code Interpreter.
+    public struct HarnessAgentCoreCodeInterpreterConfig: Swift.Sendable {
+        /// If not populated, the built-in Code Interpreter ARN is used.
+        public var codeInterpreterArn: Swift.String?
+
+        public init(
+            codeInterpreterArn: Swift.String? = nil
+        ) {
+            self.codeInterpreterArn = codeInterpreterArn
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public struct Unit: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum OAuthGrantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case authorizationCode
+        case clientCredentials
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OAuthGrantType] {
+            return [
+                .authorizationCode,
+                .clientCredentials
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .authorizationCode: return "AUTHORIZATION_CODE"
+            case .clientCredentials: return "CLIENT_CREDENTIALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for an OAuth 2.0 credential provider used to authenticate tool calls.
+    public struct OAuthCredentialProvider: Swift.Sendable {
+        /// Additional custom parameters to include in the OAuth 2.0 token request.
+        public var customParameters: [Swift.String: Swift.String]?
+        /// The default return URL for the OAuth 2.0 authorization flow.
+        public var defaultReturnUrl: Swift.String?
+        /// The OAuth 2.0 grant type to use for authentication.
+        public var grantType: BedrockAgentCoreClientTypes.OAuthGrantType?
+        /// The ARN of the OAuth 2.0 credential provider in AgentCore Identity.
+        /// This member is required.
+        public var providerArn: Swift.String?
+        /// The OAuth 2.0 scopes to request when obtaining an access token.
+        /// This member is required.
+        public var scopes: [Swift.String]?
+
+        public init(
+            customParameters: [Swift.String: Swift.String]? = nil,
+            defaultReturnUrl: Swift.String? = nil,
+            grantType: BedrockAgentCoreClientTypes.OAuthGrantType? = .clientCredentials,
+            providerArn: Swift.String? = nil,
+            scopes: [Swift.String]? = nil
+        ) {
+            self.customParameters = customParameters
+            self.defaultReturnUrl = defaultReturnUrl
+            self.grantType = grantType
+            self.providerArn = providerArn
+            self.scopes = scopes
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.OAuthCredentialProvider: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OAuthCredentialProvider(defaultReturnUrl: \(Swift.String(describing: defaultReturnUrl)), grantType: \(Swift.String(describing: grantType)), providerArn: \(Swift.String(describing: providerArn)), scopes: \(Swift.String(describing: scopes)), customParameters: [keys: \(Swift.String(describing: customParameters?.keys)), values: \"CONTENT_REDACTED\"])"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Authentication method for calling a Gateway.
+    public enum HarnessGatewayOutboundAuth: Swift.Sendable {
+        /// SigV4-sign requests using the agent's execution role.
+        case awsiam(BedrockAgentCoreClientTypes.Unit)
+        /// No authentication.
+        case `none`(BedrockAgentCoreClientTypes.Unit)
+        /// OAuth 2.0 authentication via AgentCore Identity.
+        case oauth(BedrockAgentCoreClientTypes.OAuthCredentialProvider)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for AgentCore Gateway.
+    public struct HarnessAgentCoreGatewayConfig: Swift.Sendable {
+        /// The ARN of the desired AgentCore Gateway.
+        /// This member is required.
+        public var gatewayArn: Swift.String?
+        /// How Loopy authenticates to this Gateway. Defaults to AWS_IAM (SigV4) if omitted.
+        public var outboundAuth: BedrockAgentCoreClientTypes.HarnessGatewayOutboundAuth?
+
+        public init(
+            gatewayArn: Swift.String? = nil,
+            outboundAuth: BedrockAgentCoreClientTypes.HarnessGatewayOutboundAuth? = nil
+        ) {
+            self.gatewayArn = gatewayArn
+            self.outboundAuth = outboundAuth
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for an inline function tool. When the agent calls this tool, the tool call is returned to the caller for external execution.
+    public struct HarnessInlineFunctionConfig: Swift.Sendable {
+        /// Description of what the tool does, provided to the model.
+        /// This member is required.
+        public var description: Swift.String?
+        /// JSON Schema describing the tool's input parameters.
+        /// This member is required.
+        public var inputSchema: Smithy.Document?
+
+        public init(
+            description: Swift.String? = nil,
+            inputSchema: Smithy.Document? = nil
+        ) {
+            self.description = description
+            self.inputSchema = inputSchema
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessInlineFunctionConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HarnessInlineFunctionConfig(description: \"CONTENT_REDACTED\", inputSchema: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for connecting to a remote MCP server.
+    public struct HarnessRemoteMcpConfig: Swift.Sendable {
+        /// Map of key/value pairs for HTTP headers.
+        public var headers: [Swift.String: Swift.String]?
+        /// URL of the MCP endpoint.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            headers: [Swift.String: Swift.String]? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.headers = headers
+            self.url = url
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessRemoteMcpConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HarnessRemoteMcpConfig(headers: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration union for different tool types.
+    public enum HarnessToolConfiguration: Swift.Sendable {
+        /// Configuration for remote MCP server.
+        case remotemcp(BedrockAgentCoreClientTypes.HarnessRemoteMcpConfig)
+        /// Configuration for AgentCore Browser.
+        case agentcorebrowser(BedrockAgentCoreClientTypes.HarnessAgentCoreBrowserConfig)
+        /// Configuration for AgentCore Gateway.
+        case agentcoregateway(BedrockAgentCoreClientTypes.HarnessAgentCoreGatewayConfig)
+        /// Configuration for an inline function tool.
+        case inlinefunction(BedrockAgentCoreClientTypes.HarnessInlineFunctionConfig)
+        /// Configuration for AgentCore Code Interpreter.
+        case agentcorecodeinterpreter(BedrockAgentCoreClientTypes.HarnessAgentCoreCodeInterpreterConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum HarnessToolType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentcoreBrowser
+        case agentcoreCodeInterpreter
+        case agentcoreGateway
+        case inlineFunction
+        case remoteMcp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessToolType] {
+            return [
+                .agentcoreBrowser,
+                .agentcoreCodeInterpreter,
+                .agentcoreGateway,
+                .inlineFunction,
+                .remoteMcp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentcoreBrowser: return "agentcore_browser"
+            case .agentcoreCodeInterpreter: return "agentcore_code_interpreter"
+            case .agentcoreGateway: return "agentcore_gateway"
+            case .inlineFunction: return "inline_function"
+            case .remoteMcp: return "remote_mcp"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A tool available to the agent loop.
+    public struct HarnessTool: Swift.Sendable {
+        /// Tool-specific configuration.
+        public var config: BedrockAgentCoreClientTypes.HarnessToolConfiguration?
+        /// Unique name for the tool. If not provided, a name will be inferred or generated.
+        public var name: Swift.String?
+        /// The type of tool.
+        /// This member is required.
+        public var type: BedrockAgentCoreClientTypes.HarnessToolType?
+
+        public init(
+            config: BedrockAgentCoreClientTypes.HarnessToolConfiguration? = nil,
+            name: Swift.String? = nil,
+            type: BedrockAgentCoreClientTypes.HarnessToolType? = nil
+        ) {
+            self.config = config
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+public struct InvokeHarnessInput: Swift.Sendable {
+    /// The actor ID for memory operations. Overrides the actor ID configured on the harness.
+    public var actorId: Swift.String?
+    /// The tools that the agent is allowed to use for this invocation. If specified, overrides the harness default.
+    public var allowedTools: [Swift.String]?
+    /// The ARN of the harness to invoke.
+    /// This member is required.
+    public var harnessArn: Swift.String?
+    /// The maximum number of iterations the agent loop can execute. If specified, overrides the harness default.
+    public var maxIterations: Swift.Int?
+    /// The maximum number of tokens the agent can generate per iteration. If specified, overrides the harness default.
+    public var maxTokens: Swift.Int?
+    /// The messages to send to the agent.
+    /// This member is required.
+    public var messages: [BedrockAgentCoreClientTypes.HarnessMessage]?
+    /// The model configuration to use for this invocation. If specified, overrides the harness default.
+    public var model: BedrockAgentCoreClientTypes.HarnessModelConfiguration?
+    /// The session ID for the invocation. Use the same session ID across requests to continue a conversation.
+    /// This member is required.
+    public var runtimeSessionId: Swift.String?
+    /// The skills available to the agent for this invocation. If specified, overrides the harness default.
+    public var skills: [BedrockAgentCoreClientTypes.HarnessSkill]?
+    /// The system prompt to use for this invocation. If specified, overrides the harness default.
+    public var systemPrompt: [BedrockAgentCoreClientTypes.HarnessSystemContentBlock]?
+    /// The maximum duration in seconds for the agent loop execution. If specified, overrides the harness default.
+    public var timeoutSeconds: Swift.Int?
+    /// The tools available to the agent for this invocation. If specified, overrides the harness default.
+    public var tools: [BedrockAgentCoreClientTypes.HarnessTool]?
+
+    public init(
+        actorId: Swift.String? = nil,
+        allowedTools: [Swift.String]? = nil,
+        harnessArn: Swift.String? = nil,
+        maxIterations: Swift.Int? = nil,
+        maxTokens: Swift.Int? = nil,
+        messages: [BedrockAgentCoreClientTypes.HarnessMessage]? = nil,
+        model: BedrockAgentCoreClientTypes.HarnessModelConfiguration? = nil,
+        runtimeSessionId: Swift.String? = nil,
+        skills: [BedrockAgentCoreClientTypes.HarnessSkill]? = nil,
+        systemPrompt: [BedrockAgentCoreClientTypes.HarnessSystemContentBlock]? = nil,
+        timeoutSeconds: Swift.Int? = nil,
+        tools: [BedrockAgentCoreClientTypes.HarnessTool]? = nil
+    ) {
+        self.actorId = actorId
+        self.allowedTools = allowedTools
+        self.harnessArn = harnessArn
+        self.maxIterations = maxIterations
+        self.maxTokens = maxTokens
+        self.messages = messages
+        self.model = model
+        self.runtimeSessionId = runtimeSessionId
+        self.skills = skills
+        self.systemPrompt = systemPrompt
+        self.timeoutSeconds = timeoutSeconds
+        self.tools = tools
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A delta update to a reasoning content block.
+    public enum HarnessReasoningContentBlockDelta: Swift.Sendable {
+        /// Reasoning text delta.
+        case text(Swift.String)
+        /// Redacted reasoning content.
+        case redactedcontent(Foundation.Data)
+        /// Signature for the reasoning content.
+        case signature(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A delta update to a tool result content block.
+    public enum HarnessToolResultBlockDelta: Swift.Sendable {
+        /// A text tool result delta.
+        case text(Swift.String)
+        /// A JSON tool result delta.
+        case json(Smithy.Document)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Delta payload for tool use input.
+    public struct HarnessToolUseBlockDelta: Swift.Sendable {
+        /// The partial JSON input for the tool call.
+        /// This member is required.
+        public var input: Swift.String?
+
+        public init(
+            input: Swift.String? = nil
+        ) {
+            self.input = input
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolUseBlockDelta: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HarnessToolUseBlockDelta(input: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A delta update to a content block.
+    public enum HarnessContentBlockDelta: Swift.Sendable {
+        /// A text delta.
+        case text(Swift.String)
+        /// A tool use input delta.
+        case tooluse(BedrockAgentCoreClientTypes.HarnessToolUseBlockDelta)
+        /// A tool result delta.
+        case toolresult([BedrockAgentCoreClientTypes.HarnessToolResultBlockDelta])
+        /// A reasoning content delta.
+        case reasoningcontent(BedrockAgentCoreClientTypes.HarnessReasoningContentBlockDelta)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Event containing a delta update to a content block.
+    public struct HarnessContentBlockDeltaEvent: Swift.Sendable {
+        /// The index of the content block being updated.
+        /// This member is required.
+        public var contentBlockIndex: Swift.Int?
+        /// The delta payload.
+        /// This member is required.
+        public var delta: BedrockAgentCoreClientTypes.HarnessContentBlockDelta?
+
+        public init(
+            contentBlockIndex: Swift.Int? = nil,
+            delta: BedrockAgentCoreClientTypes.HarnessContentBlockDelta? = nil
+        ) {
+            self.contentBlockIndex = contentBlockIndex
+            self.delta = delta
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Start payload for a tool result content block.
+    public struct HarnessToolResultBlockStart: Swift.Sendable {
+        /// The status of the tool execution.
+        public var status: BedrockAgentCoreClientTypes.HarnessToolUseStatus?
+        /// The tool use ID that this result corresponds to.
+        /// This member is required.
+        public var toolUseId: Swift.String?
+
+        public init(
+            status: BedrockAgentCoreClientTypes.HarnessToolUseStatus? = nil,
+            toolUseId: Swift.String? = nil
+        ) {
+            self.status = status
+            self.toolUseId = toolUseId
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Start payload for a tool use content block.
+    public struct HarnessToolUseBlockStart: Swift.Sendable {
+        /// The name of the tool being called.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The name of the MCP server providing this tool.
+        public var serverName: Swift.String?
+        /// The unique ID of this tool use.
+        /// This member is required.
+        public var toolUseId: Swift.String?
+        /// The type of tool use.
+        public var type: BedrockAgentCoreClientTypes.HarnessToolUseType?
+
+        public init(
+            name: Swift.String? = nil,
+            serverName: Swift.String? = nil,
+            toolUseId: Swift.String? = nil,
+            type: BedrockAgentCoreClientTypes.HarnessToolUseType? = nil
+        ) {
+            self.name = name
+            self.serverName = serverName
+            self.toolUseId = toolUseId
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The start payload for a content block.
+    public enum HarnessContentBlockStart: Swift.Sendable {
+        /// Start of a tool use content block.
+        case tooluse(BedrockAgentCoreClientTypes.HarnessToolUseBlockStart)
+        /// Start of a tool result content block.
+        case toolresult(BedrockAgentCoreClientTypes.HarnessToolResultBlockStart)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Event indicating the start of a content block.
+    public struct HarnessContentBlockStartEvent: Swift.Sendable {
+        /// The index of the content block within the message.
+        /// This member is required.
+        public var contentBlockIndex: Swift.Int?
+        /// The content block start payload.
+        /// This member is required.
+        public var start: BedrockAgentCoreClientTypes.HarnessContentBlockStart?
+
+        public init(
+            contentBlockIndex: Swift.Int? = nil,
+            start: BedrockAgentCoreClientTypes.HarnessContentBlockStart? = nil
+        ) {
+            self.contentBlockIndex = contentBlockIndex
+            self.start = start
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Event indicating the end of a content block.
+    public struct HarnessContentBlockStopEvent: Swift.Sendable {
+        /// The index of the content block that ended.
+        /// This member is required.
+        public var contentBlockIndex: Swift.Int?
+
+        public init(
+            contentBlockIndex: Swift.Int? = nil
+        ) {
+            self.contentBlockIndex = contentBlockIndex
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Event indicating the start of a message.
+    public struct HarnessMessageStartEvent: Swift.Sendable {
+        /// The role of the message sender.
+        /// This member is required.
+        public var role: BedrockAgentCoreClientTypes.HarnessConversationRole?
+
+        public init(
+            role: BedrockAgentCoreClientTypes.HarnessConversationRole? = nil
+        ) {
+            self.role = role
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum HarnessStopReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contentFiltered
+        case endTurn
+        case interrupted
+        case malformedModelOutput
+        case malformedToolUse
+        case maxIterationsExceeded
+        case maxOutputTokensExceeded
+        case maxTokens
+        case modelContextWindowExceeded
+        case partialTurn
+        case stopSequence
+        case timeoutExceeded
+        case toolResult
+        case toolUse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessStopReason] {
+            return [
+                .contentFiltered,
+                .endTurn,
+                .interrupted,
+                .malformedModelOutput,
+                .malformedToolUse,
+                .maxIterationsExceeded,
+                .maxOutputTokensExceeded,
+                .maxTokens,
+                .modelContextWindowExceeded,
+                .partialTurn,
+                .stopSequence,
+                .timeoutExceeded,
+                .toolResult,
+                .toolUse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contentFiltered: return "content_filtered"
+            case .endTurn: return "end_turn"
+            case .interrupted: return "interrupted"
+            case .malformedModelOutput: return "malformed_model_output"
+            case .malformedToolUse: return "malformed_tool_use"
+            case .maxIterationsExceeded: return "max_iterations_exceeded"
+            case .maxOutputTokensExceeded: return "max_output_tokens_exceeded"
+            case .maxTokens: return "max_tokens"
+            case .modelContextWindowExceeded: return "model_context_window_exceeded"
+            case .partialTurn: return "partial_turn"
+            case .stopSequence: return "stop_sequence"
+            case .timeoutExceeded: return "timeout_exceeded"
+            case .toolResult: return "tool_result"
+            case .toolUse: return "tool_use"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Event indicating the end of a message.
+    public struct HarnessMessageStopEvent: Swift.Sendable {
+        /// The reason the agent stopped generating.
+        /// This member is required.
+        public var stopReason: BedrockAgentCoreClientTypes.HarnessStopReason?
+
+        public init(
+            stopReason: BedrockAgentCoreClientTypes.HarnessStopReason? = nil
+        ) {
+            self.stopReason = stopReason
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Latency metrics for the invocation.
+    public struct HarnessStreamMetrics: Swift.Sendable {
+        /// The end-to-end latency of the invocation in milliseconds.
+        /// This member is required.
+        public var latencyMs: Swift.Int?
+
+        public init(
+            latencyMs: Swift.Int? = nil
+        ) {
+            self.latencyMs = latencyMs
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Token usage counts for the invocation.
+    public struct HarnessTokenUsage: Swift.Sendable {
+        /// The number of input tokens read from cache.
+        public var cacheReadInputTokens: Swift.Int?
+        /// The number of input tokens written to cache.
+        public var cacheWriteInputTokens: Swift.Int?
+        /// The number of input tokens consumed.
+        /// This member is required.
+        public var inputTokens: Swift.Int?
+        /// The number of output tokens generated.
+        /// This member is required.
+        public var outputTokens: Swift.Int?
+        /// The total number of tokens consumed.
+        /// This member is required.
+        public var totalTokens: Swift.Int?
+
+        public init(
+            cacheReadInputTokens: Swift.Int? = nil,
+            cacheWriteInputTokens: Swift.Int? = nil,
+            inputTokens: Swift.Int? = nil,
+            outputTokens: Swift.Int? = nil,
+            totalTokens: Swift.Int? = nil
+        ) {
+            self.cacheReadInputTokens = cacheReadInputTokens
+            self.cacheWriteInputTokens = cacheWriteInputTokens
+            self.inputTokens = inputTokens
+            self.outputTokens = outputTokens
+            self.totalTokens = totalTokens
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Token usage and latency metrics for the invocation.
+    public struct HarnessMetadataEvent: Swift.Sendable {
+        /// Latency metrics.
+        /// This member is required.
+        public var metrics: BedrockAgentCoreClientTypes.HarnessStreamMetrics?
+        /// Token usage counts.
+        /// This member is required.
+        public var usage: BedrockAgentCoreClientTypes.HarnessTokenUsage?
+
+        public init(
+            metrics: BedrockAgentCoreClientTypes.HarnessStreamMetrics? = nil,
+            usage: BedrockAgentCoreClientTypes.HarnessTokenUsage? = nil
+        ) {
+            self.metrics = metrics
+            self.usage = usage
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The streaming events returned by a harness invocation.
+    public enum InvokeHarnessStreamOutput: Swift.Sendable {
+        /// Indicates the start of a new message from the agent.
+        case messagestart(BedrockAgentCoreClientTypes.HarnessMessageStartEvent)
+        /// Indicates the start of a new content block.
+        case contentblockstart(BedrockAgentCoreClientTypes.HarnessContentBlockStartEvent)
+        /// A delta update to the current content block.
+        case contentblockdelta(BedrockAgentCoreClientTypes.HarnessContentBlockDeltaEvent)
+        /// Indicates the end of the current content block.
+        case contentblockstop(BedrockAgentCoreClientTypes.HarnessContentBlockStopEvent)
+        /// Indicates the end of the current message.
+        case messagestop(BedrockAgentCoreClientTypes.HarnessMessageStopEvent)
+        /// Token usage and latency metrics for the invocation.
+        case metadata(BedrockAgentCoreClientTypes.HarnessMetadataEvent)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct InvokeHarnessOutput: Swift.Sendable {
+    /// The streaming output from the harness invocation.
+    /// This member is required.
+    public var stream: AsyncThrowingStream<BedrockAgentCoreClientTypes.InvokeHarnessStreamOutput, Swift.Error>?
+
+    public init(
+        stream: AsyncThrowingStream<BedrockAgentCoreClientTypes.InvokeHarnessStreamOutput, Swift.Error>? = nil
+    ) {
+        self.stream = stream
+    }
+}
+
 /// The service encountered an internal error. Try your request again later.
 public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -5707,6 +6794,38 @@ extension InvokeCodeInterpreterInput {
     }
 }
 
+extension InvokeHarnessInput {
+
+    static func urlPathProvider(_ value: InvokeHarnessInput) -> Swift.String? {
+        return "/harnesses/invoke"
+    }
+}
+
+extension InvokeHarnessInput {
+
+    static func headerProvider(_ value: InvokeHarnessInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let runtimeSessionId = value.runtimeSessionId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id", value: Swift.String(runtimeSessionId)))
+        }
+        return items
+    }
+}
+
+extension InvokeHarnessInput {
+
+    static func queryItemProvider(_ value: InvokeHarnessInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let harnessArn = value.harnessArn else {
+            let message = "Creating a URL Query Item failed. harnessArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let harnessArnQueryItem = Smithy.URIQueryItem(name: "harnessArn".urlPercentEncoding(), value: Swift.String(harnessArn).urlPercentEncoding())
+        items.append(harnessArnQueryItem)
+        return items
+    }
+}
+
 extension ListActorsInput {
 
     static func urlPathProvider(_ value: ListActorsInput) -> Swift.String? {
@@ -6157,6 +7276,23 @@ extension InvokeCodeInterpreterInput {
         guard let value else { return }
         try writer["arguments"].write(value.arguments, with: BedrockAgentCoreClientTypes.ToolArguments.write(value:to:))
         try writer["name"].write(value.name)
+    }
+}
+
+extension InvokeHarnessInput {
+
+    static func write(value: InvokeHarnessInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actorId"].write(value.actorId)
+        try writer["allowedTools"].writeList(value.allowedTools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxIterations"].write(value.maxIterations)
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["messages"].writeList(value.messages, memberWritingClosure: BedrockAgentCoreClientTypes.HarnessMessage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["model"].write(value.model, with: BedrockAgentCoreClientTypes.HarnessModelConfiguration.write(value:to:))
+        try writer["skills"].writeList(value.skills, memberWritingClosure: BedrockAgentCoreClientTypes.HarnessSkill.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["systemPrompt"].writeList(value.systemPrompt, memberWritingClosure: BedrockAgentCoreClientTypes.HarnessSystemContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["timeoutSeconds"].write(value.timeoutSeconds)
+        try writer["tools"].writeList(value.tools, memberWritingClosure: BedrockAgentCoreClientTypes.HarnessTool.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6672,6 +7808,19 @@ extension InvokeCodeInterpreterOutput {
         if case .stream(let stream) = httpResponse.body {
             let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
             let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockAgentCoreClientTypes.CodeInterpreterStreamOutput.unmarshal)
+            value.stream = decoderStream.toAsyncStream()
+        }
+        return value
+    }
+}
+
+extension InvokeHarnessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InvokeHarnessOutput {
+        var value = InvokeHarnessOutput()
+        if case .stream(let stream) = httpResponse.body {
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockAgentCoreClientTypes.InvokeHarnessStreamOutput.unmarshal)
             value.stream = decoderStream.toAsyncStream()
         }
         return value
@@ -7334,6 +8483,24 @@ enum InvokeCodeInterpreterOutputError {
     }
 }
 
+enum InvokeHarnessOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListActorsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7940,6 +9107,62 @@ extension BedrockAgentCoreClientTypes.CodeInterpreterStreamOutput {
                         return value
                     case "validationException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: ValidationException.read(from:))
+                        return value
+                    default:
+                        let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
+                        return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
+                    }
+                }
+                let error = try makeError(message, params)
+                throw error
+            case .error(let params):
+                let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
+                throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
+            case .unknown(messageType: let messageType):
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.InvokeHarnessStreamOutput {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<BedrockAgentCoreClientTypes.InvokeHarnessStreamOutput> {
+        { message in
+            switch try message.type() {
+            case .event(let params):
+                switch params.eventType {
+                case "messageStart":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockAgentCoreClientTypes.HarnessMessageStartEvent.read(from:))
+                    return .messagestart(value)
+                case "contentBlockStart":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockAgentCoreClientTypes.HarnessContentBlockStartEvent.read(from:))
+                    return .contentblockstart(value)
+                case "contentBlockDelta":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockAgentCoreClientTypes.HarnessContentBlockDeltaEvent.read(from:))
+                    return .contentblockdelta(value)
+                case "contentBlockStop":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockAgentCoreClientTypes.HarnessContentBlockStopEvent.read(from:))
+                    return .contentblockstop(value)
+                case "messageStop":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockAgentCoreClientTypes.HarnessMessageStopEvent.read(from:))
+                    return .messagestop(value)
+                case "metadata":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockAgentCoreClientTypes.HarnessMetadataEvent.read(from:))
+                    return .metadata(value)
+                default:
+                    return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+                }
+            case .exception(let params):
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                    switch params.exceptionType {
+                    case "internalServerException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: InternalServerException.read(from:))
+                        return value
+                    case "validationException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ValidationException.read(from:))
+                        return value
+                    case "runtimeClientError":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: RuntimeClientError.read(from:))
                         return value
                     default:
                         let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
@@ -8596,6 +9819,457 @@ extension BedrockAgentCoreClientTypes.FilterInput {
     }
 }
 
+extension BedrockAgentCoreClientTypes.HarnessAgentCoreBrowserConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessAgentCoreBrowserConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["browserArn"].write(value.browserArn)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessAgentCoreCodeInterpreterConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessAgentCoreCodeInterpreterConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["codeInterpreterArn"].write(value.codeInterpreterArn)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessAgentCoreGatewayConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessAgentCoreGatewayConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["gatewayArn"].write(value.gatewayArn)
+        try writer["outboundAuth"].write(value.outboundAuth, with: BedrockAgentCoreClientTypes.HarnessGatewayOutboundAuth.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessBedrockModelConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessBedrockModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["modelId"].write(value.modelId)
+        try writer["temperature"].write(value.temperature)
+        try writer["topP"].write(value.topp)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessContentBlock {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessContentBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .reasoningcontent(reasoningcontent):
+                try writer["reasoningContent"].write(reasoningcontent, with: BedrockAgentCoreClientTypes.HarnessReasoningContentBlock.write(value:to:))
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .toolresult(toolresult):
+                try writer["toolResult"].write(toolresult, with: BedrockAgentCoreClientTypes.HarnessToolResultBlock.write(value:to:))
+            case let .tooluse(tooluse):
+                try writer["toolUse"].write(tooluse, with: BedrockAgentCoreClientTypes.HarnessToolUseBlock.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessContentBlockDelta {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessContentBlockDelta {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read())
+            case "toolUse":
+                return .tooluse(try reader["toolUse"].read(with: BedrockAgentCoreClientTypes.HarnessToolUseBlockDelta.read(from:)))
+            case "toolResult":
+                return .toolresult(try reader["toolResult"].readList(memberReadingClosure: BedrockAgentCoreClientTypes.HarnessToolResultBlockDelta.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "reasoningContent":
+                return .reasoningcontent(try reader["reasoningContent"].read(with: BedrockAgentCoreClientTypes.HarnessReasoningContentBlockDelta.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessContentBlockDeltaEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessContentBlockDeltaEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessContentBlockDeltaEvent()
+        value.contentBlockIndex = try reader["contentBlockIndex"].readIfPresent() ?? 0
+        value.delta = try reader["delta"].readIfPresent(with: BedrockAgentCoreClientTypes.HarnessContentBlockDelta.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessContentBlockStart {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessContentBlockStart {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "toolUse":
+                return .tooluse(try reader["toolUse"].read(with: BedrockAgentCoreClientTypes.HarnessToolUseBlockStart.read(from:)))
+            case "toolResult":
+                return .toolresult(try reader["toolResult"].read(with: BedrockAgentCoreClientTypes.HarnessToolResultBlockStart.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessContentBlockStartEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessContentBlockStartEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessContentBlockStartEvent()
+        value.contentBlockIndex = try reader["contentBlockIndex"].readIfPresent() ?? 0
+        value.start = try reader["start"].readIfPresent(with: BedrockAgentCoreClientTypes.HarnessContentBlockStart.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessContentBlockStopEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessContentBlockStopEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessContentBlockStopEvent()
+        value.contentBlockIndex = try reader["contentBlockIndex"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessGatewayOutboundAuth {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessGatewayOutboundAuth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .awsiam(awsiam):
+                try writer["awsIam"].write(awsiam, with: BedrockAgentCoreClientTypes.Unit.write(value:to:))
+            case let .`none`(`none`):
+                try writer["none"].write(`none`, with: BedrockAgentCoreClientTypes.Unit.write(value:to:))
+            case let .oauth(oauth):
+                try writer["oauth"].write(oauth, with: BedrockAgentCoreClientTypes.OAuthCredentialProvider.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessGeminiModelConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessGeminiModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["apiKeyArn"].write(value.apiKeyArn)
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["modelId"].write(value.modelId)
+        try writer["temperature"].write(value.temperature)
+        try writer["topK"].write(value.topk)
+        try writer["topP"].write(value.topp)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessInlineFunctionConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessInlineFunctionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["inputSchema"].write(value.inputSchema)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessMessage {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessMessage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].writeList(value.content, memberWritingClosure: BedrockAgentCoreClientTypes.HarnessContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["role"].write(value.role)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessMessageStartEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessMessageStartEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessMessageStartEvent()
+        value.role = try reader["role"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessMessageStopEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessMessageStopEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessMessageStopEvent()
+        value.stopReason = try reader["stopReason"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessMetadataEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessMetadataEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessMetadataEvent()
+        value.usage = try reader["usage"].readIfPresent(with: BedrockAgentCoreClientTypes.HarnessTokenUsage.read(from:))
+        value.metrics = try reader["metrics"].readIfPresent(with: BedrockAgentCoreClientTypes.HarnessStreamMetrics.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessModelConfiguration {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessModelConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .bedrockmodelconfig(bedrockmodelconfig):
+                try writer["bedrockModelConfig"].write(bedrockmodelconfig, with: BedrockAgentCoreClientTypes.HarnessBedrockModelConfig.write(value:to:))
+            case let .geminimodelconfig(geminimodelconfig):
+                try writer["geminiModelConfig"].write(geminimodelconfig, with: BedrockAgentCoreClientTypes.HarnessGeminiModelConfig.write(value:to:))
+            case let .openaimodelconfig(openaimodelconfig):
+                try writer["openAiModelConfig"].write(openaimodelconfig, with: BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["apiKeyArn"].write(value.apiKeyArn)
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["modelId"].write(value.modelId)
+        try writer["temperature"].write(value.temperature)
+        try writer["topP"].write(value.topp)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessReasoningContentBlock {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessReasoningContentBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .reasoningtext(reasoningtext):
+                try writer["reasoningText"].write(reasoningtext, with: BedrockAgentCoreClientTypes.HarnessReasoningTextBlock.write(value:to:))
+            case let .redactedcontent(redactedcontent):
+                try writer["redactedContent"].write(redactedcontent)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessReasoningContentBlockDelta {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessReasoningContentBlockDelta {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read())
+            case "redactedContent":
+                return .redactedcontent(try reader["redactedContent"].read())
+            case "signature":
+                return .signature(try reader["signature"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessReasoningTextBlock {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessReasoningTextBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["signature"].write(value.signature)
+        try writer["text"].write(value.text)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessRemoteMcpConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessRemoteMcpConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["url"].write(value.url)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessSkill {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessSkill?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .path(path):
+                try writer["path"].write(path)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessStreamMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessStreamMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessStreamMetrics()
+        value.latencyMs = try reader["latencyMs"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessSystemContentBlock {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessSystemContentBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessTokenUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessTokenUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessTokenUsage()
+        value.inputTokens = try reader["inputTokens"].readIfPresent() ?? 0
+        value.outputTokens = try reader["outputTokens"].readIfPresent() ?? 0
+        value.totalTokens = try reader["totalTokens"].readIfPresent() ?? 0
+        value.cacheReadInputTokens = try reader["cacheReadInputTokens"].readIfPresent()
+        value.cacheWriteInputTokens = try reader["cacheWriteInputTokens"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessTool {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessTool?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["config"].write(value.config, with: BedrockAgentCoreClientTypes.HarnessToolConfiguration.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolConfiguration {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessToolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .agentcorebrowser(agentcorebrowser):
+                try writer["agentCoreBrowser"].write(agentcorebrowser, with: BedrockAgentCoreClientTypes.HarnessAgentCoreBrowserConfig.write(value:to:))
+            case let .agentcorecodeinterpreter(agentcorecodeinterpreter):
+                try writer["agentCoreCodeInterpreter"].write(agentcorecodeinterpreter, with: BedrockAgentCoreClientTypes.HarnessAgentCoreCodeInterpreterConfig.write(value:to:))
+            case let .agentcoregateway(agentcoregateway):
+                try writer["agentCoreGateway"].write(agentcoregateway, with: BedrockAgentCoreClientTypes.HarnessAgentCoreGatewayConfig.write(value:to:))
+            case let .inlinefunction(inlinefunction):
+                try writer["inlineFunction"].write(inlinefunction, with: BedrockAgentCoreClientTypes.HarnessInlineFunctionConfig.write(value:to:))
+            case let .remotemcp(remotemcp):
+                try writer["remoteMcp"].write(remotemcp, with: BedrockAgentCoreClientTypes.HarnessRemoteMcpConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolResultBlock {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessToolResultBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].writeList(value.content, memberWritingClosure: BedrockAgentCoreClientTypes.HarnessToolResultContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["status"].write(value.status)
+        try writer["toolUseId"].write(value.toolUseId)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolResultBlockDelta {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessToolResultBlockDelta {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read())
+            case "json":
+                return .json(try reader["json"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolResultBlockStart {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessToolResultBlockStart {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessToolResultBlockStart()
+        value.toolUseId = try reader["toolUseId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolResultContentBlock {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessToolResultContentBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .json(json):
+                try writer["json"].write(json)
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolUseBlock {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessToolUseBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["input"].write(value.input)
+        try writer["name"].write(value.name)
+        try writer["serverName"].write(value.serverName)
+        try writer["toolUseId"].write(value.toolUseId)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolUseBlockDelta {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessToolUseBlockDelta {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessToolUseBlockDelta()
+        value.input = try reader["input"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessToolUseBlockStart {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessToolUseBlockStart {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessToolUseBlockStart()
+        value.toolUseId = try reader["toolUseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent()
+        value.serverName = try reader["serverName"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.InputContentBlock {
 
     static func write(value: BedrockAgentCoreClientTypes.InputContentBlock?, to writer: SmithyJSON.Writer) throws {
@@ -8947,6 +10621,18 @@ extension BedrockAgentCoreClientTypes.MouseScrollResult {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.error = try reader["error"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.OAuthCredentialProvider {
+
+    static func write(value: BedrockAgentCoreClientTypes.OAuthCredentialProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customParameters"].writeMap(value.customParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["defaultReturnUrl"].write(value.defaultReturnUrl)
+        try writer["grantType"].write(value.grantType)
+        try writer["providerArn"].write(value.providerArn)
+        try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -9437,6 +11123,14 @@ extension BedrockAgentCoreClientTypes.ViewPort {
         value.width = try reader["width"].readIfPresent() ?? 0
         value.height = try reader["height"].readIfPresent() ?? 0
         return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.Unit {
+
+    static func write(value: BedrockAgentCoreClientTypes.Unit?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 }
 

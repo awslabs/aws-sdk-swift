@@ -404,7 +404,7 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
-    /// Provides information used to select Amazon Machine Images (AMIs) for instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2 ([Amazon ECS-optimized Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami)) for EC2 (ECS) compute environments and EKS_AL2023 ([Amazon EKS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html)) for EKS compute environments. This object isn't applicable to jobs that are running on Fargate resources.
+    /// Provides information used to select Amazon Machine Images (AMIs) for instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 ([Amazon ECS-optimized Amazon Linux 2023](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html)) for EC2 (ECS) compute environments and EKS_AL2023 ([Amazon EKS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html)) for EKS compute environments. This object isn't applicable to jobs that are running on Fargate resources.
     public struct Ec2Configuration: Swift.Sendable {
         /// The status of the Batch-provided default AMIs associated with the imageType. The field only appears after the compute environment has begun scaling instances using the imageType. The field is not present when an image is specified in ComputeResources.imageId (deprecated), the default launch template, or Ec2Configuration.imageIdOverride. The field is also not present when the compute environment has a launch template override. For more information on image selection, see [AMI selection order](https://docs.aws.amazon.com/batch/latest/userguide/ami-selection-order.html). This field is read-only and only appears in the [DescribeComputeEnvironments](https://docs.aws.amazon.com/batch/latest/APIReference/API_DescribeComputeEnvironments.html) response.
         ///
@@ -418,11 +418,11 @@ extension BatchClientTypes {
         ///
         /// * For all other compute environments, you can perform an [AMI version update](https://docs.aws.amazon.com/batch/latest/userguide/managing-ami-versions.html#updating-ami-versions) to update the AMI to the latest version.
         public var batchImageStatus: Swift.String?
-        /// The AMI ID used for instances launched in the compute environment that match the image type. This setting overrides the imageId set in the computeResource object. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The AMI ID used for instances launched in the compute environment that match the image type. This setting overrides the imageId set in the computeResource object. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2023 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
         public var imageIdOverride: Swift.String?
         /// The Kubernetes version for the compute environment. If you don't specify a value, the latest version that Batch supports is used.
         public var imageKubernetesVersion: Swift.String?
-        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources. ECS If the imageIdOverride parameter isn't specified, then a recent [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami) (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used. Amazon Web Services will end support for Amazon ECS optimized AL2-optimized and AL2-accelerated AMIs. Starting in January 2026, Batch will change the default AMI for new Amazon ECS compute environments from Amazon Linux 2 to Amazon Linux 2023. We recommend migrating Batch Amazon ECS compute environments to Amazon Linux 2023 to maintain optimal performance and security. For more information on upgrading from AL2 to AL2023, see [How to migrate from ECS AL2 to ECS AL2023](https://docs.aws.amazon.com/batch/latest/userguide/ecs-migration-2023.html) in the Batch User Guide. ECS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami): Default for all non-GPU instance families. ECS_AL2_NVIDIA [Amazon Linux 2 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. ECS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html): Batch supports Amazon Linux 2023. Amazon Linux 2023 does not support A1 instances. ECS_AL2023_NVIDIA [Amazon Linux 2023 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): For all GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types. ECS_AL2023_NVIDIA doesn't support p3 and g3 instance types. EKS If the imageIdOverride parameter isn't specified, then a recent [Amazon EKS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) (EKS_AL2023) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used. Amazon Linux 2023 AMIs are the default on Batch for Amazon EKS. Amazon Web Services will end support for Amazon EKS AL2-optimized and AL2-accelerated AMIs, starting 11/26/25. You can continue using Batch-provided Amazon EKS optimized Amazon Linux 2 AMIs on your Amazon EKS compute environments beyond the 11/26/25 end-of-support date, these compute environments will no longer receive any new software updates, security patches, or bug fixes from Amazon Web Services. For more information on upgrading from AL2 to AL2023, see [How to upgrade from EKS AL2 to EKS AL2023](https://docs.aws.amazon.com/batch/latest/userguide/eks-migration-2023.html) in the Batch User Guide. EKS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Used for non-GPU instance families. EKS_AL2_NVIDIA [Amazon Linux 2 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Used for GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. EKS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for non-GPU instance families. Amazon Linux 2023 does not support A1 instances. EKS_AL2023_NVIDIA [Amazon Linux 2023 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.
+        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources. ECS If the imageIdOverride parameter isn't specified, then a recent [Amazon ECS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html) (ECS_AL2023) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used. Amazon Web Services is ending support for Amazon ECS Amazon Linux 2-optimized and accelerated AMIs on June 30, 2026. On January 12, 2026, Batch changed the default AMI for new Amazon ECS compute environments from Amazon Linux 2 to Amazon Linux 2023. Effective June 30, 2026, Batch will block creation of new Amazon ECS compute environments using Batch-provided Amazon Linux 2 AMIs. We strongly recommend migrating your existing Batch Amazon ECS compute environments to Amazon Linux 2023 prior to June 30, 2026. For more information on upgrading from AL2 to AL2023, see [How to migrate from ECS AL2 to ECS AL2023](https://docs.aws.amazon.com/batch/latest/userguide/ecs-migration-2023.html) in the Batch User Guide. ECS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html): Used for non-GPU instance families. ECS_AL2_NVIDIA [Amazon Linux 2 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): Used for GPU instance families (for example P4 and G4) and non Amazon Web Services Graviton-based instance types. ECS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html): Default for all non-GPU instance families. Amazon Linux 2023 does not support A1 instances. ECS_AL2023_NVIDIA [Amazon Linux 2023 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): Default for all GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types. ECS_AL2023_NVIDIA doesn't support p3 and g3 instance types. EKS If the imageIdOverride parameter isn't specified, then a recent [Amazon EKS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) (EKS_AL2023) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used. Amazon Linux 2023 AMIs are the default on Batch for Amazon EKS. Amazon Web Services ended support for Amazon EKS AL2-optimized and AL2-accelerated AMIs on November 26, 2025. Batch Amazon EKS compute environments using Amazon Linux 2 will no longer receive software updates, security patches, or bug fixes from Amazon Web Services. We recommend migrating to Amazon Linux 2023. For more information on upgrading from AL2 to AL2023, see [How to upgrade from EKS AL2 to EKS AL2023](https://docs.aws.amazon.com/batch/latest/userguide/eks-migration-2023.html) in the Batch User Guide. EKS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Used for non-GPU instance families. EKS_AL2_NVIDIA [Amazon Linux 2 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Used for GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. EKS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for non-GPU instance families. Amazon Linux 2023 does not support A1 instances. EKS_AL2023_NVIDIA [Amazon Linux 2023 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.
         /// This member is required.
         public var imageType: Swift.String?
 
@@ -605,11 +605,11 @@ extension BatchClientTypes {
         public var bidPercentage: Swift.Int?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var desiredvCpus: Swift.Int?
-        /// Provides information that's used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Provides information that's used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2Configuration: [BatchClientTypes.Ec2Configuration]?
         /// The Amazon EC2 key pair that's used for instances launched in the compute environment. You can use this key pair to log in to your instances with SSH. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2KeyPair: Swift.String?
-        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2023 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
         @available(*, deprecated, message: "This field is deprecated, use ec2Configuration[].imageIdOverride instead.")
         public var imageId: Swift.String?
         /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. This parameter is required for Amazon EC2 instances types. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole  or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
@@ -2575,6 +2575,34 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// This is used when you're using an S3Files file system for job storage.
+    public struct S3FilesVolumeConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the S3Files access point to use.
+        public var accessPointArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the S3Files file system to use.
+        /// This member is required.
+        public var fileSystemArn: Swift.String?
+        /// The directory within the S3Files file system to mount as the root directory.
+        public var rootDirectory: Swift.String?
+        /// The port to use when sending encrypted data between the Amazon ECS host and the S3Files file system server.
+        public var transitEncryptionPort: Swift.Int?
+
+        public init(
+            accessPointArn: Swift.String? = nil,
+            fileSystemArn: Swift.String? = nil,
+            rootDirectory: Swift.String? = nil,
+            transitEncryptionPort: Swift.Int? = nil
+        ) {
+            self.accessPointArn = accessPointArn
+            self.fileSystemArn = fileSystemArn
+            self.rootDirectory = rootDirectory
+            self.transitEncryptionPort = transitEncryptionPort
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// A data volume that's used in a job's container properties.
     public struct Volume: Swift.Sendable {
         /// This parameter is specified when you're using an Amazon Elastic File System file system for job storage. Jobs that are running on Fargate resources must specify a platformVersion of at least 1.4.0.
@@ -2583,15 +2611,19 @@ extension BatchClientTypes {
         public var host: BatchClientTypes.Host?
         /// The name of the volume. It can be up to 255 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_). This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public var name: Swift.String?
+        /// This parameter is specified when you're using an S3Files file system for job storage.
+        public var s3filesVolumeConfiguration: BatchClientTypes.S3FilesVolumeConfiguration?
 
         public init(
             efsVolumeConfiguration: BatchClientTypes.EFSVolumeConfiguration? = nil,
             host: BatchClientTypes.Host? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            s3filesVolumeConfiguration: BatchClientTypes.S3FilesVolumeConfiguration? = nil
         ) {
             self.efsVolumeConfiguration = efsVolumeConfiguration
             self.host = host
             self.name = name
+            self.s3filesVolumeConfiguration = s3filesVolumeConfiguration
         }
     }
 }
@@ -2824,6 +2856,10 @@ extension BatchClientTypes {
         public var resourceRequirements: [BatchClientTypes.ResourceRequirement]?
         /// The secrets to pass to the container. For more information, see [Specifying Sensitive Data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
         public var secrets: [BatchClientTypes.Secret]?
+        /// Time duration (in seconds) to wait before giving up on resolving dependencies for a container. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds.
+        public var startTimeout: Swift.Int?
+        /// Time duration (in seconds) to wait before the container is forcefully killed if it doesn't exit normally on its own. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds. If the parameter is not specified, the default value of 30 seconds is used. For tasks that use the EC2 launch type, if the stopTimeout parameter isn't specified, the value set for the Amazon ECS container agent configuration variable ECS_CONTAINER_STOP_TIMEOUT is used. If neither the stopTimeout parameter nor the ECS_CONTAINER_STOP_TIMEOUT agent configuration variable are set, then the default value of 30 seconds is used.
+        public var stopTimeout: Swift.Int?
         /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' This parameter is not supported for Windows containers.
         public var ulimits: [BatchClientTypes.Ulimit]?
         /// The user to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run. When running tasks using the host network mode, don't run containers using the root user (UID 0). We recommend using a non-root user for better security. You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.
@@ -2860,6 +2896,8 @@ extension BatchClientTypes {
             repositoryCredentials: BatchClientTypes.RepositoryCredentials? = nil,
             resourceRequirements: [BatchClientTypes.ResourceRequirement]? = nil,
             secrets: [BatchClientTypes.Secret]? = nil,
+            startTimeout: Swift.Int? = nil,
+            stopTimeout: Swift.Int? = nil,
             ulimits: [BatchClientTypes.Ulimit]? = nil,
             user: Swift.String? = nil
         ) {
@@ -2878,6 +2916,8 @@ extension BatchClientTypes {
             self.repositoryCredentials = repositoryCredentials
             self.resourceRequirements = resourceRequirements
             self.secrets = secrets
+            self.startTimeout = startTimeout
+            self.stopTimeout = stopTimeout
             self.ulimits = ulimits
             self.user = user
         }
@@ -3959,6 +3999,10 @@ extension BatchClientTypes {
         public var resourceRequirements: [BatchClientTypes.ResourceRequirement]?
         /// The secrets to pass to the container. For more information, see [Specifying Sensitive Data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
         public var secrets: [BatchClientTypes.Secret]?
+        /// Time duration (in seconds) to wait before giving up on resolving dependencies for a container. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds.
+        public var startTimeout: Swift.Int?
+        /// Time duration (in seconds) to wait before the container is forcefully killed if it doesn't exit normally on its own. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds. If the parameter is not specified, the default value of 30 seconds is used. For tasks that use the EC2 launch type, if the stopTimeout parameter isn't specified, the value set for the Amazon ECS container agent configuration variable ECS_CONTAINER_STOP_TIMEOUT is used. If neither the stopTimeout parameter nor the ECS_CONTAINER_STOP_TIMEOUT agent configuration variable are set, then the default value of 30 seconds is used.
+        public var stopTimeout: Swift.Int?
         /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' This parameter is not supported for Windows containers.
         public var ulimits: [BatchClientTypes.Ulimit]?
         /// The user to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run. When running tasks using the host network mode, don't run containers using the root user (UID 0). We recommend using a non-root user for better security. You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.
@@ -4000,6 +4044,8 @@ extension BatchClientTypes {
             repositoryCredentials: BatchClientTypes.RepositoryCredentials? = nil,
             resourceRequirements: [BatchClientTypes.ResourceRequirement]? = nil,
             secrets: [BatchClientTypes.Secret]? = nil,
+            startTimeout: Swift.Int? = nil,
+            stopTimeout: Swift.Int? = nil,
             ulimits: [BatchClientTypes.Ulimit]? = nil,
             user: Swift.String? = nil
         ) {
@@ -4022,6 +4068,8 @@ extension BatchClientTypes {
             self.repositoryCredentials = repositoryCredentials
             self.resourceRequirements = resourceRequirements
             self.secrets = secrets
+            self.startTimeout = startTimeout
+            self.stopTimeout = stopTimeout
             self.ulimits = ulimits
             self.user = user
         }
@@ -6854,11 +6902,11 @@ extension BatchClientTypes {
         public var bidPercentage: Swift.Int?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. Batch doesn't support changing the desired number of vCPUs of an existing compute environment. Don't specify this parameter for compute environments using Amazon EKS clusters. When you update the desiredvCpus setting, the value must be between the minvCpus and maxvCpus values. Additionally, the updated desiredvCpus value must be greater than or equal to the current desiredvCpus value. For more information, see [Troubleshooting Batch](https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#error-desired-vcpus-update) in the Batch User Guide.
         public var desiredvCpus: Swift.Int?
-        /// Provides information used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. To remove the Amazon EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Provides information used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. To remove the Amazon EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2Configuration: [BatchClientTypes.Ec2Configuration]?
         /// The Amazon EC2 key pair that's used for instances launched in the compute environment. You can use this key pair to log in to your instances with SSH. To remove the Amazon EC2 key pair, set this value to an empty string. When updating a compute environment, changing the Amazon EC2 key pair requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2KeyPair: Swift.String?
-        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure. To remove the custom AMI ID and use the default AMI ID, set this value to an empty string. When updating a compute environment, changing the AMI ID requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure. To remove the custom AMI ID and use the default AMI ID, set this value to an empty string. When updating a compute environment, changing the AMI ID requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2023 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
         public var imageId: Swift.String?
         /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. Required for Amazon EC2 instances. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole  or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) in the Batch User Guide. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var instanceRole: Swift.String?
@@ -11114,6 +11162,27 @@ extension BatchClientTypes.RuntimePlatform {
     }
 }
 
+extension BatchClientTypes.S3FilesVolumeConfiguration {
+
+    static func write(value: BatchClientTypes.S3FilesVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessPointArn"].write(value.accessPointArn)
+        try writer["fileSystemArn"].write(value.fileSystemArn)
+        try writer["rootDirectory"].write(value.rootDirectory)
+        try writer["transitEncryptionPort"].write(value.transitEncryptionPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.S3FilesVolumeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.S3FilesVolumeConfiguration()
+        value.fileSystemArn = try reader["fileSystemArn"].readIfPresent() ?? ""
+        value.rootDirectory = try reader["rootDirectory"].readIfPresent()
+        value.transitEncryptionPort = try reader["transitEncryptionPort"].readIfPresent()
+        value.accessPointArn = try reader["accessPointArn"].readIfPresent()
+        return value
+    }
+}
+
 extension BatchClientTypes.SchedulingPolicyDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.SchedulingPolicyDetail {
@@ -11401,6 +11470,8 @@ extension BatchClientTypes.TaskContainerDetails {
         value.secrets = try reader["secrets"].readListIfPresent(memberReadingClosure: BatchClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ulimits = try reader["ulimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.Ulimit.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.user = try reader["user"].readIfPresent()
+        value.startTimeout = try reader["startTimeout"].readIfPresent()
+        value.stopTimeout = try reader["stopTimeout"].readIfPresent()
         value.exitCode = try reader["exitCode"].readIfPresent()
         value.reason = try reader["reason"].readIfPresent()
         value.logStreamName = try reader["logStreamName"].readIfPresent()
@@ -11439,6 +11510,8 @@ extension BatchClientTypes.TaskContainerProperties {
         try writer["repositoryCredentials"].write(value.repositoryCredentials, with: BatchClientTypes.RepositoryCredentials.write(value:to:))
         try writer["resourceRequirements"].writeList(value.resourceRequirements, memberWritingClosure: BatchClientTypes.ResourceRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["secrets"].writeList(value.secrets, memberWritingClosure: BatchClientTypes.Secret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["startTimeout"].write(value.startTimeout)
+        try writer["stopTimeout"].write(value.stopTimeout)
         try writer["ulimits"].writeList(value.ulimits, memberWritingClosure: BatchClientTypes.Ulimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["user"].write(value.user)
     }
@@ -11463,6 +11536,8 @@ extension BatchClientTypes.TaskContainerProperties {
         value.secrets = try reader["secrets"].readListIfPresent(memberReadingClosure: BatchClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ulimits = try reader["ulimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.Ulimit.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.user = try reader["user"].readIfPresent()
+        value.startTimeout = try reader["startTimeout"].readIfPresent()
+        value.stopTimeout = try reader["stopTimeout"].readIfPresent()
         return value
     }
 }
@@ -11537,6 +11612,7 @@ extension BatchClientTypes.Volume {
         try writer["efsVolumeConfiguration"].write(value.efsVolumeConfiguration, with: BatchClientTypes.EFSVolumeConfiguration.write(value:to:))
         try writer["host"].write(value.host, with: BatchClientTypes.Host.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["s3filesVolumeConfiguration"].write(value.s3filesVolumeConfiguration, with: BatchClientTypes.S3FilesVolumeConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Volume {
@@ -11545,6 +11621,7 @@ extension BatchClientTypes.Volume {
         value.host = try reader["host"].readIfPresent(with: BatchClientTypes.Host.read(from:))
         value.name = try reader["name"].readIfPresent()
         value.efsVolumeConfiguration = try reader["efsVolumeConfiguration"].readIfPresent(with: BatchClientTypes.EFSVolumeConfiguration.read(from:))
+        value.s3filesVolumeConfiguration = try reader["s3filesVolumeConfiguration"].readIfPresent(with: BatchClientTypes.S3FilesVolumeConfiguration.read(from:))
         return value
     }
 }

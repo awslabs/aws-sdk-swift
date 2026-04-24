@@ -20,11 +20,14 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
+@_spi(SmithyReadWrite) import class SmithyCBOR.Writer
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
+import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -36,30 +39,31 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
-import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
+@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
+import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
-import struct SmithyAWSJSON.HTTPClientProtocol
-import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -632,12 +636,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func acceptMatch(input: AcceptMatchInput) async throws -> AcceptMatchOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.acceptMatchOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -650,30 +648,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<AcceptMatchInput, AcceptMatchOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AcceptMatchInput, AcceptMatchOutput>(AcceptMatchInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptMatchInput, AcceptMatchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptMatchInput, AcceptMatchOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptMatchInput, AcceptMatchOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptMatchOutput>(AcceptMatchOutput.httpOutput(from:), AcceptMatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptMatchInput, AcceptMatchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptMatchOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptMatchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptMatchInput, AcceptMatchOutput>(overrides: ["X-Amz-Target": "GameLift.AcceptMatch"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptMatchInput, AcceptMatchOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AcceptMatchInput, AcceptMatchOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptMatchInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptMatchInput, AcceptMatchOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AcceptMatchInput, AcceptMatchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptMatchInput, AcceptMatchOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptMatchInput, AcceptMatchOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptMatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptMatchInput, AcceptMatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptMatchInput, AcceptMatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -720,12 +722,6 @@ extension GameLiftClient {
     /// - `OutOfCapacityException` : The specified game server group has no available game servers to fulfill a ClaimGameServer request. Clients can retry such requests immediately or after a waiting period.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func claimGameServer(input: ClaimGameServerInput) async throws -> ClaimGameServerOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.claimGameServerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -738,30 +734,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ClaimGameServerInput, ClaimGameServerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ClaimGameServerInput, ClaimGameServerOutput>(ClaimGameServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ClaimGameServerInput, ClaimGameServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ClaimGameServerInput, ClaimGameServerOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ClaimGameServerInput, ClaimGameServerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ClaimGameServerOutput>(ClaimGameServerOutput.httpOutput(from:), ClaimGameServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ClaimGameServerInput, ClaimGameServerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ClaimGameServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ClaimGameServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ClaimGameServerInput, ClaimGameServerOutput>(overrides: ["X-Amz-Target": "GameLift.ClaimGameServer"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ClaimGameServerInput, ClaimGameServerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ClaimGameServerInput, ClaimGameServerOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ClaimGameServerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ClaimGameServerInput, ClaimGameServerOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ClaimGameServerInput, ClaimGameServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ClaimGameServerInput, ClaimGameServerOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ClaimGameServerInput, ClaimGameServerOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ClaimGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ClaimGameServerInput, ClaimGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ClaimGameServerInput, ClaimGameServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -799,12 +799,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createAliasOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -817,30 +811,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateAliasInput, CreateAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAliasInput, CreateAliasOutput>(CreateAliasInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAliasInput, CreateAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAliasInput, CreateAliasOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAliasInput, CreateAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAliasOutput>(CreateAliasOutput.httpOutput(from:), CreateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAliasInput, CreateAliasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAliasOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAliasInput, CreateAliasOutput>(overrides: ["X-Amz-Target": "GameLift.CreateAlias"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAliasInput, CreateAliasOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateAliasInput, CreateAliasOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAliasInput, CreateAliasOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateAliasInput, CreateAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAliasInput, CreateAliasOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAliasInput, CreateAliasOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAliasInput, CreateAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAliasInput, CreateAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -884,12 +882,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createBuild(input: CreateBuildInput) async throws -> CreateBuildOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createBuildOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -902,30 +894,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateBuildInput, CreateBuildOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateBuildInput, CreateBuildOutput>(CreateBuildInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateBuildInput, CreateBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBuildInput, CreateBuildOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBuildInput, CreateBuildOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBuildOutput>(CreateBuildOutput.httpOutput(from:), CreateBuildOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBuildInput, CreateBuildOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBuildOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBuildOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBuildInput, CreateBuildOutput>(overrides: ["X-Amz-Target": "GameLift.CreateBuild"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBuildInput, CreateBuildOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateBuildInput, CreateBuildOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBuildInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBuildInput, CreateBuildOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateBuildInput, CreateBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBuildInput, CreateBuildOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBuildInput, CreateBuildOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBuildInput, CreateBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBuildInput, CreateBuildOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1001,12 +997,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func createContainerFleet(input: CreateContainerFleetInput) async throws -> CreateContainerFleetOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createContainerFleetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1019,30 +1009,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateContainerFleetInput, CreateContainerFleetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>(CreateContainerFleetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContainerFleetOutput>(CreateContainerFleetOutput.httpOutput(from:), CreateContainerFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContainerFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateContainerFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>(overrides: ["X-Amz-Target": "GameLift.CreateContainerFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateContainerFleetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateContainerFleetInput, CreateContainerFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1150,12 +1144,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func createContainerGroupDefinition(input: CreateContainerGroupDefinitionInput) async throws -> CreateContainerGroupDefinitionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createContainerGroupDefinitionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1168,30 +1156,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>(CreateContainerGroupDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContainerGroupDefinitionOutput>(CreateContainerGroupDefinitionOutput.httpOutput(from:), CreateContainerGroupDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContainerGroupDefinitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateContainerGroupDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>(overrides: ["X-Amz-Target": "GameLift.CreateContainerGroupDefinition"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateContainerGroupDefinitionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateContainerGroupDefinitionInput, CreateContainerGroupDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1258,12 +1250,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createFleetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1276,30 +1262,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateFleetInput, CreateFleetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFleetInput, CreateFleetOutput>(CreateFleetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFleetInput, CreateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetInput, CreateFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetInput, CreateFleetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFleetOutput>(CreateFleetOutput.httpOutput(from:), CreateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetInput, CreateFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFleetInput, CreateFleetOutput>(overrides: ["X-Amz-Target": "GameLift.CreateFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetInput, CreateFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateFleetInput, CreateFleetOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFleetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFleetInput, CreateFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateFleetInput, CreateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetInput, CreateFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFleetInput, CreateFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1340,12 +1330,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func createFleetLocations(input: CreateFleetLocationsInput) async throws -> CreateFleetLocationsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createFleetLocationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1358,30 +1342,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateFleetLocationsInput, CreateFleetLocationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>(CreateFleetLocationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFleetLocationsOutput>(CreateFleetLocationsOutput.httpOutput(from:), CreateFleetLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetLocationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFleetLocationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>(overrides: ["X-Amz-Target": "GameLift.CreateFleetLocations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFleetLocationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFleetLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1425,12 +1413,6 @@ extension GameLiftClient {
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createGameServerGroup(input: CreateGameServerGroupInput) async throws -> CreateGameServerGroupOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createGameServerGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1443,30 +1425,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateGameServerGroupInput, CreateGameServerGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>(CreateGameServerGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGameServerGroupOutput>(CreateGameServerGroupOutput.httpOutput(from:), CreateGameServerGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGameServerGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGameServerGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>(overrides: ["X-Amz-Target": "GameLift.CreateGameServerGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateGameServerGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1518,12 +1504,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func createGameSession(input: CreateGameSessionInput) async throws -> CreateGameSessionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createGameSessionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1536,30 +1516,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateGameSessionInput, CreateGameSessionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateGameSessionInput, CreateGameSessionOutput>(CreateGameSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateGameSessionInput, CreateGameSessionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGameSessionInput, CreateGameSessionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGameSessionInput, CreateGameSessionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGameSessionOutput>(CreateGameSessionOutput.httpOutput(from:), CreateGameSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGameSessionInput, CreateGameSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGameSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGameSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGameSessionInput, CreateGameSessionOutput>(overrides: ["X-Amz-Target": "GameLift.CreateGameSession"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGameSessionInput, CreateGameSessionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateGameSessionInput, CreateGameSessionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateGameSessionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGameSessionInput, CreateGameSessionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateGameSessionInput, CreateGameSessionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGameSessionInput, CreateGameSessionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGameSessionInput, CreateGameSessionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGameSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGameSessionInput, CreateGameSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGameSessionInput, CreateGameSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1636,12 +1620,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createGameSessionQueue(input: CreateGameSessionQueueInput) async throws -> CreateGameSessionQueueOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createGameSessionQueueOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1654,30 +1632,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateGameSessionQueueInput, CreateGameSessionQueueOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>(CreateGameSessionQueueInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGameSessionQueueOutput>(CreateGameSessionQueueOutput.httpOutput(from:), CreateGameSessionQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGameSessionQueueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGameSessionQueueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>(overrides: ["X-Amz-Target": "GameLift.CreateGameSessionQueue"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateGameSessionQueueInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGameSessionQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1715,12 +1697,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createLocation(input: CreateLocationInput) async throws -> CreateLocationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createLocationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1733,30 +1709,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateLocationInput, CreateLocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLocationInput, CreateLocationOutput>(CreateLocationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLocationInput, CreateLocationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationInput, CreateLocationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationInput, CreateLocationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocationOutput>(CreateLocationOutput.httpOutput(from:), CreateLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocationInput, CreateLocationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLocationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationInput, CreateLocationOutput>(overrides: ["X-Amz-Target": "GameLift.CreateLocation"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationInput, CreateLocationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationInput, CreateLocationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationInput, CreateLocationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateLocationInput, CreateLocationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationInput, CreateLocationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationInput, CreateLocationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLocationInput, CreateLocationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateLocationInput, CreateLocationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1794,12 +1774,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func createMatchmakingConfiguration(input: CreateMatchmakingConfigurationInput) async throws -> CreateMatchmakingConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createMatchmakingConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1812,30 +1786,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>(CreateMatchmakingConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMatchmakingConfigurationOutput>(CreateMatchmakingConfigurationOutput.httpOutput(from:), CreateMatchmakingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMatchmakingConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateMatchmakingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>(overrides: ["X-Amz-Target": "GameLift.CreateMatchmakingConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateMatchmakingConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMatchmakingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1878,12 +1856,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func createMatchmakingRuleSet(input: CreateMatchmakingRuleSetInput) async throws -> CreateMatchmakingRuleSetOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createMatchmakingRuleSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1896,30 +1868,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>(CreateMatchmakingRuleSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMatchmakingRuleSetOutput>(CreateMatchmakingRuleSetOutput.httpOutput(from:), CreateMatchmakingRuleSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMatchmakingRuleSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateMatchmakingRuleSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>(overrides: ["X-Amz-Target": "GameLift.CreateMatchmakingRuleSet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateMatchmakingRuleSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMatchmakingRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1958,12 +1934,6 @@ extension GameLiftClient {
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createPlayerSession(input: CreatePlayerSessionInput) async throws -> CreatePlayerSessionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createPlayerSessionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1976,30 +1946,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreatePlayerSessionInput, CreatePlayerSessionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>(CreatePlayerSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePlayerSessionOutput>(CreatePlayerSessionOutput.httpOutput(from:), CreatePlayerSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePlayerSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePlayerSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>(overrides: ["X-Amz-Target": "GameLift.CreatePlayerSession"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePlayerSessionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePlayerSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2038,12 +2012,6 @@ extension GameLiftClient {
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createPlayerSessions(input: CreatePlayerSessionsInput) async throws -> CreatePlayerSessionsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createPlayerSessionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2056,30 +2024,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreatePlayerSessionsInput, CreatePlayerSessionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>(CreatePlayerSessionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePlayerSessionsOutput>(CreatePlayerSessionsOutput.httpOutput(from:), CreatePlayerSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePlayerSessionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePlayerSessionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>(overrides: ["X-Amz-Target": "GameLift.CreatePlayerSessions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePlayerSessionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePlayerSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2123,12 +2095,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createScript(input: CreateScriptInput) async throws -> CreateScriptOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createScriptOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2141,30 +2107,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateScriptInput, CreateScriptOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateScriptInput, CreateScriptOutput>(CreateScriptInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateScriptInput, CreateScriptOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateScriptInput, CreateScriptOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScriptInput, CreateScriptOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateScriptOutput>(CreateScriptOutput.httpOutput(from:), CreateScriptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScriptInput, CreateScriptOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScriptOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateScriptOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateScriptInput, CreateScriptOutput>(overrides: ["X-Amz-Target": "GameLift.CreateScript"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateScriptInput, CreateScriptOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateScriptInput, CreateScriptOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateScriptInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateScriptInput, CreateScriptOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateScriptInput, CreateScriptOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateScriptInput, CreateScriptOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScriptInput, CreateScriptOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateScriptInput, CreateScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateScriptInput, CreateScriptOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2200,12 +2170,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createVpcPeeringAuthorization(input: CreateVpcPeeringAuthorizationInput) async throws -> CreateVpcPeeringAuthorizationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createVpcPeeringAuthorizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2218,30 +2182,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>(CreateVpcPeeringAuthorizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcPeeringAuthorizationOutput>(CreateVpcPeeringAuthorizationOutput.httpOutput(from:), CreateVpcPeeringAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcPeeringAuthorizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVpcPeeringAuthorizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>(overrides: ["X-Amz-Target": "GameLift.CreateVpcPeeringAuthorization"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVpcPeeringAuthorizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVpcPeeringAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2277,12 +2245,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createVpcPeeringConnection(input: CreateVpcPeeringConnectionInput) async throws -> CreateVpcPeeringConnectionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.createVpcPeeringConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2295,30 +2257,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>(CreateVpcPeeringConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcPeeringConnectionOutput>(CreateVpcPeeringConnectionOutput.httpOutput(from:), CreateVpcPeeringConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcPeeringConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVpcPeeringConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>(overrides: ["X-Amz-Target": "GameLift.CreateVpcPeeringConnection"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVpcPeeringConnectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVpcPeeringConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2355,12 +2321,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteAliasOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2373,30 +2333,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAliasInput, DeleteAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAliasInput, DeleteAliasOutput>(DeleteAliasInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAliasInput, DeleteAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAliasInput, DeleteAliasOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAliasInput, DeleteAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAliasOutput>(DeleteAliasOutput.httpOutput(from:), DeleteAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAliasInput, DeleteAliasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAliasOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAliasInput, DeleteAliasOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteAlias"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAliasInput, DeleteAliasOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAliasInput, DeleteAliasOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAliasInput, DeleteAliasOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteAliasInput, DeleteAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAliasInput, DeleteAliasOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAliasInput, DeleteAliasOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAliasInput, DeleteAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAliasInput, DeleteAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2433,12 +2397,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteBuild(input: DeleteBuildInput) async throws -> DeleteBuildOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteBuildOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2451,30 +2409,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBuildInput, DeleteBuildOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBuildInput, DeleteBuildOutput>(DeleteBuildInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBuildInput, DeleteBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBuildInput, DeleteBuildOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBuildInput, DeleteBuildOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBuildOutput>(DeleteBuildOutput.httpOutput(from:), DeleteBuildOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBuildInput, DeleteBuildOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBuildOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBuildOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBuildInput, DeleteBuildOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteBuild"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBuildInput, DeleteBuildOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteBuildInput, DeleteBuildOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBuildInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBuildInput, DeleteBuildOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteBuildInput, DeleteBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBuildInput, DeleteBuildOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBuildInput, DeleteBuildOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBuildInput, DeleteBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteBuildInput, DeleteBuildOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2512,12 +2474,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteContainerFleet(input: DeleteContainerFleetInput) async throws -> DeleteContainerFleetOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteContainerFleetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2530,30 +2486,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteContainerFleetInput, DeleteContainerFleetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>(DeleteContainerFleetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContainerFleetOutput>(DeleteContainerFleetOutput.httpOutput(from:), DeleteContainerFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContainerFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContainerFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteContainerFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteContainerFleetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteContainerFleetInput, DeleteContainerFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2611,12 +2571,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteContainerGroupDefinition(input: DeleteContainerGroupDefinitionInput) async throws -> DeleteContainerGroupDefinitionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteContainerGroupDefinitionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2629,30 +2583,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>(DeleteContainerGroupDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContainerGroupDefinitionOutput>(DeleteContainerGroupDefinitionOutput.httpOutput(from:), DeleteContainerGroupDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContainerGroupDefinitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContainerGroupDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteContainerGroupDefinition"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteContainerGroupDefinitionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteContainerGroupDefinitionInput, DeleteContainerGroupDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2690,12 +2648,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteFleetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2708,30 +2660,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteFleetInput, DeleteFleetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFleetInput, DeleteFleetOutput>(DeleteFleetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFleetInput, DeleteFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetInput, DeleteFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetInput, DeleteFleetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFleetOutput>(DeleteFleetOutput.httpOutput(from:), DeleteFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetInput, DeleteFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFleetInput, DeleteFleetOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetInput, DeleteFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFleetInput, DeleteFleetOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFleetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFleetInput, DeleteFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteFleetInput, DeleteFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetInput, DeleteFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFleetInput, DeleteFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2768,12 +2724,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteFleetLocations(input: DeleteFleetLocationsInput) async throws -> DeleteFleetLocationsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteFleetLocationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2786,30 +2736,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteFleetLocationsInput, DeleteFleetLocationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>(DeleteFleetLocationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFleetLocationsOutput>(DeleteFleetLocationsOutput.httpOutput(from:), DeleteFleetLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetLocationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFleetLocationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteFleetLocations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFleetLocationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFleetLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2854,12 +2808,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteGameServerGroup(input: DeleteGameServerGroupInput) async throws -> DeleteGameServerGroupOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteGameServerGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2872,30 +2820,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteGameServerGroupInput, DeleteGameServerGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>(DeleteGameServerGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGameServerGroupOutput>(DeleteGameServerGroupOutput.httpOutput(from:), DeleteGameServerGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGameServerGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteGameServerGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteGameServerGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteGameServerGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2932,12 +2884,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteGameSessionQueue(input: DeleteGameSessionQueueInput) async throws -> DeleteGameSessionQueueOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteGameSessionQueueOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2950,30 +2896,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>(DeleteGameSessionQueueInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGameSessionQueueOutput>(DeleteGameSessionQueueOutput.httpOutput(from:), DeleteGameSessionQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGameSessionQueueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteGameSessionQueueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteGameSessionQueue"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteGameSessionQueueInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGameSessionQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3009,12 +2959,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteLocation(input: DeleteLocationInput) async throws -> DeleteLocationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteLocationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3027,30 +2971,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteLocationInput, DeleteLocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLocationInput, DeleteLocationOutput>(DeleteLocationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLocationInput, DeleteLocationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLocationInput, DeleteLocationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLocationInput, DeleteLocationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLocationOutput>(DeleteLocationOutput.httpOutput(from:), DeleteLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLocationInput, DeleteLocationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLocationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLocationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLocationInput, DeleteLocationOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteLocation"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLocationInput, DeleteLocationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteLocationInput, DeleteLocationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLocationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLocationInput, DeleteLocationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteLocationInput, DeleteLocationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLocationInput, DeleteLocationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLocationInput, DeleteLocationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLocationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLocationInput, DeleteLocationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteLocationInput, DeleteLocationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3087,12 +3035,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteMatchmakingConfiguration(input: DeleteMatchmakingConfigurationInput) async throws -> DeleteMatchmakingConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteMatchmakingConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3105,30 +3047,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>(DeleteMatchmakingConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMatchmakingConfigurationOutput>(DeleteMatchmakingConfigurationOutput.httpOutput(from:), DeleteMatchmakingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMatchmakingConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMatchmakingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteMatchmakingConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMatchmakingConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMatchmakingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3167,12 +3113,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteMatchmakingRuleSet(input: DeleteMatchmakingRuleSetInput) async throws -> DeleteMatchmakingRuleSetOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteMatchmakingRuleSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3185,30 +3125,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>(DeleteMatchmakingRuleSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMatchmakingRuleSetOutput>(DeleteMatchmakingRuleSetOutput.httpOutput(from:), DeleteMatchmakingRuleSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMatchmakingRuleSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMatchmakingRuleSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteMatchmakingRuleSet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMatchmakingRuleSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMatchmakingRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3245,12 +3189,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteScalingPolicy(input: DeleteScalingPolicyInput) async throws -> DeleteScalingPolicyOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteScalingPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3263,30 +3201,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteScalingPolicyInput, DeleteScalingPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(DeleteScalingPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScalingPolicyOutput>(DeleteScalingPolicyOutput.httpOutput(from:), DeleteScalingPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScalingPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteScalingPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteScalingPolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteScalingPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteScalingPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3323,12 +3265,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteScript(input: DeleteScriptInput) async throws -> DeleteScriptOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteScriptOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3341,30 +3277,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteScriptInput, DeleteScriptOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteScriptInput, DeleteScriptOutput>(DeleteScriptInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteScriptInput, DeleteScriptOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteScriptInput, DeleteScriptOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScriptInput, DeleteScriptOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScriptOutput>(DeleteScriptOutput.httpOutput(from:), DeleteScriptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScriptInput, DeleteScriptOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScriptOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteScriptOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteScriptInput, DeleteScriptOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteScript"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteScriptInput, DeleteScriptOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteScriptInput, DeleteScriptOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteScriptInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteScriptInput, DeleteScriptOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteScriptInput, DeleteScriptOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteScriptInput, DeleteScriptOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScriptInput, DeleteScriptOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteScriptInput, DeleteScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteScriptInput, DeleteScriptOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3400,12 +3340,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteVpcPeeringAuthorization(input: DeleteVpcPeeringAuthorizationInput) async throws -> DeleteVpcPeeringAuthorizationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteVpcPeeringAuthorizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3418,30 +3352,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>(DeleteVpcPeeringAuthorizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcPeeringAuthorizationOutput>(DeleteVpcPeeringAuthorizationOutput.httpOutput(from:), DeleteVpcPeeringAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcPeeringAuthorizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVpcPeeringAuthorizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteVpcPeeringAuthorization"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVpcPeeringAuthorizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVpcPeeringAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3477,12 +3415,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteVpcPeeringConnection(input: DeleteVpcPeeringConnectionInput) async throws -> DeleteVpcPeeringConnectionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deleteVpcPeeringConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3495,30 +3427,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>(DeleteVpcPeeringConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcPeeringConnectionOutput>(DeleteVpcPeeringConnectionOutput.httpOutput(from:), DeleteVpcPeeringConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcPeeringConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVpcPeeringConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>(overrides: ["X-Amz-Target": "GameLift.DeleteVpcPeeringConnection"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVpcPeeringConnectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVpcPeeringConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3554,12 +3490,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deregisterCompute(input: DeregisterComputeInput) async throws -> DeregisterComputeOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deregisterComputeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3572,30 +3502,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeregisterComputeInput, DeregisterComputeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeregisterComputeInput, DeregisterComputeOutput>(DeregisterComputeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterComputeInput, DeregisterComputeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterComputeInput, DeregisterComputeOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterComputeInput, DeregisterComputeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterComputeOutput>(DeregisterComputeOutput.httpOutput(from:), DeregisterComputeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterComputeInput, DeregisterComputeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterComputeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeregisterComputeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeregisterComputeInput, DeregisterComputeOutput>(overrides: ["X-Amz-Target": "GameLift.DeregisterCompute"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterComputeInput, DeregisterComputeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeregisterComputeInput, DeregisterComputeOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterComputeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeregisterComputeInput, DeregisterComputeOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeregisterComputeInput, DeregisterComputeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterComputeInput, DeregisterComputeOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterComputeInput, DeregisterComputeOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterComputeInput, DeregisterComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterComputeInput, DeregisterComputeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3631,12 +3565,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deregisterGameServer(input: DeregisterGameServerInput) async throws -> DeregisterGameServerOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.deregisterGameServerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3649,30 +3577,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeregisterGameServerInput, DeregisterGameServerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>(DeregisterGameServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterGameServerOutput>(DeregisterGameServerOutput.httpOutput(from:), DeregisterGameServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterGameServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeregisterGameServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>(overrides: ["X-Amz-Target": "GameLift.DeregisterGameServer"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterGameServerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterGameServerInput, DeregisterGameServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3708,12 +3640,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeAlias(input: DescribeAliasInput) async throws -> DescribeAliasOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeAliasOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3726,30 +3652,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAliasInput, DescribeAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAliasInput, DescribeAliasOutput>(DescribeAliasInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAliasInput, DescribeAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAliasInput, DescribeAliasOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAliasInput, DescribeAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAliasOutput>(DescribeAliasOutput.httpOutput(from:), DescribeAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAliasInput, DescribeAliasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAliasOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAliasInput, DescribeAliasOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeAlias"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAliasInput, DescribeAliasOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAliasInput, DescribeAliasOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAliasInput, DescribeAliasOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAliasInput, DescribeAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAliasInput, DescribeAliasOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAliasInput, DescribeAliasOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAliasInput, DescribeAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAliasInput, DescribeAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3785,12 +3715,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeBuild(input: DescribeBuildInput) async throws -> DescribeBuildOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeBuildOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3803,30 +3727,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeBuildInput, DescribeBuildOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBuildInput, DescribeBuildOutput>(DescribeBuildInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBuildInput, DescribeBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBuildInput, DescribeBuildOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBuildInput, DescribeBuildOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBuildOutput>(DescribeBuildOutput.httpOutput(from:), DescribeBuildOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBuildInput, DescribeBuildOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBuildOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBuildOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBuildInput, DescribeBuildOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeBuild"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBuildInput, DescribeBuildOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBuildInput, DescribeBuildOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBuildInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBuildInput, DescribeBuildOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeBuildInput, DescribeBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBuildInput, DescribeBuildOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBuildInput, DescribeBuildOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBuildInput, DescribeBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeBuildInput, DescribeBuildOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3876,12 +3804,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeCompute(input: DescribeComputeInput) async throws -> DescribeComputeOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeComputeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3894,30 +3816,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeComputeInput, DescribeComputeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeComputeInput, DescribeComputeOutput>(DescribeComputeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeComputeInput, DescribeComputeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeComputeInput, DescribeComputeOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeComputeInput, DescribeComputeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeComputeOutput>(DescribeComputeOutput.httpOutput(from:), DescribeComputeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeComputeInput, DescribeComputeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeComputeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeComputeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeComputeInput, DescribeComputeOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeCompute"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeComputeInput, DescribeComputeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeComputeInput, DescribeComputeOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeComputeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeComputeInput, DescribeComputeOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeComputeInput, DescribeComputeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeComputeInput, DescribeComputeOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeComputeInput, DescribeComputeOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeComputeInput, DescribeComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeComputeInput, DescribeComputeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3959,12 +3885,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeContainerFleet(input: DescribeContainerFleetInput) async throws -> DescribeContainerFleetOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeContainerFleetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3977,30 +3897,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeContainerFleetInput, DescribeContainerFleetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>(DescribeContainerFleetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContainerFleetOutput>(DescribeContainerFleetOutput.httpOutput(from:), DescribeContainerFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContainerFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContainerFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeContainerFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeContainerFleetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContainerFleetInput, DescribeContainerFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4046,12 +3970,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeContainerGroupDefinition(input: DescribeContainerGroupDefinitionInput) async throws -> DescribeContainerGroupDefinitionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeContainerGroupDefinitionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4064,30 +3982,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>(DescribeContainerGroupDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContainerGroupDefinitionOutput>(DescribeContainerGroupDefinitionOutput.httpOutput(from:), DescribeContainerGroupDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContainerGroupDefinitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContainerGroupDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeContainerGroupDefinition"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeContainerGroupDefinitionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContainerGroupDefinitionInput, DescribeContainerGroupDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4139,12 +4061,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeEC2InstanceLimits(input: DescribeEC2InstanceLimitsInput) async throws -> DescribeEC2InstanceLimitsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeEC2InstanceLimitsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4157,30 +4073,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>(DescribeEC2InstanceLimitsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEC2InstanceLimitsOutput>(DescribeEC2InstanceLimitsOutput.httpOutput(from:), DescribeEC2InstanceLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEC2InstanceLimitsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEC2InstanceLimitsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeEC2InstanceLimits"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEC2InstanceLimitsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEC2InstanceLimitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4223,12 +4143,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeFleetAttributes(input: DescribeFleetAttributesInput) async throws -> DescribeFleetAttributesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeFleetAttributesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4241,30 +4155,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeFleetAttributesInput, DescribeFleetAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(DescribeFleetAttributesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetAttributesOutput>(DescribeFleetAttributesOutput.httpOutput(from:), DescribeFleetAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFleetAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeFleetAttributes"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFleetAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4308,12 +4226,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetCapacity(input: DescribeFleetCapacityInput) async throws -> DescribeFleetCapacityOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeFleetCapacityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4326,30 +4238,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeFleetCapacityInput, DescribeFleetCapacityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(DescribeFleetCapacityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetCapacityOutput>(DescribeFleetCapacityOutput.httpOutput(from:), DescribeFleetCapacityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetCapacityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFleetCapacityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeFleetCapacity"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFleetCapacityInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4393,12 +4309,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetDeployment(input: DescribeFleetDeploymentInput) async throws -> DescribeFleetDeploymentOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeFleetDeploymentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4411,30 +4321,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>(DescribeFleetDeploymentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetDeploymentOutput>(DescribeFleetDeploymentOutput.httpOutput(from:), DescribeFleetDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetDeploymentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFleetDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeFleetDeployment"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFleetDeploymentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetDeploymentInput, DescribeFleetDeploymentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4471,12 +4385,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetEvents(input: DescribeFleetEventsInput) async throws -> DescribeFleetEventsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeFleetEventsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4489,30 +4397,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeFleetEventsInput, DescribeFleetEventsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>(DescribeFleetEventsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetEventsOutput>(DescribeFleetEventsOutput.httpOutput(from:), DescribeFleetEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetEventsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFleetEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeFleetEvents"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFleetEventsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4556,12 +4468,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetLocationAttributes(input: DescribeFleetLocationAttributesInput) async throws -> DescribeFleetLocationAttributesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeFleetLocationAttributesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4574,30 +4480,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(DescribeFleetLocationAttributesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetLocationAttributesOutput>(DescribeFleetLocationAttributesOutput.httpOutput(from:), DescribeFleetLocationAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetLocationAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFleetLocationAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeFleetLocationAttributes"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFleetLocationAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetLocationAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4634,12 +4544,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetLocationCapacity(input: DescribeFleetLocationCapacityInput) async throws -> DescribeFleetLocationCapacityOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeFleetLocationCapacityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4652,30 +4556,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>(DescribeFleetLocationCapacityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetLocationCapacityOutput>(DescribeFleetLocationCapacityOutput.httpOutput(from:), DescribeFleetLocationCapacityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetLocationCapacityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFleetLocationCapacityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeFleetLocationCapacity"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFleetLocationCapacityInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetLocationCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4712,12 +4620,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetLocationUtilization(input: DescribeFleetLocationUtilizationInput) async throws -> DescribeFleetLocationUtilizationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeFleetLocationUtilizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4730,30 +4632,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>(DescribeFleetLocationUtilizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetLocationUtilizationOutput>(DescribeFleetLocationUtilizationOutput.httpOutput(from:), DescribeFleetLocationUtilizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetLocationUtilizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFleetLocationUtilizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeFleetLocationUtilization"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFleetLocationUtilizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetLocationUtilizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4797,12 +4703,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetPortSettings(input: DescribeFleetPortSettingsInput) async throws -> DescribeFleetPortSettingsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeFleetPortSettingsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4815,30 +4715,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>(DescribeFleetPortSettingsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetPortSettingsOutput>(DescribeFleetPortSettingsOutput.httpOutput(from:), DescribeFleetPortSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetPortSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFleetPortSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeFleetPortSettings"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFleetPortSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetPortSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4881,12 +4785,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeFleetUtilization(input: DescribeFleetUtilizationInput) async throws -> DescribeFleetUtilizationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeFleetUtilizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4899,30 +4797,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(DescribeFleetUtilizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetUtilizationOutput>(DescribeFleetUtilizationOutput.httpOutput(from:), DescribeFleetUtilizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetUtilizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFleetUtilizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeFleetUtilization"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFleetUtilizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFleetUtilizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4958,12 +4860,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameServer(input: DescribeGameServerInput) async throws -> DescribeGameServerOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeGameServerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4976,30 +4872,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeGameServerInput, DescribeGameServerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeGameServerInput, DescribeGameServerOutput>(DescribeGameServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGameServerInput, DescribeGameServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameServerInput, DescribeGameServerOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameServerInput, DescribeGameServerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGameServerOutput>(DescribeGameServerOutput.httpOutput(from:), DescribeGameServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameServerInput, DescribeGameServerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeGameServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameServerInput, DescribeGameServerOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeGameServer"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameServerInput, DescribeGameServerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeGameServerInput, DescribeGameServerOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeGameServerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameServerInput, DescribeGameServerOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeGameServerInput, DescribeGameServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameServerInput, DescribeGameServerOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameServerInput, DescribeGameServerOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameServerInput, DescribeGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameServerInput, DescribeGameServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5035,12 +4935,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameServerGroup(input: DescribeGameServerGroupInput) async throws -> DescribeGameServerGroupOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeGameServerGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5053,30 +4947,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeGameServerGroupInput, DescribeGameServerGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>(DescribeGameServerGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGameServerGroupOutput>(DescribeGameServerGroupOutput.httpOutput(from:), DescribeGameServerGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameServerGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeGameServerGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeGameServerGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeGameServerGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5112,12 +5010,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameServerInstances(input: DescribeGameServerInstancesInput) async throws -> DescribeGameServerInstancesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeGameServerInstancesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5130,30 +5022,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(DescribeGameServerInstancesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGameServerInstancesOutput>(DescribeGameServerInstancesOutput.httpOutput(from:), DescribeGameServerInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameServerInstancesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeGameServerInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeGameServerInstances"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeGameServerInstancesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameServerInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5200,12 +5096,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeGameSessionDetails(input: DescribeGameSessionDetailsInput) async throws -> DescribeGameSessionDetailsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeGameSessionDetailsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5218,30 +5108,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(DescribeGameSessionDetailsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGameSessionDetailsOutput>(DescribeGameSessionDetailsOutput.httpOutput(from:), DescribeGameSessionDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameSessionDetailsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeGameSessionDetailsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeGameSessionDetails"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeGameSessionDetailsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameSessionDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5277,12 +5171,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameSessionPlacement(input: DescribeGameSessionPlacementInput) async throws -> DescribeGameSessionPlacementOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeGameSessionPlacementOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5295,30 +5183,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>(DescribeGameSessionPlacementInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGameSessionPlacementOutput>(DescribeGameSessionPlacementOutput.httpOutput(from:), DescribeGameSessionPlacementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameSessionPlacementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeGameSessionPlacementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeGameSessionPlacement"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeGameSessionPlacementInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameSessionPlacementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5354,12 +5246,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameSessionQueues(input: DescribeGameSessionQueuesInput) async throws -> DescribeGameSessionQueuesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeGameSessionQueuesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5372,30 +5258,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(DescribeGameSessionQueuesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGameSessionQueuesOutput>(DescribeGameSessionQueuesOutput.httpOutput(from:), DescribeGameSessionQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameSessionQueuesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeGameSessionQueuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeGameSessionQueues"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeGameSessionQueuesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameSessionQueuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5442,12 +5332,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeGameSessions(input: DescribeGameSessionsInput) async throws -> DescribeGameSessionsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeGameSessionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5460,30 +5344,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeGameSessionsInput, DescribeGameSessionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>(DescribeGameSessionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGameSessionsOutput>(DescribeGameSessionsOutput.httpOutput(from:), DescribeGameSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGameSessionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeGameSessionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeGameSessions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeGameSessionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGameSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5529,12 +5417,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeInstances(input: DescribeInstancesInput) async throws -> DescribeInstancesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeInstancesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5547,30 +5429,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeInstancesInput, DescribeInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeInstancesInput, DescribeInstancesOutput>(DescribeInstancesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeInstancesInput, DescribeInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInstancesInput, DescribeInstancesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstancesInput, DescribeInstancesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstancesOutput>(DescribeInstancesOutput.httpOutput(from:), DescribeInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstancesInput, DescribeInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstancesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeInstancesInput, DescribeInstancesOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeInstances"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInstancesInput, DescribeInstancesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeInstancesInput, DescribeInstancesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInstancesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeInstancesInput, DescribeInstancesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeInstancesInput, DescribeInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInstancesInput, DescribeInstancesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstancesInput, DescribeInstancesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInstancesInput, DescribeInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInstancesInput, DescribeInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5605,12 +5491,6 @@ extension GameLiftClient {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeMatchmaking(input: DescribeMatchmakingInput) async throws -> DescribeMatchmakingOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeMatchmakingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5623,30 +5503,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeMatchmakingInput, DescribeMatchmakingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>(DescribeMatchmakingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMatchmakingOutput>(DescribeMatchmakingOutput.httpOutput(from:), DescribeMatchmakingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMatchmakingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMatchmakingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeMatchmaking"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMatchmakingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMatchmakingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5681,12 +5565,6 @@ extension GameLiftClient {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeMatchmakingConfigurations(input: DescribeMatchmakingConfigurationsInput) async throws -> DescribeMatchmakingConfigurationsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeMatchmakingConfigurationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5699,30 +5577,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(DescribeMatchmakingConfigurationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMatchmakingConfigurationsOutput>(DescribeMatchmakingConfigurationsOutput.httpOutput(from:), DescribeMatchmakingConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMatchmakingConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMatchmakingConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeMatchmakingConfigurations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMatchmakingConfigurationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMatchmakingConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5760,12 +5642,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeMatchmakingRuleSets(input: DescribeMatchmakingRuleSetsInput) async throws -> DescribeMatchmakingRuleSetsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeMatchmakingRuleSetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5778,30 +5654,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(DescribeMatchmakingRuleSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMatchmakingRuleSetsOutput>(DescribeMatchmakingRuleSetsOutput.httpOutput(from:), DescribeMatchmakingRuleSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMatchmakingRuleSetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMatchmakingRuleSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeMatchmakingRuleSets"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMatchmakingRuleSetsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMatchmakingRuleSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5846,12 +5726,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describePlayerSessions(input: DescribePlayerSessionsInput) async throws -> DescribePlayerSessionsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describePlayerSessionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5864,30 +5738,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribePlayerSessionsInput, DescribePlayerSessionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(DescribePlayerSessionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePlayerSessionsOutput>(DescribePlayerSessionsOutput.httpOutput(from:), DescribePlayerSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePlayerSessionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePlayerSessionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(overrides: ["X-Amz-Target": "GameLift.DescribePlayerSessions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePlayerSessionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePlayerSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5923,12 +5801,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeRuntimeConfiguration(input: DescribeRuntimeConfigurationInput) async throws -> DescribeRuntimeConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeRuntimeConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5941,30 +5813,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>(DescribeRuntimeConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRuntimeConfigurationOutput>(DescribeRuntimeConfigurationOutput.httpOutput(from:), DescribeRuntimeConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuntimeConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRuntimeConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeRuntimeConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRuntimeConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuntimeConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6001,12 +5877,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeScalingPolicies(input: DescribeScalingPoliciesInput) async throws -> DescribeScalingPoliciesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeScalingPoliciesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6019,30 +5889,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(DescribeScalingPoliciesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScalingPoliciesOutput>(DescribeScalingPoliciesOutput.httpOutput(from:), DescribeScalingPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalingPoliciesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeScalingPoliciesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeScalingPolicies"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeScalingPoliciesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeScalingPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6078,12 +5952,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeScript(input: DescribeScriptInput) async throws -> DescribeScriptOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeScriptOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6096,30 +5964,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeScriptInput, DescribeScriptOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeScriptInput, DescribeScriptOutput>(DescribeScriptInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeScriptInput, DescribeScriptOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScriptInput, DescribeScriptOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScriptInput, DescribeScriptOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScriptOutput>(DescribeScriptOutput.httpOutput(from:), DescribeScriptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScriptInput, DescribeScriptOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScriptOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeScriptOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeScriptInput, DescribeScriptOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeScript"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScriptInput, DescribeScriptOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeScriptInput, DescribeScriptOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeScriptInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeScriptInput, DescribeScriptOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeScriptInput, DescribeScriptOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeScriptInput, DescribeScriptOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScriptInput, DescribeScriptOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeScriptInput, DescribeScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeScriptInput, DescribeScriptOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6154,12 +6026,6 @@ extension GameLiftClient {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeVpcPeeringAuthorizations(input: DescribeVpcPeeringAuthorizationsInput) async throws -> DescribeVpcPeeringAuthorizationsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeVpcPeeringAuthorizationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6172,30 +6038,33 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>(DescribeVpcPeeringAuthorizationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcPeeringAuthorizationsOutput>(DescribeVpcPeeringAuthorizationsOutput.httpOutput(from:), DescribeVpcPeeringAuthorizationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcPeeringAuthorizationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeVpcPeeringAuthorizationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeVpcPeeringAuthorizations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVpcPeeringAuthorizationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVpcPeeringAuthorizationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6231,12 +6100,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeVpcPeeringConnections(input: DescribeVpcPeeringConnectionsInput) async throws -> DescribeVpcPeeringConnectionsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.describeVpcPeeringConnectionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6249,30 +6112,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(DescribeVpcPeeringConnectionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcPeeringConnectionsOutput>(DescribeVpcPeeringConnectionsOutput.httpOutput(from:), DescribeVpcPeeringConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcPeeringConnectionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeVpcPeeringConnectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(overrides: ["X-Amz-Target": "GameLift.DescribeVpcPeeringConnections"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVpcPeeringConnectionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVpcPeeringConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6318,12 +6185,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func getComputeAccess(input: GetComputeAccessInput) async throws -> GetComputeAccessOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.getComputeAccessOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6336,30 +6197,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetComputeAccessInput, GetComputeAccessOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetComputeAccessInput, GetComputeAccessOutput>(GetComputeAccessInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetComputeAccessInput, GetComputeAccessOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetComputeAccessInput, GetComputeAccessOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComputeAccessInput, GetComputeAccessOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComputeAccessOutput>(GetComputeAccessOutput.httpOutput(from:), GetComputeAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComputeAccessInput, GetComputeAccessOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComputeAccessOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetComputeAccessOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetComputeAccessInput, GetComputeAccessOutput>(overrides: ["X-Amz-Target": "GameLift.GetComputeAccess"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetComputeAccessInput, GetComputeAccessOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetComputeAccessInput, GetComputeAccessOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetComputeAccessInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetComputeAccessInput, GetComputeAccessOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetComputeAccessInput, GetComputeAccessOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetComputeAccessInput, GetComputeAccessOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComputeAccessInput, GetComputeAccessOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComputeAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComputeAccessInput, GetComputeAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetComputeAccessInput, GetComputeAccessOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6409,12 +6274,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func getComputeAuthToken(input: GetComputeAuthTokenInput) async throws -> GetComputeAuthTokenOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.getComputeAuthTokenOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6427,30 +6286,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetComputeAuthTokenInput, GetComputeAuthTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>(GetComputeAuthTokenInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComputeAuthTokenOutput>(GetComputeAuthTokenOutput.httpOutput(from:), GetComputeAuthTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComputeAuthTokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetComputeAuthTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>(overrides: ["X-Amz-Target": "GameLift.GetComputeAuthToken"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetComputeAuthTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComputeAuthTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6486,12 +6349,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func getGameSessionLogUrl(input: GetGameSessionLogUrlInput) async throws -> GetGameSessionLogUrlOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.getGameSessionLogUrlOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6504,30 +6361,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>(GetGameSessionLogUrlInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGameSessionLogUrlOutput>(GetGameSessionLogUrlOutput.httpOutput(from:), GetGameSessionLogUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGameSessionLogUrlOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetGameSessionLogUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>(overrides: ["X-Amz-Target": "GameLift.GetGameSessionLogUrl"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetGameSessionLogUrlInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGameSessionLogUrlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6570,12 +6431,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func getInstanceAccess(input: GetInstanceAccessInput) async throws -> GetInstanceAccessOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.getInstanceAccessOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6588,30 +6443,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetInstanceAccessInput, GetInstanceAccessOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>(GetInstanceAccessInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceAccessOutput>(GetInstanceAccessOutput.httpOutput(from:), GetInstanceAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceAccessOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInstanceAccessOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>(overrides: ["X-Amz-Target": "GameLift.GetInstanceAccess"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetInstanceAccessInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInstanceAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInstanceAccessInput, GetInstanceAccessOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6650,12 +6509,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func getPlayerConnectionDetails(input: GetPlayerConnectionDetailsInput) async throws -> GetPlayerConnectionDetailsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.getPlayerConnectionDetailsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6668,30 +6521,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(GetPlayerConnectionDetailsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlayerConnectionDetailsOutput>(GetPlayerConnectionDetailsOutput.httpOutput(from:), GetPlayerConnectionDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlayerConnectionDetailsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPlayerConnectionDetailsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(overrides: ["X-Amz-Target": "GameLift.GetPlayerConnectionDetails"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetPlayerConnectionDetailsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPlayerConnectionDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPlayerConnectionDetailsInput, GetPlayerConnectionDetailsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6726,12 +6583,6 @@ extension GameLiftClient {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.listAliasesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6744,30 +6595,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListAliasesInput, ListAliasesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAliasesInput, ListAliasesOutput>(ListAliasesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAliasesInput, ListAliasesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAliasesInput, ListAliasesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAliasesInput, ListAliasesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAliasesOutput>(ListAliasesOutput.httpOutput(from:), ListAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAliasesInput, ListAliasesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAliasesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAliasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAliasesInput, ListAliasesOutput>(overrides: ["X-Amz-Target": "GameLift.ListAliases"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAliasesInput, ListAliasesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAliasesInput, ListAliasesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListAliasesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAliasesInput, ListAliasesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAliasesInput, ListAliasesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAliasesInput, ListAliasesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAliasesInput, ListAliasesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAliasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAliasesInput, ListAliasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAliasesInput, ListAliasesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6802,12 +6657,6 @@ extension GameLiftClient {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func listBuilds(input: ListBuildsInput) async throws -> ListBuildsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.listBuildsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6820,30 +6669,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListBuildsInput, ListBuildsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListBuildsInput, ListBuildsOutput>(ListBuildsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBuildsInput, ListBuildsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildsInput, ListBuildsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildsInput, ListBuildsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBuildsOutput>(ListBuildsOutput.httpOutput(from:), ListBuildsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildsInput, ListBuildsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBuildsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBuildsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildsInput, ListBuildsOutput>(overrides: ["X-Amz-Target": "GameLift.ListBuilds"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildsInput, ListBuildsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListBuildsInput, ListBuildsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListBuildsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildsInput, ListBuildsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBuildsInput, ListBuildsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildsInput, ListBuildsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildsInput, ListBuildsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBuildsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBuildsInput, ListBuildsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBuildsInput, ListBuildsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6890,12 +6743,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func listCompute(input: ListComputeInput) async throws -> ListComputeOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.listComputeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6908,30 +6755,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListComputeInput, ListComputeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListComputeInput, ListComputeOutput>(ListComputeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListComputeInput, ListComputeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListComputeInput, ListComputeOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComputeInput, ListComputeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComputeOutput>(ListComputeOutput.httpOutput(from:), ListComputeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComputeInput, ListComputeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComputeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListComputeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListComputeInput, ListComputeOutput>(overrides: ["X-Amz-Target": "GameLift.ListCompute"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListComputeInput, ListComputeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListComputeInput, ListComputeOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListComputeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListComputeInput, ListComputeOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListComputeInput, ListComputeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListComputeInput, ListComputeOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComputeInput, ListComputeOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListComputeInput, ListComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListComputeInput, ListComputeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6976,12 +6827,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func listContainerFleets(input: ListContainerFleetsInput) async throws -> ListContainerFleetsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.listContainerFleetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6994,30 +6839,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListContainerFleetsInput, ListContainerFleetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>(ListContainerFleetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContainerFleetsOutput>(ListContainerFleetsOutput.httpOutput(from:), ListContainerFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContainerFleetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListContainerFleetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>(overrides: ["X-Amz-Target": "GameLift.ListContainerFleets"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListContainerFleetsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainerFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContainerFleetsInput, ListContainerFleetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7061,12 +6910,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func listContainerGroupDefinitionVersions(input: ListContainerGroupDefinitionVersionsInput) async throws -> ListContainerGroupDefinitionVersionsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.listContainerGroupDefinitionVersionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7079,30 +6922,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>(ListContainerGroupDefinitionVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContainerGroupDefinitionVersionsOutput>(ListContainerGroupDefinitionVersionsOutput.httpOutput(from:), ListContainerGroupDefinitionVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContainerGroupDefinitionVersionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListContainerGroupDefinitionVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>(overrides: ["X-Amz-Target": "GameLift.ListContainerGroupDefinitionVersions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListContainerGroupDefinitionVersionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainerGroupDefinitionVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContainerGroupDefinitionVersionsInput, ListContainerGroupDefinitionVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7145,12 +6992,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func listContainerGroupDefinitions(input: ListContainerGroupDefinitionsInput) async throws -> ListContainerGroupDefinitionsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.listContainerGroupDefinitionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7163,30 +7004,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>(ListContainerGroupDefinitionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContainerGroupDefinitionsOutput>(ListContainerGroupDefinitionsOutput.httpOutput(from:), ListContainerGroupDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContainerGroupDefinitionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListContainerGroupDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>(overrides: ["X-Amz-Target": "GameLift.ListContainerGroupDefinitions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListContainerGroupDefinitionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainerGroupDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContainerGroupDefinitionsInput, ListContainerGroupDefinitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7230,12 +7075,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func listFleetDeployments(input: ListFleetDeploymentsInput) async throws -> ListFleetDeploymentsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.listFleetDeploymentsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7248,30 +7087,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListFleetDeploymentsInput, ListFleetDeploymentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>(ListFleetDeploymentsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFleetDeploymentsOutput>(ListFleetDeploymentsOutput.httpOutput(from:), ListFleetDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFleetDeploymentsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFleetDeploymentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>(overrides: ["X-Amz-Target": "GameLift.ListFleetDeployments"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListFleetDeploymentsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFleetDeploymentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFleetDeploymentsInput, ListFleetDeploymentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7316,12 +7159,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.listFleetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7334,30 +7171,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListFleetsInput, ListFleetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFleetsInput, ListFleetsOutput>(ListFleetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFleetsInput, ListFleetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFleetsInput, ListFleetsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFleetsInput, ListFleetsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFleetsOutput>(ListFleetsOutput.httpOutput(from:), ListFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFleetsInput, ListFleetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFleetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFleetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFleetsInput, ListFleetsOutput>(overrides: ["X-Amz-Target": "GameLift.ListFleets"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFleetsInput, ListFleetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListFleetsInput, ListFleetsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListFleetsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFleetsInput, ListFleetsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListFleetsInput, ListFleetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFleetsInput, ListFleetsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFleetsInput, ListFleetsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFleetsInput, ListFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFleetsInput, ListFleetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7392,12 +7233,6 @@ extension GameLiftClient {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func listGameServerGroups(input: ListGameServerGroupsInput) async throws -> ListGameServerGroupsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.listGameServerGroupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7410,30 +7245,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListGameServerGroupsInput, ListGameServerGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>(ListGameServerGroupsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGameServerGroupsOutput>(ListGameServerGroupsOutput.httpOutput(from:), ListGameServerGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGameServerGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGameServerGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>(overrides: ["X-Amz-Target": "GameLift.ListGameServerGroups"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListGameServerGroupsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGameServerGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7468,12 +7307,6 @@ extension GameLiftClient {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func listGameServers(input: ListGameServersInput) async throws -> ListGameServersOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.listGameServersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7486,30 +7319,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListGameServersInput, ListGameServersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListGameServersInput, ListGameServersOutput>(ListGameServersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGameServersInput, ListGameServersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGameServersInput, ListGameServersOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGameServersInput, ListGameServersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGameServersOutput>(ListGameServersOutput.httpOutput(from:), ListGameServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGameServersInput, ListGameServersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGameServersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGameServersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGameServersInput, ListGameServersOutput>(overrides: ["X-Amz-Target": "GameLift.ListGameServers"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGameServersInput, ListGameServersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListGameServersInput, ListGameServersOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListGameServersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGameServersInput, ListGameServersOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListGameServersInput, ListGameServersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGameServersInput, ListGameServersOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGameServersInput, ListGameServersOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGameServersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGameServersInput, ListGameServersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGameServersInput, ListGameServersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7544,12 +7381,6 @@ extension GameLiftClient {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func listLocations(input: ListLocationsInput) async throws -> ListLocationsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.listLocationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7562,30 +7393,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListLocationsInput, ListLocationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLocationsInput, ListLocationsOutput>(ListLocationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLocationsInput, ListLocationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLocationsInput, ListLocationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLocationsInput, ListLocationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLocationsOutput>(ListLocationsOutput.httpOutput(from:), ListLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLocationsInput, ListLocationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLocationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLocationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLocationsInput, ListLocationsOutput>(overrides: ["X-Amz-Target": "GameLift.ListLocations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLocationsInput, ListLocationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListLocationsInput, ListLocationsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListLocationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLocationsInput, ListLocationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListLocationsInput, ListLocationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLocationsInput, ListLocationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLocationsInput, ListLocationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLocationsInput, ListLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListLocationsInput, ListLocationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7620,12 +7455,6 @@ extension GameLiftClient {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func listScripts(input: ListScriptsInput) async throws -> ListScriptsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.listScriptsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7638,30 +7467,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListScriptsInput, ListScriptsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListScriptsInput, ListScriptsOutput>(ListScriptsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListScriptsInput, ListScriptsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListScriptsInput, ListScriptsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListScriptsInput, ListScriptsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListScriptsOutput>(ListScriptsOutput.httpOutput(from:), ListScriptsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScriptsInput, ListScriptsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListScriptsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListScriptsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListScriptsInput, ListScriptsOutput>(overrides: ["X-Amz-Target": "GameLift.ListScripts"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListScriptsInput, ListScriptsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListScriptsInput, ListScriptsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListScriptsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListScriptsInput, ListScriptsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListScriptsInput, ListScriptsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListScriptsInput, ListScriptsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListScriptsInput, ListScriptsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListScriptsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListScriptsInput, ListScriptsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListScriptsInput, ListScriptsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7698,12 +7531,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7716,30 +7543,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "GameLift.ListTagsForResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7776,12 +7607,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func putScalingPolicy(input: PutScalingPolicyInput) async throws -> PutScalingPolicyOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.putScalingPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7794,30 +7619,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutScalingPolicyInput, PutScalingPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(PutScalingPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutScalingPolicyOutput>(PutScalingPolicyOutput.httpOutput(from:), PutScalingPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutScalingPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutScalingPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(overrides: ["X-Amz-Target": "GameLift.PutScalingPolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutScalingPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutScalingPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutScalingPolicyInput, PutScalingPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7861,12 +7690,6 @@ extension GameLiftClient {
     /// - `NotReadyException` : The operation failed because Amazon GameLift Servers has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func registerCompute(input: RegisterComputeInput) async throws -> RegisterComputeOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.registerComputeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7879,30 +7702,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<RegisterComputeInput, RegisterComputeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterComputeInput, RegisterComputeOutput>(RegisterComputeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterComputeInput, RegisterComputeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterComputeInput, RegisterComputeOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterComputeInput, RegisterComputeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterComputeOutput>(RegisterComputeOutput.httpOutput(from:), RegisterComputeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterComputeInput, RegisterComputeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterComputeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterComputeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterComputeInput, RegisterComputeOutput>(overrides: ["X-Amz-Target": "GameLift.RegisterCompute"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterComputeInput, RegisterComputeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RegisterComputeInput, RegisterComputeOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterComputeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterComputeInput, RegisterComputeOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RegisterComputeInput, RegisterComputeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterComputeInput, RegisterComputeOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterComputeInput, RegisterComputeOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterComputeInput, RegisterComputeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterComputeInput, RegisterComputeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7939,12 +7766,6 @@ extension GameLiftClient {
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func registerGameServer(input: RegisterGameServerInput) async throws -> RegisterGameServerOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.registerGameServerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7957,30 +7778,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<RegisterGameServerInput, RegisterGameServerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterGameServerInput, RegisterGameServerOutput>(RegisterGameServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterGameServerInput, RegisterGameServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterGameServerInput, RegisterGameServerOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterGameServerInput, RegisterGameServerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterGameServerOutput>(RegisterGameServerOutput.httpOutput(from:), RegisterGameServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterGameServerInput, RegisterGameServerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterGameServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterGameServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterGameServerInput, RegisterGameServerOutput>(overrides: ["X-Amz-Target": "GameLift.RegisterGameServer"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterGameServerInput, RegisterGameServerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RegisterGameServerInput, RegisterGameServerOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterGameServerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterGameServerInput, RegisterGameServerOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RegisterGameServerInput, RegisterGameServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterGameServerInput, RegisterGameServerOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterGameServerInput, RegisterGameServerOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterGameServerInput, RegisterGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterGameServerInput, RegisterGameServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8016,12 +7841,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func requestUploadCredentials(input: RequestUploadCredentialsInput) async throws -> RequestUploadCredentialsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.requestUploadCredentialsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8034,30 +7853,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<RequestUploadCredentialsInput, RequestUploadCredentialsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>(RequestUploadCredentialsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RequestUploadCredentialsOutput>(RequestUploadCredentialsOutput.httpOutput(from:), RequestUploadCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RequestUploadCredentialsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RequestUploadCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>(overrides: ["X-Amz-Target": "GameLift.RequestUploadCredentials"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: RequestUploadCredentialsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RequestUploadCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8094,12 +7917,6 @@ extension GameLiftClient {
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func resolveAlias(input: ResolveAliasInput) async throws -> ResolveAliasOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.resolveAliasOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8112,30 +7929,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ResolveAliasInput, ResolveAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ResolveAliasInput, ResolveAliasOutput>(ResolveAliasInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResolveAliasInput, ResolveAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResolveAliasInput, ResolveAliasOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResolveAliasInput, ResolveAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ResolveAliasOutput>(ResolveAliasOutput.httpOutput(from:), ResolveAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResolveAliasInput, ResolveAliasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResolveAliasOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResolveAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResolveAliasInput, ResolveAliasOutput>(overrides: ["X-Amz-Target": "GameLift.ResolveAlias"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResolveAliasInput, ResolveAliasOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ResolveAliasInput, ResolveAliasOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ResolveAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResolveAliasInput, ResolveAliasOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ResolveAliasInput, ResolveAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResolveAliasInput, ResolveAliasOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResolveAliasInput, ResolveAliasOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResolveAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResolveAliasInput, ResolveAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResolveAliasInput, ResolveAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8171,12 +7992,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func resumeGameServerGroup(input: ResumeGameServerGroupInput) async throws -> ResumeGameServerGroupOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.resumeGameServerGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8189,30 +8004,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ResumeGameServerGroupInput, ResumeGameServerGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>(ResumeGameServerGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeGameServerGroupOutput>(ResumeGameServerGroupOutput.httpOutput(from:), ResumeGameServerGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeGameServerGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResumeGameServerGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>(overrides: ["X-Amz-Target": "GameLift.ResumeGameServerGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ResumeGameServerGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResumeGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8281,12 +8100,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func searchGameSessions(input: SearchGameSessionsInput) async throws -> SearchGameSessionsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.searchGameSessionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8299,30 +8112,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<SearchGameSessionsInput, SearchGameSessionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>(SearchGameSessionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchGameSessionsOutput>(SearchGameSessionsOutput.httpOutput(from:), SearchGameSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchGameSessionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchGameSessionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>(overrides: ["X-Amz-Target": "GameLift.SearchGameSessions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: SearchGameSessionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchGameSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchGameSessionsInput, SearchGameSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8366,12 +8183,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startFleetActions(input: StartFleetActionsInput) async throws -> StartFleetActionsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.startFleetActionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8384,30 +8195,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StartFleetActionsInput, StartFleetActionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartFleetActionsInput, StartFleetActionsOutput>(StartFleetActionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartFleetActionsInput, StartFleetActionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFleetActionsInput, StartFleetActionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFleetActionsInput, StartFleetActionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFleetActionsOutput>(StartFleetActionsOutput.httpOutput(from:), StartFleetActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFleetActionsInput, StartFleetActionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFleetActionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartFleetActionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFleetActionsInput, StartFleetActionsOutput>(overrides: ["X-Amz-Target": "GameLift.StartFleetActions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFleetActionsInput, StartFleetActionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartFleetActionsInput, StartFleetActionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StartFleetActionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFleetActionsInput, StartFleetActionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartFleetActionsInput, StartFleetActionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFleetActionsInput, StartFleetActionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFleetActionsInput, StartFleetActionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFleetActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartFleetActionsInput, StartFleetActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartFleetActionsInput, StartFleetActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8485,12 +8300,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startGameSessionPlacement(input: StartGameSessionPlacementInput) async throws -> StartGameSessionPlacementOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.startGameSessionPlacementOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8503,30 +8312,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StartGameSessionPlacementInput, StartGameSessionPlacementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>(StartGameSessionPlacementInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartGameSessionPlacementOutput>(StartGameSessionPlacementOutput.httpOutput(from:), StartGameSessionPlacementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartGameSessionPlacementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartGameSessionPlacementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>(overrides: ["X-Amz-Target": "GameLift.StartGameSessionPlacement"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StartGameSessionPlacementInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartGameSessionPlacementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8562,12 +8375,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startMatchBackfill(input: StartMatchBackfillInput) async throws -> StartMatchBackfillOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.startMatchBackfillOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8580,30 +8387,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StartMatchBackfillInput, StartMatchBackfillOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>(StartMatchBackfillInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMatchBackfillOutput>(StartMatchBackfillOutput.httpOutput(from:), StartMatchBackfillOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMatchBackfillOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMatchBackfillOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>(overrides: ["X-Amz-Target": "GameLift.StartMatchBackfill"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StartMatchBackfillInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMatchBackfillOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMatchBackfillInput, StartMatchBackfillOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8639,12 +8450,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startMatchmaking(input: StartMatchmakingInput) async throws -> StartMatchmakingOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.startMatchmakingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8657,30 +8462,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StartMatchmakingInput, StartMatchmakingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartMatchmakingInput, StartMatchmakingOutput>(StartMatchmakingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMatchmakingInput, StartMatchmakingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMatchmakingInput, StartMatchmakingOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMatchmakingInput, StartMatchmakingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMatchmakingOutput>(StartMatchmakingOutput.httpOutput(from:), StartMatchmakingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMatchmakingInput, StartMatchmakingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMatchmakingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMatchmakingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMatchmakingInput, StartMatchmakingOutput>(overrides: ["X-Amz-Target": "GameLift.StartMatchmaking"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMatchmakingInput, StartMatchmakingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartMatchmakingInput, StartMatchmakingOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StartMatchmakingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMatchmakingInput, StartMatchmakingOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartMatchmakingInput, StartMatchmakingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMatchmakingInput, StartMatchmakingOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMatchmakingInput, StartMatchmakingOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMatchmakingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMatchmakingInput, StartMatchmakingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMatchmakingInput, StartMatchmakingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8724,12 +8533,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func stopFleetActions(input: StopFleetActionsInput) async throws -> StopFleetActionsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.stopFleetActionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8742,30 +8545,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StopFleetActionsInput, StopFleetActionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopFleetActionsInput, StopFleetActionsOutput>(StopFleetActionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopFleetActionsInput, StopFleetActionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopFleetActionsInput, StopFleetActionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopFleetActionsInput, StopFleetActionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopFleetActionsOutput>(StopFleetActionsOutput.httpOutput(from:), StopFleetActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopFleetActionsInput, StopFleetActionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopFleetActionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopFleetActionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopFleetActionsInput, StopFleetActionsOutput>(overrides: ["X-Amz-Target": "GameLift.StopFleetActions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopFleetActionsInput, StopFleetActionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopFleetActionsInput, StopFleetActionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StopFleetActionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopFleetActionsInput, StopFleetActionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopFleetActionsInput, StopFleetActionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopFleetActionsInput, StopFleetActionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopFleetActionsInput, StopFleetActionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopFleetActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopFleetActionsInput, StopFleetActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopFleetActionsInput, StopFleetActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8801,12 +8608,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func stopGameSessionPlacement(input: StopGameSessionPlacementInput) async throws -> StopGameSessionPlacementOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.stopGameSessionPlacementOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8819,30 +8620,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StopGameSessionPlacementInput, StopGameSessionPlacementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>(StopGameSessionPlacementInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopGameSessionPlacementOutput>(StopGameSessionPlacementOutput.httpOutput(from:), StopGameSessionPlacementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopGameSessionPlacementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopGameSessionPlacementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>(overrides: ["X-Amz-Target": "GameLift.StopGameSessionPlacement"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StopGameSessionPlacementInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopGameSessionPlacementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8878,12 +8683,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func stopMatchmaking(input: StopMatchmakingInput) async throws -> StopMatchmakingOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.stopMatchmakingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8896,30 +8695,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<StopMatchmakingInput, StopMatchmakingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopMatchmakingInput, StopMatchmakingOutput>(StopMatchmakingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopMatchmakingInput, StopMatchmakingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopMatchmakingInput, StopMatchmakingOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopMatchmakingInput, StopMatchmakingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopMatchmakingOutput>(StopMatchmakingOutput.httpOutput(from:), StopMatchmakingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMatchmakingInput, StopMatchmakingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopMatchmakingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopMatchmakingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopMatchmakingInput, StopMatchmakingOutput>(overrides: ["X-Amz-Target": "GameLift.StopMatchmaking"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopMatchmakingInput, StopMatchmakingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopMatchmakingInput, StopMatchmakingOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StopMatchmakingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopMatchmakingInput, StopMatchmakingOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopMatchmakingInput, StopMatchmakingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopMatchmakingInput, StopMatchmakingOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopMatchmakingInput, StopMatchmakingOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopMatchmakingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopMatchmakingInput, StopMatchmakingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopMatchmakingInput, StopMatchmakingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8960,12 +8763,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func suspendGameServerGroup(input: SuspendGameServerGroupInput) async throws -> SuspendGameServerGroupOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.suspendGameServerGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8978,30 +8775,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<SuspendGameServerGroupInput, SuspendGameServerGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>(SuspendGameServerGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SuspendGameServerGroupOutput>(SuspendGameServerGroupOutput.httpOutput(from:), SuspendGameServerGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SuspendGameServerGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SuspendGameServerGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>(overrides: ["X-Amz-Target": "GameLift.SuspendGameServerGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: SuspendGameServerGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SuspendGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -9038,12 +8839,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -9056,30 +8851,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "GameLift.TagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -9124,12 +8923,6 @@ extension GameLiftClient {
     /// - `NotReadyException` : The operation failed because Amazon GameLift Servers has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func terminateGameSession(input: TerminateGameSessionInput) async throws -> TerminateGameSessionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.terminateGameSessionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -9142,30 +8935,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<TerminateGameSessionInput, TerminateGameSessionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>(TerminateGameSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateGameSessionOutput>(TerminateGameSessionOutput.httpOutput(from:), TerminateGameSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateGameSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TerminateGameSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>(overrides: ["X-Amz-Target": "GameLift.TerminateGameSession"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: TerminateGameSessionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TerminateGameSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TerminateGameSessionInput, TerminateGameSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -9202,12 +8999,6 @@ extension GameLiftClient {
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -9220,30 +9011,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "GameLift.UntagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -9279,12 +9074,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateAliasOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -9297,30 +9086,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateAliasInput, UpdateAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAliasInput, UpdateAliasOutput>(UpdateAliasInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAliasInput, UpdateAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAliasInput, UpdateAliasOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAliasInput, UpdateAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAliasOutput>(UpdateAliasOutput.httpOutput(from:), UpdateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAliasInput, UpdateAliasOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAliasOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAliasInput, UpdateAliasOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateAlias"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAliasInput, UpdateAliasOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAliasInput, UpdateAliasOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAliasInput, UpdateAliasOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateAliasInput, UpdateAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAliasInput, UpdateAliasOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAliasInput, UpdateAliasOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAliasInput, UpdateAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAliasInput, UpdateAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -9356,12 +9149,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateBuild(input: UpdateBuildInput) async throws -> UpdateBuildOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateBuildOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -9374,30 +9161,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateBuildInput, UpdateBuildOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateBuildInput, UpdateBuildOutput>(UpdateBuildInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateBuildInput, UpdateBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBuildInput, UpdateBuildOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBuildInput, UpdateBuildOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBuildOutput>(UpdateBuildOutput.httpOutput(from:), UpdateBuildOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBuildInput, UpdateBuildOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBuildOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBuildOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBuildInput, UpdateBuildOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateBuild"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBuildInput, UpdateBuildOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateBuildInput, UpdateBuildOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBuildInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBuildInput, UpdateBuildOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateBuildInput, UpdateBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBuildInput, UpdateBuildOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBuildInput, UpdateBuildOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateBuildInput, UpdateBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateBuildInput, UpdateBuildOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -9458,12 +9249,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func updateContainerFleet(input: UpdateContainerFleetInput) async throws -> UpdateContainerFleetOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateContainerFleetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -9476,30 +9261,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateContainerFleetInput, UpdateContainerFleetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>(UpdateContainerFleetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContainerFleetOutput>(UpdateContainerFleetOutput.httpOutput(from:), UpdateContainerFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateContainerFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateContainerFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContainerFleetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateContainerFleetInput, UpdateContainerFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -9550,12 +9339,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func updateContainerGroupDefinition(input: UpdateContainerGroupDefinitionInput) async throws -> UpdateContainerGroupDefinitionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateContainerGroupDefinitionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -9568,30 +9351,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>(UpdateContainerGroupDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContainerGroupDefinitionOutput>(UpdateContainerGroupDefinitionOutput.httpOutput(from:), UpdateContainerGroupDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerGroupDefinitionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateContainerGroupDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateContainerGroupDefinition"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContainerGroupDefinitionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateContainerGroupDefinitionInput, UpdateContainerGroupDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -9630,12 +9417,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateFleetAttributes(input: UpdateFleetAttributesInput) async throws -> UpdateFleetAttributesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateFleetAttributesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -9648,30 +9429,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateFleetAttributesInput, UpdateFleetAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>(UpdateFleetAttributesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFleetAttributesOutput>(UpdateFleetAttributesOutput.httpOutput(from:), UpdateFleetAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFleetAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFleetAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateFleetAttributes"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFleetAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFleetAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -9718,12 +9503,6 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func updateFleetCapacity(input: UpdateFleetCapacityInput) async throws -> UpdateFleetCapacityOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateFleetCapacityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -9736,30 +9515,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateFleetCapacityInput, UpdateFleetCapacityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>(UpdateFleetCapacityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFleetCapacityOutput>(UpdateFleetCapacityOutput.httpOutput(from:), UpdateFleetCapacityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFleetCapacityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFleetCapacityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateFleetCapacity"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFleetCapacityInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFleetCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -9798,12 +9581,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateFleetPortSettings(input: UpdateFleetPortSettingsInput) async throws -> UpdateFleetPortSettingsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateFleetPortSettingsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -9816,30 +9593,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>(UpdateFleetPortSettingsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFleetPortSettingsOutput>(UpdateFleetPortSettingsOutput.httpOutput(from:), UpdateFleetPortSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFleetPortSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFleetPortSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateFleetPortSettings"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFleetPortSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFleetPortSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -9884,12 +9665,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameServer(input: UpdateGameServerInput) async throws -> UpdateGameServerOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateGameServerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -9902,30 +9677,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateGameServerInput, UpdateGameServerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateGameServerInput, UpdateGameServerOutput>(UpdateGameServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateGameServerInput, UpdateGameServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGameServerInput, UpdateGameServerOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGameServerInput, UpdateGameServerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGameServerOutput>(UpdateGameServerOutput.httpOutput(from:), UpdateGameServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGameServerInput, UpdateGameServerOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGameServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGameServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGameServerInput, UpdateGameServerOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateGameServer"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGameServerInput, UpdateGameServerOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateGameServerInput, UpdateGameServerOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateGameServerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGameServerInput, UpdateGameServerOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateGameServerInput, UpdateGameServerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGameServerInput, UpdateGameServerOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGameServerInput, UpdateGameServerOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGameServerInput, UpdateGameServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGameServerInput, UpdateGameServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -9961,12 +9740,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameServerGroup(input: UpdateGameServerGroupInput) async throws -> UpdateGameServerGroupOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateGameServerGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -9979,30 +9752,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateGameServerGroupInput, UpdateGameServerGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>(UpdateGameServerGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGameServerGroupOutput>(UpdateGameServerGroupOutput.httpOutput(from:), UpdateGameServerGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGameServerGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGameServerGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateGameServerGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateGameServerGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -10041,12 +9818,6 @@ extension GameLiftClient {
     /// - `NotReadyException` : The operation failed because Amazon GameLift Servers has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameSession(input: UpdateGameSessionInput) async throws -> UpdateGameSessionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateGameSessionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10059,30 +9830,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateGameSessionInput, UpdateGameSessionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>(UpdateGameSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGameSessionOutput>(UpdateGameSessionOutput.httpOutput(from:), UpdateGameSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGameSessionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGameSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateGameSession"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateGameSessionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGameSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGameSessionInput, UpdateGameSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -10118,12 +9893,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameSessionQueue(input: UpdateGameSessionQueueInput) async throws -> UpdateGameSessionQueueOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateGameSessionQueueOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10136,30 +9905,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>(UpdateGameSessionQueueInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGameSessionQueueOutput>(UpdateGameSessionQueueOutput.httpOutput(from:), UpdateGameSessionQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGameSessionQueueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGameSessionQueueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateGameSessionQueue"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateGameSessionQueueInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGameSessionQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -10195,12 +9968,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func updateMatchmakingConfiguration(input: UpdateMatchmakingConfigurationInput) async throws -> UpdateMatchmakingConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateMatchmakingConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10213,30 +9980,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>(UpdateMatchmakingConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMatchmakingConfigurationOutput>(UpdateMatchmakingConfigurationOutput.httpOutput(from:), UpdateMatchmakingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMatchmakingConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMatchmakingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateMatchmakingConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateMatchmakingConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMatchmakingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -10274,12 +10045,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateRuntimeConfiguration(input: UpdateRuntimeConfigurationInput) async throws -> UpdateRuntimeConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateRuntimeConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10292,30 +10057,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>(UpdateRuntimeConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuntimeConfigurationOutput>(UpdateRuntimeConfigurationOutput.httpOutput(from:), UpdateRuntimeConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuntimeConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRuntimeConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateRuntimeConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRuntimeConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuntimeConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -10351,12 +10120,6 @@ extension GameLiftClient {
     /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateScript(input: UpdateScriptInput) async throws -> UpdateScriptOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.updateScriptOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10369,30 +10132,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateScriptInput, UpdateScriptOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateScriptInput, UpdateScriptOutput>(UpdateScriptInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateScriptInput, UpdateScriptOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateScriptInput, UpdateScriptOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScriptInput, UpdateScriptOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateScriptOutput>(UpdateScriptOutput.httpOutput(from:), UpdateScriptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScriptInput, UpdateScriptOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScriptOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateScriptOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateScriptInput, UpdateScriptOutput>(overrides: ["X-Amz-Target": "GameLift.UpdateScript"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateScriptInput, UpdateScriptOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateScriptInput, UpdateScriptOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateScriptInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateScriptInput, UpdateScriptOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateScriptInput, UpdateScriptOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateScriptInput, UpdateScriptOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScriptInput, UpdateScriptOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateScriptInput, UpdateScriptOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateScriptInput, UpdateScriptOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -10429,12 +10196,6 @@ extension GameLiftClient {
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func validateMatchmakingRuleSet(input: ValidateMatchmakingRuleSetInput) async throws -> ValidateMatchmakingRuleSetOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = GameLiftClient.validateMatchmakingRuleSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10447,30 +10208,34 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>(ValidateMatchmakingRuleSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateMatchmakingRuleSetOutput>(ValidateMatchmakingRuleSetOutput.httpOutput(from:), ValidateMatchmakingRuleSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidateMatchmakingRuleSetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GameLift", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ValidateMatchmakingRuleSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>(overrides: ["X-Amz-Target": "GameLift.ValidateMatchmakingRuleSet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ValidateMatchmakingRuleSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidateMatchmakingRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

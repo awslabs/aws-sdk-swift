@@ -166,6 +166,36 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
+    /// Configuration for WiFi and cellular location payloads.
+    public struct WiFiCellular: Swift.Sendable {
+        /// Confidence level for WiFi and cellular position estimates, expressed as a percentage. Valid range: 50–99 inclusive. Defaults to 68 if not specified.
+        public var confidencePercent: Swift.Int?
+
+        public init(
+            confidencePercent: Swift.Int? = 68
+        ) {
+            self.confidencePercent = confidencePercent
+        }
+    }
+}
+
+extension IoTWirelessClientTypes {
+
+    /// Optional configuration to customize location estimates.
+    public struct AdvancedConfiguration: Swift.Sendable {
+        /// Configuration for WiFi and cellular-based payloads for location estimates.
+        public var wiFiCellular: IoTWirelessClientTypes.WiFiCellular?
+
+        public init(
+            wiFiCellular: IoTWirelessClientTypes.WiFiCellular? = nil
+        ) {
+            self.wiFiCellular = wiFiCellular
+        }
+    }
+}
+
+extension IoTWirelessClientTypes {
+
     public enum AggregationPeriod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case oneday
         case onehour
@@ -5429,6 +5459,8 @@ extension IoTWirelessClientTypes {
 }
 
 public struct GetPositionEstimateInput: Swift.Sendable {
+    /// Optional configuration to customize position estimates. If not provided, defaults are applied.
+    public var advancedConfiguration: IoTWirelessClientTypes.AdvancedConfiguration?
     /// Retrieves an estimated device position by resolving measurement data from cellular radio towers. The position is resolved using HERE's cellular-based solver.
     public var cellTowers: IoTWirelessClientTypes.CellTowers?
     /// Retrieves an estimated device position by resolving the global navigation satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered by LoRa Cloud.
@@ -5441,12 +5473,14 @@ public struct GetPositionEstimateInput: Swift.Sendable {
     public var wiFiAccessPoints: [IoTWirelessClientTypes.WiFiAccessPoint]?
 
     public init(
+        advancedConfiguration: IoTWirelessClientTypes.AdvancedConfiguration? = nil,
         cellTowers: IoTWirelessClientTypes.CellTowers? = nil,
         gnss: IoTWirelessClientTypes.Gnss? = nil,
         ip: IoTWirelessClientTypes.Ip? = nil,
         timestamp: Foundation.Date? = nil,
         wiFiAccessPoints: [IoTWirelessClientTypes.WiFiAccessPoint]? = nil
     ) {
+        self.advancedConfiguration = advancedConfiguration
         self.cellTowers = cellTowers
         self.gnss = gnss
         self.ip = ip
@@ -10638,6 +10672,7 @@ extension GetPositionEstimateInput {
 
     static func write(value: GetPositionEstimateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AdvancedConfiguration"].write(value.advancedConfiguration, with: IoTWirelessClientTypes.AdvancedConfiguration.write(value:to:))
         try writer["CellTowers"].write(value.cellTowers, with: IoTWirelessClientTypes.CellTowers.write(value:to:))
         try writer["Gnss"].write(value.gnss, with: IoTWirelessClientTypes.Gnss.write(value:to:))
         try writer["Ip"].write(value.ip, with: IoTWirelessClientTypes.Ip.write(value:to:))
@@ -14311,6 +14346,14 @@ extension IoTWirelessClientTypes.Accuracy {
     }
 }
 
+extension IoTWirelessClientTypes.AdvancedConfiguration {
+
+    static func write(value: IoTWirelessClientTypes.AdvancedConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["WiFiCellular"].write(value.wiFiCellular, with: IoTWirelessClientTypes.WiFiCellular.write(value:to:))
+    }
+}
+
 extension IoTWirelessClientTypes.ApplicationConfig {
 
     static func write(value: IoTWirelessClientTypes.ApplicationConfig?, to writer: SmithyJSON.Writer) throws {
@@ -16017,6 +16060,14 @@ extension IoTWirelessClientTypes.WiFiAccessPoint {
         guard let value else { return }
         try writer["MacAddress"].write(value.macAddress)
         try writer["Rss"].write(value.rss)
+    }
+}
+
+extension IoTWirelessClientTypes.WiFiCellular {
+
+    static func write(value: IoTWirelessClientTypes.WiFiCellular?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConfidencePercent"].write(value.confidencePercent)
     }
 }
 
