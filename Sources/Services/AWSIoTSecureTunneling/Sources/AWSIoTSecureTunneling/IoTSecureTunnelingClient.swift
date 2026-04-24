@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,31 +35,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
-import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -625,6 +621,12 @@ extension IoTSecureTunnelingClient {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
     public func closeTunnel(input: CloseTunnelInput) async throws -> CloseTunnelOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = IoTSecureTunnelingClient.closeTunnelOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -637,19 +639,18 @@ extension IoTSecureTunnelingClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CloseTunnelInput, CloseTunnelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CloseTunnelInput, CloseTunnelOutput>(CloseTunnelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CloseTunnelInput, CloseTunnelOutput>())
-        builder.serialize(ClientRuntime.QueryItemMiddleware<CloseTunnelInput, CloseTunnelOutput>(CloseTunnelInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CloseTunnelInput, CloseTunnelOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CloseTunnelOutput>(CloseTunnelOutput.httpOutput(from:), CloseTunnelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CloseTunnelInput, CloseTunnelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -661,7 +662,6 @@ extension IoTSecureTunnelingClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CloseTunnelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CloseTunnelInput, CloseTunnelOutput>(overrides: ["X-Amz-Target": "IoTSecuredTunneling.CloseTunnel"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CloseTunnelInput, CloseTunnelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CloseTunnelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CloseTunnelInput, CloseTunnelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CloseTunnelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CloseTunnelInput, CloseTunnelOutput>())
@@ -695,6 +695,12 @@ extension IoTSecureTunnelingClient {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
     public func describeTunnel(input: DescribeTunnelInput) async throws -> DescribeTunnelOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = IoTSecureTunnelingClient.describeTunnelOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -707,18 +713,18 @@ extension IoTSecureTunnelingClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTunnelInput, DescribeTunnelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTunnelInput, DescribeTunnelOutput>(DescribeTunnelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTunnelInput, DescribeTunnelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTunnelInput, DescribeTunnelOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTunnelOutput>(DescribeTunnelOutput.httpOutput(from:), DescribeTunnelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTunnelInput, DescribeTunnelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -730,7 +736,6 @@ extension IoTSecureTunnelingClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTunnelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTunnelInput, DescribeTunnelOutput>(overrides: ["X-Amz-Target": "IoTSecuredTunneling.DescribeTunnel"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTunnelInput, DescribeTunnelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTunnelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTunnelInput, DescribeTunnelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTunnelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTunnelInput, DescribeTunnelOutput>())
@@ -764,6 +769,12 @@ extension IoTSecureTunnelingClient {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = IoTSecureTunnelingClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -776,19 +787,18 @@ extension IoTSecureTunnelingClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -800,7 +810,6 @@ extension IoTSecureTunnelingClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "IoTSecuredTunneling.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -829,6 +838,12 @@ extension IoTSecureTunnelingClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListTunnelsOutput`)
     public func listTunnels(input: ListTunnelsInput) async throws -> ListTunnelsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = IoTSecureTunnelingClient.listTunnelsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -841,19 +856,18 @@ extension IoTSecureTunnelingClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTunnelsInput, ListTunnelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTunnelsInput, ListTunnelsOutput>(ListTunnelsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTunnelsInput, ListTunnelsOutput>())
-        builder.serialize(ClientRuntime.QueryItemMiddleware<ListTunnelsInput, ListTunnelsOutput>(ListTunnelsInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTunnelsInput, ListTunnelsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTunnelsOutput>(ListTunnelsOutput.httpOutput(from:), ListTunnelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTunnelsInput, ListTunnelsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -865,7 +879,6 @@ extension IoTSecureTunnelingClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTunnelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTunnelsInput, ListTunnelsOutput>(overrides: ["X-Amz-Target": "IoTSecuredTunneling.ListTunnels"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTunnelsInput, ListTunnelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTunnelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTunnelsInput, ListTunnelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTunnelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTunnelsInput, ListTunnelsOutput>())
@@ -899,6 +912,12 @@ extension IoTSecureTunnelingClient {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : Thrown when a tunnel limit is exceeded.
     public func openTunnel(input: OpenTunnelInput) async throws -> OpenTunnelOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = IoTSecureTunnelingClient.openTunnelOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -911,18 +930,18 @@ extension IoTSecureTunnelingClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<OpenTunnelInput, OpenTunnelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<OpenTunnelInput, OpenTunnelOutput>(OpenTunnelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<OpenTunnelInput, OpenTunnelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<OpenTunnelInput, OpenTunnelOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<OpenTunnelOutput>(OpenTunnelOutput.httpOutput(from:), OpenTunnelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<OpenTunnelInput, OpenTunnelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -934,7 +953,6 @@ extension IoTSecureTunnelingClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<OpenTunnelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<OpenTunnelInput, OpenTunnelOutput>(overrides: ["X-Amz-Target": "IoTSecuredTunneling.OpenTunnel"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<OpenTunnelInput, OpenTunnelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: OpenTunnelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<OpenTunnelInput, OpenTunnelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<OpenTunnelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<OpenTunnelInput, OpenTunnelOutput>())
@@ -968,6 +986,12 @@ extension IoTSecureTunnelingClient {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
     public func rotateTunnelAccessToken(input: RotateTunnelAccessTokenInput) async throws -> RotateTunnelAccessTokenOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = IoTSecureTunnelingClient.rotateTunnelAccessTokenOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -980,18 +1004,18 @@ extension IoTSecureTunnelingClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput>(RotateTunnelAccessTokenInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RotateTunnelAccessTokenOutput>(RotateTunnelAccessTokenOutput.httpOutput(from:), RotateTunnelAccessTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1003,7 +1027,6 @@ extension IoTSecureTunnelingClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RotateTunnelAccessTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput>(overrides: ["X-Amz-Target": "IoTSecuredTunneling.RotateTunnelAccessToken"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RotateTunnelAccessTokenInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RotateTunnelAccessTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput>())
@@ -1037,6 +1060,12 @@ extension IoTSecureTunnelingClient {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = IoTSecureTunnelingClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1049,18 +1078,18 @@ extension IoTSecureTunnelingClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1072,7 +1101,6 @@ extension IoTSecureTunnelingClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "IoTSecuredTunneling.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -1106,6 +1134,12 @@ extension IoTSecureTunnelingClient {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = IoTSecureTunnelingClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1118,18 +1152,18 @@ extension IoTSecureTunnelingClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1141,7 +1175,6 @@ extension IoTSecureTunnelingClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "IoTSecuredTunneling.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())

@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyXML.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,23 +35,21 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.Route53TrimHostedZoneMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
@@ -65,6 +60,8 @@ import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+import struct SmithyRestXML.HTTPClientProtocol
+import struct SmithyRestXML.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -630,6 +627,12 @@ extension Route53Client {
     /// - `InvalidSigningStatus` : Your hosted zone status isn't valid for this operation. In the hosted zone, change the status to enable DNSSEC or disable DNSSEC.
     /// - `NoSuchKeySigningKey` : The specified key-signing key (KSK) doesn't exist.
     public func activateKeySigningKey(input: ActivateKeySigningKeyInput) async throws -> ActivateKeySigningKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.activateKeySigningKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -642,8 +645,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -653,7 +658,6 @@ extension Route53Client {
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput>(ActivateKeySigningKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateKeySigningKeyOutput>(ActivateKeySigningKeyOutput.httpOutput(from:), ActivateKeySigningKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -718,6 +722,12 @@ extension Route53Client {
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     /// - `PublicZoneVPCAssociation` : You're trying to associate a VPC with a public hosted zone. Amazon Route 53 doesn't support associating a VPC with a public hosted zone.
     public func associateVPCWithHostedZone(input: AssociateVPCWithHostedZoneInput) async throws -> AssociateVPCWithHostedZoneOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.associateVPCWithHostedZoneOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -730,8 +740,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -742,9 +754,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput>(AssociateVPCWithHostedZoneInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput, SmithyXML.Writer>(rootNodeInfo: .init("AssociateVPCWithHostedZoneRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: AssociateVPCWithHostedZoneInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateVPCWithHostedZoneOutput>(AssociateVPCWithHostedZoneOutput.httpOutput(from:), AssociateVPCWithHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -796,6 +806,12 @@ extension Route53Client {
     /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
     public func changeCidrCollection(input: ChangeCidrCollectionInput) async throws -> ChangeCidrCollectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.changeCidrCollectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -808,8 +824,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ChangeCidrCollectionInput, ChangeCidrCollectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -819,9 +837,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput>(ChangeCidrCollectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput, SmithyXML.Writer>(rootNodeInfo: .init("ChangeCidrCollectionRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: ChangeCidrCollectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeCidrCollectionOutput>(ChangeCidrCollectionOutput.httpOutput(from:), ChangeCidrCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -877,6 +893,12 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     public func changeResourceRecordSets(input: ChangeResourceRecordSetsInput) async throws -> ChangeResourceRecordSetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.changeResourceRecordSetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -889,8 +911,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -901,9 +925,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput>(ChangeResourceRecordSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput, SmithyXML.Writer>(rootNodeInfo: .init("ChangeResourceRecordSetsRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: ChangeResourceRecordSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeResourceRecordSetsOutput>(ChangeResourceRecordSetsOutput.httpOutput(from:), ChangeResourceRecordSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -950,6 +972,12 @@ extension Route53Client {
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     public func changeTagsForResource(input: ChangeTagsForResourceInput) async throws -> ChangeTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.changeTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -962,8 +990,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ChangeTagsForResourceInput, ChangeTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -973,9 +1003,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput>(ChangeTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput, SmithyXML.Writer>(rootNodeInfo: .init("ChangeTagsForResourceRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: ChangeTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeTagsForResourceOutput>(ChangeTagsForResourceOutput.httpOutput(from:), ChangeTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1021,6 +1049,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     public func createCidrCollection(input: CreateCidrCollectionInput) async throws -> CreateCidrCollectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.createCidrCollectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1033,8 +1067,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCidrCollectionInput, CreateCidrCollectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1044,9 +1080,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput>(CreateCidrCollectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateCidrCollectionRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: CreateCidrCollectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCidrCollectionOutput>(CreateCidrCollectionOutput.httpOutput(from:), CreateCidrCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1101,6 +1135,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `TooManyHealthChecks` : This health check can't be created because the current account has reached the limit on the number of active health checks. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center. You have reached the maximum number of active health checks for an Amazon Web Services account. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     public func createHealthCheck(input: CreateHealthCheckInput) async throws -> CreateHealthCheckOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.createHealthCheckOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1113,8 +1153,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateHealthCheckInput, CreateHealthCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1124,9 +1166,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput>(CreateHealthCheckInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateHealthCheckRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: CreateHealthCheckInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHealthCheckOutput>(CreateHealthCheckOutput.httpOutput(from:), CreateHealthCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1201,6 +1241,12 @@ extension Route53Client {
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     /// - `TooManyHostedZones` : This operation can't be completed either because the current account has reached the limit on the number of hosted zones or because you've reached the limit on the number of hosted zones that can be associated with a reusable delegation set. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To get the current limit on hosted zones that can be created by an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To get the current limit on hosted zones that can be associated with a reusable delegation set, see [GetReusableDelegationSetLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetReusableDelegationSetLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     public func createHostedZone(input: CreateHostedZoneInput) async throws -> CreateHostedZoneOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.createHostedZoneOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1213,8 +1259,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateHostedZoneInput, CreateHostedZoneOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1224,9 +1272,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput>(CreateHostedZoneInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateHostedZoneRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: CreateHostedZoneInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHostedZoneOutput>(CreateHostedZoneOutput.httpOutput(from:), CreateHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1278,6 +1324,12 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `TooManyKeySigningKeys` : You've reached the limit for the number of key-signing keys (KSKs). Remove at least one KSK, and then try again.
     public func createKeySigningKey(input: CreateKeySigningKeyInput) async throws -> CreateKeySigningKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.createKeySigningKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1290,8 +1342,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateKeySigningKeyInput, CreateKeySigningKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1301,9 +1355,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput>(CreateKeySigningKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateKeySigningKeyRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: CreateKeySigningKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeySigningKeyOutput>(CreateKeySigningKeyOutput.httpOutput(from:), CreateKeySigningKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1402,6 +1454,12 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `QueryLoggingConfigAlreadyExists` : You can create only one query logging configuration for a hosted zone, and a query logging configuration already exists for this hosted zone.
     public func createQueryLoggingConfig(input: CreateQueryLoggingConfigInput) async throws -> CreateQueryLoggingConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.createQueryLoggingConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1414,8 +1472,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1425,9 +1485,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput>(CreateQueryLoggingConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateQueryLoggingConfigRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: CreateQueryLoggingConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueryLoggingConfigOutput>(CreateQueryLoggingConfigOutput.httpOutput(from:), CreateQueryLoggingConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1497,6 +1555,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     public func createReusableDelegationSet(input: CreateReusableDelegationSetInput) async throws -> CreateReusableDelegationSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.createReusableDelegationSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1509,8 +1573,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1520,9 +1586,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput>(CreateReusableDelegationSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateReusableDelegationSetRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: CreateReusableDelegationSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReusableDelegationSetOutput>(CreateReusableDelegationSetOutput.httpOutput(from:), CreateReusableDelegationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1568,6 +1632,12 @@ extension Route53Client {
     /// - `TooManyTrafficPolicies` : This traffic policy can't be created because the current account has reached the limit on the number of traffic policies. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     /// - `TrafficPolicyAlreadyExists` : A traffic policy that has the same value for Name already exists.
     public func createTrafficPolicy(input: CreateTrafficPolicyInput) async throws -> CreateTrafficPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.createTrafficPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1580,8 +1650,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTrafficPolicyInput, CreateTrafficPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1591,9 +1663,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(CreateTrafficPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateTrafficPolicyRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: CreateTrafficPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyOutput>(CreateTrafficPolicyOutput.httpOutput(from:), CreateTrafficPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1640,6 +1710,12 @@ extension Route53Client {
     /// - `TooManyTrafficPolicyInstances` : This traffic policy instance can't be created because the current account has reached the limit on the number of traffic policy instances. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     /// - `TrafficPolicyInstanceAlreadyExists` : There is already a traffic policy instance with the specified ID.
     public func createTrafficPolicyInstance(input: CreateTrafficPolicyInstanceInput) async throws -> CreateTrafficPolicyInstanceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.createTrafficPolicyInstanceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1652,8 +1728,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1663,9 +1741,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput>(CreateTrafficPolicyInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateTrafficPolicyInstanceRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: CreateTrafficPolicyInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyInstanceOutput>(CreateTrafficPolicyInstanceOutput.httpOutput(from:), CreateTrafficPolicyInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1712,6 +1788,12 @@ extension Route53Client {
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     /// - `TooManyTrafficPolicyVersionsForCurrentPolicy` : This traffic policy version can't be created because you've reached the limit of 1000 on the number of versions that you can create for the current traffic policy. To create more traffic policy versions, you can use [GetTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetTrafficPolicy.html) to get the traffic policy document for a specified traffic policy version, and then use [CreateTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateTrafficPolicy.html) to create a new traffic policy using the traffic policy document.
     public func createTrafficPolicyVersion(input: CreateTrafficPolicyVersionInput) async throws -> CreateTrafficPolicyVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.createTrafficPolicyVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1724,8 +1806,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1735,9 +1819,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput>(CreateTrafficPolicyVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateTrafficPolicyVersionRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: CreateTrafficPolicyVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyVersionOutput>(CreateTrafficPolicyVersionOutput.httpOutput(from:), CreateTrafficPolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1784,6 +1866,12 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `TooManyVPCAssociationAuthorizations` : You've created the maximum number of authorizations that can be created for the specified hosted zone. To authorize another VPC to be associated with the hosted zone, submit a DeleteVPCAssociationAuthorization request to remove an existing authorization. To get a list of existing authorizations, submit a ListVPCAssociationAuthorizations request.
     public func createVPCAssociationAuthorization(input: CreateVPCAssociationAuthorizationInput) async throws -> CreateVPCAssociationAuthorizationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.createVPCAssociationAuthorizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1796,8 +1884,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1808,9 +1898,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput>(CreateVPCAssociationAuthorizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateVPCAssociationAuthorizationRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: CreateVPCAssociationAuthorizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVPCAssociationAuthorizationOutput>(CreateVPCAssociationAuthorizationOutput.httpOutput(from:), CreateVPCAssociationAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1859,6 +1947,12 @@ extension Route53Client {
     /// - `KeySigningKeyInUse` : The key-signing key (KSK) that you specified can't be deactivated because it's the only KSK for a currently-enabled DNSSEC. Disable DNSSEC signing, or add or enable another KSK.
     /// - `NoSuchKeySigningKey` : The specified key-signing key (KSK) doesn't exist.
     public func deactivateKeySigningKey(input: DeactivateKeySigningKeyInput) async throws -> DeactivateKeySigningKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.deactivateKeySigningKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1871,8 +1965,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1882,7 +1978,6 @@ extension Route53Client {
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput>(DeactivateKeySigningKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivateKeySigningKeyOutput>(DeactivateKeySigningKeyOutput.httpOutput(from:), DeactivateKeySigningKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1928,6 +2023,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
     public func deleteCidrCollection(input: DeleteCidrCollectionInput) async throws -> DeleteCidrCollectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.deleteCidrCollectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1940,8 +2041,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCidrCollectionInput, DeleteCidrCollectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1950,7 +2053,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCidrCollectionInput, DeleteCidrCollectionOutput>(DeleteCidrCollectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCidrCollectionInput, DeleteCidrCollectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCidrCollectionOutput>(DeleteCidrCollectionOutput.httpOutput(from:), DeleteCidrCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCidrCollectionInput, DeleteCidrCollectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1995,6 +2097,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     public func deleteHealthCheck(input: DeleteHealthCheckInput) async throws -> DeleteHealthCheckOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.deleteHealthCheckOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2007,8 +2115,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteHealthCheckInput, DeleteHealthCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2017,7 +2127,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteHealthCheckInput, DeleteHealthCheckOutput>(DeleteHealthCheckInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHealthCheckInput, DeleteHealthCheckOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHealthCheckOutput>(DeleteHealthCheckOutput.httpOutput(from:), DeleteHealthCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHealthCheckInput, DeleteHealthCheckOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2068,6 +2177,12 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     public func deleteHostedZone(input: DeleteHostedZoneInput) async throws -> DeleteHostedZoneOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.deleteHostedZoneOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2080,8 +2195,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteHostedZoneInput, DeleteHostedZoneOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2091,7 +2208,6 @@ extension Route53Client {
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<DeleteHostedZoneInput, DeleteHostedZoneOutput>(\.id))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteHostedZoneInput, DeleteHostedZoneOutput>(DeleteHostedZoneInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHostedZoneInput, DeleteHostedZoneOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHostedZoneOutput>(DeleteHostedZoneOutput.httpOutput(from:), DeleteHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHostedZoneInput, DeleteHostedZoneOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2139,6 +2255,12 @@ extension Route53Client {
     /// - `InvalidSigningStatus` : Your hosted zone status isn't valid for this operation. In the hosted zone, change the status to enable DNSSEC or disable DNSSEC.
     /// - `NoSuchKeySigningKey` : The specified key-signing key (KSK) doesn't exist.
     public func deleteKeySigningKey(input: DeleteKeySigningKeyInput) async throws -> DeleteKeySigningKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.deleteKeySigningKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2151,8 +2273,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2162,7 +2286,6 @@ extension Route53Client {
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput>(DeleteKeySigningKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeySigningKeyOutput>(DeleteKeySigningKeyOutput.httpOutput(from:), DeleteKeySigningKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2207,6 +2330,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchQueryLoggingConfig` : There is no DNS query logging configuration with the specified ID.
     public func deleteQueryLoggingConfig(input: DeleteQueryLoggingConfigInput) async throws -> DeleteQueryLoggingConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.deleteQueryLoggingConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2219,8 +2348,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2229,7 +2360,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput>(DeleteQueryLoggingConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueryLoggingConfigOutput>(DeleteQueryLoggingConfigOutput.httpOutput(from:), DeleteQueryLoggingConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2275,6 +2405,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     public func deleteReusableDelegationSet(input: DeleteReusableDelegationSetInput) async throws -> DeleteReusableDelegationSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.deleteReusableDelegationSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2287,8 +2423,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2298,7 +2436,6 @@ extension Route53Client {
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput>(\.id))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput>(DeleteReusableDelegationSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReusableDelegationSetOutput>(DeleteReusableDelegationSetOutput.httpOutput(from:), DeleteReusableDelegationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2350,6 +2487,12 @@ extension Route53Client {
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     /// - `TrafficPolicyInUse` : One or more traffic policy instances were created by using the specified traffic policy.
     public func deleteTrafficPolicy(input: DeleteTrafficPolicyInput) async throws -> DeleteTrafficPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.deleteTrafficPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2362,8 +2505,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2372,7 +2517,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(DeleteTrafficPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrafficPolicyOutput>(DeleteTrafficPolicyOutput.httpOutput(from:), DeleteTrafficPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2417,6 +2561,12 @@ extension Route53Client {
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     public func deleteTrafficPolicyInstance(input: DeleteTrafficPolicyInstanceInput) async throws -> DeleteTrafficPolicyInstanceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.deleteTrafficPolicyInstanceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2429,8 +2579,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2439,7 +2591,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput>(DeleteTrafficPolicyInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrafficPolicyInstanceOutput>(DeleteTrafficPolicyInstanceOutput.httpOutput(from:), DeleteTrafficPolicyInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2486,6 +2637,12 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `VPCAssociationAuthorizationNotFound` : The VPC that you specified is not authorized to be associated with the hosted zone.
     public func deleteVPCAssociationAuthorization(input: DeleteVPCAssociationAuthorizationInput) async throws -> DeleteVPCAssociationAuthorizationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.deleteVPCAssociationAuthorizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2498,8 +2655,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2510,9 +2669,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput>(DeleteVPCAssociationAuthorizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput, SmithyXML.Writer>(rootNodeInfo: .init("DeleteVPCAssociationAuthorizationRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: DeleteVPCAssociationAuthorizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVPCAssociationAuthorizationOutput>(DeleteVPCAssociationAuthorizationOutput.httpOutput(from:), DeleteVPCAssociationAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2562,6 +2719,12 @@ extension Route53Client {
     /// - `KeySigningKeyInParentDSRecord` : The key-signing key (KSK) is specified in a parent DS record.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func disableHostedZoneDNSSEC(input: DisableHostedZoneDNSSECInput) async throws -> DisableHostedZoneDNSSECOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.disableHostedZoneDNSSECOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2574,8 +2737,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2585,7 +2750,6 @@ extension Route53Client {
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput>(DisableHostedZoneDNSSECInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableHostedZoneDNSSECOutput>(DisableHostedZoneDNSSECOutput.httpOutput(from:), DisableHostedZoneDNSSECOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2652,6 +2816,12 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `VPCAssociationNotFound` : The specified VPC and hosted zone are not currently associated.
     public func disassociateVPCFromHostedZone(input: DisassociateVPCFromHostedZoneInput) async throws -> DisassociateVPCFromHostedZoneOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.disassociateVPCFromHostedZoneOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2664,8 +2834,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2676,9 +2848,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput>(DisassociateVPCFromHostedZoneInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput, SmithyXML.Writer>(rootNodeInfo: .init("DisassociateVPCFromHostedZoneRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: DisassociateVPCFromHostedZoneInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateVPCFromHostedZoneOutput>(DisassociateVPCFromHostedZoneOutput.httpOutput(from:), DisassociateVPCFromHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2729,6 +2899,12 @@ extension Route53Client {
     /// - `KeySigningKeyWithActiveStatusNotFound` : A key-signing key (KSK) with ACTIVE status wasn't found.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func enableHostedZoneDNSSEC(input: EnableHostedZoneDNSSECInput) async throws -> EnableHostedZoneDNSSECOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.enableHostedZoneDNSSECOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2741,8 +2917,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2752,7 +2930,6 @@ extension Route53Client {
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput>(EnableHostedZoneDNSSECInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableHostedZoneDNSSECOutput>(EnableHostedZoneDNSSECOutput.httpOutput(from:), EnableHostedZoneDNSSECOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2795,6 +2972,12 @@ extension Route53Client {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     public func getAccountLimit(input: GetAccountLimitInput) async throws -> GetAccountLimitOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getAccountLimitOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -2807,8 +2990,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccountLimitInput, GetAccountLimitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2817,7 +3002,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccountLimitInput, GetAccountLimitOutput>(GetAccountLimitInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountLimitInput, GetAccountLimitOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountLimitOutput>(GetAccountLimitOutput.httpOutput(from:), GetAccountLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountLimitInput, GetAccountLimitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2865,6 +3049,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchChange` : A change with the specified change ID does not exist.
     public func getChange(input: GetChangeInput) async throws -> GetChangeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getChangeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -2877,8 +3067,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetChangeInput, GetChangeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2887,7 +3079,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetChangeInput, GetChangeOutput>(GetChangeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChangeInput, GetChangeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChangeOutput>(GetChangeOutput.httpOutput(from:), GetChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChangeInput, GetChangeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2925,6 +3116,12 @@ extension Route53Client {
     ///
     /// - Returns: A complex type that contains the CheckerIpRanges element. (Type: `GetCheckerIpRangesOutput`)
     public func getCheckerIpRanges(input: GetCheckerIpRangesInput) async throws -> GetCheckerIpRangesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getCheckerIpRangesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -2937,8 +3134,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCheckerIpRangesInput, GetCheckerIpRangesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2947,7 +3146,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCheckerIpRangesInput, GetCheckerIpRangesOutput>(GetCheckerIpRangesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCheckerIpRangesInput, GetCheckerIpRangesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCheckerIpRangesOutput>(GetCheckerIpRangesOutput.httpOutput(from:), GetCheckerIpRangesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCheckerIpRangesInput, GetCheckerIpRangesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2992,6 +3190,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func getDNSSEC(input: GetDNSSECInput) async throws -> GetDNSSECOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getDNSSECOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3004,8 +3208,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDNSSECInput, GetDNSSECOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3015,7 +3221,6 @@ extension Route53Client {
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<GetDNSSECInput, GetDNSSECOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDNSSECInput, GetDNSSECOutput>(GetDNSSECInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDNSSECInput, GetDNSSECOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDNSSECOutput>(GetDNSSECOutput.httpOutput(from:), GetDNSSECOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDNSSECInput, GetDNSSECOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3059,6 +3264,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchGeoLocation` : Amazon Route 53 doesn't support the specified geographic location. For a list of supported geolocation codes, see the [GeoLocation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html) data type.
     public func getGeoLocation(input: GetGeoLocationInput) async throws -> GetGeoLocationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getGeoLocationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3071,8 +3282,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetGeoLocationInput, GetGeoLocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3082,7 +3295,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetGeoLocationInput, GetGeoLocationOutput>(GetGeoLocationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGeoLocationInput, GetGeoLocationOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetGeoLocationInput, GetGeoLocationOutput>(GetGeoLocationInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGeoLocationOutput>(GetGeoLocationOutput.httpOutput(from:), GetGeoLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGeoLocationInput, GetGeoLocationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3127,6 +3339,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     public func getHealthCheck(input: GetHealthCheckInput) async throws -> GetHealthCheckOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getHealthCheckOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3139,8 +3357,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckInput, GetHealthCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3149,7 +3369,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHealthCheckInput, GetHealthCheckOutput>(GetHealthCheckInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHealthCheckInput, GetHealthCheckOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthCheckOutput>(GetHealthCheckOutput.httpOutput(from:), GetHealthCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthCheckInput, GetHealthCheckOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3187,6 +3406,12 @@ extension Route53Client {
     ///
     /// - Returns: A complex type that contains the response to a GetHealthCheckCount request. (Type: `GetHealthCheckCountOutput`)
     public func getHealthCheckCount(input: GetHealthCheckCountInput) async throws -> GetHealthCheckCountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getHealthCheckCountOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3199,8 +3424,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckCountInput, GetHealthCheckCountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3209,7 +3436,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHealthCheckCountInput, GetHealthCheckCountOutput>(GetHealthCheckCountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHealthCheckCountInput, GetHealthCheckCountOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthCheckCountOutput>(GetHealthCheckCountOutput.httpOutput(from:), GetHealthCheckCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthCheckCountInput, GetHealthCheckCountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3253,6 +3479,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     public func getHealthCheckLastFailureReason(input: GetHealthCheckLastFailureReasonInput) async throws -> GetHealthCheckLastFailureReasonOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getHealthCheckLastFailureReasonOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3265,8 +3497,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3275,7 +3509,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput>(GetHealthCheckLastFailureReasonInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthCheckLastFailureReasonOutput>(GetHealthCheckLastFailureReasonOutput.httpOutput(from:), GetHealthCheckLastFailureReasonOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3319,6 +3552,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     public func getHealthCheckStatus(input: GetHealthCheckStatusInput) async throws -> GetHealthCheckStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getHealthCheckStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3331,8 +3570,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckStatusInput, GetHealthCheckStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3341,7 +3582,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHealthCheckStatusInput, GetHealthCheckStatusOutput>(GetHealthCheckStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHealthCheckStatusInput, GetHealthCheckStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthCheckStatusOutput>(GetHealthCheckStatusOutput.httpOutput(from:), GetHealthCheckStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthCheckStatusInput, GetHealthCheckStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3385,6 +3625,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func getHostedZone(input: GetHostedZoneInput) async throws -> GetHostedZoneOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getHostedZoneOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3397,8 +3643,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHostedZoneInput, GetHostedZoneOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3408,7 +3656,6 @@ extension Route53Client {
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<GetHostedZoneInput, GetHostedZoneOutput>(\.id))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHostedZoneInput, GetHostedZoneOutput>(GetHostedZoneInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHostedZoneInput, GetHostedZoneOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHostedZoneOutput>(GetHostedZoneOutput.httpOutput(from:), GetHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHostedZoneInput, GetHostedZoneOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3451,6 +3698,12 @@ extension Route53Client {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     public func getHostedZoneCount(input: GetHostedZoneCountInput) async throws -> GetHostedZoneCountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getHostedZoneCountOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3463,8 +3716,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHostedZoneCountInput, GetHostedZoneCountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3473,7 +3728,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHostedZoneCountInput, GetHostedZoneCountOutput>(GetHostedZoneCountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHostedZoneCountInput, GetHostedZoneCountOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHostedZoneCountOutput>(GetHostedZoneCountOutput.httpOutput(from:), GetHostedZoneCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHostedZoneCountInput, GetHostedZoneCountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3518,6 +3772,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func getHostedZoneLimit(input: GetHostedZoneLimitInput) async throws -> GetHostedZoneLimitOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getHostedZoneLimitOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3530,8 +3790,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHostedZoneLimitInput, GetHostedZoneLimitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3541,7 +3803,6 @@ extension Route53Client {
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutput>(GetHostedZoneLimitInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHostedZoneLimitOutput>(GetHostedZoneLimitOutput.httpOutput(from:), GetHostedZoneLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3585,6 +3846,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchQueryLoggingConfig` : There is no DNS query logging configuration with the specified ID.
     public func getQueryLoggingConfig(input: GetQueryLoggingConfigInput) async throws -> GetQueryLoggingConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getQueryLoggingConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3597,8 +3864,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3607,7 +3876,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput>(GetQueryLoggingConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryLoggingConfigOutput>(GetQueryLoggingConfigOutput.httpOutput(from:), GetQueryLoggingConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3652,6 +3920,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     public func getReusableDelegationSet(input: GetReusableDelegationSetInput) async throws -> GetReusableDelegationSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getReusableDelegationSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3664,8 +3938,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetReusableDelegationSetInput, GetReusableDelegationSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3675,7 +3951,6 @@ extension Route53Client {
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<GetReusableDelegationSetInput, GetReusableDelegationSetOutput>(\.id))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetReusableDelegationSetInput, GetReusableDelegationSetOutput>(GetReusableDelegationSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReusableDelegationSetInput, GetReusableDelegationSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReusableDelegationSetOutput>(GetReusableDelegationSetOutput.httpOutput(from:), GetReusableDelegationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReusableDelegationSetInput, GetReusableDelegationSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3719,6 +3994,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     public func getReusableDelegationSetLimit(input: GetReusableDelegationSetLimitInput) async throws -> GetReusableDelegationSetLimitOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getReusableDelegationSetLimitOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3731,8 +4012,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3742,7 +4025,6 @@ extension Route53Client {
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput>(\.delegationSetId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput>(GetReusableDelegationSetLimitInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReusableDelegationSetLimitOutput>(GetReusableDelegationSetLimitOutput.httpOutput(from:), GetReusableDelegationSetLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3786,6 +4068,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     public func getTrafficPolicy(input: GetTrafficPolicyInput) async throws -> GetTrafficPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getTrafficPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3798,8 +4086,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTrafficPolicyInput, GetTrafficPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3808,7 +4098,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(GetTrafficPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrafficPolicyOutput>(GetTrafficPolicyOutput.httpOutput(from:), GetTrafficPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3852,6 +4141,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     public func getTrafficPolicyInstance(input: GetTrafficPolicyInstanceInput) async throws -> GetTrafficPolicyInstanceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getTrafficPolicyInstanceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3864,8 +4159,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3874,7 +4171,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput>(GetTrafficPolicyInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrafficPolicyInstanceOutput>(GetTrafficPolicyInstanceOutput.httpOutput(from:), GetTrafficPolicyInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3912,6 +4208,12 @@ extension Route53Client {
     ///
     /// - Returns: A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy. (Type: `GetTrafficPolicyInstanceCountOutput`)
     public func getTrafficPolicyInstanceCount(input: GetTrafficPolicyInstanceCountInput) async throws -> GetTrafficPolicyInstanceCountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.getTrafficPolicyInstanceCountOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3924,8 +4226,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3934,7 +4238,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput>(GetTrafficPolicyInstanceCountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrafficPolicyInstanceCountOutput>(GetTrafficPolicyInstanceCountOutput.httpOutput(from:), GetTrafficPolicyInstanceCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3979,6 +4282,12 @@ extension Route53Client {
     /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
     /// - `NoSuchCidrLocationException` : The CIDR collection location doesn't match any locations in your account.
     public func listCidrBlocks(input: ListCidrBlocksInput) async throws -> ListCidrBlocksOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listCidrBlocksOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3991,8 +4300,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCidrBlocksInput, ListCidrBlocksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4002,7 +4313,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCidrBlocksInput, ListCidrBlocksOutput>(ListCidrBlocksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCidrBlocksInput, ListCidrBlocksOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCidrBlocksInput, ListCidrBlocksOutput>(ListCidrBlocksInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCidrBlocksOutput>(ListCidrBlocksOutput.httpOutput(from:), ListCidrBlocksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCidrBlocksInput, ListCidrBlocksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4045,6 +4355,12 @@ extension Route53Client {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     public func listCidrCollections(input: ListCidrCollectionsInput) async throws -> ListCidrCollectionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listCidrCollectionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4057,8 +4373,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCidrCollectionsInput, ListCidrCollectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4068,7 +4386,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCidrCollectionsInput, ListCidrCollectionsOutput>(ListCidrCollectionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCidrCollectionsInput, ListCidrCollectionsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCidrCollectionsInput, ListCidrCollectionsOutput>(ListCidrCollectionsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCidrCollectionsOutput>(ListCidrCollectionsOutput.httpOutput(from:), ListCidrCollectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCidrCollectionsInput, ListCidrCollectionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4112,6 +4429,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
     public func listCidrLocations(input: ListCidrLocationsInput) async throws -> ListCidrLocationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listCidrLocationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4124,8 +4447,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCidrLocationsInput, ListCidrLocationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4135,7 +4460,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCidrLocationsInput, ListCidrLocationsOutput>(ListCidrLocationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCidrLocationsInput, ListCidrLocationsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCidrLocationsInput, ListCidrLocationsOutput>(ListCidrLocationsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCidrLocationsOutput>(ListCidrLocationsOutput.httpOutput(from:), ListCidrLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCidrLocationsInput, ListCidrLocationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4178,6 +4502,12 @@ extension Route53Client {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     public func listGeoLocations(input: ListGeoLocationsInput) async throws -> ListGeoLocationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listGeoLocationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4190,8 +4520,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListGeoLocationsInput, ListGeoLocationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4201,7 +4533,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListGeoLocationsInput, ListGeoLocationsOutput>(ListGeoLocationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGeoLocationsInput, ListGeoLocationsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGeoLocationsInput, ListGeoLocationsOutput>(ListGeoLocationsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGeoLocationsOutput>(ListGeoLocationsOutput.httpOutput(from:), ListGeoLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGeoLocationsInput, ListGeoLocationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4245,6 +4576,12 @@ extension Route53Client {
     /// - `IncompatibleVersion` : The resource you're trying to access is unsupported on this Amazon Route 53 endpoint.
     /// - `InvalidInput` : The input is not valid.
     public func listHealthChecks(input: ListHealthChecksInput) async throws -> ListHealthChecksOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listHealthChecksOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4257,8 +4594,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListHealthChecksInput, ListHealthChecksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4268,7 +4607,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListHealthChecksInput, ListHealthChecksOutput>(ListHealthChecksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListHealthChecksInput, ListHealthChecksOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHealthChecksInput, ListHealthChecksOutput>(ListHealthChecksInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHealthChecksOutput>(ListHealthChecksOutput.httpOutput(from:), ListHealthChecksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHealthChecksInput, ListHealthChecksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4313,6 +4651,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     public func listHostedZones(input: ListHostedZonesInput) async throws -> ListHostedZonesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listHostedZonesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4325,8 +4669,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListHostedZonesInput, ListHostedZonesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4336,7 +4682,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListHostedZonesInput, ListHostedZonesOutput>(ListHostedZonesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListHostedZonesInput, ListHostedZonesOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHostedZonesInput, ListHostedZonesOutput>(ListHostedZonesInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostedZonesOutput>(ListHostedZonesOutput.httpOutput(from:), ListHostedZonesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostedZonesInput, ListHostedZonesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4388,6 +4733,12 @@ extension Route53Client {
     /// - `InvalidDomainName` : The specified domain name is not valid.
     /// - `InvalidInput` : The input is not valid.
     public func listHostedZonesByName(input: ListHostedZonesByNameInput) async throws -> ListHostedZonesByNameOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listHostedZonesByNameOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4400,8 +4751,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListHostedZonesByNameInput, ListHostedZonesByNameOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4411,7 +4764,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListHostedZonesByNameInput, ListHostedZonesByNameOutput>(ListHostedZonesByNameInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListHostedZonesByNameInput, ListHostedZonesByNameOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHostedZonesByNameInput, ListHostedZonesByNameOutput>(ListHostedZonesByNameInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostedZonesByNameOutput>(ListHostedZonesByNameOutput.httpOutput(from:), ListHostedZonesByNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostedZonesByNameInput, ListHostedZonesByNameOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4471,6 +4823,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `InvalidPaginationToken` : The value that you specified to get the second or subsequent page of results is invalid.
     public func listHostedZonesByVPC(input: ListHostedZonesByVPCInput) async throws -> ListHostedZonesByVPCOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listHostedZonesByVPCOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4483,8 +4841,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4494,7 +4854,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput>(ListHostedZonesByVPCInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput>(ListHostedZonesByVPCInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostedZonesByVPCOutput>(ListHostedZonesByVPCOutput.httpOutput(from:), ListHostedZonesByVPCOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4539,6 +4898,12 @@ extension Route53Client {
     /// - `InvalidPaginationToken` : The value that you specified to get the second or subsequent page of results is invalid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func listQueryLoggingConfigs(input: ListQueryLoggingConfigsInput) async throws -> ListQueryLoggingConfigsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listQueryLoggingConfigsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4551,8 +4916,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4562,7 +4929,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput>(ListQueryLoggingConfigsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput>(ListQueryLoggingConfigsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueryLoggingConfigsOutput>(ListQueryLoggingConfigsOutput.httpOutput(from:), ListQueryLoggingConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4606,6 +4972,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func listResourceRecordSets(input: ListResourceRecordSetsInput) async throws -> ListResourceRecordSetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listResourceRecordSetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4618,8 +4990,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListResourceRecordSetsInput, ListResourceRecordSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4630,7 +5004,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutput>(ListResourceRecordSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutput>(ListResourceRecordSetsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceRecordSetsOutput>(ListResourceRecordSetsOutput.httpOutput(from:), ListResourceRecordSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4673,6 +5046,12 @@ extension Route53Client {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     public func listReusableDelegationSets(input: ListReusableDelegationSetsInput) async throws -> ListReusableDelegationSetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listReusableDelegationSetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4685,8 +5064,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4696,7 +5077,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput>(ListReusableDelegationSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput>(ListReusableDelegationSetsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReusableDelegationSetsOutput>(ListReusableDelegationSetsOutput.httpOutput(from:), ListReusableDelegationSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4743,6 +5123,12 @@ extension Route53Client {
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4755,8 +5141,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4765,7 +5153,6 @@ extension Route53Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4812,6 +5199,12 @@ extension Route53Client {
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     public func listTagsForResources(input: ListTagsForResourcesInput) async throws -> ListTagsForResourcesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listTagsForResourcesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4824,8 +5217,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourcesInput, ListTagsForResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4835,9 +5230,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput>(ListTagsForResourcesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput, SmithyXML.Writer>(rootNodeInfo: .init("ListTagsForResourcesRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: ListTagsForResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourcesOutput>(ListTagsForResourcesOutput.httpOutput(from:), ListTagsForResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4880,6 +5273,12 @@ extension Route53Client {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The input is not valid.
     public func listTrafficPolicies(input: ListTrafficPoliciesInput) async throws -> ListTrafficPoliciesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listTrafficPoliciesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4892,8 +5291,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPoliciesInput, ListTrafficPoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4903,7 +5304,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(ListTrafficPoliciesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(ListTrafficPoliciesInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPoliciesOutput>(ListTrafficPoliciesOutput.httpOutput(from:), ListTrafficPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4947,6 +5347,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     public func listTrafficPolicyInstances(input: ListTrafficPolicyInstancesInput) async throws -> ListTrafficPolicyInstancesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listTrafficPolicyInstancesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4959,8 +5365,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4970,7 +5378,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput>(ListTrafficPolicyInstancesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput>(ListTrafficPolicyInstancesInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesOutput>(ListTrafficPolicyInstancesOutput.httpOutput(from:), ListTrafficPolicyInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5015,6 +5422,12 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     public func listTrafficPolicyInstancesByHostedZone(input: ListTrafficPolicyInstancesByHostedZoneInput) async throws -> ListTrafficPolicyInstancesByHostedZoneOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listTrafficPolicyInstancesByHostedZoneOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5027,8 +5440,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5038,7 +5453,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput>(ListTrafficPolicyInstancesByHostedZoneInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput>(ListTrafficPolicyInstancesByHostedZoneInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesByHostedZoneOutput>(ListTrafficPolicyInstancesByHostedZoneOutput.httpOutput(from:), ListTrafficPolicyInstancesByHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5083,6 +5497,12 @@ extension Route53Client {
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     public func listTrafficPolicyInstancesByPolicy(input: ListTrafficPolicyInstancesByPolicyInput) async throws -> ListTrafficPolicyInstancesByPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listTrafficPolicyInstancesByPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5095,8 +5515,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5106,7 +5528,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput>(ListTrafficPolicyInstancesByPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput>(ListTrafficPolicyInstancesByPolicyInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesByPolicyOutput>(ListTrafficPolicyInstancesByPolicyOutput.httpOutput(from:), ListTrafficPolicyInstancesByPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5150,6 +5571,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     public func listTrafficPolicyVersions(input: ListTrafficPolicyVersionsInput) async throws -> ListTrafficPolicyVersionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listTrafficPolicyVersionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5162,8 +5589,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5173,7 +5602,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput>(ListTrafficPolicyVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput>(ListTrafficPolicyVersionsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPolicyVersionsOutput>(ListTrafficPolicyVersionsOutput.httpOutput(from:), ListTrafficPolicyVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5218,6 +5646,12 @@ extension Route53Client {
     /// - `InvalidPaginationToken` : The value that you specified to get the second or subsequent page of results is invalid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func listVPCAssociationAuthorizations(input: ListVPCAssociationAuthorizationsInput) async throws -> ListVPCAssociationAuthorizationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.listVPCAssociationAuthorizationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5230,8 +5664,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5242,7 +5678,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput>(ListVPCAssociationAuthorizationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput>(ListVPCAssociationAuthorizationsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVPCAssociationAuthorizationsOutput>(ListVPCAssociationAuthorizationsOutput.httpOutput(from:), ListVPCAssociationAuthorizationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5286,6 +5721,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     public func testDNSAnswer(input: TestDNSAnswerInput) async throws -> TestDNSAnswerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.testDNSAnswerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5298,8 +5739,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TestDNSAnswerInput, TestDNSAnswerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5309,7 +5752,6 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<TestDNSAnswerInput, TestDNSAnswerOutput>(TestDNSAnswerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TestDNSAnswerInput, TestDNSAnswerOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<TestDNSAnswerInput, TestDNSAnswerOutput>(TestDNSAnswerInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TestDNSAnswerOutput>(TestDNSAnswerOutput.httpOutput(from:), TestDNSAnswerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestDNSAnswerInput, TestDNSAnswerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5354,6 +5796,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     public func updateHealthCheck(input: UpdateHealthCheckInput) async throws -> UpdateHealthCheckOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.updateHealthCheckOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5366,8 +5814,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateHealthCheckInput, UpdateHealthCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5377,9 +5827,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput>(UpdateHealthCheckInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateHealthCheckRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: UpdateHealthCheckInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHealthCheckOutput>(UpdateHealthCheckOutput.httpOutput(from:), UpdateHealthCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5424,6 +5872,12 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     public func updateHostedZoneComment(input: UpdateHostedZoneCommentInput) async throws -> UpdateHostedZoneCommentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.updateHostedZoneCommentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5436,8 +5890,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5448,9 +5904,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput>(UpdateHostedZoneCommentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateHostedZoneCommentRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: UpdateHostedZoneCommentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHostedZoneCommentOutput>(UpdateHostedZoneCommentOutput.httpOutput(from:), UpdateHostedZoneCommentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5496,6 +5950,12 @@ extension Route53Client {
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     public func updateHostedZoneFeatures(input: UpdateHostedZoneFeaturesInput) async throws -> UpdateHostedZoneFeaturesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.updateHostedZoneFeaturesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5508,8 +5968,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5520,9 +5982,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(UpdateHostedZoneFeaturesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateHostedZoneFeaturesRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: UpdateHostedZoneFeaturesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHostedZoneFeaturesOutput>(UpdateHostedZoneFeaturesOutput.httpOutput(from:), UpdateHostedZoneFeaturesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5567,6 +6027,12 @@ extension Route53Client {
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     public func updateTrafficPolicyComment(input: UpdateTrafficPolicyCommentInput) async throws -> UpdateTrafficPolicyCommentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.updateTrafficPolicyCommentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5579,8 +6045,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5590,9 +6058,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput>(UpdateTrafficPolicyCommentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateTrafficPolicyCommentRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: UpdateTrafficPolicyCommentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrafficPolicyCommentOutput>(UpdateTrafficPolicyCommentOutput.httpOutput(from:), UpdateTrafficPolicyCommentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5645,6 +6111,12 @@ extension Route53Client {
     /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     public func updateTrafficPolicyInstance(input: UpdateTrafficPolicyInstanceInput) async throws -> UpdateTrafficPolicyInstanceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53Client.updateTrafficPolicyInstanceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5657,8 +6129,10 @@ extension Route53Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5668,9 +6142,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput>(UpdateTrafficPolicyInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateTrafficPolicyInstanceRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: UpdateTrafficPolicyInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrafficPolicyInstanceOutput>(UpdateTrafficPolicyInstanceOutput.httpOutput(from:), UpdateTrafficPolicyInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))

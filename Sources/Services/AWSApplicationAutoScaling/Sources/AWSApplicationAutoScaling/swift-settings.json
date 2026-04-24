@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.applicationautoscaling#AnyScaleFrontendService",
+    "module": "AWSApplicationAutoScaling",
+    "sdkId": "Application Auto Scaling",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/application-auto-scaling.json"
+}

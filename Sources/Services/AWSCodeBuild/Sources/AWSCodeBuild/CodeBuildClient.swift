@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,30 +35,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -624,6 +621,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchDeleteBuilds(input: BatchDeleteBuildsInput) async throws -> BatchDeleteBuildsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.batchDeleteBuildsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -636,18 +639,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchDeleteBuildsInput, BatchDeleteBuildsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(BatchDeleteBuildsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteBuildsOutput>(BatchDeleteBuildsOutput.httpOutput(from:), BatchDeleteBuildsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -659,7 +662,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteBuildsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchDeleteBuilds"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteBuildsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteBuildsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>())
@@ -693,6 +695,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetBuildBatches(input: BatchGetBuildBatchesInput) async throws -> BatchGetBuildBatchesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.batchGetBuildBatchesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -705,18 +713,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(BatchGetBuildBatchesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetBuildBatchesOutput>(BatchGetBuildBatchesOutput.httpOutput(from:), BatchGetBuildBatchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -728,7 +736,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetBuildBatchesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetBuildBatches"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetBuildBatchesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetBuildBatchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>())
@@ -762,6 +769,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetBuilds(input: BatchGetBuildsInput) async throws -> BatchGetBuildsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.batchGetBuildsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -774,18 +787,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchGetBuildsInput, BatchGetBuildsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(BatchGetBuildsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetBuildsOutput>(BatchGetBuildsOutput.httpOutput(from:), BatchGetBuildsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -797,7 +810,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetBuildsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetBuilds"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetBuildsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetBuildsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>())
@@ -831,6 +843,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetCommandExecutions(input: BatchGetCommandExecutionsInput) async throws -> BatchGetCommandExecutionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.batchGetCommandExecutionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -843,18 +861,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>(BatchGetCommandExecutionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCommandExecutionsOutput>(BatchGetCommandExecutionsOutput.httpOutput(from:), BatchGetCommandExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -866,7 +884,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetCommandExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetCommandExecutions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetCommandExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCommandExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>())
@@ -900,6 +917,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetFleets(input: BatchGetFleetsInput) async throws -> BatchGetFleetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.batchGetFleetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -912,18 +935,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchGetFleetsInput, BatchGetFleetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>(BatchGetFleetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetFleetsOutput>(BatchGetFleetsOutput.httpOutput(from:), BatchGetFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -935,7 +958,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetFleetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetFleets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetFleetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>())
@@ -969,6 +991,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetProjects(input: BatchGetProjectsInput) async throws -> BatchGetProjectsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.batchGetProjectsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -981,18 +1009,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchGetProjectsInput, BatchGetProjectsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(BatchGetProjectsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetProjectsOutput>(BatchGetProjectsOutput.httpOutput(from:), BatchGetProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1004,7 +1032,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetProjectsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetProjects"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetProjectsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetProjectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>())
@@ -1038,6 +1065,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetReportGroups(input: BatchGetReportGroupsInput) async throws -> BatchGetReportGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.batchGetReportGroupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1050,18 +1083,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchGetReportGroupsInput, BatchGetReportGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(BatchGetReportGroupsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetReportGroupsOutput>(BatchGetReportGroupsOutput.httpOutput(from:), BatchGetReportGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1073,7 +1106,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetReportGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetReportGroups"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetReportGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetReportGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>())
@@ -1107,6 +1139,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetReports(input: BatchGetReportsInput) async throws -> BatchGetReportsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.batchGetReportsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1119,18 +1157,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchGetReportsInput, BatchGetReportsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(BatchGetReportsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetReportsInput, BatchGetReportsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetReportsInput, BatchGetReportsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetReportsOutput>(BatchGetReportsOutput.httpOutput(from:), BatchGetReportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1142,7 +1180,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetReportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetReports"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetReportsInput, BatchGetReportsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetReportsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetReportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetReportsInput, BatchGetReportsOutput>())
@@ -1176,6 +1213,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetSandboxes(input: BatchGetSandboxesInput) async throws -> BatchGetSandboxesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.batchGetSandboxesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1188,18 +1231,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchGetSandboxesInput, BatchGetSandboxesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>(BatchGetSandboxesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetSandboxesOutput>(BatchGetSandboxesOutput.httpOutput(from:), BatchGetSandboxesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1211,7 +1254,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetSandboxesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetSandboxes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetSandboxesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetSandboxesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>())
@@ -1247,6 +1289,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
     public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.createFleetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1259,18 +1307,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateFleetInput, CreateFleetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFleetInput, CreateFleetOutput>(CreateFleetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetInput, CreateFleetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFleetOutput>(CreateFleetOutput.httpOutput(from:), CreateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetInput, CreateFleetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1282,7 +1330,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFleetInput, CreateFleetOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.CreateFleet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateFleetInput, CreateFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetInput, CreateFleetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFleetInput, CreateFleetOutput>())
@@ -1318,6 +1365,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
     public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.createProjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1330,18 +1383,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateProjectInput, CreateProjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutput>(CreateProjectInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(CreateProjectOutput.httpOutput(from:), CreateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1353,7 +1406,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProjectInput, CreateProjectOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.CreateProject"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateProjectInput, CreateProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProjectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProjectInput, CreateProjectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProjectInput, CreateProjectOutput>())
@@ -1389,6 +1441,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
     public func createReportGroup(input: CreateReportGroupInput) async throws -> CreateReportGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.createReportGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1401,18 +1459,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateReportGroupInput, CreateReportGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(CreateReportGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateReportGroupInput, CreateReportGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReportGroupInput, CreateReportGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReportGroupOutput>(CreateReportGroupOutput.httpOutput(from:), CreateReportGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1424,7 +1482,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateReportGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.CreateReportGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateReportGroupInput, CreateReportGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateReportGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateReportGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateReportGroupInput, CreateReportGroupOutput>())
@@ -1461,6 +1518,12 @@ extension CodeBuildClient {
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func createWebhook(input: CreateWebhookInput) async throws -> CreateWebhookOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.createWebhookOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1473,18 +1536,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateWebhookInput, CreateWebhookOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateWebhookInput, CreateWebhookOutput>(CreateWebhookInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateWebhookInput, CreateWebhookOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWebhookInput, CreateWebhookOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWebhookOutput>(CreateWebhookOutput.httpOutput(from:), CreateWebhookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWebhookInput, CreateWebhookOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1496,7 +1559,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWebhookOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWebhookInput, CreateWebhookOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.CreateWebhook"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateWebhookInput, CreateWebhookOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWebhookInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWebhookInput, CreateWebhookOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWebhookOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWebhookInput, CreateWebhookOutput>())
@@ -1530,6 +1592,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func deleteBuildBatch(input: DeleteBuildBatchInput) async throws -> DeleteBuildBatchOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.deleteBuildBatchOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1542,18 +1610,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBuildBatchInput, DeleteBuildBatchOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(DeleteBuildBatchInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBuildBatchOutput>(DeleteBuildBatchOutput.httpOutput(from:), DeleteBuildBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1565,7 +1633,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBuildBatchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteBuildBatch"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBuildBatchInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBuildBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>())
@@ -1599,6 +1666,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.deleteFleetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1611,18 +1684,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteFleetInput, DeleteFleetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFleetInput, DeleteFleetOutput>(DeleteFleetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetInput, DeleteFleetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFleetOutput>(DeleteFleetOutput.httpOutput(from:), DeleteFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetInput, DeleteFleetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1634,7 +1707,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFleetInput, DeleteFleetOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteFleet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFleetInput, DeleteFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetInput, DeleteFleetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFleetInput, DeleteFleetOutput>())
@@ -1668,6 +1740,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.deleteProjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1680,18 +1758,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteProjectInput, DeleteProjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutput>(DeleteProjectInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectInput, DeleteProjectOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(DeleteProjectOutput.httpOutput(from:), DeleteProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1703,7 +1781,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProjectInput, DeleteProjectOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteProject"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProjectInput, DeleteProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProjectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProjectInput, DeleteProjectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProjectInput, DeleteProjectOutput>())
@@ -1737,6 +1814,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func deleteReport(input: DeleteReportInput) async throws -> DeleteReportOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.deleteReportOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1749,18 +1832,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteReportInput, DeleteReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteReportInput, DeleteReportOutput>(DeleteReportInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReportInput, DeleteReportOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReportInput, DeleteReportOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReportOutput>(DeleteReportOutput.httpOutput(from:), DeleteReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReportInput, DeleteReportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1772,7 +1855,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteReportInput, DeleteReportOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteReport"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteReportInput, DeleteReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteReportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteReportInput, DeleteReportOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteReportInput, DeleteReportOutput>())
@@ -1806,6 +1888,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func deleteReportGroup(input: DeleteReportGroupInput) async throws -> DeleteReportGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.deleteReportGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1818,18 +1906,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteReportGroupInput, DeleteReportGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(DeleteReportGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReportGroupOutput>(DeleteReportGroupOutput.httpOutput(from:), DeleteReportGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1841,7 +1929,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteReportGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteReportGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteReportGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteReportGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>())
@@ -1875,6 +1962,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.deleteResourcePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1887,18 +1980,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(DeleteResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1910,7 +2003,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteResourcePolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
@@ -1945,6 +2037,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func deleteSourceCredentials(input: DeleteSourceCredentialsInput) async throws -> DeleteSourceCredentialsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.deleteSourceCredentialsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1957,18 +2055,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(DeleteSourceCredentialsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSourceCredentialsOutput>(DeleteSourceCredentialsOutput.httpOutput(from:), DeleteSourceCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1980,7 +2078,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSourceCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteSourceCredentials"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSourceCredentialsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSourceCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>())
@@ -2016,6 +2113,12 @@ extension CodeBuildClient {
     /// - `OAuthProviderException` : There was a problem with the underlying OAuth provider.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.deleteWebhookOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2028,18 +2131,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteWebhookInput, DeleteWebhookOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(DeleteWebhookInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWebhookOutput>(DeleteWebhookOutput.httpOutput(from:), DeleteWebhookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2051,7 +2154,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWebhookOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteWebhook"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteWebhookInput, DeleteWebhookOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWebhookInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWebhookOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
@@ -2085,6 +2187,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func describeCodeCoverages(input: DescribeCodeCoveragesInput) async throws -> DescribeCodeCoveragesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.describeCodeCoveragesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2097,18 +2205,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(DescribeCodeCoveragesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCodeCoveragesOutput>(DescribeCodeCoveragesOutput.httpOutput(from:), DescribeCodeCoveragesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2120,7 +2228,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCodeCoveragesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DescribeCodeCoverages"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCodeCoveragesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCodeCoveragesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>())
@@ -2155,6 +2262,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func describeTestCases(input: DescribeTestCasesInput) async throws -> DescribeTestCasesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.describeTestCasesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2167,18 +2280,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTestCasesInput, DescribeTestCasesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(DescribeTestCasesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTestCasesOutput>(DescribeTestCasesOutput.httpOutput(from:), DescribeTestCasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2190,7 +2303,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTestCasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DescribeTestCases"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTestCasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTestCasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>())
@@ -2225,6 +2337,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func getReportGroupTrend(input: GetReportGroupTrendInput) async throws -> GetReportGroupTrendOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.getReportGroupTrendOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2237,18 +2355,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetReportGroupTrendInput, GetReportGroupTrendOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(GetReportGroupTrendInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReportGroupTrendOutput>(GetReportGroupTrendOutput.httpOutput(from:), GetReportGroupTrendOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2260,7 +2378,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetReportGroupTrendOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.GetReportGroupTrend"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetReportGroupTrendInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetReportGroupTrendOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>())
@@ -2295,6 +2412,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.getResourcePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2307,18 +2430,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(GetResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2330,7 +2453,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.GetResourcePolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
@@ -2366,6 +2488,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
     public func importSourceCredentials(input: ImportSourceCredentialsInput) async throws -> ImportSourceCredentialsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.importSourceCredentialsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2378,18 +2506,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ImportSourceCredentialsInput, ImportSourceCredentialsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(ImportSourceCredentialsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportSourceCredentialsOutput>(ImportSourceCredentialsOutput.httpOutput(from:), ImportSourceCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2401,7 +2529,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportSourceCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ImportSourceCredentials"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportSourceCredentialsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportSourceCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>())
@@ -2436,6 +2563,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func invalidateProjectCache(input: InvalidateProjectCacheInput) async throws -> InvalidateProjectCacheOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.invalidateProjectCacheOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2448,18 +2581,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<InvalidateProjectCacheInput, InvalidateProjectCacheOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(InvalidateProjectCacheInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<InvalidateProjectCacheOutput>(InvalidateProjectCacheOutput.httpOutput(from:), InvalidateProjectCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2471,7 +2604,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InvalidateProjectCacheOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.InvalidateProjectCache"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InvalidateProjectCacheInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InvalidateProjectCacheOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>())
@@ -2505,6 +2637,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listBuildBatches(input: ListBuildBatchesInput) async throws -> ListBuildBatchesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listBuildBatchesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2517,18 +2655,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListBuildBatchesInput, ListBuildBatchesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(ListBuildBatchesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBuildBatchesOutput>(ListBuildBatchesOutput.httpOutput(from:), ListBuildBatchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2540,7 +2678,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBuildBatchesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListBuildBatches"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBuildBatchesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBuildBatchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>())
@@ -2575,6 +2712,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func listBuildBatchesForProject(input: ListBuildBatchesForProjectInput) async throws -> ListBuildBatchesForProjectOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listBuildBatchesForProjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2587,18 +2730,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(ListBuildBatchesForProjectInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBuildBatchesForProjectOutput>(ListBuildBatchesForProjectOutput.httpOutput(from:), ListBuildBatchesForProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2610,7 +2753,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBuildBatchesForProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListBuildBatchesForProject"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBuildBatchesForProjectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBuildBatchesForProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>())
@@ -2644,6 +2786,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listBuilds(input: ListBuildsInput) async throws -> ListBuildsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listBuildsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2656,18 +2804,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListBuildsInput, ListBuildsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListBuildsInput, ListBuildsOutput>(ListBuildsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBuildsInput, ListBuildsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildsInput, ListBuildsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBuildsOutput>(ListBuildsOutput.httpOutput(from:), ListBuildsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildsInput, ListBuildsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2679,7 +2827,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBuildsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildsInput, ListBuildsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListBuilds"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListBuildsInput, ListBuildsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBuildsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildsInput, ListBuildsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBuildsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBuildsInput, ListBuildsOutput>())
@@ -2714,6 +2861,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func listBuildsForProject(input: ListBuildsForProjectInput) async throws -> ListBuildsForProjectOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listBuildsForProjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2726,18 +2879,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListBuildsForProjectInput, ListBuildsForProjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(ListBuildsForProjectInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBuildsForProjectOutput>(ListBuildsForProjectOutput.httpOutput(from:), ListBuildsForProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2749,7 +2902,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBuildsForProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListBuildsForProject"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBuildsForProjectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBuildsForProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>())
@@ -2784,6 +2936,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func listCommandExecutionsForSandbox(input: ListCommandExecutionsForSandboxInput) async throws -> ListCommandExecutionsForSandboxOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listCommandExecutionsForSandboxOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2796,18 +2954,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>(ListCommandExecutionsForSandboxInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCommandExecutionsForSandboxOutput>(ListCommandExecutionsForSandboxOutput.httpOutput(from:), ListCommandExecutionsForSandboxOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2819,7 +2977,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCommandExecutionsForSandboxOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListCommandExecutionsForSandbox"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCommandExecutionsForSandboxInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCommandExecutionsForSandboxOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>())
@@ -2848,6 +3005,12 @@ extension CodeBuildClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListCuratedEnvironmentImagesOutput`)
     public func listCuratedEnvironmentImages(input: ListCuratedEnvironmentImagesInput) async throws -> ListCuratedEnvironmentImagesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listCuratedEnvironmentImagesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2860,18 +3023,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(ListCuratedEnvironmentImagesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCuratedEnvironmentImagesOutput>(ListCuratedEnvironmentImagesOutput.httpOutput(from:), ListCuratedEnvironmentImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2883,7 +3046,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCuratedEnvironmentImagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListCuratedEnvironmentImages"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCuratedEnvironmentImagesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCuratedEnvironmentImagesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>())
@@ -2917,6 +3079,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listFleetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2929,18 +3097,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFleetsInput, ListFleetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFleetsInput, ListFleetsOutput>(ListFleetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFleetsInput, ListFleetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFleetsInput, ListFleetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFleetsOutput>(ListFleetsOutput.httpOutput(from:), ListFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFleetsInput, ListFleetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2952,7 +3120,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFleetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFleetsInput, ListFleetsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListFleets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFleetsInput, ListFleetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFleetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFleetsInput, ListFleetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFleetsInput, ListFleetsOutput>())
@@ -2986,6 +3153,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listProjectsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2998,18 +3171,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListProjectsInput, ListProjectsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProjectsInput, ListProjectsOutput>(ListProjectsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProjectsInput, ListProjectsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProjectsInput, ListProjectsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectsOutput>(ListProjectsOutput.httpOutput(from:), ListProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectsInput, ListProjectsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3021,7 +3194,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProjectsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProjectsInput, ListProjectsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListProjects"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListProjectsInput, ListProjectsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProjectsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProjectsInput, ListProjectsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProjectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProjectsInput, ListProjectsOutput>())
@@ -3055,6 +3227,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listReportGroups(input: ListReportGroupsInput) async throws -> ListReportGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listReportGroupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3067,18 +3245,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListReportGroupsInput, ListReportGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(ListReportGroupsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReportGroupsInput, ListReportGroupsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReportGroupsInput, ListReportGroupsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReportGroupsOutput>(ListReportGroupsOutput.httpOutput(from:), ListReportGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3090,7 +3268,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReportGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListReportGroups"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListReportGroupsInput, ListReportGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListReportGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReportGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReportGroupsInput, ListReportGroupsOutput>())
@@ -3124,6 +3301,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listReports(input: ListReportsInput) async throws -> ListReportsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listReportsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3136,18 +3319,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListReportsInput, ListReportsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListReportsInput, ListReportsOutput>(ListReportsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReportsInput, ListReportsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReportsInput, ListReportsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReportsOutput>(ListReportsOutput.httpOutput(from:), ListReportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportsInput, ListReportsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3159,7 +3342,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReportsInput, ListReportsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListReports"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListReportsInput, ListReportsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListReportsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReportsInput, ListReportsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReportsInput, ListReportsOutput>())
@@ -3194,6 +3376,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func listReportsForReportGroup(input: ListReportsForReportGroupInput) async throws -> ListReportsForReportGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listReportsForReportGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3206,18 +3394,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListReportsForReportGroupInput, ListReportsForReportGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(ListReportsForReportGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReportsForReportGroupOutput>(ListReportsForReportGroupOutput.httpOutput(from:), ListReportsForReportGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3229,7 +3417,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReportsForReportGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListReportsForReportGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListReportsForReportGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReportsForReportGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>())
@@ -3263,6 +3450,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listSandboxes(input: ListSandboxesInput) async throws -> ListSandboxesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listSandboxesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3275,18 +3468,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSandboxesInput, ListSandboxesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSandboxesInput, ListSandboxesOutput>(ListSandboxesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSandboxesInput, ListSandboxesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSandboxesInput, ListSandboxesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSandboxesOutput>(ListSandboxesOutput.httpOutput(from:), ListSandboxesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSandboxesInput, ListSandboxesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3298,7 +3491,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSandboxesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSandboxesInput, ListSandboxesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListSandboxes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSandboxesInput, ListSandboxesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSandboxesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSandboxesInput, ListSandboxesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSandboxesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSandboxesInput, ListSandboxesOutput>())
@@ -3333,6 +3525,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func listSandboxesForProject(input: ListSandboxesForProjectInput) async throws -> ListSandboxesForProjectOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listSandboxesForProjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3345,18 +3543,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSandboxesForProjectInput, ListSandboxesForProjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>(ListSandboxesForProjectInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSandboxesForProjectOutput>(ListSandboxesForProjectOutput.httpOutput(from:), ListSandboxesForProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3368,7 +3566,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSandboxesForProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListSandboxesForProject"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSandboxesForProjectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSandboxesForProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>())
@@ -3402,6 +3599,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listSharedProjects(input: ListSharedProjectsInput) async throws -> ListSharedProjectsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listSharedProjectsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3414,18 +3617,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSharedProjectsInput, ListSharedProjectsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(ListSharedProjectsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSharedProjectsOutput>(ListSharedProjectsOutput.httpOutput(from:), ListSharedProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3437,7 +3640,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSharedProjectsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListSharedProjects"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSharedProjectsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSharedProjectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>())
@@ -3471,6 +3673,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listSharedReportGroups(input: ListSharedReportGroupsInput) async throws -> ListSharedReportGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listSharedReportGroupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3483,18 +3691,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSharedReportGroupsInput, ListSharedReportGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(ListSharedReportGroupsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSharedReportGroupsOutput>(ListSharedReportGroupsOutput.httpOutput(from:), ListSharedReportGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3506,7 +3714,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSharedReportGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListSharedReportGroups"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSharedReportGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSharedReportGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>())
@@ -3540,6 +3747,12 @@ extension CodeBuildClient {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listSourceCredentials(input: ListSourceCredentialsInput) async throws -> ListSourceCredentialsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.listSourceCredentialsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3552,18 +3765,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSourceCredentialsInput, ListSourceCredentialsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(ListSourceCredentialsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourceCredentialsOutput>(ListSourceCredentialsOutput.httpOutput(from:), ListSourceCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3575,7 +3788,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSourceCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListSourceCredentials"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSourceCredentialsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSourceCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>())
@@ -3610,6 +3822,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.putResourcePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3622,18 +3840,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(PutResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3645,7 +3863,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.PutResourcePolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
@@ -3681,6 +3898,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func retryBuild(input: RetryBuildInput) async throws -> RetryBuildOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.retryBuildOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3693,18 +3916,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RetryBuildInput, RetryBuildOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RetryBuildInput, RetryBuildOutput>(RetryBuildInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RetryBuildInput, RetryBuildOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetryBuildInput, RetryBuildOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RetryBuildOutput>(RetryBuildOutput.httpOutput(from:), RetryBuildOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetryBuildInput, RetryBuildOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3716,7 +3939,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RetryBuildOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RetryBuildInput, RetryBuildOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.RetryBuild"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RetryBuildInput, RetryBuildOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RetryBuildInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetryBuildInput, RetryBuildOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetryBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RetryBuildInput, RetryBuildOutput>())
@@ -3751,6 +3973,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func retryBuildBatch(input: RetryBuildBatchInput) async throws -> RetryBuildBatchOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.retryBuildBatchOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3763,18 +3991,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RetryBuildBatchInput, RetryBuildBatchOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(RetryBuildBatchInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RetryBuildBatchOutput>(RetryBuildBatchOutput.httpOutput(from:), RetryBuildBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3786,7 +4014,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RetryBuildBatchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.RetryBuildBatch"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RetryBuildBatchInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetryBuildBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>())
@@ -3822,6 +4049,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func startBuild(input: StartBuildInput) async throws -> StartBuildOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.startBuildOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3834,18 +4067,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartBuildInput, StartBuildOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartBuildInput, StartBuildOutput>(StartBuildInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartBuildInput, StartBuildOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBuildInput, StartBuildOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBuildOutput>(StartBuildOutput.httpOutput(from:), StartBuildOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBuildInput, StartBuildOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3857,7 +4090,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartBuildOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartBuildInput, StartBuildOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StartBuild"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartBuildInput, StartBuildOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartBuildInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBuildInput, StartBuildOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartBuildInput, StartBuildOutput>())
@@ -3892,6 +4124,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func startBuildBatch(input: StartBuildBatchInput) async throws -> StartBuildBatchOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.startBuildBatchOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3904,18 +4142,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartBuildBatchInput, StartBuildBatchOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(StartBuildBatchInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartBuildBatchInput, StartBuildBatchOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBuildBatchInput, StartBuildBatchOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBuildBatchOutput>(StartBuildBatchOutput.httpOutput(from:), StartBuildBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3927,7 +4165,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartBuildBatchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StartBuildBatch"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartBuildBatchInput, StartBuildBatchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartBuildBatchInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartBuildBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartBuildBatchInput, StartBuildBatchOutput>())
@@ -3962,6 +4199,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func startCommandExecution(input: StartCommandExecutionInput) async throws -> StartCommandExecutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.startCommandExecutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3974,18 +4217,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartCommandExecutionInput, StartCommandExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(StartCommandExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCommandExecutionOutput>(StartCommandExecutionOutput.httpOutput(from:), StartCommandExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3997,7 +4240,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCommandExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StartCommandExecution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCommandExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCommandExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>())
@@ -4033,6 +4275,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func startSandbox(input: StartSandboxInput) async throws -> StartSandboxOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.startSandboxOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4045,18 +4293,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartSandboxInput, StartSandboxOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartSandboxInput, StartSandboxOutput>(StartSandboxInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSandboxInput, StartSandboxOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSandboxInput, StartSandboxOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSandboxOutput>(StartSandboxOutput.httpOutput(from:), StartSandboxOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSandboxInput, StartSandboxOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4068,7 +4316,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartSandboxOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSandboxInput, StartSandboxOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StartSandbox"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartSandboxInput, StartSandboxOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartSandboxInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSandboxInput, StartSandboxOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSandboxOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartSandboxInput, StartSandboxOutput>())
@@ -4103,6 +4350,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func startSandboxConnection(input: StartSandboxConnectionInput) async throws -> StartSandboxConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.startSandboxConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4115,18 +4368,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartSandboxConnectionInput, StartSandboxConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>(StartSandboxConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSandboxConnectionOutput>(StartSandboxConnectionOutput.httpOutput(from:), StartSandboxConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4138,7 +4391,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartSandboxConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StartSandboxConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartSandboxConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSandboxConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>())
@@ -4173,6 +4425,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func stopBuild(input: StopBuildInput) async throws -> StopBuildOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.stopBuildOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4185,18 +4443,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopBuildInput, StopBuildOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopBuildInput, StopBuildOutput>(StopBuildInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopBuildInput, StopBuildOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopBuildInput, StopBuildOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopBuildOutput>(StopBuildOutput.httpOutput(from:), StopBuildOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopBuildInput, StopBuildOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4208,7 +4466,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopBuildOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopBuildInput, StopBuildOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StopBuild"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopBuildInput, StopBuildOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopBuildInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopBuildInput, StopBuildOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopBuildInput, StopBuildOutput>())
@@ -4243,6 +4500,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func stopBuildBatch(input: StopBuildBatchInput) async throws -> StopBuildBatchOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.stopBuildBatchOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4255,18 +4518,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopBuildBatchInput, StopBuildBatchOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(StopBuildBatchInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopBuildBatchInput, StopBuildBatchOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopBuildBatchInput, StopBuildBatchOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopBuildBatchOutput>(StopBuildBatchOutput.httpOutput(from:), StopBuildBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4278,7 +4541,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopBuildBatchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StopBuildBatch"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopBuildBatchInput, StopBuildBatchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopBuildBatchInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopBuildBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopBuildBatchInput, StopBuildBatchOutput>())
@@ -4313,6 +4575,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func stopSandbox(input: StopSandboxInput) async throws -> StopSandboxOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.stopSandboxOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4325,18 +4593,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopSandboxInput, StopSandboxOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopSandboxInput, StopSandboxOutput>(StopSandboxInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopSandboxInput, StopSandboxOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopSandboxInput, StopSandboxOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopSandboxOutput>(StopSandboxOutput.httpOutput(from:), StopSandboxOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSandboxInput, StopSandboxOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4348,7 +4616,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopSandboxOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopSandboxInput, StopSandboxOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StopSandbox"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopSandboxInput, StopSandboxOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopSandboxInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopSandboxInput, StopSandboxOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopSandboxOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopSandboxInput, StopSandboxOutput>())
@@ -4384,6 +4651,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func updateFleet(input: UpdateFleetInput) async throws -> UpdateFleetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.updateFleetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4396,18 +4669,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateFleetInput, UpdateFleetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFleetInput, UpdateFleetOutput>(UpdateFleetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFleetInput, UpdateFleetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetInput, UpdateFleetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFleetOutput>(UpdateFleetOutput.httpOutput(from:), UpdateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetInput, UpdateFleetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4419,7 +4692,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFleetInput, UpdateFleetOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.UpdateFleet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFleetInput, UpdateFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetInput, UpdateFleetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFleetInput, UpdateFleetOutput>())
@@ -4454,6 +4726,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.updateProjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4466,18 +4744,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateProjectInput, UpdateProjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProjectInput, UpdateProjectOutput>(UpdateProjectInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectInput, UpdateProjectOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProjectOutput>(UpdateProjectOutput.httpOutput(from:), UpdateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectInput, UpdateProjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4489,7 +4767,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProjectInput, UpdateProjectOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.UpdateProject"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProjectInput, UpdateProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProjectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProjectInput, UpdateProjectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProjectInput, UpdateProjectOutput>())
@@ -4537,6 +4814,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func updateProjectVisibility(input: UpdateProjectVisibilityInput) async throws -> UpdateProjectVisibilityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.updateProjectVisibilityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4549,18 +4832,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(UpdateProjectVisibilityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProjectVisibilityOutput>(UpdateProjectVisibilityOutput.httpOutput(from:), UpdateProjectVisibilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4572,7 +4855,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProjectVisibilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.UpdateProjectVisibility"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProjectVisibilityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProjectVisibilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>())
@@ -4607,6 +4889,12 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func updateReportGroup(input: UpdateReportGroupInput) async throws -> UpdateReportGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.updateReportGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4619,18 +4907,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateReportGroupInput, UpdateReportGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(UpdateReportGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateReportGroupOutput>(UpdateReportGroupOutput.httpOutput(from:), UpdateReportGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4642,7 +4930,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateReportGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.UpdateReportGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateReportGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateReportGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>())
@@ -4678,6 +4965,12 @@ extension CodeBuildClient {
     /// - `OAuthProviderException` : There was a problem with the underlying OAuth provider.
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func updateWebhook(input: UpdateWebhookInput) async throws -> UpdateWebhookOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeBuildClient.updateWebhookOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4690,18 +4983,18 @@ extension CodeBuildClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "codebuild")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateWebhookInput, UpdateWebhookOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(UpdateWebhookInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateWebhookInput, UpdateWebhookOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWebhookInput, UpdateWebhookOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWebhookOutput>(UpdateWebhookOutput.httpOutput(from:), UpdateWebhookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4713,7 +5006,6 @@ extension CodeBuildClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWebhookOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.UpdateWebhook"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateWebhookInput, UpdateWebhookOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWebhookInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWebhookOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWebhookInput, UpdateWebhookOutput>())

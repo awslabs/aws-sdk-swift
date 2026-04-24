@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,30 +36,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -627,6 +624,12 @@ extension ECRClient {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func batchCheckLayerAvailability(input: BatchCheckLayerAvailabilityInput) async throws -> BatchCheckLayerAvailabilityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.batchCheckLayerAvailabilityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -639,18 +642,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>(BatchCheckLayerAvailabilityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCheckLayerAvailabilityOutput>(BatchCheckLayerAvailabilityOutput.httpOutput(from:), BatchCheckLayerAvailabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -662,7 +665,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCheckLayerAvailabilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.BatchCheckLayerAvailability"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCheckLayerAvailabilityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCheckLayerAvailabilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutput>())
@@ -698,6 +700,12 @@ extension ECRClient {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func batchDeleteImage(input: BatchDeleteImageInput) async throws -> BatchDeleteImageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.batchDeleteImageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -710,18 +718,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchDeleteImageInput, BatchDeleteImageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>(BatchDeleteImageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteImageOutput>(BatchDeleteImageOutput.httpOutput(from:), BatchDeleteImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -733,7 +741,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.BatchDeleteImage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteImageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteImageInput, BatchDeleteImageOutput>())
@@ -771,6 +778,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnableToGetUpstreamImageException` : The image or images were unable to be pulled using the pull through cache rule. This is usually caused because of an issue with the Secrets Manager secret containing the credentials for the upstream registry.
     public func batchGetImage(input: BatchGetImageInput) async throws -> BatchGetImageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.batchGetImageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -783,18 +796,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchGetImageInput, BatchGetImageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetImageInput, BatchGetImageOutput>(BatchGetImageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetImageInput, BatchGetImageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetImageInput, BatchGetImageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetImageOutput>(BatchGetImageOutput.httpOutput(from:), BatchGetImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetImageInput, BatchGetImageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -806,7 +819,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetImageInput, BatchGetImageOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.BatchGetImage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetImageInput, BatchGetImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetImageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetImageInput, BatchGetImageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetImageInput, BatchGetImageOutput>())
@@ -843,6 +855,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func batchGetRepositoryScanningConfiguration(input: BatchGetRepositoryScanningConfigurationInput) async throws -> BatchGetRepositoryScanningConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.batchGetRepositoryScanningConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -855,18 +873,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutput>(BatchGetRepositoryScanningConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetRepositoryScanningConfigurationOutput>(BatchGetRepositoryScanningConfigurationOutput.httpOutput(from:), BatchGetRepositoryScanningConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -878,7 +896,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetRepositoryScanningConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.BatchGetRepositoryScanningConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetRepositoryScanningConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetRepositoryScanningConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutput>())
@@ -920,6 +937,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UploadNotFoundException` : The upload could not be found, or the specified upload ID is not valid for this repository.
     public func completeLayerUpload(input: CompleteLayerUploadInput) async throws -> CompleteLayerUploadOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.completeLayerUploadOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -932,18 +955,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CompleteLayerUploadInput, CompleteLayerUploadOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>(CompleteLayerUploadInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CompleteLayerUploadOutput>(CompleteLayerUploadOutput.httpOutput(from:), CompleteLayerUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -955,7 +978,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CompleteLayerUploadOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.CompleteLayerUpload"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CompleteLayerUploadInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CompleteLayerUploadOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutput>())
@@ -997,6 +1019,12 @@ extension ECRClient {
     /// - `UnsupportedUpstreamRegistryException` : The specified upstream registry isn't supported.
     /// - `ValidationException` : There was an exception validating this request.
     public func createPullThroughCacheRule(input: CreatePullThroughCacheRuleInput) async throws -> CreatePullThroughCacheRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.createPullThroughCacheRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1009,18 +1037,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutput>(CreatePullThroughCacheRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePullThroughCacheRuleOutput>(CreatePullThroughCacheRuleOutput.httpOutput(from:), CreatePullThroughCacheRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1032,7 +1060,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePullThroughCacheRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.CreatePullThroughCacheRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePullThroughCacheRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePullThroughCacheRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutput>())
@@ -1072,6 +1099,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     public func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.createRepositoryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1084,18 +1117,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRepositoryInput, CreateRepositoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(CreateRepositoryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRepositoryOutput>(CreateRepositoryOutput.httpOutput(from:), CreateRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1107,7 +1140,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRepositoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.CreateRepository"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRepositoryInput, CreateRepositoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRepositoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRepositoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
@@ -1145,6 +1177,12 @@ extension ECRClient {
     /// - `TemplateAlreadyExistsException` : The repository creation template already exists. Specify a unique prefix and try again.
     /// - `ValidationException` : There was an exception validating this request.
     public func createRepositoryCreationTemplate(input: CreateRepositoryCreationTemplateInput) async throws -> CreateRepositoryCreationTemplateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.createRepositoryCreationTemplateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1157,18 +1195,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRepositoryCreationTemplateInput, CreateRepositoryCreationTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRepositoryCreationTemplateInput, CreateRepositoryCreationTemplateOutput>(CreateRepositoryCreationTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRepositoryCreationTemplateInput, CreateRepositoryCreationTemplateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRepositoryCreationTemplateInput, CreateRepositoryCreationTemplateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRepositoryCreationTemplateOutput>(CreateRepositoryCreationTemplateOutput.httpOutput(from:), CreateRepositoryCreationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRepositoryCreationTemplateInput, CreateRepositoryCreationTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1180,7 +1218,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRepositoryCreationTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRepositoryCreationTemplateInput, CreateRepositoryCreationTemplateOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.CreateRepositoryCreationTemplate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRepositoryCreationTemplateInput, CreateRepositoryCreationTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRepositoryCreationTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRepositoryCreationTemplateInput, CreateRepositoryCreationTemplateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRepositoryCreationTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRepositoryCreationTemplateInput, CreateRepositoryCreationTemplateOutput>())
@@ -1218,6 +1255,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.deleteLifecyclePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1230,18 +1273,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(DeleteLifecyclePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLifecyclePolicyOutput>(DeleteLifecyclePolicyOutput.httpOutput(from:), DeleteLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1253,7 +1296,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLifecyclePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DeleteLifecyclePolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLifecyclePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLifecyclePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>())
@@ -1290,6 +1332,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func deletePullThroughCacheRule(input: DeletePullThroughCacheRuleInput) async throws -> DeletePullThroughCacheRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.deletePullThroughCacheRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1302,18 +1350,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutput>(DeletePullThroughCacheRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePullThroughCacheRuleOutput>(DeletePullThroughCacheRuleOutput.httpOutput(from:), DeletePullThroughCacheRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1325,7 +1373,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePullThroughCacheRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DeletePullThroughCacheRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePullThroughCacheRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePullThroughCacheRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutput>())
@@ -1362,6 +1409,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func deleteRegistryPolicy(input: DeleteRegistryPolicyInput) async throws -> DeleteRegistryPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.deleteRegistryPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1374,18 +1427,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutput>(DeleteRegistryPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRegistryPolicyOutput>(DeleteRegistryPolicyOutput.httpOutput(from:), DeleteRegistryPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1397,7 +1450,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRegistryPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DeleteRegistryPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRegistryPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegistryPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutput>())
@@ -1435,6 +1487,12 @@ extension ECRClient {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.deleteRepositoryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1447,18 +1505,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRepositoryInput, DeleteRepositoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(DeleteRepositoryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRepositoryOutput>(DeleteRepositoryOutput.httpOutput(from:), DeleteRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1470,7 +1528,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRepositoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DeleteRepository"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRepositoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRepositoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>())
@@ -1507,6 +1564,12 @@ extension ECRClient {
     /// - `TemplateNotFoundException` : The specified repository creation template can't be found. Verify the registry ID and prefix and try again.
     /// - `ValidationException` : There was an exception validating this request.
     public func deleteRepositoryCreationTemplate(input: DeleteRepositoryCreationTemplateInput) async throws -> DeleteRepositoryCreationTemplateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.deleteRepositoryCreationTemplateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1519,18 +1582,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRepositoryCreationTemplateInput, DeleteRepositoryCreationTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRepositoryCreationTemplateInput, DeleteRepositoryCreationTemplateOutput>(DeleteRepositoryCreationTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRepositoryCreationTemplateInput, DeleteRepositoryCreationTemplateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRepositoryCreationTemplateInput, DeleteRepositoryCreationTemplateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRepositoryCreationTemplateOutput>(DeleteRepositoryCreationTemplateOutput.httpOutput(from:), DeleteRepositoryCreationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRepositoryCreationTemplateInput, DeleteRepositoryCreationTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1542,7 +1605,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRepositoryCreationTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRepositoryCreationTemplateInput, DeleteRepositoryCreationTemplateOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DeleteRepositoryCreationTemplate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRepositoryCreationTemplateInput, DeleteRepositoryCreationTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRepositoryCreationTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRepositoryCreationTemplateInput, DeleteRepositoryCreationTemplateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRepositoryCreationTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRepositoryCreationTemplateInput, DeleteRepositoryCreationTemplateOutput>())
@@ -1579,6 +1641,12 @@ extension ECRClient {
     /// - `RepositoryPolicyNotFoundException` : The specified repository and registry combination does not have an associated repository policy.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func deleteRepositoryPolicy(input: DeleteRepositoryPolicyInput) async throws -> DeleteRepositoryPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.deleteRepositoryPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1591,18 +1659,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>(DeleteRepositoryPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRepositoryPolicyOutput>(DeleteRepositoryPolicyOutput.httpOutput(from:), DeleteRepositoryPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1614,7 +1682,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRepositoryPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DeleteRepositoryPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRepositoryPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRepositoryPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutput>())
@@ -1650,6 +1717,12 @@ extension ECRClient {
     /// - `SigningConfigurationNotFoundException` : The specified signing configuration was not found. This occurs when attempting to retrieve or delete a signing configuration that does not exist.
     /// - `ValidationException` : There was an exception validating this request.
     public func deleteSigningConfiguration(input: DeleteSigningConfigurationInput) async throws -> DeleteSigningConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.deleteSigningConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1662,18 +1735,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteSigningConfigurationInput, DeleteSigningConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSigningConfigurationInput, DeleteSigningConfigurationOutput>(DeleteSigningConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSigningConfigurationInput, DeleteSigningConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSigningConfigurationInput, DeleteSigningConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSigningConfigurationOutput>(DeleteSigningConfigurationOutput.httpOutput(from:), DeleteSigningConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSigningConfigurationInput, DeleteSigningConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1685,7 +1758,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSigningConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSigningConfigurationInput, DeleteSigningConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DeleteSigningConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSigningConfigurationInput, DeleteSigningConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSigningConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSigningConfigurationInput, DeleteSigningConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSigningConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSigningConfigurationInput, DeleteSigningConfigurationOutput>())
@@ -1723,6 +1795,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func deregisterPullTimeUpdateExclusion(input: DeregisterPullTimeUpdateExclusionInput) async throws -> DeregisterPullTimeUpdateExclusionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.deregisterPullTimeUpdateExclusionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1735,18 +1813,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>(DeregisterPullTimeUpdateExclusionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterPullTimeUpdateExclusionOutput>(DeregisterPullTimeUpdateExclusionOutput.httpOutput(from:), DeregisterPullTimeUpdateExclusionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1758,7 +1836,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeregisterPullTimeUpdateExclusionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DeregisterPullTimeUpdateExclusion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterPullTimeUpdateExclusionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterPullTimeUpdateExclusionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterPullTimeUpdateExclusionInput, DeregisterPullTimeUpdateExclusionOutput>())
@@ -1796,6 +1873,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func describeImageReplicationStatus(input: DescribeImageReplicationStatusInput) async throws -> DescribeImageReplicationStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.describeImageReplicationStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1808,18 +1891,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutput>(DescribeImageReplicationStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImageReplicationStatusOutput>(DescribeImageReplicationStatusOutput.httpOutput(from:), DescribeImageReplicationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1831,7 +1914,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImageReplicationStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DescribeImageReplicationStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeImageReplicationStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImageReplicationStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutput>())
@@ -1870,6 +1952,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func describeImageScanFindings(input: DescribeImageScanFindingsInput) async throws -> DescribeImageScanFindingsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.describeImageScanFindingsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1882,18 +1970,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>(DescribeImageScanFindingsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImageScanFindingsOutput>(DescribeImageScanFindingsOutput.httpOutput(from:), DescribeImageScanFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1905,7 +1993,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImageScanFindingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DescribeImageScanFindings"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeImageScanFindingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImageScanFindingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutput>())
@@ -1943,6 +2030,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func describeImageSigningStatus(input: DescribeImageSigningStatusInput) async throws -> DescribeImageSigningStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.describeImageSigningStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1955,18 +2048,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeImageSigningStatusInput, DescribeImageSigningStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeImageSigningStatusInput, DescribeImageSigningStatusOutput>(DescribeImageSigningStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeImageSigningStatusInput, DescribeImageSigningStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageSigningStatusInput, DescribeImageSigningStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImageSigningStatusOutput>(DescribeImageSigningStatusOutput.httpOutput(from:), DescribeImageSigningStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageSigningStatusInput, DescribeImageSigningStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1978,7 +2071,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImageSigningStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeImageSigningStatusInput, DescribeImageSigningStatusOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DescribeImageSigningStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeImageSigningStatusInput, DescribeImageSigningStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeImageSigningStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImageSigningStatusInput, DescribeImageSigningStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImageSigningStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImageSigningStatusInput, DescribeImageSigningStatusOutput>())
@@ -2015,6 +2107,12 @@ extension ECRClient {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.describeImagesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2027,18 +2125,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeImagesInput, DescribeImagesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeImagesInput, DescribeImagesOutput>(DescribeImagesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeImagesInput, DescribeImagesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImagesInput, DescribeImagesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImagesOutput>(DescribeImagesOutput.httpOutput(from:), DescribeImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImagesInput, DescribeImagesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2050,7 +2148,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeImagesInput, DescribeImagesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DescribeImages"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeImagesInput, DescribeImagesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeImagesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImagesInput, DescribeImagesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImagesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImagesInput, DescribeImagesOutput>())
@@ -2087,6 +2184,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func describePullThroughCacheRules(input: DescribePullThroughCacheRulesInput) async throws -> DescribePullThroughCacheRulesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.describePullThroughCacheRulesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2099,18 +2202,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput>(DescribePullThroughCacheRulesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePullThroughCacheRulesOutput>(DescribePullThroughCacheRulesOutput.httpOutput(from:), DescribePullThroughCacheRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2122,7 +2225,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePullThroughCacheRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DescribePullThroughCacheRules"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePullThroughCacheRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePullThroughCacheRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutput>())
@@ -2158,6 +2260,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func describeRegistry(input: DescribeRegistryInput) async throws -> DescribeRegistryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.describeRegistryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2170,18 +2278,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRegistryInput, DescribeRegistryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRegistryInput, DescribeRegistryOutput>(DescribeRegistryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRegistryInput, DescribeRegistryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRegistryInput, DescribeRegistryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRegistryOutput>(DescribeRegistryOutput.httpOutput(from:), DescribeRegistryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRegistryInput, DescribeRegistryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2193,7 +2301,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistryInput, DescribeRegistryOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DescribeRegistry"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistryInput, DescribeRegistryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistryInput, DescribeRegistryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistryInput, DescribeRegistryOutput>())
@@ -2229,6 +2336,12 @@ extension ECRClient {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func describeRepositories(input: DescribeRepositoriesInput) async throws -> DescribeRepositoriesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.describeRepositoriesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2241,18 +2354,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRepositoriesInput, DescribeRepositoriesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>(DescribeRepositoriesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRepositoriesOutput>(DescribeRepositoriesOutput.httpOutput(from:), DescribeRepositoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2264,7 +2377,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRepositoriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DescribeRepositories"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRepositoriesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRepositoriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutput>())
@@ -2300,6 +2412,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func describeRepositoryCreationTemplates(input: DescribeRepositoryCreationTemplatesInput) async throws -> DescribeRepositoryCreationTemplatesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.describeRepositoryCreationTemplatesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2312,18 +2430,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput>(DescribeRepositoryCreationTemplatesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRepositoryCreationTemplatesOutput>(DescribeRepositoryCreationTemplatesOutput.httpOutput(from:), DescribeRepositoryCreationTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2335,7 +2453,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRepositoryCreationTemplatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DescribeRepositoryCreationTemplates"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRepositoryCreationTemplatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRepositoryCreationTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRepositoryCreationTemplatesInput, DescribeRepositoryCreationTemplatesOutput>())
@@ -2371,6 +2488,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func getAccountSetting(input: GetAccountSettingInput) async throws -> GetAccountSettingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.getAccountSettingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2383,18 +2506,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccountSettingInput, GetAccountSettingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccountSettingInput, GetAccountSettingOutput>(GetAccountSettingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountSettingInput, GetAccountSettingOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountSettingInput, GetAccountSettingOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountSettingOutput>(GetAccountSettingOutput.httpOutput(from:), GetAccountSettingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountSettingInput, GetAccountSettingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2406,7 +2529,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAccountSettingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAccountSettingInput, GetAccountSettingOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.GetAccountSetting"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetAccountSettingInput, GetAccountSettingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAccountSettingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAccountSettingInput, GetAccountSettingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAccountSettingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAccountSettingInput, GetAccountSettingOutput>())
@@ -2441,6 +2563,12 @@ extension ECRClient {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.getAuthorizationTokenOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2453,18 +2581,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAuthorizationTokenInput, GetAuthorizationTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>(GetAuthorizationTokenInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAuthorizationTokenOutput>(GetAuthorizationTokenOutput.httpOutput(from:), GetAuthorizationTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2476,7 +2604,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAuthorizationTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.GetAuthorizationToken"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAuthorizationTokenInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAuthorizationTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutput>())
@@ -2515,6 +2642,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UnableToGetUpstreamLayerException` : There was an issue getting the upstream layer matching the pull through cache rule.
     public func getDownloadUrlForLayer(input: GetDownloadUrlForLayerInput) async throws -> GetDownloadUrlForLayerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.getDownloadUrlForLayerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2527,18 +2660,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutput>(GetDownloadUrlForLayerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDownloadUrlForLayerOutput>(GetDownloadUrlForLayerOutput.httpOutput(from:), GetDownloadUrlForLayerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2550,7 +2683,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDownloadUrlForLayerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.GetDownloadUrlForLayer"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDownloadUrlForLayerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDownloadUrlForLayerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutput>())
@@ -2588,6 +2720,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.getLifecyclePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2600,18 +2738,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLifecyclePolicyInput, GetLifecyclePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(GetLifecyclePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLifecyclePolicyOutput>(GetLifecyclePolicyOutput.httpOutput(from:), GetLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2623,7 +2761,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLifecyclePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.GetLifecyclePolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLifecyclePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLifecyclePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>())
@@ -2661,6 +2798,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func getLifecyclePolicyPreview(input: GetLifecyclePolicyPreviewInput) async throws -> GetLifecyclePolicyPreviewOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.getLifecyclePolicyPreviewOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2673,18 +2816,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput>(GetLifecyclePolicyPreviewInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLifecyclePolicyPreviewOutput>(GetLifecyclePolicyPreviewOutput.httpOutput(from:), GetLifecyclePolicyPreviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2696,7 +2839,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLifecyclePolicyPreviewOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.GetLifecyclePolicyPreview"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLifecyclePolicyPreviewInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLifecyclePolicyPreviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutput>())
@@ -2733,6 +2875,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func getRegistryPolicy(input: GetRegistryPolicyInput) async throws -> GetRegistryPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.getRegistryPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2745,18 +2893,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRegistryPolicyInput, GetRegistryPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRegistryPolicyInput, GetRegistryPolicyOutput>(GetRegistryPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRegistryPolicyInput, GetRegistryPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegistryPolicyInput, GetRegistryPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegistryPolicyOutput>(GetRegistryPolicyOutput.httpOutput(from:), GetRegistryPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegistryPolicyInput, GetRegistryPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2768,7 +2916,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRegistryPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRegistryPolicyInput, GetRegistryPolicyOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.GetRegistryPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRegistryPolicyInput, GetRegistryPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRegistryPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRegistryPolicyInput, GetRegistryPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRegistryPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRegistryPolicyInput, GetRegistryPolicyOutput>())
@@ -2804,6 +2951,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func getRegistryScanningConfiguration(input: GetRegistryScanningConfigurationInput) async throws -> GetRegistryScanningConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.getRegistryScanningConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2816,18 +2969,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutput>(GetRegistryScanningConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegistryScanningConfigurationOutput>(GetRegistryScanningConfigurationOutput.httpOutput(from:), GetRegistryScanningConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2839,7 +2992,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRegistryScanningConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.GetRegistryScanningConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRegistryScanningConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRegistryScanningConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutput>())
@@ -2876,6 +3028,12 @@ extension ECRClient {
     /// - `RepositoryPolicyNotFoundException` : The specified repository and registry combination does not have an associated repository policy.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func getRepositoryPolicy(input: GetRepositoryPolicyInput) async throws -> GetRepositoryPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.getRepositoryPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2888,18 +3046,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRepositoryPolicyInput, GetRepositoryPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>(GetRepositoryPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRepositoryPolicyOutput>(GetRepositoryPolicyOutput.httpOutput(from:), GetRepositoryPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2911,7 +3069,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRepositoryPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.GetRepositoryPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRepositoryPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRepositoryPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutput>())
@@ -2948,6 +3105,12 @@ extension ECRClient {
     /// - `SigningConfigurationNotFoundException` : The specified signing configuration was not found. This occurs when attempting to retrieve or delete a signing configuration that does not exist.
     /// - `ValidationException` : There was an exception validating this request.
     public func getSigningConfiguration(input: GetSigningConfigurationInput) async throws -> GetSigningConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.getSigningConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2960,18 +3123,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetSigningConfigurationInput, GetSigningConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSigningConfigurationInput, GetSigningConfigurationOutput>(GetSigningConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSigningConfigurationInput, GetSigningConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSigningConfigurationInput, GetSigningConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSigningConfigurationOutput>(GetSigningConfigurationOutput.httpOutput(from:), GetSigningConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSigningConfigurationInput, GetSigningConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2983,7 +3146,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSigningConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSigningConfigurationInput, GetSigningConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.GetSigningConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSigningConfigurationInput, GetSigningConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSigningConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSigningConfigurationInput, GetSigningConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSigningConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSigningConfigurationInput, GetSigningConfigurationOutput>())
@@ -3020,6 +3182,12 @@ extension ECRClient {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func initiateLayerUpload(input: InitiateLayerUploadInput) async throws -> InitiateLayerUploadOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.initiateLayerUploadOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3032,18 +3200,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<InitiateLayerUploadInput, InitiateLayerUploadOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>(InitiateLayerUploadInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<InitiateLayerUploadOutput>(InitiateLayerUploadOutput.httpOutput(from:), InitiateLayerUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3055,7 +3223,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InitiateLayerUploadOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.InitiateLayerUpload"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InitiateLayerUploadInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InitiateLayerUploadOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutput>())
@@ -3093,6 +3260,12 @@ extension ECRClient {
     /// - `UnableToListUpstreamImageReferrersException` : The referrer or referrers were unable to be listed using the pull through cache rule. This is usually caused because of an issue with the Secrets Manager secret containing the credentials for the upstream registry.
     /// - `ValidationException` : There was an exception validating this request.
     public func listImageReferrers(input: ListImageReferrersInput) async throws -> ListImageReferrersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.listImageReferrersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3105,18 +3278,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListImageReferrersInput, ListImageReferrersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListImageReferrersInput, ListImageReferrersOutput>(ListImageReferrersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListImageReferrersInput, ListImageReferrersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImageReferrersInput, ListImageReferrersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImageReferrersOutput>(ListImageReferrersOutput.httpOutput(from:), ListImageReferrersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImageReferrersInput, ListImageReferrersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3128,7 +3301,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListImageReferrersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListImageReferrersInput, ListImageReferrersOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.ListImageReferrers"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListImageReferrersInput, ListImageReferrersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListImageReferrersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListImageReferrersInput, ListImageReferrersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListImageReferrersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListImageReferrersInput, ListImageReferrersOutput>())
@@ -3164,6 +3336,12 @@ extension ECRClient {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func listImages(input: ListImagesInput) async throws -> ListImagesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.listImagesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3176,18 +3354,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListImagesInput, ListImagesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListImagesInput, ListImagesOutput>(ListImagesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListImagesInput, ListImagesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImagesInput, ListImagesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImagesOutput>(ListImagesOutput.httpOutput(from:), ListImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImagesInput, ListImagesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3199,7 +3377,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListImagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListImagesInput, ListImagesOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.ListImages"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListImagesInput, ListImagesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListImagesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListImagesInput, ListImagesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListImagesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListImagesInput, ListImagesOutput>())
@@ -3236,6 +3413,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func listPullTimeUpdateExclusions(input: ListPullTimeUpdateExclusionsInput) async throws -> ListPullTimeUpdateExclusionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.listPullTimeUpdateExclusionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3248,18 +3431,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>(ListPullTimeUpdateExclusionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPullTimeUpdateExclusionsOutput>(ListPullTimeUpdateExclusionsOutput.httpOutput(from:), ListPullTimeUpdateExclusionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3271,7 +3454,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPullTimeUpdateExclusionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.ListPullTimeUpdateExclusions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPullTimeUpdateExclusionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPullTimeUpdateExclusionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPullTimeUpdateExclusionsInput, ListPullTimeUpdateExclusionsOutput>())
@@ -3307,6 +3489,12 @@ extension ECRClient {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3319,18 +3507,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3342,7 +3530,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -3379,6 +3566,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func putAccountSetting(input: PutAccountSettingInput) async throws -> PutAccountSettingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.putAccountSettingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3391,18 +3584,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutAccountSettingInput, PutAccountSettingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(PutAccountSettingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAccountSettingInput, PutAccountSettingOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountSettingInput, PutAccountSettingOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountSettingOutput>(PutAccountSettingOutput.httpOutput(from:), PutAccountSettingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3414,7 +3607,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAccountSettingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.PutAccountSetting"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutAccountSettingInput, PutAccountSettingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAccountSettingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountSettingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAccountSettingInput, PutAccountSettingOutput>())
@@ -3457,6 +3649,12 @@ extension ECRClient {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func putImage(input: PutImageInput) async throws -> PutImageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.putImageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3469,18 +3667,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutImageInput, PutImageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutImageInput, PutImageOutput>(PutImageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutImageInput, PutImageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutImageInput, PutImageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutImageOutput>(PutImageOutput.httpOutput(from:), PutImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutImageInput, PutImageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3492,7 +3690,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutImageInput, PutImageOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.PutImage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutImageInput, PutImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutImageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutImageInput, PutImageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutImageInput, PutImageOutput>())
@@ -3529,6 +3726,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func putImageScanningConfiguration(input: PutImageScanningConfigurationInput) async throws -> PutImageScanningConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.putImageScanningConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3541,18 +3744,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutput>(PutImageScanningConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutImageScanningConfigurationOutput>(PutImageScanningConfigurationOutput.httpOutput(from:), PutImageScanningConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3564,7 +3767,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutImageScanningConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.PutImageScanningConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutImageScanningConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutImageScanningConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutput>())
@@ -3600,6 +3802,12 @@ extension ECRClient {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func putImageTagMutability(input: PutImageTagMutabilityInput) async throws -> PutImageTagMutabilityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.putImageTagMutabilityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3612,18 +3820,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutImageTagMutabilityInput, PutImageTagMutabilityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutImageTagMutabilityInput, PutImageTagMutabilityOutput>(PutImageTagMutabilityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutImageTagMutabilityInput, PutImageTagMutabilityOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutImageTagMutabilityInput, PutImageTagMutabilityOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutImageTagMutabilityOutput>(PutImageTagMutabilityOutput.httpOutput(from:), PutImageTagMutabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutImageTagMutabilityInput, PutImageTagMutabilityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3635,7 +3843,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutImageTagMutabilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutImageTagMutabilityInput, PutImageTagMutabilityOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.PutImageTagMutability"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutImageTagMutabilityInput, PutImageTagMutabilityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutImageTagMutabilityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutImageTagMutabilityInput, PutImageTagMutabilityOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutImageTagMutabilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutImageTagMutabilityInput, PutImageTagMutabilityOutput>())
@@ -3672,6 +3879,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func putLifecyclePolicy(input: PutLifecyclePolicyInput) async throws -> PutLifecyclePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.putLifecyclePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3684,18 +3897,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutLifecyclePolicyInput, PutLifecyclePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(PutLifecyclePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLifecyclePolicyOutput>(PutLifecyclePolicyOutput.httpOutput(from:), PutLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3707,7 +3920,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutLifecyclePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.PutLifecyclePolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutLifecyclePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLifecyclePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>())
@@ -3743,6 +3955,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func putRegistryPolicy(input: PutRegistryPolicyInput) async throws -> PutRegistryPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.putRegistryPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3755,18 +3973,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutRegistryPolicyInput, PutRegistryPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutRegistryPolicyInput, PutRegistryPolicyOutput>(PutRegistryPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutRegistryPolicyInput, PutRegistryPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRegistryPolicyInput, PutRegistryPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRegistryPolicyOutput>(PutRegistryPolicyOutput.httpOutput(from:), PutRegistryPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRegistryPolicyInput, PutRegistryPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3778,7 +3996,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutRegistryPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutRegistryPolicyInput, PutRegistryPolicyOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.PutRegistryPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutRegistryPolicyInput, PutRegistryPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRegistryPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRegistryPolicyInput, PutRegistryPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRegistryPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRegistryPolicyInput, PutRegistryPolicyOutput>())
@@ -3815,6 +4032,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func putRegistryScanningConfiguration(input: PutRegistryScanningConfigurationInput) async throws -> PutRegistryScanningConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.putRegistryScanningConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3827,18 +4050,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutput>(PutRegistryScanningConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRegistryScanningConfigurationOutput>(PutRegistryScanningConfigurationOutput.httpOutput(from:), PutRegistryScanningConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3850,7 +4073,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutRegistryScanningConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.PutRegistryScanningConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRegistryScanningConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRegistryScanningConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutput>())
@@ -3886,6 +4108,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func putReplicationConfiguration(input: PutReplicationConfigurationInput) async throws -> PutReplicationConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.putReplicationConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3898,18 +4126,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutReplicationConfigurationInput, PutReplicationConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutReplicationConfigurationInput, PutReplicationConfigurationOutput>(PutReplicationConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutReplicationConfigurationInput, PutReplicationConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutReplicationConfigurationInput, PutReplicationConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutReplicationConfigurationOutput>(PutReplicationConfigurationOutput.httpOutput(from:), PutReplicationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutReplicationConfigurationInput, PutReplicationConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3921,7 +4149,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutReplicationConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutReplicationConfigurationInput, PutReplicationConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.PutReplicationConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutReplicationConfigurationInput, PutReplicationConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutReplicationConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutReplicationConfigurationInput, PutReplicationConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutReplicationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutReplicationConfigurationInput, PutReplicationConfigurationOutput>())
@@ -3957,6 +4184,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func putSigningConfiguration(input: PutSigningConfigurationInput) async throws -> PutSigningConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.putSigningConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3969,18 +4202,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutSigningConfigurationInput, PutSigningConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutSigningConfigurationInput, PutSigningConfigurationOutput>(PutSigningConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutSigningConfigurationInput, PutSigningConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSigningConfigurationInput, PutSigningConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSigningConfigurationOutput>(PutSigningConfigurationOutput.httpOutput(from:), PutSigningConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSigningConfigurationInput, PutSigningConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3992,7 +4225,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutSigningConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutSigningConfigurationInput, PutSigningConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.PutSigningConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutSigningConfigurationInput, PutSigningConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutSigningConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutSigningConfigurationInput, PutSigningConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutSigningConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutSigningConfigurationInput, PutSigningConfigurationOutput>())
@@ -4030,6 +4262,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func registerPullTimeUpdateExclusion(input: RegisterPullTimeUpdateExclusionInput) async throws -> RegisterPullTimeUpdateExclusionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.registerPullTimeUpdateExclusionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4042,18 +4280,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>(RegisterPullTimeUpdateExclusionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterPullTimeUpdateExclusionOutput>(RegisterPullTimeUpdateExclusionOutput.httpOutput(from:), RegisterPullTimeUpdateExclusionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4065,7 +4303,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterPullTimeUpdateExclusionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.RegisterPullTimeUpdateExclusion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterPullTimeUpdateExclusionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterPullTimeUpdateExclusionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterPullTimeUpdateExclusionInput, RegisterPullTimeUpdateExclusionOutput>())
@@ -4101,6 +4338,12 @@ extension ECRClient {
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func setRepositoryPolicy(input: SetRepositoryPolicyInput) async throws -> SetRepositoryPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.setRepositoryPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4113,18 +4356,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SetRepositoryPolicyInput, SetRepositoryPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>(SetRepositoryPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetRepositoryPolicyOutput>(SetRepositoryPolicyOutput.httpOutput(from:), SetRepositoryPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4136,7 +4379,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetRepositoryPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.SetRepositoryPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetRepositoryPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetRepositoryPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutput>())
@@ -4177,6 +4419,12 @@ extension ECRClient {
     /// - `UnsupportedImageTypeException` : The image is of a type that cannot be scanned.
     /// - `ValidationException` : There was an exception validating this request.
     public func startImageScan(input: StartImageScanInput) async throws -> StartImageScanOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.startImageScanOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4189,18 +4437,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartImageScanInput, StartImageScanOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartImageScanInput, StartImageScanOutput>(StartImageScanInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartImageScanInput, StartImageScanOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImageScanInput, StartImageScanOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImageScanOutput>(StartImageScanOutput.httpOutput(from:), StartImageScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImageScanInput, StartImageScanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4212,7 +4460,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartImageScanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartImageScanInput, StartImageScanOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.StartImageScan"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartImageScanInput, StartImageScanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartImageScanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartImageScanInput, StartImageScanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartImageScanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartImageScanInput, StartImageScanOutput>())
@@ -4251,6 +4498,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func startLifecyclePolicyPreview(input: StartLifecyclePolicyPreviewInput) async throws -> StartLifecyclePolicyPreviewOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.startLifecyclePolicyPreviewOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4263,18 +4516,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutput>(StartLifecyclePolicyPreviewInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartLifecyclePolicyPreviewOutput>(StartLifecyclePolicyPreviewOutput.httpOutput(from:), StartLifecyclePolicyPreviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4286,7 +4539,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartLifecyclePolicyPreviewOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.StartLifecyclePolicyPreview"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartLifecyclePolicyPreviewInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartLifecyclePolicyPreviewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutput>())
@@ -4324,6 +4576,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4336,18 +4594,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4359,7 +4617,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -4397,6 +4654,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4409,18 +4672,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4432,7 +4695,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -4471,6 +4733,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func updateImageStorageClass(input: UpdateImageStorageClassInput) async throws -> UpdateImageStorageClassOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.updateImageStorageClassOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4483,18 +4751,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateImageStorageClassInput, UpdateImageStorageClassOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>(UpdateImageStorageClassInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateImageStorageClassOutput>(UpdateImageStorageClassOutput.httpOutput(from:), UpdateImageStorageClassOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4506,7 +4774,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateImageStorageClassOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.UpdateImageStorageClass"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateImageStorageClassInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateImageStorageClassOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateImageStorageClassInput, UpdateImageStorageClassOutput>())
@@ -4546,6 +4813,12 @@ extension ECRClient {
     /// - `UnableToDecryptSecretValueException` : The secret is accessible but is unable to be decrypted. Verify the resource permisisons and try again.
     /// - `ValidationException` : There was an exception validating this request.
     public func updatePullThroughCacheRule(input: UpdatePullThroughCacheRuleInput) async throws -> UpdatePullThroughCacheRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.updatePullThroughCacheRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4558,18 +4831,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdatePullThroughCacheRuleInput, UpdatePullThroughCacheRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePullThroughCacheRuleInput, UpdatePullThroughCacheRuleOutput>(UpdatePullThroughCacheRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePullThroughCacheRuleInput, UpdatePullThroughCacheRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePullThroughCacheRuleInput, UpdatePullThroughCacheRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePullThroughCacheRuleOutput>(UpdatePullThroughCacheRuleOutput.httpOutput(from:), UpdatePullThroughCacheRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePullThroughCacheRuleInput, UpdatePullThroughCacheRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4581,7 +4854,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePullThroughCacheRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePullThroughCacheRuleInput, UpdatePullThroughCacheRuleOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.UpdatePullThroughCacheRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePullThroughCacheRuleInput, UpdatePullThroughCacheRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePullThroughCacheRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePullThroughCacheRuleInput, UpdatePullThroughCacheRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePullThroughCacheRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePullThroughCacheRuleInput, UpdatePullThroughCacheRuleOutput>())
@@ -4618,6 +4890,12 @@ extension ECRClient {
     /// - `TemplateNotFoundException` : The specified repository creation template can't be found. Verify the registry ID and prefix and try again.
     /// - `ValidationException` : There was an exception validating this request.
     public func updateRepositoryCreationTemplate(input: UpdateRepositoryCreationTemplateInput) async throws -> UpdateRepositoryCreationTemplateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.updateRepositoryCreationTemplateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4630,18 +4908,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateRepositoryCreationTemplateInput, UpdateRepositoryCreationTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRepositoryCreationTemplateInput, UpdateRepositoryCreationTemplateOutput>(UpdateRepositoryCreationTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRepositoryCreationTemplateInput, UpdateRepositoryCreationTemplateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRepositoryCreationTemplateInput, UpdateRepositoryCreationTemplateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRepositoryCreationTemplateOutput>(UpdateRepositoryCreationTemplateOutput.httpOutput(from:), UpdateRepositoryCreationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRepositoryCreationTemplateInput, UpdateRepositoryCreationTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4653,7 +4931,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRepositoryCreationTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRepositoryCreationTemplateInput, UpdateRepositoryCreationTemplateOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.UpdateRepositoryCreationTemplate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRepositoryCreationTemplateInput, UpdateRepositoryCreationTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRepositoryCreationTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRepositoryCreationTemplateInput, UpdateRepositoryCreationTemplateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRepositoryCreationTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRepositoryCreationTemplateInput, UpdateRepositoryCreationTemplateOutput>())
@@ -4693,6 +4970,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `UploadNotFoundException` : The upload could not be found, or the specified upload ID is not valid for this repository.
     public func uploadLayerPart(input: UploadLayerPartInput) async throws -> UploadLayerPartOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.uploadLayerPartOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4705,18 +4988,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UploadLayerPartInput, UploadLayerPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UploadLayerPartInput, UploadLayerPartOutput>(UploadLayerPartInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UploadLayerPartInput, UploadLayerPartOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadLayerPartInput, UploadLayerPartOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadLayerPartOutput>(UploadLayerPartOutput.httpOutput(from:), UploadLayerPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadLayerPartInput, UploadLayerPartOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4728,7 +5011,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UploadLayerPartOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UploadLayerPartInput, UploadLayerPartOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.UploadLayerPart"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UploadLayerPartInput, UploadLayerPartOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UploadLayerPartInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UploadLayerPartInput, UploadLayerPartOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UploadLayerPartOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UploadLayerPartInput, UploadLayerPartOutput>())
@@ -4765,6 +5047,12 @@ extension ECRClient {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ValidationException` : There was an exception validating this request.
     public func validatePullThroughCacheRule(input: ValidatePullThroughCacheRuleInput) async throws -> ValidatePullThroughCacheRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.validatePullThroughCacheRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4777,18 +5065,18 @@ extension ECRClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ValidatePullThroughCacheRuleInput, ValidatePullThroughCacheRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ValidatePullThroughCacheRuleInput, ValidatePullThroughCacheRuleOutput>(ValidatePullThroughCacheRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ValidatePullThroughCacheRuleInput, ValidatePullThroughCacheRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidatePullThroughCacheRuleInput, ValidatePullThroughCacheRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidatePullThroughCacheRuleOutput>(ValidatePullThroughCacheRuleOutput.httpOutput(from:), ValidatePullThroughCacheRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidatePullThroughCacheRuleInput, ValidatePullThroughCacheRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4800,7 +5088,6 @@ extension ECRClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ValidatePullThroughCacheRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ValidatePullThroughCacheRuleInput, ValidatePullThroughCacheRuleOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.ValidatePullThroughCacheRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ValidatePullThroughCacheRuleInput, ValidatePullThroughCacheRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ValidatePullThroughCacheRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidatePullThroughCacheRuleInput, ValidatePullThroughCacheRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidatePullThroughCacheRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ValidatePullThroughCacheRuleInput, ValidatePullThroughCacheRuleOutput>())

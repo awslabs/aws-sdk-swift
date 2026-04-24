@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,22 +36,21 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
@@ -62,8 +58,9 @@ import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -640,6 +637,12 @@ extension RekognitionClient {
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func associateFaces(input: AssociateFacesInput) async throws -> AssociateFacesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.associateFacesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -652,8 +655,10 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateFacesInput, AssociateFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -661,10 +666,8 @@ extension RekognitionClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateFacesInput, AssociateFacesOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateFacesInput, AssociateFacesOutput>(AssociateFacesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateFacesInput, AssociateFacesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFacesInput, AssociateFacesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateFacesOutput>(AssociateFacesOutput.httpOutput(from:), AssociateFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFacesInput, AssociateFacesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -676,7 +679,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateFacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateFacesInput, AssociateFacesOutput>(overrides: ["X-Amz-Target": "RekognitionService.AssociateFaces"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateFacesInput, AssociateFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateFacesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateFacesInput, AssociateFacesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateFacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateFacesInput, AssociateFacesOutput>())
@@ -717,6 +719,12 @@ extension RekognitionClient {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func compareFaces(input: CompareFacesInput) async throws -> CompareFacesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.compareFacesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -729,18 +737,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CompareFacesInput, CompareFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CompareFacesInput, CompareFacesOutput>(CompareFacesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CompareFacesInput, CompareFacesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompareFacesInput, CompareFacesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CompareFacesOutput>(CompareFacesOutput.httpOutput(from:), CompareFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompareFacesInput, CompareFacesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -752,7 +760,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CompareFacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CompareFacesInput, CompareFacesOutput>(overrides: ["X-Amz-Target": "RekognitionService.CompareFaces"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CompareFacesInput, CompareFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CompareFacesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CompareFacesInput, CompareFacesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CompareFacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CompareFacesInput, CompareFacesOutput>())
@@ -794,6 +801,12 @@ extension RekognitionClient {
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func copyProjectVersion(input: CopyProjectVersionInput) async throws -> CopyProjectVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.copyProjectVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -806,18 +819,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CopyProjectVersionInput, CopyProjectVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(CopyProjectVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyProjectVersionOutput>(CopyProjectVersionOutput.httpOutput(from:), CopyProjectVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -829,7 +842,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CopyProjectVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(overrides: ["X-Amz-Target": "RekognitionService.CopyProjectVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CopyProjectVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CopyProjectVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CopyProjectVersionInput, CopyProjectVersionOutput>())
@@ -869,6 +881,12 @@ extension RekognitionClient {
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func createCollection(input: CreateCollectionInput) async throws -> CreateCollectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.createCollectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -881,18 +899,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCollectionInput, CreateCollectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCollectionInput, CreateCollectionOutput>(CreateCollectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCollectionInput, CreateCollectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCollectionInput, CreateCollectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCollectionOutput>(CreateCollectionOutput.httpOutput(from:), CreateCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCollectionInput, CreateCollectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -904,7 +922,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCollectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCollectionInput, CreateCollectionOutput>(overrides: ["X-Amz-Target": "RekognitionService.CreateCollection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateCollectionInput, CreateCollectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCollectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCollectionInput, CreateCollectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCollectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCollectionInput, CreateCollectionOutput>())
@@ -946,6 +963,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.createDatasetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -958,18 +981,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateDatasetInput, CreateDatasetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDatasetInput, CreateDatasetOutput>(CreateDatasetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDatasetInput, CreateDatasetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetInput, CreateDatasetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetOutput>(CreateDatasetOutput.httpOutput(from:), CreateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetInput, CreateDatasetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -981,7 +1004,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDatasetInput, CreateDatasetOutput>(overrides: ["X-Amz-Target": "RekognitionService.CreateDataset"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateDatasetInput, CreateDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDatasetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDatasetInput, CreateDatasetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDatasetInput, CreateDatasetOutput>())
@@ -1019,6 +1041,12 @@ extension RekognitionClient {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func createFaceLivenessSession(input: CreateFaceLivenessSessionInput) async throws -> CreateFaceLivenessSessionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.createFaceLivenessSessionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1031,18 +1059,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(CreateFaceLivenessSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFaceLivenessSessionOutput>(CreateFaceLivenessSessionOutput.httpOutput(from:), CreateFaceLivenessSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1054,7 +1082,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFaceLivenessSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(overrides: ["X-Amz-Target": "RekognitionService.CreateFaceLivenessSession"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFaceLivenessSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFaceLivenessSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutput>())
@@ -1094,6 +1121,12 @@ extension RekognitionClient {
     /// - `ResourceInUseException` : The specified resource is already being used.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.createProjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1106,18 +1139,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateProjectInput, CreateProjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutput>(CreateProjectInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(CreateProjectOutput.httpOutput(from:), CreateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1129,7 +1162,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProjectInput, CreateProjectOutput>(overrides: ["X-Amz-Target": "RekognitionService.CreateProject"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateProjectInput, CreateProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProjectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProjectInput, CreateProjectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProjectInput, CreateProjectOutput>())
@@ -1171,6 +1203,12 @@ extension RekognitionClient {
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func createProjectVersion(input: CreateProjectVersionInput) async throws -> CreateProjectVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.createProjectVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1183,18 +1221,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateProjectVersionInput, CreateProjectVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(CreateProjectVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectVersionOutput>(CreateProjectVersionOutput.httpOutput(from:), CreateProjectVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1206,7 +1244,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProjectVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(overrides: ["X-Amz-Target": "RekognitionService.CreateProjectVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProjectVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProjectVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProjectVersionInput, CreateProjectVersionOutput>())
@@ -1254,6 +1291,12 @@ extension RekognitionClient {
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func createStreamProcessor(input: CreateStreamProcessorInput) async throws -> CreateStreamProcessorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.createStreamProcessorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1266,18 +1309,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateStreamProcessorInput, CreateStreamProcessorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(CreateStreamProcessorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamProcessorOutput>(CreateStreamProcessorOutput.httpOutput(from:), CreateStreamProcessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1289,7 +1332,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateStreamProcessorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(overrides: ["X-Amz-Target": "RekognitionService.CreateStreamProcessor"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStreamProcessorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStreamProcessorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutput>())
@@ -1331,6 +1373,12 @@ extension RekognitionClient {
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.createUserOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1343,8 +1391,10 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateUserInput, CreateUserOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1352,10 +1402,8 @@ extension RekognitionClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateUserInput, CreateUserOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutput>(CreateUserInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1367,7 +1415,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUserInput, CreateUserOutput>(overrides: ["X-Amz-Target": "RekognitionService.CreateUser"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateUserInput, CreateUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUserInput, CreateUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateUserInput, CreateUserOutput>())
@@ -1406,6 +1453,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func deleteCollection(input: DeleteCollectionInput) async throws -> DeleteCollectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.deleteCollectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1418,18 +1471,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCollectionInput, DeleteCollectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(DeleteCollectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCollectionInput, DeleteCollectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCollectionInput, DeleteCollectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCollectionOutput>(DeleteCollectionOutput.httpOutput(from:), DeleteCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1441,7 +1494,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCollectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(overrides: ["X-Amz-Target": "RekognitionService.DeleteCollection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCollectionInput, DeleteCollectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCollectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCollectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCollectionInput, DeleteCollectionOutput>())
@@ -1482,6 +1534,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.deleteDatasetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1494,18 +1552,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteDatasetInput, DeleteDatasetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(DeleteDatasetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(DeleteDatasetOutput.httpOutput(from:), DeleteDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1517,7 +1575,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(overrides: ["X-Amz-Target": "RekognitionService.DeleteDataset"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteDatasetInput, DeleteDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDatasetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
@@ -1556,6 +1613,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func deleteFaces(input: DeleteFacesInput) async throws -> DeleteFacesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.deleteFacesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1568,18 +1631,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteFacesInput, DeleteFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFacesInput, DeleteFacesOutput>(DeleteFacesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFacesInput, DeleteFacesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFacesInput, DeleteFacesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFacesOutput>(DeleteFacesOutput.httpOutput(from:), DeleteFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFacesInput, DeleteFacesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1591,7 +1654,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFacesInput, DeleteFacesOutput>(overrides: ["X-Amz-Target": "RekognitionService.DeleteFaces"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFacesInput, DeleteFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFacesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFacesInput, DeleteFacesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFacesInput, DeleteFacesOutput>())
@@ -1631,6 +1693,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.deleteProjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1643,18 +1711,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteProjectInput, DeleteProjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutput>(DeleteProjectInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectInput, DeleteProjectOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(DeleteProjectOutput.httpOutput(from:), DeleteProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1666,7 +1734,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProjectInput, DeleteProjectOutput>(overrides: ["X-Amz-Target": "RekognitionService.DeleteProject"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProjectInput, DeleteProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProjectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProjectInput, DeleteProjectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProjectInput, DeleteProjectOutput>())
@@ -1706,6 +1773,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func deleteProjectPolicy(input: DeleteProjectPolicyInput) async throws -> DeleteProjectPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.deleteProjectPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1718,18 +1791,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteProjectPolicyInput, DeleteProjectPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(DeleteProjectPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectPolicyOutput>(DeleteProjectPolicyOutput.httpOutput(from:), DeleteProjectPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1741,7 +1814,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProjectPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(overrides: ["X-Amz-Target": "RekognitionService.DeleteProjectPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProjectPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProjectPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutput>())
@@ -1781,6 +1853,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func deleteProjectVersion(input: DeleteProjectVersionInput) async throws -> DeleteProjectVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.deleteProjectVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1793,18 +1871,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteProjectVersionInput, DeleteProjectVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(DeleteProjectVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectVersionOutput>(DeleteProjectVersionOutput.httpOutput(from:), DeleteProjectVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1816,7 +1894,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProjectVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(overrides: ["X-Amz-Target": "RekognitionService.DeleteProjectVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProjectVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProjectVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutput>())
@@ -1856,6 +1933,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func deleteStreamProcessor(input: DeleteStreamProcessorInput) async throws -> DeleteStreamProcessorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.deleteStreamProcessorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1868,18 +1951,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteStreamProcessorInput, DeleteStreamProcessorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(DeleteStreamProcessorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStreamProcessorOutput>(DeleteStreamProcessorOutput.httpOutput(from:), DeleteStreamProcessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1891,7 +1974,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteStreamProcessorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(overrides: ["X-Amz-Target": "RekognitionService.DeleteStreamProcessor"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteStreamProcessorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStreamProcessorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutput>())
@@ -1932,6 +2014,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.deleteUserOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1944,8 +2032,10 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteUserInput, DeleteUserOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1953,10 +2043,8 @@ extension RekognitionClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteUserInput, DeleteUserOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutput>(DeleteUserInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1968,7 +2056,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUserInput, DeleteUserOutput>(overrides: ["X-Amz-Target": "RekognitionService.DeleteUser"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteUserInput, DeleteUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserInput, DeleteUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUserInput, DeleteUserOutput>())
@@ -2007,6 +2094,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func describeCollection(input: DescribeCollectionInput) async throws -> DescribeCollectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.describeCollectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2019,18 +2112,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCollectionInput, DescribeCollectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(DescribeCollectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCollectionInput, DescribeCollectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCollectionInput, DescribeCollectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCollectionOutput>(DescribeCollectionOutput.httpOutput(from:), DescribeCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2042,7 +2135,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCollectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(overrides: ["X-Amz-Target": "RekognitionService.DescribeCollection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCollectionInput, DescribeCollectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCollectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCollectionInput, DescribeCollectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCollectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCollectionInput, DescribeCollectionOutput>())
@@ -2081,6 +2173,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.describeDatasetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2093,18 +2191,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeDatasetInput, DescribeDatasetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(DescribeDatasetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(DescribeDatasetOutput.httpOutput(from:), DescribeDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2116,7 +2214,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(overrides: ["X-Amz-Target": "RekognitionService.DescribeDataset"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDatasetInput, DescribeDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDatasetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
@@ -2156,6 +2253,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func describeProjectVersions(input: DescribeProjectVersionsInput) async throws -> DescribeProjectVersionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.describeProjectVersionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2168,18 +2271,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeProjectVersionsInput, DescribeProjectVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(DescribeProjectVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProjectVersionsOutput>(DescribeProjectVersionsOutput.httpOutput(from:), DescribeProjectVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2191,7 +2294,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProjectVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(overrides: ["X-Amz-Target": "RekognitionService.DescribeProjectVersions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProjectVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProjectVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutput>())
@@ -2230,6 +2332,12 @@ extension RekognitionClient {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func describeProjects(input: DescribeProjectsInput) async throws -> DescribeProjectsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.describeProjectsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2242,18 +2350,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeProjectsInput, DescribeProjectsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(DescribeProjectsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProjectsInput, DescribeProjectsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProjectsInput, DescribeProjectsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProjectsOutput>(DescribeProjectsOutput.httpOutput(from:), DescribeProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2265,7 +2373,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProjectsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(overrides: ["X-Amz-Target": "RekognitionService.DescribeProjects"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeProjectsInput, DescribeProjectsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProjectsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProjectsInput, DescribeProjectsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProjectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProjectsInput, DescribeProjectsOutput>())
@@ -2304,6 +2411,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func describeStreamProcessor(input: DescribeStreamProcessorInput) async throws -> DescribeStreamProcessorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.describeStreamProcessorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2316,18 +2429,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeStreamProcessorInput, DescribeStreamProcessorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(DescribeStreamProcessorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamProcessorOutput>(DescribeStreamProcessorOutput.httpOutput(from:), DescribeStreamProcessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2339,7 +2452,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStreamProcessorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(overrides: ["X-Amz-Target": "RekognitionService.DescribeStreamProcessor"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStreamProcessorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStreamProcessorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutput>())
@@ -2386,6 +2498,12 @@ extension RekognitionClient {
     /// this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func detectCustomLabels(input: DetectCustomLabelsInput) async throws -> DetectCustomLabelsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.detectCustomLabelsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2398,18 +2516,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DetectCustomLabelsInput, DetectCustomLabelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(DetectCustomLabelsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectCustomLabelsOutput>(DetectCustomLabelsOutput.httpOutput(from:), DetectCustomLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2421,7 +2539,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectCustomLabelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(overrides: ["X-Amz-Target": "RekognitionService.DetectCustomLabels"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectCustomLabelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectCustomLabelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutput>())
@@ -2462,6 +2579,12 @@ extension RekognitionClient {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func detectFaces(input: DetectFacesInput) async throws -> DetectFacesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.detectFacesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2474,18 +2597,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DetectFacesInput, DetectFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectFacesInput, DetectFacesOutput>(DetectFacesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectFacesInput, DetectFacesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectFacesInput, DetectFacesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectFacesOutput>(DetectFacesOutput.httpOutput(from:), DetectFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectFacesInput, DetectFacesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2497,7 +2620,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectFacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectFacesInput, DetectFacesOutput>(overrides: ["X-Amz-Target": "RekognitionService.DetectFaces"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DetectFacesInput, DetectFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectFacesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectFacesInput, DetectFacesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectFacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectFacesInput, DetectFacesOutput>())
@@ -2570,6 +2692,12 @@ extension RekognitionClient {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func detectLabels(input: DetectLabelsInput) async throws -> DetectLabelsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.detectLabelsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2582,18 +2710,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DetectLabelsInput, DetectLabelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectLabelsInput, DetectLabelsOutput>(DetectLabelsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectLabelsInput, DetectLabelsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectLabelsInput, DetectLabelsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectLabelsOutput>(DetectLabelsOutput.httpOutput(from:), DetectLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectLabelsInput, DetectLabelsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2605,7 +2733,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectLabelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectLabelsInput, DetectLabelsOutput>(overrides: ["X-Amz-Target": "RekognitionService.DetectLabels"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DetectLabelsInput, DetectLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectLabelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectLabelsInput, DetectLabelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectLabelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectLabelsInput, DetectLabelsOutput>())
@@ -2652,6 +2779,12 @@ extension RekognitionClient {
     /// this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func detectModerationLabels(input: DetectModerationLabelsInput) async throws -> DetectModerationLabelsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.detectModerationLabelsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2664,18 +2797,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DetectModerationLabelsInput, DetectModerationLabelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(DetectModerationLabelsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectModerationLabelsOutput>(DetectModerationLabelsOutput.httpOutput(from:), DetectModerationLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2687,7 +2820,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectModerationLabelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(overrides: ["X-Amz-Target": "RekognitionService.DetectModerationLabels"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectModerationLabelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectModerationLabelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutput>())
@@ -2746,6 +2878,12 @@ extension RekognitionClient {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func detectProtectiveEquipment(input: DetectProtectiveEquipmentInput) async throws -> DetectProtectiveEquipmentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.detectProtectiveEquipmentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2758,18 +2896,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(DetectProtectiveEquipmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectProtectiveEquipmentOutput>(DetectProtectiveEquipmentOutput.httpOutput(from:), DetectProtectiveEquipmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2781,7 +2919,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectProtectiveEquipmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(overrides: ["X-Amz-Target": "RekognitionService.DetectProtectiveEquipment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectProtectiveEquipmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectProtectiveEquipmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutput>())
@@ -2822,6 +2959,12 @@ extension RekognitionClient {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func detectText(input: DetectTextInput) async throws -> DetectTextOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.detectTextOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2834,18 +2977,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DetectTextInput, DetectTextOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetectTextInput, DetectTextOutput>(DetectTextInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetectTextInput, DetectTextOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectTextInput, DetectTextOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectTextOutput>(DetectTextOutput.httpOutput(from:), DetectTextOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectTextInput, DetectTextOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2857,7 +3000,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetectTextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetectTextInput, DetectTextOutput>(overrides: ["X-Amz-Target": "RekognitionService.DetectText"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DetectTextInput, DetectTextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetectTextInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetectTextInput, DetectTextOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectTextOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectTextInput, DetectTextOutput>())
@@ -2898,6 +3040,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func disassociateFaces(input: DisassociateFacesInput) async throws -> DisassociateFacesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.disassociateFacesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2910,8 +3058,10 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateFacesInput, DisassociateFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2919,10 +3069,8 @@ extension RekognitionClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(DisassociateFacesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFacesInput, DisassociateFacesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateFacesInput, DisassociateFacesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFacesOutput>(DisassociateFacesOutput.httpOutput(from:), DisassociateFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2934,7 +3082,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateFacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(overrides: ["X-Amz-Target": "RekognitionService.DisassociateFaces"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateFacesInput, DisassociateFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateFacesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateFacesInput, DisassociateFacesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateFacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateFacesInput, DisassociateFacesOutput>())
@@ -2977,6 +3124,12 @@ extension RekognitionClient {
     /// this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func distributeDatasetEntries(input: DistributeDatasetEntriesInput) async throws -> DistributeDatasetEntriesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.distributeDatasetEntriesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2989,18 +3142,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(DistributeDatasetEntriesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DistributeDatasetEntriesOutput>(DistributeDatasetEntriesOutput.httpOutput(from:), DistributeDatasetEntriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3012,7 +3165,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DistributeDatasetEntriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(overrides: ["X-Amz-Target": "RekognitionService.DistributeDatasetEntries"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DistributeDatasetEntriesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DistributeDatasetEntriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutput>())
@@ -3051,6 +3203,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func getCelebrityInfo(input: GetCelebrityInfoInput) async throws -> GetCelebrityInfoOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.getCelebrityInfoOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3063,18 +3221,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCelebrityInfoInput, GetCelebrityInfoOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(GetCelebrityInfoInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCelebrityInfoOutput>(GetCelebrityInfoOutput.httpOutput(from:), GetCelebrityInfoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3086,7 +3244,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCelebrityInfoOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(overrides: ["X-Amz-Target": "RekognitionService.GetCelebrityInfo"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCelebrityInfoInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCelebrityInfoOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutput>())
@@ -3126,6 +3283,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func getCelebrityRecognition(input: GetCelebrityRecognitionInput) async throws -> GetCelebrityRecognitionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.getCelebrityRecognitionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3138,18 +3301,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(GetCelebrityRecognitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCelebrityRecognitionOutput>(GetCelebrityRecognitionOutput.httpOutput(from:), GetCelebrityRecognitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3161,7 +3324,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCelebrityRecognitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(overrides: ["X-Amz-Target": "RekognitionService.GetCelebrityRecognition"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCelebrityRecognitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCelebrityRecognitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutput>())
@@ -3201,6 +3363,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func getContentModeration(input: GetContentModerationInput) async throws -> GetContentModerationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.getContentModerationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3213,18 +3381,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetContentModerationInput, GetContentModerationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetContentModerationInput, GetContentModerationOutput>(GetContentModerationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContentModerationInput, GetContentModerationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContentModerationInput, GetContentModerationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContentModerationOutput>(GetContentModerationOutput.httpOutput(from:), GetContentModerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContentModerationInput, GetContentModerationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3236,7 +3404,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContentModerationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetContentModerationInput, GetContentModerationOutput>(overrides: ["X-Amz-Target": "RekognitionService.GetContentModeration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetContentModerationInput, GetContentModerationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContentModerationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContentModerationInput, GetContentModerationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContentModerationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetContentModerationInput, GetContentModerationOutput>())
@@ -3276,6 +3443,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func getFaceDetection(input: GetFaceDetectionInput) async throws -> GetFaceDetectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.getFaceDetectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3288,18 +3461,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFaceDetectionInput, GetFaceDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(GetFaceDetectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFaceDetectionOutput>(GetFaceDetectionOutput.httpOutput(from:), GetFaceDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3311,7 +3484,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFaceDetectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(overrides: ["X-Amz-Target": "RekognitionService.GetFaceDetection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFaceDetectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFaceDetectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFaceDetectionInput, GetFaceDetectionOutput>())
@@ -3350,6 +3522,12 @@ extension RekognitionClient {
     /// - `SessionNotFoundException` : Occurs when a given sessionId is not found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func getFaceLivenessSessionResults(input: GetFaceLivenessSessionResultsInput) async throws -> GetFaceLivenessSessionResultsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.getFaceLivenessSessionResultsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3362,18 +3540,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(GetFaceLivenessSessionResultsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFaceLivenessSessionResultsOutput>(GetFaceLivenessSessionResultsOutput.httpOutput(from:), GetFaceLivenessSessionResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3385,7 +3563,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFaceLivenessSessionResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(overrides: ["X-Amz-Target": "RekognitionService.GetFaceLivenessSessionResults"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFaceLivenessSessionResultsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFaceLivenessSessionResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutput>())
@@ -3425,6 +3602,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func getFaceSearch(input: GetFaceSearchInput) async throws -> GetFaceSearchOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.getFaceSearchOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3437,18 +3620,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFaceSearchInput, GetFaceSearchOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(GetFaceSearchInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFaceSearchInput, GetFaceSearchOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFaceSearchInput, GetFaceSearchOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFaceSearchOutput>(GetFaceSearchOutput.httpOutput(from:), GetFaceSearchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3460,7 +3643,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFaceSearchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(overrides: ["X-Amz-Target": "RekognitionService.GetFaceSearch"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetFaceSearchInput, GetFaceSearchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFaceSearchInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFaceSearchInput, GetFaceSearchOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFaceSearchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFaceSearchInput, GetFaceSearchOutput>())
@@ -3517,6 +3699,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func getLabelDetection(input: GetLabelDetectionInput) async throws -> GetLabelDetectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.getLabelDetectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3529,18 +3717,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLabelDetectionInput, GetLabelDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(GetLabelDetectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLabelDetectionOutput>(GetLabelDetectionOutput.httpOutput(from:), GetLabelDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3552,7 +3740,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLabelDetectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(overrides: ["X-Amz-Target": "RekognitionService.GetLabelDetection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLabelDetectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLabelDetectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLabelDetectionInput, GetLabelDetectionOutput>())
@@ -3591,6 +3778,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func getMediaAnalysisJob(input: GetMediaAnalysisJobInput) async throws -> GetMediaAnalysisJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.getMediaAnalysisJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3603,18 +3796,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(GetMediaAnalysisJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMediaAnalysisJobOutput>(GetMediaAnalysisJobOutput.httpOutput(from:), GetMediaAnalysisJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3626,7 +3819,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMediaAnalysisJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(overrides: ["X-Amz-Target": "RekognitionService.GetMediaAnalysisJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMediaAnalysisJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMediaAnalysisJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMediaAnalysisJobInput, GetMediaAnalysisJobOutput>())
@@ -3666,6 +3858,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func getPersonTracking(input: GetPersonTrackingInput) async throws -> GetPersonTrackingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.getPersonTrackingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3678,18 +3876,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetPersonTrackingInput, GetPersonTrackingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(GetPersonTrackingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPersonTrackingOutput>(GetPersonTrackingOutput.httpOutput(from:), GetPersonTrackingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3701,7 +3899,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPersonTrackingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(overrides: ["X-Amz-Target": "RekognitionService.GetPersonTracking"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPersonTrackingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPersonTrackingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPersonTrackingInput, GetPersonTrackingOutput>())
@@ -3741,6 +3938,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func getSegmentDetection(input: GetSegmentDetectionInput) async throws -> GetSegmentDetectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.getSegmentDetectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3753,18 +3956,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetSegmentDetectionInput, GetSegmentDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(GetSegmentDetectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentDetectionOutput>(GetSegmentDetectionOutput.httpOutput(from:), GetSegmentDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3776,7 +3979,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSegmentDetectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(overrides: ["X-Amz-Target": "RekognitionService.GetSegmentDetection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSegmentDetectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSegmentDetectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutput>())
@@ -3816,6 +4018,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func getTextDetection(input: GetTextDetectionInput) async throws -> GetTextDetectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.getTextDetectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3828,18 +4036,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTextDetectionInput, GetTextDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(GetTextDetectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTextDetectionInput, GetTextDetectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTextDetectionInput, GetTextDetectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTextDetectionOutput>(GetTextDetectionOutput.httpOutput(from:), GetTextDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3851,7 +4059,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTextDetectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(overrides: ["X-Amz-Target": "RekognitionService.GetTextDetection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetTextDetectionInput, GetTextDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTextDetectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTextDetectionInput, GetTextDetectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTextDetectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTextDetectionInput, GetTextDetectionOutput>())
@@ -3920,6 +4127,12 @@ extension RekognitionClient {
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func indexFaces(input: IndexFacesInput) async throws -> IndexFacesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.indexFacesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3932,18 +4145,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<IndexFacesInput, IndexFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<IndexFacesInput, IndexFacesOutput>(IndexFacesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<IndexFacesInput, IndexFacesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<IndexFacesInput, IndexFacesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<IndexFacesOutput>(IndexFacesOutput.httpOutput(from:), IndexFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<IndexFacesInput, IndexFacesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3955,7 +4168,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<IndexFacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<IndexFacesInput, IndexFacesOutput>(overrides: ["X-Amz-Target": "RekognitionService.IndexFaces"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<IndexFacesInput, IndexFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: IndexFacesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<IndexFacesInput, IndexFacesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<IndexFacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<IndexFacesInput, IndexFacesOutput>())
@@ -3995,6 +4207,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func listCollections(input: ListCollectionsInput) async throws -> ListCollectionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.listCollectionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4007,18 +4225,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCollectionsInput, ListCollectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCollectionsInput, ListCollectionsOutput>(ListCollectionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCollectionsInput, ListCollectionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCollectionsInput, ListCollectionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollectionsOutput>(ListCollectionsOutput.httpOutput(from:), ListCollectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollectionsInput, ListCollectionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4030,7 +4248,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCollectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCollectionsInput, ListCollectionsOutput>(overrides: ["X-Amz-Target": "RekognitionService.ListCollections"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCollectionsInput, ListCollectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCollectionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCollectionsInput, ListCollectionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCollectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCollectionsInput, ListCollectionsOutput>())
@@ -4075,6 +4292,12 @@ extension RekognitionClient {
     /// this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func listDatasetEntries(input: ListDatasetEntriesInput) async throws -> ListDatasetEntriesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.listDatasetEntriesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4087,18 +4310,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDatasetEntriesInput, ListDatasetEntriesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(ListDatasetEntriesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetEntriesOutput>(ListDatasetEntriesOutput.httpOutput(from:), ListDatasetEntriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4110,7 +4333,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDatasetEntriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(overrides: ["X-Amz-Target": "RekognitionService.ListDatasetEntries"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetEntriesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDatasetEntriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutput>())
@@ -4155,6 +4377,12 @@ extension RekognitionClient {
     /// this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func listDatasetLabels(input: ListDatasetLabelsInput) async throws -> ListDatasetLabelsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.listDatasetLabelsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4167,18 +4395,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDatasetLabelsInput, ListDatasetLabelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(ListDatasetLabelsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetLabelsOutput>(ListDatasetLabelsOutput.httpOutput(from:), ListDatasetLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4190,7 +4418,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDatasetLabelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(overrides: ["X-Amz-Target": "RekognitionService.ListDatasetLabels"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetLabelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDatasetLabelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutput>())
@@ -4230,6 +4457,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func listFaces(input: ListFacesInput) async throws -> ListFacesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.listFacesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4242,18 +4475,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFacesInput, ListFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFacesInput, ListFacesOutput>(ListFacesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFacesInput, ListFacesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFacesInput, ListFacesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFacesOutput>(ListFacesOutput.httpOutput(from:), ListFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFacesInput, ListFacesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4265,7 +4498,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFacesInput, ListFacesOutput>(overrides: ["X-Amz-Target": "RekognitionService.ListFaces"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFacesInput, ListFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFacesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFacesInput, ListFacesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFacesInput, ListFacesOutput>())
@@ -4304,6 +4536,12 @@ extension RekognitionClient {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func listMediaAnalysisJobs(input: ListMediaAnalysisJobsInput) async throws -> ListMediaAnalysisJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.listMediaAnalysisJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4316,18 +4554,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(ListMediaAnalysisJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMediaAnalysisJobsOutput>(ListMediaAnalysisJobsOutput.httpOutput(from:), ListMediaAnalysisJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4339,7 +4577,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMediaAnalysisJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(overrides: ["X-Amz-Target": "RekognitionService.ListMediaAnalysisJobs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMediaAnalysisJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMediaAnalysisJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMediaAnalysisJobsInput, ListMediaAnalysisJobsOutput>())
@@ -4379,6 +4616,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func listProjectPolicies(input: ListProjectPoliciesInput) async throws -> ListProjectPoliciesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.listProjectPoliciesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4391,18 +4634,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListProjectPoliciesInput, ListProjectPoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(ListProjectPoliciesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectPoliciesOutput>(ListProjectPoliciesOutput.httpOutput(from:), ListProjectPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4414,7 +4657,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProjectPoliciesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(overrides: ["X-Amz-Target": "RekognitionService.ListProjectPolicies"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProjectPoliciesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProjectPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutput>())
@@ -4453,6 +4695,12 @@ extension RekognitionClient {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func listStreamProcessors(input: ListStreamProcessorsInput) async throws -> ListStreamProcessorsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.listStreamProcessorsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4465,18 +4713,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListStreamProcessorsInput, ListStreamProcessorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(ListStreamProcessorsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamProcessorsOutput>(ListStreamProcessorsOutput.httpOutput(from:), ListStreamProcessorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4488,7 +4736,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStreamProcessorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(overrides: ["X-Amz-Target": "RekognitionService.ListStreamProcessors"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStreamProcessorsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStreamProcessorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutput>())
@@ -4527,6 +4774,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4539,18 +4792,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4562,7 +4815,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "RekognitionService.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -4602,6 +4854,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.listUsersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4614,18 +4872,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListUsersInput, ListUsersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutput>(ListUsersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListUsersInput, ListUsersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsersInput, ListUsersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4637,7 +4895,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUsersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListUsersInput, ListUsersOutput>(overrides: ["X-Amz-Target": "RekognitionService.ListUsers"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListUsersInput, ListUsersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUsersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUsersInput, ListUsersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUsersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUsersInput, ListUsersOutput>())
@@ -4681,6 +4938,12 @@ extension RekognitionClient {
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func putProjectPolicy(input: PutProjectPolicyInput) async throws -> PutProjectPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.putProjectPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4693,18 +4956,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutProjectPolicyInput, PutProjectPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(PutProjectPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutProjectPolicyOutput>(PutProjectPolicyOutput.httpOutput(from:), PutProjectPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4716,7 +4979,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutProjectPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(overrides: ["X-Amz-Target": "RekognitionService.PutProjectPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutProjectPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutProjectPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutProjectPolicyInput, PutProjectPolicyOutput>())
@@ -4757,6 +5019,12 @@ extension RekognitionClient {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func recognizeCelebrities(input: RecognizeCelebritiesInput) async throws -> RecognizeCelebritiesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.recognizeCelebritiesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4769,18 +5037,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RecognizeCelebritiesInput, RecognizeCelebritiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(RecognizeCelebritiesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RecognizeCelebritiesOutput>(RecognizeCelebritiesOutput.httpOutput(from:), RecognizeCelebritiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4792,7 +5060,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RecognizeCelebritiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(overrides: ["X-Amz-Target": "RekognitionService.RecognizeCelebrities"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RecognizeCelebritiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RecognizeCelebritiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutput>())
@@ -4831,6 +5098,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func searchFaces(input: SearchFacesInput) async throws -> SearchFacesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.searchFacesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4843,18 +5116,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SearchFacesInput, SearchFacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchFacesInput, SearchFacesOutput>(SearchFacesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchFacesInput, SearchFacesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchFacesInput, SearchFacesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchFacesOutput>(SearchFacesOutput.httpOutput(from:), SearchFacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchFacesInput, SearchFacesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4866,7 +5139,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchFacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchFacesInput, SearchFacesOutput>(overrides: ["X-Amz-Target": "RekognitionService.SearchFaces"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SearchFacesInput, SearchFacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchFacesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchFacesInput, SearchFacesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchFacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchFacesInput, SearchFacesOutput>())
@@ -4908,6 +5180,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func searchFacesByImage(input: SearchFacesByImageInput) async throws -> SearchFacesByImageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.searchFacesByImageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4920,18 +5198,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SearchFacesByImageInput, SearchFacesByImageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(SearchFacesByImageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchFacesByImageOutput>(SearchFacesByImageOutput.httpOutput(from:), SearchFacesByImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4943,7 +5221,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchFacesByImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(overrides: ["X-Amz-Target": "RekognitionService.SearchFacesByImage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchFacesByImageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchFacesByImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchFacesByImageInput, SearchFacesByImageOutput>())
@@ -4982,6 +5259,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func searchUsers(input: SearchUsersInput) async throws -> SearchUsersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.searchUsersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4994,18 +5277,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SearchUsersInput, SearchUsersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchUsersInput, SearchUsersOutput>(SearchUsersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchUsersInput, SearchUsersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchUsersInput, SearchUsersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchUsersOutput>(SearchUsersOutput.httpOutput(from:), SearchUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchUsersInput, SearchUsersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5017,7 +5300,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchUsersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchUsersInput, SearchUsersOutput>(overrides: ["X-Amz-Target": "RekognitionService.SearchUsers"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SearchUsersInput, SearchUsersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchUsersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchUsersInput, SearchUsersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchUsersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchUsersInput, SearchUsersOutput>())
@@ -5059,6 +5341,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func searchUsersByImage(input: SearchUsersByImageInput) async throws -> SearchUsersByImageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.searchUsersByImageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5071,18 +5359,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SearchUsersByImageInput, SearchUsersByImageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(SearchUsersByImageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchUsersByImageOutput>(SearchUsersByImageOutput.httpOutput(from:), SearchUsersByImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5094,7 +5382,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchUsersByImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(overrides: ["X-Amz-Target": "RekognitionService.SearchUsersByImage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchUsersByImageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchUsersByImageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchUsersByImageInput, SearchUsersByImageOutput>())
@@ -5136,6 +5423,12 @@ extension RekognitionClient {
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
     public func startCelebrityRecognition(input: StartCelebrityRecognitionInput) async throws -> StartCelebrityRecognitionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.startCelebrityRecognitionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5148,18 +5441,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(StartCelebrityRecognitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCelebrityRecognitionOutput>(StartCelebrityRecognitionOutput.httpOutput(from:), StartCelebrityRecognitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5171,7 +5464,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCelebrityRecognitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(overrides: ["X-Amz-Target": "RekognitionService.StartCelebrityRecognition"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCelebrityRecognitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCelebrityRecognitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutput>())
@@ -5213,6 +5505,12 @@ extension RekognitionClient {
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
     public func startContentModeration(input: StartContentModerationInput) async throws -> StartContentModerationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.startContentModerationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5225,18 +5523,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartContentModerationInput, StartContentModerationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartContentModerationInput, StartContentModerationOutput>(StartContentModerationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartContentModerationInput, StartContentModerationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartContentModerationInput, StartContentModerationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartContentModerationOutput>(StartContentModerationOutput.httpOutput(from:), StartContentModerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartContentModerationInput, StartContentModerationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5248,7 +5546,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartContentModerationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartContentModerationInput, StartContentModerationOutput>(overrides: ["X-Amz-Target": "RekognitionService.StartContentModeration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartContentModerationInput, StartContentModerationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartContentModerationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartContentModerationInput, StartContentModerationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartContentModerationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartContentModerationInput, StartContentModerationOutput>())
@@ -5290,6 +5587,12 @@ extension RekognitionClient {
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
     public func startFaceDetection(input: StartFaceDetectionInput) async throws -> StartFaceDetectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.startFaceDetectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5302,18 +5605,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartFaceDetectionInput, StartFaceDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(StartFaceDetectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFaceDetectionOutput>(StartFaceDetectionOutput.httpOutput(from:), StartFaceDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5325,7 +5628,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartFaceDetectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(overrides: ["X-Amz-Target": "RekognitionService.StartFaceDetection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartFaceDetectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFaceDetectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartFaceDetectionInput, StartFaceDetectionOutput>())
@@ -5368,6 +5670,12 @@ extension RekognitionClient {
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
     public func startFaceSearch(input: StartFaceSearchInput) async throws -> StartFaceSearchOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.startFaceSearchOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5380,18 +5688,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartFaceSearchInput, StartFaceSearchOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(StartFaceSearchInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartFaceSearchInput, StartFaceSearchOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFaceSearchInput, StartFaceSearchOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFaceSearchOutput>(StartFaceSearchOutput.httpOutput(from:), StartFaceSearchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5403,7 +5711,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartFaceSearchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(overrides: ["X-Amz-Target": "RekognitionService.StartFaceSearch"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartFaceSearchInput, StartFaceSearchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartFaceSearchInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFaceSearchInput, StartFaceSearchOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFaceSearchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartFaceSearchInput, StartFaceSearchOutput>())
@@ -5445,6 +5752,12 @@ extension RekognitionClient {
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
     public func startLabelDetection(input: StartLabelDetectionInput) async throws -> StartLabelDetectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.startLabelDetectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5457,18 +5770,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartLabelDetectionInput, StartLabelDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(StartLabelDetectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartLabelDetectionOutput>(StartLabelDetectionOutput.httpOutput(from:), StartLabelDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5480,7 +5793,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartLabelDetectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(overrides: ["X-Amz-Target": "RekognitionService.StartLabelDetection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartLabelDetectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartLabelDetectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartLabelDetectionInput, StartLabelDetectionOutput>())
@@ -5527,6 +5839,12 @@ extension RekognitionClient {
     /// this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func startMediaAnalysisJob(input: StartMediaAnalysisJobInput) async throws -> StartMediaAnalysisJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.startMediaAnalysisJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5539,8 +5857,10 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5548,10 +5868,8 @@ extension RekognitionClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(StartMediaAnalysisJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMediaAnalysisJobOutput>(StartMediaAnalysisJobOutput.httpOutput(from:), StartMediaAnalysisJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5563,7 +5881,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMediaAnalysisJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(overrides: ["X-Amz-Target": "RekognitionService.StartMediaAnalysisJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMediaAnalysisJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMediaAnalysisJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMediaAnalysisJobInput, StartMediaAnalysisJobOutput>())
@@ -5605,6 +5922,12 @@ extension RekognitionClient {
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
     public func startPersonTracking(input: StartPersonTrackingInput) async throws -> StartPersonTrackingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.startPersonTrackingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5617,18 +5940,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartPersonTrackingInput, StartPersonTrackingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(StartPersonTrackingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPersonTrackingOutput>(StartPersonTrackingOutput.httpOutput(from:), StartPersonTrackingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5640,7 +5963,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartPersonTrackingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(overrides: ["X-Amz-Target": "RekognitionService.StartPersonTracking"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartPersonTrackingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartPersonTrackingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartPersonTrackingInput, StartPersonTrackingOutput>())
@@ -5681,6 +6003,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func startProjectVersion(input: StartProjectVersionInput) async throws -> StartProjectVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.startProjectVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5693,18 +6021,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartProjectVersionInput, StartProjectVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(StartProjectVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartProjectVersionInput, StartProjectVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartProjectVersionInput, StartProjectVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartProjectVersionOutput>(StartProjectVersionOutput.httpOutput(from:), StartProjectVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5716,7 +6044,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartProjectVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(overrides: ["X-Amz-Target": "RekognitionService.StartProjectVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartProjectVersionInput, StartProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartProjectVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartProjectVersionInput, StartProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartProjectVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartProjectVersionInput, StartProjectVersionOutput>())
@@ -5758,6 +6085,12 @@ extension RekognitionClient {
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
     public func startSegmentDetection(input: StartSegmentDetectionInput) async throws -> StartSegmentDetectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.startSegmentDetectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5770,18 +6103,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartSegmentDetectionInput, StartSegmentDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(StartSegmentDetectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSegmentDetectionOutput>(StartSegmentDetectionOutput.httpOutput(from:), StartSegmentDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5793,7 +6126,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartSegmentDetectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(overrides: ["X-Amz-Target": "RekognitionService.StartSegmentDetection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartSegmentDetectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSegmentDetectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutput>())
@@ -5833,6 +6165,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func startStreamProcessor(input: StartStreamProcessorInput) async throws -> StartStreamProcessorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.startStreamProcessorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5845,18 +6183,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartStreamProcessorInput, StartStreamProcessorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(StartStreamProcessorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartStreamProcessorOutput>(StartStreamProcessorOutput.httpOutput(from:), StartStreamProcessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5868,7 +6206,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartStreamProcessorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(overrides: ["X-Amz-Target": "RekognitionService.StartStreamProcessor"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartStreamProcessorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartStreamProcessorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartStreamProcessorInput, StartStreamProcessorOutput>())
@@ -5910,6 +6247,12 @@ extension RekognitionClient {
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     /// - `VideoTooLargeException` : The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
     public func startTextDetection(input: StartTextDetectionInput) async throws -> StartTextDetectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.startTextDetectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5922,18 +6265,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartTextDetectionInput, StartTextDetectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(StartTextDetectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTextDetectionInput, StartTextDetectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTextDetectionInput, StartTextDetectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTextDetectionOutput>(StartTextDetectionOutput.httpOutput(from:), StartTextDetectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5945,7 +6288,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartTextDetectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(overrides: ["X-Amz-Target": "RekognitionService.StartTextDetection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartTextDetectionInput, StartTextDetectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTextDetectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTextDetectionInput, StartTextDetectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTextDetectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartTextDetectionInput, StartTextDetectionOutput>())
@@ -5985,6 +6327,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func stopProjectVersion(input: StopProjectVersionInput) async throws -> StopProjectVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.stopProjectVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5997,18 +6345,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopProjectVersionInput, StopProjectVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(StopProjectVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopProjectVersionInput, StopProjectVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopProjectVersionInput, StopProjectVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopProjectVersionOutput>(StopProjectVersionOutput.httpOutput(from:), StopProjectVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6020,7 +6368,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopProjectVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(overrides: ["X-Amz-Target": "RekognitionService.StopProjectVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopProjectVersionInput, StopProjectVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopProjectVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopProjectVersionInput, StopProjectVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopProjectVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopProjectVersionInput, StopProjectVersionOutput>())
@@ -6060,6 +6407,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func stopStreamProcessor(input: StopStreamProcessorInput) async throws -> StopStreamProcessorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.stopStreamProcessorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6072,18 +6425,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopStreamProcessorInput, StopStreamProcessorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(StopStreamProcessorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopStreamProcessorOutput>(StopStreamProcessorOutput.httpOutput(from:), StopStreamProcessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6095,7 +6448,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopStreamProcessorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(overrides: ["X-Amz-Target": "RekognitionService.StopStreamProcessor"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopStreamProcessorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopStreamProcessorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopStreamProcessorInput, StopStreamProcessorOutput>())
@@ -6135,6 +6487,12 @@ extension RekognitionClient {
     /// - `ServiceQuotaExceededException` : The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6147,18 +6505,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6170,7 +6528,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "RekognitionService.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -6209,6 +6566,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6221,18 +6584,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6244,7 +6607,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "RekognitionService.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -6285,6 +6647,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func updateDatasetEntries(input: UpdateDatasetEntriesInput) async throws -> UpdateDatasetEntriesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.updateDatasetEntriesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6297,18 +6665,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(UpdateDatasetEntriesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDatasetEntriesOutput>(UpdateDatasetEntriesOutput.httpOutput(from:), UpdateDatasetEntriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6320,7 +6688,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDatasetEntriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(overrides: ["X-Amz-Target": "RekognitionService.UpdateDatasetEntries"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDatasetEntriesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDatasetEntriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutput>())
@@ -6360,6 +6727,12 @@ extension RekognitionClient {
     /// - `ResourceNotFoundException` : The resource specified in the request cannot be found.
     /// - `ThrottlingException` : Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public func updateStreamProcessor(input: UpdateStreamProcessorInput) async throws -> UpdateStreamProcessorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = RekognitionClient.updateStreamProcessorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6372,18 +6745,18 @@ extension RekognitionClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateStreamProcessorInput, UpdateStreamProcessorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(UpdateStreamProcessorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStreamProcessorOutput>(UpdateStreamProcessorOutput.httpOutput(from:), UpdateStreamProcessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6395,7 +6768,6 @@ extension RekognitionClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateStreamProcessorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(overrides: ["X-Amz-Target": "RekognitionService.UpdateStreamProcessor"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateStreamProcessorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStreamProcessorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutput>())

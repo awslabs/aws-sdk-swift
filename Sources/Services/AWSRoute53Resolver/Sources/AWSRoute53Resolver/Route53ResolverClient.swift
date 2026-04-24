@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,22 +35,21 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
@@ -61,8 +57,9 @@ import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -631,6 +628,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func associateFirewallRuleGroup(input: AssociateFirewallRuleGroupInput) async throws -> AssociateFirewallRuleGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.associateFirewallRuleGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -643,8 +646,10 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -652,10 +657,8 @@ extension Route53ResolverClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>(keyPath: \.creatorRequestId))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>(AssociateFirewallRuleGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateFirewallRuleGroupOutput>(AssociateFirewallRuleGroupOutput.httpOutput(from:), AssociateFirewallRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -667,7 +670,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateFirewallRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>(overrides: ["X-Amz-Target": "Route53Resolver.AssociateFirewallRuleGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateFirewallRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>())
@@ -707,6 +709,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func associateResolverEndpointIpAddress(input: AssociateResolverEndpointIpAddressInput) async throws -> AssociateResolverEndpointIpAddressOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.associateResolverEndpointIpAddressOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -719,18 +727,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput>(AssociateResolverEndpointIpAddressInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateResolverEndpointIpAddressOutput>(AssociateResolverEndpointIpAddressOutput.httpOutput(from:), AssociateResolverEndpointIpAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -742,7 +750,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateResolverEndpointIpAddressOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput>(overrides: ["X-Amz-Target": "Route53Resolver.AssociateResolverEndpointIpAddress"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateResolverEndpointIpAddressInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateResolverEndpointIpAddressOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput>())
@@ -783,6 +790,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func associateResolverQueryLogConfig(input: AssociateResolverQueryLogConfigInput) async throws -> AssociateResolverQueryLogConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.associateResolverQueryLogConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -795,18 +808,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput>(AssociateResolverQueryLogConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateResolverQueryLogConfigOutput>(AssociateResolverQueryLogConfigOutput.httpOutput(from:), AssociateResolverQueryLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -818,7 +831,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateResolverQueryLogConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput>(overrides: ["X-Amz-Target": "Route53Resolver.AssociateResolverQueryLogConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateResolverQueryLogConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput>())
@@ -859,6 +871,12 @@ extension Route53ResolverClient {
     /// - `ResourceUnavailableException` : The specified resource isn't available.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func associateResolverRule(input: AssociateResolverRuleInput) async throws -> AssociateResolverRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.associateResolverRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -871,18 +889,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateResolverRuleInput, AssociateResolverRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateResolverRuleInput, AssociateResolverRuleOutput>(AssociateResolverRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateResolverRuleInput, AssociateResolverRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResolverRuleInput, AssociateResolverRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateResolverRuleOutput>(AssociateResolverRuleOutput.httpOutput(from:), AssociateResolverRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResolverRuleInput, AssociateResolverRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -894,7 +912,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateResolverRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateResolverRuleInput, AssociateResolverRuleOutput>(overrides: ["X-Amz-Target": "Route53Resolver.AssociateResolverRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateResolverRuleInput, AssociateResolverRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateResolverRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateResolverRuleInput, AssociateResolverRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateResolverRuleInput, AssociateResolverRuleOutput>())
@@ -932,6 +949,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func createFirewallDomainList(input: CreateFirewallDomainListInput) async throws -> CreateFirewallDomainListOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.createFirewallDomainListOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -944,8 +967,10 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateFirewallDomainListInput, CreateFirewallDomainListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -953,10 +978,8 @@ extension Route53ResolverClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>(keyPath: \.creatorRequestId))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>(CreateFirewallDomainListInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFirewallDomainListOutput>(CreateFirewallDomainListOutput.httpOutput(from:), CreateFirewallDomainListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -968,7 +991,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFirewallDomainListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>(overrides: ["X-Amz-Target": "Route53Resolver.CreateFirewallDomainList"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFirewallDomainListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFirewallDomainListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>())
@@ -1007,6 +1029,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func createFirewallRule(input: CreateFirewallRuleInput) async throws -> CreateFirewallRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.createFirewallRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1019,8 +1047,10 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateFirewallRuleInput, CreateFirewallRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1028,10 +1058,8 @@ extension Route53ResolverClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>(keyPath: \.creatorRequestId))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>(CreateFirewallRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFirewallRuleOutput>(CreateFirewallRuleOutput.httpOutput(from:), CreateFirewallRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1043,7 +1071,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFirewallRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>(overrides: ["X-Amz-Target": "Route53Resolver.CreateFirewallRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFirewallRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFirewallRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>())
@@ -1081,6 +1108,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func createFirewallRuleGroup(input: CreateFirewallRuleGroupInput) async throws -> CreateFirewallRuleGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.createFirewallRuleGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1093,8 +1126,10 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1102,10 +1137,8 @@ extension Route53ResolverClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>(keyPath: \.creatorRequestId))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>(CreateFirewallRuleGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFirewallRuleGroupOutput>(CreateFirewallRuleGroupOutput.httpOutput(from:), CreateFirewallRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1117,7 +1150,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFirewallRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>(overrides: ["X-Amz-Target": "Route53Resolver.CreateFirewallRuleGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFirewallRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>())
@@ -1156,6 +1188,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func createOutpostResolver(input: CreateOutpostResolverInput) async throws -> CreateOutpostResolverOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.createOutpostResolverOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1168,18 +1206,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateOutpostResolverInput, CreateOutpostResolverOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateOutpostResolverInput, CreateOutpostResolverOutput>(CreateOutpostResolverInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateOutpostResolverInput, CreateOutpostResolverOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOutpostResolverInput, CreateOutpostResolverOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOutpostResolverOutput>(CreateOutpostResolverOutput.httpOutput(from:), CreateOutpostResolverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOutpostResolverInput, CreateOutpostResolverOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1191,7 +1229,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOutpostResolverOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateOutpostResolverInput, CreateOutpostResolverOutput>(overrides: ["X-Amz-Target": "Route53Resolver.CreateOutpostResolver"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateOutpostResolverInput, CreateOutpostResolverOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOutpostResolverInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOutpostResolverInput, CreateOutpostResolverOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOutpostResolverOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateOutpostResolverInput, CreateOutpostResolverOutput>())
@@ -1236,6 +1273,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func createResolverEndpoint(input: CreateResolverEndpointInput) async throws -> CreateResolverEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.createResolverEndpointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1248,18 +1291,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateResolverEndpointInput, CreateResolverEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateResolverEndpointInput, CreateResolverEndpointOutput>(CreateResolverEndpointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateResolverEndpointInput, CreateResolverEndpointOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResolverEndpointInput, CreateResolverEndpointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResolverEndpointOutput>(CreateResolverEndpointOutput.httpOutput(from:), CreateResolverEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResolverEndpointInput, CreateResolverEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1271,7 +1314,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateResolverEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateResolverEndpointInput, CreateResolverEndpointOutput>(overrides: ["X-Amz-Target": "Route53Resolver.CreateResolverEndpoint"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateResolverEndpointInput, CreateResolverEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateResolverEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateResolverEndpointInput, CreateResolverEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResolverEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateResolverEndpointInput, CreateResolverEndpointOutput>())
@@ -1312,6 +1354,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func createResolverQueryLogConfig(input: CreateResolverQueryLogConfigInput) async throws -> CreateResolverQueryLogConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.createResolverQueryLogConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1324,8 +1372,10 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1333,10 +1383,8 @@ extension Route53ResolverClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>(keyPath: \.creatorRequestId))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>(CreateResolverQueryLogConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResolverQueryLogConfigOutput>(CreateResolverQueryLogConfigOutput.httpOutput(from:), CreateResolverQueryLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1348,7 +1396,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateResolverQueryLogConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>(overrides: ["X-Amz-Target": "Route53Resolver.CreateResolverQueryLogConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateResolverQueryLogConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>())
@@ -1390,6 +1437,12 @@ extension Route53ResolverClient {
     /// - `ResourceUnavailableException` : The specified resource isn't available.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func createResolverRule(input: CreateResolverRuleInput) async throws -> CreateResolverRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.createResolverRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1402,18 +1455,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateResolverRuleInput, CreateResolverRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateResolverRuleInput, CreateResolverRuleOutput>(CreateResolverRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateResolverRuleInput, CreateResolverRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResolverRuleInput, CreateResolverRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResolverRuleOutput>(CreateResolverRuleOutput.httpOutput(from:), CreateResolverRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResolverRuleInput, CreateResolverRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1425,7 +1478,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateResolverRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateResolverRuleInput, CreateResolverRuleOutput>(overrides: ["X-Amz-Target": "Route53Resolver.CreateResolverRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateResolverRuleInput, CreateResolverRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateResolverRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateResolverRuleInput, CreateResolverRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateResolverRuleInput, CreateResolverRuleOutput>())
@@ -1463,6 +1515,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func deleteFirewallDomainList(input: DeleteFirewallDomainListInput) async throws -> DeleteFirewallDomainListOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.deleteFirewallDomainListOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1475,18 +1533,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput>(DeleteFirewallDomainListInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFirewallDomainListOutput>(DeleteFirewallDomainListOutput.httpOutput(from:), DeleteFirewallDomainListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1498,7 +1556,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFirewallDomainListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput>(overrides: ["X-Amz-Target": "Route53Resolver.DeleteFirewallDomainList"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFirewallDomainListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallDomainListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput>())
@@ -1536,6 +1593,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func deleteFirewallRule(input: DeleteFirewallRuleInput) async throws -> DeleteFirewallRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.deleteFirewallRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1548,18 +1611,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteFirewallRuleInput, DeleteFirewallRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFirewallRuleInput, DeleteFirewallRuleOutput>(DeleteFirewallRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFirewallRuleInput, DeleteFirewallRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallRuleInput, DeleteFirewallRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFirewallRuleOutput>(DeleteFirewallRuleOutput.httpOutput(from:), DeleteFirewallRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallRuleInput, DeleteFirewallRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1571,7 +1634,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFirewallRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFirewallRuleInput, DeleteFirewallRuleOutput>(overrides: ["X-Amz-Target": "Route53Resolver.DeleteFirewallRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFirewallRuleInput, DeleteFirewallRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFirewallRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallRuleInput, DeleteFirewallRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFirewallRuleInput, DeleteFirewallRuleOutput>())
@@ -1610,6 +1672,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func deleteFirewallRuleGroup(input: DeleteFirewallRuleGroupInput) async throws -> DeleteFirewallRuleGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.deleteFirewallRuleGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1622,18 +1690,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput>(DeleteFirewallRuleGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFirewallRuleGroupOutput>(DeleteFirewallRuleGroupOutput.httpOutput(from:), DeleteFirewallRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1645,7 +1713,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFirewallRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput>(overrides: ["X-Amz-Target": "Route53Resolver.DeleteFirewallRuleGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFirewallRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput>())
@@ -1684,6 +1751,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func deleteOutpostResolver(input: DeleteOutpostResolverInput) async throws -> DeleteOutpostResolverOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.deleteOutpostResolverOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1696,18 +1769,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteOutpostResolverInput, DeleteOutpostResolverOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteOutpostResolverInput, DeleteOutpostResolverOutput>(DeleteOutpostResolverInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOutpostResolverInput, DeleteOutpostResolverOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOutpostResolverInput, DeleteOutpostResolverOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOutpostResolverOutput>(DeleteOutpostResolverOutput.httpOutput(from:), DeleteOutpostResolverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOutpostResolverInput, DeleteOutpostResolverOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1719,7 +1792,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOutpostResolverOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteOutpostResolverInput, DeleteOutpostResolverOutput>(overrides: ["X-Amz-Target": "Route53Resolver.DeleteOutpostResolver"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteOutpostResolverInput, DeleteOutpostResolverOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOutpostResolverInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOutpostResolverInput, DeleteOutpostResolverOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOutpostResolverOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOutpostResolverInput, DeleteOutpostResolverOutput>())
@@ -1761,6 +1833,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func deleteResolverEndpoint(input: DeleteResolverEndpointInput) async throws -> DeleteResolverEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.deleteResolverEndpointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1773,18 +1851,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteResolverEndpointInput, DeleteResolverEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteResolverEndpointInput, DeleteResolverEndpointOutput>(DeleteResolverEndpointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResolverEndpointInput, DeleteResolverEndpointOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResolverEndpointInput, DeleteResolverEndpointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResolverEndpointOutput>(DeleteResolverEndpointOutput.httpOutput(from:), DeleteResolverEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResolverEndpointInput, DeleteResolverEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1796,7 +1874,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResolverEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResolverEndpointInput, DeleteResolverEndpointOutput>(overrides: ["X-Amz-Target": "Route53Resolver.DeleteResolverEndpoint"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteResolverEndpointInput, DeleteResolverEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResolverEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResolverEndpointInput, DeleteResolverEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResolverEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResolverEndpointInput, DeleteResolverEndpointOutput>())
@@ -1835,6 +1912,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func deleteResolverQueryLogConfig(input: DeleteResolverQueryLogConfigInput) async throws -> DeleteResolverQueryLogConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.deleteResolverQueryLogConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1847,18 +1930,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput>(DeleteResolverQueryLogConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResolverQueryLogConfigOutput>(DeleteResolverQueryLogConfigOutput.httpOutput(from:), DeleteResolverQueryLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1870,7 +1953,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResolverQueryLogConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput>(overrides: ["X-Amz-Target": "Route53Resolver.DeleteResolverQueryLogConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResolverQueryLogConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput>())
@@ -1908,6 +1990,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func deleteResolverRule(input: DeleteResolverRuleInput) async throws -> DeleteResolverRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.deleteResolverRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1920,18 +2008,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteResolverRuleInput, DeleteResolverRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteResolverRuleInput, DeleteResolverRuleOutput>(DeleteResolverRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResolverRuleInput, DeleteResolverRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResolverRuleInput, DeleteResolverRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResolverRuleOutput>(DeleteResolverRuleOutput.httpOutput(from:), DeleteResolverRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResolverRuleInput, DeleteResolverRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1943,7 +2031,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResolverRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResolverRuleInput, DeleteResolverRuleOutput>(overrides: ["X-Amz-Target": "Route53Resolver.DeleteResolverRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteResolverRuleInput, DeleteResolverRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResolverRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResolverRuleInput, DeleteResolverRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResolverRuleInput, DeleteResolverRuleOutput>())
@@ -1982,6 +2069,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func disassociateFirewallRuleGroup(input: DisassociateFirewallRuleGroupInput) async throws -> DisassociateFirewallRuleGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.disassociateFirewallRuleGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1994,18 +2087,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput>(DisassociateFirewallRuleGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFirewallRuleGroupOutput>(DisassociateFirewallRuleGroupOutput.httpOutput(from:), DisassociateFirewallRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2017,7 +2110,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateFirewallRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput>(overrides: ["X-Amz-Target": "Route53Resolver.DisassociateFirewallRuleGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateFirewallRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput>())
@@ -2056,6 +2148,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func disassociateResolverEndpointIpAddress(input: DisassociateResolverEndpointIpAddressInput) async throws -> DisassociateResolverEndpointIpAddressOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.disassociateResolverEndpointIpAddressOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2068,18 +2166,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput>(DisassociateResolverEndpointIpAddressInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateResolverEndpointIpAddressOutput>(DisassociateResolverEndpointIpAddressOutput.httpOutput(from:), DisassociateResolverEndpointIpAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2091,7 +2189,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateResolverEndpointIpAddressOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput>(overrides: ["X-Amz-Target": "Route53Resolver.DisassociateResolverEndpointIpAddress"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateResolverEndpointIpAddressInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateResolverEndpointIpAddressOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput>())
@@ -2134,6 +2231,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func disassociateResolverQueryLogConfig(input: DisassociateResolverQueryLogConfigInput) async throws -> DisassociateResolverQueryLogConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.disassociateResolverQueryLogConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2146,18 +2249,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput>(DisassociateResolverQueryLogConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateResolverQueryLogConfigOutput>(DisassociateResolverQueryLogConfigOutput.httpOutput(from:), DisassociateResolverQueryLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2169,7 +2272,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateResolverQueryLogConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput>(overrides: ["X-Amz-Target": "Route53Resolver.DisassociateResolverQueryLogConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateResolverQueryLogConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput>())
@@ -2206,6 +2308,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func disassociateResolverRule(input: DisassociateResolverRuleInput) async throws -> DisassociateResolverRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.disassociateResolverRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2218,18 +2326,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateResolverRuleInput, DisassociateResolverRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateResolverRuleInput, DisassociateResolverRuleOutput>(DisassociateResolverRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateResolverRuleInput, DisassociateResolverRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateResolverRuleInput, DisassociateResolverRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateResolverRuleOutput>(DisassociateResolverRuleOutput.httpOutput(from:), DisassociateResolverRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResolverRuleInput, DisassociateResolverRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2241,7 +2349,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateResolverRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateResolverRuleInput, DisassociateResolverRuleOutput>(overrides: ["X-Amz-Target": "Route53Resolver.DisassociateResolverRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateResolverRuleInput, DisassociateResolverRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateResolverRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateResolverRuleInput, DisassociateResolverRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateResolverRuleInput, DisassociateResolverRuleOutput>())
@@ -2279,6 +2386,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func getFirewallConfig(input: GetFirewallConfigInput) async throws -> GetFirewallConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getFirewallConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2291,18 +2404,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFirewallConfigInput, GetFirewallConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFirewallConfigInput, GetFirewallConfigOutput>(GetFirewallConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFirewallConfigInput, GetFirewallConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFirewallConfigInput, GetFirewallConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFirewallConfigOutput>(GetFirewallConfigOutput.httpOutput(from:), GetFirewallConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFirewallConfigInput, GetFirewallConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2314,7 +2427,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFirewallConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetFirewallConfigInput, GetFirewallConfigOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetFirewallConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetFirewallConfigInput, GetFirewallConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFirewallConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFirewallConfigInput, GetFirewallConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFirewallConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFirewallConfigInput, GetFirewallConfigOutput>())
@@ -2351,6 +2463,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func getFirewallDomainList(input: GetFirewallDomainListInput) async throws -> GetFirewallDomainListOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getFirewallDomainListOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2363,18 +2481,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFirewallDomainListInput, GetFirewallDomainListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFirewallDomainListInput, GetFirewallDomainListOutput>(GetFirewallDomainListInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFirewallDomainListInput, GetFirewallDomainListOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFirewallDomainListInput, GetFirewallDomainListOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFirewallDomainListOutput>(GetFirewallDomainListOutput.httpOutput(from:), GetFirewallDomainListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFirewallDomainListInput, GetFirewallDomainListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2386,7 +2504,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFirewallDomainListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetFirewallDomainListInput, GetFirewallDomainListOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetFirewallDomainList"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetFirewallDomainListInput, GetFirewallDomainListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFirewallDomainListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFirewallDomainListInput, GetFirewallDomainListOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFirewallDomainListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFirewallDomainListInput, GetFirewallDomainListOutput>())
@@ -2423,6 +2540,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func getFirewallRuleGroup(input: GetFirewallRuleGroupInput) async throws -> GetFirewallRuleGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getFirewallRuleGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2435,18 +2558,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput>(GetFirewallRuleGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFirewallRuleGroupOutput>(GetFirewallRuleGroupOutput.httpOutput(from:), GetFirewallRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2458,7 +2581,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFirewallRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetFirewallRuleGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFirewallRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput>())
@@ -2495,6 +2617,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func getFirewallRuleGroupAssociation(input: GetFirewallRuleGroupAssociationInput) async throws -> GetFirewallRuleGroupAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getFirewallRuleGroupAssociationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2507,18 +2635,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput>(GetFirewallRuleGroupAssociationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFirewallRuleGroupAssociationOutput>(GetFirewallRuleGroupAssociationOutput.httpOutput(from:), GetFirewallRuleGroupAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2530,7 +2658,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFirewallRuleGroupAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetFirewallRuleGroupAssociation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFirewallRuleGroupAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFirewallRuleGroupAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput>())
@@ -2568,6 +2695,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func getFirewallRuleGroupPolicy(input: GetFirewallRuleGroupPolicyInput) async throws -> GetFirewallRuleGroupPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getFirewallRuleGroupPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2580,18 +2713,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput>(GetFirewallRuleGroupPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFirewallRuleGroupPolicyOutput>(GetFirewallRuleGroupPolicyOutput.httpOutput(from:), GetFirewallRuleGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2603,7 +2736,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFirewallRuleGroupPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetFirewallRuleGroupPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFirewallRuleGroupPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFirewallRuleGroupPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput>())
@@ -2641,6 +2773,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func getOutpostResolver(input: GetOutpostResolverInput) async throws -> GetOutpostResolverOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getOutpostResolverOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2653,18 +2791,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetOutpostResolverInput, GetOutpostResolverOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOutpostResolverInput, GetOutpostResolverOutput>(GetOutpostResolverInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOutpostResolverInput, GetOutpostResolverOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOutpostResolverInput, GetOutpostResolverOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOutpostResolverOutput>(GetOutpostResolverOutput.httpOutput(from:), GetOutpostResolverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOutpostResolverInput, GetOutpostResolverOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2676,7 +2814,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOutpostResolverOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOutpostResolverInput, GetOutpostResolverOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetOutpostResolver"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetOutpostResolverInput, GetOutpostResolverOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOutpostResolverInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOutpostResolverInput, GetOutpostResolverOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOutpostResolverOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOutpostResolverInput, GetOutpostResolverOutput>())
@@ -2715,6 +2852,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func getResolverConfig(input: GetResolverConfigInput) async throws -> GetResolverConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getResolverConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2727,18 +2870,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResolverConfigInput, GetResolverConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResolverConfigInput, GetResolverConfigOutput>(GetResolverConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResolverConfigInput, GetResolverConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverConfigInput, GetResolverConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResolverConfigOutput>(GetResolverConfigOutput.httpOutput(from:), GetResolverConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverConfigInput, GetResolverConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2750,7 +2893,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResolverConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResolverConfigInput, GetResolverConfigOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetResolverConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResolverConfigInput, GetResolverConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResolverConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResolverConfigInput, GetResolverConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverConfigInput, GetResolverConfigOutput>())
@@ -2789,6 +2931,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func getResolverDnssecConfig(input: GetResolverDnssecConfigInput) async throws -> GetResolverDnssecConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getResolverDnssecConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2801,18 +2949,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput>(GetResolverDnssecConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResolverDnssecConfigOutput>(GetResolverDnssecConfigOutput.httpOutput(from:), GetResolverDnssecConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2824,7 +2972,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResolverDnssecConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetResolverDnssecConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResolverDnssecConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverDnssecConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput>())
@@ -2861,6 +3008,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func getResolverEndpoint(input: GetResolverEndpointInput) async throws -> GetResolverEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getResolverEndpointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2873,18 +3026,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResolverEndpointInput, GetResolverEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResolverEndpointInput, GetResolverEndpointOutput>(GetResolverEndpointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResolverEndpointInput, GetResolverEndpointOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverEndpointInput, GetResolverEndpointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResolverEndpointOutput>(GetResolverEndpointOutput.httpOutput(from:), GetResolverEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverEndpointInput, GetResolverEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2896,7 +3049,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResolverEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResolverEndpointInput, GetResolverEndpointOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetResolverEndpoint"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResolverEndpointInput, GetResolverEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResolverEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResolverEndpointInput, GetResolverEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverEndpointInput, GetResolverEndpointOutput>())
@@ -2935,6 +3087,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func getResolverQueryLogConfig(input: GetResolverQueryLogConfigInput) async throws -> GetResolverQueryLogConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getResolverQueryLogConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2947,18 +3105,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput>(GetResolverQueryLogConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResolverQueryLogConfigOutput>(GetResolverQueryLogConfigOutput.httpOutput(from:), GetResolverQueryLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2970,7 +3128,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResolverQueryLogConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetResolverQueryLogConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResolverQueryLogConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput>())
@@ -3009,6 +3166,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func getResolverQueryLogConfigAssociation(input: GetResolverQueryLogConfigAssociationInput) async throws -> GetResolverQueryLogConfigAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getResolverQueryLogConfigAssociationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3021,18 +3184,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput>(GetResolverQueryLogConfigAssociationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResolverQueryLogConfigAssociationOutput>(GetResolverQueryLogConfigAssociationOutput.httpOutput(from:), GetResolverQueryLogConfigAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3044,7 +3207,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResolverQueryLogConfigAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetResolverQueryLogConfigAssociation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResolverQueryLogConfigAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverQueryLogConfigAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput>())
@@ -3082,6 +3244,12 @@ extension Route53ResolverClient {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `UnknownResourceException` : The specified resource doesn't exist.
     public func getResolverQueryLogConfigPolicy(input: GetResolverQueryLogConfigPolicyInput) async throws -> GetResolverQueryLogConfigPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getResolverQueryLogConfigPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3094,18 +3262,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput>(GetResolverQueryLogConfigPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResolverQueryLogConfigPolicyOutput>(GetResolverQueryLogConfigPolicyOutput.httpOutput(from:), GetResolverQueryLogConfigPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3117,7 +3285,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResolverQueryLogConfigPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetResolverQueryLogConfigPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResolverQueryLogConfigPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverQueryLogConfigPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput>())
@@ -3154,6 +3321,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func getResolverRule(input: GetResolverRuleInput) async throws -> GetResolverRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getResolverRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3166,18 +3339,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResolverRuleInput, GetResolverRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResolverRuleInput, GetResolverRuleOutput>(GetResolverRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResolverRuleInput, GetResolverRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverRuleInput, GetResolverRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResolverRuleOutput>(GetResolverRuleOutput.httpOutput(from:), GetResolverRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverRuleInput, GetResolverRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3189,7 +3362,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResolverRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResolverRuleInput, GetResolverRuleOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetResolverRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResolverRuleInput, GetResolverRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResolverRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResolverRuleInput, GetResolverRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverRuleInput, GetResolverRuleOutput>())
@@ -3226,6 +3398,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func getResolverRuleAssociation(input: GetResolverRuleAssociationInput) async throws -> GetResolverRuleAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getResolverRuleAssociationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3238,18 +3416,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput>(GetResolverRuleAssociationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResolverRuleAssociationOutput>(GetResolverRuleAssociationOutput.httpOutput(from:), GetResolverRuleAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3261,7 +3439,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResolverRuleAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetResolverRuleAssociation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResolverRuleAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverRuleAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput>())
@@ -3298,6 +3475,12 @@ extension Route53ResolverClient {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `UnknownResourceException` : The specified resource doesn't exist.
     public func getResolverRulePolicy(input: GetResolverRulePolicyInput) async throws -> GetResolverRulePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.getResolverRulePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3310,18 +3493,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResolverRulePolicyInput, GetResolverRulePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResolverRulePolicyInput, GetResolverRulePolicyOutput>(GetResolverRulePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResolverRulePolicyInput, GetResolverRulePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverRulePolicyInput, GetResolverRulePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResolverRulePolicyOutput>(GetResolverRulePolicyOutput.httpOutput(from:), GetResolverRulePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverRulePolicyInput, GetResolverRulePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3333,7 +3516,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResolverRulePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResolverRulePolicyInput, GetResolverRulePolicyOutput>(overrides: ["X-Amz-Target": "Route53Resolver.GetResolverRulePolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResolverRulePolicyInput, GetResolverRulePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResolverRulePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResolverRulePolicyInput, GetResolverRulePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverRulePolicyInput, GetResolverRulePolicyOutput>())
@@ -3379,6 +3561,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func importFirewallDomains(input: ImportFirewallDomainsInput) async throws -> ImportFirewallDomainsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.importFirewallDomainsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3391,18 +3579,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ImportFirewallDomainsInput, ImportFirewallDomainsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ImportFirewallDomainsInput, ImportFirewallDomainsOutput>(ImportFirewallDomainsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportFirewallDomainsInput, ImportFirewallDomainsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportFirewallDomainsInput, ImportFirewallDomainsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportFirewallDomainsOutput>(ImportFirewallDomainsOutput.httpOutput(from:), ImportFirewallDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportFirewallDomainsInput, ImportFirewallDomainsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3414,7 +3602,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportFirewallDomainsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportFirewallDomainsInput, ImportFirewallDomainsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ImportFirewallDomains"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ImportFirewallDomainsInput, ImportFirewallDomainsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportFirewallDomainsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportFirewallDomainsInput, ImportFirewallDomainsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportFirewallDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportFirewallDomainsInput, ImportFirewallDomainsOutput>())
@@ -3451,6 +3638,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func listFirewallConfigs(input: ListFirewallConfigsInput) async throws -> ListFirewallConfigsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listFirewallConfigsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3463,18 +3656,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFirewallConfigsInput, ListFirewallConfigsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFirewallConfigsInput, ListFirewallConfigsOutput>(ListFirewallConfigsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFirewallConfigsInput, ListFirewallConfigsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallConfigsInput, ListFirewallConfigsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFirewallConfigsOutput>(ListFirewallConfigsOutput.httpOutput(from:), ListFirewallConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallConfigsInput, ListFirewallConfigsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3486,7 +3679,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFirewallConfigsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallConfigsInput, ListFirewallConfigsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListFirewallConfigs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFirewallConfigsInput, ListFirewallConfigsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFirewallConfigsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallConfigsInput, ListFirewallConfigsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallConfigsInput, ListFirewallConfigsOutput>())
@@ -3523,6 +3715,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func listFirewallDomainLists(input: ListFirewallDomainListsInput) async throws -> ListFirewallDomainListsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listFirewallDomainListsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3535,18 +3733,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFirewallDomainListsInput, ListFirewallDomainListsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFirewallDomainListsInput, ListFirewallDomainListsOutput>(ListFirewallDomainListsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFirewallDomainListsInput, ListFirewallDomainListsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallDomainListsInput, ListFirewallDomainListsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFirewallDomainListsOutput>(ListFirewallDomainListsOutput.httpOutput(from:), ListFirewallDomainListsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallDomainListsInput, ListFirewallDomainListsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3558,7 +3756,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFirewallDomainListsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallDomainListsInput, ListFirewallDomainListsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListFirewallDomainLists"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFirewallDomainListsInput, ListFirewallDomainListsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFirewallDomainListsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallDomainListsInput, ListFirewallDomainListsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallDomainListsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallDomainListsInput, ListFirewallDomainListsOutput>())
@@ -3596,6 +3793,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func listFirewallDomains(input: ListFirewallDomainsInput) async throws -> ListFirewallDomainsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listFirewallDomainsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3608,18 +3811,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFirewallDomainsInput, ListFirewallDomainsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFirewallDomainsInput, ListFirewallDomainsOutput>(ListFirewallDomainsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFirewallDomainsInput, ListFirewallDomainsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallDomainsInput, ListFirewallDomainsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFirewallDomainsOutput>(ListFirewallDomainsOutput.httpOutput(from:), ListFirewallDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallDomainsInput, ListFirewallDomainsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3631,7 +3834,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFirewallDomainsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallDomainsInput, ListFirewallDomainsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListFirewallDomains"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFirewallDomainsInput, ListFirewallDomainsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFirewallDomainsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallDomainsInput, ListFirewallDomainsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallDomainsInput, ListFirewallDomainsOutput>())
@@ -3668,6 +3870,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func listFirewallRuleGroupAssociations(input: ListFirewallRuleGroupAssociationsInput) async throws -> ListFirewallRuleGroupAssociationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listFirewallRuleGroupAssociationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3680,18 +3888,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput>(ListFirewallRuleGroupAssociationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFirewallRuleGroupAssociationsOutput>(ListFirewallRuleGroupAssociationsOutput.httpOutput(from:), ListFirewallRuleGroupAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3703,7 +3911,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFirewallRuleGroupAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListFirewallRuleGroupAssociations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFirewallRuleGroupAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallRuleGroupAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput>())
@@ -3740,6 +3947,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func listFirewallRuleGroups(input: ListFirewallRuleGroupsInput) async throws -> ListFirewallRuleGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listFirewallRuleGroupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3752,18 +3965,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput>(ListFirewallRuleGroupsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFirewallRuleGroupsOutput>(ListFirewallRuleGroupsOutput.httpOutput(from:), ListFirewallRuleGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3775,7 +3988,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFirewallRuleGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListFirewallRuleGroups"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFirewallRuleGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput>())
@@ -3813,6 +4025,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func listFirewallRules(input: ListFirewallRulesInput) async throws -> ListFirewallRulesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listFirewallRulesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3825,18 +4043,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFirewallRulesInput, ListFirewallRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFirewallRulesInput, ListFirewallRulesOutput>(ListFirewallRulesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFirewallRulesInput, ListFirewallRulesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallRulesInput, ListFirewallRulesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFirewallRulesOutput>(ListFirewallRulesOutput.httpOutput(from:), ListFirewallRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallRulesInput, ListFirewallRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3848,7 +4066,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFirewallRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallRulesInput, ListFirewallRulesOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListFirewallRules"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFirewallRulesInput, ListFirewallRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFirewallRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallRulesInput, ListFirewallRulesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallRulesInput, ListFirewallRulesOutput>())
@@ -3886,6 +4103,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func listOutpostResolvers(input: ListOutpostResolversInput) async throws -> ListOutpostResolversOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listOutpostResolversOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3898,18 +4121,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListOutpostResolversInput, ListOutpostResolversOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOutpostResolversInput, ListOutpostResolversOutput>(ListOutpostResolversInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOutpostResolversInput, ListOutpostResolversOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOutpostResolversInput, ListOutpostResolversOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOutpostResolversOutput>(ListOutpostResolversOutput.httpOutput(from:), ListOutpostResolversOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOutpostResolversInput, ListOutpostResolversOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3921,7 +4144,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOutpostResolversOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOutpostResolversInput, ListOutpostResolversOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListOutpostResolvers"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListOutpostResolversInput, ListOutpostResolversOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOutpostResolversInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOutpostResolversInput, ListOutpostResolversOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOutpostResolversOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOutpostResolversInput, ListOutpostResolversOutput>())
@@ -3961,6 +4183,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func listResolverConfigs(input: ListResolverConfigsInput) async throws -> ListResolverConfigsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listResolverConfigsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3973,18 +4201,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListResolverConfigsInput, ListResolverConfigsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResolverConfigsInput, ListResolverConfigsOutput>(ListResolverConfigsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResolverConfigsInput, ListResolverConfigsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverConfigsInput, ListResolverConfigsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResolverConfigsOutput>(ListResolverConfigsOutput.httpOutput(from:), ListResolverConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverConfigsInput, ListResolverConfigsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3996,7 +4224,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResolverConfigsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResolverConfigsInput, ListResolverConfigsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListResolverConfigs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListResolverConfigsInput, ListResolverConfigsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResolverConfigsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResolverConfigsInput, ListResolverConfigsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverConfigsInput, ListResolverConfigsOutput>())
@@ -4035,6 +4262,12 @@ extension Route53ResolverClient {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func listResolverDnssecConfigs(input: ListResolverDnssecConfigsInput) async throws -> ListResolverDnssecConfigsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listResolverDnssecConfigsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4047,18 +4280,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput>(ListResolverDnssecConfigsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResolverDnssecConfigsOutput>(ListResolverDnssecConfigsOutput.httpOutput(from:), ListResolverDnssecConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4070,7 +4303,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResolverDnssecConfigsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListResolverDnssecConfigs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResolverDnssecConfigsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverDnssecConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput>())
@@ -4108,6 +4340,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func listResolverEndpointIpAddresses(input: ListResolverEndpointIpAddressesInput) async throws -> ListResolverEndpointIpAddressesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listResolverEndpointIpAddressesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4120,18 +4358,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput>(ListResolverEndpointIpAddressesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResolverEndpointIpAddressesOutput>(ListResolverEndpointIpAddressesOutput.httpOutput(from:), ListResolverEndpointIpAddressesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4143,7 +4381,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResolverEndpointIpAddressesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListResolverEndpointIpAddresses"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResolverEndpointIpAddressesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverEndpointIpAddressesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput>())
@@ -4181,6 +4418,12 @@ extension Route53ResolverClient {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func listResolverEndpoints(input: ListResolverEndpointsInput) async throws -> ListResolverEndpointsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listResolverEndpointsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4193,18 +4436,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListResolverEndpointsInput, ListResolverEndpointsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResolverEndpointsInput, ListResolverEndpointsOutput>(ListResolverEndpointsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResolverEndpointsInput, ListResolverEndpointsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverEndpointsInput, ListResolverEndpointsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResolverEndpointsOutput>(ListResolverEndpointsOutput.httpOutput(from:), ListResolverEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverEndpointsInput, ListResolverEndpointsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4216,7 +4459,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResolverEndpointsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResolverEndpointsInput, ListResolverEndpointsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListResolverEndpoints"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListResolverEndpointsInput, ListResolverEndpointsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResolverEndpointsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResolverEndpointsInput, ListResolverEndpointsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverEndpointsInput, ListResolverEndpointsOutput>())
@@ -4255,6 +4497,12 @@ extension Route53ResolverClient {
     /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func listResolverQueryLogConfigAssociations(input: ListResolverQueryLogConfigAssociationsInput) async throws -> ListResolverQueryLogConfigAssociationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listResolverQueryLogConfigAssociationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4267,18 +4515,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput>(ListResolverQueryLogConfigAssociationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResolverQueryLogConfigAssociationsOutput>(ListResolverQueryLogConfigAssociationsOutput.httpOutput(from:), ListResolverQueryLogConfigAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4290,7 +4538,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResolverQueryLogConfigAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListResolverQueryLogConfigAssociations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResolverQueryLogConfigAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverQueryLogConfigAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput>())
@@ -4329,6 +4576,12 @@ extension Route53ResolverClient {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func listResolverQueryLogConfigs(input: ListResolverQueryLogConfigsInput) async throws -> ListResolverQueryLogConfigsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listResolverQueryLogConfigsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4341,18 +4594,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput>(ListResolverQueryLogConfigsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResolverQueryLogConfigsOutput>(ListResolverQueryLogConfigsOutput.httpOutput(from:), ListResolverQueryLogConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4364,7 +4617,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResolverQueryLogConfigsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListResolverQueryLogConfigs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResolverQueryLogConfigsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverQueryLogConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput>())
@@ -4402,6 +4654,12 @@ extension Route53ResolverClient {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func listResolverRuleAssociations(input: ListResolverRuleAssociationsInput) async throws -> ListResolverRuleAssociationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listResolverRuleAssociationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4414,18 +4672,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput>(ListResolverRuleAssociationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResolverRuleAssociationsOutput>(ListResolverRuleAssociationsOutput.httpOutput(from:), ListResolverRuleAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4437,7 +4695,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResolverRuleAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListResolverRuleAssociations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResolverRuleAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverRuleAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput>())
@@ -4475,6 +4732,12 @@ extension Route53ResolverClient {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func listResolverRules(input: ListResolverRulesInput) async throws -> ListResolverRulesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listResolverRulesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4487,18 +4750,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListResolverRulesInput, ListResolverRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResolverRulesInput, ListResolverRulesOutput>(ListResolverRulesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResolverRulesInput, ListResolverRulesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverRulesInput, ListResolverRulesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResolverRulesOutput>(ListResolverRulesOutput.httpOutput(from:), ListResolverRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverRulesInput, ListResolverRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4510,7 +4773,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResolverRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResolverRulesInput, ListResolverRulesOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListResolverRules"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListResolverRulesInput, ListResolverRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResolverRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResolverRulesInput, ListResolverRulesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverRulesInput, ListResolverRulesOutput>())
@@ -4549,6 +4811,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4561,18 +4829,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4584,7 +4852,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -4622,6 +4889,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func putFirewallRuleGroupPolicy(input: PutFirewallRuleGroupPolicyInput) async throws -> PutFirewallRuleGroupPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.putFirewallRuleGroupPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4634,18 +4907,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput>(PutFirewallRuleGroupPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutFirewallRuleGroupPolicyOutput>(PutFirewallRuleGroupPolicyOutput.httpOutput(from:), PutFirewallRuleGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4657,7 +4930,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutFirewallRuleGroupPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput>(overrides: ["X-Amz-Target": "Route53Resolver.PutFirewallRuleGroupPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutFirewallRuleGroupPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutFirewallRuleGroupPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput>())
@@ -4696,6 +4968,12 @@ extension Route53ResolverClient {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `UnknownResourceException` : The specified resource doesn't exist.
     public func putResolverQueryLogConfigPolicy(input: PutResolverQueryLogConfigPolicyInput) async throws -> PutResolverQueryLogConfigPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.putResolverQueryLogConfigPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4708,18 +4986,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput>(PutResolverQueryLogConfigPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResolverQueryLogConfigPolicyOutput>(PutResolverQueryLogConfigPolicyOutput.httpOutput(from:), PutResolverQueryLogConfigPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4731,7 +5009,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResolverQueryLogConfigPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput>(overrides: ["X-Amz-Target": "Route53Resolver.PutResolverQueryLogConfigPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResolverQueryLogConfigPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResolverQueryLogConfigPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput>())
@@ -4769,6 +5046,12 @@ extension Route53ResolverClient {
     /// - `InvalidPolicyDocument` : The specified Resolver rule policy is invalid.
     /// - `UnknownResourceException` : The specified resource doesn't exist.
     public func putResolverRulePolicy(input: PutResolverRulePolicyInput) async throws -> PutResolverRulePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.putResolverRulePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4781,18 +5064,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutResolverRulePolicyInput, PutResolverRulePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutResolverRulePolicyInput, PutResolverRulePolicyOutput>(PutResolverRulePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutResolverRulePolicyInput, PutResolverRulePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResolverRulePolicyInput, PutResolverRulePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResolverRulePolicyOutput>(PutResolverRulePolicyOutput.httpOutput(from:), PutResolverRulePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResolverRulePolicyInput, PutResolverRulePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4804,7 +5087,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResolverRulePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResolverRulePolicyInput, PutResolverRulePolicyOutput>(overrides: ["X-Amz-Target": "Route53Resolver.PutResolverRulePolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutResolverRulePolicyInput, PutResolverRulePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResolverRulePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResolverRulePolicyInput, PutResolverRulePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResolverRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResolverRulePolicyInput, PutResolverRulePolicyOutput>())
@@ -4844,6 +5126,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4856,18 +5144,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4879,7 +5167,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "Route53Resolver.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -4917,6 +5204,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4929,18 +5222,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4952,7 +5245,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "Route53Resolver.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -4990,6 +5282,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func updateFirewallConfig(input: UpdateFirewallConfigInput) async throws -> UpdateFirewallConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.updateFirewallConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5002,18 +5300,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateFirewallConfigInput, UpdateFirewallConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFirewallConfigInput, UpdateFirewallConfigOutput>(UpdateFirewallConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFirewallConfigInput, UpdateFirewallConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallConfigInput, UpdateFirewallConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFirewallConfigOutput>(UpdateFirewallConfigOutput.httpOutput(from:), UpdateFirewallConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallConfigInput, UpdateFirewallConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5025,7 +5323,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallConfigInput, UpdateFirewallConfigOutput>(overrides: ["X-Amz-Target": "Route53Resolver.UpdateFirewallConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFirewallConfigInput, UpdateFirewallConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFirewallConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallConfigInput, UpdateFirewallConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallConfigInput, UpdateFirewallConfigOutput>())
@@ -5065,6 +5362,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func updateFirewallDomains(input: UpdateFirewallDomainsInput) async throws -> UpdateFirewallDomainsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.updateFirewallDomainsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5077,18 +5380,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput>(UpdateFirewallDomainsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFirewallDomainsOutput>(UpdateFirewallDomainsOutput.httpOutput(from:), UpdateFirewallDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5100,7 +5403,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallDomainsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput>(overrides: ["X-Amz-Target": "Route53Resolver.UpdateFirewallDomains"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFirewallDomainsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput>())
@@ -5139,6 +5441,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func updateFirewallRule(input: UpdateFirewallRuleInput) async throws -> UpdateFirewallRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.updateFirewallRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5151,18 +5459,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateFirewallRuleInput, UpdateFirewallRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFirewallRuleInput, UpdateFirewallRuleOutput>(UpdateFirewallRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFirewallRuleInput, UpdateFirewallRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallRuleInput, UpdateFirewallRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFirewallRuleOutput>(UpdateFirewallRuleOutput.httpOutput(from:), UpdateFirewallRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallRuleInput, UpdateFirewallRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5174,7 +5482,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallRuleInput, UpdateFirewallRuleOutput>(overrides: ["X-Amz-Target": "Route53Resolver.UpdateFirewallRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFirewallRuleInput, UpdateFirewallRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFirewallRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallRuleInput, UpdateFirewallRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallRuleInput, UpdateFirewallRuleOutput>())
@@ -5213,6 +5520,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func updateFirewallRuleGroupAssociation(input: UpdateFirewallRuleGroupAssociationInput) async throws -> UpdateFirewallRuleGroupAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.updateFirewallRuleGroupAssociationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5225,18 +5538,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput>(UpdateFirewallRuleGroupAssociationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFirewallRuleGroupAssociationOutput>(UpdateFirewallRuleGroupAssociationOutput.httpOutput(from:), UpdateFirewallRuleGroupAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5248,7 +5561,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallRuleGroupAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput>(overrides: ["X-Amz-Target": "Route53Resolver.UpdateFirewallRuleGroupAssociation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFirewallRuleGroupAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallRuleGroupAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput>())
@@ -5288,6 +5600,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func updateOutpostResolver(input: UpdateOutpostResolverInput) async throws -> UpdateOutpostResolverOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.updateOutpostResolverOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5300,18 +5618,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateOutpostResolverInput, UpdateOutpostResolverOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateOutpostResolverInput, UpdateOutpostResolverOutput>(UpdateOutpostResolverInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateOutpostResolverInput, UpdateOutpostResolverOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOutpostResolverInput, UpdateOutpostResolverOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOutpostResolverOutput>(UpdateOutpostResolverOutput.httpOutput(from:), UpdateOutpostResolverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOutpostResolverInput, UpdateOutpostResolverOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5323,7 +5641,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateOutpostResolverOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateOutpostResolverInput, UpdateOutpostResolverOutput>(overrides: ["X-Amz-Target": "Route53Resolver.UpdateOutpostResolver"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateOutpostResolverInput, UpdateOutpostResolverOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateOutpostResolverInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateOutpostResolverInput, UpdateOutpostResolverOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOutpostResolverOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateOutpostResolverInput, UpdateOutpostResolverOutput>())
@@ -5365,6 +5682,12 @@ extension Route53ResolverClient {
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
     public func updateResolverConfig(input: UpdateResolverConfigInput) async throws -> UpdateResolverConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.updateResolverConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5377,18 +5700,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateResolverConfigInput, UpdateResolverConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateResolverConfigInput, UpdateResolverConfigOutput>(UpdateResolverConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateResolverConfigInput, UpdateResolverConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResolverConfigInput, UpdateResolverConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResolverConfigOutput>(UpdateResolverConfigOutput.httpOutput(from:), UpdateResolverConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResolverConfigInput, UpdateResolverConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5400,7 +5723,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateResolverConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateResolverConfigInput, UpdateResolverConfigOutput>(overrides: ["X-Amz-Target": "Route53Resolver.UpdateResolverConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateResolverConfigInput, UpdateResolverConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateResolverConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateResolverConfigInput, UpdateResolverConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResolverConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateResolverConfigInput, UpdateResolverConfigOutput>())
@@ -5439,6 +5761,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func updateResolverDnssecConfig(input: UpdateResolverDnssecConfigInput) async throws -> UpdateResolverDnssecConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.updateResolverDnssecConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5451,18 +5779,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput>(UpdateResolverDnssecConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResolverDnssecConfigOutput>(UpdateResolverDnssecConfigOutput.httpOutput(from:), UpdateResolverDnssecConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5474,7 +5802,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateResolverDnssecConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput>(overrides: ["X-Amz-Target": "Route53Resolver.UpdateResolverDnssecConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateResolverDnssecConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResolverDnssecConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput>())
@@ -5513,6 +5840,12 @@ extension Route53ResolverClient {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func updateResolverEndpoint(input: UpdateResolverEndpointInput) async throws -> UpdateResolverEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.updateResolverEndpointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5525,18 +5858,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateResolverEndpointInput, UpdateResolverEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateResolverEndpointInput, UpdateResolverEndpointOutput>(UpdateResolverEndpointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateResolverEndpointInput, UpdateResolverEndpointOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResolverEndpointInput, UpdateResolverEndpointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResolverEndpointOutput>(UpdateResolverEndpointOutput.httpOutput(from:), UpdateResolverEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResolverEndpointInput, UpdateResolverEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5548,7 +5881,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateResolverEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateResolverEndpointInput, UpdateResolverEndpointOutput>(overrides: ["X-Amz-Target": "Route53Resolver.UpdateResolverEndpoint"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateResolverEndpointInput, UpdateResolverEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateResolverEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateResolverEndpointInput, UpdateResolverEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResolverEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateResolverEndpointInput, UpdateResolverEndpointOutput>())
@@ -5589,6 +5921,12 @@ extension Route53ResolverClient {
     /// - `ResourceUnavailableException` : The specified resource isn't available.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func updateResolverRule(input: UpdateResolverRuleInput) async throws -> UpdateResolverRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.updateResolverRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5601,18 +5939,18 @@ extension Route53ResolverClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "route53resolver")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateResolverRuleInput, UpdateResolverRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateResolverRuleInput, UpdateResolverRuleOutput>(UpdateResolverRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateResolverRuleInput, UpdateResolverRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResolverRuleInput, UpdateResolverRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResolverRuleOutput>(UpdateResolverRuleOutput.httpOutput(from:), UpdateResolverRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResolverRuleInput, UpdateResolverRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5624,7 +5962,6 @@ extension Route53ResolverClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateResolverRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateResolverRuleInput, UpdateResolverRuleOutput>(overrides: ["X-Amz-Target": "Route53Resolver.UpdateResolverRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateResolverRuleInput, UpdateResolverRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateResolverRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateResolverRuleInput, UpdateResolverRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateResolverRuleInput, UpdateResolverRuleOutput>())

@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.networkfirewall#NetworkFirewall_20201112",
+    "module": "AWSNetworkFirewall",
+    "sdkId": "Network Firewall",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/network-firewall.json"
+}

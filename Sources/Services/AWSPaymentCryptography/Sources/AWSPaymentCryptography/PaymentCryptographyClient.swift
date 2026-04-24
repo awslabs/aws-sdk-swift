@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,30 +36,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -637,6 +634,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func addKeyReplicationRegions(input: AddKeyReplicationRegionsInput) async throws -> AddKeyReplicationRegionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.addKeyReplicationRegionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -649,18 +652,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>(AddKeyReplicationRegionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddKeyReplicationRegionsOutput>(AddKeyReplicationRegionsOutput.httpOutput(from:), AddKeyReplicationRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -672,7 +675,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddKeyReplicationRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.AddKeyReplicationRegions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddKeyReplicationRegionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddKeyReplicationRegionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddKeyReplicationRegionsInput, AddKeyReplicationRegionsOutput>())
@@ -721,6 +723,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.createAliasOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -733,18 +741,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAliasInput, CreateAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAliasInput, CreateAliasOutput>(CreateAliasInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAliasInput, CreateAliasOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAliasInput, CreateAliasOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAliasOutput>(CreateAliasOutput.httpOutput(from:), CreateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAliasInput, CreateAliasOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -756,7 +764,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAliasInput, CreateAliasOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.CreateAlias"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAliasInput, CreateAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAliasInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAliasInput, CreateAliasOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAliasInput, CreateAliasOutput>())
@@ -803,6 +810,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func createKey(input: CreateKeyInput) async throws -> CreateKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.createKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -815,18 +828,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateKeyInput, CreateKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateKeyInput, CreateKeyOutput>(CreateKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateKeyInput, CreateKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKeyInput, CreateKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeyOutput>(CreateKeyOutput.httpOutput(from:), CreateKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeyInput, CreateKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -838,7 +851,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateKeyInput, CreateKeyOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.CreateKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateKeyInput, CreateKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateKeyInput, CreateKeyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateKeyInput, CreateKeyOutput>())
@@ -886,6 +898,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.deleteAliasOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -898,18 +916,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAliasInput, DeleteAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAliasInput, DeleteAliasOutput>(DeleteAliasInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAliasInput, DeleteAliasOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAliasInput, DeleteAliasOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAliasOutput>(DeleteAliasOutput.httpOutput(from:), DeleteAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAliasInput, DeleteAliasOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -921,7 +939,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAliasInput, DeleteAliasOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.DeleteAlias"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAliasInput, DeleteAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAliasInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAliasInput, DeleteAliasOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAliasInput, DeleteAliasOutput>())
@@ -967,6 +984,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.deleteKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -979,18 +1002,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteKeyInput, DeleteKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteKeyInput, DeleteKeyOutput>(DeleteKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteKeyInput, DeleteKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteKeyInput, DeleteKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeyOutput>(DeleteKeyOutput.httpOutput(from:), DeleteKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeyInput, DeleteKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1002,7 +1025,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteKeyInput, DeleteKeyOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.DeleteKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteKeyInput, DeleteKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteKeyInput, DeleteKeyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteKeyInput, DeleteKeyOutput>())
@@ -1046,6 +1068,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func disableDefaultKeyReplicationRegions(input: DisableDefaultKeyReplicationRegionsInput) async throws -> DisableDefaultKeyReplicationRegionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.disableDefaultKeyReplicationRegionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1058,18 +1086,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>(DisableDefaultKeyReplicationRegionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableDefaultKeyReplicationRegionsOutput>(DisableDefaultKeyReplicationRegionsOutput.httpOutput(from:), DisableDefaultKeyReplicationRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1081,7 +1109,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableDefaultKeyReplicationRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.DisableDefaultKeyReplicationRegions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableDefaultKeyReplicationRegionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableDefaultKeyReplicationRegionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableDefaultKeyReplicationRegionsInput, DisableDefaultKeyReplicationRegionsOutput>())
@@ -1125,6 +1152,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func enableDefaultKeyReplicationRegions(input: EnableDefaultKeyReplicationRegionsInput) async throws -> EnableDefaultKeyReplicationRegionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.enableDefaultKeyReplicationRegionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1137,18 +1170,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>(EnableDefaultKeyReplicationRegionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableDefaultKeyReplicationRegionsOutput>(EnableDefaultKeyReplicationRegionsOutput.httpOutput(from:), EnableDefaultKeyReplicationRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1160,7 +1193,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableDefaultKeyReplicationRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.EnableDefaultKeyReplicationRegions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableDefaultKeyReplicationRegionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableDefaultKeyReplicationRegionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableDefaultKeyReplicationRegionsInput, EnableDefaultKeyReplicationRegionsOutput>())
@@ -1248,6 +1280,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func exportKey(input: ExportKeyInput) async throws -> ExportKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.exportKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1260,18 +1298,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExportKeyInput, ExportKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExportKeyInput, ExportKeyOutput>(ExportKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportKeyInput, ExportKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportKeyInput, ExportKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportKeyOutput>(ExportKeyOutput.httpOutput(from:), ExportKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportKeyInput, ExportKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1283,7 +1321,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportKeyInput, ExportKeyOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.ExportKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ExportKeyInput, ExportKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportKeyInput, ExportKeyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportKeyInput, ExportKeyOutput>())
@@ -1330,6 +1367,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func getAlias(input: GetAliasInput) async throws -> GetAliasOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.getAliasOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1342,18 +1385,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAliasInput, GetAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAliasInput, GetAliasOutput>(GetAliasInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAliasInput, GetAliasOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAliasInput, GetAliasOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAliasOutput>(GetAliasOutput.httpOutput(from:), GetAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAliasInput, GetAliasOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1365,7 +1408,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAliasInput, GetAliasOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.GetAlias"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetAliasInput, GetAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAliasInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAliasInput, GetAliasOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAliasInput, GetAliasOutput>())
@@ -1404,6 +1446,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func getCertificateSigningRequest(input: GetCertificateSigningRequestInput) async throws -> GetCertificateSigningRequestOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.getCertificateSigningRequestOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1416,18 +1464,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>(GetCertificateSigningRequestInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCertificateSigningRequestOutput>(GetCertificateSigningRequestOutput.httpOutput(from:), GetCertificateSigningRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1439,7 +1487,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCertificateSigningRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.GetCertificateSigningRequest"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCertificateSigningRequestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCertificateSigningRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCertificateSigningRequestInput, GetCertificateSigningRequestOutput>())
@@ -1483,6 +1530,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func getDefaultKeyReplicationRegions(input: GetDefaultKeyReplicationRegionsInput) async throws -> GetDefaultKeyReplicationRegionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.getDefaultKeyReplicationRegionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1495,18 +1548,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>(GetDefaultKeyReplicationRegionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDefaultKeyReplicationRegionsOutput>(GetDefaultKeyReplicationRegionsOutput.httpOutput(from:), GetDefaultKeyReplicationRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1518,7 +1571,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDefaultKeyReplicationRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.GetDefaultKeyReplicationRegions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDefaultKeyReplicationRegionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDefaultKeyReplicationRegionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDefaultKeyReplicationRegionsInput, GetDefaultKeyReplicationRegionsOutput>())
@@ -1563,6 +1615,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func getKey(input: GetKeyInput) async throws -> GetKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.getKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1575,18 +1633,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetKeyInput, GetKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetKeyInput, GetKeyOutput>(GetKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKeyInput, GetKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetKeyInput, GetKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyOutput>(GetKeyOutput.httpOutput(from:), GetKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKeyInput, GetKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1598,7 +1656,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetKeyInput, GetKeyOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.GetKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetKeyInput, GetKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetKeyInput, GetKeyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetKeyInput, GetKeyOutput>())
@@ -1643,6 +1700,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func getParametersForExport(input: GetParametersForExportInput) async throws -> GetParametersForExportOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.getParametersForExportOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1655,18 +1718,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetParametersForExportInput, GetParametersForExportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetParametersForExportInput, GetParametersForExportOutput>(GetParametersForExportInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetParametersForExportInput, GetParametersForExportOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetParametersForExportInput, GetParametersForExportOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetParametersForExportOutput>(GetParametersForExportOutput.httpOutput(from:), GetParametersForExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetParametersForExportInput, GetParametersForExportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1678,7 +1741,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetParametersForExportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetParametersForExportInput, GetParametersForExportOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.GetParametersForExport"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetParametersForExportInput, GetParametersForExportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetParametersForExportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetParametersForExportInput, GetParametersForExportOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetParametersForExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetParametersForExportInput, GetParametersForExportOutput>())
@@ -1723,6 +1785,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func getParametersForImport(input: GetParametersForImportInput) async throws -> GetParametersForImportOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.getParametersForImportOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1735,18 +1803,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetParametersForImportInput, GetParametersForImportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetParametersForImportInput, GetParametersForImportOutput>(GetParametersForImportInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetParametersForImportInput, GetParametersForImportOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetParametersForImportInput, GetParametersForImportOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetParametersForImportOutput>(GetParametersForImportOutput.httpOutput(from:), GetParametersForImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetParametersForImportInput, GetParametersForImportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1758,7 +1826,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetParametersForImportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetParametersForImportInput, GetParametersForImportOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.GetParametersForImport"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetParametersForImportInput, GetParametersForImportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetParametersForImportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetParametersForImportInput, GetParametersForImportOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetParametersForImportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetParametersForImportInput, GetParametersForImportOutput>())
@@ -1797,6 +1864,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func getPublicKeyCertificate(input: GetPublicKeyCertificateInput) async throws -> GetPublicKeyCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.getPublicKeyCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1809,18 +1882,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetPublicKeyCertificateInput, GetPublicKeyCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPublicKeyCertificateInput, GetPublicKeyCertificateOutput>(GetPublicKeyCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPublicKeyCertificateInput, GetPublicKeyCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPublicKeyCertificateInput, GetPublicKeyCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPublicKeyCertificateOutput>(GetPublicKeyCertificateOutput.httpOutput(from:), GetPublicKeyCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPublicKeyCertificateInput, GetPublicKeyCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1832,7 +1905,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPublicKeyCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPublicKeyCertificateInput, GetPublicKeyCertificateOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.GetPublicKeyCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetPublicKeyCertificateInput, GetPublicKeyCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPublicKeyCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPublicKeyCertificateInput, GetPublicKeyCertificateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPublicKeyCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPublicKeyCertificateInput, GetPublicKeyCertificateOutput>())
@@ -1934,6 +2006,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func importKey(input: ImportKeyInput) async throws -> ImportKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.importKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1946,18 +2024,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ImportKeyInput, ImportKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ImportKeyInput, ImportKeyOutput>(ImportKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportKeyInput, ImportKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportKeyInput, ImportKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportKeyOutput>(ImportKeyOutput.httpOutput(from:), ImportKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportKeyInput, ImportKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1969,7 +2047,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportKeyInput, ImportKeyOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.ImportKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ImportKeyInput, ImportKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportKeyInput, ImportKeyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportKeyInput, ImportKeyOutput>())
@@ -2016,6 +2093,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.listAliasesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2028,18 +2111,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAliasesInput, ListAliasesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAliasesInput, ListAliasesOutput>(ListAliasesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAliasesInput, ListAliasesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAliasesInput, ListAliasesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAliasesOutput>(ListAliasesOutput.httpOutput(from:), ListAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAliasesInput, ListAliasesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2051,7 +2134,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAliasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAliasesInput, ListAliasesOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.ListAliases"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListAliasesInput, ListAliasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAliasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAliasesInput, ListAliasesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAliasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAliasesInput, ListAliasesOutput>())
@@ -2096,6 +2178,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func listKeys(input: ListKeysInput) async throws -> ListKeysOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.listKeysOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2108,18 +2196,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListKeysInput, ListKeysOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListKeysInput, ListKeysOutput>(ListKeysInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListKeysInput, ListKeysOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListKeysInput, ListKeysOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeysOutput>(ListKeysOutput.httpOutput(from:), ListKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKeysInput, ListKeysOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2131,7 +2219,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListKeysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListKeysInput, ListKeysOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.ListKeys"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListKeysInput, ListKeysOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListKeysInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListKeysInput, ListKeysOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListKeysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListKeysInput, ListKeysOutput>())
@@ -2174,6 +2261,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2186,18 +2279,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2209,7 +2302,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -2253,6 +2345,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func removeKeyReplicationRegions(input: RemoveKeyReplicationRegionsInput) async throws -> RemoveKeyReplicationRegionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.removeKeyReplicationRegionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2265,18 +2363,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>(RemoveKeyReplicationRegionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveKeyReplicationRegionsOutput>(RemoveKeyReplicationRegionsOutput.httpOutput(from:), RemoveKeyReplicationRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2288,7 +2386,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveKeyReplicationRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.RemoveKeyReplicationRegions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveKeyReplicationRegionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveKeyReplicationRegionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveKeyReplicationRegionsInput, RemoveKeyReplicationRegionsOutput>())
@@ -2335,6 +2432,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func restoreKey(input: RestoreKeyInput) async throws -> RestoreKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.restoreKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2347,18 +2450,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RestoreKeyInput, RestoreKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RestoreKeyInput, RestoreKeyOutput>(RestoreKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestoreKeyInput, RestoreKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreKeyInput, RestoreKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreKeyOutput>(RestoreKeyOutput.httpOutput(from:), RestoreKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreKeyInput, RestoreKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2370,7 +2473,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestoreKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RestoreKeyInput, RestoreKeyOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.RestoreKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RestoreKeyInput, RestoreKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RestoreKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreKeyInput, RestoreKeyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreKeyInput, RestoreKeyOutput>())
@@ -2413,6 +2515,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func startKeyUsage(input: StartKeyUsageInput) async throws -> StartKeyUsageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.startKeyUsageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2425,18 +2533,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartKeyUsageInput, StartKeyUsageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartKeyUsageInput, StartKeyUsageOutput>(StartKeyUsageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartKeyUsageInput, StartKeyUsageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartKeyUsageInput, StartKeyUsageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartKeyUsageOutput>(StartKeyUsageOutput.httpOutput(from:), StartKeyUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartKeyUsageInput, StartKeyUsageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2448,7 +2556,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartKeyUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartKeyUsageInput, StartKeyUsageOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.StartKeyUsage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartKeyUsageInput, StartKeyUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartKeyUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartKeyUsageInput, StartKeyUsageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartKeyUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartKeyUsageInput, StartKeyUsageOutput>())
@@ -2493,6 +2600,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func stopKeyUsage(input: StopKeyUsageInput) async throws -> StopKeyUsageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.stopKeyUsageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2505,18 +2618,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopKeyUsageInput, StopKeyUsageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopKeyUsageInput, StopKeyUsageOutput>(StopKeyUsageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopKeyUsageInput, StopKeyUsageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopKeyUsageInput, StopKeyUsageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopKeyUsageOutput>(StopKeyUsageOutput.httpOutput(from:), StopKeyUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopKeyUsageInput, StopKeyUsageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2528,7 +2641,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopKeyUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopKeyUsageInput, StopKeyUsageOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.StopKeyUsage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopKeyUsageInput, StopKeyUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopKeyUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopKeyUsageInput, StopKeyUsageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopKeyUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopKeyUsageInput, StopKeyUsageOutput>())
@@ -2573,6 +2685,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2585,18 +2703,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2608,7 +2726,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -2652,6 +2769,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2664,18 +2787,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2687,7 +2810,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -2735,6 +2857,12 @@ extension PaymentCryptographyClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. You have exceeded the rate limits for Amazon Web Services Payment Cryptography API calls. Implement exponential backoff and retry logic in your application to handle throttling gracefully.
     /// - `ValidationException` : The request was denied due to an invalid request error. One or more parameters in your request are invalid. Check the parameter values, formats, and constraints specified in the API documentation.
     public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PaymentCryptographyClient.updateAliasOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2747,18 +2875,18 @@ extension PaymentCryptographyClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "payment-cryptography")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateAliasInput, UpdateAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAliasInput, UpdateAliasOutput>(UpdateAliasInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAliasInput, UpdateAliasOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAliasInput, UpdateAliasOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAliasOutput>(UpdateAliasOutput.httpOutput(from:), UpdateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAliasInput, UpdateAliasOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2770,7 +2898,6 @@ extension PaymentCryptographyClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAliasInput, UpdateAliasOutput>(overrides: ["X-Amz-Target": "PaymentCryptographyControlPlane.UpdateAlias"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAliasInput, UpdateAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAliasInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAliasInput, UpdateAliasOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAliasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAliasInput, UpdateAliasOutput>())

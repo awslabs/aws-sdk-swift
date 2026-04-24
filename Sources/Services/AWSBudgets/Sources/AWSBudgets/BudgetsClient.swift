@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,30 +35,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -632,6 +629,12 @@ extension BudgetsClient {
     /// - `ServiceQuotaExceededException` : You've reached a Service Quota limit on this resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func createBudget(input: CreateBudgetInput) async throws -> CreateBudgetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.createBudgetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -644,18 +647,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateBudgetInput, CreateBudgetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateBudgetInput, CreateBudgetOutput>(CreateBudgetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateBudgetInput, CreateBudgetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBudgetInput, CreateBudgetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBudgetOutput>(CreateBudgetOutput.httpOutput(from:), CreateBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBudgetInput, CreateBudgetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -667,7 +670,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBudgetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBudgetInput, CreateBudgetOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.CreateBudget"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateBudgetInput, CreateBudgetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBudgetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBudgetInput, CreateBudgetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBudgetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBudgetInput, CreateBudgetOutput>())
@@ -708,6 +710,12 @@ extension BudgetsClient {
     /// - `ServiceQuotaExceededException` : You've reached a Service Quota limit on this resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func createBudgetAction(input: CreateBudgetActionInput) async throws -> CreateBudgetActionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.createBudgetActionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -720,18 +728,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateBudgetActionInput, CreateBudgetActionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateBudgetActionInput, CreateBudgetActionOutput>(CreateBudgetActionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateBudgetActionInput, CreateBudgetActionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBudgetActionInput, CreateBudgetActionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBudgetActionOutput>(CreateBudgetActionOutput.httpOutput(from:), CreateBudgetActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBudgetActionInput, CreateBudgetActionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -743,7 +751,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBudgetActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBudgetActionInput, CreateBudgetActionOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.CreateBudgetAction"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateBudgetActionInput, CreateBudgetActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBudgetActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBudgetActionInput, CreateBudgetActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBudgetActionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBudgetActionInput, CreateBudgetActionOutput>())
@@ -783,6 +790,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func createNotification(input: CreateNotificationInput) async throws -> CreateNotificationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.createNotificationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -795,18 +808,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateNotificationInput, CreateNotificationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateNotificationInput, CreateNotificationOutput>(CreateNotificationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateNotificationInput, CreateNotificationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNotificationInput, CreateNotificationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNotificationOutput>(CreateNotificationOutput.httpOutput(from:), CreateNotificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNotificationInput, CreateNotificationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -818,7 +831,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateNotificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateNotificationInput, CreateNotificationOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.CreateNotification"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateNotificationInput, CreateNotificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateNotificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateNotificationInput, CreateNotificationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateNotificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateNotificationInput, CreateNotificationOutput>())
@@ -858,6 +870,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func createSubscriber(input: CreateSubscriberInput) async throws -> CreateSubscriberOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.createSubscriberOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -870,18 +888,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateSubscriberInput, CreateSubscriberOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSubscriberInput, CreateSubscriberOutput>(CreateSubscriberInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSubscriberInput, CreateSubscriberOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSubscriberInput, CreateSubscriberOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSubscriberOutput>(CreateSubscriberOutput.httpOutput(from:), CreateSubscriberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSubscriberInput, CreateSubscriberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -893,7 +911,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSubscriberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSubscriberInput, CreateSubscriberOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.CreateSubscriber"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateSubscriberInput, CreateSubscriberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSubscriberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSubscriberInput, CreateSubscriberOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSubscriberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSubscriberInput, CreateSubscriberOutput>())
@@ -931,6 +948,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func deleteBudget(input: DeleteBudgetInput) async throws -> DeleteBudgetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.deleteBudgetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -943,18 +966,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBudgetInput, DeleteBudgetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBudgetInput, DeleteBudgetOutput>(DeleteBudgetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBudgetInput, DeleteBudgetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBudgetInput, DeleteBudgetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBudgetOutput>(DeleteBudgetOutput.httpOutput(from:), DeleteBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBudgetInput, DeleteBudgetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -966,7 +989,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBudgetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBudgetInput, DeleteBudgetOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DeleteBudget"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteBudgetInput, DeleteBudgetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBudgetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBudgetInput, DeleteBudgetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBudgetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBudgetInput, DeleteBudgetOutput>())
@@ -1005,6 +1027,12 @@ extension BudgetsClient {
     /// - `ResourceLockedException` : The request was received and recognized by the server, but the server rejected that particular method for the requested resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func deleteBudgetAction(input: DeleteBudgetActionInput) async throws -> DeleteBudgetActionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.deleteBudgetActionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1017,18 +1045,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBudgetActionInput, DeleteBudgetActionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBudgetActionInput, DeleteBudgetActionOutput>(DeleteBudgetActionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBudgetActionInput, DeleteBudgetActionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBudgetActionInput, DeleteBudgetActionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBudgetActionOutput>(DeleteBudgetActionOutput.httpOutput(from:), DeleteBudgetActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBudgetActionInput, DeleteBudgetActionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1040,7 +1068,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBudgetActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBudgetActionInput, DeleteBudgetActionOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DeleteBudgetAction"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteBudgetActionInput, DeleteBudgetActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBudgetActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBudgetActionInput, DeleteBudgetActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBudgetActionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBudgetActionInput, DeleteBudgetActionOutput>())
@@ -1078,6 +1105,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func deleteNotification(input: DeleteNotificationInput) async throws -> DeleteNotificationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.deleteNotificationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1090,18 +1123,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteNotificationInput, DeleteNotificationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteNotificationInput, DeleteNotificationOutput>(DeleteNotificationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNotificationInput, DeleteNotificationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNotificationInput, DeleteNotificationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNotificationOutput>(DeleteNotificationOutput.httpOutput(from:), DeleteNotificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNotificationInput, DeleteNotificationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1113,7 +1146,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteNotificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteNotificationInput, DeleteNotificationOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DeleteNotification"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteNotificationInput, DeleteNotificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteNotificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteNotificationInput, DeleteNotificationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteNotificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteNotificationInput, DeleteNotificationOutput>())
@@ -1151,6 +1183,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func deleteSubscriber(input: DeleteSubscriberInput) async throws -> DeleteSubscriberOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.deleteSubscriberOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1163,18 +1201,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteSubscriberInput, DeleteSubscriberOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSubscriberInput, DeleteSubscriberOutput>(DeleteSubscriberInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSubscriberInput, DeleteSubscriberOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSubscriberInput, DeleteSubscriberOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSubscriberOutput>(DeleteSubscriberOutput.httpOutput(from:), DeleteSubscriberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSubscriberInput, DeleteSubscriberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1186,7 +1224,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSubscriberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSubscriberInput, DeleteSubscriberOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DeleteSubscriber"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSubscriberInput, DeleteSubscriberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSubscriberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSubscriberInput, DeleteSubscriberOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSubscriberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSubscriberInput, DeleteSubscriberOutput>())
@@ -1224,6 +1261,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func describeBudget(input: DescribeBudgetInput) async throws -> DescribeBudgetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.describeBudgetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1236,18 +1279,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeBudgetInput, DescribeBudgetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBudgetInput, DescribeBudgetOutput>(DescribeBudgetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBudgetInput, DescribeBudgetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetInput, DescribeBudgetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetOutput>(DescribeBudgetOutput.httpOutput(from:), DescribeBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetInput, DescribeBudgetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1259,7 +1302,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBudgetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBudgetInput, DescribeBudgetOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DescribeBudget"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBudgetInput, DescribeBudgetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBudgetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBudgetInput, DescribeBudgetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBudgetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBudgetInput, DescribeBudgetOutput>())
@@ -1297,6 +1339,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func describeBudgetAction(input: DescribeBudgetActionInput) async throws -> DescribeBudgetActionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.describeBudgetActionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1309,18 +1357,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeBudgetActionInput, DescribeBudgetActionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBudgetActionInput, DescribeBudgetActionOutput>(DescribeBudgetActionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBudgetActionInput, DescribeBudgetActionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetActionInput, DescribeBudgetActionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetActionOutput>(DescribeBudgetActionOutput.httpOutput(from:), DescribeBudgetActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetActionInput, DescribeBudgetActionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1332,7 +1380,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBudgetActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBudgetActionInput, DescribeBudgetActionOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DescribeBudgetAction"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBudgetActionInput, DescribeBudgetActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBudgetActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBudgetActionInput, DescribeBudgetActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBudgetActionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBudgetActionInput, DescribeBudgetActionOutput>())
@@ -1371,6 +1418,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func describeBudgetActionHistories(input: DescribeBudgetActionHistoriesInput) async throws -> DescribeBudgetActionHistoriesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.describeBudgetActionHistoriesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1383,18 +1436,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput>(DescribeBudgetActionHistoriesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetActionHistoriesOutput>(DescribeBudgetActionHistoriesOutput.httpOutput(from:), DescribeBudgetActionHistoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1406,7 +1459,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBudgetActionHistoriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DescribeBudgetActionHistories"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBudgetActionHistoriesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBudgetActionHistoriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput>())
@@ -1444,6 +1496,12 @@ extension BudgetsClient {
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func describeBudgetActionsForAccount(input: DescribeBudgetActionsForAccountInput) async throws -> DescribeBudgetActionsForAccountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.describeBudgetActionsForAccountOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1456,18 +1514,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput>(DescribeBudgetActionsForAccountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetActionsForAccountOutput>(DescribeBudgetActionsForAccountOutput.httpOutput(from:), DescribeBudgetActionsForAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1479,7 +1537,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBudgetActionsForAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DescribeBudgetActionsForAccount"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBudgetActionsForAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBudgetActionsForAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput>())
@@ -1518,6 +1575,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func describeBudgetActionsForBudget(input: DescribeBudgetActionsForBudgetInput) async throws -> DescribeBudgetActionsForBudgetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.describeBudgetActionsForBudgetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1530,18 +1593,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput>(DescribeBudgetActionsForBudgetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetActionsForBudgetOutput>(DescribeBudgetActionsForBudgetOutput.httpOutput(from:), DescribeBudgetActionsForBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1553,7 +1616,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBudgetActionsForBudgetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DescribeBudgetActionsForBudget"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBudgetActionsForBudgetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBudgetActionsForBudgetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput>())
@@ -1593,6 +1655,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func describeBudgetNotificationsForAccount(input: DescribeBudgetNotificationsForAccountInput) async throws -> DescribeBudgetNotificationsForAccountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.describeBudgetNotificationsForAccountOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1605,18 +1673,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput>(DescribeBudgetNotificationsForAccountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetNotificationsForAccountOutput>(DescribeBudgetNotificationsForAccountOutput.httpOutput(from:), DescribeBudgetNotificationsForAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1628,7 +1696,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBudgetNotificationsForAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DescribeBudgetNotificationsForAccount"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBudgetNotificationsForAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBudgetNotificationsForAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput>())
@@ -1669,6 +1736,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func describeBudgetPerformanceHistory(input: DescribeBudgetPerformanceHistoryInput) async throws -> DescribeBudgetPerformanceHistoryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.describeBudgetPerformanceHistoryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1681,18 +1754,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput>(DescribeBudgetPerformanceHistoryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetPerformanceHistoryOutput>(DescribeBudgetPerformanceHistoryOutput.httpOutput(from:), DescribeBudgetPerformanceHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1704,7 +1777,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBudgetPerformanceHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DescribeBudgetPerformanceHistory"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBudgetPerformanceHistoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBudgetPerformanceHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput>())
@@ -1744,6 +1816,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func describeBudgets(input: DescribeBudgetsInput) async throws -> DescribeBudgetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.describeBudgetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1756,18 +1834,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeBudgetsInput, DescribeBudgetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBudgetsInput, DescribeBudgetsOutput>(DescribeBudgetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBudgetsInput, DescribeBudgetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetsInput, DescribeBudgetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetsOutput>(DescribeBudgetsOutput.httpOutput(from:), DescribeBudgetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetsInput, DescribeBudgetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1779,7 +1857,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBudgetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBudgetsInput, DescribeBudgetsOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DescribeBudgets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBudgetsInput, DescribeBudgetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBudgetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBudgetsInput, DescribeBudgetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBudgetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBudgetsInput, DescribeBudgetsOutput>())
@@ -1819,6 +1896,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func describeNotificationsForBudget(input: DescribeNotificationsForBudgetInput) async throws -> DescribeNotificationsForBudgetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.describeNotificationsForBudgetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1831,18 +1914,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput>(DescribeNotificationsForBudgetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNotificationsForBudgetOutput>(DescribeNotificationsForBudgetOutput.httpOutput(from:), DescribeNotificationsForBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1854,7 +1937,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeNotificationsForBudgetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DescribeNotificationsForBudget"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeNotificationsForBudgetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeNotificationsForBudgetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput>())
@@ -1894,6 +1976,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func describeSubscribersForNotification(input: DescribeSubscribersForNotificationInput) async throws -> DescribeSubscribersForNotificationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.describeSubscribersForNotificationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1906,18 +1994,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput>(DescribeSubscribersForNotificationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSubscribersForNotificationOutput>(DescribeSubscribersForNotificationOutput.httpOutput(from:), DescribeSubscribersForNotificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1929,7 +2017,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSubscribersForNotificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.DescribeSubscribersForNotification"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSubscribersForNotificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSubscribersForNotificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput>())
@@ -1968,6 +2055,12 @@ extension BudgetsClient {
     /// - `ResourceLockedException` : The request was received and recognized by the server, but the server rejected that particular method for the requested resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func executeBudgetAction(input: ExecuteBudgetActionInput) async throws -> ExecuteBudgetActionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.executeBudgetActionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1980,18 +2073,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExecuteBudgetActionInput, ExecuteBudgetActionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExecuteBudgetActionInput, ExecuteBudgetActionOutput>(ExecuteBudgetActionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExecuteBudgetActionInput, ExecuteBudgetActionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteBudgetActionInput, ExecuteBudgetActionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteBudgetActionOutput>(ExecuteBudgetActionOutput.httpOutput(from:), ExecuteBudgetActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteBudgetActionInput, ExecuteBudgetActionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2003,7 +2096,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExecuteBudgetActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExecuteBudgetActionInput, ExecuteBudgetActionOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.ExecuteBudgetAction"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ExecuteBudgetActionInput, ExecuteBudgetActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExecuteBudgetActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExecuteBudgetActionInput, ExecuteBudgetActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExecuteBudgetActionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExecuteBudgetActionInput, ExecuteBudgetActionOutput>())
@@ -2041,6 +2133,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2053,18 +2151,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2076,7 +2174,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -2115,6 +2212,12 @@ extension BudgetsClient {
     /// - `ServiceQuotaExceededException` : You've reached a Service Quota limit on this resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2127,18 +2230,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2150,7 +2253,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -2188,6 +2290,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2200,18 +2308,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2223,7 +2331,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -2263,6 +2370,12 @@ extension BudgetsClient {
     /// - `ServiceQuotaExceededException` : You've reached a Service Quota limit on this resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func updateBudget(input: UpdateBudgetInput) async throws -> UpdateBudgetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.updateBudgetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2275,18 +2388,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateBudgetInput, UpdateBudgetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateBudgetInput, UpdateBudgetOutput>(UpdateBudgetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateBudgetInput, UpdateBudgetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBudgetInput, UpdateBudgetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBudgetOutput>(UpdateBudgetOutput.httpOutput(from:), UpdateBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBudgetInput, UpdateBudgetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2298,7 +2411,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBudgetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBudgetInput, UpdateBudgetOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.UpdateBudget"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateBudgetInput, UpdateBudgetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBudgetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBudgetInput, UpdateBudgetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBudgetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateBudgetInput, UpdateBudgetOutput>())
@@ -2337,6 +2449,12 @@ extension BudgetsClient {
     /// - `ResourceLockedException` : The request was received and recognized by the server, but the server rejected that particular method for the requested resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func updateBudgetAction(input: UpdateBudgetActionInput) async throws -> UpdateBudgetActionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.updateBudgetActionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2349,18 +2467,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateBudgetActionInput, UpdateBudgetActionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateBudgetActionInput, UpdateBudgetActionOutput>(UpdateBudgetActionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateBudgetActionInput, UpdateBudgetActionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBudgetActionInput, UpdateBudgetActionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBudgetActionOutput>(UpdateBudgetActionOutput.httpOutput(from:), UpdateBudgetActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBudgetActionInput, UpdateBudgetActionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2372,7 +2490,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBudgetActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBudgetActionInput, UpdateBudgetActionOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.UpdateBudgetAction"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateBudgetActionInput, UpdateBudgetActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBudgetActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBudgetActionInput, UpdateBudgetActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBudgetActionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateBudgetActionInput, UpdateBudgetActionOutput>())
@@ -2411,6 +2528,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func updateNotification(input: UpdateNotificationInput) async throws -> UpdateNotificationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.updateNotificationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2423,18 +2546,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateNotificationInput, UpdateNotificationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateNotificationInput, UpdateNotificationOutput>(UpdateNotificationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateNotificationInput, UpdateNotificationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNotificationInput, UpdateNotificationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNotificationOutput>(UpdateNotificationOutput.httpOutput(from:), UpdateNotificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNotificationInput, UpdateNotificationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2446,7 +2569,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateNotificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateNotificationInput, UpdateNotificationOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.UpdateNotification"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateNotificationInput, UpdateNotificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateNotificationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateNotificationInput, UpdateNotificationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateNotificationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateNotificationInput, UpdateNotificationOutput>())
@@ -2485,6 +2607,12 @@ extension BudgetsClient {
     /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func updateSubscriber(input: UpdateSubscriberInput) async throws -> UpdateSubscriberOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BudgetsClient.updateSubscriberOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2497,18 +2625,18 @@ extension BudgetsClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateSubscriberInput, UpdateSubscriberOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSubscriberInput, UpdateSubscriberOutput>(UpdateSubscriberInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSubscriberInput, UpdateSubscriberOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubscriberInput, UpdateSubscriberOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSubscriberOutput>(UpdateSubscriberOutput.httpOutput(from:), UpdateSubscriberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSubscriberInput, UpdateSubscriberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2520,7 +2648,6 @@ extension BudgetsClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSubscriberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSubscriberInput, UpdateSubscriberOutput>(overrides: ["X-Amz-Target": "AWSBudgetServiceGateway.UpdateSubscriber"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSubscriberInput, UpdateSubscriberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSubscriberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSubscriberInput, UpdateSubscriberOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSubscriberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSubscriberInput, UpdateSubscriberOutput>())

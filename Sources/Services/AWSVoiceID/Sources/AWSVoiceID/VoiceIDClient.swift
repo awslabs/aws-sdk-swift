@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,22 +35,21 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
@@ -61,8 +57,9 @@ import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -631,6 +628,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func associateFraudster(input: AssociateFraudsterInput) async throws -> AssociateFraudsterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.associateFraudsterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -643,18 +646,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateFraudsterInput, AssociateFraudsterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateFraudsterInput, AssociateFraudsterOutput>(AssociateFraudsterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateFraudsterInput, AssociateFraudsterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFraudsterInput, AssociateFraudsterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateFraudsterOutput>(AssociateFraudsterOutput.httpOutput(from:), AssociateFraudsterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFraudsterInput, AssociateFraudsterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -666,7 +669,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateFraudsterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateFraudsterInput, AssociateFraudsterOutput>(overrides: ["X-Amz-Target": "VoiceID.AssociateFraudster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateFraudsterInput, AssociateFraudsterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateFraudsterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateFraudsterInput, AssociateFraudsterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateFraudsterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateFraudsterInput, AssociateFraudsterOutput>())
@@ -706,6 +708,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.createDomainOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -718,8 +726,10 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateDomainInput, CreateDomainOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -727,10 +737,8 @@ extension VoiceIDClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateDomainInput, CreateDomainOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDomainInput, CreateDomainOutput>(CreateDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDomainInput, CreateDomainOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainInput, CreateDomainOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainOutput>(CreateDomainOutput.httpOutput(from:), CreateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainInput, CreateDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -742,7 +750,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDomainInput, CreateDomainOutput>(overrides: ["X-Amz-Target": "VoiceID.CreateDomain"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateDomainInput, CreateDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDomainInput, CreateDomainOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDomainInput, CreateDomainOutput>())
@@ -782,6 +789,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func createWatchlist(input: CreateWatchlistInput) async throws -> CreateWatchlistOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.createWatchlistOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -794,8 +807,10 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateWatchlistInput, CreateWatchlistOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -803,10 +818,8 @@ extension VoiceIDClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateWatchlistInput, CreateWatchlistOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateWatchlistInput, CreateWatchlistOutput>(CreateWatchlistInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateWatchlistInput, CreateWatchlistOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWatchlistInput, CreateWatchlistOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWatchlistOutput>(CreateWatchlistOutput.httpOutput(from:), CreateWatchlistOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWatchlistInput, CreateWatchlistOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -818,7 +831,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWatchlistOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWatchlistInput, CreateWatchlistOutput>(overrides: ["X-Amz-Target": "VoiceID.CreateWatchlist"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateWatchlistInput, CreateWatchlistOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWatchlistInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWatchlistInput, CreateWatchlistOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWatchlistOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWatchlistInput, CreateWatchlistOutput>())
@@ -857,6 +869,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.deleteDomainOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -869,18 +887,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteDomainInput, DeleteDomainOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDomainInput, DeleteDomainOutput>(DeleteDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDomainInput, DeleteDomainOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDomainInput, DeleteDomainOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainOutput>(DeleteDomainOutput.httpOutput(from:), DeleteDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainInput, DeleteDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -892,7 +910,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDomainInput, DeleteDomainOutput>(overrides: ["X-Amz-Target": "VoiceID.DeleteDomain"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteDomainInput, DeleteDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDomainInput, DeleteDomainOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDomainInput, DeleteDomainOutput>())
@@ -931,6 +948,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func deleteFraudster(input: DeleteFraudsterInput) async throws -> DeleteFraudsterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.deleteFraudsterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -943,18 +966,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteFraudsterInput, DeleteFraudsterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFraudsterInput, DeleteFraudsterOutput>(DeleteFraudsterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFraudsterInput, DeleteFraudsterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFraudsterInput, DeleteFraudsterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFraudsterOutput>(DeleteFraudsterOutput.httpOutput(from:), DeleteFraudsterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFraudsterInput, DeleteFraudsterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -966,7 +989,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFraudsterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFraudsterInput, DeleteFraudsterOutput>(overrides: ["X-Amz-Target": "VoiceID.DeleteFraudster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFraudsterInput, DeleteFraudsterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFraudsterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFraudsterInput, DeleteFraudsterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFraudsterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFraudsterInput, DeleteFraudsterOutput>())
@@ -1005,6 +1027,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func deleteSpeaker(input: DeleteSpeakerInput) async throws -> DeleteSpeakerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.deleteSpeakerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1017,18 +1045,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteSpeakerInput, DeleteSpeakerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSpeakerInput, DeleteSpeakerOutput>(DeleteSpeakerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSpeakerInput, DeleteSpeakerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSpeakerInput, DeleteSpeakerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSpeakerOutput>(DeleteSpeakerOutput.httpOutput(from:), DeleteSpeakerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSpeakerInput, DeleteSpeakerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1040,7 +1068,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSpeakerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSpeakerInput, DeleteSpeakerOutput>(overrides: ["X-Amz-Target": "VoiceID.DeleteSpeaker"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSpeakerInput, DeleteSpeakerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSpeakerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSpeakerInput, DeleteSpeakerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSpeakerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSpeakerInput, DeleteSpeakerOutput>())
@@ -1079,6 +1106,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func deleteWatchlist(input: DeleteWatchlistInput) async throws -> DeleteWatchlistOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.deleteWatchlistOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1091,18 +1124,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteWatchlistInput, DeleteWatchlistOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteWatchlistInput, DeleteWatchlistOutput>(DeleteWatchlistInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWatchlistInput, DeleteWatchlistOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWatchlistInput, DeleteWatchlistOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWatchlistOutput>(DeleteWatchlistOutput.httpOutput(from:), DeleteWatchlistOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWatchlistInput, DeleteWatchlistOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1114,7 +1147,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWatchlistOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWatchlistInput, DeleteWatchlistOutput>(overrides: ["X-Amz-Target": "VoiceID.DeleteWatchlist"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteWatchlistInput, DeleteWatchlistOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWatchlistInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWatchlistInput, DeleteWatchlistOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWatchlistOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWatchlistInput, DeleteWatchlistOutput>())
@@ -1152,6 +1184,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.describeDomainOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1164,18 +1202,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeDomainInput, DescribeDomainOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDomainInput, DescribeDomainOutput>(DescribeDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDomainInput, DescribeDomainOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDomainInput, DescribeDomainOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainOutput>(DescribeDomainOutput.httpOutput(from:), DescribeDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainInput, DescribeDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1187,7 +1225,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDomainInput, DescribeDomainOutput>(overrides: ["X-Amz-Target": "VoiceID.DescribeDomain"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDomainInput, DescribeDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDomainInput, DescribeDomainOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDomainInput, DescribeDomainOutput>())
@@ -1225,6 +1262,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func describeFraudster(input: DescribeFraudsterInput) async throws -> DescribeFraudsterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.describeFraudsterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1237,18 +1280,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeFraudsterInput, DescribeFraudsterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFraudsterInput, DescribeFraudsterOutput>(DescribeFraudsterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFraudsterInput, DescribeFraudsterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFraudsterInput, DescribeFraudsterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFraudsterOutput>(DescribeFraudsterOutput.httpOutput(from:), DescribeFraudsterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFraudsterInput, DescribeFraudsterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1260,7 +1303,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFraudsterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFraudsterInput, DescribeFraudsterOutput>(overrides: ["X-Amz-Target": "VoiceID.DescribeFraudster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFraudsterInput, DescribeFraudsterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFraudsterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFraudsterInput, DescribeFraudsterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFraudsterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFraudsterInput, DescribeFraudsterOutput>())
@@ -1298,6 +1340,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func describeFraudsterRegistrationJob(input: DescribeFraudsterRegistrationJobInput) async throws -> DescribeFraudsterRegistrationJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.describeFraudsterRegistrationJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1310,18 +1358,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutput>(DescribeFraudsterRegistrationJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFraudsterRegistrationJobOutput>(DescribeFraudsterRegistrationJobOutput.httpOutput(from:), DescribeFraudsterRegistrationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1333,7 +1381,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFraudsterRegistrationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutput>(overrides: ["X-Amz-Target": "VoiceID.DescribeFraudsterRegistrationJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFraudsterRegistrationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFraudsterRegistrationJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutput>())
@@ -1371,6 +1418,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func describeSpeaker(input: DescribeSpeakerInput) async throws -> DescribeSpeakerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.describeSpeakerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1383,18 +1436,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSpeakerInput, DescribeSpeakerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSpeakerInput, DescribeSpeakerOutput>(DescribeSpeakerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSpeakerInput, DescribeSpeakerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSpeakerInput, DescribeSpeakerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSpeakerOutput>(DescribeSpeakerOutput.httpOutput(from:), DescribeSpeakerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSpeakerInput, DescribeSpeakerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1406,7 +1459,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSpeakerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSpeakerInput, DescribeSpeakerOutput>(overrides: ["X-Amz-Target": "VoiceID.DescribeSpeaker"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSpeakerInput, DescribeSpeakerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSpeakerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSpeakerInput, DescribeSpeakerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSpeakerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSpeakerInput, DescribeSpeakerOutput>())
@@ -1444,6 +1496,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func describeSpeakerEnrollmentJob(input: DescribeSpeakerEnrollmentJobInput) async throws -> DescribeSpeakerEnrollmentJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.describeSpeakerEnrollmentJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1456,18 +1514,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutput>(DescribeSpeakerEnrollmentJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSpeakerEnrollmentJobOutput>(DescribeSpeakerEnrollmentJobOutput.httpOutput(from:), DescribeSpeakerEnrollmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1479,7 +1537,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSpeakerEnrollmentJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutput>(overrides: ["X-Amz-Target": "VoiceID.DescribeSpeakerEnrollmentJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSpeakerEnrollmentJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSpeakerEnrollmentJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutput>())
@@ -1517,6 +1574,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func describeWatchlist(input: DescribeWatchlistInput) async throws -> DescribeWatchlistOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.describeWatchlistOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1529,18 +1592,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeWatchlistInput, DescribeWatchlistOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeWatchlistInput, DescribeWatchlistOutput>(DescribeWatchlistInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeWatchlistInput, DescribeWatchlistOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWatchlistInput, DescribeWatchlistOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWatchlistOutput>(DescribeWatchlistOutput.httpOutput(from:), DescribeWatchlistOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWatchlistInput, DescribeWatchlistOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1552,7 +1615,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeWatchlistOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeWatchlistInput, DescribeWatchlistOutput>(overrides: ["X-Amz-Target": "VoiceID.DescribeWatchlist"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeWatchlistInput, DescribeWatchlistOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeWatchlistInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeWatchlistInput, DescribeWatchlistOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeWatchlistOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeWatchlistInput, DescribeWatchlistOutput>())
@@ -1591,6 +1653,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func disassociateFraudster(input: DisassociateFraudsterInput) async throws -> DisassociateFraudsterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.disassociateFraudsterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1603,18 +1671,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateFraudsterInput, DisassociateFraudsterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutput>(DisassociateFraudsterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFraudsterOutput>(DisassociateFraudsterOutput.httpOutput(from:), DisassociateFraudsterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1626,7 +1694,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateFraudsterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutput>(overrides: ["X-Amz-Target": "VoiceID.DisassociateFraudster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateFraudsterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateFraudsterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutput>())
@@ -1665,6 +1732,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func evaluateSession(input: EvaluateSessionInput) async throws -> EvaluateSessionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.evaluateSessionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1677,18 +1750,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<EvaluateSessionInput, EvaluateSessionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EvaluateSessionInput, EvaluateSessionOutput>(EvaluateSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EvaluateSessionInput, EvaluateSessionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EvaluateSessionInput, EvaluateSessionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<EvaluateSessionOutput>(EvaluateSessionOutput.httpOutput(from:), EvaluateSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EvaluateSessionInput, EvaluateSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1700,7 +1773,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EvaluateSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EvaluateSessionInput, EvaluateSessionOutput>(overrides: ["X-Amz-Target": "VoiceID.EvaluateSession"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<EvaluateSessionInput, EvaluateSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EvaluateSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EvaluateSessionInput, EvaluateSessionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EvaluateSessionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EvaluateSessionInput, EvaluateSessionOutput>())
@@ -1737,6 +1809,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.listDomainsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1749,18 +1827,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDomainsInput, ListDomainsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDomainsInput, ListDomainsOutput>(ListDomainsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDomainsInput, ListDomainsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDomainsInput, ListDomainsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainsOutput>(ListDomainsOutput.httpOutput(from:), ListDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsInput, ListDomainsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1772,7 +1850,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDomainsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDomainsInput, ListDomainsOutput>(overrides: ["X-Amz-Target": "VoiceID.ListDomains"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDomainsInput, ListDomainsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDomainsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDomainsInput, ListDomainsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDomainsInput, ListDomainsOutput>())
@@ -1810,6 +1887,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listFraudsterRegistrationJobs(input: ListFraudsterRegistrationJobsInput) async throws -> ListFraudsterRegistrationJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.listFraudsterRegistrationJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1822,18 +1905,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput>(ListFraudsterRegistrationJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFraudsterRegistrationJobsOutput>(ListFraudsterRegistrationJobsOutput.httpOutput(from:), ListFraudsterRegistrationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1845,7 +1928,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFraudsterRegistrationJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput>(overrides: ["X-Amz-Target": "VoiceID.ListFraudsterRegistrationJobs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFraudsterRegistrationJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFraudsterRegistrationJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput>())
@@ -1883,6 +1965,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listFraudsters(input: ListFraudstersInput) async throws -> ListFraudstersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.listFraudstersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1895,18 +1983,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFraudstersInput, ListFraudstersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFraudstersInput, ListFraudstersOutput>(ListFraudstersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFraudstersInput, ListFraudstersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFraudstersInput, ListFraudstersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFraudstersOutput>(ListFraudstersOutput.httpOutput(from:), ListFraudstersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFraudstersInput, ListFraudstersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1918,7 +2006,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFraudstersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFraudstersInput, ListFraudstersOutput>(overrides: ["X-Amz-Target": "VoiceID.ListFraudsters"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFraudstersInput, ListFraudstersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFraudstersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFraudstersInput, ListFraudstersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFraudstersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFraudstersInput, ListFraudstersOutput>())
@@ -1956,6 +2043,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listSpeakerEnrollmentJobs(input: ListSpeakerEnrollmentJobsInput) async throws -> ListSpeakerEnrollmentJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.listSpeakerEnrollmentJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1968,18 +2061,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput>(ListSpeakerEnrollmentJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSpeakerEnrollmentJobsOutput>(ListSpeakerEnrollmentJobsOutput.httpOutput(from:), ListSpeakerEnrollmentJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1991,7 +2084,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSpeakerEnrollmentJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput>(overrides: ["X-Amz-Target": "VoiceID.ListSpeakerEnrollmentJobs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSpeakerEnrollmentJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSpeakerEnrollmentJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput>())
@@ -2029,6 +2121,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listSpeakers(input: ListSpeakersInput) async throws -> ListSpeakersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.listSpeakersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2041,18 +2139,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSpeakersInput, ListSpeakersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSpeakersInput, ListSpeakersOutput>(ListSpeakersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSpeakersInput, ListSpeakersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSpeakersInput, ListSpeakersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSpeakersOutput>(ListSpeakersOutput.httpOutput(from:), ListSpeakersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSpeakersInput, ListSpeakersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2064,7 +2162,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSpeakersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSpeakersInput, ListSpeakersOutput>(overrides: ["X-Amz-Target": "VoiceID.ListSpeakers"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSpeakersInput, ListSpeakersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSpeakersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSpeakersInput, ListSpeakersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSpeakersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSpeakersInput, ListSpeakersOutput>())
@@ -2102,6 +2199,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2114,18 +2217,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2137,7 +2240,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "VoiceID.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -2175,6 +2277,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listWatchlists(input: ListWatchlistsInput) async throws -> ListWatchlistsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.listWatchlistsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2187,18 +2295,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListWatchlistsInput, ListWatchlistsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListWatchlistsInput, ListWatchlistsOutput>(ListWatchlistsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListWatchlistsInput, ListWatchlistsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWatchlistsInput, ListWatchlistsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWatchlistsOutput>(ListWatchlistsOutput.httpOutput(from:), ListWatchlistsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWatchlistsInput, ListWatchlistsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2210,7 +2318,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWatchlistsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWatchlistsInput, ListWatchlistsOutput>(overrides: ["X-Amz-Target": "VoiceID.ListWatchlists"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListWatchlistsInput, ListWatchlistsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWatchlistsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWatchlistsInput, ListWatchlistsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWatchlistsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWatchlistsInput, ListWatchlistsOutput>())
@@ -2250,6 +2357,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func optOutSpeaker(input: OptOutSpeakerInput) async throws -> OptOutSpeakerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.optOutSpeakerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2262,18 +2375,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<OptOutSpeakerInput, OptOutSpeakerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<OptOutSpeakerInput, OptOutSpeakerOutput>(OptOutSpeakerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<OptOutSpeakerInput, OptOutSpeakerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<OptOutSpeakerInput, OptOutSpeakerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<OptOutSpeakerOutput>(OptOutSpeakerOutput.httpOutput(from:), OptOutSpeakerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<OptOutSpeakerInput, OptOutSpeakerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2285,7 +2398,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<OptOutSpeakerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<OptOutSpeakerInput, OptOutSpeakerOutput>(overrides: ["X-Amz-Target": "VoiceID.OptOutSpeaker"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<OptOutSpeakerInput, OptOutSpeakerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: OptOutSpeakerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<OptOutSpeakerInput, OptOutSpeakerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<OptOutSpeakerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<OptOutSpeakerInput, OptOutSpeakerOutput>())
@@ -2325,6 +2437,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func startFraudsterRegistrationJob(input: StartFraudsterRegistrationJobInput) async throws -> StartFraudsterRegistrationJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.startFraudsterRegistrationJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2337,8 +2455,10 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2346,10 +2466,8 @@ extension VoiceIDClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutput>(StartFraudsterRegistrationJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFraudsterRegistrationJobOutput>(StartFraudsterRegistrationJobOutput.httpOutput(from:), StartFraudsterRegistrationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2361,7 +2479,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartFraudsterRegistrationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutput>(overrides: ["X-Amz-Target": "VoiceID.StartFraudsterRegistrationJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartFraudsterRegistrationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFraudsterRegistrationJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutput>())
@@ -2401,6 +2518,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func startSpeakerEnrollmentJob(input: StartSpeakerEnrollmentJobInput) async throws -> StartSpeakerEnrollmentJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.startSpeakerEnrollmentJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2413,8 +2536,10 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2422,10 +2547,8 @@ extension VoiceIDClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutput>(StartSpeakerEnrollmentJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSpeakerEnrollmentJobOutput>(StartSpeakerEnrollmentJobOutput.httpOutput(from:), StartSpeakerEnrollmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2437,7 +2560,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartSpeakerEnrollmentJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutput>(overrides: ["X-Amz-Target": "VoiceID.StartSpeakerEnrollmentJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartSpeakerEnrollmentJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSpeakerEnrollmentJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutput>())
@@ -2476,6 +2598,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2488,18 +2616,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2511,7 +2639,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "VoiceID.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -2550,6 +2677,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2562,18 +2695,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2585,7 +2718,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "VoiceID.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -2624,6 +2756,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func updateDomain(input: UpdateDomainInput) async throws -> UpdateDomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.updateDomainOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2636,18 +2774,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateDomainInput, UpdateDomainOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDomainInput, UpdateDomainOutput>(UpdateDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDomainInput, UpdateDomainOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainInput, UpdateDomainOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainOutput>(UpdateDomainOutput.httpOutput(from:), UpdateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainInput, UpdateDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2659,7 +2797,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDomainInput, UpdateDomainOutput>(overrides: ["X-Amz-Target": "VoiceID.UpdateDomain"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDomainInput, UpdateDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainInput, UpdateDomainOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDomainInput, UpdateDomainOutput>())
@@ -2698,6 +2835,12 @@ extension VoiceIDClient {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
     /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func updateWatchlist(input: UpdateWatchlistInput) async throws -> UpdateWatchlistOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = VoiceIDClient.updateWatchlistOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2710,18 +2853,18 @@ extension VoiceIDClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateWatchlistInput, UpdateWatchlistOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateWatchlistInput, UpdateWatchlistOutput>(UpdateWatchlistInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateWatchlistInput, UpdateWatchlistOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWatchlistInput, UpdateWatchlistOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWatchlistOutput>(UpdateWatchlistOutput.httpOutput(from:), UpdateWatchlistOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWatchlistInput, UpdateWatchlistOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2733,7 +2876,6 @@ extension VoiceIDClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWatchlistOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWatchlistInput, UpdateWatchlistOutput>(overrides: ["X-Amz-Target": "VoiceID.UpdateWatchlist"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateWatchlistInput, UpdateWatchlistOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWatchlistInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWatchlistInput, UpdateWatchlistOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWatchlistOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWatchlistInput, UpdateWatchlistOutput>())

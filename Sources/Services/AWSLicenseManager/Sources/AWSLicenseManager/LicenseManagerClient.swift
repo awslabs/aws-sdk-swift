@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,30 +36,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -631,6 +628,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func acceptGrant(input: AcceptGrantInput) async throws -> AcceptGrantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.acceptGrantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -643,18 +646,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AcceptGrantInput, AcceptGrantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AcceptGrantInput, AcceptGrantOutput>(AcceptGrantInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptGrantInput, AcceptGrantOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptGrantInput, AcceptGrantOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptGrantOutput>(AcceptGrantOutput.httpOutput(from:), AcceptGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptGrantInput, AcceptGrantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -666,7 +669,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptGrantOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptGrantInput, AcceptGrantOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.AcceptGrant"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AcceptGrantInput, AcceptGrantOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptGrantInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptGrantInput, AcceptGrantOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptGrantOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptGrantInput, AcceptGrantOutput>())
@@ -707,6 +709,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func checkInLicense(input: CheckInLicenseInput) async throws -> CheckInLicenseOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.checkInLicenseOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -719,18 +727,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CheckInLicenseInput, CheckInLicenseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CheckInLicenseInput, CheckInLicenseOutput>(CheckInLicenseInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CheckInLicenseInput, CheckInLicenseOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckInLicenseInput, CheckInLicenseOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckInLicenseOutput>(CheckInLicenseOutput.httpOutput(from:), CheckInLicenseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckInLicenseInput, CheckInLicenseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -742,7 +750,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CheckInLicenseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CheckInLicenseInput, CheckInLicenseOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.CheckInLicense"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CheckInLicenseInput, CheckInLicenseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CheckInLicenseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckInLicenseInput, CheckInLicenseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckInLicenseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CheckInLicenseInput, CheckInLicenseOutput>())
@@ -786,6 +793,12 @@ extension LicenseManagerClient {
     /// - `UnsupportedDigitalSignatureMethodException` : The digital signature method is unsupported. Try your request again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func checkoutBorrowLicense(input: CheckoutBorrowLicenseInput) async throws -> CheckoutBorrowLicenseOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.checkoutBorrowLicenseOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -798,18 +811,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CheckoutBorrowLicenseInput, CheckoutBorrowLicenseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CheckoutBorrowLicenseInput, CheckoutBorrowLicenseOutput>(CheckoutBorrowLicenseInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CheckoutBorrowLicenseInput, CheckoutBorrowLicenseOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckoutBorrowLicenseInput, CheckoutBorrowLicenseOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckoutBorrowLicenseOutput>(CheckoutBorrowLicenseOutput.httpOutput(from:), CheckoutBorrowLicenseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckoutBorrowLicenseInput, CheckoutBorrowLicenseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -821,7 +834,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CheckoutBorrowLicenseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CheckoutBorrowLicenseInput, CheckoutBorrowLicenseOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.CheckoutBorrowLicense"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CheckoutBorrowLicenseInput, CheckoutBorrowLicenseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CheckoutBorrowLicenseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckoutBorrowLicenseInput, CheckoutBorrowLicenseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckoutBorrowLicenseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CheckoutBorrowLicenseInput, CheckoutBorrowLicenseOutput>())
@@ -864,6 +876,12 @@ extension LicenseManagerClient {
     /// - `UnsupportedDigitalSignatureMethodException` : The digital signature method is unsupported. Try your request again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func checkoutLicense(input: CheckoutLicenseInput) async throws -> CheckoutLicenseOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.checkoutLicenseOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -876,18 +894,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CheckoutLicenseInput, CheckoutLicenseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CheckoutLicenseInput, CheckoutLicenseOutput>(CheckoutLicenseInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CheckoutLicenseInput, CheckoutLicenseOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckoutLicenseInput, CheckoutLicenseOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckoutLicenseOutput>(CheckoutLicenseOutput.httpOutput(from:), CheckoutLicenseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckoutLicenseInput, CheckoutLicenseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -899,7 +917,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CheckoutLicenseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CheckoutLicenseInput, CheckoutLicenseOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.CheckoutLicense"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CheckoutLicenseInput, CheckoutLicenseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CheckoutLicenseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckoutLicenseInput, CheckoutLicenseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckoutLicenseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CheckoutLicenseInput, CheckoutLicenseOutput>())
@@ -939,6 +956,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createGrant(input: CreateGrantInput) async throws -> CreateGrantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.createGrantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -951,18 +974,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateGrantInput, CreateGrantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateGrantInput, CreateGrantOutput>(CreateGrantInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateGrantInput, CreateGrantOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGrantInput, CreateGrantOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGrantOutput>(CreateGrantOutput.httpOutput(from:), CreateGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGrantInput, CreateGrantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -974,7 +997,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGrantOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGrantInput, CreateGrantOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.CreateGrant"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateGrantInput, CreateGrantOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateGrantInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGrantInput, CreateGrantOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGrantOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGrantInput, CreateGrantOutput>())
@@ -1014,6 +1036,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createGrantVersion(input: CreateGrantVersionInput) async throws -> CreateGrantVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.createGrantVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1026,18 +1054,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateGrantVersionInput, CreateGrantVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateGrantVersionInput, CreateGrantVersionOutput>(CreateGrantVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateGrantVersionInput, CreateGrantVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGrantVersionInput, CreateGrantVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGrantVersionOutput>(CreateGrantVersionOutput.httpOutput(from:), CreateGrantVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGrantVersionInput, CreateGrantVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1049,7 +1077,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGrantVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGrantVersionInput, CreateGrantVersionOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.CreateGrantVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateGrantVersionInput, CreateGrantVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateGrantVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGrantVersionInput, CreateGrantVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGrantVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGrantVersionInput, CreateGrantVersionOutput>())
@@ -1089,6 +1116,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createLicense(input: CreateLicenseInput) async throws -> CreateLicenseOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.createLicenseOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1101,18 +1134,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLicenseInput, CreateLicenseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLicenseInput, CreateLicenseOutput>(CreateLicenseInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLicenseInput, CreateLicenseOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseInput, CreateLicenseOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseOutput>(CreateLicenseOutput.httpOutput(from:), CreateLicenseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseInput, CreateLicenseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1124,7 +1157,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLicenseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLicenseInput, CreateLicenseOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.CreateLicense"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLicenseInput, CreateLicenseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLicenseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLicenseInput, CreateLicenseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLicenseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLicenseInput, CreateLicenseOutput>())
@@ -1163,6 +1195,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createLicenseAssetGroup(input: CreateLicenseAssetGroupInput) async throws -> CreateLicenseAssetGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.createLicenseAssetGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1175,18 +1213,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>(CreateLicenseAssetGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseAssetGroupOutput>(CreateLicenseAssetGroupOutput.httpOutput(from:), CreateLicenseAssetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1198,7 +1236,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLicenseAssetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.CreateLicenseAssetGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLicenseAssetGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLicenseAssetGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLicenseAssetGroupInput, CreateLicenseAssetGroupOutput>())
@@ -1237,6 +1274,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createLicenseAssetRuleset(input: CreateLicenseAssetRulesetInput) async throws -> CreateLicenseAssetRulesetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.createLicenseAssetRulesetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1249,18 +1292,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>(CreateLicenseAssetRulesetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseAssetRulesetOutput>(CreateLicenseAssetRulesetOutput.httpOutput(from:), CreateLicenseAssetRulesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1272,7 +1315,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLicenseAssetRulesetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.CreateLicenseAssetRuleset"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLicenseAssetRulesetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLicenseAssetRulesetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLicenseAssetRulesetInput, CreateLicenseAssetRulesetOutput>())
@@ -1311,6 +1353,12 @@ extension LicenseManagerClient {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func createLicenseConfiguration(input: CreateLicenseConfigurationInput) async throws -> CreateLicenseConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.createLicenseConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1323,18 +1371,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLicenseConfigurationInput, CreateLicenseConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLicenseConfigurationInput, CreateLicenseConfigurationOutput>(CreateLicenseConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLicenseConfigurationInput, CreateLicenseConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseConfigurationInput, CreateLicenseConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseConfigurationOutput>(CreateLicenseConfigurationOutput.httpOutput(from:), CreateLicenseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseConfigurationInput, CreateLicenseConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1346,7 +1394,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLicenseConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLicenseConfigurationInput, CreateLicenseConfigurationOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.CreateLicenseConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLicenseConfigurationInput, CreateLicenseConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLicenseConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLicenseConfigurationInput, CreateLicenseConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLicenseConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLicenseConfigurationInput, CreateLicenseConfigurationOutput>())
@@ -1385,6 +1432,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createLicenseConversionTaskForResource(input: CreateLicenseConversionTaskForResourceInput) async throws -> CreateLicenseConversionTaskForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.createLicenseConversionTaskForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1397,18 +1450,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLicenseConversionTaskForResourceInput, CreateLicenseConversionTaskForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLicenseConversionTaskForResourceInput, CreateLicenseConversionTaskForResourceOutput>(CreateLicenseConversionTaskForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLicenseConversionTaskForResourceInput, CreateLicenseConversionTaskForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseConversionTaskForResourceInput, CreateLicenseConversionTaskForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseConversionTaskForResourceOutput>(CreateLicenseConversionTaskForResourceOutput.httpOutput(from:), CreateLicenseConversionTaskForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseConversionTaskForResourceInput, CreateLicenseConversionTaskForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1420,7 +1473,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLicenseConversionTaskForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLicenseConversionTaskForResourceInput, CreateLicenseConversionTaskForResourceOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.CreateLicenseConversionTaskForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLicenseConversionTaskForResourceInput, CreateLicenseConversionTaskForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLicenseConversionTaskForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLicenseConversionTaskForResourceInput, CreateLicenseConversionTaskForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLicenseConversionTaskForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLicenseConversionTaskForResourceInput, CreateLicenseConversionTaskForResourceOutput>())
@@ -1461,6 +1513,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createLicenseManagerReportGenerator(input: CreateLicenseManagerReportGeneratorInput) async throws -> CreateLicenseManagerReportGeneratorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.createLicenseManagerReportGeneratorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1473,18 +1531,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLicenseManagerReportGeneratorInput, CreateLicenseManagerReportGeneratorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLicenseManagerReportGeneratorInput, CreateLicenseManagerReportGeneratorOutput>(CreateLicenseManagerReportGeneratorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLicenseManagerReportGeneratorInput, CreateLicenseManagerReportGeneratorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseManagerReportGeneratorInput, CreateLicenseManagerReportGeneratorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseManagerReportGeneratorOutput>(CreateLicenseManagerReportGeneratorOutput.httpOutput(from:), CreateLicenseManagerReportGeneratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseManagerReportGeneratorInput, CreateLicenseManagerReportGeneratorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1496,7 +1554,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLicenseManagerReportGeneratorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLicenseManagerReportGeneratorInput, CreateLicenseManagerReportGeneratorOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.CreateLicenseManagerReportGenerator"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLicenseManagerReportGeneratorInput, CreateLicenseManagerReportGeneratorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLicenseManagerReportGeneratorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLicenseManagerReportGeneratorInput, CreateLicenseManagerReportGeneratorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLicenseManagerReportGeneratorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLicenseManagerReportGeneratorInput, CreateLicenseManagerReportGeneratorOutput>())
@@ -1537,6 +1594,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createLicenseVersion(input: CreateLicenseVersionInput) async throws -> CreateLicenseVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.createLicenseVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1549,18 +1612,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLicenseVersionInput, CreateLicenseVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLicenseVersionInput, CreateLicenseVersionOutput>(CreateLicenseVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLicenseVersionInput, CreateLicenseVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseVersionInput, CreateLicenseVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseVersionOutput>(CreateLicenseVersionOutput.httpOutput(from:), CreateLicenseVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseVersionInput, CreateLicenseVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1572,7 +1635,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLicenseVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLicenseVersionInput, CreateLicenseVersionOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.CreateLicenseVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLicenseVersionInput, CreateLicenseVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLicenseVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLicenseVersionInput, CreateLicenseVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLicenseVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLicenseVersionInput, CreateLicenseVersionOutput>())
@@ -1613,6 +1675,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.createTokenOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1625,18 +1693,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTokenInput, CreateTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTokenInput, CreateTokenOutput>(CreateTokenInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTokenInput, CreateTokenOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTokenInput, CreateTokenOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTokenOutput>(CreateTokenOutput.httpOutput(from:), CreateTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTokenInput, CreateTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1648,7 +1716,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTokenInput, CreateTokenOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.CreateToken"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateTokenInput, CreateTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTokenInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTokenInput, CreateTokenOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTokenInput, CreateTokenOutput>())
@@ -1688,6 +1755,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func deleteGrant(input: DeleteGrantInput) async throws -> DeleteGrantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.deleteGrantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1700,18 +1773,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteGrantInput, DeleteGrantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteGrantInput, DeleteGrantOutput>(DeleteGrantInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGrantInput, DeleteGrantOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGrantInput, DeleteGrantOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGrantOutput>(DeleteGrantOutput.httpOutput(from:), DeleteGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGrantInput, DeleteGrantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1723,7 +1796,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteGrantOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGrantInput, DeleteGrantOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.DeleteGrant"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteGrantInput, DeleteGrantOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteGrantInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGrantInput, DeleteGrantOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGrantOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGrantInput, DeleteGrantOutput>())
@@ -1764,6 +1836,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func deleteLicense(input: DeleteLicenseInput) async throws -> DeleteLicenseOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.deleteLicenseOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1776,18 +1854,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteLicenseInput, DeleteLicenseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLicenseInput, DeleteLicenseOutput>(DeleteLicenseInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLicenseInput, DeleteLicenseOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLicenseInput, DeleteLicenseOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLicenseOutput>(DeleteLicenseOutput.httpOutput(from:), DeleteLicenseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLicenseInput, DeleteLicenseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1799,7 +1877,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLicenseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLicenseInput, DeleteLicenseOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.DeleteLicense"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteLicenseInput, DeleteLicenseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLicenseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLicenseInput, DeleteLicenseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLicenseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLicenseInput, DeleteLicenseOutput>())
@@ -1838,6 +1915,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func deleteLicenseAssetGroup(input: DeleteLicenseAssetGroupInput) async throws -> DeleteLicenseAssetGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.deleteLicenseAssetGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1850,18 +1933,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>(DeleteLicenseAssetGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLicenseAssetGroupOutput>(DeleteLicenseAssetGroupOutput.httpOutput(from:), DeleteLicenseAssetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1873,7 +1956,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLicenseAssetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.DeleteLicenseAssetGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLicenseAssetGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLicenseAssetGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLicenseAssetGroupInput, DeleteLicenseAssetGroupOutput>())
@@ -1912,6 +1994,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func deleteLicenseAssetRuleset(input: DeleteLicenseAssetRulesetInput) async throws -> DeleteLicenseAssetRulesetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.deleteLicenseAssetRulesetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1924,18 +2012,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>(DeleteLicenseAssetRulesetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLicenseAssetRulesetOutput>(DeleteLicenseAssetRulesetOutput.httpOutput(from:), DeleteLicenseAssetRulesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1947,7 +2035,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLicenseAssetRulesetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.DeleteLicenseAssetRuleset"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLicenseAssetRulesetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLicenseAssetRulesetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLicenseAssetRulesetInput, DeleteLicenseAssetRulesetOutput>())
@@ -1985,6 +2072,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func deleteLicenseConfiguration(input: DeleteLicenseConfigurationInput) async throws -> DeleteLicenseConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.deleteLicenseConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1997,18 +2090,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteLicenseConfigurationInput, DeleteLicenseConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLicenseConfigurationInput, DeleteLicenseConfigurationOutput>(DeleteLicenseConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLicenseConfigurationInput, DeleteLicenseConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLicenseConfigurationInput, DeleteLicenseConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLicenseConfigurationOutput>(DeleteLicenseConfigurationOutput.httpOutput(from:), DeleteLicenseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLicenseConfigurationInput, DeleteLicenseConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2020,7 +2113,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLicenseConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLicenseConfigurationInput, DeleteLicenseConfigurationOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.DeleteLicenseConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteLicenseConfigurationInput, DeleteLicenseConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLicenseConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLicenseConfigurationInput, DeleteLicenseConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLicenseConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLicenseConfigurationInput, DeleteLicenseConfigurationOutput>())
@@ -2061,6 +2153,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func deleteLicenseManagerReportGenerator(input: DeleteLicenseManagerReportGeneratorInput) async throws -> DeleteLicenseManagerReportGeneratorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.deleteLicenseManagerReportGeneratorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2073,18 +2171,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteLicenseManagerReportGeneratorInput, DeleteLicenseManagerReportGeneratorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLicenseManagerReportGeneratorInput, DeleteLicenseManagerReportGeneratorOutput>(DeleteLicenseManagerReportGeneratorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLicenseManagerReportGeneratorInput, DeleteLicenseManagerReportGeneratorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLicenseManagerReportGeneratorInput, DeleteLicenseManagerReportGeneratorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLicenseManagerReportGeneratorOutput>(DeleteLicenseManagerReportGeneratorOutput.httpOutput(from:), DeleteLicenseManagerReportGeneratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLicenseManagerReportGeneratorInput, DeleteLicenseManagerReportGeneratorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2096,7 +2194,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLicenseManagerReportGeneratorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLicenseManagerReportGeneratorInput, DeleteLicenseManagerReportGeneratorOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.DeleteLicenseManagerReportGenerator"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteLicenseManagerReportGeneratorInput, DeleteLicenseManagerReportGeneratorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLicenseManagerReportGeneratorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLicenseManagerReportGeneratorInput, DeleteLicenseManagerReportGeneratorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLicenseManagerReportGeneratorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLicenseManagerReportGeneratorInput, DeleteLicenseManagerReportGeneratorOutput>())
@@ -2136,6 +2233,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func deleteToken(input: DeleteTokenInput) async throws -> DeleteTokenOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.deleteTokenOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2148,18 +2251,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTokenInput, DeleteTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTokenInput, DeleteTokenOutput>(DeleteTokenInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTokenInput, DeleteTokenOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTokenInput, DeleteTokenOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTokenOutput>(DeleteTokenOutput.httpOutput(from:), DeleteTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTokenInput, DeleteTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2171,7 +2274,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTokenInput, DeleteTokenOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.DeleteToken"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTokenInput, DeleteTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTokenInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTokenInput, DeleteTokenOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTokenInput, DeleteTokenOutput>())
@@ -2211,6 +2313,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func extendLicenseConsumption(input: ExtendLicenseConsumptionInput) async throws -> ExtendLicenseConsumptionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.extendLicenseConsumptionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2223,18 +2331,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExtendLicenseConsumptionInput, ExtendLicenseConsumptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExtendLicenseConsumptionInput, ExtendLicenseConsumptionOutput>(ExtendLicenseConsumptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExtendLicenseConsumptionInput, ExtendLicenseConsumptionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExtendLicenseConsumptionInput, ExtendLicenseConsumptionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExtendLicenseConsumptionOutput>(ExtendLicenseConsumptionOutput.httpOutput(from:), ExtendLicenseConsumptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExtendLicenseConsumptionInput, ExtendLicenseConsumptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2246,7 +2354,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExtendLicenseConsumptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExtendLicenseConsumptionInput, ExtendLicenseConsumptionOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ExtendLicenseConsumption"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ExtendLicenseConsumptionInput, ExtendLicenseConsumptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExtendLicenseConsumptionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExtendLicenseConsumptionInput, ExtendLicenseConsumptionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExtendLicenseConsumptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExtendLicenseConsumptionInput, ExtendLicenseConsumptionOutput>())
@@ -2284,6 +2391,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func getAccessToken(input: GetAccessTokenInput) async throws -> GetAccessTokenOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.getAccessTokenOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2296,18 +2409,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessTokenInput, GetAccessTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccessTokenInput, GetAccessTokenOutput>(GetAccessTokenInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessTokenInput, GetAccessTokenOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccessTokenInput, GetAccessTokenOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessTokenOutput>(GetAccessTokenOutput.httpOutput(from:), GetAccessTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessTokenInput, GetAccessTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2319,7 +2432,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAccessTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAccessTokenInput, GetAccessTokenOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.GetAccessToken"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetAccessTokenInput, GetAccessTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAccessTokenInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAccessTokenInput, GetAccessTokenOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAccessTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAccessTokenInput, GetAccessTokenOutput>())
@@ -2359,6 +2471,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func getGrant(input: GetGrantInput) async throws -> GetGrantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.getGrantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2371,18 +2489,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetGrantInput, GetGrantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetGrantInput, GetGrantOutput>(GetGrantInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGrantInput, GetGrantOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGrantInput, GetGrantOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGrantOutput>(GetGrantOutput.httpOutput(from:), GetGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGrantInput, GetGrantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2394,7 +2512,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetGrantOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetGrantInput, GetGrantOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.GetGrant"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetGrantInput, GetGrantOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetGrantInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGrantInput, GetGrantOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGrantOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetGrantInput, GetGrantOutput>())
@@ -2433,6 +2550,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func getLicense(input: GetLicenseInput) async throws -> GetLicenseOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.getLicenseOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2445,18 +2568,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLicenseInput, GetLicenseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLicenseInput, GetLicenseOutput>(GetLicenseInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLicenseInput, GetLicenseOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseInput, GetLicenseOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseOutput>(GetLicenseOutput.httpOutput(from:), GetLicenseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseInput, GetLicenseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2468,7 +2591,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLicenseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLicenseInput, GetLicenseOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.GetLicense"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLicenseInput, GetLicenseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLicenseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLicenseInput, GetLicenseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLicenseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLicenseInput, GetLicenseOutput>())
@@ -2507,6 +2629,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func getLicenseAssetGroup(input: GetLicenseAssetGroupInput) async throws -> GetLicenseAssetGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.getLicenseAssetGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2519,18 +2647,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>(GetLicenseAssetGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseAssetGroupOutput>(GetLicenseAssetGroupOutput.httpOutput(from:), GetLicenseAssetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2542,7 +2670,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLicenseAssetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.GetLicenseAssetGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLicenseAssetGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLicenseAssetGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLicenseAssetGroupInput, GetLicenseAssetGroupOutput>())
@@ -2581,6 +2708,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func getLicenseAssetRuleset(input: GetLicenseAssetRulesetInput) async throws -> GetLicenseAssetRulesetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.getLicenseAssetRulesetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2593,18 +2726,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>(GetLicenseAssetRulesetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseAssetRulesetOutput>(GetLicenseAssetRulesetOutput.httpOutput(from:), GetLicenseAssetRulesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2616,7 +2749,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLicenseAssetRulesetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.GetLicenseAssetRuleset"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLicenseAssetRulesetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLicenseAssetRulesetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLicenseAssetRulesetInput, GetLicenseAssetRulesetOutput>())
@@ -2654,6 +2786,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func getLicenseConfiguration(input: GetLicenseConfigurationInput) async throws -> GetLicenseConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.getLicenseConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2666,18 +2804,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLicenseConfigurationInput, GetLicenseConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLicenseConfigurationInput, GetLicenseConfigurationOutput>(GetLicenseConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLicenseConfigurationInput, GetLicenseConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseConfigurationInput, GetLicenseConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseConfigurationOutput>(GetLicenseConfigurationOutput.httpOutput(from:), GetLicenseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseConfigurationInput, GetLicenseConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2689,7 +2827,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLicenseConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLicenseConfigurationInput, GetLicenseConfigurationOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.GetLicenseConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLicenseConfigurationInput, GetLicenseConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLicenseConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLicenseConfigurationInput, GetLicenseConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLicenseConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLicenseConfigurationInput, GetLicenseConfigurationOutput>())
@@ -2727,6 +2864,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func getLicenseConversionTask(input: GetLicenseConversionTaskInput) async throws -> GetLicenseConversionTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.getLicenseConversionTaskOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2739,18 +2882,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLicenseConversionTaskInput, GetLicenseConversionTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLicenseConversionTaskInput, GetLicenseConversionTaskOutput>(GetLicenseConversionTaskInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLicenseConversionTaskInput, GetLicenseConversionTaskOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseConversionTaskInput, GetLicenseConversionTaskOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseConversionTaskOutput>(GetLicenseConversionTaskOutput.httpOutput(from:), GetLicenseConversionTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseConversionTaskInput, GetLicenseConversionTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2762,7 +2905,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLicenseConversionTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLicenseConversionTaskInput, GetLicenseConversionTaskOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.GetLicenseConversionTask"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLicenseConversionTaskInput, GetLicenseConversionTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLicenseConversionTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLicenseConversionTaskInput, GetLicenseConversionTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLicenseConversionTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLicenseConversionTaskInput, GetLicenseConversionTaskOutput>())
@@ -2803,6 +2945,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func getLicenseManagerReportGenerator(input: GetLicenseManagerReportGeneratorInput) async throws -> GetLicenseManagerReportGeneratorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.getLicenseManagerReportGeneratorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2815,18 +2963,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLicenseManagerReportGeneratorInput, GetLicenseManagerReportGeneratorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLicenseManagerReportGeneratorInput, GetLicenseManagerReportGeneratorOutput>(GetLicenseManagerReportGeneratorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLicenseManagerReportGeneratorInput, GetLicenseManagerReportGeneratorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseManagerReportGeneratorInput, GetLicenseManagerReportGeneratorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseManagerReportGeneratorOutput>(GetLicenseManagerReportGeneratorOutput.httpOutput(from:), GetLicenseManagerReportGeneratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseManagerReportGeneratorInput, GetLicenseManagerReportGeneratorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2838,7 +2986,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLicenseManagerReportGeneratorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLicenseManagerReportGeneratorInput, GetLicenseManagerReportGeneratorOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.GetLicenseManagerReportGenerator"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLicenseManagerReportGeneratorInput, GetLicenseManagerReportGeneratorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLicenseManagerReportGeneratorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLicenseManagerReportGeneratorInput, GetLicenseManagerReportGeneratorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLicenseManagerReportGeneratorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLicenseManagerReportGeneratorInput, GetLicenseManagerReportGeneratorOutput>())
@@ -2877,6 +3024,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func getLicenseUsage(input: GetLicenseUsageInput) async throws -> GetLicenseUsageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.getLicenseUsageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2889,18 +3042,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLicenseUsageInput, GetLicenseUsageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLicenseUsageInput, GetLicenseUsageOutput>(GetLicenseUsageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLicenseUsageInput, GetLicenseUsageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseUsageInput, GetLicenseUsageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseUsageOutput>(GetLicenseUsageOutput.httpOutput(from:), GetLicenseUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseUsageInput, GetLicenseUsageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2912,7 +3065,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLicenseUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLicenseUsageInput, GetLicenseUsageOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.GetLicenseUsage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLicenseUsageInput, GetLicenseUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLicenseUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLicenseUsageInput, GetLicenseUsageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLicenseUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLicenseUsageInput, GetLicenseUsageOutput>())
@@ -2949,6 +3101,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func getServiceSettings(input: GetServiceSettingsInput) async throws -> GetServiceSettingsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.getServiceSettingsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2961,18 +3119,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetServiceSettingsInput, GetServiceSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>(GetServiceSettingsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceSettingsOutput>(GetServiceSettingsOutput.httpOutput(from:), GetServiceSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2984,7 +3142,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetServiceSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.GetServiceSettings"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetServiceSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetServiceSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>())
@@ -3023,6 +3180,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listAssetsForLicenseAssetGroup(input: ListAssetsForLicenseAssetGroupInput) async throws -> ListAssetsForLicenseAssetGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listAssetsForLicenseAssetGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3035,18 +3198,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>(ListAssetsForLicenseAssetGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetsForLicenseAssetGroupOutput>(ListAssetsForLicenseAssetGroupOutput.httpOutput(from:), ListAssetsForLicenseAssetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3058,7 +3221,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAssetsForLicenseAssetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListAssetsForLicenseAssetGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAssetsForLicenseAssetGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAssetsForLicenseAssetGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAssetsForLicenseAssetGroupInput, ListAssetsForLicenseAssetGroupOutput>())
@@ -3097,6 +3259,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listAssociationsForLicenseConfiguration(input: ListAssociationsForLicenseConfigurationInput) async throws -> ListAssociationsForLicenseConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listAssociationsForLicenseConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3109,18 +3277,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAssociationsForLicenseConfigurationInput, ListAssociationsForLicenseConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAssociationsForLicenseConfigurationInput, ListAssociationsForLicenseConfigurationOutput>(ListAssociationsForLicenseConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAssociationsForLicenseConfigurationInput, ListAssociationsForLicenseConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociationsForLicenseConfigurationInput, ListAssociationsForLicenseConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociationsForLicenseConfigurationOutput>(ListAssociationsForLicenseConfigurationOutput.httpOutput(from:), ListAssociationsForLicenseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociationsForLicenseConfigurationInput, ListAssociationsForLicenseConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3132,7 +3300,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAssociationsForLicenseConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAssociationsForLicenseConfigurationInput, ListAssociationsForLicenseConfigurationOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListAssociationsForLicenseConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListAssociationsForLicenseConfigurationInput, ListAssociationsForLicenseConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAssociationsForLicenseConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAssociationsForLicenseConfigurationInput, ListAssociationsForLicenseConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAssociationsForLicenseConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAssociationsForLicenseConfigurationInput, ListAssociationsForLicenseConfigurationOutput>())
@@ -3172,6 +3339,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listDistributedGrants(input: ListDistributedGrantsInput) async throws -> ListDistributedGrantsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listDistributedGrantsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3184,18 +3357,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributedGrantsInput, ListDistributedGrantsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributedGrantsInput, ListDistributedGrantsOutput>(ListDistributedGrantsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributedGrantsInput, ListDistributedGrantsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDistributedGrantsInput, ListDistributedGrantsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributedGrantsOutput>(ListDistributedGrantsOutput.httpOutput(from:), ListDistributedGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributedGrantsInput, ListDistributedGrantsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3207,7 +3380,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDistributedGrantsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDistributedGrantsInput, ListDistributedGrantsOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListDistributedGrants"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDistributedGrantsInput, ListDistributedGrantsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDistributedGrantsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDistributedGrantsInput, ListDistributedGrantsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDistributedGrantsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDistributedGrantsInput, ListDistributedGrantsOutput>())
@@ -3245,6 +3417,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listFailuresForLicenseConfigurationOperations(input: ListFailuresForLicenseConfigurationOperationsInput) async throws -> ListFailuresForLicenseConfigurationOperationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listFailuresForLicenseConfigurationOperationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3257,18 +3435,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFailuresForLicenseConfigurationOperationsInput, ListFailuresForLicenseConfigurationOperationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFailuresForLicenseConfigurationOperationsInput, ListFailuresForLicenseConfigurationOperationsOutput>(ListFailuresForLicenseConfigurationOperationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFailuresForLicenseConfigurationOperationsInput, ListFailuresForLicenseConfigurationOperationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFailuresForLicenseConfigurationOperationsInput, ListFailuresForLicenseConfigurationOperationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFailuresForLicenseConfigurationOperationsOutput>(ListFailuresForLicenseConfigurationOperationsOutput.httpOutput(from:), ListFailuresForLicenseConfigurationOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFailuresForLicenseConfigurationOperationsInput, ListFailuresForLicenseConfigurationOperationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3280,7 +3458,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFailuresForLicenseConfigurationOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFailuresForLicenseConfigurationOperationsInput, ListFailuresForLicenseConfigurationOperationsOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListFailuresForLicenseConfigurationOperations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFailuresForLicenseConfigurationOperationsInput, ListFailuresForLicenseConfigurationOperationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFailuresForLicenseConfigurationOperationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFailuresForLicenseConfigurationOperationsInput, ListFailuresForLicenseConfigurationOperationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFailuresForLicenseConfigurationOperationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFailuresForLicenseConfigurationOperationsInput, ListFailuresForLicenseConfigurationOperationsOutput>())
@@ -3319,6 +3496,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listLicenseAssetGroups(input: ListLicenseAssetGroupsInput) async throws -> ListLicenseAssetGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listLicenseAssetGroupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3331,18 +3514,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>(ListLicenseAssetGroupsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseAssetGroupsOutput>(ListLicenseAssetGroupsOutput.httpOutput(from:), ListLicenseAssetGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3354,7 +3537,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLicenseAssetGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListLicenseAssetGroups"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLicenseAssetGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLicenseAssetGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLicenseAssetGroupsInput, ListLicenseAssetGroupsOutput>())
@@ -3393,6 +3575,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listLicenseAssetRulesets(input: ListLicenseAssetRulesetsInput) async throws -> ListLicenseAssetRulesetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listLicenseAssetRulesetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3405,18 +3593,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>(ListLicenseAssetRulesetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseAssetRulesetsOutput>(ListLicenseAssetRulesetsOutput.httpOutput(from:), ListLicenseAssetRulesetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3428,7 +3616,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLicenseAssetRulesetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListLicenseAssetRulesets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLicenseAssetRulesetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLicenseAssetRulesetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLicenseAssetRulesetsInput, ListLicenseAssetRulesetsOutput>())
@@ -3467,6 +3654,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listLicenseConfigurations(input: ListLicenseConfigurationsInput) async throws -> ListLicenseConfigurationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listLicenseConfigurationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3479,18 +3672,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListLicenseConfigurationsInput, ListLicenseConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLicenseConfigurationsInput, ListLicenseConfigurationsOutput>(ListLicenseConfigurationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLicenseConfigurationsInput, ListLicenseConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseConfigurationsInput, ListLicenseConfigurationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseConfigurationsOutput>(ListLicenseConfigurationsOutput.httpOutput(from:), ListLicenseConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseConfigurationsInput, ListLicenseConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3502,7 +3695,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLicenseConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLicenseConfigurationsInput, ListLicenseConfigurationsOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListLicenseConfigurations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListLicenseConfigurationsInput, ListLicenseConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLicenseConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLicenseConfigurationsInput, ListLicenseConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLicenseConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLicenseConfigurationsInput, ListLicenseConfigurationsOutput>())
@@ -3541,6 +3733,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listLicenseConfigurationsForOrganization(input: ListLicenseConfigurationsForOrganizationInput) async throws -> ListLicenseConfigurationsForOrganizationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listLicenseConfigurationsForOrganizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3553,18 +3751,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>(ListLicenseConfigurationsForOrganizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseConfigurationsForOrganizationOutput>(ListLicenseConfigurationsForOrganizationOutput.httpOutput(from:), ListLicenseConfigurationsForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3576,7 +3774,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLicenseConfigurationsForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListLicenseConfigurationsForOrganization"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLicenseConfigurationsForOrganizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLicenseConfigurationsForOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLicenseConfigurationsForOrganizationInput, ListLicenseConfigurationsForOrganizationOutput>())
@@ -3614,6 +3811,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listLicenseConversionTasks(input: ListLicenseConversionTasksInput) async throws -> ListLicenseConversionTasksOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listLicenseConversionTasksOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3626,18 +3829,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListLicenseConversionTasksInput, ListLicenseConversionTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLicenseConversionTasksInput, ListLicenseConversionTasksOutput>(ListLicenseConversionTasksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLicenseConversionTasksInput, ListLicenseConversionTasksOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseConversionTasksInput, ListLicenseConversionTasksOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseConversionTasksOutput>(ListLicenseConversionTasksOutput.httpOutput(from:), ListLicenseConversionTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseConversionTasksInput, ListLicenseConversionTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3649,7 +3852,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLicenseConversionTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLicenseConversionTasksInput, ListLicenseConversionTasksOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListLicenseConversionTasks"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListLicenseConversionTasksInput, ListLicenseConversionTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLicenseConversionTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLicenseConversionTasksInput, ListLicenseConversionTasksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLicenseConversionTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLicenseConversionTasksInput, ListLicenseConversionTasksOutput>())
@@ -3690,6 +3892,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listLicenseManagerReportGenerators(input: ListLicenseManagerReportGeneratorsInput) async throws -> ListLicenseManagerReportGeneratorsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listLicenseManagerReportGeneratorsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3702,18 +3910,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListLicenseManagerReportGeneratorsInput, ListLicenseManagerReportGeneratorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLicenseManagerReportGeneratorsInput, ListLicenseManagerReportGeneratorsOutput>(ListLicenseManagerReportGeneratorsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLicenseManagerReportGeneratorsInput, ListLicenseManagerReportGeneratorsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseManagerReportGeneratorsInput, ListLicenseManagerReportGeneratorsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseManagerReportGeneratorsOutput>(ListLicenseManagerReportGeneratorsOutput.httpOutput(from:), ListLicenseManagerReportGeneratorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseManagerReportGeneratorsInput, ListLicenseManagerReportGeneratorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3725,7 +3933,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLicenseManagerReportGeneratorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLicenseManagerReportGeneratorsInput, ListLicenseManagerReportGeneratorsOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListLicenseManagerReportGenerators"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListLicenseManagerReportGeneratorsInput, ListLicenseManagerReportGeneratorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLicenseManagerReportGeneratorsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLicenseManagerReportGeneratorsInput, ListLicenseManagerReportGeneratorsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLicenseManagerReportGeneratorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLicenseManagerReportGeneratorsInput, ListLicenseManagerReportGeneratorsOutput>())
@@ -3763,6 +3970,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listLicenseSpecificationsForResource(input: ListLicenseSpecificationsForResourceInput) async throws -> ListLicenseSpecificationsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listLicenseSpecificationsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3775,18 +3988,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListLicenseSpecificationsForResourceInput, ListLicenseSpecificationsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLicenseSpecificationsForResourceInput, ListLicenseSpecificationsForResourceOutput>(ListLicenseSpecificationsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLicenseSpecificationsForResourceInput, ListLicenseSpecificationsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseSpecificationsForResourceInput, ListLicenseSpecificationsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseSpecificationsForResourceOutput>(ListLicenseSpecificationsForResourceOutput.httpOutput(from:), ListLicenseSpecificationsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseSpecificationsForResourceInput, ListLicenseSpecificationsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3798,7 +4011,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLicenseSpecificationsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLicenseSpecificationsForResourceInput, ListLicenseSpecificationsForResourceOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListLicenseSpecificationsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListLicenseSpecificationsForResourceInput, ListLicenseSpecificationsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLicenseSpecificationsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLicenseSpecificationsForResourceInput, ListLicenseSpecificationsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLicenseSpecificationsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLicenseSpecificationsForResourceInput, ListLicenseSpecificationsForResourceOutput>())
@@ -3836,6 +4048,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listLicenseVersions(input: ListLicenseVersionsInput) async throws -> ListLicenseVersionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listLicenseVersionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3848,18 +4066,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListLicenseVersionsInput, ListLicenseVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLicenseVersionsInput, ListLicenseVersionsOutput>(ListLicenseVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLicenseVersionsInput, ListLicenseVersionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseVersionsInput, ListLicenseVersionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseVersionsOutput>(ListLicenseVersionsOutput.httpOutput(from:), ListLicenseVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseVersionsInput, ListLicenseVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3871,7 +4089,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLicenseVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLicenseVersionsInput, ListLicenseVersionsOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListLicenseVersions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListLicenseVersionsInput, ListLicenseVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLicenseVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLicenseVersionsInput, ListLicenseVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLicenseVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLicenseVersionsInput, ListLicenseVersionsOutput>())
@@ -3910,6 +4127,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listLicenses(input: ListLicensesInput) async throws -> ListLicensesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listLicensesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3922,18 +4145,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListLicensesInput, ListLicensesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLicensesInput, ListLicensesOutput>(ListLicensesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLicensesInput, ListLicensesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicensesInput, ListLicensesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicensesOutput>(ListLicensesOutput.httpOutput(from:), ListLicensesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicensesInput, ListLicensesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3945,7 +4168,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLicensesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLicensesInput, ListLicensesOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListLicenses"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListLicensesInput, ListLicensesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLicensesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLicensesInput, ListLicensesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLicensesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLicensesInput, ListLicensesOutput>())
@@ -3985,6 +4207,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listReceivedGrants(input: ListReceivedGrantsInput) async throws -> ListReceivedGrantsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listReceivedGrantsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3997,18 +4225,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListReceivedGrantsInput, ListReceivedGrantsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListReceivedGrantsInput, ListReceivedGrantsOutput>(ListReceivedGrantsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReceivedGrantsInput, ListReceivedGrantsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReceivedGrantsInput, ListReceivedGrantsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReceivedGrantsOutput>(ListReceivedGrantsOutput.httpOutput(from:), ListReceivedGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReceivedGrantsInput, ListReceivedGrantsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4020,7 +4248,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReceivedGrantsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReceivedGrantsInput, ListReceivedGrantsOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListReceivedGrants"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListReceivedGrantsInput, ListReceivedGrantsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListReceivedGrantsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReceivedGrantsInput, ListReceivedGrantsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReceivedGrantsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReceivedGrantsInput, ListReceivedGrantsOutput>())
@@ -4060,6 +4287,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listReceivedGrantsForOrganization(input: ListReceivedGrantsForOrganizationInput) async throws -> ListReceivedGrantsForOrganizationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listReceivedGrantsForOrganizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4072,18 +4305,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutput>(ListReceivedGrantsForOrganizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReceivedGrantsForOrganizationOutput>(ListReceivedGrantsForOrganizationOutput.httpOutput(from:), ListReceivedGrantsForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4095,7 +4328,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReceivedGrantsForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListReceivedGrantsForOrganization"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListReceivedGrantsForOrganizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReceivedGrantsForOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutput>())
@@ -4135,6 +4367,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listReceivedLicenses(input: ListReceivedLicensesInput) async throws -> ListReceivedLicensesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listReceivedLicensesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4147,18 +4385,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListReceivedLicensesInput, ListReceivedLicensesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListReceivedLicensesInput, ListReceivedLicensesOutput>(ListReceivedLicensesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReceivedLicensesInput, ListReceivedLicensesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReceivedLicensesInput, ListReceivedLicensesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReceivedLicensesOutput>(ListReceivedLicensesOutput.httpOutput(from:), ListReceivedLicensesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReceivedLicensesInput, ListReceivedLicensesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4170,7 +4408,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReceivedLicensesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReceivedLicensesInput, ListReceivedLicensesOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListReceivedLicenses"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListReceivedLicensesInput, ListReceivedLicensesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListReceivedLicensesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReceivedLicensesInput, ListReceivedLicensesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReceivedLicensesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReceivedLicensesInput, ListReceivedLicensesOutput>())
@@ -4210,6 +4447,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listReceivedLicensesForOrganization(input: ListReceivedLicensesForOrganizationInput) async throws -> ListReceivedLicensesForOrganizationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listReceivedLicensesForOrganizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4222,18 +4465,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutput>(ListReceivedLicensesForOrganizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReceivedLicensesForOrganizationOutput>(ListReceivedLicensesForOrganizationOutput.httpOutput(from:), ListReceivedLicensesForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4245,7 +4488,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReceivedLicensesForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListReceivedLicensesForOrganization"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListReceivedLicensesForOrganizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReceivedLicensesForOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutput>())
@@ -4285,6 +4527,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listResourceInventory(input: ListResourceInventoryInput) async throws -> ListResourceInventoryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listResourceInventoryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4297,18 +4545,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListResourceInventoryInput, ListResourceInventoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResourceInventoryInput, ListResourceInventoryOutput>(ListResourceInventoryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResourceInventoryInput, ListResourceInventoryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceInventoryInput, ListResourceInventoryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceInventoryOutput>(ListResourceInventoryOutput.httpOutput(from:), ListResourceInventoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceInventoryInput, ListResourceInventoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4320,7 +4568,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResourceInventoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResourceInventoryInput, ListResourceInventoryOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListResourceInventory"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListResourceInventoryInput, ListResourceInventoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResourceInventoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResourceInventoryInput, ListResourceInventoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourceInventoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResourceInventoryInput, ListResourceInventoryOutput>())
@@ -4359,6 +4606,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4371,18 +4624,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4394,7 +4647,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -4432,6 +4684,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listTokens(input: ListTokensInput) async throws -> ListTokensOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listTokensOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4444,18 +4702,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTokensInput, ListTokensOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTokensInput, ListTokensOutput>(ListTokensInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTokensInput, ListTokensOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTokensInput, ListTokensOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTokensOutput>(ListTokensOutput.httpOutput(from:), ListTokensOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTokensInput, ListTokensOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4467,7 +4725,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTokensOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTokensInput, ListTokensOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListTokens"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTokensInput, ListTokensOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTokensInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTokensInput, ListTokensOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTokensOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTokensInput, ListTokensOutput>())
@@ -4506,6 +4763,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func listUsageForLicenseConfiguration(input: ListUsageForLicenseConfigurationInput) async throws -> ListUsageForLicenseConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.listUsageForLicenseConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4518,18 +4781,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListUsageForLicenseConfigurationInput, ListUsageForLicenseConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListUsageForLicenseConfigurationInput, ListUsageForLicenseConfigurationOutput>(ListUsageForLicenseConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListUsageForLicenseConfigurationInput, ListUsageForLicenseConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsageForLicenseConfigurationInput, ListUsageForLicenseConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsageForLicenseConfigurationOutput>(ListUsageForLicenseConfigurationOutput.httpOutput(from:), ListUsageForLicenseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsageForLicenseConfigurationInput, ListUsageForLicenseConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4541,7 +4804,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUsageForLicenseConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListUsageForLicenseConfigurationInput, ListUsageForLicenseConfigurationOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.ListUsageForLicenseConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListUsageForLicenseConfigurationInput, ListUsageForLicenseConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUsageForLicenseConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUsageForLicenseConfigurationInput, ListUsageForLicenseConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUsageForLicenseConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUsageForLicenseConfigurationInput, ListUsageForLicenseConfigurationOutput>())
@@ -4581,6 +4843,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func rejectGrant(input: RejectGrantInput) async throws -> RejectGrantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.rejectGrantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4593,18 +4861,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RejectGrantInput, RejectGrantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RejectGrantInput, RejectGrantOutput>(RejectGrantInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectGrantInput, RejectGrantOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectGrantInput, RejectGrantOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectGrantOutput>(RejectGrantOutput.httpOutput(from:), RejectGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectGrantInput, RejectGrantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4616,7 +4884,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectGrantOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectGrantInput, RejectGrantOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.RejectGrant"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RejectGrantInput, RejectGrantOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RejectGrantInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectGrantInput, RejectGrantOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectGrantOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectGrantInput, RejectGrantOutput>())
@@ -4663,6 +4930,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4675,18 +4948,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4698,7 +4971,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -4737,6 +5009,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4749,18 +5027,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4772,7 +5050,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -4811,6 +5088,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func updateLicenseAssetGroup(input: UpdateLicenseAssetGroupInput) async throws -> UpdateLicenseAssetGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.updateLicenseAssetGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4823,18 +5106,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>(UpdateLicenseAssetGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLicenseAssetGroupOutput>(UpdateLicenseAssetGroupOutput.httpOutput(from:), UpdateLicenseAssetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4846,7 +5129,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLicenseAssetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.UpdateLicenseAssetGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLicenseAssetGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLicenseAssetGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLicenseAssetGroupInput, UpdateLicenseAssetGroupOutput>())
@@ -4885,6 +5167,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func updateLicenseAssetRuleset(input: UpdateLicenseAssetRulesetInput) async throws -> UpdateLicenseAssetRulesetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.updateLicenseAssetRulesetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4897,18 +5185,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>(UpdateLicenseAssetRulesetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLicenseAssetRulesetOutput>(UpdateLicenseAssetRulesetOutput.httpOutput(from:), UpdateLicenseAssetRulesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4920,7 +5208,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLicenseAssetRulesetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.UpdateLicenseAssetRuleset"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLicenseAssetRulesetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLicenseAssetRulesetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLicenseAssetRulesetInput, UpdateLicenseAssetRulesetOutput>())
@@ -4960,6 +5247,12 @@ extension LicenseManagerClient {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func updateLicenseConfiguration(input: UpdateLicenseConfigurationInput) async throws -> UpdateLicenseConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.updateLicenseConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4972,18 +5265,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLicenseConfigurationInput, UpdateLicenseConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLicenseConfigurationInput, UpdateLicenseConfigurationOutput>(UpdateLicenseConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLicenseConfigurationInput, UpdateLicenseConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLicenseConfigurationInput, UpdateLicenseConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLicenseConfigurationOutput>(UpdateLicenseConfigurationOutput.httpOutput(from:), UpdateLicenseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLicenseConfigurationInput, UpdateLicenseConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4995,7 +5288,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLicenseConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLicenseConfigurationInput, UpdateLicenseConfigurationOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.UpdateLicenseConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLicenseConfigurationInput, UpdateLicenseConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLicenseConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLicenseConfigurationInput, UpdateLicenseConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLicenseConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLicenseConfigurationInput, UpdateLicenseConfigurationOutput>())
@@ -5036,6 +5328,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func updateLicenseManagerReportGenerator(input: UpdateLicenseManagerReportGeneratorInput) async throws -> UpdateLicenseManagerReportGeneratorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.updateLicenseManagerReportGeneratorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5048,18 +5346,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLicenseManagerReportGeneratorInput, UpdateLicenseManagerReportGeneratorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLicenseManagerReportGeneratorInput, UpdateLicenseManagerReportGeneratorOutput>(UpdateLicenseManagerReportGeneratorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLicenseManagerReportGeneratorInput, UpdateLicenseManagerReportGeneratorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLicenseManagerReportGeneratorInput, UpdateLicenseManagerReportGeneratorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLicenseManagerReportGeneratorOutput>(UpdateLicenseManagerReportGeneratorOutput.httpOutput(from:), UpdateLicenseManagerReportGeneratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLicenseManagerReportGeneratorInput, UpdateLicenseManagerReportGeneratorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5071,7 +5369,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLicenseManagerReportGeneratorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLicenseManagerReportGeneratorInput, UpdateLicenseManagerReportGeneratorOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.UpdateLicenseManagerReportGenerator"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLicenseManagerReportGeneratorInput, UpdateLicenseManagerReportGeneratorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLicenseManagerReportGeneratorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLicenseManagerReportGeneratorInput, UpdateLicenseManagerReportGeneratorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLicenseManagerReportGeneratorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLicenseManagerReportGeneratorInput, UpdateLicenseManagerReportGeneratorOutput>())
@@ -5112,6 +5409,12 @@ extension LicenseManagerClient {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     public func updateLicenseSpecificationsForResource(input: UpdateLicenseSpecificationsForResourceInput) async throws -> UpdateLicenseSpecificationsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.updateLicenseSpecificationsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5124,18 +5427,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLicenseSpecificationsForResourceInput, UpdateLicenseSpecificationsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLicenseSpecificationsForResourceInput, UpdateLicenseSpecificationsForResourceOutput>(UpdateLicenseSpecificationsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLicenseSpecificationsForResourceInput, UpdateLicenseSpecificationsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLicenseSpecificationsForResourceInput, UpdateLicenseSpecificationsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLicenseSpecificationsForResourceOutput>(UpdateLicenseSpecificationsForResourceOutput.httpOutput(from:), UpdateLicenseSpecificationsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLicenseSpecificationsForResourceInput, UpdateLicenseSpecificationsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5147,7 +5450,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLicenseSpecificationsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLicenseSpecificationsForResourceInput, UpdateLicenseSpecificationsForResourceOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.UpdateLicenseSpecificationsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLicenseSpecificationsForResourceInput, UpdateLicenseSpecificationsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLicenseSpecificationsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLicenseSpecificationsForResourceInput, UpdateLicenseSpecificationsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLicenseSpecificationsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLicenseSpecificationsForResourceInput, UpdateLicenseSpecificationsForResourceOutput>())
@@ -5187,6 +5489,12 @@ extension LicenseManagerClient {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func updateServiceSettings(input: UpdateServiceSettingsInput) async throws -> UpdateServiceSettingsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LicenseManagerClient.updateServiceSettingsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5199,18 +5507,18 @@ extension LicenseManagerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "license-manager")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServiceSettingsInput, UpdateServiceSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>(UpdateServiceSettingsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceSettingsOutput>(UpdateServiceSettingsOutput.httpOutput(from:), UpdateServiceSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5222,7 +5530,6 @@ extension LicenseManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateServiceSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>(overrides: ["X-Amz-Target": "AWSLicenseManager.UpdateServiceSettings"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServiceSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>())

@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.mediastore#MediaStore_20170901",
+    "module": "AWSMediaStore",
+    "sdkId": "MediaStore",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/mediastore.json"
+}

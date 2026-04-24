@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,30 +36,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -644,6 +641,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func countClosedWorkflowExecutions(input: CountClosedWorkflowExecutionsInput) async throws -> CountClosedWorkflowExecutionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.countClosedWorkflowExecutionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -656,18 +659,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutput>(CountClosedWorkflowExecutionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CountClosedWorkflowExecutionsOutput>(CountClosedWorkflowExecutionsOutput.httpOutput(from:), CountClosedWorkflowExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -679,7 +682,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CountClosedWorkflowExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.CountClosedWorkflowExecutions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CountClosedWorkflowExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CountClosedWorkflowExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutput>())
@@ -732,6 +734,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func countOpenWorkflowExecutions(input: CountOpenWorkflowExecutionsInput) async throws -> CountOpenWorkflowExecutionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.countOpenWorkflowExecutionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -744,18 +752,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutput>(CountOpenWorkflowExecutionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CountOpenWorkflowExecutionsOutput>(CountOpenWorkflowExecutionsOutput.httpOutput(from:), CountOpenWorkflowExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -767,7 +775,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CountOpenWorkflowExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.CountOpenWorkflowExecutions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CountOpenWorkflowExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CountOpenWorkflowExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutput>())
@@ -811,6 +818,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func countPendingActivityTasks(input: CountPendingActivityTasksInput) async throws -> CountPendingActivityTasksOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.countPendingActivityTasksOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -823,18 +836,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CountPendingActivityTasksInput, CountPendingActivityTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CountPendingActivityTasksInput, CountPendingActivityTasksOutput>(CountPendingActivityTasksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CountPendingActivityTasksInput, CountPendingActivityTasksOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CountPendingActivityTasksInput, CountPendingActivityTasksOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CountPendingActivityTasksOutput>(CountPendingActivityTasksOutput.httpOutput(from:), CountPendingActivityTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CountPendingActivityTasksInput, CountPendingActivityTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -846,7 +859,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CountPendingActivityTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CountPendingActivityTasksInput, CountPendingActivityTasksOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.CountPendingActivityTasks"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CountPendingActivityTasksInput, CountPendingActivityTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CountPendingActivityTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CountPendingActivityTasksInput, CountPendingActivityTasksOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CountPendingActivityTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CountPendingActivityTasksInput, CountPendingActivityTasksOutput>())
@@ -890,6 +902,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func countPendingDecisionTasks(input: CountPendingDecisionTasksInput) async throws -> CountPendingDecisionTasksOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.countPendingDecisionTasksOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -902,18 +920,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutput>(CountPendingDecisionTasksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CountPendingDecisionTasksOutput>(CountPendingDecisionTasksOutput.httpOutput(from:), CountPendingDecisionTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -925,7 +943,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CountPendingDecisionTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.CountPendingDecisionTasks"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CountPendingDecisionTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CountPendingDecisionTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutput>())
@@ -977,6 +994,12 @@ extension SWFClient {
     /// - `TypeNotDeprecatedFault` : Returned when the resource type has not been deprecated.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func deleteActivityType(input: DeleteActivityTypeInput) async throws -> DeleteActivityTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.deleteActivityTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -989,18 +1012,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteActivityTypeInput, DeleteActivityTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteActivityTypeInput, DeleteActivityTypeOutput>(DeleteActivityTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteActivityTypeInput, DeleteActivityTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteActivityTypeInput, DeleteActivityTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteActivityTypeOutput>(DeleteActivityTypeOutput.httpOutput(from:), DeleteActivityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteActivityTypeInput, DeleteActivityTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1012,7 +1035,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteActivityTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteActivityTypeInput, DeleteActivityTypeOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.DeleteActivityType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteActivityTypeInput, DeleteActivityTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteActivityTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteActivityTypeInput, DeleteActivityTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteActivityTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteActivityTypeInput, DeleteActivityTypeOutput>())
@@ -1064,6 +1086,12 @@ extension SWFClient {
     /// - `TypeNotDeprecatedFault` : Returned when the resource type has not been deprecated.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func deleteWorkflowType(input: DeleteWorkflowTypeInput) async throws -> DeleteWorkflowTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.deleteWorkflowTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1076,18 +1104,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteWorkflowTypeInput, DeleteWorkflowTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteWorkflowTypeInput, DeleteWorkflowTypeOutput>(DeleteWorkflowTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWorkflowTypeInput, DeleteWorkflowTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkflowTypeInput, DeleteWorkflowTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkflowTypeOutput>(DeleteWorkflowTypeOutput.httpOutput(from:), DeleteWorkflowTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkflowTypeInput, DeleteWorkflowTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1099,7 +1127,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWorkflowTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWorkflowTypeInput, DeleteWorkflowTypeOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.DeleteWorkflowType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteWorkflowTypeInput, DeleteWorkflowTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWorkflowTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWorkflowTypeInput, DeleteWorkflowTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkflowTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWorkflowTypeInput, DeleteWorkflowTypeOutput>())
@@ -1151,6 +1178,12 @@ extension SWFClient {
     /// - `TypeDeprecatedFault` : Returned when the specified activity or workflow type was already deprecated.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func deprecateActivityType(input: DeprecateActivityTypeInput) async throws -> DeprecateActivityTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.deprecateActivityTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1163,18 +1196,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeprecateActivityTypeInput, DeprecateActivityTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeprecateActivityTypeInput, DeprecateActivityTypeOutput>(DeprecateActivityTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeprecateActivityTypeInput, DeprecateActivityTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeprecateActivityTypeInput, DeprecateActivityTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprecateActivityTypeOutput>(DeprecateActivityTypeOutput.httpOutput(from:), DeprecateActivityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprecateActivityTypeInput, DeprecateActivityTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1186,7 +1219,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeprecateActivityTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeprecateActivityTypeInput, DeprecateActivityTypeOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.DeprecateActivityType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeprecateActivityTypeInput, DeprecateActivityTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeprecateActivityTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeprecateActivityTypeInput, DeprecateActivityTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeprecateActivityTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeprecateActivityTypeInput, DeprecateActivityTypeOutput>())
@@ -1231,6 +1263,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func deprecateDomain(input: DeprecateDomainInput) async throws -> DeprecateDomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.deprecateDomainOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1243,18 +1281,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeprecateDomainInput, DeprecateDomainOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeprecateDomainInput, DeprecateDomainOutput>(DeprecateDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeprecateDomainInput, DeprecateDomainOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeprecateDomainInput, DeprecateDomainOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprecateDomainOutput>(DeprecateDomainOutput.httpOutput(from:), DeprecateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprecateDomainInput, DeprecateDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1266,7 +1304,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeprecateDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeprecateDomainInput, DeprecateDomainOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.DeprecateDomain"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeprecateDomainInput, DeprecateDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeprecateDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeprecateDomainInput, DeprecateDomainOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeprecateDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeprecateDomainInput, DeprecateDomainOutput>())
@@ -1318,6 +1355,12 @@ extension SWFClient {
     /// - `TypeDeprecatedFault` : Returned when the specified activity or workflow type was already deprecated.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func deprecateWorkflowType(input: DeprecateWorkflowTypeInput) async throws -> DeprecateWorkflowTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.deprecateWorkflowTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1330,18 +1373,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutput>(DeprecateWorkflowTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprecateWorkflowTypeOutput>(DeprecateWorkflowTypeOutput.httpOutput(from:), DeprecateWorkflowTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1353,7 +1396,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeprecateWorkflowTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.DeprecateWorkflowType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeprecateWorkflowTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeprecateWorkflowTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutput>())
@@ -1404,6 +1446,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func describeActivityType(input: DescribeActivityTypeInput) async throws -> DescribeActivityTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.describeActivityTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1416,18 +1464,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeActivityTypeInput, DescribeActivityTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeActivityTypeInput, DescribeActivityTypeOutput>(DescribeActivityTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeActivityTypeInput, DescribeActivityTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeActivityTypeInput, DescribeActivityTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeActivityTypeOutput>(DescribeActivityTypeOutput.httpOutput(from:), DescribeActivityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeActivityTypeInput, DescribeActivityTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1439,7 +1487,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeActivityTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeActivityTypeInput, DescribeActivityTypeOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.DescribeActivityType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeActivityTypeInput, DescribeActivityTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeActivityTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeActivityTypeInput, DescribeActivityTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeActivityTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeActivityTypeInput, DescribeActivityTypeOutput>())
@@ -1483,6 +1530,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.describeDomainOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1495,18 +1548,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeDomainInput, DescribeDomainOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDomainInput, DescribeDomainOutput>(DescribeDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDomainInput, DescribeDomainOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDomainInput, DescribeDomainOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainOutput>(DescribeDomainOutput.httpOutput(from:), DescribeDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainInput, DescribeDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1518,7 +1571,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDomainInput, DescribeDomainOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.DescribeDomain"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDomainInput, DescribeDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDomainInput, DescribeDomainOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDomainInput, DescribeDomainOutput>())
@@ -1562,6 +1614,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func describeWorkflowExecution(input: DescribeWorkflowExecutionInput) async throws -> DescribeWorkflowExecutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.describeWorkflowExecutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1574,18 +1632,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutput>(DescribeWorkflowExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkflowExecutionOutput>(DescribeWorkflowExecutionOutput.httpOutput(from:), DescribeWorkflowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1597,7 +1655,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeWorkflowExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.DescribeWorkflowExecution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeWorkflowExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeWorkflowExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutput>())
@@ -1648,6 +1705,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func describeWorkflowType(input: DescribeWorkflowTypeInput) async throws -> DescribeWorkflowTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.describeWorkflowTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1660,18 +1723,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutput>(DescribeWorkflowTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkflowTypeOutput>(DescribeWorkflowTypeOutput.httpOutput(from:), DescribeWorkflowTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1683,7 +1746,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeWorkflowTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.DescribeWorkflowType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeWorkflowTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeWorkflowTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutput>())
@@ -1727,6 +1789,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func getWorkflowExecutionHistory(input: GetWorkflowExecutionHistoryInput) async throws -> GetWorkflowExecutionHistoryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.getWorkflowExecutionHistoryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1739,18 +1807,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput>(GetWorkflowExecutionHistoryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowExecutionHistoryOutput>(GetWorkflowExecutionHistoryOutput.httpOutput(from:), GetWorkflowExecutionHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1762,7 +1830,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWorkflowExecutionHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.GetWorkflowExecutionHistory"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetWorkflowExecutionHistoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkflowExecutionHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput>())
@@ -1806,6 +1873,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func listActivityTypes(input: ListActivityTypesInput) async throws -> ListActivityTypesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.listActivityTypesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1818,18 +1891,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListActivityTypesInput, ListActivityTypesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListActivityTypesInput, ListActivityTypesOutput>(ListActivityTypesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListActivityTypesInput, ListActivityTypesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListActivityTypesInput, ListActivityTypesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListActivityTypesOutput>(ListActivityTypesOutput.httpOutput(from:), ListActivityTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListActivityTypesInput, ListActivityTypesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1841,7 +1914,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListActivityTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListActivityTypesInput, ListActivityTypesOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.ListActivityTypes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListActivityTypesInput, ListActivityTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListActivityTypesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListActivityTypesInput, ListActivityTypesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListActivityTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListActivityTypesInput, ListActivityTypesOutput>())
@@ -1894,6 +1966,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func listClosedWorkflowExecutions(input: ListClosedWorkflowExecutionsInput) async throws -> ListClosedWorkflowExecutionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.listClosedWorkflowExecutionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1906,18 +1984,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput>(ListClosedWorkflowExecutionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClosedWorkflowExecutionsOutput>(ListClosedWorkflowExecutionsOutput.httpOutput(from:), ListClosedWorkflowExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1929,7 +2007,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListClosedWorkflowExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.ListClosedWorkflowExecutions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListClosedWorkflowExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClosedWorkflowExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput>())
@@ -1972,6 +2049,12 @@ extension SWFClient {
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.listDomainsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1984,18 +2067,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDomainsInput, ListDomainsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDomainsInput, ListDomainsOutput>(ListDomainsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDomainsInput, ListDomainsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDomainsInput, ListDomainsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainsOutput>(ListDomainsOutput.httpOutput(from:), ListDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsInput, ListDomainsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2007,7 +2090,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDomainsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDomainsInput, ListDomainsOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.ListDomains"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDomainsInput, ListDomainsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDomainsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDomainsInput, ListDomainsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDomainsInput, ListDomainsOutput>())
@@ -2060,6 +2142,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func listOpenWorkflowExecutions(input: ListOpenWorkflowExecutionsInput) async throws -> ListOpenWorkflowExecutionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.listOpenWorkflowExecutionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2072,18 +2160,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput>(ListOpenWorkflowExecutionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOpenWorkflowExecutionsOutput>(ListOpenWorkflowExecutionsOutput.httpOutput(from:), ListOpenWorkflowExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2095,7 +2183,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOpenWorkflowExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.ListOpenWorkflowExecutions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOpenWorkflowExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOpenWorkflowExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput>())
@@ -2131,6 +2218,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2143,18 +2236,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2166,7 +2259,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -2210,6 +2302,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func listWorkflowTypes(input: ListWorkflowTypesInput) async throws -> ListWorkflowTypesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.listWorkflowTypesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2222,18 +2320,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListWorkflowTypesInput, ListWorkflowTypesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListWorkflowTypesInput, ListWorkflowTypesOutput>(ListWorkflowTypesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListWorkflowTypesInput, ListWorkflowTypesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkflowTypesInput, ListWorkflowTypesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkflowTypesOutput>(ListWorkflowTypesOutput.httpOutput(from:), ListWorkflowTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowTypesInput, ListWorkflowTypesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2245,7 +2343,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkflowTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkflowTypesInput, ListWorkflowTypesOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.ListWorkflowTypes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListWorkflowTypesInput, ListWorkflowTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkflowTypesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkflowTypesInput, ListWorkflowTypesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkflowTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWorkflowTypesInput, ListWorkflowTypesOutput>())
@@ -2290,6 +2387,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func pollForActivityTask(input: PollForActivityTaskInput) async throws -> PollForActivityTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.pollForActivityTaskOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2302,18 +2405,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PollForActivityTaskInput, PollForActivityTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PollForActivityTaskInput, PollForActivityTaskOutput>(PollForActivityTaskInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PollForActivityTaskInput, PollForActivityTaskOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PollForActivityTaskInput, PollForActivityTaskOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PollForActivityTaskOutput>(PollForActivityTaskOutput.httpOutput(from:), PollForActivityTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PollForActivityTaskInput, PollForActivityTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2325,7 +2428,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PollForActivityTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PollForActivityTaskInput, PollForActivityTaskOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.PollForActivityTask"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PollForActivityTaskInput, PollForActivityTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PollForActivityTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PollForActivityTaskInput, PollForActivityTaskOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PollForActivityTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PollForActivityTaskInput, PollForActivityTaskOutput>())
@@ -2370,6 +2472,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func pollForDecisionTask(input: PollForDecisionTaskInput) async throws -> PollForDecisionTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.pollForDecisionTaskOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2382,18 +2490,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PollForDecisionTaskInput, PollForDecisionTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PollForDecisionTaskInput, PollForDecisionTaskOutput>(PollForDecisionTaskInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PollForDecisionTaskInput, PollForDecisionTaskOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PollForDecisionTaskInput, PollForDecisionTaskOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PollForDecisionTaskOutput>(PollForDecisionTaskOutput.httpOutput(from:), PollForDecisionTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PollForDecisionTaskInput, PollForDecisionTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2405,7 +2513,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PollForDecisionTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PollForDecisionTaskInput, PollForDecisionTaskOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.PollForDecisionTask"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PollForDecisionTaskInput, PollForDecisionTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PollForDecisionTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PollForDecisionTaskInput, PollForDecisionTaskOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PollForDecisionTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PollForDecisionTaskInput, PollForDecisionTaskOutput>())
@@ -2449,6 +2556,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func recordActivityTaskHeartbeat(input: RecordActivityTaskHeartbeatInput) async throws -> RecordActivityTaskHeartbeatOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.recordActivityTaskHeartbeatOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2461,18 +2574,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutput>(RecordActivityTaskHeartbeatInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RecordActivityTaskHeartbeatOutput>(RecordActivityTaskHeartbeatOutput.httpOutput(from:), RecordActivityTaskHeartbeatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2484,7 +2597,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RecordActivityTaskHeartbeatOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.RecordActivityTaskHeartbeat"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RecordActivityTaskHeartbeatInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RecordActivityTaskHeartbeatOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutput>())
@@ -2539,6 +2651,12 @@ extension SWFClient {
     /// - `TypeAlreadyExistsFault` : Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func registerActivityType(input: RegisterActivityTypeInput) async throws -> RegisterActivityTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.registerActivityTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2551,18 +2669,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RegisterActivityTypeInput, RegisterActivityTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterActivityTypeInput, RegisterActivityTypeOutput>(RegisterActivityTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterActivityTypeInput, RegisterActivityTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterActivityTypeInput, RegisterActivityTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterActivityTypeOutput>(RegisterActivityTypeOutput.httpOutput(from:), RegisterActivityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterActivityTypeInput, RegisterActivityTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2574,7 +2692,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterActivityTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterActivityTypeInput, RegisterActivityTypeOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.RegisterActivityType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RegisterActivityTypeInput, RegisterActivityTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterActivityTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterActivityTypeInput, RegisterActivityTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterActivityTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterActivityTypeInput, RegisterActivityTypeOutput>())
@@ -2620,6 +2737,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `TooManyTagsFault` : You've exceeded the number of tags allowed for a domain.
     public func registerDomain(input: RegisterDomainInput) async throws -> RegisterDomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.registerDomainOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2632,18 +2755,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RegisterDomainInput, RegisterDomainOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterDomainInput, RegisterDomainOutput>(RegisterDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterDomainInput, RegisterDomainOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterDomainInput, RegisterDomainOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterDomainOutput>(RegisterDomainOutput.httpOutput(from:), RegisterDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterDomainInput, RegisterDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2655,7 +2778,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterDomainInput, RegisterDomainOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.RegisterDomain"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RegisterDomainInput, RegisterDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterDomainInput, RegisterDomainOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterDomainInput, RegisterDomainOutput>())
@@ -2710,6 +2832,12 @@ extension SWFClient {
     /// - `TypeAlreadyExistsFault` : Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func registerWorkflowType(input: RegisterWorkflowTypeInput) async throws -> RegisterWorkflowTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.registerWorkflowTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2722,18 +2850,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutput>(RegisterWorkflowTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterWorkflowTypeOutput>(RegisterWorkflowTypeOutput.httpOutput(from:), RegisterWorkflowTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2745,7 +2873,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterWorkflowTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.RegisterWorkflowType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterWorkflowTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterWorkflowTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutput>())
@@ -2789,6 +2916,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func requestCancelWorkflowExecution(input: RequestCancelWorkflowExecutionInput) async throws -> RequestCancelWorkflowExecutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.requestCancelWorkflowExecutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2801,18 +2934,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutput>(RequestCancelWorkflowExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RequestCancelWorkflowExecutionOutput>(RequestCancelWorkflowExecutionOutput.httpOutput(from:), RequestCancelWorkflowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2824,7 +2957,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RequestCancelWorkflowExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.RequestCancelWorkflowExecution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RequestCancelWorkflowExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RequestCancelWorkflowExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutput>())
@@ -2868,6 +3000,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func respondActivityTaskCanceled(input: RespondActivityTaskCanceledInput) async throws -> RespondActivityTaskCanceledOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.respondActivityTaskCanceledOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2880,18 +3018,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutput>(RespondActivityTaskCanceledInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RespondActivityTaskCanceledOutput>(RespondActivityTaskCanceledOutput.httpOutput(from:), RespondActivityTaskCanceledOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2903,7 +3041,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RespondActivityTaskCanceledOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.RespondActivityTaskCanceled"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RespondActivityTaskCanceledInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RespondActivityTaskCanceledOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutput>())
@@ -2947,6 +3084,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func respondActivityTaskCompleted(input: RespondActivityTaskCompletedInput) async throws -> RespondActivityTaskCompletedOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.respondActivityTaskCompletedOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2959,18 +3102,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutput>(RespondActivityTaskCompletedInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RespondActivityTaskCompletedOutput>(RespondActivityTaskCompletedOutput.httpOutput(from:), RespondActivityTaskCompletedOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2982,7 +3125,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RespondActivityTaskCompletedOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.RespondActivityTaskCompleted"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RespondActivityTaskCompletedInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RespondActivityTaskCompletedOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutput>())
@@ -3026,6 +3168,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func respondActivityTaskFailed(input: RespondActivityTaskFailedInput) async throws -> RespondActivityTaskFailedOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.respondActivityTaskFailedOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3038,18 +3186,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutput>(RespondActivityTaskFailedInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RespondActivityTaskFailedOutput>(RespondActivityTaskFailedOutput.httpOutput(from:), RespondActivityTaskFailedOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3061,7 +3209,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RespondActivityTaskFailedOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.RespondActivityTaskFailed"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RespondActivityTaskFailedInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RespondActivityTaskFailedOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutput>())
@@ -3096,6 +3243,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func respondDecisionTaskCompleted(input: RespondDecisionTaskCompletedInput) async throws -> RespondDecisionTaskCompletedOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.respondDecisionTaskCompletedOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3108,18 +3261,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutput>(RespondDecisionTaskCompletedInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RespondDecisionTaskCompletedOutput>(RespondDecisionTaskCompletedOutput.httpOutput(from:), RespondDecisionTaskCompletedOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3131,7 +3284,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RespondDecisionTaskCompletedOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.RespondDecisionTaskCompleted"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RespondDecisionTaskCompletedInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RespondDecisionTaskCompletedOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutput>())
@@ -3175,6 +3327,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func signalWorkflowExecution(input: SignalWorkflowExecutionInput) async throws -> SignalWorkflowExecutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.signalWorkflowExecutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3187,18 +3345,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutput>(SignalWorkflowExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SignalWorkflowExecutionOutput>(SignalWorkflowExecutionOutput.httpOutput(from:), SignalWorkflowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3210,7 +3368,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SignalWorkflowExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.SignalWorkflowExecution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SignalWorkflowExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SignalWorkflowExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutput>())
@@ -3277,6 +3434,12 @@ extension SWFClient {
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     /// - `WorkflowExecutionAlreadyStartedFault` : Returned by [StartWorkflowExecution] when an open execution with the same workflowId is already running in the specified domain.
     public func startWorkflowExecution(input: StartWorkflowExecutionInput) async throws -> StartWorkflowExecutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.startWorkflowExecutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3289,18 +3452,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartWorkflowExecutionInput, StartWorkflowExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartWorkflowExecutionInput, StartWorkflowExecutionOutput>(StartWorkflowExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartWorkflowExecutionInput, StartWorkflowExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartWorkflowExecutionInput, StartWorkflowExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartWorkflowExecutionOutput>(StartWorkflowExecutionOutput.httpOutput(from:), StartWorkflowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartWorkflowExecutionInput, StartWorkflowExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3312,7 +3475,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartWorkflowExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartWorkflowExecutionInput, StartWorkflowExecutionOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.StartWorkflowExecution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartWorkflowExecutionInput, StartWorkflowExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartWorkflowExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartWorkflowExecutionInput, StartWorkflowExecutionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartWorkflowExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartWorkflowExecutionInput, StartWorkflowExecutionOutput>())
@@ -3349,6 +3511,12 @@ extension SWFClient {
     /// - `TooManyTagsFault` : You've exceeded the number of tags allowed for a domain.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3361,18 +3529,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3384,7 +3552,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -3428,6 +3595,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func terminateWorkflowExecution(input: TerminateWorkflowExecutionInput) async throws -> TerminateWorkflowExecutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.terminateWorkflowExecutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3440,18 +3613,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutput>(TerminateWorkflowExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateWorkflowExecutionOutput>(TerminateWorkflowExecutionOutput.httpOutput(from:), TerminateWorkflowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3463,7 +3636,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TerminateWorkflowExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.TerminateWorkflowExecution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TerminateWorkflowExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TerminateWorkflowExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutput>())
@@ -3515,6 +3687,12 @@ extension SWFClient {
     /// - `TypeAlreadyExistsFault` : Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func undeprecateActivityType(input: UndeprecateActivityTypeInput) async throws -> UndeprecateActivityTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.undeprecateActivityTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3527,18 +3705,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutput>(UndeprecateActivityTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UndeprecateActivityTypeOutput>(UndeprecateActivityTypeOutput.httpOutput(from:), UndeprecateActivityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3550,7 +3728,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UndeprecateActivityTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.UndeprecateActivityType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UndeprecateActivityTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UndeprecateActivityTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutput>())
@@ -3595,6 +3772,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func undeprecateDomain(input: UndeprecateDomainInput) async throws -> UndeprecateDomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.undeprecateDomainOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3607,18 +3790,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UndeprecateDomainInput, UndeprecateDomainOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UndeprecateDomainInput, UndeprecateDomainOutput>(UndeprecateDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UndeprecateDomainInput, UndeprecateDomainOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UndeprecateDomainInput, UndeprecateDomainOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UndeprecateDomainOutput>(UndeprecateDomainOutput.httpOutput(from:), UndeprecateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UndeprecateDomainInput, UndeprecateDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3630,7 +3813,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UndeprecateDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UndeprecateDomainInput, UndeprecateDomainOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.UndeprecateDomain"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UndeprecateDomainInput, UndeprecateDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UndeprecateDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UndeprecateDomainInput, UndeprecateDomainOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UndeprecateDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UndeprecateDomainInput, UndeprecateDomainOutput>())
@@ -3682,6 +3864,12 @@ extension SWFClient {
     /// - `TypeAlreadyExistsFault` : Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func undeprecateWorkflowType(input: UndeprecateWorkflowTypeInput) async throws -> UndeprecateWorkflowTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.undeprecateWorkflowTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3694,18 +3882,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutput>(UndeprecateWorkflowTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UndeprecateWorkflowTypeOutput>(UndeprecateWorkflowTypeOutput.httpOutput(from:), UndeprecateWorkflowTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3717,7 +3905,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UndeprecateWorkflowTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.UndeprecateWorkflowType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UndeprecateWorkflowTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UndeprecateWorkflowTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutput>())
@@ -3753,6 +3940,12 @@ extension SWFClient {
     /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SWFClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3765,18 +3958,18 @@ extension SWFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3788,7 +3981,6 @@ extension SWFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "SimpleWorkflowService.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())

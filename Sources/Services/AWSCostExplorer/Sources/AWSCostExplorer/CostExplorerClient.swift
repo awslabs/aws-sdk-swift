@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,30 +35,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -624,6 +621,12 @@ extension CostExplorerClient {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func createAnomalyMonitor(input: CreateAnomalyMonitorInput) async throws -> CreateAnomalyMonitorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.createAnomalyMonitorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -636,18 +639,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAnomalyMonitorInput, CreateAnomalyMonitorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAnomalyMonitorInput, CreateAnomalyMonitorOutput>(CreateAnomalyMonitorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAnomalyMonitorInput, CreateAnomalyMonitorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnomalyMonitorInput, CreateAnomalyMonitorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnomalyMonitorOutput>(CreateAnomalyMonitorOutput.httpOutput(from:), CreateAnomalyMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnomalyMonitorInput, CreateAnomalyMonitorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -659,7 +662,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAnomalyMonitorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAnomalyMonitorInput, CreateAnomalyMonitorOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.CreateAnomalyMonitor"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAnomalyMonitorInput, CreateAnomalyMonitorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAnomalyMonitorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAnomalyMonitorInput, CreateAnomalyMonitorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAnomalyMonitorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAnomalyMonitorInput, CreateAnomalyMonitorOutput>())
@@ -694,6 +696,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
     public func createAnomalySubscription(input: CreateAnomalySubscriptionInput) async throws -> CreateAnomalySubscriptionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.createAnomalySubscriptionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -706,18 +714,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAnomalySubscriptionInput, CreateAnomalySubscriptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAnomalySubscriptionInput, CreateAnomalySubscriptionOutput>(CreateAnomalySubscriptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAnomalySubscriptionInput, CreateAnomalySubscriptionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnomalySubscriptionInput, CreateAnomalySubscriptionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnomalySubscriptionOutput>(CreateAnomalySubscriptionOutput.httpOutput(from:), CreateAnomalySubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnomalySubscriptionInput, CreateAnomalySubscriptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -729,7 +737,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAnomalySubscriptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAnomalySubscriptionInput, CreateAnomalySubscriptionOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.CreateAnomalySubscription"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAnomalySubscriptionInput, CreateAnomalySubscriptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAnomalySubscriptionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAnomalySubscriptionInput, CreateAnomalySubscriptionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAnomalySubscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAnomalySubscriptionInput, CreateAnomalySubscriptionOutput>())
@@ -764,6 +771,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
     public func createCostCategoryDefinition(input: CreateCostCategoryDefinitionInput) async throws -> CreateCostCategoryDefinitionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.createCostCategoryDefinitionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -776,18 +789,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCostCategoryDefinitionInput, CreateCostCategoryDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCostCategoryDefinitionInput, CreateCostCategoryDefinitionOutput>(CreateCostCategoryDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCostCategoryDefinitionInput, CreateCostCategoryDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCostCategoryDefinitionInput, CreateCostCategoryDefinitionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCostCategoryDefinitionOutput>(CreateCostCategoryDefinitionOutput.httpOutput(from:), CreateCostCategoryDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCostCategoryDefinitionInput, CreateCostCategoryDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -799,7 +812,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCostCategoryDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCostCategoryDefinitionInput, CreateCostCategoryDefinitionOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.CreateCostCategoryDefinition"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateCostCategoryDefinitionInput, CreateCostCategoryDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCostCategoryDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCostCategoryDefinitionInput, CreateCostCategoryDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCostCategoryDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCostCategoryDefinitionInput, CreateCostCategoryDefinitionOutput>())
@@ -834,6 +846,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
     public func deleteAnomalyMonitor(input: DeleteAnomalyMonitorInput) async throws -> DeleteAnomalyMonitorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.deleteAnomalyMonitorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -846,18 +864,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAnomalyMonitorInput, DeleteAnomalyMonitorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAnomalyMonitorInput, DeleteAnomalyMonitorOutput>(DeleteAnomalyMonitorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAnomalyMonitorInput, DeleteAnomalyMonitorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAnomalyMonitorInput, DeleteAnomalyMonitorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnomalyMonitorOutput>(DeleteAnomalyMonitorOutput.httpOutput(from:), DeleteAnomalyMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnomalyMonitorInput, DeleteAnomalyMonitorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -869,7 +887,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAnomalyMonitorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAnomalyMonitorInput, DeleteAnomalyMonitorOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.DeleteAnomalyMonitor"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAnomalyMonitorInput, DeleteAnomalyMonitorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAnomalyMonitorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAnomalyMonitorInput, DeleteAnomalyMonitorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAnomalyMonitorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAnomalyMonitorInput, DeleteAnomalyMonitorOutput>())
@@ -904,6 +921,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownSubscriptionException` : The cost anomaly subscription does not exist for the account.
     public func deleteAnomalySubscription(input: DeleteAnomalySubscriptionInput) async throws -> DeleteAnomalySubscriptionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.deleteAnomalySubscriptionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -916,18 +939,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAnomalySubscriptionInput, DeleteAnomalySubscriptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAnomalySubscriptionInput, DeleteAnomalySubscriptionOutput>(DeleteAnomalySubscriptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAnomalySubscriptionInput, DeleteAnomalySubscriptionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAnomalySubscriptionInput, DeleteAnomalySubscriptionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnomalySubscriptionOutput>(DeleteAnomalySubscriptionOutput.httpOutput(from:), DeleteAnomalySubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnomalySubscriptionInput, DeleteAnomalySubscriptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -939,7 +962,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAnomalySubscriptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAnomalySubscriptionInput, DeleteAnomalySubscriptionOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.DeleteAnomalySubscription"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAnomalySubscriptionInput, DeleteAnomalySubscriptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAnomalySubscriptionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAnomalySubscriptionInput, DeleteAnomalySubscriptionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAnomalySubscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAnomalySubscriptionInput, DeleteAnomalySubscriptionOutput>())
@@ -974,6 +996,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func deleteCostCategoryDefinition(input: DeleteCostCategoryDefinitionInput) async throws -> DeleteCostCategoryDefinitionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.deleteCostCategoryDefinitionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -986,18 +1014,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCostCategoryDefinitionInput, DeleteCostCategoryDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCostCategoryDefinitionInput, DeleteCostCategoryDefinitionOutput>(DeleteCostCategoryDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCostCategoryDefinitionInput, DeleteCostCategoryDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCostCategoryDefinitionInput, DeleteCostCategoryDefinitionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCostCategoryDefinitionOutput>(DeleteCostCategoryDefinitionOutput.httpOutput(from:), DeleteCostCategoryDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCostCategoryDefinitionInput, DeleteCostCategoryDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1009,7 +1037,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCostCategoryDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCostCategoryDefinitionInput, DeleteCostCategoryDefinitionOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.DeleteCostCategoryDefinition"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCostCategoryDefinitionInput, DeleteCostCategoryDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCostCategoryDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCostCategoryDefinitionInput, DeleteCostCategoryDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCostCategoryDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCostCategoryDefinitionInput, DeleteCostCategoryDefinitionOutput>())
@@ -1044,6 +1071,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func describeCostCategoryDefinition(input: DescribeCostCategoryDefinitionInput) async throws -> DescribeCostCategoryDefinitionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.describeCostCategoryDefinitionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1056,18 +1089,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCostCategoryDefinitionInput, DescribeCostCategoryDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCostCategoryDefinitionInput, DescribeCostCategoryDefinitionOutput>(DescribeCostCategoryDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCostCategoryDefinitionInput, DescribeCostCategoryDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCostCategoryDefinitionInput, DescribeCostCategoryDefinitionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCostCategoryDefinitionOutput>(DescribeCostCategoryDefinitionOutput.httpOutput(from:), DescribeCostCategoryDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCostCategoryDefinitionInput, DescribeCostCategoryDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1079,7 +1112,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCostCategoryDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCostCategoryDefinitionInput, DescribeCostCategoryDefinitionOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.DescribeCostCategoryDefinition"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCostCategoryDefinitionInput, DescribeCostCategoryDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCostCategoryDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCostCategoryDefinitionInput, DescribeCostCategoryDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCostCategoryDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCostCategoryDefinitionInput, DescribeCostCategoryDefinitionOutput>())
@@ -1114,6 +1146,12 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func getAnomalies(input: GetAnomaliesInput) async throws -> GetAnomaliesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getAnomaliesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1126,18 +1164,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAnomaliesInput, GetAnomaliesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAnomaliesInput, GetAnomaliesOutput>(GetAnomaliesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAnomaliesInput, GetAnomaliesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAnomaliesInput, GetAnomaliesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnomaliesOutput>(GetAnomaliesOutput.httpOutput(from:), GetAnomaliesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnomaliesInput, GetAnomaliesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1149,7 +1187,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAnomaliesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAnomaliesInput, GetAnomaliesOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetAnomalies"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetAnomaliesInput, GetAnomaliesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAnomaliesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAnomaliesInput, GetAnomaliesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAnomaliesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAnomaliesInput, GetAnomaliesOutput>())
@@ -1185,6 +1222,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
     public func getAnomalyMonitors(input: GetAnomalyMonitorsInput) async throws -> GetAnomalyMonitorsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getAnomalyMonitorsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1197,18 +1240,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAnomalyMonitorsInput, GetAnomalyMonitorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAnomalyMonitorsInput, GetAnomalyMonitorsOutput>(GetAnomalyMonitorsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAnomalyMonitorsInput, GetAnomalyMonitorsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAnomalyMonitorsInput, GetAnomalyMonitorsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnomalyMonitorsOutput>(GetAnomalyMonitorsOutput.httpOutput(from:), GetAnomalyMonitorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnomalyMonitorsInput, GetAnomalyMonitorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1220,7 +1263,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAnomalyMonitorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAnomalyMonitorsInput, GetAnomalyMonitorsOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetAnomalyMonitors"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetAnomalyMonitorsInput, GetAnomalyMonitorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAnomalyMonitorsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAnomalyMonitorsInput, GetAnomalyMonitorsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAnomalyMonitorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAnomalyMonitorsInput, GetAnomalyMonitorsOutput>())
@@ -1256,6 +1298,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownSubscriptionException` : The cost anomaly subscription does not exist for the account.
     public func getAnomalySubscriptions(input: GetAnomalySubscriptionsInput) async throws -> GetAnomalySubscriptionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getAnomalySubscriptionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1268,18 +1316,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAnomalySubscriptionsInput, GetAnomalySubscriptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAnomalySubscriptionsInput, GetAnomalySubscriptionsOutput>(GetAnomalySubscriptionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAnomalySubscriptionsInput, GetAnomalySubscriptionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAnomalySubscriptionsInput, GetAnomalySubscriptionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnomalySubscriptionsOutput>(GetAnomalySubscriptionsOutput.httpOutput(from:), GetAnomalySubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnomalySubscriptionsInput, GetAnomalySubscriptionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1291,7 +1339,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAnomalySubscriptionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAnomalySubscriptionsInput, GetAnomalySubscriptionsOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetAnomalySubscriptions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetAnomalySubscriptionsInput, GetAnomalySubscriptionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAnomalySubscriptionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAnomalySubscriptionsInput, GetAnomalySubscriptionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAnomalySubscriptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAnomalySubscriptionsInput, GetAnomalySubscriptionsOutput>())
@@ -1326,6 +1373,12 @@ extension CostExplorerClient {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func getApproximateUsageRecords(input: GetApproximateUsageRecordsInput) async throws -> GetApproximateUsageRecordsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getApproximateUsageRecordsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1338,18 +1391,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetApproximateUsageRecordsInput, GetApproximateUsageRecordsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetApproximateUsageRecordsInput, GetApproximateUsageRecordsOutput>(GetApproximateUsageRecordsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApproximateUsageRecordsInput, GetApproximateUsageRecordsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApproximateUsageRecordsInput, GetApproximateUsageRecordsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApproximateUsageRecordsOutput>(GetApproximateUsageRecordsOutput.httpOutput(from:), GetApproximateUsageRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApproximateUsageRecordsInput, GetApproximateUsageRecordsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1361,7 +1414,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetApproximateUsageRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetApproximateUsageRecordsInput, GetApproximateUsageRecordsOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetApproximateUsageRecords"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetApproximateUsageRecordsInput, GetApproximateUsageRecordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetApproximateUsageRecordsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetApproximateUsageRecordsInput, GetApproximateUsageRecordsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetApproximateUsageRecordsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetApproximateUsageRecordsInput, GetApproximateUsageRecordsOutput>())
@@ -1397,6 +1449,12 @@ extension CostExplorerClient {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func getCommitmentPurchaseAnalysis(input: GetCommitmentPurchaseAnalysisInput) async throws -> GetCommitmentPurchaseAnalysisOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getCommitmentPurchaseAnalysisOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1409,18 +1467,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCommitmentPurchaseAnalysisInput, GetCommitmentPurchaseAnalysisOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCommitmentPurchaseAnalysisInput, GetCommitmentPurchaseAnalysisOutput>(GetCommitmentPurchaseAnalysisInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCommitmentPurchaseAnalysisInput, GetCommitmentPurchaseAnalysisOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCommitmentPurchaseAnalysisInput, GetCommitmentPurchaseAnalysisOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCommitmentPurchaseAnalysisOutput>(GetCommitmentPurchaseAnalysisOutput.httpOutput(from:), GetCommitmentPurchaseAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCommitmentPurchaseAnalysisInput, GetCommitmentPurchaseAnalysisOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1432,7 +1490,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCommitmentPurchaseAnalysisOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCommitmentPurchaseAnalysisInput, GetCommitmentPurchaseAnalysisOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetCommitmentPurchaseAnalysis"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCommitmentPurchaseAnalysisInput, GetCommitmentPurchaseAnalysisOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCommitmentPurchaseAnalysisInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCommitmentPurchaseAnalysisInput, GetCommitmentPurchaseAnalysisOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCommitmentPurchaseAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCommitmentPurchaseAnalysisInput, GetCommitmentPurchaseAnalysisOutput>())
@@ -1472,6 +1529,12 @@ extension CostExplorerClient {
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getCostAndUsage(input: GetCostAndUsageInput) async throws -> GetCostAndUsageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getCostAndUsageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1484,18 +1547,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCostAndUsageInput, GetCostAndUsageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCostAndUsageInput, GetCostAndUsageOutput>(GetCostAndUsageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCostAndUsageInput, GetCostAndUsageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCostAndUsageInput, GetCostAndUsageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCostAndUsageOutput>(GetCostAndUsageOutput.httpOutput(from:), GetCostAndUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCostAndUsageInput, GetCostAndUsageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1507,7 +1570,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCostAndUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCostAndUsageInput, GetCostAndUsageOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetCostAndUsage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCostAndUsageInput, GetCostAndUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCostAndUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCostAndUsageInput, GetCostAndUsageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCostAndUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCostAndUsageInput, GetCostAndUsageOutput>())
@@ -1545,6 +1607,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getCostAndUsageComparisons(input: GetCostAndUsageComparisonsInput) async throws -> GetCostAndUsageComparisonsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getCostAndUsageComparisonsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1557,18 +1625,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCostAndUsageComparisonsInput, GetCostAndUsageComparisonsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCostAndUsageComparisonsInput, GetCostAndUsageComparisonsOutput>(GetCostAndUsageComparisonsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCostAndUsageComparisonsInput, GetCostAndUsageComparisonsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCostAndUsageComparisonsInput, GetCostAndUsageComparisonsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCostAndUsageComparisonsOutput>(GetCostAndUsageComparisonsOutput.httpOutput(from:), GetCostAndUsageComparisonsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCostAndUsageComparisonsInput, GetCostAndUsageComparisonsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1580,7 +1648,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCostAndUsageComparisonsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCostAndUsageComparisonsInput, GetCostAndUsageComparisonsOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetCostAndUsageComparisons"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCostAndUsageComparisonsInput, GetCostAndUsageComparisonsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCostAndUsageComparisonsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCostAndUsageComparisonsInput, GetCostAndUsageComparisonsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCostAndUsageComparisonsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCostAndUsageComparisonsInput, GetCostAndUsageComparisonsOutput>())
@@ -1620,6 +1687,12 @@ extension CostExplorerClient {
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getCostAndUsageWithResources(input: GetCostAndUsageWithResourcesInput) async throws -> GetCostAndUsageWithResourcesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getCostAndUsageWithResourcesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1632,18 +1705,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCostAndUsageWithResourcesInput, GetCostAndUsageWithResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCostAndUsageWithResourcesInput, GetCostAndUsageWithResourcesOutput>(GetCostAndUsageWithResourcesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCostAndUsageWithResourcesInput, GetCostAndUsageWithResourcesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCostAndUsageWithResourcesInput, GetCostAndUsageWithResourcesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCostAndUsageWithResourcesOutput>(GetCostAndUsageWithResourcesOutput.httpOutput(from:), GetCostAndUsageWithResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCostAndUsageWithResourcesInput, GetCostAndUsageWithResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1655,7 +1728,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCostAndUsageWithResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCostAndUsageWithResourcesInput, GetCostAndUsageWithResourcesOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetCostAndUsageWithResources"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCostAndUsageWithResourcesInput, GetCostAndUsageWithResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCostAndUsageWithResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCostAndUsageWithResourcesInput, GetCostAndUsageWithResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCostAndUsageWithResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCostAndUsageWithResourcesInput, GetCostAndUsageWithResourcesOutput>())
@@ -1695,6 +1767,12 @@ extension CostExplorerClient {
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getCostCategories(input: GetCostCategoriesInput) async throws -> GetCostCategoriesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getCostCategoriesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1707,18 +1785,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCostCategoriesInput, GetCostCategoriesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCostCategoriesInput, GetCostCategoriesOutput>(GetCostCategoriesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCostCategoriesInput, GetCostCategoriesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCostCategoriesInput, GetCostCategoriesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCostCategoriesOutput>(GetCostCategoriesOutput.httpOutput(from:), GetCostCategoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCostCategoriesInput, GetCostCategoriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1730,7 +1808,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCostCategoriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCostCategoriesInput, GetCostCategoriesOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetCostCategories"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCostCategoriesInput, GetCostCategoriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCostCategoriesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCostCategoriesInput, GetCostCategoriesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCostCategoriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCostCategoriesInput, GetCostCategoriesOutput>())
@@ -1768,6 +1845,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getCostComparisonDrivers(input: GetCostComparisonDriversInput) async throws -> GetCostComparisonDriversOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getCostComparisonDriversOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1780,18 +1863,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCostComparisonDriversInput, GetCostComparisonDriversOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCostComparisonDriversInput, GetCostComparisonDriversOutput>(GetCostComparisonDriversInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCostComparisonDriversInput, GetCostComparisonDriversOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCostComparisonDriversInput, GetCostComparisonDriversOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCostComparisonDriversOutput>(GetCostComparisonDriversOutput.httpOutput(from:), GetCostComparisonDriversOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCostComparisonDriversInput, GetCostComparisonDriversOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1803,7 +1886,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCostComparisonDriversOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCostComparisonDriversInput, GetCostComparisonDriversOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetCostComparisonDrivers"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCostComparisonDriversInput, GetCostComparisonDriversOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCostComparisonDriversInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCostComparisonDriversInput, GetCostComparisonDriversOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCostComparisonDriversOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCostComparisonDriversInput, GetCostComparisonDriversOutput>())
@@ -1840,6 +1922,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getCostForecast(input: GetCostForecastInput) async throws -> GetCostForecastOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getCostForecastOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1852,18 +1940,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCostForecastInput, GetCostForecastOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCostForecastInput, GetCostForecastOutput>(GetCostForecastInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCostForecastInput, GetCostForecastOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCostForecastInput, GetCostForecastOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCostForecastOutput>(GetCostForecastOutput.httpOutput(from:), GetCostForecastOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCostForecastInput, GetCostForecastOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1875,7 +1963,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCostForecastOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCostForecastInput, GetCostForecastOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetCostForecast"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCostForecastInput, GetCostForecastOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCostForecastInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCostForecastInput, GetCostForecastOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCostForecastOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCostForecastInput, GetCostForecastOutput>())
@@ -1915,6 +2002,12 @@ extension CostExplorerClient {
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getDimensionValues(input: GetDimensionValuesInput) async throws -> GetDimensionValuesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getDimensionValuesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1927,18 +2020,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDimensionValuesInput, GetDimensionValuesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDimensionValuesInput, GetDimensionValuesOutput>(GetDimensionValuesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDimensionValuesInput, GetDimensionValuesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDimensionValuesInput, GetDimensionValuesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDimensionValuesOutput>(GetDimensionValuesOutput.httpOutput(from:), GetDimensionValuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDimensionValuesInput, GetDimensionValuesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1950,7 +2043,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDimensionValuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDimensionValuesInput, GetDimensionValuesOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetDimensionValues"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetDimensionValuesInput, GetDimensionValuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDimensionValuesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDimensionValuesInput, GetDimensionValuesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDimensionValuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDimensionValuesInput, GetDimensionValuesOutput>())
@@ -2013,6 +2105,12 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func getReservationCoverage(input: GetReservationCoverageInput) async throws -> GetReservationCoverageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getReservationCoverageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2025,18 +2123,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetReservationCoverageInput, GetReservationCoverageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetReservationCoverageInput, GetReservationCoverageOutput>(GetReservationCoverageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReservationCoverageInput, GetReservationCoverageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReservationCoverageInput, GetReservationCoverageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReservationCoverageOutput>(GetReservationCoverageOutput.httpOutput(from:), GetReservationCoverageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReservationCoverageInput, GetReservationCoverageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2048,7 +2146,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetReservationCoverageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetReservationCoverageInput, GetReservationCoverageOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetReservationCoverage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetReservationCoverageInput, GetReservationCoverageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetReservationCoverageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetReservationCoverageInput, GetReservationCoverageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetReservationCoverageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetReservationCoverageInput, GetReservationCoverageOutput>())
@@ -2084,6 +2181,12 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func getReservationPurchaseRecommendation(input: GetReservationPurchaseRecommendationInput) async throws -> GetReservationPurchaseRecommendationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getReservationPurchaseRecommendationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2096,18 +2199,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetReservationPurchaseRecommendationInput, GetReservationPurchaseRecommendationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetReservationPurchaseRecommendationInput, GetReservationPurchaseRecommendationOutput>(GetReservationPurchaseRecommendationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReservationPurchaseRecommendationInput, GetReservationPurchaseRecommendationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReservationPurchaseRecommendationInput, GetReservationPurchaseRecommendationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReservationPurchaseRecommendationOutput>(GetReservationPurchaseRecommendationOutput.httpOutput(from:), GetReservationPurchaseRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReservationPurchaseRecommendationInput, GetReservationPurchaseRecommendationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2119,7 +2222,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetReservationPurchaseRecommendationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetReservationPurchaseRecommendationInput, GetReservationPurchaseRecommendationOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetReservationPurchaseRecommendation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetReservationPurchaseRecommendationInput, GetReservationPurchaseRecommendationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetReservationPurchaseRecommendationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetReservationPurchaseRecommendationInput, GetReservationPurchaseRecommendationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetReservationPurchaseRecommendationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetReservationPurchaseRecommendationInput, GetReservationPurchaseRecommendationOutput>())
@@ -2155,6 +2257,12 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func getReservationUtilization(input: GetReservationUtilizationInput) async throws -> GetReservationUtilizationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getReservationUtilizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2167,18 +2275,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetReservationUtilizationInput, GetReservationUtilizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetReservationUtilizationInput, GetReservationUtilizationOutput>(GetReservationUtilizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReservationUtilizationInput, GetReservationUtilizationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReservationUtilizationInput, GetReservationUtilizationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReservationUtilizationOutput>(GetReservationUtilizationOutput.httpOutput(from:), GetReservationUtilizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReservationUtilizationInput, GetReservationUtilizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2190,7 +2298,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetReservationUtilizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetReservationUtilizationInput, GetReservationUtilizationOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetReservationUtilization"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetReservationUtilizationInput, GetReservationUtilizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetReservationUtilizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetReservationUtilizationInput, GetReservationUtilizationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetReservationUtilizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetReservationUtilizationInput, GetReservationUtilizationOutput>())
@@ -2225,6 +2332,12 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func getRightsizingRecommendation(input: GetRightsizingRecommendationInput) async throws -> GetRightsizingRecommendationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getRightsizingRecommendationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2237,18 +2350,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRightsizingRecommendationInput, GetRightsizingRecommendationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRightsizingRecommendationInput, GetRightsizingRecommendationOutput>(GetRightsizingRecommendationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRightsizingRecommendationInput, GetRightsizingRecommendationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRightsizingRecommendationInput, GetRightsizingRecommendationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRightsizingRecommendationOutput>(GetRightsizingRecommendationOutput.httpOutput(from:), GetRightsizingRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRightsizingRecommendationInput, GetRightsizingRecommendationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2260,7 +2373,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRightsizingRecommendationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRightsizingRecommendationInput, GetRightsizingRecommendationOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetRightsizingRecommendation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRightsizingRecommendationInput, GetRightsizingRecommendationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRightsizingRecommendationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRightsizingRecommendationInput, GetRightsizingRecommendationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRightsizingRecommendationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRightsizingRecommendationInput, GetRightsizingRecommendationOutput>())
@@ -2295,6 +2407,12 @@ extension CostExplorerClient {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func getSavingsPlanPurchaseRecommendationDetails(input: GetSavingsPlanPurchaseRecommendationDetailsInput) async throws -> GetSavingsPlanPurchaseRecommendationDetailsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getSavingsPlanPurchaseRecommendationDetailsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2307,18 +2425,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutput>(GetSavingsPlanPurchaseRecommendationDetailsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSavingsPlanPurchaseRecommendationDetailsOutput>(GetSavingsPlanPurchaseRecommendationDetailsOutput.httpOutput(from:), GetSavingsPlanPurchaseRecommendationDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2330,7 +2448,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSavingsPlanPurchaseRecommendationDetailsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetSavingsPlanPurchaseRecommendationDetails"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSavingsPlanPurchaseRecommendationDetailsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSavingsPlanPurchaseRecommendationDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutput>())
@@ -2377,6 +2494,12 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func getSavingsPlansCoverage(input: GetSavingsPlansCoverageInput) async throws -> GetSavingsPlansCoverageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getSavingsPlansCoverageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2389,18 +2512,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput>(GetSavingsPlansCoverageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSavingsPlansCoverageOutput>(GetSavingsPlansCoverageOutput.httpOutput(from:), GetSavingsPlansCoverageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2412,7 +2535,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSavingsPlansCoverageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetSavingsPlansCoverage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSavingsPlansCoverageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSavingsPlansCoverageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput>())
@@ -2447,6 +2569,12 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func getSavingsPlansPurchaseRecommendation(input: GetSavingsPlansPurchaseRecommendationInput) async throws -> GetSavingsPlansPurchaseRecommendationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getSavingsPlansPurchaseRecommendationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2459,18 +2587,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetSavingsPlansPurchaseRecommendationInput, GetSavingsPlansPurchaseRecommendationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSavingsPlansPurchaseRecommendationInput, GetSavingsPlansPurchaseRecommendationOutput>(GetSavingsPlansPurchaseRecommendationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSavingsPlansPurchaseRecommendationInput, GetSavingsPlansPurchaseRecommendationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSavingsPlansPurchaseRecommendationInput, GetSavingsPlansPurchaseRecommendationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSavingsPlansPurchaseRecommendationOutput>(GetSavingsPlansPurchaseRecommendationOutput.httpOutput(from:), GetSavingsPlansPurchaseRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSavingsPlansPurchaseRecommendationInput, GetSavingsPlansPurchaseRecommendationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2482,7 +2610,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSavingsPlansPurchaseRecommendationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSavingsPlansPurchaseRecommendationInput, GetSavingsPlansPurchaseRecommendationOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetSavingsPlansPurchaseRecommendation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSavingsPlansPurchaseRecommendationInput, GetSavingsPlansPurchaseRecommendationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSavingsPlansPurchaseRecommendationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSavingsPlansPurchaseRecommendationInput, GetSavingsPlansPurchaseRecommendationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSavingsPlansPurchaseRecommendationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSavingsPlansPurchaseRecommendationInput, GetSavingsPlansPurchaseRecommendationOutput>())
@@ -2517,6 +2644,12 @@ extension CostExplorerClient {
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func getSavingsPlansUtilization(input: GetSavingsPlansUtilizationInput) async throws -> GetSavingsPlansUtilizationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getSavingsPlansUtilizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2529,18 +2662,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetSavingsPlansUtilizationInput, GetSavingsPlansUtilizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSavingsPlansUtilizationInput, GetSavingsPlansUtilizationOutput>(GetSavingsPlansUtilizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSavingsPlansUtilizationInput, GetSavingsPlansUtilizationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSavingsPlansUtilizationInput, GetSavingsPlansUtilizationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSavingsPlansUtilizationOutput>(GetSavingsPlansUtilizationOutput.httpOutput(from:), GetSavingsPlansUtilizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSavingsPlansUtilizationInput, GetSavingsPlansUtilizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2552,7 +2685,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSavingsPlansUtilizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSavingsPlansUtilizationInput, GetSavingsPlansUtilizationOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetSavingsPlansUtilization"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSavingsPlansUtilizationInput, GetSavingsPlansUtilizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSavingsPlansUtilizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSavingsPlansUtilizationInput, GetSavingsPlansUtilizationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSavingsPlansUtilizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSavingsPlansUtilizationInput, GetSavingsPlansUtilizationOutput>())
@@ -2588,6 +2720,12 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func getSavingsPlansUtilizationDetails(input: GetSavingsPlansUtilizationDetailsInput) async throws -> GetSavingsPlansUtilizationDetailsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getSavingsPlansUtilizationDetailsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2600,18 +2738,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput>(GetSavingsPlansUtilizationDetailsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSavingsPlansUtilizationDetailsOutput>(GetSavingsPlansUtilizationDetailsOutput.httpOutput(from:), GetSavingsPlansUtilizationDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2623,7 +2761,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSavingsPlansUtilizationDetailsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetSavingsPlansUtilizationDetails"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSavingsPlansUtilizationDetailsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSavingsPlansUtilizationDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput>())
@@ -2663,6 +2800,12 @@ extension CostExplorerClient {
     /// - `RequestChangedException` : Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func getTags(input: GetTagsInput) async throws -> GetTagsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getTagsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2675,18 +2818,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTagsInput, GetTagsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTagsInput, GetTagsOutput>(GetTagsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTagsInput, GetTagsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTagsInput, GetTagsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTagsOutput>(GetTagsOutput.httpOutput(from:), GetTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTagsInput, GetTagsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2698,7 +2841,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTagsInput, GetTagsOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetTags"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetTagsInput, GetTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTagsInput, GetTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTagsInput, GetTagsOutput>())
@@ -2736,6 +2878,12 @@ extension CostExplorerClient {
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     /// - `UnresolvableUsageUnitException` : Cost Explorer was unable to identify the usage unit. Provide UsageType/UsageTypeGroup filter selections that contain matching units, for example: hours.
     public func getUsageForecast(input: GetUsageForecastInput) async throws -> GetUsageForecastOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.getUsageForecastOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2748,18 +2896,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetUsageForecastInput, GetUsageForecastOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetUsageForecastInput, GetUsageForecastOutput>(GetUsageForecastInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUsageForecastInput, GetUsageForecastOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUsageForecastInput, GetUsageForecastOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUsageForecastOutput>(GetUsageForecastOutput.httpOutput(from:), GetUsageForecastOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsageForecastInput, GetUsageForecastOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2771,7 +2919,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetUsageForecastOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetUsageForecastInput, GetUsageForecastOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.GetUsageForecast"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetUsageForecastInput, GetUsageForecastOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetUsageForecastInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetUsageForecastInput, GetUsageForecastOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUsageForecastOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUsageForecastInput, GetUsageForecastOutput>())
@@ -2807,6 +2954,12 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func listCommitmentPurchaseAnalyses(input: ListCommitmentPurchaseAnalysesInput) async throws -> ListCommitmentPurchaseAnalysesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.listCommitmentPurchaseAnalysesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2819,18 +2972,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCommitmentPurchaseAnalysesInput, ListCommitmentPurchaseAnalysesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCommitmentPurchaseAnalysesInput, ListCommitmentPurchaseAnalysesOutput>(ListCommitmentPurchaseAnalysesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCommitmentPurchaseAnalysesInput, ListCommitmentPurchaseAnalysesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommitmentPurchaseAnalysesInput, ListCommitmentPurchaseAnalysesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCommitmentPurchaseAnalysesOutput>(ListCommitmentPurchaseAnalysesOutput.httpOutput(from:), ListCommitmentPurchaseAnalysesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommitmentPurchaseAnalysesInput, ListCommitmentPurchaseAnalysesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2842,7 +2995,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCommitmentPurchaseAnalysesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCommitmentPurchaseAnalysesInput, ListCommitmentPurchaseAnalysesOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.ListCommitmentPurchaseAnalyses"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCommitmentPurchaseAnalysesInput, ListCommitmentPurchaseAnalysesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCommitmentPurchaseAnalysesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCommitmentPurchaseAnalysesInput, ListCommitmentPurchaseAnalysesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCommitmentPurchaseAnalysesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCommitmentPurchaseAnalysesInput, ListCommitmentPurchaseAnalysesOutput>())
@@ -2877,6 +3029,12 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func listCostAllocationTagBackfillHistory(input: ListCostAllocationTagBackfillHistoryInput) async throws -> ListCostAllocationTagBackfillHistoryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.listCostAllocationTagBackfillHistoryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2889,18 +3047,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCostAllocationTagBackfillHistoryInput, ListCostAllocationTagBackfillHistoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCostAllocationTagBackfillHistoryInput, ListCostAllocationTagBackfillHistoryOutput>(ListCostAllocationTagBackfillHistoryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCostAllocationTagBackfillHistoryInput, ListCostAllocationTagBackfillHistoryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCostAllocationTagBackfillHistoryInput, ListCostAllocationTagBackfillHistoryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCostAllocationTagBackfillHistoryOutput>(ListCostAllocationTagBackfillHistoryOutput.httpOutput(from:), ListCostAllocationTagBackfillHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCostAllocationTagBackfillHistoryInput, ListCostAllocationTagBackfillHistoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2912,7 +3070,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCostAllocationTagBackfillHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCostAllocationTagBackfillHistoryInput, ListCostAllocationTagBackfillHistoryOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.ListCostAllocationTagBackfillHistory"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCostAllocationTagBackfillHistoryInput, ListCostAllocationTagBackfillHistoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCostAllocationTagBackfillHistoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCostAllocationTagBackfillHistoryInput, ListCostAllocationTagBackfillHistoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCostAllocationTagBackfillHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCostAllocationTagBackfillHistoryInput, ListCostAllocationTagBackfillHistoryOutput>())
@@ -2947,6 +3104,12 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func listCostAllocationTags(input: ListCostAllocationTagsInput) async throws -> ListCostAllocationTagsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.listCostAllocationTagsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2959,18 +3122,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCostAllocationTagsInput, ListCostAllocationTagsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCostAllocationTagsInput, ListCostAllocationTagsOutput>(ListCostAllocationTagsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCostAllocationTagsInput, ListCostAllocationTagsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCostAllocationTagsInput, ListCostAllocationTagsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCostAllocationTagsOutput>(ListCostAllocationTagsOutput.httpOutput(from:), ListCostAllocationTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCostAllocationTagsInput, ListCostAllocationTagsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2982,7 +3145,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCostAllocationTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCostAllocationTagsInput, ListCostAllocationTagsOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.ListCostAllocationTags"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCostAllocationTagsInput, ListCostAllocationTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCostAllocationTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCostAllocationTagsInput, ListCostAllocationTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCostAllocationTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCostAllocationTagsInput, ListCostAllocationTagsOutput>())
@@ -3016,6 +3178,12 @@ extension CostExplorerClient {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func listCostCategoryDefinitions(input: ListCostCategoryDefinitionsInput) async throws -> ListCostCategoryDefinitionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.listCostCategoryDefinitionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3028,18 +3196,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput>(ListCostCategoryDefinitionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCostCategoryDefinitionsOutput>(ListCostCategoryDefinitionsOutput.httpOutput(from:), ListCostCategoryDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3051,7 +3219,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCostCategoryDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.ListCostCategoryDefinitions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCostCategoryDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCostCategoryDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput>())
@@ -3086,6 +3253,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func listCostCategoryResourceAssociations(input: ListCostCategoryResourceAssociationsInput) async throws -> ListCostCategoryResourceAssociationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.listCostCategoryResourceAssociationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3098,18 +3271,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(ListCostCategoryResourceAssociationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCostCategoryResourceAssociationsOutput>(ListCostCategoryResourceAssociationsOutput.httpOutput(from:), ListCostCategoryResourceAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3121,7 +3294,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCostCategoryResourceAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.ListCostCategoryResourceAssociations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCostCategoryResourceAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCostCategoryResourceAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>())
@@ -3157,6 +3329,12 @@ extension CostExplorerClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func listSavingsPlansPurchaseRecommendationGeneration(input: ListSavingsPlansPurchaseRecommendationGenerationInput) async throws -> ListSavingsPlansPurchaseRecommendationGenerationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.listSavingsPlansPurchaseRecommendationGenerationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3169,18 +3347,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSavingsPlansPurchaseRecommendationGenerationInput, ListSavingsPlansPurchaseRecommendationGenerationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSavingsPlansPurchaseRecommendationGenerationInput, ListSavingsPlansPurchaseRecommendationGenerationOutput>(ListSavingsPlansPurchaseRecommendationGenerationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSavingsPlansPurchaseRecommendationGenerationInput, ListSavingsPlansPurchaseRecommendationGenerationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSavingsPlansPurchaseRecommendationGenerationInput, ListSavingsPlansPurchaseRecommendationGenerationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSavingsPlansPurchaseRecommendationGenerationOutput>(ListSavingsPlansPurchaseRecommendationGenerationOutput.httpOutput(from:), ListSavingsPlansPurchaseRecommendationGenerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSavingsPlansPurchaseRecommendationGenerationInput, ListSavingsPlansPurchaseRecommendationGenerationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3192,7 +3370,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSavingsPlansPurchaseRecommendationGenerationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSavingsPlansPurchaseRecommendationGenerationInput, ListSavingsPlansPurchaseRecommendationGenerationOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.ListSavingsPlansPurchaseRecommendationGeneration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSavingsPlansPurchaseRecommendationGenerationInput, ListSavingsPlansPurchaseRecommendationGenerationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSavingsPlansPurchaseRecommendationGenerationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSavingsPlansPurchaseRecommendationGenerationInput, ListSavingsPlansPurchaseRecommendationGenerationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSavingsPlansPurchaseRecommendationGenerationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSavingsPlansPurchaseRecommendationGenerationInput, ListSavingsPlansPurchaseRecommendationGenerationOutput>())
@@ -3227,6 +3404,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3239,18 +3422,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3262,7 +3445,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -3296,6 +3478,12 @@ extension CostExplorerClient {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func provideAnomalyFeedback(input: ProvideAnomalyFeedbackInput) async throws -> ProvideAnomalyFeedbackOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.provideAnomalyFeedbackOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3308,18 +3496,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ProvideAnomalyFeedbackInput, ProvideAnomalyFeedbackOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ProvideAnomalyFeedbackInput, ProvideAnomalyFeedbackOutput>(ProvideAnomalyFeedbackInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ProvideAnomalyFeedbackInput, ProvideAnomalyFeedbackOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ProvideAnomalyFeedbackInput, ProvideAnomalyFeedbackOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ProvideAnomalyFeedbackOutput>(ProvideAnomalyFeedbackOutput.httpOutput(from:), ProvideAnomalyFeedbackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ProvideAnomalyFeedbackInput, ProvideAnomalyFeedbackOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3331,7 +3519,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ProvideAnomalyFeedbackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ProvideAnomalyFeedbackInput, ProvideAnomalyFeedbackOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.ProvideAnomalyFeedback"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ProvideAnomalyFeedbackInput, ProvideAnomalyFeedbackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ProvideAnomalyFeedbackInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ProvideAnomalyFeedbackInput, ProvideAnomalyFeedbackOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ProvideAnomalyFeedbackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ProvideAnomalyFeedbackInput, ProvideAnomalyFeedbackOutput>())
@@ -3368,6 +3555,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
     public func startCommitmentPurchaseAnalysis(input: StartCommitmentPurchaseAnalysisInput) async throws -> StartCommitmentPurchaseAnalysisOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.startCommitmentPurchaseAnalysisOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3380,18 +3573,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartCommitmentPurchaseAnalysisInput, StartCommitmentPurchaseAnalysisOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartCommitmentPurchaseAnalysisInput, StartCommitmentPurchaseAnalysisOutput>(StartCommitmentPurchaseAnalysisInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCommitmentPurchaseAnalysisInput, StartCommitmentPurchaseAnalysisOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCommitmentPurchaseAnalysisInput, StartCommitmentPurchaseAnalysisOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCommitmentPurchaseAnalysisOutput>(StartCommitmentPurchaseAnalysisOutput.httpOutput(from:), StartCommitmentPurchaseAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCommitmentPurchaseAnalysisInput, StartCommitmentPurchaseAnalysisOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3403,7 +3596,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCommitmentPurchaseAnalysisOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCommitmentPurchaseAnalysisInput, StartCommitmentPurchaseAnalysisOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.StartCommitmentPurchaseAnalysis"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartCommitmentPurchaseAnalysisInput, StartCommitmentPurchaseAnalysisOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCommitmentPurchaseAnalysisInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCommitmentPurchaseAnalysisInput, StartCommitmentPurchaseAnalysisOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCommitmentPurchaseAnalysisOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCommitmentPurchaseAnalysisInput, StartCommitmentPurchaseAnalysisOutput>())
@@ -3438,6 +3630,12 @@ extension CostExplorerClient {
     /// - `BackfillLimitExceededException` : A request to backfill is already in progress. Once the previous request is complete, you can create another request.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func startCostAllocationTagBackfill(input: StartCostAllocationTagBackfillInput) async throws -> StartCostAllocationTagBackfillOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.startCostAllocationTagBackfillOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3450,18 +3648,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartCostAllocationTagBackfillInput, StartCostAllocationTagBackfillOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartCostAllocationTagBackfillInput, StartCostAllocationTagBackfillOutput>(StartCostAllocationTagBackfillInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCostAllocationTagBackfillInput, StartCostAllocationTagBackfillOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCostAllocationTagBackfillInput, StartCostAllocationTagBackfillOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCostAllocationTagBackfillOutput>(StartCostAllocationTagBackfillOutput.httpOutput(from:), StartCostAllocationTagBackfillOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCostAllocationTagBackfillInput, StartCostAllocationTagBackfillOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3473,7 +3671,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCostAllocationTagBackfillOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCostAllocationTagBackfillInput, StartCostAllocationTagBackfillOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.StartCostAllocationTagBackfill"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartCostAllocationTagBackfillInput, StartCostAllocationTagBackfillOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCostAllocationTagBackfillInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCostAllocationTagBackfillInput, StartCostAllocationTagBackfillOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCostAllocationTagBackfillOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCostAllocationTagBackfillInput, StartCostAllocationTagBackfillOutput>())
@@ -3510,6 +3707,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
     public func startSavingsPlansPurchaseRecommendationGeneration(input: StartSavingsPlansPurchaseRecommendationGenerationInput) async throws -> StartSavingsPlansPurchaseRecommendationGenerationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.startSavingsPlansPurchaseRecommendationGenerationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3522,18 +3725,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartSavingsPlansPurchaseRecommendationGenerationInput, StartSavingsPlansPurchaseRecommendationGenerationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartSavingsPlansPurchaseRecommendationGenerationInput, StartSavingsPlansPurchaseRecommendationGenerationOutput>(StartSavingsPlansPurchaseRecommendationGenerationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSavingsPlansPurchaseRecommendationGenerationInput, StartSavingsPlansPurchaseRecommendationGenerationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSavingsPlansPurchaseRecommendationGenerationInput, StartSavingsPlansPurchaseRecommendationGenerationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSavingsPlansPurchaseRecommendationGenerationOutput>(StartSavingsPlansPurchaseRecommendationGenerationOutput.httpOutput(from:), StartSavingsPlansPurchaseRecommendationGenerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSavingsPlansPurchaseRecommendationGenerationInput, StartSavingsPlansPurchaseRecommendationGenerationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3545,7 +3748,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartSavingsPlansPurchaseRecommendationGenerationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSavingsPlansPurchaseRecommendationGenerationInput, StartSavingsPlansPurchaseRecommendationGenerationOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.StartSavingsPlansPurchaseRecommendationGeneration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartSavingsPlansPurchaseRecommendationGenerationInput, StartSavingsPlansPurchaseRecommendationGenerationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartSavingsPlansPurchaseRecommendationGenerationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSavingsPlansPurchaseRecommendationGenerationInput, StartSavingsPlansPurchaseRecommendationGenerationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSavingsPlansPurchaseRecommendationGenerationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartSavingsPlansPurchaseRecommendationGenerationInput, StartSavingsPlansPurchaseRecommendationGenerationOutput>())
@@ -3581,6 +3783,12 @@ extension CostExplorerClient {
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     /// - `TooManyTagsException` : Can occur if you specify a number of tags for a resource greater than the maximum 50 user tags per resource.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3593,18 +3801,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3616,7 +3824,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -3651,6 +3858,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3663,18 +3876,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3686,7 +3899,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -3721,6 +3933,12 @@ extension CostExplorerClient {
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
     public func updateAnomalyMonitor(input: UpdateAnomalyMonitorInput) async throws -> UpdateAnomalyMonitorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.updateAnomalyMonitorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3733,18 +3951,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateAnomalyMonitorInput, UpdateAnomalyMonitorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAnomalyMonitorInput, UpdateAnomalyMonitorOutput>(UpdateAnomalyMonitorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAnomalyMonitorInput, UpdateAnomalyMonitorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnomalyMonitorInput, UpdateAnomalyMonitorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnomalyMonitorOutput>(UpdateAnomalyMonitorOutput.httpOutput(from:), UpdateAnomalyMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnomalyMonitorInput, UpdateAnomalyMonitorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3756,7 +3974,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAnomalyMonitorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAnomalyMonitorInput, UpdateAnomalyMonitorOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.UpdateAnomalyMonitor"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAnomalyMonitorInput, UpdateAnomalyMonitorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAnomalyMonitorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAnomalyMonitorInput, UpdateAnomalyMonitorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAnomalyMonitorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAnomalyMonitorInput, UpdateAnomalyMonitorOutput>())
@@ -3792,6 +4009,12 @@ extension CostExplorerClient {
     /// - `UnknownMonitorException` : The cost anomaly monitor does not exist for the account.
     /// - `UnknownSubscriptionException` : The cost anomaly subscription does not exist for the account.
     public func updateAnomalySubscription(input: UpdateAnomalySubscriptionInput) async throws -> UpdateAnomalySubscriptionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.updateAnomalySubscriptionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3804,18 +4027,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateAnomalySubscriptionInput, UpdateAnomalySubscriptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAnomalySubscriptionInput, UpdateAnomalySubscriptionOutput>(UpdateAnomalySubscriptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAnomalySubscriptionInput, UpdateAnomalySubscriptionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnomalySubscriptionInput, UpdateAnomalySubscriptionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnomalySubscriptionOutput>(UpdateAnomalySubscriptionOutput.httpOutput(from:), UpdateAnomalySubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnomalySubscriptionInput, UpdateAnomalySubscriptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3827,7 +4050,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAnomalySubscriptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAnomalySubscriptionInput, UpdateAnomalySubscriptionOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.UpdateAnomalySubscription"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAnomalySubscriptionInput, UpdateAnomalySubscriptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAnomalySubscriptionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAnomalySubscriptionInput, UpdateAnomalySubscriptionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAnomalySubscriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAnomalySubscriptionInput, UpdateAnomalySubscriptionOutput>())
@@ -3861,6 +4083,12 @@ extension CostExplorerClient {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     public func updateCostAllocationTagsStatus(input: UpdateCostAllocationTagsStatusInput) async throws -> UpdateCostAllocationTagsStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.updateCostAllocationTagsStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3873,18 +4101,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateCostAllocationTagsStatusInput, UpdateCostAllocationTagsStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCostAllocationTagsStatusInput, UpdateCostAllocationTagsStatusOutput>(UpdateCostAllocationTagsStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCostAllocationTagsStatusInput, UpdateCostAllocationTagsStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCostAllocationTagsStatusInput, UpdateCostAllocationTagsStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCostAllocationTagsStatusOutput>(UpdateCostAllocationTagsStatusOutput.httpOutput(from:), UpdateCostAllocationTagsStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCostAllocationTagsStatusInput, UpdateCostAllocationTagsStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3896,7 +4124,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCostAllocationTagsStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCostAllocationTagsStatusInput, UpdateCostAllocationTagsStatusOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.UpdateCostAllocationTagsStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCostAllocationTagsStatusInput, UpdateCostAllocationTagsStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCostAllocationTagsStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCostAllocationTagsStatusInput, UpdateCostAllocationTagsStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCostAllocationTagsStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCostAllocationTagsStatusInput, UpdateCostAllocationTagsStatusOutput>())
@@ -3932,6 +4159,12 @@ extension CostExplorerClient {
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
     public func updateCostCategoryDefinition(input: UpdateCostCategoryDefinitionInput) async throws -> UpdateCostCategoryDefinitionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CostExplorerClient.updateCostCategoryDefinitionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3944,18 +4177,18 @@ extension CostExplorerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ce")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateCostCategoryDefinitionInput, UpdateCostCategoryDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCostCategoryDefinitionInput, UpdateCostCategoryDefinitionOutput>(UpdateCostCategoryDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCostCategoryDefinitionInput, UpdateCostCategoryDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCostCategoryDefinitionInput, UpdateCostCategoryDefinitionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCostCategoryDefinitionOutput>(UpdateCostCategoryDefinitionOutput.httpOutput(from:), UpdateCostCategoryDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCostCategoryDefinitionInput, UpdateCostCategoryDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3967,7 +4200,6 @@ extension CostExplorerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCostCategoryDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCostCategoryDefinitionInput, UpdateCostCategoryDefinitionOutput>(overrides: ["X-Amz-Target": "AWSInsightsIndexService.UpdateCostCategoryDefinition"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCostCategoryDefinitionInput, UpdateCostCategoryDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCostCategoryDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCostCategoryDefinitionInput, UpdateCostCategoryDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCostCategoryDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCostCategoryDefinitionInput, UpdateCostCategoryDefinitionOutput>())

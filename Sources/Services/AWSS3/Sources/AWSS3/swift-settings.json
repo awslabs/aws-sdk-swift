@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.s3#AmazonS3",
+    "module": "AWSS3",
+    "sdkId": "S3",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/s3.json"
+}

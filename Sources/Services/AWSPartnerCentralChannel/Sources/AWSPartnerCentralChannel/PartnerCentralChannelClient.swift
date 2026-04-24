@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,23 +35,22 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AAuthScheme
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
@@ -62,8 +58,9 @@ import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -645,6 +642,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func acceptChannelHandshake(input: AcceptChannelHandshakeInput) async throws -> AcceptChannelHandshakeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.acceptChannelHandshakeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -658,18 +661,18 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>(AcceptChannelHandshakeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptChannelHandshakeOutput>(AcceptChannelHandshakeOutput.httpOutput(from:), AcceptChannelHandshakeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -681,7 +684,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptChannelHandshakeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.AcceptChannelHandshake"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptChannelHandshakeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptChannelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptChannelHandshakeInput, AcceptChannelHandshakeOutput>())
@@ -719,6 +721,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func cancelChannelHandshake(input: CancelChannelHandshakeInput) async throws -> CancelChannelHandshakeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.cancelChannelHandshakeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -732,18 +740,18 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelChannelHandshakeInput, CancelChannelHandshakeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>(CancelChannelHandshakeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelChannelHandshakeOutput>(CancelChannelHandshakeOutput.httpOutput(from:), CancelChannelHandshakeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -755,7 +763,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelChannelHandshakeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.CancelChannelHandshake"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelChannelHandshakeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelChannelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelChannelHandshakeInput, CancelChannelHandshakeOutput>())
@@ -795,6 +802,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func createChannelHandshake(input: CreateChannelHandshakeInput) async throws -> CreateChannelHandshakeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.createChannelHandshakeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -808,8 +821,10 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateChannelHandshakeInput, CreateChannelHandshakeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -817,10 +832,8 @@ extension PartnerCentralChannelClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>(CreateChannelHandshakeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelHandshakeOutput>(CreateChannelHandshakeOutput.httpOutput(from:), CreateChannelHandshakeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -832,7 +845,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateChannelHandshakeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.CreateChannelHandshake"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateChannelHandshakeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateChannelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateChannelHandshakeInput, CreateChannelHandshakeOutput>())
@@ -872,6 +884,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func createProgramManagementAccount(input: CreateProgramManagementAccountInput) async throws -> CreateProgramManagementAccountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.createProgramManagementAccountOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -885,8 +903,10 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -894,10 +914,8 @@ extension PartnerCentralChannelClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>(CreateProgramManagementAccountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProgramManagementAccountOutput>(CreateProgramManagementAccountOutput.httpOutput(from:), CreateProgramManagementAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -909,7 +927,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProgramManagementAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.CreateProgramManagementAccount"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProgramManagementAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProgramManagementAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProgramManagementAccountInput, CreateProgramManagementAccountOutput>())
@@ -949,6 +966,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func createRelationship(input: CreateRelationshipInput) async throws -> CreateRelationshipOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.createRelationshipOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -962,8 +985,10 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRelationshipInput, CreateRelationshipOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -971,10 +996,8 @@ extension PartnerCentralChannelClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateRelationshipInput, CreateRelationshipOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRelationshipInput, CreateRelationshipOutput>(CreateRelationshipInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRelationshipInput, CreateRelationshipOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRelationshipInput, CreateRelationshipOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRelationshipOutput>(CreateRelationshipOutput.httpOutput(from:), CreateRelationshipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRelationshipInput, CreateRelationshipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -986,7 +1009,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRelationshipOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRelationshipInput, CreateRelationshipOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.CreateRelationship"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRelationshipInput, CreateRelationshipOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRelationshipInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRelationshipInput, CreateRelationshipOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRelationshipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRelationshipInput, CreateRelationshipOutput>())
@@ -1025,6 +1047,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func deleteProgramManagementAccount(input: DeleteProgramManagementAccountInput) async throws -> DeleteProgramManagementAccountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.deleteProgramManagementAccountOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1038,8 +1066,10 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1047,10 +1077,8 @@ extension PartnerCentralChannelClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>(DeleteProgramManagementAccountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProgramManagementAccountOutput>(DeleteProgramManagementAccountOutput.httpOutput(from:), DeleteProgramManagementAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1062,7 +1090,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProgramManagementAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.DeleteProgramManagementAccount"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProgramManagementAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProgramManagementAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProgramManagementAccountInput, DeleteProgramManagementAccountOutput>())
@@ -1101,6 +1128,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func deleteRelationship(input: DeleteRelationshipInput) async throws -> DeleteRelationshipOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.deleteRelationshipOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1114,8 +1147,10 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRelationshipInput, DeleteRelationshipOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1123,10 +1158,8 @@ extension PartnerCentralChannelClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>(DeleteRelationshipInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRelationshipOutput>(DeleteRelationshipOutput.httpOutput(from:), DeleteRelationshipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1138,7 +1171,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRelationshipOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.DeleteRelationship"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRelationshipInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRelationshipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRelationshipInput, DeleteRelationshipOutput>())
@@ -1176,6 +1208,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func getRelationship(input: GetRelationshipInput) async throws -> GetRelationshipOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.getRelationshipOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1189,18 +1227,18 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRelationshipInput, GetRelationshipOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRelationshipInput, GetRelationshipOutput>(GetRelationshipInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRelationshipInput, GetRelationshipOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationshipInput, GetRelationshipOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelationshipOutput>(GetRelationshipOutput.httpOutput(from:), GetRelationshipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationshipInput, GetRelationshipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1212,7 +1250,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRelationshipOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRelationshipInput, GetRelationshipOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.GetRelationship"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRelationshipInput, GetRelationshipOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRelationshipInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRelationshipInput, GetRelationshipOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRelationshipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRelationshipInput, GetRelationshipOutput>())
@@ -1250,6 +1287,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func listChannelHandshakes(input: ListChannelHandshakesInput) async throws -> ListChannelHandshakesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.listChannelHandshakesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1263,18 +1306,18 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListChannelHandshakesInput, ListChannelHandshakesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>(ListChannelHandshakesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelHandshakesOutput>(ListChannelHandshakesOutput.httpOutput(from:), ListChannelHandshakesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1286,7 +1329,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListChannelHandshakesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.ListChannelHandshakes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListChannelHandshakesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListChannelHandshakesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListChannelHandshakesInput, ListChannelHandshakesOutput>())
@@ -1324,6 +1366,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func listProgramManagementAccounts(input: ListProgramManagementAccountsInput) async throws -> ListProgramManagementAccountsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.listProgramManagementAccountsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1337,18 +1385,18 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>(ListProgramManagementAccountsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProgramManagementAccountsOutput>(ListProgramManagementAccountsOutput.httpOutput(from:), ListProgramManagementAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1360,7 +1408,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProgramManagementAccountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.ListProgramManagementAccounts"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProgramManagementAccountsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProgramManagementAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProgramManagementAccountsInput, ListProgramManagementAccountsOutput>())
@@ -1398,6 +1445,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func listRelationships(input: ListRelationshipsInput) async throws -> ListRelationshipsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.listRelationshipsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1411,18 +1464,18 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRelationshipsInput, ListRelationshipsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRelationshipsInput, ListRelationshipsOutput>(ListRelationshipsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRelationshipsInput, ListRelationshipsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRelationshipsInput, ListRelationshipsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRelationshipsOutput>(ListRelationshipsOutput.httpOutput(from:), ListRelationshipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRelationshipsInput, ListRelationshipsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1434,7 +1487,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRelationshipsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRelationshipsInput, ListRelationshipsOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.ListRelationships"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRelationshipsInput, ListRelationshipsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRelationshipsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRelationshipsInput, ListRelationshipsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRelationshipsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRelationshipsInput, ListRelationshipsOutput>())
@@ -1472,6 +1524,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1485,18 +1543,18 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1508,7 +1566,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -1546,6 +1603,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func rejectChannelHandshake(input: RejectChannelHandshakeInput) async throws -> RejectChannelHandshakeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.rejectChannelHandshakeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1559,18 +1622,18 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RejectChannelHandshakeInput, RejectChannelHandshakeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>(RejectChannelHandshakeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectChannelHandshakeOutput>(RejectChannelHandshakeOutput.httpOutput(from:), RejectChannelHandshakeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1582,7 +1645,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectChannelHandshakeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.RejectChannelHandshake"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RejectChannelHandshakeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectChannelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectChannelHandshakeInput, RejectChannelHandshakeOutput>())
@@ -1621,6 +1683,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1634,18 +1702,18 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1657,7 +1725,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -1696,6 +1763,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1709,18 +1782,18 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1732,7 +1805,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -1771,6 +1843,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func updateProgramManagementAccount(input: UpdateProgramManagementAccountInput) async throws -> UpdateProgramManagementAccountOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.updateProgramManagementAccountOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1784,18 +1862,18 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>(UpdateProgramManagementAccountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProgramManagementAccountOutput>(UpdateProgramManagementAccountOutput.httpOutput(from:), UpdateProgramManagementAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1807,7 +1885,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProgramManagementAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.UpdateProgramManagementAccount"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProgramManagementAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProgramManagementAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProgramManagementAccountInput, UpdateProgramManagementAccountOutput>())
@@ -1846,6 +1923,12 @@ extension PartnerCentralChannelClient {
     /// - `ThrottlingException` : The request was throttled due to too many requests being sent in a short period.
     /// - `ValidationException` : The request failed validation due to invalid input parameters.
     public func updateRelationship(input: UpdateRelationshipInput) async throws -> UpdateRelationshipOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PartnerCentralChannelClient.updateRelationshipOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1859,18 +1942,18 @@ extension PartnerCentralChannelClient {
                       .withSigningName(value: "partnercentral-channel")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateRelationshipInput, UpdateRelationshipOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>(UpdateRelationshipInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRelationshipOutput>(UpdateRelationshipOutput.httpOutput(from:), UpdateRelationshipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1882,7 +1965,6 @@ extension PartnerCentralChannelClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRelationshipOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>(overrides: ["X-Amz-Target": "PartnerCentralChannel.UpdateRelationship"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRelationshipInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRelationshipOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRelationshipInput, UpdateRelationshipOutput>())

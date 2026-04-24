@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,30 +36,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -627,6 +624,12 @@ extension SnowballClient {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
     public func cancelCluster(input: CancelClusterInput) async throws -> CancelClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.cancelClusterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -639,18 +642,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelClusterInput, CancelClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelClusterInput, CancelClusterOutput>(CancelClusterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelClusterInput, CancelClusterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelClusterInput, CancelClusterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelClusterOutput>(CancelClusterOutput.httpOutput(from:), CancelClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelClusterInput, CancelClusterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -662,7 +665,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelClusterInput, CancelClusterOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.CancelCluster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelClusterInput, CancelClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelClusterInput, CancelClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelClusterInput, CancelClusterOutput>())
@@ -698,6 +700,12 @@ extension SnowballClient {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
     public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.cancelJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -710,18 +718,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelJobInput, CancelJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelJobInput, CancelJobOutput>(CancelJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelJobInput, CancelJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelJobInput, CancelJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelJobOutput>(CancelJobOutput.httpOutput(from:), CancelJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelJobInput, CancelJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -733,7 +741,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelJobInput, CancelJobOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.CancelJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelJobInput, CancelJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelJobInput, CancelJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelJobInput, CancelJobOutput>())
@@ -768,6 +775,12 @@ extension SnowballClient {
     /// - `InvalidAddressException` : The address provided was invalid. Check the address with your region's carrier, and try again.
     /// - `UnsupportedAddressException` : The address is either outside the serviceable area for your region, or an error occurred. Check the address with your region's carrier and try again. If the issue persists, contact Amazon Web Services Support.
     public func createAddress(input: CreateAddressInput) async throws -> CreateAddressOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.createAddressOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -780,18 +793,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAddressInput, CreateAddressOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAddressInput, CreateAddressOutput>(CreateAddressInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAddressInput, CreateAddressOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddressInput, CreateAddressOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAddressOutput>(CreateAddressOutput.httpOutput(from:), CreateAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAddressInput, CreateAddressOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -803,7 +816,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAddressOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAddressInput, CreateAddressOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.CreateAddress"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAddressInput, CreateAddressOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAddressInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddressInput, CreateAddressOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAddressOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAddressInput, CreateAddressOutput>())
@@ -840,6 +852,12 @@ extension SnowballClient {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
     public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.createClusterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -852,18 +870,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateClusterInput, CreateClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateClusterInput, CreateClusterOutput>(CreateClusterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -875,7 +893,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateClusterInput, CreateClusterOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.CreateCluster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateClusterInput, CreateClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateClusterInput, CreateClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateClusterInput, CreateClusterOutput>())
@@ -1000,6 +1017,12 @@ extension SnowballClient {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
     public func createJob(input: CreateJobInput) async throws -> CreateJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.createJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1012,18 +1035,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateJobInput, CreateJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateJobInput, CreateJobOutput>(CreateJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateJobInput, CreateJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobInput, CreateJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobOutput>(CreateJobOutput.httpOutput(from:), CreateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobInput, CreateJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1035,7 +1058,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateJobInput, CreateJobOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.CreateJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateJobInput, CreateJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateJobInput, CreateJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateJobInput, CreateJobOutput>())
@@ -1069,6 +1091,12 @@ extension SnowballClient {
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func createLongTermPricing(input: CreateLongTermPricingInput) async throws -> CreateLongTermPricingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.createLongTermPricingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1081,18 +1109,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLongTermPricingInput, CreateLongTermPricingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLongTermPricingInput, CreateLongTermPricingOutput>(CreateLongTermPricingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLongTermPricingInput, CreateLongTermPricingOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLongTermPricingInput, CreateLongTermPricingOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLongTermPricingOutput>(CreateLongTermPricingOutput.httpOutput(from:), CreateLongTermPricingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLongTermPricingInput, CreateLongTermPricingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1104,7 +1132,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLongTermPricingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLongTermPricingInput, CreateLongTermPricingOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.CreateLongTermPricing"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLongTermPricingInput, CreateLongTermPricingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLongTermPricingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLongTermPricingInput, CreateLongTermPricingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLongTermPricingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLongTermPricingInput, CreateLongTermPricingOutput>())
@@ -1142,6 +1169,12 @@ extension SnowballClient {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `ReturnShippingLabelAlreadyExistsException` : You get this exception if you call CreateReturnShippingLabel and a valid return shipping label already exists. In this case, use DescribeReturnShippingLabel to get the URL.
     public func createReturnShippingLabel(input: CreateReturnShippingLabelInput) async throws -> CreateReturnShippingLabelOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.createReturnShippingLabelOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1154,18 +1187,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateReturnShippingLabelInput, CreateReturnShippingLabelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateReturnShippingLabelInput, CreateReturnShippingLabelOutput>(CreateReturnShippingLabelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateReturnShippingLabelInput, CreateReturnShippingLabelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReturnShippingLabelInput, CreateReturnShippingLabelOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReturnShippingLabelOutput>(CreateReturnShippingLabelOutput.httpOutput(from:), CreateReturnShippingLabelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReturnShippingLabelInput, CreateReturnShippingLabelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1177,7 +1210,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateReturnShippingLabelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateReturnShippingLabelInput, CreateReturnShippingLabelOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.CreateReturnShippingLabel"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateReturnShippingLabelInput, CreateReturnShippingLabelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateReturnShippingLabelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateReturnShippingLabelInput, CreateReturnShippingLabelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateReturnShippingLabelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateReturnShippingLabelInput, CreateReturnShippingLabelOutput>())
@@ -1211,6 +1243,12 @@ extension SnowballClient {
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func describeAddress(input: DescribeAddressInput) async throws -> DescribeAddressOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.describeAddressOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1223,18 +1261,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeAddressInput, DescribeAddressOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAddressInput, DescribeAddressOutput>(DescribeAddressInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAddressInput, DescribeAddressOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAddressInput, DescribeAddressOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAddressOutput>(DescribeAddressOutput.httpOutput(from:), DescribeAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAddressInput, DescribeAddressOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1246,7 +1284,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAddressOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAddressInput, DescribeAddressOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.DescribeAddress"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAddressInput, DescribeAddressOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAddressInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAddressInput, DescribeAddressOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAddressOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAddressInput, DescribeAddressOutput>())
@@ -1281,6 +1318,12 @@ extension SnowballClient {
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func describeAddresses(input: DescribeAddressesInput) async throws -> DescribeAddressesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.describeAddressesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1293,18 +1336,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeAddressesInput, DescribeAddressesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAddressesInput, DescribeAddressesOutput>(DescribeAddressesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAddressesInput, DescribeAddressesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAddressesInput, DescribeAddressesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAddressesOutput>(DescribeAddressesOutput.httpOutput(from:), DescribeAddressesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAddressesInput, DescribeAddressesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1316,7 +1359,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAddressesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAddressesInput, DescribeAddressesOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.DescribeAddresses"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAddressesInput, DescribeAddressesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAddressesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAddressesInput, DescribeAddressesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAddressesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAddressesInput, DescribeAddressesOutput>())
@@ -1350,6 +1392,12 @@ extension SnowballClient {
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.describeClusterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1362,18 +1410,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeClusterInput, DescribeClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeClusterInput, DescribeClusterOutput>(DescribeClusterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeClusterInput, DescribeClusterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterInput, DescribeClusterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterOutput>(DescribeClusterOutput.httpOutput(from:), DescribeClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterInput, DescribeClusterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1385,7 +1433,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeClusterInput, DescribeClusterOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.DescribeCluster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeClusterInput, DescribeClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeClusterInput, DescribeClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeClusterInput, DescribeClusterOutput>())
@@ -1419,6 +1466,12 @@ extension SnowballClient {
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.describeJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1431,18 +1484,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeJobInput, DescribeJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeJobInput, DescribeJobOutput>(DescribeJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJobInput, DescribeJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeJobInput, DescribeJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobOutput>(DescribeJobOutput.httpOutput(from:), DescribeJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobInput, DescribeJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1454,7 +1507,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeJobInput, DescribeJobOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.DescribeJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeJobInput, DescribeJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeJobInput, DescribeJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeJobInput, DescribeJobOutput>())
@@ -1490,6 +1542,12 @@ extension SnowballClient {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func describeReturnShippingLabel(input: DescribeReturnShippingLabelInput) async throws -> DescribeReturnShippingLabelOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.describeReturnShippingLabelOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1502,18 +1560,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeReturnShippingLabelInput, DescribeReturnShippingLabelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeReturnShippingLabelInput, DescribeReturnShippingLabelOutput>(DescribeReturnShippingLabelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeReturnShippingLabelInput, DescribeReturnShippingLabelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReturnShippingLabelInput, DescribeReturnShippingLabelOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReturnShippingLabelOutput>(DescribeReturnShippingLabelOutput.httpOutput(from:), DescribeReturnShippingLabelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReturnShippingLabelInput, DescribeReturnShippingLabelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1525,7 +1583,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeReturnShippingLabelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeReturnShippingLabelInput, DescribeReturnShippingLabelOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.DescribeReturnShippingLabel"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeReturnShippingLabelInput, DescribeReturnShippingLabelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeReturnShippingLabelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeReturnShippingLabelInput, DescribeReturnShippingLabelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeReturnShippingLabelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeReturnShippingLabelInput, DescribeReturnShippingLabelOutput>())
@@ -1560,6 +1617,12 @@ extension SnowballClient {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func getJobManifest(input: GetJobManifestInput) async throws -> GetJobManifestOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.getJobManifestOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1572,18 +1635,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetJobManifestInput, GetJobManifestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetJobManifestInput, GetJobManifestOutput>(GetJobManifestInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJobManifestInput, GetJobManifestOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobManifestInput, GetJobManifestOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobManifestOutput>(GetJobManifestOutput.httpOutput(from:), GetJobManifestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobManifestInput, GetJobManifestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1595,7 +1658,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetJobManifestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetJobManifestInput, GetJobManifestOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.GetJobManifest"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetJobManifestInput, GetJobManifestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetJobManifestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetJobManifestInput, GetJobManifestOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobManifestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetJobManifestInput, GetJobManifestOutput>())
@@ -1630,6 +1692,12 @@ extension SnowballClient {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func getJobUnlockCode(input: GetJobUnlockCodeInput) async throws -> GetJobUnlockCodeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.getJobUnlockCodeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1642,18 +1710,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetJobUnlockCodeInput, GetJobUnlockCodeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetJobUnlockCodeInput, GetJobUnlockCodeOutput>(GetJobUnlockCodeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJobUnlockCodeInput, GetJobUnlockCodeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetJobUnlockCodeInput, GetJobUnlockCodeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobUnlockCodeOutput>(GetJobUnlockCodeOutput.httpOutput(from:), GetJobUnlockCodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobUnlockCodeInput, GetJobUnlockCodeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1665,7 +1733,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetJobUnlockCodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetJobUnlockCodeInput, GetJobUnlockCodeOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.GetJobUnlockCode"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetJobUnlockCodeInput, GetJobUnlockCodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetJobUnlockCodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetJobUnlockCodeInput, GetJobUnlockCodeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobUnlockCodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetJobUnlockCodeInput, GetJobUnlockCodeOutput>())
@@ -1694,6 +1761,12 @@ extension SnowballClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetSnowballUsageOutput`)
     public func getSnowballUsage(input: GetSnowballUsageInput) async throws -> GetSnowballUsageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.getSnowballUsageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1706,18 +1779,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetSnowballUsageInput, GetSnowballUsageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSnowballUsageInput, GetSnowballUsageOutput>(GetSnowballUsageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSnowballUsageInput, GetSnowballUsageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSnowballUsageInput, GetSnowballUsageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSnowballUsageOutput>(GetSnowballUsageOutput.httpOutput(from:), GetSnowballUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSnowballUsageInput, GetSnowballUsageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1729,7 +1802,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSnowballUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSnowballUsageInput, GetSnowballUsageOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.GetSnowballUsage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSnowballUsageInput, GetSnowballUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSnowballUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSnowballUsageInput, GetSnowballUsageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSnowballUsageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSnowballUsageInput, GetSnowballUsageOutput>())
@@ -1764,6 +1836,12 @@ extension SnowballClient {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func getSoftwareUpdates(input: GetSoftwareUpdatesInput) async throws -> GetSoftwareUpdatesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.getSoftwareUpdatesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1776,18 +1854,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetSoftwareUpdatesInput, GetSoftwareUpdatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSoftwareUpdatesInput, GetSoftwareUpdatesOutput>(GetSoftwareUpdatesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSoftwareUpdatesInput, GetSoftwareUpdatesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSoftwareUpdatesInput, GetSoftwareUpdatesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSoftwareUpdatesOutput>(GetSoftwareUpdatesOutput.httpOutput(from:), GetSoftwareUpdatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSoftwareUpdatesInput, GetSoftwareUpdatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1799,7 +1877,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSoftwareUpdatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSoftwareUpdatesInput, GetSoftwareUpdatesOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.GetSoftwareUpdates"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSoftwareUpdatesInput, GetSoftwareUpdatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSoftwareUpdatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSoftwareUpdatesInput, GetSoftwareUpdatesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSoftwareUpdatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSoftwareUpdatesInput, GetSoftwareUpdatesOutput>())
@@ -1834,6 +1911,12 @@ extension SnowballClient {
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func listClusterJobs(input: ListClusterJobsInput) async throws -> ListClusterJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.listClusterJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1846,18 +1929,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListClusterJobsInput, ListClusterJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListClusterJobsInput, ListClusterJobsOutput>(ListClusterJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListClusterJobsInput, ListClusterJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClusterJobsInput, ListClusterJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClusterJobsOutput>(ListClusterJobsOutput.httpOutput(from:), ListClusterJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClusterJobsInput, ListClusterJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1869,7 +1952,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListClusterJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListClusterJobsInput, ListClusterJobsOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.ListClusterJobs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListClusterJobsInput, ListClusterJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListClusterJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListClusterJobsInput, ListClusterJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClusterJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListClusterJobsInput, ListClusterJobsOutput>())
@@ -1903,6 +1985,12 @@ extension SnowballClient {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.listClustersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1915,18 +2003,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListClustersInput, ListClustersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListClustersInput, ListClustersOutput>(ListClustersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListClustersInput, ListClustersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClustersInput, ListClustersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1938,7 +2026,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListClustersInput, ListClustersOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.ListClusters"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListClustersInput, ListClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListClustersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListClustersInput, ListClustersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClustersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListClustersInput, ListClustersOutput>())
@@ -1973,6 +2060,12 @@ extension SnowballClient {
     /// - `Ec2RequestFailedException` : Your user lacks the necessary Amazon EC2 permissions to perform the attempted action.
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     public func listCompatibleImages(input: ListCompatibleImagesInput) async throws -> ListCompatibleImagesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.listCompatibleImagesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1985,18 +2078,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCompatibleImagesInput, ListCompatibleImagesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCompatibleImagesInput, ListCompatibleImagesOutput>(ListCompatibleImagesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCompatibleImagesInput, ListCompatibleImagesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCompatibleImagesInput, ListCompatibleImagesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCompatibleImagesOutput>(ListCompatibleImagesOutput.httpOutput(from:), ListCompatibleImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCompatibleImagesInput, ListCompatibleImagesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2008,7 +2101,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCompatibleImagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCompatibleImagesInput, ListCompatibleImagesOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.ListCompatibleImages"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCompatibleImagesInput, ListCompatibleImagesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCompatibleImagesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCompatibleImagesInput, ListCompatibleImagesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCompatibleImagesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCompatibleImagesInput, ListCompatibleImagesOutput>())
@@ -2042,6 +2134,12 @@ extension SnowballClient {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.listJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2054,18 +2152,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListJobsInput, ListJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListJobsInput, ListJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListJobsInput, ListJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2077,7 +2175,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListJobsInput, ListJobsOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.ListJobs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListJobsInput, ListJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListJobsInput, ListJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListJobsInput, ListJobsOutput>())
@@ -2112,6 +2209,12 @@ extension SnowballClient {
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func listLongTermPricing(input: ListLongTermPricingInput) async throws -> ListLongTermPricingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.listLongTermPricingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2124,18 +2227,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListLongTermPricingInput, ListLongTermPricingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLongTermPricingInput, ListLongTermPricingOutput>(ListLongTermPricingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLongTermPricingInput, ListLongTermPricingOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLongTermPricingInput, ListLongTermPricingOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLongTermPricingOutput>(ListLongTermPricingOutput.httpOutput(from:), ListLongTermPricingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLongTermPricingInput, ListLongTermPricingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2147,7 +2250,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLongTermPricingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLongTermPricingInput, ListLongTermPricingOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.ListLongTermPricing"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListLongTermPricingInput, ListLongTermPricingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLongTermPricingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLongTermPricingInput, ListLongTermPricingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLongTermPricingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLongTermPricingInput, ListLongTermPricingOutput>())
@@ -2181,6 +2283,12 @@ extension SnowballClient {
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func listPickupLocations(input: ListPickupLocationsInput) async throws -> ListPickupLocationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.listPickupLocationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2193,18 +2301,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListPickupLocationsInput, ListPickupLocationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPickupLocationsInput, ListPickupLocationsOutput>(ListPickupLocationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPickupLocationsInput, ListPickupLocationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPickupLocationsInput, ListPickupLocationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPickupLocationsOutput>(ListPickupLocationsOutput.httpOutput(from:), ListPickupLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPickupLocationsInput, ListPickupLocationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2216,7 +2324,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPickupLocationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPickupLocationsInput, ListPickupLocationsOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.ListPickupLocations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListPickupLocationsInput, ListPickupLocationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPickupLocationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPickupLocationsInput, ListPickupLocationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPickupLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPickupLocationsInput, ListPickupLocationsOutput>())
@@ -2251,6 +2358,12 @@ extension SnowballClient {
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func listServiceVersions(input: ListServiceVersionsInput) async throws -> ListServiceVersionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.listServiceVersionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2263,18 +2376,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServiceVersionsInput, ListServiceVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServiceVersionsInput, ListServiceVersionsOutput>(ListServiceVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServiceVersionsInput, ListServiceVersionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceVersionsInput, ListServiceVersionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceVersionsOutput>(ListServiceVersionsOutput.httpOutput(from:), ListServiceVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceVersionsInput, ListServiceVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2286,7 +2399,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServiceVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServiceVersionsInput, ListServiceVersionsOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.ListServiceVersions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServiceVersionsInput, ListServiceVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServiceVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceVersionsInput, ListServiceVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServiceVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServiceVersionsInput, ListServiceVersionsOutput>())
@@ -2324,6 +2436,12 @@ extension SnowballClient {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
     public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.updateClusterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2336,18 +2454,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateClusterInput, UpdateClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateClusterInput, UpdateClusterOutput>(UpdateClusterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateClusterInput, UpdateClusterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterInput, UpdateClusterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2359,7 +2477,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateClusterInput, UpdateClusterOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.UpdateCluster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateClusterInput, UpdateClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClusterInput, UpdateClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateClusterInput, UpdateClusterOutput>())
@@ -2398,6 +2515,12 @@ extension SnowballClient {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
     public func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.updateJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2410,18 +2533,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateJobInput, UpdateJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateJobInput, UpdateJobOutput>(UpdateJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateJobInput, UpdateJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJobInput, UpdateJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobOutput>(UpdateJobOutput.httpOutput(from:), UpdateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobInput, UpdateJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2433,7 +2556,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateJobInput, UpdateJobOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.UpdateJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateJobInput, UpdateJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateJobInput, UpdateJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateJobInput, UpdateJobOutput>())
@@ -2468,6 +2590,12 @@ extension SnowballClient {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func updateJobShipmentState(input: UpdateJobShipmentStateInput) async throws -> UpdateJobShipmentStateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.updateJobShipmentStateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2480,18 +2608,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateJobShipmentStateInput, UpdateJobShipmentStateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateJobShipmentStateInput, UpdateJobShipmentStateOutput>(UpdateJobShipmentStateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateJobShipmentStateInput, UpdateJobShipmentStateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJobShipmentStateInput, UpdateJobShipmentStateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobShipmentStateOutput>(UpdateJobShipmentStateOutput.httpOutput(from:), UpdateJobShipmentStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobShipmentStateInput, UpdateJobShipmentStateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2503,7 +2631,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateJobShipmentStateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateJobShipmentStateInput, UpdateJobShipmentStateOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.UpdateJobShipmentState"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateJobShipmentStateInput, UpdateJobShipmentStateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateJobShipmentStateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateJobShipmentStateInput, UpdateJobShipmentStateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateJobShipmentStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateJobShipmentStateInput, UpdateJobShipmentStateOutput>())
@@ -2537,6 +2664,12 @@ extension SnowballClient {
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     public func updateLongTermPricing(input: UpdateLongTermPricingInput) async throws -> UpdateLongTermPricingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SnowballClient.updateLongTermPricingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2549,18 +2682,18 @@ extension SnowballClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLongTermPricingInput, UpdateLongTermPricingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLongTermPricingInput, UpdateLongTermPricingOutput>(UpdateLongTermPricingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLongTermPricingInput, UpdateLongTermPricingOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLongTermPricingInput, UpdateLongTermPricingOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLongTermPricingOutput>(UpdateLongTermPricingOutput.httpOutput(from:), UpdateLongTermPricingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLongTermPricingInput, UpdateLongTermPricingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2572,7 +2705,6 @@ extension SnowballClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLongTermPricingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLongTermPricingInput, UpdateLongTermPricingOutput>(overrides: ["X-Amz-Target": "AWSIESnowballJobManagementService.UpdateLongTermPricing"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLongTermPricingInput, UpdateLongTermPricingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLongTermPricingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLongTermPricingInput, UpdateLongTermPricingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLongTermPricingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLongTermPricingInput, UpdateLongTermPricingOutput>())

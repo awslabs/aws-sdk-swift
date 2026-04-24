@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,30 +36,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -629,6 +626,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func createAccess(input: CreateAccessInput) async throws -> CreateAccessOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.createAccessOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -641,18 +644,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAccessInput, CreateAccessOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAccessInput, CreateAccessOutput>(CreateAccessInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAccessInput, CreateAccessOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessInput, CreateAccessOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessOutput>(CreateAccessOutput.httpOutput(from:), CreateAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessInput, CreateAccessOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -664,7 +667,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAccessOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAccessInput, CreateAccessOutput>(overrides: ["X-Amz-Target": "TransferService.CreateAccess"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAccessInput, CreateAccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAccessInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAccessInput, CreateAccessOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAccessInput, CreateAccessOutput>())
@@ -703,6 +705,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createAgreement(input: CreateAgreementInput) async throws -> CreateAgreementOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.createAgreementOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -715,18 +723,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAgreementInput, CreateAgreementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAgreementInput, CreateAgreementOutput>(CreateAgreementInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAgreementInput, CreateAgreementOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAgreementInput, CreateAgreementOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAgreementOutput>(CreateAgreementOutput.httpOutput(from:), CreateAgreementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAgreementInput, CreateAgreementOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -738,7 +746,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAgreementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAgreementInput, CreateAgreementOutput>(overrides: ["X-Amz-Target": "TransferService.CreateAgreement"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAgreementInput, CreateAgreementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAgreementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAgreementInput, CreateAgreementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAgreementInput, CreateAgreementOutput>())
@@ -777,6 +784,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.createConnectorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -789,18 +802,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateConnectorInput, CreateConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateConnectorInput, CreateConnectorOutput>(CreateConnectorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateConnectorInput, CreateConnectorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectorInput, CreateConnectorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorOutput>(CreateConnectorOutput.httpOutput(from:), CreateConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorInput, CreateConnectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -812,7 +825,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateConnectorInput, CreateConnectorOutput>(overrides: ["X-Amz-Target": "TransferService.CreateConnector"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateConnectorInput, CreateConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConnectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConnectorInput, CreateConnectorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConnectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConnectorInput, CreateConnectorOutput>())
@@ -850,6 +862,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.createProfileOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -862,18 +880,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateProfileInput, CreateProfileOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProfileInput, CreateProfileOutput>(CreateProfileInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProfileInput, CreateProfileOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProfileInput, CreateProfileOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProfileOutput>(CreateProfileOutput.httpOutput(from:), CreateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProfileInput, CreateProfileOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -885,7 +903,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProfileInput, CreateProfileOutput>(overrides: ["X-Amz-Target": "TransferService.CreateProfile"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateProfileInput, CreateProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProfileInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProfileInput, CreateProfileOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProfileInput, CreateProfileOutput>())
@@ -925,6 +942,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createServer(input: CreateServerInput) async throws -> CreateServerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.createServerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -937,18 +960,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateServerInput, CreateServerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateServerInput, CreateServerOutput>(CreateServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateServerInput, CreateServerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServerInput, CreateServerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServerOutput>(CreateServerOutput.httpOutput(from:), CreateServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServerInput, CreateServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -960,7 +983,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateServerInput, CreateServerOutput>(overrides: ["X-Amz-Target": "TransferService.CreateServer"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateServerInput, CreateServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateServerInput, CreateServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateServerInput, CreateServerOutput>())
@@ -998,6 +1020,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.createUserOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1010,18 +1038,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateUserInput, CreateUserOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutput>(CreateUserInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1033,7 +1061,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUserInput, CreateUserOutput>(overrides: ["X-Amz-Target": "TransferService.CreateUser"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateUserInput, CreateUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUserInput, CreateUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateUserInput, CreateUserOutput>())
@@ -1071,6 +1098,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createWebApp(input: CreateWebAppInput) async throws -> CreateWebAppOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.createWebAppOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1083,18 +1116,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateWebAppInput, CreateWebAppOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateWebAppInput, CreateWebAppOutput>(CreateWebAppInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateWebAppInput, CreateWebAppOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWebAppInput, CreateWebAppOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWebAppOutput>(CreateWebAppOutput.httpOutput(from:), CreateWebAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWebAppInput, CreateWebAppOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1106,7 +1139,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWebAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWebAppInput, CreateWebAppOutput>(overrides: ["X-Amz-Target": "TransferService.CreateWebApp"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateWebAppInput, CreateWebAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWebAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWebAppInput, CreateWebAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWebAppOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWebAppInput, CreateWebAppOutput>())
@@ -1145,6 +1177,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.createWorkflowOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1157,18 +1195,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateWorkflowInput, CreateWorkflowOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(CreateWorkflowInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateWorkflowInput, CreateWorkflowOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkflowInput, CreateWorkflowOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkflowOutput>(CreateWorkflowOutput.httpOutput(from:), CreateWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1180,7 +1218,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWorkflowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(overrides: ["X-Amz-Target": "TransferService.CreateWorkflow"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateWorkflowInput, CreateWorkflowOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkflowInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWorkflowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWorkflowInput, CreateWorkflowOutput>())
@@ -1217,6 +1254,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func deleteAccess(input: DeleteAccessInput) async throws -> DeleteAccessOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.deleteAccessOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1229,18 +1272,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccessInput, DeleteAccessOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccessInput, DeleteAccessOutput>(DeleteAccessInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessInput, DeleteAccessOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccessInput, DeleteAccessOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessOutput>(DeleteAccessOutput.httpOutput(from:), DeleteAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessInput, DeleteAccessOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1252,7 +1295,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAccessOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAccessInput, DeleteAccessOutput>(overrides: ["X-Amz-Target": "TransferService.DeleteAccess"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAccessInput, DeleteAccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAccessInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAccessInput, DeleteAccessOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAccessInput, DeleteAccessOutput>())
@@ -1289,6 +1331,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func deleteAgreement(input: DeleteAgreementInput) async throws -> DeleteAgreementOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.deleteAgreementOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1301,18 +1349,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAgreementInput, DeleteAgreementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAgreementInput, DeleteAgreementOutput>(DeleteAgreementInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAgreementInput, DeleteAgreementOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAgreementInput, DeleteAgreementOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAgreementOutput>(DeleteAgreementOutput.httpOutput(from:), DeleteAgreementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAgreementInput, DeleteAgreementOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1324,7 +1372,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAgreementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAgreementInput, DeleteAgreementOutput>(overrides: ["X-Amz-Target": "TransferService.DeleteAgreement"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAgreementInput, DeleteAgreementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAgreementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAgreementInput, DeleteAgreementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAgreementInput, DeleteAgreementOutput>())
@@ -1361,6 +1408,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.deleteCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1373,18 +1426,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCertificateInput, DeleteCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(DeleteCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCertificateInput, DeleteCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCertificateInput, DeleteCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCertificateOutput>(DeleteCertificateOutput.httpOutput(from:), DeleteCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1396,7 +1449,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(overrides: ["X-Amz-Target": "TransferService.DeleteCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCertificateInput, DeleteCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCertificateInput, DeleteCertificateOutput>())
@@ -1433,6 +1485,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.deleteConnectorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1445,18 +1503,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteConnectorInput, DeleteConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(DeleteConnectorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectorOutput>(DeleteConnectorOutput.httpOutput(from:), DeleteConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1468,7 +1526,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(overrides: ["X-Amz-Target": "TransferService.DeleteConnector"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteConnectorInput, DeleteConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConnectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
@@ -1506,6 +1563,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func deleteHostKey(input: DeleteHostKeyInput) async throws -> DeleteHostKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.deleteHostKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1518,18 +1581,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteHostKeyInput, DeleteHostKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteHostKeyInput, DeleteHostKeyOutput>(DeleteHostKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHostKeyInput, DeleteHostKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHostKeyInput, DeleteHostKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHostKeyOutput>(DeleteHostKeyOutput.httpOutput(from:), DeleteHostKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHostKeyInput, DeleteHostKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1541,7 +1604,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteHostKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteHostKeyInput, DeleteHostKeyOutput>(overrides: ["X-Amz-Target": "TransferService.DeleteHostKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteHostKeyInput, DeleteHostKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteHostKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteHostKeyInput, DeleteHostKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteHostKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteHostKeyInput, DeleteHostKeyOutput>())
@@ -1578,6 +1640,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.deleteProfileOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1590,18 +1658,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteProfileInput, DeleteProfileOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProfileInput, DeleteProfileOutput>(DeleteProfileInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProfileInput, DeleteProfileOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProfileInput, DeleteProfileOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProfileOutput>(DeleteProfileOutput.httpOutput(from:), DeleteProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProfileInput, DeleteProfileOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1613,7 +1681,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProfileInput, DeleteProfileOutput>(overrides: ["X-Amz-Target": "TransferService.DeleteProfile"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProfileInput, DeleteProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProfileInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProfileInput, DeleteProfileOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProfileInput, DeleteProfileOutput>())
@@ -1651,6 +1718,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func deleteServer(input: DeleteServerInput) async throws -> DeleteServerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.deleteServerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1663,18 +1736,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteServerInput, DeleteServerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteServerInput, DeleteServerOutput>(DeleteServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServerInput, DeleteServerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServerInput, DeleteServerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServerOutput>(DeleteServerOutput.httpOutput(from:), DeleteServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServerInput, DeleteServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1686,7 +1759,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteServerInput, DeleteServerOutput>(overrides: ["X-Amz-Target": "TransferService.DeleteServer"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteServerInput, DeleteServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteServerInput, DeleteServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteServerInput, DeleteServerOutput>())
@@ -1724,6 +1796,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func deleteSshPublicKey(input: DeleteSshPublicKeyInput) async throws -> DeleteSshPublicKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.deleteSshPublicKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1736,18 +1814,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteSshPublicKeyInput, DeleteSshPublicKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSshPublicKeyInput, DeleteSshPublicKeyOutput>(DeleteSshPublicKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSshPublicKeyInput, DeleteSshPublicKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSshPublicKeyInput, DeleteSshPublicKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSshPublicKeyOutput>(DeleteSshPublicKeyOutput.httpOutput(from:), DeleteSshPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSshPublicKeyInput, DeleteSshPublicKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1759,7 +1837,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSshPublicKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSshPublicKeyInput, DeleteSshPublicKeyOutput>(overrides: ["X-Amz-Target": "TransferService.DeleteSshPublicKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSshPublicKeyInput, DeleteSshPublicKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSshPublicKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSshPublicKeyInput, DeleteSshPublicKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSshPublicKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSshPublicKeyInput, DeleteSshPublicKeyOutput>())
@@ -1796,6 +1873,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.deleteUserOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1808,18 +1891,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteUserInput, DeleteUserOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutput>(DeleteUserInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1831,7 +1914,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUserInput, DeleteUserOutput>(overrides: ["X-Amz-Target": "TransferService.DeleteUser"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteUserInput, DeleteUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserInput, DeleteUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUserInput, DeleteUserOutput>())
@@ -1869,6 +1951,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func deleteWebApp(input: DeleteWebAppInput) async throws -> DeleteWebAppOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.deleteWebAppOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1881,18 +1969,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteWebAppInput, DeleteWebAppOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteWebAppInput, DeleteWebAppOutput>(DeleteWebAppInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWebAppInput, DeleteWebAppOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWebAppInput, DeleteWebAppOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWebAppOutput>(DeleteWebAppOutput.httpOutput(from:), DeleteWebAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebAppInput, DeleteWebAppOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1904,7 +1992,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWebAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWebAppInput, DeleteWebAppOutput>(overrides: ["X-Amz-Target": "TransferService.DeleteWebApp"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteWebAppInput, DeleteWebAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWebAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWebAppInput, DeleteWebAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWebAppOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWebAppInput, DeleteWebAppOutput>())
@@ -1943,6 +2030,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func deleteWebAppCustomization(input: DeleteWebAppCustomizationInput) async throws -> DeleteWebAppCustomizationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.deleteWebAppCustomizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1955,18 +2048,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteWebAppCustomizationInput, DeleteWebAppCustomizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteWebAppCustomizationInput, DeleteWebAppCustomizationOutput>(DeleteWebAppCustomizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWebAppCustomizationInput, DeleteWebAppCustomizationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWebAppCustomizationInput, DeleteWebAppCustomizationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWebAppCustomizationOutput>(DeleteWebAppCustomizationOutput.httpOutput(from:), DeleteWebAppCustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebAppCustomizationInput, DeleteWebAppCustomizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1978,7 +2071,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWebAppCustomizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWebAppCustomizationInput, DeleteWebAppCustomizationOutput>(overrides: ["X-Amz-Target": "TransferService.DeleteWebAppCustomization"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteWebAppCustomizationInput, DeleteWebAppCustomizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWebAppCustomizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWebAppCustomizationInput, DeleteWebAppCustomizationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWebAppCustomizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWebAppCustomizationInput, DeleteWebAppCustomizationOutput>())
@@ -2016,6 +2108,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.deleteWorkflowOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2028,18 +2126,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteWorkflowInput, DeleteWorkflowOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(DeleteWorkflowInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkflowOutput>(DeleteWorkflowOutput.httpOutput(from:), DeleteWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2051,7 +2149,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWorkflowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(overrides: ["X-Amz-Target": "TransferService.DeleteWorkflow"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWorkflowInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkflowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>())
@@ -2088,6 +2185,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func describeAccess(input: DescribeAccessInput) async throws -> DescribeAccessOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.describeAccessOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2100,18 +2203,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeAccessInput, DescribeAccessOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAccessInput, DescribeAccessOutput>(DescribeAccessInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccessInput, DescribeAccessOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccessInput, DescribeAccessOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccessOutput>(DescribeAccessOutput.httpOutput(from:), DescribeAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccessInput, DescribeAccessOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2123,7 +2226,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAccessOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAccessInput, DescribeAccessOutput>(overrides: ["X-Amz-Target": "TransferService.DescribeAccess"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccessInput, DescribeAccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccessInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccessInput, DescribeAccessOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccessInput, DescribeAccessOutput>())
@@ -2160,6 +2262,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func describeAgreement(input: DescribeAgreementInput) async throws -> DescribeAgreementOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.describeAgreementOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2172,18 +2280,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeAgreementInput, DescribeAgreementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(DescribeAgreementInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAgreementInput, DescribeAgreementOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAgreementInput, DescribeAgreementOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAgreementOutput>(DescribeAgreementOutput.httpOutput(from:), DescribeAgreementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2195,7 +2303,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAgreementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(overrides: ["X-Amz-Target": "TransferService.DescribeAgreement"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAgreementInput, DescribeAgreementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAgreementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAgreementInput, DescribeAgreementOutput>())
@@ -2232,6 +2339,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.describeCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2244,18 +2357,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCertificateInput, DescribeCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(DescribeCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCertificateInput, DescribeCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCertificateInput, DescribeCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCertificateOutput>(DescribeCertificateOutput.httpOutput(from:), DescribeCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2267,7 +2380,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(overrides: ["X-Amz-Target": "TransferService.DescribeCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCertificateInput, DescribeCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCertificateInput, DescribeCertificateOutput>())
@@ -2304,6 +2416,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func describeConnector(input: DescribeConnectorInput) async throws -> DescribeConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.describeConnectorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2316,18 +2434,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeConnectorInput, DescribeConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeConnectorInput, DescribeConnectorOutput>(DescribeConnectorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeConnectorInput, DescribeConnectorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectorInput, DescribeConnectorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectorOutput>(DescribeConnectorOutput.httpOutput(from:), DescribeConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectorInput, DescribeConnectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2339,7 +2457,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeConnectorInput, DescribeConnectorOutput>(overrides: ["X-Amz-Target": "TransferService.DescribeConnector"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeConnectorInput, DescribeConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConnectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConnectorInput, DescribeConnectorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConnectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConnectorInput, DescribeConnectorOutput>())
@@ -2376,6 +2493,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func describeExecution(input: DescribeExecutionInput) async throws -> DescribeExecutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.describeExecutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2388,18 +2511,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeExecutionInput, DescribeExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(DescribeExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeExecutionInput, DescribeExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExecutionInput, DescribeExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExecutionOutput>(DescribeExecutionOutput.httpOutput(from:), DescribeExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2411,7 +2534,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(overrides: ["X-Amz-Target": "TransferService.DescribeExecution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeExecutionInput, DescribeExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeExecutionInput, DescribeExecutionOutput>())
@@ -2448,6 +2570,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func describeHostKey(input: DescribeHostKeyInput) async throws -> DescribeHostKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.describeHostKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2460,18 +2588,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeHostKeyInput, DescribeHostKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeHostKeyInput, DescribeHostKeyOutput>(DescribeHostKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeHostKeyInput, DescribeHostKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHostKeyInput, DescribeHostKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHostKeyOutput>(DescribeHostKeyOutput.httpOutput(from:), DescribeHostKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHostKeyInput, DescribeHostKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2483,7 +2611,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeHostKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeHostKeyInput, DescribeHostKeyOutput>(overrides: ["X-Amz-Target": "TransferService.DescribeHostKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeHostKeyInput, DescribeHostKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeHostKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeHostKeyInput, DescribeHostKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeHostKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeHostKeyInput, DescribeHostKeyOutput>())
@@ -2520,6 +2647,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func describeProfile(input: DescribeProfileInput) async throws -> DescribeProfileOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.describeProfileOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2532,18 +2665,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeProfileInput, DescribeProfileOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProfileInput, DescribeProfileOutput>(DescribeProfileInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProfileInput, DescribeProfileOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProfileInput, DescribeProfileOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProfileOutput>(DescribeProfileOutput.httpOutput(from:), DescribeProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProfileInput, DescribeProfileOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2555,7 +2688,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProfileInput, DescribeProfileOutput>(overrides: ["X-Amz-Target": "TransferService.DescribeProfile"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeProfileInput, DescribeProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProfileInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProfileInput, DescribeProfileOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProfileInput, DescribeProfileOutput>())
@@ -2592,6 +2724,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func describeSecurityPolicy(input: DescribeSecurityPolicyInput) async throws -> DescribeSecurityPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.describeSecurityPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2604,18 +2742,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSecurityPolicyInput, DescribeSecurityPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSecurityPolicyInput, DescribeSecurityPolicyOutput>(DescribeSecurityPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSecurityPolicyInput, DescribeSecurityPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSecurityPolicyInput, DescribeSecurityPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecurityPolicyOutput>(DescribeSecurityPolicyOutput.httpOutput(from:), DescribeSecurityPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecurityPolicyInput, DescribeSecurityPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2627,7 +2765,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSecurityPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSecurityPolicyInput, DescribeSecurityPolicyOutput>(overrides: ["X-Amz-Target": "TransferService.DescribeSecurityPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSecurityPolicyInput, DescribeSecurityPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSecurityPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSecurityPolicyInput, DescribeSecurityPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSecurityPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSecurityPolicyInput, DescribeSecurityPolicyOutput>())
@@ -2664,6 +2801,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func describeServer(input: DescribeServerInput) async throws -> DescribeServerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.describeServerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2676,18 +2819,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeServerInput, DescribeServerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeServerInput, DescribeServerOutput>(DescribeServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeServerInput, DescribeServerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServerInput, DescribeServerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServerOutput>(DescribeServerOutput.httpOutput(from:), DescribeServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServerInput, DescribeServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2699,7 +2842,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeServerInput, DescribeServerOutput>(overrides: ["X-Amz-Target": "TransferService.DescribeServer"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeServerInput, DescribeServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeServerInput, DescribeServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeServerInput, DescribeServerOutput>())
@@ -2736,6 +2878,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.describeUserOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2748,18 +2896,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeUserInput, DescribeUserOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeUserInput, DescribeUserOutput>(DescribeUserInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeUserInput, DescribeUserOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserInput, DescribeUserOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserOutput>(DescribeUserOutput.httpOutput(from:), DescribeUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserInput, DescribeUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2771,7 +2919,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeUserInput, DescribeUserOutput>(overrides: ["X-Amz-Target": "TransferService.DescribeUser"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeUserInput, DescribeUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUserInput, DescribeUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeUserInput, DescribeUserOutput>())
@@ -2809,6 +2956,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func describeWebApp(input: DescribeWebAppInput) async throws -> DescribeWebAppOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.describeWebAppOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2821,18 +2974,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeWebAppInput, DescribeWebAppOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeWebAppInput, DescribeWebAppOutput>(DescribeWebAppInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeWebAppInput, DescribeWebAppOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWebAppInput, DescribeWebAppOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWebAppOutput>(DescribeWebAppOutput.httpOutput(from:), DescribeWebAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWebAppInput, DescribeWebAppOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2844,7 +2997,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeWebAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeWebAppInput, DescribeWebAppOutput>(overrides: ["X-Amz-Target": "TransferService.DescribeWebApp"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeWebAppInput, DescribeWebAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeWebAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeWebAppInput, DescribeWebAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeWebAppOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeWebAppInput, DescribeWebAppOutput>())
@@ -2882,6 +3034,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func describeWebAppCustomization(input: DescribeWebAppCustomizationInput) async throws -> DescribeWebAppCustomizationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.describeWebAppCustomizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2894,18 +3052,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeWebAppCustomizationInput, DescribeWebAppCustomizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeWebAppCustomizationInput, DescribeWebAppCustomizationOutput>(DescribeWebAppCustomizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeWebAppCustomizationInput, DescribeWebAppCustomizationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWebAppCustomizationInput, DescribeWebAppCustomizationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWebAppCustomizationOutput>(DescribeWebAppCustomizationOutput.httpOutput(from:), DescribeWebAppCustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWebAppCustomizationInput, DescribeWebAppCustomizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2917,7 +3075,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeWebAppCustomizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeWebAppCustomizationInput, DescribeWebAppCustomizationOutput>(overrides: ["X-Amz-Target": "TransferService.DescribeWebAppCustomization"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeWebAppCustomizationInput, DescribeWebAppCustomizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeWebAppCustomizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeWebAppCustomizationInput, DescribeWebAppCustomizationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeWebAppCustomizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeWebAppCustomizationInput, DescribeWebAppCustomizationOutput>())
@@ -2954,6 +3111,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func describeWorkflow(input: DescribeWorkflowInput) async throws -> DescribeWorkflowOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.describeWorkflowOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2966,18 +3129,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeWorkflowInput, DescribeWorkflowOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeWorkflowInput, DescribeWorkflowOutput>(DescribeWorkflowInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeWorkflowInput, DescribeWorkflowOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkflowInput, DescribeWorkflowOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkflowOutput>(DescribeWorkflowOutput.httpOutput(from:), DescribeWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkflowInput, DescribeWorkflowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2989,7 +3152,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeWorkflowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeWorkflowInput, DescribeWorkflowOutput>(overrides: ["X-Amz-Target": "TransferService.DescribeWorkflow"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeWorkflowInput, DescribeWorkflowOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeWorkflowInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeWorkflowInput, DescribeWorkflowOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeWorkflowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeWorkflowInput, DescribeWorkflowOutput>())
@@ -3034,6 +3196,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.importCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3046,18 +3214,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ImportCertificateInput, ImportCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ImportCertificateInput, ImportCertificateOutput>(ImportCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportCertificateInput, ImportCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportCertificateInput, ImportCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportCertificateOutput>(ImportCertificateOutput.httpOutput(from:), ImportCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportCertificateInput, ImportCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3069,7 +3237,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportCertificateInput, ImportCertificateOutput>(overrides: ["X-Amz-Target": "TransferService.ImportCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ImportCertificateInput, ImportCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportCertificateInput, ImportCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportCertificateInput, ImportCertificateOutput>())
@@ -3108,6 +3275,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func importHostKey(input: ImportHostKeyInput) async throws -> ImportHostKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.importHostKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3120,18 +3293,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ImportHostKeyInput, ImportHostKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ImportHostKeyInput, ImportHostKeyOutput>(ImportHostKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportHostKeyInput, ImportHostKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportHostKeyInput, ImportHostKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportHostKeyOutput>(ImportHostKeyOutput.httpOutput(from:), ImportHostKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportHostKeyInput, ImportHostKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3143,7 +3316,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportHostKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportHostKeyInput, ImportHostKeyOutput>(overrides: ["X-Amz-Target": "TransferService.ImportHostKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ImportHostKeyInput, ImportHostKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportHostKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportHostKeyInput, ImportHostKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportHostKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportHostKeyInput, ImportHostKeyOutput>())
@@ -3182,6 +3354,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func importSshPublicKey(input: ImportSshPublicKeyInput) async throws -> ImportSshPublicKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.importSshPublicKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3194,18 +3372,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ImportSshPublicKeyInput, ImportSshPublicKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ImportSshPublicKeyInput, ImportSshPublicKeyOutput>(ImportSshPublicKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportSshPublicKeyInput, ImportSshPublicKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportSshPublicKeyInput, ImportSshPublicKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportSshPublicKeyOutput>(ImportSshPublicKeyOutput.httpOutput(from:), ImportSshPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportSshPublicKeyInput, ImportSshPublicKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3217,7 +3395,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportSshPublicKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportSshPublicKeyInput, ImportSshPublicKeyOutput>(overrides: ["X-Amz-Target": "TransferService.ImportSshPublicKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ImportSshPublicKeyInput, ImportSshPublicKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportSshPublicKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportSshPublicKeyInput, ImportSshPublicKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportSshPublicKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportSshPublicKeyInput, ImportSshPublicKeyOutput>())
@@ -3255,6 +3432,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func listAccesses(input: ListAccessesInput) async throws -> ListAccessesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listAccessesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3267,18 +3450,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAccessesInput, ListAccessesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAccessesInput, ListAccessesOutput>(ListAccessesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccessesInput, ListAccessesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccessesInput, ListAccessesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessesOutput>(ListAccessesOutput.httpOutput(from:), ListAccessesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessesInput, ListAccessesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3290,7 +3473,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAccessesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAccessesInput, ListAccessesOutput>(overrides: ["X-Amz-Target": "TransferService.ListAccesses"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListAccessesInput, ListAccessesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccessesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccessesInput, ListAccessesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccessesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccessesInput, ListAccessesOutput>())
@@ -3328,6 +3510,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func listAgreements(input: ListAgreementsInput) async throws -> ListAgreementsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listAgreementsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3340,18 +3528,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAgreementsInput, ListAgreementsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAgreementsInput, ListAgreementsOutput>(ListAgreementsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAgreementsInput, ListAgreementsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementsInput, ListAgreementsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAgreementsOutput>(ListAgreementsOutput.httpOutput(from:), ListAgreementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementsInput, ListAgreementsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3363,7 +3551,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAgreementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgreementsInput, ListAgreementsOutput>(overrides: ["X-Amz-Target": "TransferService.ListAgreements"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListAgreementsInput, ListAgreementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAgreementsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementsInput, ListAgreementsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgreementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgreementsInput, ListAgreementsOutput>())
@@ -3401,6 +3588,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listCertificatesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3413,18 +3606,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCertificatesInput, ListCertificatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCertificatesInput, ListCertificatesOutput>(ListCertificatesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCertificatesInput, ListCertificatesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCertificatesInput, ListCertificatesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCertificatesOutput>(ListCertificatesOutput.httpOutput(from:), ListCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCertificatesInput, ListCertificatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3436,7 +3629,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCertificatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCertificatesInput, ListCertificatesOutput>(overrides: ["X-Amz-Target": "TransferService.ListCertificates"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCertificatesInput, ListCertificatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCertificatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCertificatesInput, ListCertificatesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCertificatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCertificatesInput, ListCertificatesOutput>())
@@ -3474,6 +3666,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listConnectorsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3486,18 +3684,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListConnectorsInput, ListConnectorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConnectorsInput, ListConnectorsOutput>(ListConnectorsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConnectorsInput, ListConnectorsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectorsInput, ListConnectorsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorsOutput>(ListConnectorsOutput.httpOutput(from:), ListConnectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorsInput, ListConnectorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3509,7 +3707,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConnectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListConnectorsInput, ListConnectorsOutput>(overrides: ["X-Amz-Target": "TransferService.ListConnectors"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListConnectorsInput, ListConnectorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConnectorsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConnectorsInput, ListConnectorsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConnectorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConnectorsInput, ListConnectorsOutput>())
@@ -3547,6 +3744,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listExecutionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3559,18 +3762,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListExecutionsInput, ListExecutionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListExecutionsInput, ListExecutionsOutput>(ListExecutionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListExecutionsInput, ListExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExecutionsInput, ListExecutionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExecutionsOutput>(ListExecutionsOutput.httpOutput(from:), ListExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExecutionsInput, ListExecutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3582,7 +3785,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListExecutionsInput, ListExecutionsOutput>(overrides: ["X-Amz-Target": "TransferService.ListExecutions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListExecutionsInput, ListExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExecutionsInput, ListExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListExecutionsInput, ListExecutionsOutput>())
@@ -3619,6 +3821,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func listFileTransferResults(input: ListFileTransferResultsInput) async throws -> ListFileTransferResultsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listFileTransferResultsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3631,18 +3839,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFileTransferResultsInput, ListFileTransferResultsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFileTransferResultsInput, ListFileTransferResultsOutput>(ListFileTransferResultsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFileTransferResultsInput, ListFileTransferResultsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFileTransferResultsInput, ListFileTransferResultsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFileTransferResultsOutput>(ListFileTransferResultsOutput.httpOutput(from:), ListFileTransferResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFileTransferResultsInput, ListFileTransferResultsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3654,7 +3862,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFileTransferResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFileTransferResultsInput, ListFileTransferResultsOutput>(overrides: ["X-Amz-Target": "TransferService.ListFileTransferResults"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFileTransferResultsInput, ListFileTransferResultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFileTransferResultsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFileTransferResultsInput, ListFileTransferResultsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFileTransferResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFileTransferResultsInput, ListFileTransferResultsOutput>())
@@ -3692,6 +3899,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func listHostKeys(input: ListHostKeysInput) async throws -> ListHostKeysOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listHostKeysOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3704,18 +3917,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListHostKeysInput, ListHostKeysOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListHostKeysInput, ListHostKeysOutput>(ListHostKeysInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListHostKeysInput, ListHostKeysOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHostKeysInput, ListHostKeysOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostKeysOutput>(ListHostKeysOutput.httpOutput(from:), ListHostKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostKeysInput, ListHostKeysOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3727,7 +3940,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListHostKeysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListHostKeysInput, ListHostKeysOutput>(overrides: ["X-Amz-Target": "TransferService.ListHostKeys"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListHostKeysInput, ListHostKeysOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListHostKeysInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListHostKeysInput, ListHostKeysOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListHostKeysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListHostKeysInput, ListHostKeysOutput>())
@@ -3765,6 +3977,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listProfilesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3777,18 +3995,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListProfilesInput, ListProfilesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProfilesInput, ListProfilesOutput>(ListProfilesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProfilesInput, ListProfilesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProfilesInput, ListProfilesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfilesOutput>(ListProfilesOutput.httpOutput(from:), ListProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfilesInput, ListProfilesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3800,7 +4018,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProfilesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProfilesInput, ListProfilesOutput>(overrides: ["X-Amz-Target": "TransferService.ListProfiles"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListProfilesInput, ListProfilesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProfilesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProfilesInput, ListProfilesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProfilesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProfilesInput, ListProfilesOutput>())
@@ -3837,6 +4054,12 @@ extension TransferClient {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func listSecurityPolicies(input: ListSecurityPoliciesInput) async throws -> ListSecurityPoliciesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listSecurityPoliciesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3849,18 +4072,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSecurityPoliciesInput, ListSecurityPoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutput>(ListSecurityPoliciesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityPoliciesOutput>(ListSecurityPoliciesOutput.httpOutput(from:), ListSecurityPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3872,7 +4095,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSecurityPoliciesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutput>(overrides: ["X-Amz-Target": "TransferService.ListSecurityPolicies"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecurityPoliciesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSecurityPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutput>())
@@ -3909,6 +4131,12 @@ extension TransferClient {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func listServers(input: ListServersInput) async throws -> ListServersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listServersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3921,18 +4149,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServersInput, ListServersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServersInput, ListServersOutput>(ListServersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServersInput, ListServersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServersInput, ListServersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServersOutput>(ListServersOutput.httpOutput(from:), ListServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServersInput, ListServersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3944,7 +4172,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServersInput, ListServersOutput>(overrides: ["X-Amz-Target": "TransferService.ListServers"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServersInput, ListServersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServersInput, ListServersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServersInput, ListServersOutput>())
@@ -3981,6 +4208,12 @@ extension TransferClient {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3993,18 +4226,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4016,7 +4249,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "TransferService.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -4054,6 +4286,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listUsersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4066,18 +4304,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListUsersInput, ListUsersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutput>(ListUsersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListUsersInput, ListUsersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsersInput, ListUsersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4089,7 +4327,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUsersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListUsersInput, ListUsersOutput>(overrides: ["X-Amz-Target": "TransferService.ListUsers"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListUsersInput, ListUsersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUsersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUsersInput, ListUsersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUsersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUsersInput, ListUsersOutput>())
@@ -4126,6 +4363,12 @@ extension TransferClient {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listWebApps(input: ListWebAppsInput) async throws -> ListWebAppsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listWebAppsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4138,18 +4381,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListWebAppsInput, ListWebAppsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListWebAppsInput, ListWebAppsOutput>(ListWebAppsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListWebAppsInput, ListWebAppsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWebAppsInput, ListWebAppsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWebAppsOutput>(ListWebAppsOutput.httpOutput(from:), ListWebAppsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWebAppsInput, ListWebAppsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4161,7 +4404,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWebAppsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWebAppsInput, ListWebAppsOutput>(overrides: ["X-Amz-Target": "TransferService.ListWebApps"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListWebAppsInput, ListWebAppsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWebAppsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWebAppsInput, ListWebAppsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWebAppsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWebAppsInput, ListWebAppsOutput>())
@@ -4198,6 +4440,12 @@ extension TransferClient {
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.listWorkflowsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4210,18 +4458,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListWorkflowsInput, ListWorkflowsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(ListWorkflowsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListWorkflowsInput, ListWorkflowsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkflowsInput, ListWorkflowsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkflowsOutput>(ListWorkflowsOutput.httpOutput(from:), ListWorkflowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4233,7 +4481,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkflowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(overrides: ["X-Amz-Target": "TransferService.ListWorkflows"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListWorkflowsInput, ListWorkflowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkflowsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkflowsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWorkflowsInput, ListWorkflowsOutput>())
@@ -4272,6 +4519,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func sendWorkflowStepState(input: SendWorkflowStepStateInput) async throws -> SendWorkflowStepStateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.sendWorkflowStepStateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4284,18 +4537,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SendWorkflowStepStateInput, SendWorkflowStepStateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendWorkflowStepStateInput, SendWorkflowStepStateOutput>(SendWorkflowStepStateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendWorkflowStepStateInput, SendWorkflowStepStateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendWorkflowStepStateInput, SendWorkflowStepStateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendWorkflowStepStateOutput>(SendWorkflowStepStateOutput.httpOutput(from:), SendWorkflowStepStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendWorkflowStepStateInput, SendWorkflowStepStateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4307,7 +4560,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendWorkflowStepStateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendWorkflowStepStateInput, SendWorkflowStepStateOutput>(overrides: ["X-Amz-Target": "TransferService.SendWorkflowStepState"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SendWorkflowStepStateInput, SendWorkflowStepStateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendWorkflowStepStateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendWorkflowStepStateInput, SendWorkflowStepStateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendWorkflowStepStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendWorkflowStepStateInput, SendWorkflowStepStateOutput>())
@@ -4355,6 +4607,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func startDirectoryListing(input: StartDirectoryListingInput) async throws -> StartDirectoryListingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.startDirectoryListingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4367,18 +4625,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartDirectoryListingInput, StartDirectoryListingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartDirectoryListingInput, StartDirectoryListingOutput>(StartDirectoryListingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartDirectoryListingInput, StartDirectoryListingOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDirectoryListingInput, StartDirectoryListingOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDirectoryListingOutput>(StartDirectoryListingOutput.httpOutput(from:), StartDirectoryListingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDirectoryListingInput, StartDirectoryListingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4390,7 +4648,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDirectoryListingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartDirectoryListingInput, StartDirectoryListingOutput>(overrides: ["X-Amz-Target": "TransferService.StartDirectoryListing"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartDirectoryListingInput, StartDirectoryListingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDirectoryListingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDirectoryListingInput, StartDirectoryListingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDirectoryListingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartDirectoryListingInput, StartDirectoryListingOutput>())
@@ -4436,6 +4693,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func startFileTransfer(input: StartFileTransferInput) async throws -> StartFileTransferOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.startFileTransferOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4448,18 +4711,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartFileTransferInput, StartFileTransferOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartFileTransferInput, StartFileTransferOutput>(StartFileTransferInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartFileTransferInput, StartFileTransferOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFileTransferInput, StartFileTransferOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFileTransferOutput>(StartFileTransferOutput.httpOutput(from:), StartFileTransferOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFileTransferInput, StartFileTransferOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4471,7 +4734,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartFileTransferOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFileTransferInput, StartFileTransferOutput>(overrides: ["X-Amz-Target": "TransferService.StartFileTransfer"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartFileTransferInput, StartFileTransferOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartFileTransferInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFileTransferInput, StartFileTransferOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFileTransferOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartFileTransferInput, StartFileTransferOutput>())
@@ -4509,6 +4771,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func startRemoteDelete(input: StartRemoteDeleteInput) async throws -> StartRemoteDeleteOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.startRemoteDeleteOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4521,18 +4789,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartRemoteDeleteInput, StartRemoteDeleteOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartRemoteDeleteInput, StartRemoteDeleteOutput>(StartRemoteDeleteInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartRemoteDeleteInput, StartRemoteDeleteOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRemoteDeleteInput, StartRemoteDeleteOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRemoteDeleteOutput>(StartRemoteDeleteOutput.httpOutput(from:), StartRemoteDeleteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRemoteDeleteInput, StartRemoteDeleteOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4544,7 +4812,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartRemoteDeleteOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartRemoteDeleteInput, StartRemoteDeleteOutput>(overrides: ["X-Amz-Target": "TransferService.StartRemoteDelete"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartRemoteDeleteInput, StartRemoteDeleteOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartRemoteDeleteInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartRemoteDeleteInput, StartRemoteDeleteOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartRemoteDeleteOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartRemoteDeleteInput, StartRemoteDeleteOutput>())
@@ -4582,6 +4849,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func startRemoteMove(input: StartRemoteMoveInput) async throws -> StartRemoteMoveOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.startRemoteMoveOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4594,18 +4867,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartRemoteMoveInput, StartRemoteMoveOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartRemoteMoveInput, StartRemoteMoveOutput>(StartRemoteMoveInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartRemoteMoveInput, StartRemoteMoveOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRemoteMoveInput, StartRemoteMoveOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRemoteMoveOutput>(StartRemoteMoveOutput.httpOutput(from:), StartRemoteMoveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRemoteMoveInput, StartRemoteMoveOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4617,7 +4890,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartRemoteMoveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartRemoteMoveInput, StartRemoteMoveOutput>(overrides: ["X-Amz-Target": "TransferService.StartRemoteMove"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartRemoteMoveInput, StartRemoteMoveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartRemoteMoveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartRemoteMoveInput, StartRemoteMoveOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartRemoteMoveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartRemoteMoveInput, StartRemoteMoveOutput>())
@@ -4655,6 +4927,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func startServer(input: StartServerInput) async throws -> StartServerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.startServerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4667,18 +4945,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartServerInput, StartServerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartServerInput, StartServerOutput>(StartServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartServerInput, StartServerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartServerInput, StartServerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartServerOutput>(StartServerOutput.httpOutput(from:), StartServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartServerInput, StartServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4690,7 +4968,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartServerInput, StartServerOutput>(overrides: ["X-Amz-Target": "TransferService.StartServer"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartServerInput, StartServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartServerInput, StartServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartServerInput, StartServerOutput>())
@@ -4728,6 +5005,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func stopServer(input: StopServerInput) async throws -> StopServerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.stopServerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4740,18 +5023,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopServerInput, StopServerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopServerInput, StopServerOutput>(StopServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopServerInput, StopServerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopServerInput, StopServerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopServerOutput>(StopServerOutput.httpOutput(from:), StopServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopServerInput, StopServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4763,7 +5046,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopServerInput, StopServerOutput>(overrides: ["X-Amz-Target": "TransferService.StopServer"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopServerInput, StopServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopServerInput, StopServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopServerInput, StopServerOutput>())
@@ -4800,6 +5082,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4812,18 +5100,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4835,7 +5123,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "TransferService.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -4872,6 +5159,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func testConnection(input: TestConnectionInput) async throws -> TestConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.testConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4884,18 +5177,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TestConnectionInput, TestConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TestConnectionInput, TestConnectionOutput>(TestConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TestConnectionInput, TestConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestConnectionInput, TestConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TestConnectionOutput>(TestConnectionOutput.httpOutput(from:), TestConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestConnectionInput, TestConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4907,7 +5200,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TestConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TestConnectionInput, TestConnectionOutput>(overrides: ["X-Amz-Target": "TransferService.TestConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TestConnectionInput, TestConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TestConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TestConnectionInput, TestConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TestConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TestConnectionInput, TestConnectionOutput>())
@@ -4956,6 +5248,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func testIdentityProvider(input: TestIdentityProviderInput) async throws -> TestIdentityProviderOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.testIdentityProviderOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4968,18 +5266,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TestIdentityProviderInput, TestIdentityProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TestIdentityProviderInput, TestIdentityProviderOutput>(TestIdentityProviderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TestIdentityProviderInput, TestIdentityProviderOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestIdentityProviderInput, TestIdentityProviderOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TestIdentityProviderOutput>(TestIdentityProviderOutput.httpOutput(from:), TestIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestIdentityProviderInput, TestIdentityProviderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4991,7 +5289,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TestIdentityProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TestIdentityProviderInput, TestIdentityProviderOutput>(overrides: ["X-Amz-Target": "TransferService.TestIdentityProvider"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TestIdentityProviderInput, TestIdentityProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TestIdentityProviderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TestIdentityProviderInput, TestIdentityProviderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TestIdentityProviderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TestIdentityProviderInput, TestIdentityProviderOutput>())
@@ -5028,6 +5325,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5040,18 +5343,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5063,7 +5366,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "TransferService.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -5102,6 +5404,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateAccess(input: UpdateAccessInput) async throws -> UpdateAccessOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.updateAccessOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5114,18 +5422,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateAccessInput, UpdateAccessOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAccessInput, UpdateAccessOutput>(UpdateAccessInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAccessInput, UpdateAccessOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccessInput, UpdateAccessOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccessOutput>(UpdateAccessOutput.httpOutput(from:), UpdateAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccessInput, UpdateAccessOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5137,7 +5445,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAccessOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAccessInput, UpdateAccessOutput>(overrides: ["X-Amz-Target": "TransferService.UpdateAccess"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAccessInput, UpdateAccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAccessInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAccessInput, UpdateAccessOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAccessInput, UpdateAccessOutput>())
@@ -5176,6 +5483,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateAgreement(input: UpdateAgreementInput) async throws -> UpdateAgreementOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.updateAgreementOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5188,18 +5501,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateAgreementInput, UpdateAgreementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAgreementInput, UpdateAgreementOutput>(UpdateAgreementInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAgreementInput, UpdateAgreementOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAgreementInput, UpdateAgreementOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAgreementOutput>(UpdateAgreementOutput.httpOutput(from:), UpdateAgreementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAgreementInput, UpdateAgreementOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5211,7 +5524,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAgreementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAgreementInput, UpdateAgreementOutput>(overrides: ["X-Amz-Target": "TransferService.UpdateAgreement"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAgreementInput, UpdateAgreementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAgreementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAgreementInput, UpdateAgreementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAgreementInput, UpdateAgreementOutput>())
@@ -5249,6 +5561,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateCertificate(input: UpdateCertificateInput) async throws -> UpdateCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.updateCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5261,18 +5579,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateCertificateInput, UpdateCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCertificateInput, UpdateCertificateOutput>(UpdateCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCertificateInput, UpdateCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCertificateInput, UpdateCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCertificateOutput>(UpdateCertificateOutput.httpOutput(from:), UpdateCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCertificateInput, UpdateCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5284,7 +5602,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCertificateInput, UpdateCertificateOutput>(overrides: ["X-Amz-Target": "TransferService.UpdateCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCertificateInput, UpdateCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCertificateInput, UpdateCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCertificateInput, UpdateCertificateOutput>())
@@ -5323,6 +5640,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateConnector(input: UpdateConnectorInput) async throws -> UpdateConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.updateConnectorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5335,18 +5658,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateConnectorInput, UpdateConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(UpdateConnectorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateConnectorInput, UpdateConnectorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectorInput, UpdateConnectorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectorOutput>(UpdateConnectorOutput.httpOutput(from:), UpdateConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5358,7 +5681,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(overrides: ["X-Amz-Target": "TransferService.UpdateConnector"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateConnectorInput, UpdateConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateConnectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConnectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConnectorInput, UpdateConnectorOutput>())
@@ -5396,6 +5718,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateHostKey(input: UpdateHostKeyInput) async throws -> UpdateHostKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.updateHostKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5408,18 +5736,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateHostKeyInput, UpdateHostKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateHostKeyInput, UpdateHostKeyOutput>(UpdateHostKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateHostKeyInput, UpdateHostKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHostKeyInput, UpdateHostKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHostKeyOutput>(UpdateHostKeyOutput.httpOutput(from:), UpdateHostKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHostKeyInput, UpdateHostKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5431,7 +5759,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateHostKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateHostKeyInput, UpdateHostKeyOutput>(overrides: ["X-Amz-Target": "TransferService.UpdateHostKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateHostKeyInput, UpdateHostKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateHostKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHostKeyInput, UpdateHostKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateHostKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateHostKeyInput, UpdateHostKeyOutput>())
@@ -5469,6 +5796,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.updateProfileOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5481,18 +5814,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateProfileInput, UpdateProfileOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProfileInput, UpdateProfileOutput>(UpdateProfileInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProfileInput, UpdateProfileOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProfileInput, UpdateProfileOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProfileOutput>(UpdateProfileOutput.httpOutput(from:), UpdateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProfileInput, UpdateProfileOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5504,7 +5837,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProfileInput, UpdateProfileOutput>(overrides: ["X-Amz-Target": "TransferService.UpdateProfile"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProfileInput, UpdateProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProfileInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProfileInput, UpdateProfileOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProfileOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProfileInput, UpdateProfileOutput>())
@@ -5545,6 +5877,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateServer(input: UpdateServerInput) async throws -> UpdateServerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.updateServerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5557,18 +5895,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServerInput, UpdateServerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServerInput, UpdateServerOutput>(UpdateServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServerInput, UpdateServerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServerInput, UpdateServerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServerOutput>(UpdateServerOutput.httpOutput(from:), UpdateServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServerInput, UpdateServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5580,7 +5918,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateServerInput, UpdateServerOutput>(overrides: ["X-Amz-Target": "TransferService.UpdateServer"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServerInput, UpdateServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServerInput, UpdateServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServerInput, UpdateServerOutput>())
@@ -5618,6 +5955,12 @@ extension TransferClient {
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.updateUserOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5630,18 +5973,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateUserInput, UpdateUserOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateUserInput, UpdateUserOutput>(UpdateUserInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateUserInput, UpdateUserOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserInput, UpdateUserOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(UpdateUserOutput.httpOutput(from:), UpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserInput, UpdateUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5653,7 +5996,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateUserInput, UpdateUserOutput>(overrides: ["X-Amz-Target": "TransferService.UpdateUser"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateUserInput, UpdateUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateUserInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateUserInput, UpdateUserOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateUserInput, UpdateUserOutput>())
@@ -5692,6 +6034,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateWebApp(input: UpdateWebAppInput) async throws -> UpdateWebAppOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.updateWebAppOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5704,18 +6052,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateWebAppInput, UpdateWebAppOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateWebAppInput, UpdateWebAppOutput>(UpdateWebAppInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateWebAppInput, UpdateWebAppOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWebAppInput, UpdateWebAppOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWebAppOutput>(UpdateWebAppOutput.httpOutput(from:), UpdateWebAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWebAppInput, UpdateWebAppOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5727,7 +6075,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWebAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWebAppInput, UpdateWebAppOutput>(overrides: ["X-Amz-Target": "TransferService.UpdateWebApp"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateWebAppInput, UpdateWebAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWebAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWebAppInput, UpdateWebAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWebAppOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWebAppInput, UpdateWebAppOutput>())
@@ -5766,6 +6113,12 @@ extension TransferClient {
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateWebAppCustomization(input: UpdateWebAppCustomizationInput) async throws -> UpdateWebAppCustomizationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TransferClient.updateWebAppCustomizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5778,18 +6131,18 @@ extension TransferClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "transfer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateWebAppCustomizationInput, UpdateWebAppCustomizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateWebAppCustomizationInput, UpdateWebAppCustomizationOutput>(UpdateWebAppCustomizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateWebAppCustomizationInput, UpdateWebAppCustomizationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWebAppCustomizationInput, UpdateWebAppCustomizationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWebAppCustomizationOutput>(UpdateWebAppCustomizationOutput.httpOutput(from:), UpdateWebAppCustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWebAppCustomizationInput, UpdateWebAppCustomizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5801,7 +6154,6 @@ extension TransferClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWebAppCustomizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWebAppCustomizationInput, UpdateWebAppCustomizationOutput>(overrides: ["X-Amz-Target": "TransferService.UpdateWebAppCustomization"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateWebAppCustomizationInput, UpdateWebAppCustomizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWebAppCustomizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWebAppCustomizationInput, UpdateWebAppCustomizationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWebAppCustomizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWebAppCustomizationInput, UpdateWebAppCustomizationOutput>())

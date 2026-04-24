@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.ssoadmin#SWBExternalService",
+    "module": "AWSSSOAdmin",
+    "sdkId": "SSO Admin",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/sso-admin.json"
+}

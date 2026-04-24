@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,22 +35,21 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
@@ -61,8 +57,9 @@ import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -631,6 +628,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func acceptEnvironmentAccountConnection(input: AcceptEnvironmentAccountConnectionInput) async throws -> AcceptEnvironmentAccountConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.acceptEnvironmentAccountConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -643,18 +646,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutput>(AcceptEnvironmentAccountConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptEnvironmentAccountConnectionOutput>(AcceptEnvironmentAccountConnectionOutput.httpOutput(from:), AcceptEnvironmentAccountConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -666,7 +669,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptEnvironmentAccountConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.AcceptEnvironmentAccountConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptEnvironmentAccountConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptEnvironmentAccountConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutput>())
@@ -706,6 +708,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func cancelComponentDeployment(input: CancelComponentDeploymentInput) async throws -> CancelComponentDeploymentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.cancelComponentDeploymentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -718,18 +726,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelComponentDeploymentInput, CancelComponentDeploymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelComponentDeploymentInput, CancelComponentDeploymentOutput>(CancelComponentDeploymentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelComponentDeploymentInput, CancelComponentDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelComponentDeploymentInput, CancelComponentDeploymentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelComponentDeploymentOutput>(CancelComponentDeploymentOutput.httpOutput(from:), CancelComponentDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelComponentDeploymentInput, CancelComponentDeploymentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -741,7 +749,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelComponentDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelComponentDeploymentInput, CancelComponentDeploymentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CancelComponentDeployment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelComponentDeploymentInput, CancelComponentDeploymentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelComponentDeploymentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelComponentDeploymentInput, CancelComponentDeploymentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelComponentDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelComponentDeploymentInput, CancelComponentDeploymentOutput>())
@@ -787,6 +794,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func cancelEnvironmentDeployment(input: CancelEnvironmentDeploymentInput) async throws -> CancelEnvironmentDeploymentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.cancelEnvironmentDeploymentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -799,18 +812,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutput>(CancelEnvironmentDeploymentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelEnvironmentDeploymentOutput>(CancelEnvironmentDeploymentOutput.httpOutput(from:), CancelEnvironmentDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -822,7 +835,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelEnvironmentDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CancelEnvironmentDeployment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelEnvironmentDeploymentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelEnvironmentDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutput>())
@@ -868,6 +880,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func cancelServiceInstanceDeployment(input: CancelServiceInstanceDeploymentInput) async throws -> CancelServiceInstanceDeploymentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.cancelServiceInstanceDeploymentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -880,18 +898,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutput>(CancelServiceInstanceDeploymentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelServiceInstanceDeploymentOutput>(CancelServiceInstanceDeploymentOutput.httpOutput(from:), CancelServiceInstanceDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -903,7 +921,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelServiceInstanceDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CancelServiceInstanceDeployment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelServiceInstanceDeploymentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelServiceInstanceDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutput>())
@@ -949,6 +966,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func cancelServicePipelineDeployment(input: CancelServicePipelineDeploymentInput) async throws -> CancelServicePipelineDeploymentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.cancelServicePipelineDeploymentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -961,18 +984,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutput>(CancelServicePipelineDeploymentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelServicePipelineDeploymentOutput>(CancelServicePipelineDeploymentOutput.httpOutput(from:), CancelServicePipelineDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -984,7 +1007,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelServicePipelineDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CancelServicePipelineDeployment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelServicePipelineDeploymentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelServicePipelineDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutput>())
@@ -1025,6 +1047,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.createComponentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1037,8 +1065,10 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateComponentInput, CreateComponentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1046,10 +1076,8 @@ extension ProtonClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateComponentInput, CreateComponentOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateComponentInput, CreateComponentOutput>(CreateComponentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateComponentInput, CreateComponentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateComponentInput, CreateComponentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateComponentOutput>(CreateComponentOutput.httpOutput(from:), CreateComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateComponentInput, CreateComponentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1061,7 +1089,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateComponentInput, CreateComponentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CreateComponent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateComponentInput, CreateComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateComponentInput, CreateComponentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateComponentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateComponentInput, CreateComponentOutput>())
@@ -1109,6 +1136,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.createEnvironmentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1121,18 +1154,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateEnvironmentInput, CreateEnvironmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(CreateEnvironmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutput>(CreateEnvironmentOutput.httpOutput(from:), CreateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1144,7 +1177,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEnvironmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CreateEnvironment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEnvironmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEnvironmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
@@ -1184,6 +1216,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func createEnvironmentAccountConnection(input: CreateEnvironmentAccountConnectionInput) async throws -> CreateEnvironmentAccountConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.createEnvironmentAccountConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1196,8 +1234,10 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateEnvironmentAccountConnectionInput, CreateEnvironmentAccountConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1205,10 +1245,8 @@ extension ProtonClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateEnvironmentAccountConnectionInput, CreateEnvironmentAccountConnectionOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEnvironmentAccountConnectionInput, CreateEnvironmentAccountConnectionOutput>(CreateEnvironmentAccountConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEnvironmentAccountConnectionInput, CreateEnvironmentAccountConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentAccountConnectionInput, CreateEnvironmentAccountConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentAccountConnectionOutput>(CreateEnvironmentAccountConnectionOutput.httpOutput(from:), CreateEnvironmentAccountConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentAccountConnectionInput, CreateEnvironmentAccountConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1220,7 +1258,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEnvironmentAccountConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEnvironmentAccountConnectionInput, CreateEnvironmentAccountConnectionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CreateEnvironmentAccountConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateEnvironmentAccountConnectionInput, CreateEnvironmentAccountConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEnvironmentAccountConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEnvironmentAccountConnectionInput, CreateEnvironmentAccountConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEnvironmentAccountConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEnvironmentAccountConnectionInput, CreateEnvironmentAccountConnectionOutput>())
@@ -1264,6 +1301,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func createEnvironmentTemplate(input: CreateEnvironmentTemplateInput) async throws -> CreateEnvironmentTemplateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.createEnvironmentTemplateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1276,18 +1319,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutput>(CreateEnvironmentTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentTemplateOutput>(CreateEnvironmentTemplateOutput.httpOutput(from:), CreateEnvironmentTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1299,7 +1342,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEnvironmentTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CreateEnvironmentTemplate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEnvironmentTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEnvironmentTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutput>())
@@ -1340,6 +1382,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func createEnvironmentTemplateVersion(input: CreateEnvironmentTemplateVersionInput) async throws -> CreateEnvironmentTemplateVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.createEnvironmentTemplateVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1352,8 +1400,10 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateEnvironmentTemplateVersionInput, CreateEnvironmentTemplateVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1361,10 +1411,8 @@ extension ProtonClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateEnvironmentTemplateVersionInput, CreateEnvironmentTemplateVersionOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEnvironmentTemplateVersionInput, CreateEnvironmentTemplateVersionOutput>(CreateEnvironmentTemplateVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEnvironmentTemplateVersionInput, CreateEnvironmentTemplateVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentTemplateVersionInput, CreateEnvironmentTemplateVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentTemplateVersionOutput>(CreateEnvironmentTemplateVersionOutput.httpOutput(from:), CreateEnvironmentTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentTemplateVersionInput, CreateEnvironmentTemplateVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1376,7 +1424,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEnvironmentTemplateVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEnvironmentTemplateVersionInput, CreateEnvironmentTemplateVersionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CreateEnvironmentTemplateVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateEnvironmentTemplateVersionInput, CreateEnvironmentTemplateVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEnvironmentTemplateVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEnvironmentTemplateVersionInput, CreateEnvironmentTemplateVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEnvironmentTemplateVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEnvironmentTemplateVersionInput, CreateEnvironmentTemplateVersionOutput>())
@@ -1416,6 +1463,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.createRepositoryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1428,18 +1481,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRepositoryInput, CreateRepositoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(CreateRepositoryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRepositoryOutput>(CreateRepositoryOutput.httpOutput(from:), CreateRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1451,7 +1504,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRepositoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CreateRepository"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRepositoryInput, CreateRepositoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRepositoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRepositoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
@@ -1492,6 +1544,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func createService(input: CreateServiceInput) async throws -> CreateServiceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.createServiceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1504,18 +1562,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateServiceInput, CreateServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateServiceInput, CreateServiceOutput>(CreateServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateServiceInput, CreateServiceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceInput, CreateServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceOutput>(CreateServiceOutput.httpOutput(from:), CreateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceInput, CreateServiceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1527,7 +1585,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateServiceInput, CreateServiceOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CreateService"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateServiceInput, CreateServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateServiceInput, CreateServiceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateServiceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateServiceInput, CreateServiceOutput>())
@@ -1567,6 +1624,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func createServiceInstance(input: CreateServiceInstanceInput) async throws -> CreateServiceInstanceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.createServiceInstanceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1579,8 +1642,10 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateServiceInstanceInput, CreateServiceInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1588,10 +1653,8 @@ extension ProtonClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateServiceInstanceInput, CreateServiceInstanceOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateServiceInstanceInput, CreateServiceInstanceOutput>(CreateServiceInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateServiceInstanceInput, CreateServiceInstanceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceInstanceInput, CreateServiceInstanceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceInstanceOutput>(CreateServiceInstanceOutput.httpOutput(from:), CreateServiceInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceInstanceInput, CreateServiceInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1603,7 +1666,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateServiceInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateServiceInstanceInput, CreateServiceInstanceOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CreateServiceInstance"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateServiceInstanceInput, CreateServiceInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateServiceInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateServiceInstanceInput, CreateServiceInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateServiceInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateServiceInstanceInput, CreateServiceInstanceOutput>())
@@ -1643,6 +1705,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func createServiceSyncConfig(input: CreateServiceSyncConfigInput) async throws -> CreateServiceSyncConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.createServiceSyncConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1655,18 +1723,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateServiceSyncConfigInput, CreateServiceSyncConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateServiceSyncConfigInput, CreateServiceSyncConfigOutput>(CreateServiceSyncConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateServiceSyncConfigInput, CreateServiceSyncConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceSyncConfigInput, CreateServiceSyncConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceSyncConfigOutput>(CreateServiceSyncConfigOutput.httpOutput(from:), CreateServiceSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceSyncConfigInput, CreateServiceSyncConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1678,7 +1746,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateServiceSyncConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateServiceSyncConfigInput, CreateServiceSyncConfigOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CreateServiceSyncConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateServiceSyncConfigInput, CreateServiceSyncConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateServiceSyncConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateServiceSyncConfigInput, CreateServiceSyncConfigOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateServiceSyncConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateServiceSyncConfigInput, CreateServiceSyncConfigOutput>())
@@ -1718,6 +1785,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func createServiceTemplate(input: CreateServiceTemplateInput) async throws -> CreateServiceTemplateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.createServiceTemplateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1730,18 +1803,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateServiceTemplateInput, CreateServiceTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateServiceTemplateInput, CreateServiceTemplateOutput>(CreateServiceTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateServiceTemplateInput, CreateServiceTemplateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceTemplateInput, CreateServiceTemplateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceTemplateOutput>(CreateServiceTemplateOutput.httpOutput(from:), CreateServiceTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceTemplateInput, CreateServiceTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1753,7 +1826,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateServiceTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateServiceTemplateInput, CreateServiceTemplateOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CreateServiceTemplate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateServiceTemplateInput, CreateServiceTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateServiceTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateServiceTemplateInput, CreateServiceTemplateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateServiceTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateServiceTemplateInput, CreateServiceTemplateOutput>())
@@ -1794,6 +1866,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func createServiceTemplateVersion(input: CreateServiceTemplateVersionInput) async throws -> CreateServiceTemplateVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.createServiceTemplateVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1806,8 +1884,10 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateServiceTemplateVersionInput, CreateServiceTemplateVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1815,10 +1895,8 @@ extension ProtonClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateServiceTemplateVersionInput, CreateServiceTemplateVersionOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateServiceTemplateVersionInput, CreateServiceTemplateVersionOutput>(CreateServiceTemplateVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateServiceTemplateVersionInput, CreateServiceTemplateVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceTemplateVersionInput, CreateServiceTemplateVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceTemplateVersionOutput>(CreateServiceTemplateVersionOutput.httpOutput(from:), CreateServiceTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceTemplateVersionInput, CreateServiceTemplateVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1830,7 +1908,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateServiceTemplateVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateServiceTemplateVersionInput, CreateServiceTemplateVersionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CreateServiceTemplateVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateServiceTemplateVersionInput, CreateServiceTemplateVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateServiceTemplateVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateServiceTemplateVersionInput, CreateServiceTemplateVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateServiceTemplateVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateServiceTemplateVersionInput, CreateServiceTemplateVersionOutput>())
@@ -1870,6 +1947,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func createTemplateSyncConfig(input: CreateTemplateSyncConfigInput) async throws -> CreateTemplateSyncConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.createTemplateSyncConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1882,18 +1965,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutput>(CreateTemplateSyncConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTemplateSyncConfigOutput>(CreateTemplateSyncConfigOutput.httpOutput(from:), CreateTemplateSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1905,7 +1988,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTemplateSyncConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.CreateTemplateSyncConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTemplateSyncConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTemplateSyncConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutput>())
@@ -1945,6 +2027,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.deleteComponentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1957,18 +2045,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteComponentInput, DeleteComponentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteComponentInput, DeleteComponentOutput>(DeleteComponentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteComponentInput, DeleteComponentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteComponentInput, DeleteComponentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteComponentOutput>(DeleteComponentOutput.httpOutput(from:), DeleteComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteComponentInput, DeleteComponentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1980,7 +2068,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteComponentInput, DeleteComponentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.DeleteComponent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteComponentInput, DeleteComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteComponentInput, DeleteComponentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteComponentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteComponentInput, DeleteComponentOutput>())
@@ -2019,6 +2106,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.deleteDeploymentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2031,18 +2124,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteDeploymentInput, DeleteDeploymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>(DeleteDeploymentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeploymentOutput>(DeleteDeploymentOutput.httpOutput(from:), DeleteDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2054,7 +2147,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.DeleteDeployment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDeploymentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>())
@@ -2094,6 +2186,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.deleteEnvironmentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2106,18 +2204,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteEnvironmentInput, DeleteEnvironmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(DeleteEnvironmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentOutput>(DeleteEnvironmentOutput.httpOutput(from:), DeleteEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2129,7 +2227,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEnvironmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.DeleteEnvironment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEnvironmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEnvironmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>())
@@ -2169,6 +2266,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func deleteEnvironmentAccountConnection(input: DeleteEnvironmentAccountConnectionInput) async throws -> DeleteEnvironmentAccountConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.deleteEnvironmentAccountConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2181,18 +2284,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutput>(DeleteEnvironmentAccountConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentAccountConnectionOutput>(DeleteEnvironmentAccountConnectionOutput.httpOutput(from:), DeleteEnvironmentAccountConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2204,7 +2307,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEnvironmentAccountConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.DeleteEnvironmentAccountConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEnvironmentAccountConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEnvironmentAccountConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutput>())
@@ -2244,6 +2346,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func deleteEnvironmentTemplate(input: DeleteEnvironmentTemplateInput) async throws -> DeleteEnvironmentTemplateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.deleteEnvironmentTemplateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2256,18 +2364,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutput>(DeleteEnvironmentTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentTemplateOutput>(DeleteEnvironmentTemplateOutput.httpOutput(from:), DeleteEnvironmentTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2279,7 +2387,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEnvironmentTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.DeleteEnvironmentTemplate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEnvironmentTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEnvironmentTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutput>())
@@ -2319,6 +2426,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func deleteEnvironmentTemplateVersion(input: DeleteEnvironmentTemplateVersionInput) async throws -> DeleteEnvironmentTemplateVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.deleteEnvironmentTemplateVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2331,18 +2444,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutput>(DeleteEnvironmentTemplateVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentTemplateVersionOutput>(DeleteEnvironmentTemplateVersionOutput.httpOutput(from:), DeleteEnvironmentTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2354,7 +2467,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEnvironmentTemplateVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.DeleteEnvironmentTemplateVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEnvironmentTemplateVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEnvironmentTemplateVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutput>())
@@ -2394,6 +2506,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.deleteRepositoryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2406,18 +2524,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRepositoryInput, DeleteRepositoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(DeleteRepositoryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRepositoryOutput>(DeleteRepositoryOutput.httpOutput(from:), DeleteRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2429,7 +2547,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRepositoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.DeleteRepository"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRepositoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRepositoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>())
@@ -2469,6 +2586,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.deleteServiceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2481,18 +2604,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteServiceInput, DeleteServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteServiceInput, DeleteServiceOutput>(DeleteServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceInput, DeleteServiceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceInput, DeleteServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceOutput>(DeleteServiceOutput.httpOutput(from:), DeleteServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceInput, DeleteServiceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2504,7 +2627,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteServiceInput, DeleteServiceOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.DeleteService"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteServiceInput, DeleteServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteServiceInput, DeleteServiceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteServiceInput, DeleteServiceOutput>())
@@ -2544,6 +2666,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func deleteServiceSyncConfig(input: DeleteServiceSyncConfigInput) async throws -> DeleteServiceSyncConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.deleteServiceSyncConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2556,18 +2684,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteServiceSyncConfigInput, DeleteServiceSyncConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteServiceSyncConfigInput, DeleteServiceSyncConfigOutput>(DeleteServiceSyncConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceSyncConfigInput, DeleteServiceSyncConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceSyncConfigInput, DeleteServiceSyncConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceSyncConfigOutput>(DeleteServiceSyncConfigOutput.httpOutput(from:), DeleteServiceSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceSyncConfigInput, DeleteServiceSyncConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2579,7 +2707,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteServiceSyncConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteServiceSyncConfigInput, DeleteServiceSyncConfigOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.DeleteServiceSyncConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteServiceSyncConfigInput, DeleteServiceSyncConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteServiceSyncConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteServiceSyncConfigInput, DeleteServiceSyncConfigOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceSyncConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteServiceSyncConfigInput, DeleteServiceSyncConfigOutput>())
@@ -2619,6 +2746,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func deleteServiceTemplate(input: DeleteServiceTemplateInput) async throws -> DeleteServiceTemplateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.deleteServiceTemplateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2631,18 +2764,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteServiceTemplateInput, DeleteServiceTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteServiceTemplateInput, DeleteServiceTemplateOutput>(DeleteServiceTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceTemplateInput, DeleteServiceTemplateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceTemplateInput, DeleteServiceTemplateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceTemplateOutput>(DeleteServiceTemplateOutput.httpOutput(from:), DeleteServiceTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceTemplateInput, DeleteServiceTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2654,7 +2787,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteServiceTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteServiceTemplateInput, DeleteServiceTemplateOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.DeleteServiceTemplate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteServiceTemplateInput, DeleteServiceTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteServiceTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteServiceTemplateInput, DeleteServiceTemplateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteServiceTemplateInput, DeleteServiceTemplateOutput>())
@@ -2694,6 +2826,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func deleteServiceTemplateVersion(input: DeleteServiceTemplateVersionInput) async throws -> DeleteServiceTemplateVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.deleteServiceTemplateVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2706,18 +2844,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutput>(DeleteServiceTemplateVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceTemplateVersionOutput>(DeleteServiceTemplateVersionOutput.httpOutput(from:), DeleteServiceTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2729,7 +2867,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteServiceTemplateVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.DeleteServiceTemplateVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteServiceTemplateVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceTemplateVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutput>())
@@ -2769,6 +2906,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func deleteTemplateSyncConfig(input: DeleteTemplateSyncConfigInput) async throws -> DeleteTemplateSyncConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.deleteTemplateSyncConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2781,18 +2924,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutput>(DeleteTemplateSyncConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTemplateSyncConfigOutput>(DeleteTemplateSyncConfigOutput.httpOutput(from:), DeleteTemplateSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2804,7 +2947,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTemplateSyncConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.DeleteTemplateSyncConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTemplateSyncConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTemplateSyncConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutput>())
@@ -2843,6 +2985,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getAccountSettingsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2855,18 +3003,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccountSettingsInput, GetAccountSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(GetAccountSettingsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutput>(GetAccountSettingsOutput.httpOutput(from:), GetAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2878,7 +3026,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAccountSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetAccountSettings"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAccountSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAccountSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
@@ -2917,6 +3064,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getComponent(input: GetComponentInput) async throws -> GetComponentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getComponentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2929,18 +3082,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetComponentInput, GetComponentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetComponentInput, GetComponentOutput>(GetComponentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetComponentInput, GetComponentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComponentInput, GetComponentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComponentOutput>(GetComponentOutput.httpOutput(from:), GetComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComponentInput, GetComponentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2952,7 +3105,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetComponentInput, GetComponentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetComponent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetComponentInput, GetComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetComponentInput, GetComponentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComponentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComponentInput, GetComponentOutput>())
@@ -2991,6 +3143,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getDeploymentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3003,18 +3161,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDeploymentInput, GetDeploymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDeploymentInput, GetDeploymentOutput>(GetDeploymentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeploymentInput, GetDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentInput, GetDeploymentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentOutput>(GetDeploymentOutput.httpOutput(from:), GetDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentInput, GetDeploymentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3026,7 +3184,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeploymentInput, GetDeploymentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetDeployment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetDeploymentInput, GetDeploymentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDeploymentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentInput, GetDeploymentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeploymentInput, GetDeploymentOutput>())
@@ -3065,6 +3222,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getEnvironmentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3077,18 +3240,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEnvironmentInput, GetEnvironmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(GetEnvironmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnvironmentInput, GetEnvironmentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnvironmentInput, GetEnvironmentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentOutput>(GetEnvironmentOutput.httpOutput(from:), GetEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3100,7 +3263,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEnvironmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetEnvironment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEnvironmentInput, GetEnvironmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEnvironmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEnvironmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEnvironmentInput, GetEnvironmentOutput>())
@@ -3139,6 +3301,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getEnvironmentAccountConnection(input: GetEnvironmentAccountConnectionInput) async throws -> GetEnvironmentAccountConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getEnvironmentAccountConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3151,18 +3319,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutput>(GetEnvironmentAccountConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentAccountConnectionOutput>(GetEnvironmentAccountConnectionOutput.httpOutput(from:), GetEnvironmentAccountConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3174,7 +3342,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEnvironmentAccountConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetEnvironmentAccountConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEnvironmentAccountConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEnvironmentAccountConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutput>())
@@ -3213,6 +3380,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getEnvironmentTemplate(input: GetEnvironmentTemplateInput) async throws -> GetEnvironmentTemplateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getEnvironmentTemplateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3225,18 +3398,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutput>(GetEnvironmentTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentTemplateOutput>(GetEnvironmentTemplateOutput.httpOutput(from:), GetEnvironmentTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3248,7 +3421,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEnvironmentTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetEnvironmentTemplate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEnvironmentTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEnvironmentTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutput>())
@@ -3287,6 +3459,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getEnvironmentTemplateVersion(input: GetEnvironmentTemplateVersionInput) async throws -> GetEnvironmentTemplateVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getEnvironmentTemplateVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3299,18 +3477,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutput>(GetEnvironmentTemplateVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentTemplateVersionOutput>(GetEnvironmentTemplateVersionOutput.httpOutput(from:), GetEnvironmentTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3322,7 +3500,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEnvironmentTemplateVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetEnvironmentTemplateVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEnvironmentTemplateVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEnvironmentTemplateVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutput>())
@@ -3361,6 +3538,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getRepository(input: GetRepositoryInput) async throws -> GetRepositoryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getRepositoryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3373,18 +3556,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRepositoryInput, GetRepositoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRepositoryInput, GetRepositoryOutput>(GetRepositoryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRepositoryInput, GetRepositoryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRepositoryInput, GetRepositoryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRepositoryOutput>(GetRepositoryOutput.httpOutput(from:), GetRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRepositoryInput, GetRepositoryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3396,7 +3579,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRepositoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRepositoryInput, GetRepositoryOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetRepository"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRepositoryInput, GetRepositoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRepositoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRepositoryInput, GetRepositoryOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRepositoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRepositoryInput, GetRepositoryOutput>())
@@ -3435,6 +3617,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getRepositorySyncStatus(input: GetRepositorySyncStatusInput) async throws -> GetRepositorySyncStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getRepositorySyncStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3447,18 +3635,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutput>(GetRepositorySyncStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRepositorySyncStatusOutput>(GetRepositorySyncStatusOutput.httpOutput(from:), GetRepositorySyncStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3470,7 +3658,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRepositorySyncStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetRepositorySyncStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRepositorySyncStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRepositorySyncStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutput>())
@@ -3508,6 +3695,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getResourcesSummary(input: GetResourcesSummaryInput) async throws -> GetResourcesSummaryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getResourcesSummaryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3520,18 +3713,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResourcesSummaryInput, GetResourcesSummaryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResourcesSummaryInput, GetResourcesSummaryOutput>(GetResourcesSummaryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcesSummaryInput, GetResourcesSummaryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcesSummaryInput, GetResourcesSummaryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcesSummaryOutput>(GetResourcesSummaryOutput.httpOutput(from:), GetResourcesSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcesSummaryInput, GetResourcesSummaryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3543,7 +3736,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcesSummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourcesSummaryInput, GetResourcesSummaryOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetResourcesSummary"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResourcesSummaryInput, GetResourcesSummaryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcesSummaryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcesSummaryInput, GetResourcesSummaryOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcesSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcesSummaryInput, GetResourcesSummaryOutput>())
@@ -3582,6 +3774,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getService(input: GetServiceInput) async throws -> GetServiceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getServiceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3594,18 +3792,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetServiceInput, GetServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetServiceInput, GetServiceOutput>(GetServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceInput, GetServiceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceInput, GetServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceOutput>(GetServiceOutput.httpOutput(from:), GetServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceInput, GetServiceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3617,7 +3815,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetServiceInput, GetServiceOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetService"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetServiceInput, GetServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetServiceInput, GetServiceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetServiceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetServiceInput, GetServiceOutput>())
@@ -3656,6 +3853,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getServiceInstance(input: GetServiceInstanceInput) async throws -> GetServiceInstanceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getServiceInstanceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3668,18 +3871,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetServiceInstanceInput, GetServiceInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetServiceInstanceInput, GetServiceInstanceOutput>(GetServiceInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceInstanceInput, GetServiceInstanceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceInstanceInput, GetServiceInstanceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceInstanceOutput>(GetServiceInstanceOutput.httpOutput(from:), GetServiceInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceInstanceInput, GetServiceInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3691,7 +3894,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetServiceInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetServiceInstanceInput, GetServiceInstanceOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetServiceInstance"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetServiceInstanceInput, GetServiceInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetServiceInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetServiceInstanceInput, GetServiceInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetServiceInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetServiceInstanceInput, GetServiceInstanceOutput>())
@@ -3730,6 +3932,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getServiceInstanceSyncStatus(input: GetServiceInstanceSyncStatusInput) async throws -> GetServiceInstanceSyncStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getServiceInstanceSyncStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3742,18 +3950,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetServiceInstanceSyncStatusInput, GetServiceInstanceSyncStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetServiceInstanceSyncStatusInput, GetServiceInstanceSyncStatusOutput>(GetServiceInstanceSyncStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceInstanceSyncStatusInput, GetServiceInstanceSyncStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceInstanceSyncStatusInput, GetServiceInstanceSyncStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceInstanceSyncStatusOutput>(GetServiceInstanceSyncStatusOutput.httpOutput(from:), GetServiceInstanceSyncStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceInstanceSyncStatusInput, GetServiceInstanceSyncStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3765,7 +3973,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetServiceInstanceSyncStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetServiceInstanceSyncStatusInput, GetServiceInstanceSyncStatusOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetServiceInstanceSyncStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetServiceInstanceSyncStatusInput, GetServiceInstanceSyncStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetServiceInstanceSyncStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetServiceInstanceSyncStatusInput, GetServiceInstanceSyncStatusOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetServiceInstanceSyncStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetServiceInstanceSyncStatusInput, GetServiceInstanceSyncStatusOutput>())
@@ -3804,6 +4011,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getServiceSyncBlockerSummary(input: GetServiceSyncBlockerSummaryInput) async throws -> GetServiceSyncBlockerSummaryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getServiceSyncBlockerSummaryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3816,18 +4029,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetServiceSyncBlockerSummaryInput, GetServiceSyncBlockerSummaryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetServiceSyncBlockerSummaryInput, GetServiceSyncBlockerSummaryOutput>(GetServiceSyncBlockerSummaryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceSyncBlockerSummaryInput, GetServiceSyncBlockerSummaryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceSyncBlockerSummaryInput, GetServiceSyncBlockerSummaryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceSyncBlockerSummaryOutput>(GetServiceSyncBlockerSummaryOutput.httpOutput(from:), GetServiceSyncBlockerSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceSyncBlockerSummaryInput, GetServiceSyncBlockerSummaryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3839,7 +4052,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetServiceSyncBlockerSummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetServiceSyncBlockerSummaryInput, GetServiceSyncBlockerSummaryOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetServiceSyncBlockerSummary"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetServiceSyncBlockerSummaryInput, GetServiceSyncBlockerSummaryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetServiceSyncBlockerSummaryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetServiceSyncBlockerSummaryInput, GetServiceSyncBlockerSummaryOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetServiceSyncBlockerSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetServiceSyncBlockerSummaryInput, GetServiceSyncBlockerSummaryOutput>())
@@ -3878,6 +4090,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getServiceSyncConfig(input: GetServiceSyncConfigInput) async throws -> GetServiceSyncConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getServiceSyncConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3890,18 +4108,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetServiceSyncConfigInput, GetServiceSyncConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetServiceSyncConfigInput, GetServiceSyncConfigOutput>(GetServiceSyncConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceSyncConfigInput, GetServiceSyncConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceSyncConfigInput, GetServiceSyncConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceSyncConfigOutput>(GetServiceSyncConfigOutput.httpOutput(from:), GetServiceSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceSyncConfigInput, GetServiceSyncConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3913,7 +4131,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetServiceSyncConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetServiceSyncConfigInput, GetServiceSyncConfigOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetServiceSyncConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetServiceSyncConfigInput, GetServiceSyncConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetServiceSyncConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetServiceSyncConfigInput, GetServiceSyncConfigOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetServiceSyncConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetServiceSyncConfigInput, GetServiceSyncConfigOutput>())
@@ -3952,6 +4169,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getServiceTemplate(input: GetServiceTemplateInput) async throws -> GetServiceTemplateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getServiceTemplateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3964,18 +4187,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetServiceTemplateInput, GetServiceTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetServiceTemplateInput, GetServiceTemplateOutput>(GetServiceTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceTemplateInput, GetServiceTemplateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceTemplateInput, GetServiceTemplateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceTemplateOutput>(GetServiceTemplateOutput.httpOutput(from:), GetServiceTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceTemplateInput, GetServiceTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3987,7 +4210,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetServiceTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetServiceTemplateInput, GetServiceTemplateOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetServiceTemplate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetServiceTemplateInput, GetServiceTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetServiceTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetServiceTemplateInput, GetServiceTemplateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetServiceTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetServiceTemplateInput, GetServiceTemplateOutput>())
@@ -4026,6 +4248,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getServiceTemplateVersion(input: GetServiceTemplateVersionInput) async throws -> GetServiceTemplateVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getServiceTemplateVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4038,18 +4266,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutput>(GetServiceTemplateVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceTemplateVersionOutput>(GetServiceTemplateVersionOutput.httpOutput(from:), GetServiceTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4061,7 +4289,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetServiceTemplateVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetServiceTemplateVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetServiceTemplateVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetServiceTemplateVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutput>())
@@ -4100,6 +4327,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getTemplateSyncConfig(input: GetTemplateSyncConfigInput) async throws -> GetTemplateSyncConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getTemplateSyncConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4112,18 +4345,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutput>(GetTemplateSyncConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemplateSyncConfigOutput>(GetTemplateSyncConfigOutput.httpOutput(from:), GetTemplateSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4135,7 +4368,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTemplateSyncConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetTemplateSyncConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTemplateSyncConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTemplateSyncConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutput>())
@@ -4174,6 +4406,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func getTemplateSyncStatus(input: GetTemplateSyncStatusInput) async throws -> GetTemplateSyncStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.getTemplateSyncStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4186,18 +4424,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutput>(GetTemplateSyncStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemplateSyncStatusOutput>(GetTemplateSyncStatusOutput.httpOutput(from:), GetTemplateSyncStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4209,7 +4447,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTemplateSyncStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.GetTemplateSyncStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTemplateSyncStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTemplateSyncStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutput>())
@@ -4248,6 +4485,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listComponentOutputs(input: ListComponentOutputsInput) async throws -> ListComponentOutputsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listComponentOutputsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4260,18 +4503,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListComponentOutputsInput, ListComponentOutputsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListComponentOutputsInput, ListComponentOutputsOutput>(ListComponentOutputsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListComponentOutputsInput, ListComponentOutputsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComponentOutputsInput, ListComponentOutputsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComponentOutputsOutput>(ListComponentOutputsOutput.httpOutput(from:), ListComponentOutputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComponentOutputsInput, ListComponentOutputsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4283,7 +4526,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListComponentOutputsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListComponentOutputsInput, ListComponentOutputsOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListComponentOutputs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListComponentOutputsInput, ListComponentOutputsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListComponentOutputsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListComponentOutputsInput, ListComponentOutputsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListComponentOutputsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListComponentOutputsInput, ListComponentOutputsOutput>())
@@ -4322,6 +4564,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listComponentProvisionedResources(input: ListComponentProvisionedResourcesInput) async throws -> ListComponentProvisionedResourcesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listComponentProvisionedResourcesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4334,18 +4582,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutput>(ListComponentProvisionedResourcesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComponentProvisionedResourcesOutput>(ListComponentProvisionedResourcesOutput.httpOutput(from:), ListComponentProvisionedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4357,7 +4605,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListComponentProvisionedResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListComponentProvisionedResources"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListComponentProvisionedResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListComponentProvisionedResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutput>())
@@ -4395,6 +4642,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listComponentsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4407,18 +4660,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListComponentsInput, ListComponentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListComponentsInput, ListComponentsOutput>(ListComponentsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListComponentsInput, ListComponentsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComponentsInput, ListComponentsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComponentsOutput>(ListComponentsOutput.httpOutput(from:), ListComponentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComponentsInput, ListComponentsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4430,7 +4683,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListComponentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListComponentsInput, ListComponentsOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListComponents"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListComponentsInput, ListComponentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListComponentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListComponentsInput, ListComponentsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListComponentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListComponentsInput, ListComponentsOutput>())
@@ -4469,6 +4721,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listDeploymentsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4481,18 +4739,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDeploymentsInput, ListDeploymentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(ListDeploymentsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeploymentsOutput>(ListDeploymentsOutput.httpOutput(from:), ListDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4504,7 +4762,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDeploymentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListDeployments"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDeploymentsInput, ListDeploymentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDeploymentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDeploymentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
@@ -4542,6 +4799,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listEnvironmentAccountConnections(input: ListEnvironmentAccountConnectionsInput) async throws -> ListEnvironmentAccountConnectionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listEnvironmentAccountConnectionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4554,18 +4817,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutput>(ListEnvironmentAccountConnectionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentAccountConnectionsOutput>(ListEnvironmentAccountConnectionsOutput.httpOutput(from:), ListEnvironmentAccountConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4577,7 +4840,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEnvironmentAccountConnectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListEnvironmentAccountConnections"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEnvironmentAccountConnectionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnvironmentAccountConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutput>())
@@ -4616,6 +4878,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listEnvironmentOutputs(input: ListEnvironmentOutputsInput) async throws -> ListEnvironmentOutputsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listEnvironmentOutputsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4628,18 +4896,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutput>(ListEnvironmentOutputsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentOutputsOutput>(ListEnvironmentOutputsOutput.httpOutput(from:), ListEnvironmentOutputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4651,7 +4919,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEnvironmentOutputsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListEnvironmentOutputs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEnvironmentOutputsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnvironmentOutputsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutput>())
@@ -4690,6 +4957,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listEnvironmentProvisionedResources(input: ListEnvironmentProvisionedResourcesInput) async throws -> ListEnvironmentProvisionedResourcesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listEnvironmentProvisionedResourcesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4702,18 +4975,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutput>(ListEnvironmentProvisionedResourcesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentProvisionedResourcesOutput>(ListEnvironmentProvisionedResourcesOutput.httpOutput(from:), ListEnvironmentProvisionedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4725,7 +4998,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEnvironmentProvisionedResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListEnvironmentProvisionedResources"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEnvironmentProvisionedResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnvironmentProvisionedResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutput>())
@@ -4764,6 +5036,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listEnvironmentTemplateVersions(input: ListEnvironmentTemplateVersionsInput) async throws -> ListEnvironmentTemplateVersionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listEnvironmentTemplateVersionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4776,18 +5054,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutput>(ListEnvironmentTemplateVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentTemplateVersionsOutput>(ListEnvironmentTemplateVersionsOutput.httpOutput(from:), ListEnvironmentTemplateVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4799,7 +5077,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEnvironmentTemplateVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListEnvironmentTemplateVersions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEnvironmentTemplateVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnvironmentTemplateVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutput>())
@@ -4837,6 +5114,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listEnvironmentTemplates(input: ListEnvironmentTemplatesInput) async throws -> ListEnvironmentTemplatesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listEnvironmentTemplatesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4849,18 +5132,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutput>(ListEnvironmentTemplatesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentTemplatesOutput>(ListEnvironmentTemplatesOutput.httpOutput(from:), ListEnvironmentTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4872,7 +5155,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEnvironmentTemplatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListEnvironmentTemplates"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEnvironmentTemplatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnvironmentTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutput>())
@@ -4911,6 +5193,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listEnvironmentsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4923,18 +5211,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListEnvironmentsInput, ListEnvironmentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(ListEnvironmentsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentsOutput>(ListEnvironmentsOutput.httpOutput(from:), ListEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4946,7 +5234,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEnvironmentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListEnvironments"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEnvironmentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnvironmentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>())
@@ -4985,6 +5272,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listRepositories(input: ListRepositoriesInput) async throws -> ListRepositoriesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listRepositoriesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4997,18 +5290,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRepositoriesInput, ListRepositoriesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRepositoriesInput, ListRepositoriesOutput>(ListRepositoriesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRepositoriesInput, ListRepositoriesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRepositoriesInput, ListRepositoriesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRepositoriesOutput>(ListRepositoriesOutput.httpOutput(from:), ListRepositoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRepositoriesInput, ListRepositoriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5020,7 +5313,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRepositoriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRepositoriesInput, ListRepositoriesOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListRepositories"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRepositoriesInput, ListRepositoriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRepositoriesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRepositoriesInput, ListRepositoriesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRepositoriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRepositoriesInput, ListRepositoriesOutput>())
@@ -5058,6 +5350,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listRepositorySyncDefinitions(input: ListRepositorySyncDefinitionsInput) async throws -> ListRepositorySyncDefinitionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listRepositorySyncDefinitionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5070,18 +5368,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput>(ListRepositorySyncDefinitionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRepositorySyncDefinitionsOutput>(ListRepositorySyncDefinitionsOutput.httpOutput(from:), ListRepositorySyncDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5093,7 +5391,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRepositorySyncDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListRepositorySyncDefinitions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRepositorySyncDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRepositorySyncDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput>())
@@ -5132,6 +5429,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listServiceInstanceOutputs(input: ListServiceInstanceOutputsInput) async throws -> ListServiceInstanceOutputsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listServiceInstanceOutputsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5144,18 +5447,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutput>(ListServiceInstanceOutputsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceInstanceOutputsOutput>(ListServiceInstanceOutputsOutput.httpOutput(from:), ListServiceInstanceOutputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5167,7 +5470,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServiceInstanceOutputsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListServiceInstanceOutputs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServiceInstanceOutputsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServiceInstanceOutputsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutput>())
@@ -5206,6 +5508,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listServiceInstanceProvisionedResources(input: ListServiceInstanceProvisionedResourcesInput) async throws -> ListServiceInstanceProvisionedResourcesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listServiceInstanceProvisionedResourcesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5218,18 +5526,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutput>(ListServiceInstanceProvisionedResourcesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceInstanceProvisionedResourcesOutput>(ListServiceInstanceProvisionedResourcesOutput.httpOutput(from:), ListServiceInstanceProvisionedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5241,7 +5549,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServiceInstanceProvisionedResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListServiceInstanceProvisionedResources"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServiceInstanceProvisionedResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServiceInstanceProvisionedResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutput>())
@@ -5280,6 +5587,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listServiceInstances(input: ListServiceInstancesInput) async throws -> ListServiceInstancesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listServiceInstancesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5292,18 +5605,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServiceInstancesInput, ListServiceInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServiceInstancesInput, ListServiceInstancesOutput>(ListServiceInstancesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServiceInstancesInput, ListServiceInstancesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceInstancesInput, ListServiceInstancesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceInstancesOutput>(ListServiceInstancesOutput.httpOutput(from:), ListServiceInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceInstancesInput, ListServiceInstancesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5315,7 +5628,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServiceInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServiceInstancesInput, ListServiceInstancesOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListServiceInstances"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServiceInstancesInput, ListServiceInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServiceInstancesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceInstancesInput, ListServiceInstancesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServiceInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServiceInstancesInput, ListServiceInstancesOutput>())
@@ -5354,6 +5666,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listServicePipelineOutputs(input: ListServicePipelineOutputsInput) async throws -> ListServicePipelineOutputsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listServicePipelineOutputsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5366,18 +5684,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutput>(ListServicePipelineOutputsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicePipelineOutputsOutput>(ListServicePipelineOutputsOutput.httpOutput(from:), ListServicePipelineOutputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5389,7 +5707,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServicePipelineOutputsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListServicePipelineOutputs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServicePipelineOutputsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServicePipelineOutputsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutput>())
@@ -5428,6 +5745,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listServicePipelineProvisionedResources(input: ListServicePipelineProvisionedResourcesInput) async throws -> ListServicePipelineProvisionedResourcesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listServicePipelineProvisionedResourcesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5440,18 +5763,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutput>(ListServicePipelineProvisionedResourcesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicePipelineProvisionedResourcesOutput>(ListServicePipelineProvisionedResourcesOutput.httpOutput(from:), ListServicePipelineProvisionedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5463,7 +5786,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServicePipelineProvisionedResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListServicePipelineProvisionedResources"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServicePipelineProvisionedResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServicePipelineProvisionedResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutput>())
@@ -5502,6 +5824,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listServiceTemplateVersions(input: ListServiceTemplateVersionsInput) async throws -> ListServiceTemplateVersionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listServiceTemplateVersionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5514,18 +5842,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutput>(ListServiceTemplateVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceTemplateVersionsOutput>(ListServiceTemplateVersionsOutput.httpOutput(from:), ListServiceTemplateVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5537,7 +5865,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServiceTemplateVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListServiceTemplateVersions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServiceTemplateVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServiceTemplateVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutput>())
@@ -5575,6 +5902,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listServiceTemplates(input: ListServiceTemplatesInput) async throws -> ListServiceTemplatesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listServiceTemplatesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5587,18 +5920,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServiceTemplatesInput, ListServiceTemplatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServiceTemplatesInput, ListServiceTemplatesOutput>(ListServiceTemplatesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServiceTemplatesInput, ListServiceTemplatesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceTemplatesInput, ListServiceTemplatesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceTemplatesOutput>(ListServiceTemplatesOutput.httpOutput(from:), ListServiceTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceTemplatesInput, ListServiceTemplatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5610,7 +5943,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServiceTemplatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServiceTemplatesInput, ListServiceTemplatesOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListServiceTemplates"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServiceTemplatesInput, ListServiceTemplatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServiceTemplatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceTemplatesInput, ListServiceTemplatesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServiceTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServiceTemplatesInput, ListServiceTemplatesOutput>())
@@ -5648,6 +5980,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listServices(input: ListServicesInput) async throws -> ListServicesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listServicesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5660,18 +5998,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServicesInput, ListServicesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServicesInput, ListServicesOutput>(ListServicesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServicesInput, ListServicesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicesInput, ListServicesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesOutput>(ListServicesOutput.httpOutput(from:), ListServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesInput, ListServicesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5683,7 +6021,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServicesInput, ListServicesOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListServices"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServicesInput, ListServicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServicesInput, ListServicesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServicesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServicesInput, ListServicesOutput>())
@@ -5722,6 +6059,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5734,18 +6077,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5757,7 +6100,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -5798,6 +6140,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func notifyResourceDeploymentStatusChange(input: NotifyResourceDeploymentStatusChangeInput) async throws -> NotifyResourceDeploymentStatusChangeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.notifyResourceDeploymentStatusChangeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5810,18 +6158,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutput>(NotifyResourceDeploymentStatusChangeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<NotifyResourceDeploymentStatusChangeOutput>(NotifyResourceDeploymentStatusChangeOutput.httpOutput(from:), NotifyResourceDeploymentStatusChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5833,7 +6181,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<NotifyResourceDeploymentStatusChangeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.NotifyResourceDeploymentStatusChange"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: NotifyResourceDeploymentStatusChangeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<NotifyResourceDeploymentStatusChangeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutput>())
@@ -5873,6 +6220,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func rejectEnvironmentAccountConnection(input: RejectEnvironmentAccountConnectionInput) async throws -> RejectEnvironmentAccountConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.rejectEnvironmentAccountConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5885,18 +6238,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutput>(RejectEnvironmentAccountConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectEnvironmentAccountConnectionOutput>(RejectEnvironmentAccountConnectionOutput.httpOutput(from:), RejectEnvironmentAccountConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5908,7 +6261,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectEnvironmentAccountConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.RejectEnvironmentAccountConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RejectEnvironmentAccountConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectEnvironmentAccountConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutput>())
@@ -5948,6 +6300,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5960,18 +6318,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5983,7 +6341,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -6023,6 +6380,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6035,18 +6398,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6058,7 +6421,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -6097,6 +6459,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateAccountSettingsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6109,18 +6477,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateAccountSettingsInput, UpdateAccountSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(UpdateAccountSettingsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutput>(UpdateAccountSettingsOutput.httpOutput(from:), UpdateAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6132,7 +6500,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAccountSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateAccountSettings"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAccountSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAccountSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
@@ -6173,6 +6540,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateComponentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6185,8 +6558,10 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateComponentInput, UpdateComponentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6194,10 +6569,8 @@ extension ProtonClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateComponentInput, UpdateComponentOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateComponentInput, UpdateComponentOutput>(UpdateComponentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateComponentInput, UpdateComponentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateComponentInput, UpdateComponentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateComponentOutput>(UpdateComponentOutput.httpOutput(from:), UpdateComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateComponentInput, UpdateComponentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6209,7 +6582,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateComponentInput, UpdateComponentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateComponent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateComponentInput, UpdateComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateComponentInput, UpdateComponentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateComponentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateComponentInput, UpdateComponentOutput>())
@@ -6249,6 +6621,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateEnvironmentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6261,18 +6639,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateEnvironmentInput, UpdateEnvironmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(UpdateEnvironmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentOutput>(UpdateEnvironmentOutput.httpOutput(from:), UpdateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6284,7 +6662,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEnvironmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateEnvironment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEnvironmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEnvironmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
@@ -6324,6 +6701,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateEnvironmentAccountConnection(input: UpdateEnvironmentAccountConnectionInput) async throws -> UpdateEnvironmentAccountConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateEnvironmentAccountConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6336,18 +6719,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutput>(UpdateEnvironmentAccountConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentAccountConnectionOutput>(UpdateEnvironmentAccountConnectionOutput.httpOutput(from:), UpdateEnvironmentAccountConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6359,7 +6742,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEnvironmentAccountConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateEnvironmentAccountConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEnvironmentAccountConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEnvironmentAccountConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutput>())
@@ -6399,6 +6781,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateEnvironmentTemplate(input: UpdateEnvironmentTemplateInput) async throws -> UpdateEnvironmentTemplateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateEnvironmentTemplateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6411,18 +6799,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutput>(UpdateEnvironmentTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentTemplateOutput>(UpdateEnvironmentTemplateOutput.httpOutput(from:), UpdateEnvironmentTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6434,7 +6822,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEnvironmentTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateEnvironmentTemplate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEnvironmentTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEnvironmentTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutput>())
@@ -6474,6 +6861,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateEnvironmentTemplateVersion(input: UpdateEnvironmentTemplateVersionInput) async throws -> UpdateEnvironmentTemplateVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateEnvironmentTemplateVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6486,18 +6879,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutput>(UpdateEnvironmentTemplateVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentTemplateVersionOutput>(UpdateEnvironmentTemplateVersionOutput.httpOutput(from:), UpdateEnvironmentTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6509,7 +6902,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEnvironmentTemplateVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateEnvironmentTemplateVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEnvironmentTemplateVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEnvironmentTemplateVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutput>())
@@ -6550,6 +6942,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateServiceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6562,18 +6960,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServiceInput, UpdateServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServiceInput, UpdateServiceOutput>(UpdateServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServiceInput, UpdateServiceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceInput, UpdateServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceOutput>(UpdateServiceOutput.httpOutput(from:), UpdateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceInput, UpdateServiceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6585,7 +6983,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateServiceInput, UpdateServiceOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateService"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServiceInput, UpdateServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServiceInput, UpdateServiceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServiceInput, UpdateServiceOutput>())
@@ -6625,6 +7022,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateServiceInstance(input: UpdateServiceInstanceInput) async throws -> UpdateServiceInstanceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateServiceInstanceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6637,8 +7040,10 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServiceInstanceInput, UpdateServiceInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6646,10 +7051,8 @@ extension ProtonClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateServiceInstanceInput, UpdateServiceInstanceOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServiceInstanceInput, UpdateServiceInstanceOutput>(UpdateServiceInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServiceInstanceInput, UpdateServiceInstanceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceInstanceInput, UpdateServiceInstanceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceInstanceOutput>(UpdateServiceInstanceOutput.httpOutput(from:), UpdateServiceInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceInstanceInput, UpdateServiceInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6661,7 +7064,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateServiceInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateServiceInstanceInput, UpdateServiceInstanceOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateServiceInstance"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServiceInstanceInput, UpdateServiceInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServiceInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServiceInstanceInput, UpdateServiceInstanceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServiceInstanceInput, UpdateServiceInstanceOutput>())
@@ -6701,6 +7103,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateServicePipeline(input: UpdateServicePipelineInput) async throws -> UpdateServicePipelineOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateServicePipelineOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6713,18 +7121,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServicePipelineInput, UpdateServicePipelineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServicePipelineInput, UpdateServicePipelineOutput>(UpdateServicePipelineInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServicePipelineInput, UpdateServicePipelineOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServicePipelineInput, UpdateServicePipelineOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServicePipelineOutput>(UpdateServicePipelineOutput.httpOutput(from:), UpdateServicePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServicePipelineInput, UpdateServicePipelineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6736,7 +7144,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateServicePipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateServicePipelineInput, UpdateServicePipelineOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateServicePipeline"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServicePipelineInput, UpdateServicePipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServicePipelineInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServicePipelineInput, UpdateServicePipelineOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServicePipelineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServicePipelineInput, UpdateServicePipelineOutput>())
@@ -6776,6 +7183,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateServiceSyncBlocker(input: UpdateServiceSyncBlockerInput) async throws -> UpdateServiceSyncBlockerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateServiceSyncBlockerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6788,18 +7201,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServiceSyncBlockerInput, UpdateServiceSyncBlockerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServiceSyncBlockerInput, UpdateServiceSyncBlockerOutput>(UpdateServiceSyncBlockerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServiceSyncBlockerInput, UpdateServiceSyncBlockerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceSyncBlockerInput, UpdateServiceSyncBlockerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceSyncBlockerOutput>(UpdateServiceSyncBlockerOutput.httpOutput(from:), UpdateServiceSyncBlockerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceSyncBlockerInput, UpdateServiceSyncBlockerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6811,7 +7224,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateServiceSyncBlockerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateServiceSyncBlockerInput, UpdateServiceSyncBlockerOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateServiceSyncBlocker"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServiceSyncBlockerInput, UpdateServiceSyncBlockerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServiceSyncBlockerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServiceSyncBlockerInput, UpdateServiceSyncBlockerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceSyncBlockerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServiceSyncBlockerInput, UpdateServiceSyncBlockerOutput>())
@@ -6851,6 +7263,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateServiceSyncConfig(input: UpdateServiceSyncConfigInput) async throws -> UpdateServiceSyncConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateServiceSyncConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6863,18 +7281,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServiceSyncConfigInput, UpdateServiceSyncConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServiceSyncConfigInput, UpdateServiceSyncConfigOutput>(UpdateServiceSyncConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServiceSyncConfigInput, UpdateServiceSyncConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceSyncConfigInput, UpdateServiceSyncConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceSyncConfigOutput>(UpdateServiceSyncConfigOutput.httpOutput(from:), UpdateServiceSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceSyncConfigInput, UpdateServiceSyncConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6886,7 +7304,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateServiceSyncConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateServiceSyncConfigInput, UpdateServiceSyncConfigOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateServiceSyncConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServiceSyncConfigInput, UpdateServiceSyncConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServiceSyncConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServiceSyncConfigInput, UpdateServiceSyncConfigOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceSyncConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServiceSyncConfigInput, UpdateServiceSyncConfigOutput>())
@@ -6926,6 +7343,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateServiceTemplate(input: UpdateServiceTemplateInput) async throws -> UpdateServiceTemplateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateServiceTemplateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6938,18 +7361,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServiceTemplateInput, UpdateServiceTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServiceTemplateInput, UpdateServiceTemplateOutput>(UpdateServiceTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServiceTemplateInput, UpdateServiceTemplateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceTemplateInput, UpdateServiceTemplateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceTemplateOutput>(UpdateServiceTemplateOutput.httpOutput(from:), UpdateServiceTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceTemplateInput, UpdateServiceTemplateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6961,7 +7384,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateServiceTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateServiceTemplateInput, UpdateServiceTemplateOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateServiceTemplate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServiceTemplateInput, UpdateServiceTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServiceTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServiceTemplateInput, UpdateServiceTemplateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceTemplateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServiceTemplateInput, UpdateServiceTemplateOutput>())
@@ -7001,6 +7423,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateServiceTemplateVersion(input: UpdateServiceTemplateVersionInput) async throws -> UpdateServiceTemplateVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateServiceTemplateVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7013,18 +7441,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutput>(UpdateServiceTemplateVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceTemplateVersionOutput>(UpdateServiceTemplateVersionOutput.httpOutput(from:), UpdateServiceTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7036,7 +7464,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateServiceTemplateVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateServiceTemplateVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServiceTemplateVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceTemplateVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutput>())
@@ -7076,6 +7503,12 @@ extension ProtonClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input is invalid or an out-of-range value was supplied for the input parameter.
     public func updateTemplateSyncConfig(input: UpdateTemplateSyncConfigInput) async throws -> UpdateTemplateSyncConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ProtonClient.updateTemplateSyncConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7088,18 +7521,18 @@ extension ProtonClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutput>(UpdateTemplateSyncConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTemplateSyncConfigOutput>(UpdateTemplateSyncConfigOutput.httpOutput(from:), UpdateTemplateSyncConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7111,7 +7544,6 @@ extension ProtonClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTemplateSyncConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutput>(overrides: ["X-Amz-Target": "AwsProton20200720.UpdateTemplateSyncConfig"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTemplateSyncConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTemplateSyncConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutput>())

@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,30 +36,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -628,6 +625,12 @@ extension DataPipelineClient {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     public func activatePipeline(input: ActivatePipelineInput) async throws -> ActivatePipelineOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.activatePipelineOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -640,18 +643,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ActivatePipelineInput, ActivatePipelineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ActivatePipelineInput, ActivatePipelineOutput>(ActivatePipelineInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ActivatePipelineInput, ActivatePipelineOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ActivatePipelineInput, ActivatePipelineOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivatePipelineOutput>(ActivatePipelineOutput.httpOutput(from:), ActivatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivatePipelineInput, ActivatePipelineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -663,7 +666,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ActivatePipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ActivatePipelineInput, ActivatePipelineOutput>(overrides: ["X-Amz-Target": "DataPipeline.ActivatePipeline"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ActivatePipelineInput, ActivatePipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ActivatePipelineInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ActivatePipelineInput, ActivatePipelineOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ActivatePipelineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ActivatePipelineInput, ActivatePipelineOutput>())
@@ -700,6 +702,12 @@ extension DataPipelineClient {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     public func addTags(input: AddTagsInput) async throws -> AddTagsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.addTagsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -712,18 +720,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AddTagsInput, AddTagsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddTagsInput, AddTagsOutput>(AddTagsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddTagsInput, AddTagsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsInput, AddTagsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsOutput>(AddTagsOutput.httpOutput(from:), AddTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsInput, AddTagsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -735,7 +743,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddTagsInput, AddTagsOutput>(overrides: ["X-Amz-Target": "DataPipeline.AddTags"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AddTagsInput, AddTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddTagsInput, AddTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddTagsInput, AddTagsOutput>())
@@ -770,6 +777,12 @@ extension DataPipelineClient {
     /// - `InternalServiceError` : An internal service error occurred.
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.createPipelineOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -782,18 +795,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreatePipelineInput, CreatePipelineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePipelineInput, CreatePipelineOutput>(CreatePipelineInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePipelineInput, CreatePipelineOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePipelineInput, CreatePipelineOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePipelineOutput>(CreatePipelineOutput.httpOutput(from:), CreatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePipelineInput, CreatePipelineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -805,7 +818,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePipelineInput, CreatePipelineOutput>(overrides: ["X-Amz-Target": "DataPipeline.CreatePipeline"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreatePipelineInput, CreatePipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePipelineInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePipelineInput, CreatePipelineOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePipelineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePipelineInput, CreatePipelineOutput>())
@@ -842,6 +854,12 @@ extension DataPipelineClient {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     public func deactivatePipeline(input: DeactivatePipelineInput) async throws -> DeactivatePipelineOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.deactivatePipelineOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -854,18 +872,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeactivatePipelineInput, DeactivatePipelineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeactivatePipelineInput, DeactivatePipelineOutput>(DeactivatePipelineInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeactivatePipelineInput, DeactivatePipelineOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeactivatePipelineInput, DeactivatePipelineOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivatePipelineOutput>(DeactivatePipelineOutput.httpOutput(from:), DeactivatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivatePipelineInput, DeactivatePipelineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -877,7 +895,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeactivatePipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeactivatePipelineInput, DeactivatePipelineOutput>(overrides: ["X-Amz-Target": "DataPipeline.DeactivatePipeline"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeactivatePipelineInput, DeactivatePipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeactivatePipelineInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeactivatePipelineInput, DeactivatePipelineOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeactivatePipelineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeactivatePipelineInput, DeactivatePipelineOutput>())
@@ -913,6 +930,12 @@ extension DataPipelineClient {
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.deletePipelineOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -925,18 +948,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeletePipelineInput, DeletePipelineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePipelineInput, DeletePipelineOutput>(DeletePipelineInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePipelineInput, DeletePipelineOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePipelineInput, DeletePipelineOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePipelineOutput>(DeletePipelineOutput.httpOutput(from:), DeletePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePipelineInput, DeletePipelineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -948,7 +971,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePipelineInput, DeletePipelineOutput>(overrides: ["X-Amz-Target": "DataPipeline.DeletePipeline"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeletePipelineInput, DeletePipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePipelineInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePipelineInput, DeletePipelineOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePipelineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePipelineInput, DeletePipelineOutput>())
@@ -985,6 +1007,12 @@ extension DataPipelineClient {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     public func describeObjects(input: DescribeObjectsInput) async throws -> DescribeObjectsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.describeObjectsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -997,18 +1025,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeObjectsInput, DescribeObjectsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeObjectsInput, DescribeObjectsOutput>(DescribeObjectsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeObjectsInput, DescribeObjectsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeObjectsInput, DescribeObjectsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeObjectsOutput>(DescribeObjectsOutput.httpOutput(from:), DescribeObjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeObjectsInput, DescribeObjectsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1020,7 +1048,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeObjectsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeObjectsInput, DescribeObjectsOutput>(overrides: ["X-Amz-Target": "DataPipeline.DescribeObjects"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeObjectsInput, DescribeObjectsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeObjectsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeObjectsInput, DescribeObjectsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeObjectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeObjectsInput, DescribeObjectsOutput>())
@@ -1057,6 +1084,12 @@ extension DataPipelineClient {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     public func describePipelines(input: DescribePipelinesInput) async throws -> DescribePipelinesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.describePipelinesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1069,18 +1102,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribePipelinesInput, DescribePipelinesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePipelinesInput, DescribePipelinesOutput>(DescribePipelinesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePipelinesInput, DescribePipelinesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePipelinesInput, DescribePipelinesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePipelinesOutput>(DescribePipelinesOutput.httpOutput(from:), DescribePipelinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePipelinesInput, DescribePipelinesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1092,7 +1125,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePipelinesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePipelinesInput, DescribePipelinesOutput>(overrides: ["X-Amz-Target": "DataPipeline.DescribePipelines"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribePipelinesInput, DescribePipelinesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePipelinesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePipelinesInput, DescribePipelinesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePipelinesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePipelinesInput, DescribePipelinesOutput>())
@@ -1130,6 +1162,12 @@ extension DataPipelineClient {
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     /// - `TaskNotFoundException` : The specified task was not found.
     public func evaluateExpression(input: EvaluateExpressionInput) async throws -> EvaluateExpressionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.evaluateExpressionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1142,18 +1180,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<EvaluateExpressionInput, EvaluateExpressionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EvaluateExpressionInput, EvaluateExpressionOutput>(EvaluateExpressionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EvaluateExpressionInput, EvaluateExpressionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EvaluateExpressionInput, EvaluateExpressionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<EvaluateExpressionOutput>(EvaluateExpressionOutput.httpOutput(from:), EvaluateExpressionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EvaluateExpressionInput, EvaluateExpressionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1165,7 +1203,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EvaluateExpressionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EvaluateExpressionInput, EvaluateExpressionOutput>(overrides: ["X-Amz-Target": "DataPipeline.EvaluateExpression"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<EvaluateExpressionInput, EvaluateExpressionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EvaluateExpressionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EvaluateExpressionInput, EvaluateExpressionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EvaluateExpressionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EvaluateExpressionInput, EvaluateExpressionOutput>())
@@ -1202,6 +1239,12 @@ extension DataPipelineClient {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     public func getPipelineDefinition(input: GetPipelineDefinitionInput) async throws -> GetPipelineDefinitionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.getPipelineDefinitionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1214,18 +1257,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetPipelineDefinitionInput, GetPipelineDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPipelineDefinitionInput, GetPipelineDefinitionOutput>(GetPipelineDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPipelineDefinitionInput, GetPipelineDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPipelineDefinitionInput, GetPipelineDefinitionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPipelineDefinitionOutput>(GetPipelineDefinitionOutput.httpOutput(from:), GetPipelineDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPipelineDefinitionInput, GetPipelineDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1237,7 +1280,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPipelineDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPipelineDefinitionInput, GetPipelineDefinitionOutput>(overrides: ["X-Amz-Target": "DataPipeline.GetPipelineDefinition"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetPipelineDefinitionInput, GetPipelineDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPipelineDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPipelineDefinitionInput, GetPipelineDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPipelineDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPipelineDefinitionInput, GetPipelineDefinitionOutput>())
@@ -1272,6 +1314,12 @@ extension DataPipelineClient {
     /// - `InternalServiceError` : An internal service error occurred.
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.listPipelinesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1284,18 +1332,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListPipelinesInput, ListPipelinesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPipelinesInput, ListPipelinesOutput>(ListPipelinesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPipelinesInput, ListPipelinesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPipelinesInput, ListPipelinesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelinesOutput>(ListPipelinesOutput.httpOutput(from:), ListPipelinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelinesInput, ListPipelinesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1307,7 +1355,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPipelinesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPipelinesInput, ListPipelinesOutput>(overrides: ["X-Amz-Target": "DataPipeline.ListPipelines"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListPipelinesInput, ListPipelinesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPipelinesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPipelinesInput, ListPipelinesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPipelinesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPipelinesInput, ListPipelinesOutput>())
@@ -1343,6 +1390,12 @@ extension DataPipelineClient {
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     /// - `TaskNotFoundException` : The specified task was not found.
     public func pollForTask(input: PollForTaskInput) async throws -> PollForTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.pollForTaskOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1355,18 +1408,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PollForTaskInput, PollForTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PollForTaskInput, PollForTaskOutput>(PollForTaskInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PollForTaskInput, PollForTaskOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PollForTaskInput, PollForTaskOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PollForTaskOutput>(PollForTaskOutput.httpOutput(from:), PollForTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PollForTaskInput, PollForTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1378,7 +1431,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PollForTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PollForTaskInput, PollForTaskOutput>(overrides: ["X-Amz-Target": "DataPipeline.PollForTask"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PollForTaskInput, PollForTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PollForTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PollForTaskInput, PollForTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PollForTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PollForTaskInput, PollForTaskOutput>())
@@ -1426,6 +1478,12 @@ extension DataPipelineClient {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     public func putPipelineDefinition(input: PutPipelineDefinitionInput) async throws -> PutPipelineDefinitionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.putPipelineDefinitionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1438,18 +1496,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutPipelineDefinitionInput, PutPipelineDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutPipelineDefinitionInput, PutPipelineDefinitionOutput>(PutPipelineDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutPipelineDefinitionInput, PutPipelineDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPipelineDefinitionInput, PutPipelineDefinitionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPipelineDefinitionOutput>(PutPipelineDefinitionOutput.httpOutput(from:), PutPipelineDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPipelineDefinitionInput, PutPipelineDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1461,7 +1519,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutPipelineDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutPipelineDefinitionInput, PutPipelineDefinitionOutput>(overrides: ["X-Amz-Target": "DataPipeline.PutPipelineDefinition"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutPipelineDefinitionInput, PutPipelineDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutPipelineDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutPipelineDefinitionInput, PutPipelineDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutPipelineDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutPipelineDefinitionInput, PutPipelineDefinitionOutput>())
@@ -1498,6 +1555,12 @@ extension DataPipelineClient {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     public func queryObjects(input: QueryObjectsInput) async throws -> QueryObjectsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.queryObjectsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1510,18 +1573,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<QueryObjectsInput, QueryObjectsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<QueryObjectsInput, QueryObjectsOutput>(QueryObjectsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<QueryObjectsInput, QueryObjectsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryObjectsInput, QueryObjectsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryObjectsOutput>(QueryObjectsOutput.httpOutput(from:), QueryObjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryObjectsInput, QueryObjectsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1533,7 +1596,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<QueryObjectsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<QueryObjectsInput, QueryObjectsOutput>(overrides: ["X-Amz-Target": "DataPipeline.QueryObjects"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<QueryObjectsInput, QueryObjectsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: QueryObjectsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<QueryObjectsInput, QueryObjectsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<QueryObjectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<QueryObjectsInput, QueryObjectsOutput>())
@@ -1570,6 +1632,12 @@ extension DataPipelineClient {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.removeTagsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1582,18 +1650,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RemoveTagsInput, RemoveTagsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RemoveTagsInput, RemoveTagsOutput>(RemoveTagsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveTagsInput, RemoveTagsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsInput, RemoveTagsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsOutput>(RemoveTagsOutput.httpOutput(from:), RemoveTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsInput, RemoveTagsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1605,7 +1673,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveTagsInput, RemoveTagsOutput>(overrides: ["X-Amz-Target": "DataPipeline.RemoveTags"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RemoveTagsInput, RemoveTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveTagsInput, RemoveTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveTagsInput, RemoveTagsOutput>())
@@ -1643,6 +1710,12 @@ extension DataPipelineClient {
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     /// - `TaskNotFoundException` : The specified task was not found.
     public func reportTaskProgress(input: ReportTaskProgressInput) async throws -> ReportTaskProgressOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.reportTaskProgressOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1655,18 +1728,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ReportTaskProgressInput, ReportTaskProgressOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ReportTaskProgressInput, ReportTaskProgressOutput>(ReportTaskProgressInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReportTaskProgressInput, ReportTaskProgressOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReportTaskProgressInput, ReportTaskProgressOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ReportTaskProgressOutput>(ReportTaskProgressOutput.httpOutput(from:), ReportTaskProgressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReportTaskProgressInput, ReportTaskProgressOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1678,7 +1751,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReportTaskProgressOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReportTaskProgressInput, ReportTaskProgressOutput>(overrides: ["X-Amz-Target": "DataPipeline.ReportTaskProgress"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ReportTaskProgressInput, ReportTaskProgressOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReportTaskProgressInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReportTaskProgressInput, ReportTaskProgressOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReportTaskProgressOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReportTaskProgressInput, ReportTaskProgressOutput>())
@@ -1713,6 +1785,12 @@ extension DataPipelineClient {
     /// - `InternalServiceError` : An internal service error occurred.
     /// - `InvalidRequestException` : The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     public func reportTaskRunnerHeartbeat(input: ReportTaskRunnerHeartbeatInput) async throws -> ReportTaskRunnerHeartbeatOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.reportTaskRunnerHeartbeatOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1725,18 +1803,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ReportTaskRunnerHeartbeatInput, ReportTaskRunnerHeartbeatOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ReportTaskRunnerHeartbeatInput, ReportTaskRunnerHeartbeatOutput>(ReportTaskRunnerHeartbeatInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReportTaskRunnerHeartbeatInput, ReportTaskRunnerHeartbeatOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReportTaskRunnerHeartbeatInput, ReportTaskRunnerHeartbeatOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ReportTaskRunnerHeartbeatOutput>(ReportTaskRunnerHeartbeatOutput.httpOutput(from:), ReportTaskRunnerHeartbeatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReportTaskRunnerHeartbeatInput, ReportTaskRunnerHeartbeatOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1748,7 +1826,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReportTaskRunnerHeartbeatOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReportTaskRunnerHeartbeatInput, ReportTaskRunnerHeartbeatOutput>(overrides: ["X-Amz-Target": "DataPipeline.ReportTaskRunnerHeartbeat"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ReportTaskRunnerHeartbeatInput, ReportTaskRunnerHeartbeatOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReportTaskRunnerHeartbeatInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReportTaskRunnerHeartbeatInput, ReportTaskRunnerHeartbeatOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReportTaskRunnerHeartbeatOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReportTaskRunnerHeartbeatInput, ReportTaskRunnerHeartbeatOutput>())
@@ -1785,6 +1862,12 @@ extension DataPipelineClient {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     public func setStatus(input: SetStatusInput) async throws -> SetStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.setStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1797,18 +1880,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SetStatusInput, SetStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetStatusInput, SetStatusOutput>(SetStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetStatusInput, SetStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetStatusInput, SetStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetStatusOutput>(SetStatusOutput.httpOutput(from:), SetStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetStatusInput, SetStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1820,7 +1903,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetStatusInput, SetStatusOutput>(overrides: ["X-Amz-Target": "DataPipeline.SetStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SetStatusInput, SetStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetStatusInput, SetStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetStatusInput, SetStatusOutput>())
@@ -1858,6 +1940,12 @@ extension DataPipelineClient {
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     /// - `TaskNotFoundException` : The specified task was not found.
     public func setTaskStatus(input: SetTaskStatusInput) async throws -> SetTaskStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.setTaskStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1870,18 +1958,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SetTaskStatusInput, SetTaskStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetTaskStatusInput, SetTaskStatusOutput>(SetTaskStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetTaskStatusInput, SetTaskStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetTaskStatusInput, SetTaskStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetTaskStatusOutput>(SetTaskStatusOutput.httpOutput(from:), SetTaskStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetTaskStatusInput, SetTaskStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1893,7 +1981,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetTaskStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetTaskStatusInput, SetTaskStatusOutput>(overrides: ["X-Amz-Target": "DataPipeline.SetTaskStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SetTaskStatusInput, SetTaskStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetTaskStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetTaskStatusInput, SetTaskStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetTaskStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetTaskStatusInput, SetTaskStatusOutput>())
@@ -1930,6 +2017,12 @@ extension DataPipelineClient {
     /// - `PipelineDeletedException` : The specified pipeline has been deleted.
     /// - `PipelineNotFoundException` : The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     public func validatePipelineDefinition(input: ValidatePipelineDefinitionInput) async throws -> ValidatePipelineDefinitionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataPipelineClient.validatePipelineDefinitionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1942,18 +2035,18 @@ extension DataPipelineClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datapipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ValidatePipelineDefinitionInput, ValidatePipelineDefinitionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ValidatePipelineDefinitionInput, ValidatePipelineDefinitionOutput>(ValidatePipelineDefinitionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ValidatePipelineDefinitionInput, ValidatePipelineDefinitionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidatePipelineDefinitionInput, ValidatePipelineDefinitionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidatePipelineDefinitionOutput>(ValidatePipelineDefinitionOutput.httpOutput(from:), ValidatePipelineDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidatePipelineDefinitionInput, ValidatePipelineDefinitionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1965,7 +2058,6 @@ extension DataPipelineClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ValidatePipelineDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ValidatePipelineDefinitionInput, ValidatePipelineDefinitionOutput>(overrides: ["X-Amz-Target": "DataPipeline.ValidatePipelineDefinition"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ValidatePipelineDefinitionInput, ValidatePipelineDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ValidatePipelineDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidatePipelineDefinitionInput, ValidatePipelineDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidatePipelineDefinitionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ValidatePipelineDefinitionInput, ValidatePipelineDefinitionOutput>())

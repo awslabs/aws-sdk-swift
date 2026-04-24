@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyXML.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,25 +36,22 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.HeaderMiddleware
 import struct ClientRuntime.LoggerMiddleware
-import struct ClientRuntime.PayloadBodyMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
@@ -67,6 +61,8 @@ import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+import struct SmithyRestXML.HTTPClientProtocol
+import struct SmithyRestXML.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -631,6 +627,12 @@ extension CloudFrontClient {
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `TooManyDistributionCNAMEs` : Your request contains more CNAMEs than are allowed per distribution.
     public func associateAlias(input: AssociateAliasInput) async throws -> AssociateAliasOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.associateAliasOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -643,8 +645,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateAliasInput, AssociateAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -654,7 +658,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateAliasInput, AssociateAliasOutput>(AssociateAliasInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateAliasInput, AssociateAliasOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<AssociateAliasInput, AssociateAliasOutput>(AssociateAliasInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAliasOutput>(AssociateAliasOutput.httpOutput(from:), AssociateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAliasInput, AssociateAliasOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -702,6 +705,12 @@ extension CloudFrontClient {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func associateDistributionTenantWebACL(input: AssociateDistributionTenantWebACLInput) async throws -> AssociateDistributionTenantWebACLOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.associateDistributionTenantWebACLOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -714,8 +723,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateDistributionTenantWebACLInput, AssociateDistributionTenantWebACLOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -726,9 +737,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateDistributionTenantWebACLInput, AssociateDistributionTenantWebACLOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<AssociateDistributionTenantWebACLInput, AssociateDistributionTenantWebACLOutput>(AssociateDistributionTenantWebACLInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateDistributionTenantWebACLInput, AssociateDistributionTenantWebACLOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateDistributionTenantWebACLInput, AssociateDistributionTenantWebACLOutput, SmithyXML.Writer>(rootNodeInfo: .init("AssociateDistributionTenantWebACLRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: AssociateDistributionTenantWebACLInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDistributionTenantWebACLInput, AssociateDistributionTenantWebACLOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateDistributionTenantWebACLOutput>(AssociateDistributionTenantWebACLOutput.httpOutput(from:), AssociateDistributionTenantWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDistributionTenantWebACLInput, AssociateDistributionTenantWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -776,6 +785,12 @@ extension CloudFrontClient {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func associateDistributionWebACL(input: AssociateDistributionWebACLInput) async throws -> AssociateDistributionWebACLOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.associateDistributionWebACLOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -788,8 +803,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateDistributionWebACLInput, AssociateDistributionWebACLOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -800,9 +817,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateDistributionWebACLInput, AssociateDistributionWebACLOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<AssociateDistributionWebACLInput, AssociateDistributionWebACLOutput>(AssociateDistributionWebACLInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateDistributionWebACLInput, AssociateDistributionWebACLOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateDistributionWebACLInput, AssociateDistributionWebACLOutput, SmithyXML.Writer>(rootNodeInfo: .init("AssociateDistributionWebACLRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: AssociateDistributionWebACLInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDistributionWebACLInput, AssociateDistributionWebACLOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateDistributionWebACLOutput>(AssociateDistributionWebACLOutput.httpOutput(from:), AssociateDistributionWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDistributionWebACLInput, AssociateDistributionWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -914,6 +929,12 @@ extension CloudFrontClient {
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     public func copyDistribution(input: CopyDistributionInput) async throws -> CopyDistributionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.copyDistributionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -926,8 +947,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CopyDistributionInput, CopyDistributionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -938,9 +961,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CopyDistributionInput, CopyDistributionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CopyDistributionInput, CopyDistributionOutput>(CopyDistributionInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopyDistributionInput, CopyDistributionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CopyDistributionInput, CopyDistributionOutput, SmithyXML.Writer>(rootNodeInfo: .init("CopyDistributionRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CopyDistributionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyDistributionInput, CopyDistributionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyDistributionOutput>(CopyDistributionOutput.httpOutput(from:), CopyDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyDistributionInput, CopyDistributionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -988,6 +1009,12 @@ extension CloudFrontClient {
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func createAnycastIpList(input: CreateAnycastIpListInput) async throws -> CreateAnycastIpListOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createAnycastIpListOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1000,8 +1027,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAnycastIpListInput, CreateAnycastIpListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1011,9 +1040,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAnycastIpListInput, CreateAnycastIpListOutput>(CreateAnycastIpListInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAnycastIpListInput, CreateAnycastIpListOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAnycastIpListInput, CreateAnycastIpListOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAnycastIpListInput, CreateAnycastIpListOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateAnycastIpListRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CreateAnycastIpListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnycastIpListInput, CreateAnycastIpListOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnycastIpListOutput>(CreateAnycastIpListOutput.httpOutput(from:), CreateAnycastIpListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnycastIpListInput, CreateAnycastIpListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1070,6 +1097,12 @@ extension CloudFrontClient {
     /// - `TooManyHeadersInCachePolicy` : The number of headers in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInCachePolicy` : The number of query strings in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public func createCachePolicy(input: CreateCachePolicyInput) async throws -> CreateCachePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createCachePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1082,8 +1115,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCachePolicyInput, CreateCachePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1093,9 +1128,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCachePolicyInput, CreateCachePolicyOutput>(CreateCachePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCachePolicyInput, CreateCachePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCachePolicyInput, CreateCachePolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateCachePolicyInput, CreateCachePolicyOutput, CloudFrontClientTypes.CachePolicyConfig, SmithyXML.Writer>(rootNodeInfo: .init("CachePolicyConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.CachePolicyConfig.write(value:to:), keyPath: \.cachePolicyConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCachePolicyInput, CreateCachePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCachePolicyOutput>(CreateCachePolicyOutput.httpOutput(from:), CreateCachePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCachePolicyInput, CreateCachePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1142,6 +1175,12 @@ extension CloudFrontClient {
     /// - `MissingBody` : This operation requires a body. Ensure that the body is present and the Content-Type header is set.
     /// - `TooManyCloudFrontOriginAccessIdentities` : Processing your request would cause you to exceed the maximum number of origin access identities allowed.
     public func createCloudFrontOriginAccessIdentity(input: CreateCloudFrontOriginAccessIdentityInput) async throws -> CreateCloudFrontOriginAccessIdentityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createCloudFrontOriginAccessIdentityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1154,8 +1193,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1165,9 +1206,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutput>(CreateCloudFrontOriginAccessIdentityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutput, CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig, SmithyXML.Writer>(rootNodeInfo: .init("CloudFrontOriginAccessIdentityConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig.write(value:to:), keyPath: \.cloudFrontOriginAccessIdentityConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudFrontOriginAccessIdentityOutput>(CreateCloudFrontOriginAccessIdentityOutput.httpOutput(from:), CreateCloudFrontOriginAccessIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudFrontOriginAccessIdentityInput, CreateCloudFrontOriginAccessIdentityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1216,6 +1255,12 @@ extension CloudFrontClient {
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func createConnectionFunction(input: CreateConnectionFunctionInput) async throws -> CreateConnectionFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createConnectionFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1228,8 +1273,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateConnectionFunctionInput, CreateConnectionFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1239,9 +1286,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateConnectionFunctionInput, CreateConnectionFunctionOutput>(CreateConnectionFunctionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateConnectionFunctionInput, CreateConnectionFunctionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConnectionFunctionInput, CreateConnectionFunctionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateConnectionFunctionInput, CreateConnectionFunctionOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateConnectionFunctionRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CreateConnectionFunctionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionFunctionInput, CreateConnectionFunctionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectionFunctionOutput>(CreateConnectionFunctionOutput.httpOutput(from:), CreateConnectionFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionFunctionInput, CreateConnectionFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1289,6 +1334,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidTagging` : The tagging specified is not valid.
     public func createConnectionGroup(input: CreateConnectionGroupInput) async throws -> CreateConnectionGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createConnectionGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1301,8 +1352,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateConnectionGroupInput, CreateConnectionGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1312,9 +1365,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateConnectionGroupInput, CreateConnectionGroupOutput>(CreateConnectionGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateConnectionGroupInput, CreateConnectionGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConnectionGroupInput, CreateConnectionGroupOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateConnectionGroupInput, CreateConnectionGroupOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateConnectionGroupRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CreateConnectionGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionGroupInput, CreateConnectionGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectionGroupOutput>(CreateConnectionGroupOutput.httpOutput(from:), CreateConnectionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionGroupInput, CreateConnectionGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1362,6 +1413,12 @@ extension CloudFrontClient {
     /// - `StagingDistributionInUse` : A continuous deployment policy for this staging distribution already exists.
     /// - `TooManyContinuousDeploymentPolicies` : You have reached the maximum number of continuous deployment policies for this Amazon Web Services account.
     public func createContinuousDeploymentPolicy(input: CreateContinuousDeploymentPolicyInput) async throws -> CreateContinuousDeploymentPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createContinuousDeploymentPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1374,8 +1431,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1385,9 +1444,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutput>(CreateContinuousDeploymentPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutput, CloudFrontClientTypes.ContinuousDeploymentPolicyConfig, SmithyXML.Writer>(rootNodeInfo: .init("ContinuousDeploymentPolicyConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig.write(value:to:), keyPath: \.continuousDeploymentPolicyConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContinuousDeploymentPolicyOutput>(CreateContinuousDeploymentPolicyOutput.httpOutput(from:), CreateContinuousDeploymentPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContinuousDeploymentPolicyInput, CreateContinuousDeploymentPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1496,6 +1553,12 @@ extension CloudFrontClient {
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     public func createDistribution(input: CreateDistributionInput) async throws -> CreateDistributionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createDistributionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1508,8 +1571,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateDistributionInput, CreateDistributionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1519,9 +1584,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDistributionInput, CreateDistributionOutput>(CreateDistributionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDistributionInput, CreateDistributionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDistributionInput, CreateDistributionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateDistributionInput, CreateDistributionOutput, CloudFrontClientTypes.DistributionConfig, SmithyXML.Writer>(rootNodeInfo: .init("DistributionConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.DistributionConfig.write(value:to:), keyPath: \.distributionConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDistributionInput, CreateDistributionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDistributionOutput>(CreateDistributionOutput.httpOutput(from:), CreateDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDistributionInput, CreateDistributionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1571,6 +1634,12 @@ extension CloudFrontClient {
     /// - `InvalidAssociation` : The specified CloudFront resource can't be associated.
     /// - `InvalidTagging` : The tagging specified is not valid.
     public func createDistributionTenant(input: CreateDistributionTenantInput) async throws -> CreateDistributionTenantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createDistributionTenantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1583,8 +1652,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateDistributionTenantInput, CreateDistributionTenantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1594,9 +1665,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDistributionTenantInput, CreateDistributionTenantOutput>(CreateDistributionTenantInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDistributionTenantInput, CreateDistributionTenantOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDistributionTenantInput, CreateDistributionTenantOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateDistributionTenantInput, CreateDistributionTenantOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateDistributionTenantRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CreateDistributionTenantInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDistributionTenantInput, CreateDistributionTenantOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDistributionTenantOutput>(CreateDistributionTenantOutput.httpOutput(from:), CreateDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDistributionTenantInput, CreateDistributionTenantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1709,6 +1778,12 @@ extension CloudFrontClient {
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     public func createDistributionWithTags(input: CreateDistributionWithTagsInput) async throws -> CreateDistributionWithTagsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createDistributionWithTagsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1721,8 +1796,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1733,9 +1810,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput>(CreateDistributionWithTagsInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput, CloudFrontClientTypes.DistributionConfigWithTags, SmithyXML.Writer>(rootNodeInfo: .init("DistributionConfigWithTags", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.DistributionConfigWithTags.write(value:to:), keyPath: \.distributionConfigWithTags, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDistributionWithTagsOutput>(CreateDistributionWithTagsOutput.httpOutput(from:), CreateDistributionWithTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDistributionWithTagsInput, CreateDistributionWithTagsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1785,6 +1860,12 @@ extension CloudFrontClient {
     /// - `TooManyFieldLevelEncryptionContentTypeProfiles` : The maximum number of content type profiles for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionQueryArgProfiles` : The maximum number of query arg profiles for field-level encryption have been created.
     public func createFieldLevelEncryptionConfig(input: CreateFieldLevelEncryptionConfigInput) async throws -> CreateFieldLevelEncryptionConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createFieldLevelEncryptionConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1797,8 +1878,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1808,9 +1891,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutput>(CreateFieldLevelEncryptionConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutput, CloudFrontClientTypes.FieldLevelEncryptionConfig, SmithyXML.Writer>(rootNodeInfo: .init("FieldLevelEncryptionConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.FieldLevelEncryptionConfig.write(value:to:), keyPath: \.fieldLevelEncryptionConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFieldLevelEncryptionConfigOutput>(CreateFieldLevelEncryptionConfigOutput.httpOutput(from:), CreateFieldLevelEncryptionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFieldLevelEncryptionConfigInput, CreateFieldLevelEncryptionConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1860,6 +1941,12 @@ extension CloudFrontClient {
     /// - `TooManyFieldLevelEncryptionFieldPatterns` : The maximum number of field patterns for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionProfiles` : The maximum number of profiles for field-level encryption have been created.
     public func createFieldLevelEncryptionProfile(input: CreateFieldLevelEncryptionProfileInput) async throws -> CreateFieldLevelEncryptionProfileOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createFieldLevelEncryptionProfileOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1872,8 +1959,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1883,9 +1972,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutput>(CreateFieldLevelEncryptionProfileInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutput, CloudFrontClientTypes.FieldLevelEncryptionProfileConfig, SmithyXML.Writer>(rootNodeInfo: .init("FieldLevelEncryptionProfileConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.FieldLevelEncryptionProfileConfig.write(value:to:), keyPath: \.fieldLevelEncryptionProfileConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFieldLevelEncryptionProfileOutput>(CreateFieldLevelEncryptionProfileOutput.httpOutput(from:), CreateFieldLevelEncryptionProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFieldLevelEncryptionProfileInput, CreateFieldLevelEncryptionProfileOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1932,6 +2019,12 @@ extension CloudFrontClient {
     /// - `TooManyFunctions` : You have reached the maximum number of CloudFront functions for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1944,8 +2037,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateFunctionInput, CreateFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1955,9 +2050,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFunctionInput, CreateFunctionOutput>(CreateFunctionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFunctionInput, CreateFunctionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFunctionInput, CreateFunctionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateFunctionInput, CreateFunctionOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateFunctionRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CreateFunctionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFunctionInput, CreateFunctionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFunctionOutput>(CreateFunctionOutput.httpOutput(from:), CreateFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFunctionInput, CreateFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2006,6 +2099,12 @@ extension CloudFrontClient {
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `TooManyInvalidationsInProgress` : You have exceeded the maximum number of allowable InProgress invalidation batch requests, or invalidation objects.
     public func createInvalidation(input: CreateInvalidationInput) async throws -> CreateInvalidationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createInvalidationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2018,8 +2117,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateInvalidationInput, CreateInvalidationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2029,9 +2130,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateInvalidationInput, CreateInvalidationOutput>(CreateInvalidationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateInvalidationInput, CreateInvalidationOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInvalidationInput, CreateInvalidationOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateInvalidationInput, CreateInvalidationOutput, CloudFrontClientTypes.InvalidationBatch, SmithyXML.Writer>(rootNodeInfo: .init("InvalidationBatch", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.InvalidationBatch.write(value:to:), keyPath: \.invalidationBatch, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInvalidationInput, CreateInvalidationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInvalidationOutput>(CreateInvalidationOutput.httpOutput(from:), CreateInvalidationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInvalidationInput, CreateInvalidationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2080,6 +2179,12 @@ extension CloudFrontClient {
     /// - `MissingBody` : This operation requires a body. Ensure that the body is present and the Content-Type header is set.
     /// - `TooManyInvalidationsInProgress` : You have exceeded the maximum number of allowable InProgress invalidation batch requests, or invalidation objects.
     public func createInvalidationForDistributionTenant(input: CreateInvalidationForDistributionTenantInput) async throws -> CreateInvalidationForDistributionTenantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createInvalidationForDistributionTenantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2092,8 +2197,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateInvalidationForDistributionTenantInput, CreateInvalidationForDistributionTenantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2103,9 +2210,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateInvalidationForDistributionTenantInput, CreateInvalidationForDistributionTenantOutput>(CreateInvalidationForDistributionTenantInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateInvalidationForDistributionTenantInput, CreateInvalidationForDistributionTenantOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInvalidationForDistributionTenantInput, CreateInvalidationForDistributionTenantOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateInvalidationForDistributionTenantInput, CreateInvalidationForDistributionTenantOutput, CloudFrontClientTypes.InvalidationBatch, SmithyXML.Writer>(rootNodeInfo: .init("InvalidationBatch", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.InvalidationBatch.write(value:to:), keyPath: \.invalidationBatch, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInvalidationForDistributionTenantInput, CreateInvalidationForDistributionTenantOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInvalidationForDistributionTenantOutput>(CreateInvalidationForDistributionTenantOutput.httpOutput(from:), CreateInvalidationForDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInvalidationForDistributionTenantInput, CreateInvalidationForDistributionTenantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2151,6 +2256,12 @@ extension CloudFrontClient {
     /// - `TooManyKeyGroups` : You have reached the maximum number of key groups for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyPublicKeysInKeyGroup` : The number of public keys in this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public func createKeyGroup(input: CreateKeyGroupInput) async throws -> CreateKeyGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createKeyGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2163,8 +2274,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateKeyGroupInput, CreateKeyGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2174,9 +2287,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateKeyGroupInput, CreateKeyGroupOutput>(CreateKeyGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateKeyGroupInput, CreateKeyGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateKeyGroupInput, CreateKeyGroupOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateKeyGroupInput, CreateKeyGroupOutput, CloudFrontClientTypes.KeyGroupConfig, SmithyXML.Writer>(rootNodeInfo: .init("KeyGroupConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.KeyGroupConfig.write(value:to:), keyPath: \.keyGroupConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKeyGroupInput, CreateKeyGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeyGroupOutput>(CreateKeyGroupOutput.httpOutput(from:), CreateKeyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeyGroupInput, CreateKeyGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2224,6 +2335,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func createKeyValueStore(input: CreateKeyValueStoreInput) async throws -> CreateKeyValueStoreOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createKeyValueStoreOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2236,8 +2353,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateKeyValueStoreInput, CreateKeyValueStoreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2247,9 +2366,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateKeyValueStoreInput, CreateKeyValueStoreOutput>(CreateKeyValueStoreInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateKeyValueStoreInput, CreateKeyValueStoreOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateKeyValueStoreInput, CreateKeyValueStoreOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateKeyValueStoreInput, CreateKeyValueStoreOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateKeyValueStoreRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CreateKeyValueStoreInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKeyValueStoreInput, CreateKeyValueStoreOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeyValueStoreOutput>(CreateKeyValueStoreOutput.httpOutput(from:), CreateKeyValueStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeyValueStoreInput, CreateKeyValueStoreOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2295,6 +2412,12 @@ extension CloudFrontClient {
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func createMonitoringSubscription(input: CreateMonitoringSubscriptionInput) async throws -> CreateMonitoringSubscriptionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createMonitoringSubscriptionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2307,8 +2430,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2318,9 +2443,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutput>(CreateMonitoringSubscriptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutput, CloudFrontClientTypes.MonitoringSubscription, SmithyXML.Writer>(rootNodeInfo: .init("MonitoringSubscription", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.MonitoringSubscription.write(value:to:), keyPath: \.monitoringSubscription, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMonitoringSubscriptionOutput>(CreateMonitoringSubscriptionOutput.httpOutput(from:), CreateMonitoringSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMonitoringSubscriptionInput, CreateMonitoringSubscriptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2365,6 +2488,12 @@ extension CloudFrontClient {
     /// - `OriginAccessControlAlreadyExists` : An origin access control with the specified parameters already exists.
     /// - `TooManyOriginAccessControls` : The number of origin access controls in your Amazon Web Services account exceeds the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public func createOriginAccessControl(input: CreateOriginAccessControlInput) async throws -> CreateOriginAccessControlOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createOriginAccessControlOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2377,8 +2506,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateOriginAccessControlInput, CreateOriginAccessControlOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2388,9 +2519,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutput>(CreateOriginAccessControlInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutput, CloudFrontClientTypes.OriginAccessControlConfig, SmithyXML.Writer>(rootNodeInfo: .init("OriginAccessControlConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.OriginAccessControlConfig.write(value:to:), keyPath: \.originAccessControlConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOriginAccessControlOutput>(CreateOriginAccessControlOutput.httpOutput(from:), CreateOriginAccessControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOriginAccessControlInput, CreateOriginAccessControlOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2449,6 +2578,12 @@ extension CloudFrontClient {
     /// - `TooManyOriginRequestPolicies` : You have reached the maximum number of origin request policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInOriginRequestPolicy` : The number of query strings in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public func createOriginRequestPolicy(input: CreateOriginRequestPolicyInput) async throws -> CreateOriginRequestPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createOriginRequestPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2461,8 +2596,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2472,9 +2609,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutput>(CreateOriginRequestPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutput, CloudFrontClientTypes.OriginRequestPolicyConfig, SmithyXML.Writer>(rootNodeInfo: .init("OriginRequestPolicyConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.OriginRequestPolicyConfig.write(value:to:), keyPath: \.originRequestPolicyConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOriginRequestPolicyOutput>(CreateOriginRequestPolicyOutput.httpOutput(from:), CreateOriginRequestPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOriginRequestPolicyInput, CreateOriginRequestPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2519,6 +2654,12 @@ extension CloudFrontClient {
     /// - `PublicKeyAlreadyExists` : The specified public key already exists.
     /// - `TooManyPublicKeys` : The maximum number of public keys for field-level encryption have been created. To create a new public key, delete one of the existing keys.
     public func createPublicKey(input: CreatePublicKeyInput) async throws -> CreatePublicKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createPublicKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2531,8 +2672,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreatePublicKeyInput, CreatePublicKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2542,9 +2685,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePublicKeyInput, CreatePublicKeyOutput>(CreatePublicKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePublicKeyInput, CreatePublicKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePublicKeyInput, CreatePublicKeyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreatePublicKeyInput, CreatePublicKeyOutput, CloudFrontClientTypes.PublicKeyConfig, SmithyXML.Writer>(rootNodeInfo: .init("PublicKeyConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.PublicKeyConfig.write(value:to:), keyPath: \.publicKeyConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePublicKeyInput, CreatePublicKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePublicKeyOutput>(CreatePublicKeyOutput.httpOutput(from:), CreatePublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePublicKeyInput, CreatePublicKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2590,6 +2731,12 @@ extension CloudFrontClient {
     /// - `RealtimeLogConfigAlreadyExists` : A real-time log configuration with this name already exists. You must provide a unique name. To modify an existing real-time log configuration, use UpdateRealtimeLogConfig.
     /// - `TooManyRealtimeLogConfigs` : You have reached the maximum number of real-time log configurations for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public func createRealtimeLogConfig(input: CreateRealtimeLogConfigInput) async throws -> CreateRealtimeLogConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createRealtimeLogConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2602,8 +2749,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2613,9 +2762,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput>(CreateRealtimeLogConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateRealtimeLogConfigRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CreateRealtimeLogConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRealtimeLogConfigOutput>(CreateRealtimeLogConfigOutput.httpOutput(from:), CreateRealtimeLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2665,6 +2812,12 @@ extension CloudFrontClient {
     /// - `TooManyRemoveHeadersInResponseHeadersPolicy` : The number of headers in RemoveHeadersConfig in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyResponseHeadersPolicies` : You have reached the maximum number of response headers policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public func createResponseHeadersPolicy(input: CreateResponseHeadersPolicyInput) async throws -> CreateResponseHeadersPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createResponseHeadersPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2677,8 +2830,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2688,9 +2843,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutput>(CreateResponseHeadersPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutput, CloudFrontClientTypes.ResponseHeadersPolicyConfig, SmithyXML.Writer>(rootNodeInfo: .init("ResponseHeadersPolicyConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.ResponseHeadersPolicyConfig.write(value:to:), keyPath: \.responseHeadersPolicyConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResponseHeadersPolicyOutput>(CreateResponseHeadersPolicyOutput.httpOutput(from:), CreateResponseHeadersPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResponseHeadersPolicyInput, CreateResponseHeadersPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2745,6 +2898,12 @@ extension CloudFrontClient {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     public func createStreamingDistribution(input: CreateStreamingDistributionInput) async throws -> CreateStreamingDistributionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createStreamingDistributionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2757,8 +2916,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateStreamingDistributionInput, CreateStreamingDistributionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2768,9 +2929,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutput>(CreateStreamingDistributionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutput, CloudFrontClientTypes.StreamingDistributionConfig, SmithyXML.Writer>(rootNodeInfo: .init("StreamingDistributionConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.StreamingDistributionConfig.write(value:to:), keyPath: \.streamingDistributionConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamingDistributionOutput>(CreateStreamingDistributionOutput.httpOutput(from:), CreateStreamingDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamingDistributionInput, CreateStreamingDistributionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2826,6 +2985,12 @@ extension CloudFrontClient {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     public func createStreamingDistributionWithTags(input: CreateStreamingDistributionWithTagsInput) async throws -> CreateStreamingDistributionWithTagsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createStreamingDistributionWithTagsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2838,8 +3003,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2850,9 +3017,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput>(CreateStreamingDistributionWithTagsInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput, CloudFrontClientTypes.StreamingDistributionConfigWithTags, SmithyXML.Writer>(rootNodeInfo: .init("StreamingDistributionConfigWithTags", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.StreamingDistributionConfigWithTags.write(value:to:), keyPath: \.streamingDistributionConfigWithTags, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamingDistributionWithTagsOutput>(CreateStreamingDistributionWithTagsOutput.httpOutput(from:), CreateStreamingDistributionWithTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamingDistributionWithTagsInput, CreateStreamingDistributionWithTagsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2900,6 +3065,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidTagging` : The tagging specified is not valid.
     public func createTrustStore(input: CreateTrustStoreInput) async throws -> CreateTrustStoreOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createTrustStoreOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2912,8 +3083,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTrustStoreInput, CreateTrustStoreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2923,9 +3096,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>(CreateTrustStoreInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateTrustStoreRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CreateTrustStoreInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrustStoreOutput>(CreateTrustStoreOutput.httpOutput(from:), CreateTrustStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2974,6 +3145,12 @@ extension CloudFrontClient {
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func createVpcOrigin(input: CreateVpcOriginInput) async throws -> CreateVpcOriginOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.createVpcOriginOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2986,8 +3163,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateVpcOriginInput, CreateVpcOriginOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2997,9 +3176,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateVpcOriginInput, CreateVpcOriginOutput>(CreateVpcOriginInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVpcOriginInput, CreateVpcOriginOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcOriginInput, CreateVpcOriginOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateVpcOriginInput, CreateVpcOriginOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateVpcOriginRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CreateVpcOriginInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcOriginInput, CreateVpcOriginOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcOriginOutput>(CreateVpcOriginOutput.httpOutput(from:), CreateVpcOriginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcOriginInput, CreateVpcOriginOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3049,6 +3226,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func deleteAnycastIpList(input: DeleteAnycastIpListInput) async throws -> DeleteAnycastIpListOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteAnycastIpListOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3061,8 +3244,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAnycastIpListInput, DeleteAnycastIpListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3072,7 +3257,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAnycastIpListInput, DeleteAnycastIpListOutput>(DeleteAnycastIpListInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAnycastIpListInput, DeleteAnycastIpListOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAnycastIpListInput, DeleteAnycastIpListOutput>(DeleteAnycastIpListInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnycastIpListOutput>(DeleteAnycastIpListOutput.httpOutput(from:), DeleteAnycastIpListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnycastIpListInput, DeleteAnycastIpListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3120,6 +3304,12 @@ extension CloudFrontClient {
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func deleteCachePolicy(input: DeleteCachePolicyInput) async throws -> DeleteCachePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteCachePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3132,8 +3322,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCachePolicyInput, DeleteCachePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3143,7 +3335,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCachePolicyInput, DeleteCachePolicyOutput>(DeleteCachePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCachePolicyInput, DeleteCachePolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteCachePolicyInput, DeleteCachePolicyOutput>(DeleteCachePolicyInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCachePolicyOutput>(DeleteCachePolicyOutput.httpOutput(from:), DeleteCachePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCachePolicyInput, DeleteCachePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3190,6 +3381,12 @@ extension CloudFrontClient {
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func deleteCloudFrontOriginAccessIdentity(input: DeleteCloudFrontOriginAccessIdentityInput) async throws -> DeleteCloudFrontOriginAccessIdentityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteCloudFrontOriginAccessIdentityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3202,8 +3399,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3213,7 +3412,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutput>(DeleteCloudFrontOriginAccessIdentityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutput>(DeleteCloudFrontOriginAccessIdentityInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCloudFrontOriginAccessIdentityOutput>(DeleteCloudFrontOriginAccessIdentityOutput.httpOutput(from:), DeleteCloudFrontOriginAccessIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCloudFrontOriginAccessIdentityInput, DeleteCloudFrontOriginAccessIdentityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3262,6 +3460,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func deleteConnectionFunction(input: DeleteConnectionFunctionInput) async throws -> DeleteConnectionFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteConnectionFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3274,8 +3478,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteConnectionFunctionInput, DeleteConnectionFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3285,7 +3491,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteConnectionFunctionInput, DeleteConnectionFunctionOutput>(DeleteConnectionFunctionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectionFunctionInput, DeleteConnectionFunctionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteConnectionFunctionInput, DeleteConnectionFunctionOutput>(DeleteConnectionFunctionInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionFunctionOutput>(DeleteConnectionFunctionOutput.httpOutput(from:), DeleteConnectionFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionFunctionInput, DeleteConnectionFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3333,6 +3538,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `ResourceNotDisabled` : The specified CloudFront resource hasn't been disabled yet.
     public func deleteConnectionGroup(input: DeleteConnectionGroupInput) async throws -> DeleteConnectionGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteConnectionGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3345,8 +3556,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteConnectionGroupInput, DeleteConnectionGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3356,7 +3569,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteConnectionGroupInput, DeleteConnectionGroupOutput>(DeleteConnectionGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectionGroupInput, DeleteConnectionGroupOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteConnectionGroupInput, DeleteConnectionGroupOutput>(DeleteConnectionGroupInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionGroupOutput>(DeleteConnectionGroupOutput.httpOutput(from:), DeleteConnectionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionGroupInput, DeleteConnectionGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3404,6 +3616,12 @@ extension CloudFrontClient {
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func deleteContinuousDeploymentPolicy(input: DeleteContinuousDeploymentPolicyInput) async throws -> DeleteContinuousDeploymentPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteContinuousDeploymentPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3416,8 +3634,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3427,7 +3647,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutput>(DeleteContinuousDeploymentPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutput>(DeleteContinuousDeploymentPolicyInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContinuousDeploymentPolicyOutput>(DeleteContinuousDeploymentPolicyOutput.httpOutput(from:), DeleteContinuousDeploymentPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContinuousDeploymentPolicyInput, DeleteContinuousDeploymentPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3494,6 +3713,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `ResourceInUse` : Cannot delete this resource because it is in use.
     public func deleteDistribution(input: DeleteDistributionInput) async throws -> DeleteDistributionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteDistributionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3506,8 +3731,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteDistributionInput, DeleteDistributionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3517,7 +3744,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDistributionInput, DeleteDistributionOutput>(DeleteDistributionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDistributionInput, DeleteDistributionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteDistributionInput, DeleteDistributionOutput>(DeleteDistributionInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDistributionOutput>(DeleteDistributionOutput.httpOutput(from:), DeleteDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDistributionInput, DeleteDistributionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3564,6 +3790,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `ResourceNotDisabled` : The specified CloudFront resource hasn't been disabled yet.
     public func deleteDistributionTenant(input: DeleteDistributionTenantInput) async throws -> DeleteDistributionTenantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteDistributionTenantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3576,8 +3808,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteDistributionTenantInput, DeleteDistributionTenantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3587,7 +3821,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDistributionTenantInput, DeleteDistributionTenantOutput>(DeleteDistributionTenantInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDistributionTenantInput, DeleteDistributionTenantOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteDistributionTenantInput, DeleteDistributionTenantOutput>(DeleteDistributionTenantInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDistributionTenantOutput>(DeleteDistributionTenantOutput.httpOutput(from:), DeleteDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDistributionTenantInput, DeleteDistributionTenantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3634,6 +3867,12 @@ extension CloudFrontClient {
     /// - `NoSuchFieldLevelEncryptionConfig` : The specified configuration for field-level encryption doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func deleteFieldLevelEncryptionConfig(input: DeleteFieldLevelEncryptionConfigInput) async throws -> DeleteFieldLevelEncryptionConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteFieldLevelEncryptionConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3646,8 +3885,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3657,7 +3898,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutput>(DeleteFieldLevelEncryptionConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutput>(DeleteFieldLevelEncryptionConfigInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFieldLevelEncryptionConfigOutput>(DeleteFieldLevelEncryptionConfigOutput.httpOutput(from:), DeleteFieldLevelEncryptionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFieldLevelEncryptionConfigInput, DeleteFieldLevelEncryptionConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3704,6 +3944,12 @@ extension CloudFrontClient {
     /// - `NoSuchFieldLevelEncryptionProfile` : The specified profile for field-level encryption doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func deleteFieldLevelEncryptionProfile(input: DeleteFieldLevelEncryptionProfileInput) async throws -> DeleteFieldLevelEncryptionProfileOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteFieldLevelEncryptionProfileOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3716,8 +3962,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3727,7 +3975,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutput>(DeleteFieldLevelEncryptionProfileInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutput>(DeleteFieldLevelEncryptionProfileInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFieldLevelEncryptionProfileOutput>(DeleteFieldLevelEncryptionProfileOutput.httpOutput(from:), DeleteFieldLevelEncryptionProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFieldLevelEncryptionProfileInput, DeleteFieldLevelEncryptionProfileOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3774,6 +4021,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3786,8 +4039,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteFunctionInput, DeleteFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3797,7 +4052,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFunctionInput, DeleteFunctionOutput>(DeleteFunctionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFunctionInput, DeleteFunctionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteFunctionInput, DeleteFunctionOutput>(DeleteFunctionInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFunctionOutput>(DeleteFunctionOutput.httpOutput(from:), DeleteFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFunctionInput, DeleteFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3843,6 +4097,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `ResourceInUse` : Cannot delete this resource because it is in use.
     public func deleteKeyGroup(input: DeleteKeyGroupInput) async throws -> DeleteKeyGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteKeyGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3855,8 +4115,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteKeyGroupInput, DeleteKeyGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3866,7 +4128,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteKeyGroupInput, DeleteKeyGroupOutput>(DeleteKeyGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteKeyGroupInput, DeleteKeyGroupOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteKeyGroupInput, DeleteKeyGroupOutput>(DeleteKeyGroupInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeyGroupOutput>(DeleteKeyGroupOutput.httpOutput(from:), DeleteKeyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeyGroupInput, DeleteKeyGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3914,6 +4175,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func deleteKeyValueStore(input: DeleteKeyValueStoreInput) async throws -> DeleteKeyValueStoreOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteKeyValueStoreOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3926,8 +4193,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteKeyValueStoreInput, DeleteKeyValueStoreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3937,7 +4206,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteKeyValueStoreInput, DeleteKeyValueStoreOutput>(DeleteKeyValueStoreInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteKeyValueStoreInput, DeleteKeyValueStoreOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteKeyValueStoreInput, DeleteKeyValueStoreOutput>(DeleteKeyValueStoreInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeyValueStoreOutput>(DeleteKeyValueStoreOutput.httpOutput(from:), DeleteKeyValueStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeyValueStoreInput, DeleteKeyValueStoreOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3983,6 +4251,12 @@ extension CloudFrontClient {
     /// - `NoSuchMonitoringSubscription` : A monitoring subscription does not exist for the specified distribution.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func deleteMonitoringSubscription(input: DeleteMonitoringSubscriptionInput) async throws -> DeleteMonitoringSubscriptionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteMonitoringSubscriptionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3995,8 +4269,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteMonitoringSubscriptionInput, DeleteMonitoringSubscriptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4005,7 +4281,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteMonitoringSubscriptionInput, DeleteMonitoringSubscriptionOutput>(DeleteMonitoringSubscriptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMonitoringSubscriptionInput, DeleteMonitoringSubscriptionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMonitoringSubscriptionOutput>(DeleteMonitoringSubscriptionOutput.httpOutput(from:), DeleteMonitoringSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMonitoringSubscriptionInput, DeleteMonitoringSubscriptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4052,6 +4327,12 @@ extension CloudFrontClient {
     /// - `OriginAccessControlInUse` : Cannot delete the origin access control because it's in use by one or more distributions.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func deleteOriginAccessControl(input: DeleteOriginAccessControlInput) async throws -> DeleteOriginAccessControlOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteOriginAccessControlOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -4064,8 +4345,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4075,7 +4358,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutput>(DeleteOriginAccessControlInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutput>(DeleteOriginAccessControlInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOriginAccessControlOutput>(DeleteOriginAccessControlOutput.httpOutput(from:), DeleteOriginAccessControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOriginAccessControlInput, DeleteOriginAccessControlOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4123,6 +4405,12 @@ extension CloudFrontClient {
     /// - `OriginRequestPolicyInUse` : Cannot delete the origin request policy because it is attached to one or more cache behaviors.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func deleteOriginRequestPolicy(input: DeleteOriginRequestPolicyInput) async throws -> DeleteOriginRequestPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteOriginRequestPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -4135,8 +4423,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4146,7 +4436,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutput>(DeleteOriginRequestPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutput>(DeleteOriginRequestPolicyInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOriginRequestPolicyOutput>(DeleteOriginRequestPolicyOutput.httpOutput(from:), DeleteOriginRequestPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOriginRequestPolicyInput, DeleteOriginRequestPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4193,6 +4482,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `PublicKeyInUse` : The specified public key is in use.
     public func deletePublicKey(input: DeletePublicKeyInput) async throws -> DeletePublicKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deletePublicKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -4205,8 +4500,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeletePublicKeyInput, DeletePublicKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4216,7 +4513,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePublicKeyInput, DeletePublicKeyOutput>(DeletePublicKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePublicKeyInput, DeletePublicKeyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeletePublicKeyInput, DeletePublicKeyOutput>(DeletePublicKeyInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePublicKeyOutput>(DeletePublicKeyOutput.httpOutput(from:), DeletePublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePublicKeyInput, DeletePublicKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4262,6 +4558,12 @@ extension CloudFrontClient {
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
     /// - `RealtimeLogConfigInUse` : Cannot delete the real-time log configuration because it is attached to one or more cache behaviors.
     public func deleteRealtimeLogConfig(input: DeleteRealtimeLogConfigInput) async throws -> DeleteRealtimeLogConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteRealtimeLogConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4274,8 +4576,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4285,9 +4589,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput>(DeleteRealtimeLogConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput, SmithyXML.Writer>(rootNodeInfo: .init("DeleteRealtimeLogConfigRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: DeleteRealtimeLogConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRealtimeLogConfigOutput>(DeleteRealtimeLogConfigOutput.httpOutput(from:), DeleteRealtimeLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4335,6 +4637,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteResourcePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4347,8 +4655,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4358,9 +4668,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(DeleteResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyXML.Writer>(rootNodeInfo: .init("DeleteResourcePolicyRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4408,6 +4716,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `ResponseHeadersPolicyInUse` : Cannot delete the response headers policy because it is attached to one or more cache behaviors in a CloudFront distribution.
     public func deleteResponseHeadersPolicy(input: DeleteResponseHeadersPolicyInput) async throws -> DeleteResponseHeadersPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteResponseHeadersPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -4420,8 +4734,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4431,7 +4747,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutput>(DeleteResponseHeadersPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutput>(DeleteResponseHeadersPolicyInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResponseHeadersPolicyOutput>(DeleteResponseHeadersPolicyOutput.httpOutput(from:), DeleteResponseHeadersPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResponseHeadersPolicyInput, DeleteResponseHeadersPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4497,6 +4812,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `StreamingDistributionNotDisabled` : The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
     public func deleteStreamingDistribution(input: DeleteStreamingDistributionInput) async throws -> DeleteStreamingDistributionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteStreamingDistributionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -4509,8 +4830,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4520,7 +4843,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutput>(DeleteStreamingDistributionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutput>(DeleteStreamingDistributionInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStreamingDistributionOutput>(DeleteStreamingDistributionOutput.httpOutput(from:), DeleteStreamingDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStreamingDistributionInput, DeleteStreamingDistributionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4568,6 +4890,12 @@ extension CloudFrontClient {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func deleteTrustStore(input: DeleteTrustStoreInput) async throws -> DeleteTrustStoreOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteTrustStoreOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -4580,8 +4908,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTrustStoreInput, DeleteTrustStoreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4591,7 +4921,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutput>(DeleteTrustStoreInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutput>(DeleteTrustStoreInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrustStoreOutput>(DeleteTrustStoreOutput.httpOutput(from:), DeleteTrustStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4641,6 +4970,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func deleteVpcOrigin(input: DeleteVpcOriginInput) async throws -> DeleteVpcOriginOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.deleteVpcOriginOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -4653,8 +4988,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteVpcOriginInput, DeleteVpcOriginOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4664,7 +5001,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVpcOriginInput, DeleteVpcOriginOutput>(DeleteVpcOriginInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVpcOriginInput, DeleteVpcOriginOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteVpcOriginInput, DeleteVpcOriginOutput>(DeleteVpcOriginInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcOriginOutput>(DeleteVpcOriginOutput.httpOutput(from:), DeleteVpcOriginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcOriginInput, DeleteVpcOriginOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4710,6 +5046,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func describeConnectionFunction(input: DescribeConnectionFunctionInput) async throws -> DescribeConnectionFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.describeConnectionFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4722,8 +5064,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeConnectionFunctionInput, DescribeConnectionFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4733,7 +5077,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeConnectionFunctionInput, DescribeConnectionFunctionOutput>(DescribeConnectionFunctionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeConnectionFunctionInput, DescribeConnectionFunctionOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeConnectionFunctionInput, DescribeConnectionFunctionOutput>(DescribeConnectionFunctionInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectionFunctionOutput>(DescribeConnectionFunctionOutput.httpOutput(from:), DescribeConnectionFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionFunctionInput, DescribeConnectionFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4777,6 +5120,12 @@ extension CloudFrontClient {
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func describeFunction(input: DescribeFunctionInput) async throws -> DescribeFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.describeFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4789,8 +5138,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeFunctionInput, DescribeFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4800,7 +5151,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFunctionInput, DescribeFunctionOutput>(DescribeFunctionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFunctionInput, DescribeFunctionOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeFunctionInput, DescribeFunctionOutput>(DescribeFunctionInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFunctionOutput>(DescribeFunctionOutput.httpOutput(from:), DescribeFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFunctionInput, DescribeFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4846,6 +5196,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func describeKeyValueStore(input: DescribeKeyValueStoreInput) async throws -> DescribeKeyValueStoreOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.describeKeyValueStoreOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4858,8 +5214,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4868,7 +5226,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>(DescribeKeyValueStoreInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeKeyValueStoreOutput>(DescribeKeyValueStoreOutput.httpOutput(from:), DescribeKeyValueStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4915,6 +5272,12 @@ extension CloudFrontClient {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func disassociateDistributionTenantWebACL(input: DisassociateDistributionTenantWebACLInput) async throws -> DisassociateDistributionTenantWebACLOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.disassociateDistributionTenantWebACLOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -4927,8 +5290,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateDistributionTenantWebACLInput, DisassociateDistributionTenantWebACLOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4938,7 +5303,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateDistributionTenantWebACLInput, DisassociateDistributionTenantWebACLOutput>(DisassociateDistributionTenantWebACLInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateDistributionTenantWebACLInput, DisassociateDistributionTenantWebACLOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DisassociateDistributionTenantWebACLInput, DisassociateDistributionTenantWebACLOutput>(DisassociateDistributionTenantWebACLInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateDistributionTenantWebACLOutput>(DisassociateDistributionTenantWebACLOutput.httpOutput(from:), DisassociateDistributionTenantWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDistributionTenantWebACLInput, DisassociateDistributionTenantWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4985,6 +5349,12 @@ extension CloudFrontClient {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func disassociateDistributionWebACL(input: DisassociateDistributionWebACLInput) async throws -> DisassociateDistributionWebACLOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.disassociateDistributionWebACLOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -4997,8 +5367,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateDistributionWebACLInput, DisassociateDistributionWebACLOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5008,7 +5380,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateDistributionWebACLInput, DisassociateDistributionWebACLOutput>(DisassociateDistributionWebACLInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateDistributionWebACLInput, DisassociateDistributionWebACLOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DisassociateDistributionWebACLInput, DisassociateDistributionWebACLOutput>(DisassociateDistributionWebACLInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateDistributionWebACLOutput>(DisassociateDistributionWebACLOutput.httpOutput(from:), DisassociateDistributionWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDistributionWebACLInput, DisassociateDistributionWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5054,6 +5425,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func getAnycastIpList(input: GetAnycastIpListInput) async throws -> GetAnycastIpListOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getAnycastIpListOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5066,8 +5443,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAnycastIpListInput, GetAnycastIpListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5076,7 +5455,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAnycastIpListInput, GetAnycastIpListOutput>(GetAnycastIpListInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAnycastIpListInput, GetAnycastIpListOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnycastIpListOutput>(GetAnycastIpListOutput.httpOutput(from:), GetAnycastIpListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnycastIpListInput, GetAnycastIpListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5127,6 +5505,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
     public func getCachePolicy(input: GetCachePolicyInput) async throws -> GetCachePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getCachePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5139,8 +5523,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCachePolicyInput, GetCachePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5149,7 +5535,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCachePolicyInput, GetCachePolicyOutput>(GetCachePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCachePolicyInput, GetCachePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCachePolicyOutput>(GetCachePolicyOutput.httpOutput(from:), GetCachePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCachePolicyInput, GetCachePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5193,6 +5578,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
     public func getCachePolicyConfig(input: GetCachePolicyConfigInput) async throws -> GetCachePolicyConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getCachePolicyConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5205,8 +5596,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCachePolicyConfigInput, GetCachePolicyConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5215,7 +5608,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCachePolicyConfigInput, GetCachePolicyConfigOutput>(GetCachePolicyConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCachePolicyConfigInput, GetCachePolicyConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCachePolicyConfigOutput>(GetCachePolicyConfigOutput.httpOutput(from:), GetCachePolicyConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCachePolicyConfigInput, GetCachePolicyConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5259,6 +5651,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
     public func getCloudFrontOriginAccessIdentity(input: GetCloudFrontOriginAccessIdentityInput) async throws -> GetCloudFrontOriginAccessIdentityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getCloudFrontOriginAccessIdentityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5271,8 +5669,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCloudFrontOriginAccessIdentityInput, GetCloudFrontOriginAccessIdentityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5281,7 +5681,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCloudFrontOriginAccessIdentityInput, GetCloudFrontOriginAccessIdentityOutput>(GetCloudFrontOriginAccessIdentityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCloudFrontOriginAccessIdentityInput, GetCloudFrontOriginAccessIdentityOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudFrontOriginAccessIdentityOutput>(GetCloudFrontOriginAccessIdentityOutput.httpOutput(from:), GetCloudFrontOriginAccessIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudFrontOriginAccessIdentityInput, GetCloudFrontOriginAccessIdentityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5325,6 +5724,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
     public func getCloudFrontOriginAccessIdentityConfig(input: GetCloudFrontOriginAccessIdentityConfigInput) async throws -> GetCloudFrontOriginAccessIdentityConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getCloudFrontOriginAccessIdentityConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5337,8 +5742,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCloudFrontOriginAccessIdentityConfigInput, GetCloudFrontOriginAccessIdentityConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5347,7 +5754,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCloudFrontOriginAccessIdentityConfigInput, GetCloudFrontOriginAccessIdentityConfigOutput>(GetCloudFrontOriginAccessIdentityConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCloudFrontOriginAccessIdentityConfigInput, GetCloudFrontOriginAccessIdentityConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudFrontOriginAccessIdentityConfigOutput>(GetCloudFrontOriginAccessIdentityConfigOutput.httpOutput(from:), GetCloudFrontOriginAccessIdentityConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudFrontOriginAccessIdentityConfigInput, GetCloudFrontOriginAccessIdentityConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5392,6 +5798,12 @@ extension CloudFrontClient {
     /// - `EntityNotFound` : The entity was not found.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func getConnectionFunction(input: GetConnectionFunctionInput) async throws -> GetConnectionFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getConnectionFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5404,8 +5816,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetConnectionFunctionInput, GetConnectionFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5415,7 +5829,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetConnectionFunctionInput, GetConnectionFunctionOutput>(GetConnectionFunctionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectionFunctionInput, GetConnectionFunctionOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetConnectionFunctionInput, GetConnectionFunctionOutput>(GetConnectionFunctionInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectionFunctionOutput>(GetConnectionFunctionOutput.httpOutput(from:), GetConnectionFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionFunctionInput, GetConnectionFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5459,6 +5872,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `EntityNotFound` : The entity was not found.
     public func getConnectionGroup(input: GetConnectionGroupInput) async throws -> GetConnectionGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getConnectionGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5471,8 +5890,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetConnectionGroupInput, GetConnectionGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5481,7 +5902,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetConnectionGroupInput, GetConnectionGroupOutput>(GetConnectionGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectionGroupInput, GetConnectionGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectionGroupOutput>(GetConnectionGroupOutput.httpOutput(from:), GetConnectionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionGroupInput, GetConnectionGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5525,6 +5945,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `EntityNotFound` : The entity was not found.
     public func getConnectionGroupByRoutingEndpoint(input: GetConnectionGroupByRoutingEndpointInput) async throws -> GetConnectionGroupByRoutingEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getConnectionGroupByRoutingEndpointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5537,8 +5963,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetConnectionGroupByRoutingEndpointInput, GetConnectionGroupByRoutingEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5548,7 +5976,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetConnectionGroupByRoutingEndpointInput, GetConnectionGroupByRoutingEndpointOutput>(GetConnectionGroupByRoutingEndpointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectionGroupByRoutingEndpointInput, GetConnectionGroupByRoutingEndpointOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetConnectionGroupByRoutingEndpointInput, GetConnectionGroupByRoutingEndpointOutput>(GetConnectionGroupByRoutingEndpointInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectionGroupByRoutingEndpointOutput>(GetConnectionGroupByRoutingEndpointOutput.httpOutput(from:), GetConnectionGroupByRoutingEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionGroupByRoutingEndpointInput, GetConnectionGroupByRoutingEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5592,6 +6019,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
     public func getContinuousDeploymentPolicy(input: GetContinuousDeploymentPolicyInput) async throws -> GetContinuousDeploymentPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getContinuousDeploymentPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5604,8 +6037,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetContinuousDeploymentPolicyInput, GetContinuousDeploymentPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5614,7 +6049,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetContinuousDeploymentPolicyInput, GetContinuousDeploymentPolicyOutput>(GetContinuousDeploymentPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContinuousDeploymentPolicyInput, GetContinuousDeploymentPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContinuousDeploymentPolicyOutput>(GetContinuousDeploymentPolicyOutput.httpOutput(from:), GetContinuousDeploymentPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContinuousDeploymentPolicyInput, GetContinuousDeploymentPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5658,6 +6092,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
     public func getContinuousDeploymentPolicyConfig(input: GetContinuousDeploymentPolicyConfigInput) async throws -> GetContinuousDeploymentPolicyConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getContinuousDeploymentPolicyConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5670,8 +6110,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetContinuousDeploymentPolicyConfigInput, GetContinuousDeploymentPolicyConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5680,7 +6122,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetContinuousDeploymentPolicyConfigInput, GetContinuousDeploymentPolicyConfigOutput>(GetContinuousDeploymentPolicyConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContinuousDeploymentPolicyConfigInput, GetContinuousDeploymentPolicyConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContinuousDeploymentPolicyConfigOutput>(GetContinuousDeploymentPolicyConfigOutput.httpOutput(from:), GetContinuousDeploymentPolicyConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContinuousDeploymentPolicyConfigInput, GetContinuousDeploymentPolicyConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5724,6 +6165,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     public func getDistribution(input: GetDistributionInput) async throws -> GetDistributionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getDistributionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5736,8 +6183,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDistributionInput, GetDistributionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5746,7 +6195,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDistributionInput, GetDistributionOutput>(GetDistributionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDistributionInput, GetDistributionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDistributionOutput>(GetDistributionOutput.httpOutput(from:), GetDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDistributionInput, GetDistributionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5790,6 +6238,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     public func getDistributionConfig(input: GetDistributionConfigInput) async throws -> GetDistributionConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getDistributionConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5802,8 +6256,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDistributionConfigInput, GetDistributionConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5812,7 +6268,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDistributionConfigInput, GetDistributionConfigOutput>(GetDistributionConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDistributionConfigInput, GetDistributionConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDistributionConfigOutput>(GetDistributionConfigOutput.httpOutput(from:), GetDistributionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDistributionConfigInput, GetDistributionConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5856,6 +6311,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `EntityNotFound` : The entity was not found.
     public func getDistributionTenant(input: GetDistributionTenantInput) async throws -> GetDistributionTenantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getDistributionTenantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5868,8 +6329,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDistributionTenantInput, GetDistributionTenantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5878,7 +6341,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDistributionTenantInput, GetDistributionTenantOutput>(GetDistributionTenantInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDistributionTenantInput, GetDistributionTenantOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDistributionTenantOutput>(GetDistributionTenantOutput.httpOutput(from:), GetDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDistributionTenantInput, GetDistributionTenantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5922,6 +6384,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `EntityNotFound` : The entity was not found.
     public func getDistributionTenantByDomain(input: GetDistributionTenantByDomainInput) async throws -> GetDistributionTenantByDomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getDistributionTenantByDomainOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5934,8 +6402,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDistributionTenantByDomainInput, GetDistributionTenantByDomainOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5945,7 +6415,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDistributionTenantByDomainInput, GetDistributionTenantByDomainOutput>(GetDistributionTenantByDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDistributionTenantByDomainInput, GetDistributionTenantByDomainOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDistributionTenantByDomainInput, GetDistributionTenantByDomainOutput>(GetDistributionTenantByDomainInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDistributionTenantByDomainOutput>(GetDistributionTenantByDomainOutput.httpOutput(from:), GetDistributionTenantByDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDistributionTenantByDomainInput, GetDistributionTenantByDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5989,6 +6458,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionConfig` : The specified configuration for field-level encryption doesn't exist.
     public func getFieldLevelEncryption(input: GetFieldLevelEncryptionInput) async throws -> GetFieldLevelEncryptionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getFieldLevelEncryptionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6001,8 +6476,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFieldLevelEncryptionInput, GetFieldLevelEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6011,7 +6488,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFieldLevelEncryptionInput, GetFieldLevelEncryptionOutput>(GetFieldLevelEncryptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionInput, GetFieldLevelEncryptionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionOutput>(GetFieldLevelEncryptionOutput.httpOutput(from:), GetFieldLevelEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionInput, GetFieldLevelEncryptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6055,6 +6531,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionConfig` : The specified configuration for field-level encryption doesn't exist.
     public func getFieldLevelEncryptionConfig(input: GetFieldLevelEncryptionConfigInput) async throws -> GetFieldLevelEncryptionConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getFieldLevelEncryptionConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6067,8 +6549,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFieldLevelEncryptionConfigInput, GetFieldLevelEncryptionConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6077,7 +6561,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFieldLevelEncryptionConfigInput, GetFieldLevelEncryptionConfigOutput>(GetFieldLevelEncryptionConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionConfigInput, GetFieldLevelEncryptionConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionConfigOutput>(GetFieldLevelEncryptionConfigOutput.httpOutput(from:), GetFieldLevelEncryptionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionConfigInput, GetFieldLevelEncryptionConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6121,6 +6604,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionProfile` : The specified profile for field-level encryption doesn't exist.
     public func getFieldLevelEncryptionProfile(input: GetFieldLevelEncryptionProfileInput) async throws -> GetFieldLevelEncryptionProfileOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getFieldLevelEncryptionProfileOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6133,8 +6622,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFieldLevelEncryptionProfileInput, GetFieldLevelEncryptionProfileOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6143,7 +6634,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFieldLevelEncryptionProfileInput, GetFieldLevelEncryptionProfileOutput>(GetFieldLevelEncryptionProfileInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionProfileInput, GetFieldLevelEncryptionProfileOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionProfileOutput>(GetFieldLevelEncryptionProfileOutput.httpOutput(from:), GetFieldLevelEncryptionProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionProfileInput, GetFieldLevelEncryptionProfileOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6187,6 +6677,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionProfile` : The specified profile for field-level encryption doesn't exist.
     public func getFieldLevelEncryptionProfileConfig(input: GetFieldLevelEncryptionProfileConfigInput) async throws -> GetFieldLevelEncryptionProfileConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getFieldLevelEncryptionProfileConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6199,8 +6695,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFieldLevelEncryptionProfileConfigInput, GetFieldLevelEncryptionProfileConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6209,7 +6707,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFieldLevelEncryptionProfileConfigInput, GetFieldLevelEncryptionProfileConfigOutput>(GetFieldLevelEncryptionProfileConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFieldLevelEncryptionProfileConfigInput, GetFieldLevelEncryptionProfileConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFieldLevelEncryptionProfileConfigOutput>(GetFieldLevelEncryptionProfileConfigOutput.httpOutput(from:), GetFieldLevelEncryptionProfileConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFieldLevelEncryptionProfileConfigInput, GetFieldLevelEncryptionProfileConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6253,6 +6750,12 @@ extension CloudFrontClient {
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6265,8 +6768,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetFunctionInput, GetFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6276,7 +6781,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFunctionInput, GetFunctionOutput>(GetFunctionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFunctionInput, GetFunctionOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFunctionInput, GetFunctionOutput>(GetFunctionInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionOutput>(GetFunctionOutput.httpOutput(from:), GetFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionInput, GetFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6321,6 +6825,12 @@ extension CloudFrontClient {
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `NoSuchInvalidation` : The specified invalidation does not exist.
     public func getInvalidation(input: GetInvalidationInput) async throws -> GetInvalidationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getInvalidationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6333,8 +6843,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetInvalidationInput, GetInvalidationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6343,7 +6855,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetInvalidationInput, GetInvalidationOutput>(GetInvalidationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvalidationInput, GetInvalidationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvalidationOutput>(GetInvalidationOutput.httpOutput(from:), GetInvalidationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvalidationInput, GetInvalidationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6388,6 +6899,12 @@ extension CloudFrontClient {
     /// - `EntityNotFound` : The entity was not found.
     /// - `NoSuchInvalidation` : The specified invalidation does not exist.
     public func getInvalidationForDistributionTenant(input: GetInvalidationForDistributionTenantInput) async throws -> GetInvalidationForDistributionTenantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getInvalidationForDistributionTenantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6400,8 +6917,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetInvalidationForDistributionTenantInput, GetInvalidationForDistributionTenantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6410,7 +6929,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetInvalidationForDistributionTenantInput, GetInvalidationForDistributionTenantOutput>(GetInvalidationForDistributionTenantInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvalidationForDistributionTenantInput, GetInvalidationForDistributionTenantOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvalidationForDistributionTenantOutput>(GetInvalidationForDistributionTenantOutput.httpOutput(from:), GetInvalidationForDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvalidationForDistributionTenantInput, GetInvalidationForDistributionTenantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6453,6 +6971,12 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `NoSuchResource` : A resource that was specified is not valid.
     public func getKeyGroup(input: GetKeyGroupInput) async throws -> GetKeyGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getKeyGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6465,8 +6989,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetKeyGroupInput, GetKeyGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6475,7 +7001,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetKeyGroupInput, GetKeyGroupOutput>(GetKeyGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKeyGroupInput, GetKeyGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyGroupOutput>(GetKeyGroupOutput.httpOutput(from:), GetKeyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKeyGroupInput, GetKeyGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6518,6 +7043,12 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `NoSuchResource` : A resource that was specified is not valid.
     public func getKeyGroupConfig(input: GetKeyGroupConfigInput) async throws -> GetKeyGroupConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getKeyGroupConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6530,8 +7061,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetKeyGroupConfigInput, GetKeyGroupConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6540,7 +7073,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetKeyGroupConfigInput, GetKeyGroupConfigOutput>(GetKeyGroupConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKeyGroupConfigInput, GetKeyGroupConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyGroupConfigOutput>(GetKeyGroupConfigOutput.httpOutput(from:), GetKeyGroupConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKeyGroupConfigInput, GetKeyGroupConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6584,6 +7116,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `EntityNotFound` : The entity was not found.
     public func getManagedCertificateDetails(input: GetManagedCertificateDetailsInput) async throws -> GetManagedCertificateDetailsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getManagedCertificateDetailsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6596,8 +7134,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetManagedCertificateDetailsInput, GetManagedCertificateDetailsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6606,7 +7146,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetManagedCertificateDetailsInput, GetManagedCertificateDetailsOutput>(GetManagedCertificateDetailsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetManagedCertificateDetailsInput, GetManagedCertificateDetailsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedCertificateDetailsOutput>(GetManagedCertificateDetailsOutput.httpOutput(from:), GetManagedCertificateDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedCertificateDetailsInput, GetManagedCertificateDetailsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6652,6 +7191,12 @@ extension CloudFrontClient {
     /// - `NoSuchMonitoringSubscription` : A monitoring subscription does not exist for the specified distribution.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func getMonitoringSubscription(input: GetMonitoringSubscriptionInput) async throws -> GetMonitoringSubscriptionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getMonitoringSubscriptionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6664,8 +7209,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetMonitoringSubscriptionInput, GetMonitoringSubscriptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6674,7 +7221,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMonitoringSubscriptionInput, GetMonitoringSubscriptionOutput>(GetMonitoringSubscriptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMonitoringSubscriptionInput, GetMonitoringSubscriptionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMonitoringSubscriptionOutput>(GetMonitoringSubscriptionOutput.httpOutput(from:), GetMonitoringSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMonitoringSubscriptionInput, GetMonitoringSubscriptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6718,6 +7264,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginAccessControl` : The origin access control does not exist.
     public func getOriginAccessControl(input: GetOriginAccessControlInput) async throws -> GetOriginAccessControlOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getOriginAccessControlOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6730,8 +7282,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetOriginAccessControlInput, GetOriginAccessControlOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6740,7 +7294,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOriginAccessControlInput, GetOriginAccessControlOutput>(GetOriginAccessControlInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOriginAccessControlInput, GetOriginAccessControlOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOriginAccessControlOutput>(GetOriginAccessControlOutput.httpOutput(from:), GetOriginAccessControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOriginAccessControlInput, GetOriginAccessControlOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6784,6 +7337,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginAccessControl` : The origin access control does not exist.
     public func getOriginAccessControlConfig(input: GetOriginAccessControlConfigInput) async throws -> GetOriginAccessControlConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getOriginAccessControlConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6796,8 +7355,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetOriginAccessControlConfigInput, GetOriginAccessControlConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6806,7 +7367,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOriginAccessControlConfigInput, GetOriginAccessControlConfigOutput>(GetOriginAccessControlConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOriginAccessControlConfigInput, GetOriginAccessControlConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOriginAccessControlConfigOutput>(GetOriginAccessControlConfigOutput.httpOutput(from:), GetOriginAccessControlConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOriginAccessControlConfigInput, GetOriginAccessControlConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6857,6 +7417,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
     public func getOriginRequestPolicy(input: GetOriginRequestPolicyInput) async throws -> GetOriginRequestPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getOriginRequestPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6869,8 +7435,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetOriginRequestPolicyInput, GetOriginRequestPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6879,7 +7447,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOriginRequestPolicyInput, GetOriginRequestPolicyOutput>(GetOriginRequestPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOriginRequestPolicyInput, GetOriginRequestPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOriginRequestPolicyOutput>(GetOriginRequestPolicyOutput.httpOutput(from:), GetOriginRequestPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOriginRequestPolicyInput, GetOriginRequestPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6923,6 +7490,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
     public func getOriginRequestPolicyConfig(input: GetOriginRequestPolicyConfigInput) async throws -> GetOriginRequestPolicyConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getOriginRequestPolicyConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6935,8 +7508,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetOriginRequestPolicyConfigInput, GetOriginRequestPolicyConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6945,7 +7520,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOriginRequestPolicyConfigInput, GetOriginRequestPolicyConfigOutput>(GetOriginRequestPolicyConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOriginRequestPolicyConfigInput, GetOriginRequestPolicyConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOriginRequestPolicyConfigOutput>(GetOriginRequestPolicyConfigOutput.httpOutput(from:), GetOriginRequestPolicyConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOriginRequestPolicyConfigInput, GetOriginRequestPolicyConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6989,6 +7563,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
     public func getPublicKey(input: GetPublicKeyInput) async throws -> GetPublicKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getPublicKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7001,8 +7581,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetPublicKeyInput, GetPublicKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7011,7 +7593,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPublicKeyInput, GetPublicKeyOutput>(GetPublicKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPublicKeyInput, GetPublicKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPublicKeyOutput>(GetPublicKeyOutput.httpOutput(from:), GetPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPublicKeyInput, GetPublicKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7055,6 +7636,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
     public func getPublicKeyConfig(input: GetPublicKeyConfigInput) async throws -> GetPublicKeyConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getPublicKeyConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7067,8 +7654,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetPublicKeyConfigInput, GetPublicKeyConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7077,7 +7666,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPublicKeyConfigInput, GetPublicKeyConfigOutput>(GetPublicKeyConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPublicKeyConfigInput, GetPublicKeyConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPublicKeyConfigOutput>(GetPublicKeyConfigOutput.httpOutput(from:), GetPublicKeyConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPublicKeyConfigInput, GetPublicKeyConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7122,6 +7710,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
     public func getRealtimeLogConfig(input: GetRealtimeLogConfigInput) async throws -> GetRealtimeLogConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getRealtimeLogConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7134,8 +7728,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7145,9 +7741,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput>(GetRealtimeLogConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput, SmithyXML.Writer>(rootNodeInfo: .init("GetRealtimeLogConfigRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: GetRealtimeLogConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRealtimeLogConfigOutput>(GetRealtimeLogConfigOutput.httpOutput(from:), GetRealtimeLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7193,6 +7787,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getResourcePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7205,8 +7805,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7216,9 +7818,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(GetResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyXML.Writer>(rootNodeInfo: .init("GetResourcePolicyRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7262,6 +7862,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
     public func getResponseHeadersPolicy(input: GetResponseHeadersPolicyInput) async throws -> GetResponseHeadersPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getResponseHeadersPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7274,8 +7880,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResponseHeadersPolicyInput, GetResponseHeadersPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7284,7 +7892,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResponseHeadersPolicyInput, GetResponseHeadersPolicyOutput>(GetResponseHeadersPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResponseHeadersPolicyInput, GetResponseHeadersPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResponseHeadersPolicyOutput>(GetResponseHeadersPolicyOutput.httpOutput(from:), GetResponseHeadersPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResponseHeadersPolicyInput, GetResponseHeadersPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7328,6 +7935,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
     public func getResponseHeadersPolicyConfig(input: GetResponseHeadersPolicyConfigInput) async throws -> GetResponseHeadersPolicyConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getResponseHeadersPolicyConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7340,8 +7953,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResponseHeadersPolicyConfigInput, GetResponseHeadersPolicyConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7350,7 +7965,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResponseHeadersPolicyConfigInput, GetResponseHeadersPolicyConfigOutput>(GetResponseHeadersPolicyConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResponseHeadersPolicyConfigInput, GetResponseHeadersPolicyConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResponseHeadersPolicyConfigOutput>(GetResponseHeadersPolicyConfigOutput.httpOutput(from:), GetResponseHeadersPolicyConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResponseHeadersPolicyConfigInput, GetResponseHeadersPolicyConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7394,6 +8008,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchStreamingDistribution` : The specified streaming distribution does not exist.
     public func getStreamingDistribution(input: GetStreamingDistributionInput) async throws -> GetStreamingDistributionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getStreamingDistributionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7406,8 +8026,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetStreamingDistributionInput, GetStreamingDistributionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7416,7 +8038,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetStreamingDistributionInput, GetStreamingDistributionOutput>(GetStreamingDistributionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStreamingDistributionInput, GetStreamingDistributionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStreamingDistributionOutput>(GetStreamingDistributionOutput.httpOutput(from:), GetStreamingDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStreamingDistributionInput, GetStreamingDistributionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7460,6 +8081,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchStreamingDistribution` : The specified streaming distribution does not exist.
     public func getStreamingDistributionConfig(input: GetStreamingDistributionConfigInput) async throws -> GetStreamingDistributionConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getStreamingDistributionConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7472,8 +8099,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetStreamingDistributionConfigInput, GetStreamingDistributionConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7482,7 +8111,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetStreamingDistributionConfigInput, GetStreamingDistributionConfigOutput>(GetStreamingDistributionConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStreamingDistributionConfigInput, GetStreamingDistributionConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStreamingDistributionConfigOutput>(GetStreamingDistributionConfigOutput.httpOutput(from:), GetStreamingDistributionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStreamingDistributionConfigInput, GetStreamingDistributionConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7527,6 +8155,12 @@ extension CloudFrontClient {
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
     public func getTrustStore(input: GetTrustStoreInput) async throws -> GetTrustStoreOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getTrustStoreOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7539,8 +8173,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTrustStoreInput, GetTrustStoreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7549,7 +8185,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTrustStoreInput, GetTrustStoreOutput>(GetTrustStoreInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrustStoreInput, GetTrustStoreOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrustStoreOutput>(GetTrustStoreOutput.httpOutput(from:), GetTrustStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrustStoreInput, GetTrustStoreOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7595,6 +8230,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func getVpcOrigin(input: GetVpcOriginInput) async throws -> GetVpcOriginOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.getVpcOriginOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7607,8 +8248,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetVpcOriginInput, GetVpcOriginOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7617,7 +8260,6 @@ extension CloudFrontClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetVpcOriginInput, GetVpcOriginOutput>(GetVpcOriginInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVpcOriginInput, GetVpcOriginOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVpcOriginOutput>(GetVpcOriginOutput.httpOutput(from:), GetVpcOriginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVpcOriginInput, GetVpcOriginOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7663,6 +8305,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listAnycastIpLists(input: ListAnycastIpListsInput) async throws -> ListAnycastIpListsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listAnycastIpListsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7675,8 +8323,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAnycastIpListsInput, ListAnycastIpListsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7686,7 +8336,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAnycastIpListsInput, ListAnycastIpListsOutput>(ListAnycastIpListsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAnycastIpListsInput, ListAnycastIpListsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAnycastIpListsInput, ListAnycastIpListsOutput>(ListAnycastIpListsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnycastIpListsOutput>(ListAnycastIpListsOutput.httpOutput(from:), ListAnycastIpListsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnycastIpListsInput, ListAnycastIpListsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7731,6 +8380,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
     public func listCachePolicies(input: ListCachePoliciesInput) async throws -> ListCachePoliciesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listCachePoliciesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7743,8 +8398,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCachePoliciesInput, ListCachePoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7754,7 +8411,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCachePoliciesInput, ListCachePoliciesOutput>(ListCachePoliciesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCachePoliciesInput, ListCachePoliciesOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCachePoliciesInput, ListCachePoliciesOutput>(ListCachePoliciesInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCachePoliciesOutput>(ListCachePoliciesOutput.httpOutput(from:), ListCachePoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCachePoliciesInput, ListCachePoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7797,6 +8453,12 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     public func listCloudFrontOriginAccessIdentities(input: ListCloudFrontOriginAccessIdentitiesInput) async throws -> ListCloudFrontOriginAccessIdentitiesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listCloudFrontOriginAccessIdentitiesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7809,8 +8471,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7820,7 +8484,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput>(ListCloudFrontOriginAccessIdentitiesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput>(ListCloudFrontOriginAccessIdentitiesInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCloudFrontOriginAccessIdentitiesOutput>(ListCloudFrontOriginAccessIdentitiesOutput.httpOutput(from:), ListCloudFrontOriginAccessIdentitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCloudFrontOriginAccessIdentitiesInput, ListCloudFrontOriginAccessIdentitiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7864,6 +8527,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     public func listConflictingAliases(input: ListConflictingAliasesInput) async throws -> ListConflictingAliasesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listConflictingAliasesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7876,8 +8545,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListConflictingAliasesInput, ListConflictingAliasesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7887,7 +8558,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConflictingAliasesInput, ListConflictingAliasesOutput>(ListConflictingAliasesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConflictingAliasesInput, ListConflictingAliasesOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConflictingAliasesInput, ListConflictingAliasesOutput>(ListConflictingAliasesInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConflictingAliasesOutput>(ListConflictingAliasesOutput.httpOutput(from:), ListConflictingAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConflictingAliasesInput, ListConflictingAliasesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7932,6 +8602,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listConnectionFunctions(input: ListConnectionFunctionsInput) async throws -> ListConnectionFunctionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listConnectionFunctionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7944,8 +8620,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListConnectionFunctionsInput, ListConnectionFunctionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7955,9 +8633,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConnectionFunctionsInput, ListConnectionFunctionsOutput>(ListConnectionFunctionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConnectionFunctionsInput, ListConnectionFunctionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConnectionFunctionsInput, ListConnectionFunctionsOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListConnectionFunctionsInput, ListConnectionFunctionsOutput, SmithyXML.Writer>(rootNodeInfo: .init("ListConnectionFunctionsRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: ListConnectionFunctionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectionFunctionsInput, ListConnectionFunctionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectionFunctionsOutput>(ListConnectionFunctionsOutput.httpOutput(from:), ListConnectionFunctionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectionFunctionsInput, ListConnectionFunctionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8002,6 +8678,12 @@ extension CloudFrontClient {
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
     public func listConnectionGroups(input: ListConnectionGroupsInput) async throws -> ListConnectionGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listConnectionGroupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8014,8 +8696,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListConnectionGroupsInput, ListConnectionGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8025,9 +8709,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConnectionGroupsInput, ListConnectionGroupsOutput>(ListConnectionGroupsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConnectionGroupsInput, ListConnectionGroupsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConnectionGroupsInput, ListConnectionGroupsOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListConnectionGroupsInput, ListConnectionGroupsOutput, SmithyXML.Writer>(rootNodeInfo: .init("ListConnectionGroupsRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: ListConnectionGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectionGroupsInput, ListConnectionGroupsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectionGroupsOutput>(ListConnectionGroupsOutput.httpOutput(from:), ListConnectionGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectionGroupsInput, ListConnectionGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8072,6 +8754,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
     public func listContinuousDeploymentPolicies(input: ListContinuousDeploymentPoliciesInput) async throws -> ListContinuousDeploymentPoliciesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listContinuousDeploymentPoliciesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -8084,8 +8772,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8095,7 +8785,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutput>(ListContinuousDeploymentPoliciesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutput>(ListContinuousDeploymentPoliciesInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContinuousDeploymentPoliciesOutput>(ListContinuousDeploymentPoliciesOutput.httpOutput(from:), ListContinuousDeploymentPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContinuousDeploymentPoliciesInput, ListContinuousDeploymentPoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8140,6 +8829,12 @@ extension CloudFrontClient {
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
     public func listDistributionTenants(input: ListDistributionTenantsInput) async throws -> ListDistributionTenantsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionTenantsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8152,8 +8847,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionTenantsInput, ListDistributionTenantsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8163,9 +8860,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionTenantsInput, ListDistributionTenantsOutput>(ListDistributionTenantsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionTenantsInput, ListDistributionTenantsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDistributionTenantsInput, ListDistributionTenantsOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDistributionTenantsInput, ListDistributionTenantsOutput, SmithyXML.Writer>(rootNodeInfo: .init("ListDistributionTenantsRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: ListDistributionTenantsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDistributionTenantsInput, ListDistributionTenantsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionTenantsOutput>(ListDistributionTenantsOutput.httpOutput(from:), ListDistributionTenantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionTenantsInput, ListDistributionTenantsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8210,6 +8905,12 @@ extension CloudFrontClient {
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
     public func listDistributionTenantsByCustomization(input: ListDistributionTenantsByCustomizationInput) async throws -> ListDistributionTenantsByCustomizationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionTenantsByCustomizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8222,8 +8923,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionTenantsByCustomizationInput, ListDistributionTenantsByCustomizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8233,9 +8936,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionTenantsByCustomizationInput, ListDistributionTenantsByCustomizationOutput>(ListDistributionTenantsByCustomizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionTenantsByCustomizationInput, ListDistributionTenantsByCustomizationOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDistributionTenantsByCustomizationInput, ListDistributionTenantsByCustomizationOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDistributionTenantsByCustomizationInput, ListDistributionTenantsByCustomizationOutput, SmithyXML.Writer>(rootNodeInfo: .init("ListDistributionTenantsByCustomizationRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: ListDistributionTenantsByCustomizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDistributionTenantsByCustomizationInput, ListDistributionTenantsByCustomizationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionTenantsByCustomizationOutput>(ListDistributionTenantsByCustomizationOutput.httpOutput(from:), ListDistributionTenantsByCustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionTenantsByCustomizationInput, ListDistributionTenantsByCustomizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8278,6 +8979,12 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     public func listDistributions(input: ListDistributionsInput) async throws -> ListDistributionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -8290,8 +8997,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionsInput, ListDistributionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8301,7 +9010,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionsInput, ListDistributionsOutput>(ListDistributionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionsInput, ListDistributionsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsInput, ListDistributionsOutput>(ListDistributionsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsOutput>(ListDistributionsOutput.httpOutput(from:), ListDistributionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsInput, ListDistributionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8347,6 +9055,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listDistributionsByAnycastIpListId(input: ListDistributionsByAnycastIpListIdInput) async throws -> ListDistributionsByAnycastIpListIdOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionsByAnycastIpListIdOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -8359,8 +9073,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionsByAnycastIpListIdInput, ListDistributionsByAnycastIpListIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8370,7 +9086,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionsByAnycastIpListIdInput, ListDistributionsByAnycastIpListIdOutput>(ListDistributionsByAnycastIpListIdInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionsByAnycastIpListIdInput, ListDistributionsByAnycastIpListIdOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByAnycastIpListIdInput, ListDistributionsByAnycastIpListIdOutput>(ListDistributionsByAnycastIpListIdInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByAnycastIpListIdOutput>(ListDistributionsByAnycastIpListIdOutput.httpOutput(from:), ListDistributionsByAnycastIpListIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByAnycastIpListIdInput, ListDistributionsByAnycastIpListIdOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8415,6 +9130,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
     public func listDistributionsByCachePolicyId(input: ListDistributionsByCachePolicyIdInput) async throws -> ListDistributionsByCachePolicyIdOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionsByCachePolicyIdOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -8427,8 +9148,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8438,7 +9161,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutput>(ListDistributionsByCachePolicyIdInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutput>(ListDistributionsByCachePolicyIdInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByCachePolicyIdOutput>(ListDistributionsByCachePolicyIdOutput.httpOutput(from:), ListDistributionsByCachePolicyIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByCachePolicyIdInput, ListDistributionsByCachePolicyIdOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8483,6 +9205,12 @@ extension CloudFrontClient {
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
     public func listDistributionsByConnectionFunction(input: ListDistributionsByConnectionFunctionInput) async throws -> ListDistributionsByConnectionFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionsByConnectionFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -8495,8 +9223,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionsByConnectionFunctionInput, ListDistributionsByConnectionFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8506,7 +9236,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionsByConnectionFunctionInput, ListDistributionsByConnectionFunctionOutput>(ListDistributionsByConnectionFunctionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionsByConnectionFunctionInput, ListDistributionsByConnectionFunctionOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByConnectionFunctionInput, ListDistributionsByConnectionFunctionOutput>(ListDistributionsByConnectionFunctionInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByConnectionFunctionOutput>(ListDistributionsByConnectionFunctionOutput.httpOutput(from:), ListDistributionsByConnectionFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByConnectionFunctionInput, ListDistributionsByConnectionFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8550,6 +9279,12 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
     public func listDistributionsByConnectionMode(input: ListDistributionsByConnectionModeInput) async throws -> ListDistributionsByConnectionModeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionsByConnectionModeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -8562,8 +9297,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionsByConnectionModeInput, ListDistributionsByConnectionModeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8573,7 +9310,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionsByConnectionModeInput, ListDistributionsByConnectionModeOutput>(ListDistributionsByConnectionModeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionsByConnectionModeInput, ListDistributionsByConnectionModeOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByConnectionModeInput, ListDistributionsByConnectionModeOutput>(ListDistributionsByConnectionModeInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByConnectionModeOutput>(ListDistributionsByConnectionModeOutput.httpOutput(from:), ListDistributionsByConnectionModeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByConnectionModeInput, ListDistributionsByConnectionModeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8617,6 +9353,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
     public func listDistributionsByKeyGroup(input: ListDistributionsByKeyGroupInput) async throws -> ListDistributionsByKeyGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionsByKeyGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -8629,8 +9371,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8640,7 +9384,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutput>(ListDistributionsByKeyGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutput>(ListDistributionsByKeyGroupInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByKeyGroupOutput>(ListDistributionsByKeyGroupOutput.httpOutput(from:), ListDistributionsByKeyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByKeyGroupInput, ListDistributionsByKeyGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8685,6 +9428,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
     public func listDistributionsByOriginRequestPolicyId(input: ListDistributionsByOriginRequestPolicyIdInput) async throws -> ListDistributionsByOriginRequestPolicyIdOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionsByOriginRequestPolicyIdOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -8697,8 +9446,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8708,7 +9459,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutput>(ListDistributionsByOriginRequestPolicyIdInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutput>(ListDistributionsByOriginRequestPolicyIdInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByOriginRequestPolicyIdOutput>(ListDistributionsByOriginRequestPolicyIdOutput.httpOutput(from:), ListDistributionsByOriginRequestPolicyIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByOriginRequestPolicyIdInput, ListDistributionsByOriginRequestPolicyIdOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8754,6 +9504,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listDistributionsByOwnedResource(input: ListDistributionsByOwnedResourceInput) async throws -> ListDistributionsByOwnedResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionsByOwnedResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -8766,8 +9522,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionsByOwnedResourceInput, ListDistributionsByOwnedResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8777,7 +9535,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionsByOwnedResourceInput, ListDistributionsByOwnedResourceOutput>(ListDistributionsByOwnedResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionsByOwnedResourceInput, ListDistributionsByOwnedResourceOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByOwnedResourceInput, ListDistributionsByOwnedResourceOutput>(ListDistributionsByOwnedResourceInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByOwnedResourceOutput>(ListDistributionsByOwnedResourceOutput.httpOutput(from:), ListDistributionsByOwnedResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByOwnedResourceInput, ListDistributionsByOwnedResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8820,6 +9577,12 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     public func listDistributionsByRealtimeLogConfig(input: ListDistributionsByRealtimeLogConfigInput) async throws -> ListDistributionsByRealtimeLogConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionsByRealtimeLogConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8832,8 +9595,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8843,9 +9608,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput>(ListDistributionsByRealtimeLogConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput, SmithyXML.Writer>(rootNodeInfo: .init("ListDistributionsByRealtimeLogConfigRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: ListDistributionsByRealtimeLogConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByRealtimeLogConfigOutput>(ListDistributionsByRealtimeLogConfigOutput.httpOutput(from:), ListDistributionsByRealtimeLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8890,6 +9653,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
     public func listDistributionsByResponseHeadersPolicyId(input: ListDistributionsByResponseHeadersPolicyIdInput) async throws -> ListDistributionsByResponseHeadersPolicyIdOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionsByResponseHeadersPolicyIdOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -8902,8 +9671,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8913,7 +9684,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutput>(ListDistributionsByResponseHeadersPolicyIdInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutput>(ListDistributionsByResponseHeadersPolicyIdInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByResponseHeadersPolicyIdOutput>(ListDistributionsByResponseHeadersPolicyIdOutput.httpOutput(from:), ListDistributionsByResponseHeadersPolicyIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByResponseHeadersPolicyIdInput, ListDistributionsByResponseHeadersPolicyIdOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8958,6 +9728,12 @@ extension CloudFrontClient {
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
     public func listDistributionsByTrustStore(input: ListDistributionsByTrustStoreInput) async throws -> ListDistributionsByTrustStoreOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionsByTrustStoreOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -8970,8 +9746,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionsByTrustStoreInput, ListDistributionsByTrustStoreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8981,7 +9759,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionsByTrustStoreInput, ListDistributionsByTrustStoreOutput>(ListDistributionsByTrustStoreInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionsByTrustStoreInput, ListDistributionsByTrustStoreOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByTrustStoreInput, ListDistributionsByTrustStoreOutput>(ListDistributionsByTrustStoreInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByTrustStoreOutput>(ListDistributionsByTrustStoreOutput.httpOutput(from:), ListDistributionsByTrustStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByTrustStoreInput, ListDistributionsByTrustStoreOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9027,6 +9804,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listDistributionsByVpcOriginId(input: ListDistributionsByVpcOriginIdInput) async throws -> ListDistributionsByVpcOriginIdOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionsByVpcOriginIdOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9039,8 +9822,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionsByVpcOriginIdInput, ListDistributionsByVpcOriginIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9050,7 +9835,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionsByVpcOriginIdInput, ListDistributionsByVpcOriginIdOutput>(ListDistributionsByVpcOriginIdInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionsByVpcOriginIdInput, ListDistributionsByVpcOriginIdOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByVpcOriginIdInput, ListDistributionsByVpcOriginIdOutput>(ListDistributionsByVpcOriginIdInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByVpcOriginIdOutput>(ListDistributionsByVpcOriginIdOutput.httpOutput(from:), ListDistributionsByVpcOriginIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByVpcOriginIdInput, ListDistributionsByVpcOriginIdOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9094,6 +9878,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidWebACLId` : A web ACL ID specified is not valid. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a. To specify a web ACL created using WAF Classic, use the ACL ID, for example 473e64fd-f30b-4765-81a0-62ad96dd167a.
     public func listDistributionsByWebACLId(input: ListDistributionsByWebACLIdInput) async throws -> ListDistributionsByWebACLIdOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDistributionsByWebACLIdOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9106,8 +9896,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9117,7 +9909,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutput>(ListDistributionsByWebACLIdInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutput>(ListDistributionsByWebACLIdInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributionsByWebACLIdOutput>(ListDistributionsByWebACLIdOutput.httpOutput(from:), ListDistributionsByWebACLIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributionsByWebACLIdInput, ListDistributionsByWebACLIdOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9169,6 +9960,12 @@ extension CloudFrontClient {
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
     public func listDomainConflicts(input: ListDomainConflictsInput) async throws -> ListDomainConflictsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listDomainConflictsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -9181,8 +9978,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDomainConflictsInput, ListDomainConflictsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9192,9 +9991,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDomainConflictsInput, ListDomainConflictsOutput>(ListDomainConflictsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDomainConflictsInput, ListDomainConflictsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDomainConflictsInput, ListDomainConflictsOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDomainConflictsInput, ListDomainConflictsOutput, SmithyXML.Writer>(rootNodeInfo: .init("ListDomainConflictsRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: ListDomainConflictsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDomainConflictsInput, ListDomainConflictsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainConflictsOutput>(ListDomainConflictsOutput.httpOutput(from:), ListDomainConflictsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainConflictsInput, ListDomainConflictsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9237,6 +10034,12 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     public func listFieldLevelEncryptionConfigs(input: ListFieldLevelEncryptionConfigsInput) async throws -> ListFieldLevelEncryptionConfigsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listFieldLevelEncryptionConfigsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9249,8 +10052,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9260,7 +10065,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutput>(ListFieldLevelEncryptionConfigsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutput>(ListFieldLevelEncryptionConfigsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFieldLevelEncryptionConfigsOutput>(ListFieldLevelEncryptionConfigsOutput.httpOutput(from:), ListFieldLevelEncryptionConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFieldLevelEncryptionConfigsInput, ListFieldLevelEncryptionConfigsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9303,6 +10107,12 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     public func listFieldLevelEncryptionProfiles(input: ListFieldLevelEncryptionProfilesInput) async throws -> ListFieldLevelEncryptionProfilesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listFieldLevelEncryptionProfilesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9315,8 +10125,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9326,7 +10138,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutput>(ListFieldLevelEncryptionProfilesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutput>(ListFieldLevelEncryptionProfilesInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFieldLevelEncryptionProfilesOutput>(ListFieldLevelEncryptionProfilesOutput.httpOutput(from:), ListFieldLevelEncryptionProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFieldLevelEncryptionProfilesInput, ListFieldLevelEncryptionProfilesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9370,6 +10181,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listFunctionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9382,8 +10199,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFunctionsInput, ListFunctionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9393,7 +10212,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFunctionsInput, ListFunctionsOutput>(ListFunctionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFunctionsInput, ListFunctionsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFunctionsInput, ListFunctionsOutput>(ListFunctionsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFunctionsOutput>(ListFunctionsOutput.httpOutput(from:), ListFunctionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFunctionsInput, ListFunctionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9438,6 +10256,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     public func listInvalidations(input: ListInvalidationsInput) async throws -> ListInvalidationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listInvalidationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9450,8 +10274,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListInvalidationsInput, ListInvalidationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9461,7 +10287,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListInvalidationsInput, ListInvalidationsOutput>(ListInvalidationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListInvalidationsInput, ListInvalidationsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInvalidationsInput, ListInvalidationsOutput>(ListInvalidationsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvalidationsOutput>(ListInvalidationsOutput.httpOutput(from:), ListInvalidationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvalidationsInput, ListInvalidationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9506,6 +10331,12 @@ extension CloudFrontClient {
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
     public func listInvalidationsForDistributionTenant(input: ListInvalidationsForDistributionTenantInput) async throws -> ListInvalidationsForDistributionTenantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listInvalidationsForDistributionTenantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9518,8 +10349,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListInvalidationsForDistributionTenantInput, ListInvalidationsForDistributionTenantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9529,7 +10362,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListInvalidationsForDistributionTenantInput, ListInvalidationsForDistributionTenantOutput>(ListInvalidationsForDistributionTenantInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListInvalidationsForDistributionTenantInput, ListInvalidationsForDistributionTenantOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInvalidationsForDistributionTenantInput, ListInvalidationsForDistributionTenantOutput>(ListInvalidationsForDistributionTenantInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvalidationsForDistributionTenantOutput>(ListInvalidationsForDistributionTenantOutput.httpOutput(from:), ListInvalidationsForDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvalidationsForDistributionTenantInput, ListInvalidationsForDistributionTenantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9572,6 +10404,12 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     public func listKeyGroups(input: ListKeyGroupsInput) async throws -> ListKeyGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listKeyGroupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9584,8 +10422,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListKeyGroupsInput, ListKeyGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9595,7 +10435,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListKeyGroupsInput, ListKeyGroupsOutput>(ListKeyGroupsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListKeyGroupsInput, ListKeyGroupsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKeyGroupsInput, ListKeyGroupsOutput>(ListKeyGroupsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeyGroupsOutput>(ListKeyGroupsOutput.httpOutput(from:), ListKeyGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKeyGroupsInput, ListKeyGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9640,6 +10479,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listKeyValueStores(input: ListKeyValueStoresInput) async throws -> ListKeyValueStoresOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listKeyValueStoresOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9652,8 +10497,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListKeyValueStoresInput, ListKeyValueStoresOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9663,7 +10510,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListKeyValueStoresInput, ListKeyValueStoresOutput>(ListKeyValueStoresInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListKeyValueStoresInput, ListKeyValueStoresOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKeyValueStoresInput, ListKeyValueStoresOutput>(ListKeyValueStoresInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeyValueStoresOutput>(ListKeyValueStoresOutput.httpOutput(from:), ListKeyValueStoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKeyValueStoresInput, ListKeyValueStoresOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9706,6 +10552,12 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     public func listOriginAccessControls(input: ListOriginAccessControlsInput) async throws -> ListOriginAccessControlsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listOriginAccessControlsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9718,8 +10570,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListOriginAccessControlsInput, ListOriginAccessControlsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9729,7 +10583,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOriginAccessControlsInput, ListOriginAccessControlsOutput>(ListOriginAccessControlsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOriginAccessControlsInput, ListOriginAccessControlsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOriginAccessControlsInput, ListOriginAccessControlsOutput>(ListOriginAccessControlsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOriginAccessControlsOutput>(ListOriginAccessControlsOutput.httpOutput(from:), ListOriginAccessControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOriginAccessControlsInput, ListOriginAccessControlsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9774,6 +10627,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
     public func listOriginRequestPolicies(input: ListOriginRequestPoliciesInput) async throws -> ListOriginRequestPoliciesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listOriginRequestPoliciesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9786,8 +10645,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9797,7 +10658,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutput>(ListOriginRequestPoliciesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutput>(ListOriginRequestPoliciesInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOriginRequestPoliciesOutput>(ListOriginRequestPoliciesOutput.httpOutput(from:), ListOriginRequestPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOriginRequestPoliciesInput, ListOriginRequestPoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9840,6 +10700,12 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     public func listPublicKeys(input: ListPublicKeysInput) async throws -> ListPublicKeysOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listPublicKeysOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9852,8 +10718,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListPublicKeysInput, ListPublicKeysOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9863,7 +10731,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPublicKeysInput, ListPublicKeysOutput>(ListPublicKeysInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPublicKeysInput, ListPublicKeysOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPublicKeysInput, ListPublicKeysOutput>(ListPublicKeysInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPublicKeysOutput>(ListPublicKeysOutput.httpOutput(from:), ListPublicKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPublicKeysInput, ListPublicKeysOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9908,6 +10775,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
     public func listRealtimeLogConfigs(input: ListRealtimeLogConfigsInput) async throws -> ListRealtimeLogConfigsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listRealtimeLogConfigsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9920,8 +10793,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9931,7 +10806,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutput>(ListRealtimeLogConfigsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutput>(ListRealtimeLogConfigsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRealtimeLogConfigsOutput>(ListRealtimeLogConfigsOutput.httpOutput(from:), ListRealtimeLogConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRealtimeLogConfigsInput, ListRealtimeLogConfigsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9976,6 +10850,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
     public func listResponseHeadersPolicies(input: ListResponseHeadersPoliciesInput) async throws -> ListResponseHeadersPoliciesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listResponseHeadersPoliciesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -9988,8 +10868,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9999,7 +10881,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutput>(ListResponseHeadersPoliciesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutput>(ListResponseHeadersPoliciesInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResponseHeadersPoliciesOutput>(ListResponseHeadersPoliciesOutput.httpOutput(from:), ListResponseHeadersPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResponseHeadersPoliciesInput, ListResponseHeadersPoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10042,6 +10923,12 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     public func listStreamingDistributions(input: ListStreamingDistributionsInput) async throws -> ListStreamingDistributionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listStreamingDistributionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -10054,8 +10941,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListStreamingDistributionsInput, ListStreamingDistributionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10065,7 +10954,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListStreamingDistributionsInput, ListStreamingDistributionsOutput>(ListStreamingDistributionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListStreamingDistributionsInput, ListStreamingDistributionsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStreamingDistributionsInput, ListStreamingDistributionsOutput>(ListStreamingDistributionsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamingDistributionsOutput>(ListStreamingDistributionsOutput.httpOutput(from:), ListStreamingDistributionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamingDistributionsInput, ListStreamingDistributionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10111,6 +10999,12 @@ extension CloudFrontClient {
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -10123,8 +11017,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10134,7 +11030,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10179,6 +11074,12 @@ extension CloudFrontClient {
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
     public func listTrustStores(input: ListTrustStoresInput) async throws -> ListTrustStoresOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listTrustStoresOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10191,8 +11092,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTrustStoresInput, ListTrustStoresOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10202,9 +11105,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTrustStoresInput, ListTrustStoresOutput>(ListTrustStoresInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrustStoresInput, ListTrustStoresOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTrustStoresInput, ListTrustStoresOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTrustStoresInput, ListTrustStoresOutput, SmithyXML.Writer>(rootNodeInfo: .init("ListTrustStoresRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: ListTrustStoresInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTrustStoresInput, ListTrustStoresOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrustStoresOutput>(ListTrustStoresOutput.httpOutput(from:), ListTrustStoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrustStoresInput, ListTrustStoresOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10250,6 +11151,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listVpcOrigins(input: ListVpcOriginsInput) async throws -> ListVpcOriginsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.listVpcOriginsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -10262,8 +11169,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListVpcOriginsInput, ListVpcOriginsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10273,7 +11182,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListVpcOriginsInput, ListVpcOriginsOutput>(ListVpcOriginsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVpcOriginsInput, ListVpcOriginsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVpcOriginsInput, ListVpcOriginsOutput>(ListVpcOriginsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcOriginsOutput>(ListVpcOriginsOutput.httpOutput(from:), ListVpcOriginsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcOriginsInput, ListVpcOriginsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10321,6 +11229,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func publishConnectionFunction(input: PublishConnectionFunctionInput) async throws -> PublishConnectionFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.publishConnectionFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10333,8 +11247,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PublishConnectionFunctionInput, PublishConnectionFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10344,7 +11260,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PublishConnectionFunctionInput, PublishConnectionFunctionOutput>(PublishConnectionFunctionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PublishConnectionFunctionInput, PublishConnectionFunctionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PublishConnectionFunctionInput, PublishConnectionFunctionOutput>(PublishConnectionFunctionInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PublishConnectionFunctionOutput>(PublishConnectionFunctionOutput.httpOutput(from:), PublishConnectionFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PublishConnectionFunctionInput, PublishConnectionFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10391,6 +11306,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func publishFunction(input: PublishFunctionInput) async throws -> PublishFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.publishFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10403,8 +11324,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PublishFunctionInput, PublishFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10414,7 +11337,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PublishFunctionInput, PublishFunctionOutput>(PublishFunctionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PublishFunctionInput, PublishFunctionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PublishFunctionInput, PublishFunctionOutput>(PublishFunctionInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PublishFunctionOutput>(PublishFunctionOutput.httpOutput(from:), PublishFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PublishFunctionInput, PublishFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10462,6 +11384,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.putResourcePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10474,8 +11402,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10485,9 +11415,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(PutResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyXML.Writer>(rootNodeInfo: .init("PutResourcePolicyRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10533,6 +11461,12 @@ extension CloudFrontClient {
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10545,8 +11479,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10557,9 +11493,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<TagResourceInput, TagResourceOutput, CloudFrontClientTypes.Tags, SmithyXML.Writer>(rootNodeInfo: .init("Tags", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.Tags.write(value:to:), keyPath: \.tags, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10607,6 +11541,12 @@ extension CloudFrontClient {
     /// - `TestFunctionFailed` : The CloudFront function failed.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func testConnectionFunction(input: TestConnectionFunctionInput) async throws -> TestConnectionFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.testConnectionFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10619,8 +11559,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TestConnectionFunctionInput, TestConnectionFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10631,9 +11573,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TestConnectionFunctionInput, TestConnectionFunctionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<TestConnectionFunctionInput, TestConnectionFunctionOutput>(TestConnectionFunctionInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TestConnectionFunctionInput, TestConnectionFunctionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<TestConnectionFunctionInput, TestConnectionFunctionOutput, SmithyXML.Writer>(rootNodeInfo: .init("TestConnectionFunctionRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: TestConnectionFunctionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestConnectionFunctionInput, TestConnectionFunctionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TestConnectionFunctionOutput>(TestConnectionFunctionOutput.httpOutput(from:), TestConnectionFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestConnectionFunctionInput, TestConnectionFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10680,6 +11620,12 @@ extension CloudFrontClient {
     /// - `TestFunctionFailed` : The CloudFront function failed.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func testFunction(input: TestFunctionInput) async throws -> TestFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.testFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10692,8 +11638,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TestFunctionInput, TestFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10704,9 +11652,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TestFunctionInput, TestFunctionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<TestFunctionInput, TestFunctionOutput>(TestFunctionInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TestFunctionInput, TestFunctionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<TestFunctionInput, TestFunctionOutput, SmithyXML.Writer>(rootNodeInfo: .init("TestFunctionRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: TestFunctionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestFunctionInput, TestFunctionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TestFunctionOutput>(TestFunctionOutput.httpOutput(from:), TestFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestFunctionInput, TestFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10752,6 +11698,12 @@ extension CloudFrontClient {
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10764,8 +11716,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10776,9 +11730,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UntagResourceInput, UntagResourceOutput, CloudFrontClientTypes.TagKeys, SmithyXML.Writer>(rootNodeInfo: .init("TagKeys", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.TagKeys.write(value:to:), keyPath: \.tagKeys, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10826,6 +11778,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func updateAnycastIpList(input: UpdateAnycastIpListInput) async throws -> UpdateAnycastIpListOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateAnycastIpListOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -10838,8 +11796,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateAnycastIpListInput, UpdateAnycastIpListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10850,9 +11810,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAnycastIpListInput, UpdateAnycastIpListOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateAnycastIpListInput, UpdateAnycastIpListOutput>(UpdateAnycastIpListInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAnycastIpListInput, UpdateAnycastIpListOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAnycastIpListInput, UpdateAnycastIpListOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateAnycastIpListRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: UpdateAnycastIpListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnycastIpListInput, UpdateAnycastIpListOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnycastIpListOutput>(UpdateAnycastIpListOutput.httpOutput(from:), UpdateAnycastIpListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnycastIpListInput, UpdateAnycastIpListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10914,6 +11872,12 @@ extension CloudFrontClient {
     /// - `TooManyHeadersInCachePolicy` : The number of headers in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInCachePolicy` : The number of query strings in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public func updateCachePolicy(input: UpdateCachePolicyInput) async throws -> UpdateCachePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateCachePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -10926,8 +11890,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateCachePolicyInput, UpdateCachePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10938,9 +11904,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutput>(UpdateCachePolicyInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutput, CloudFrontClientTypes.CachePolicyConfig, SmithyXML.Writer>(rootNodeInfo: .init("CachePolicyConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.CachePolicyConfig.write(value:to:), keyPath: \.cachePolicyConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCachePolicyOutput>(UpdateCachePolicyOutput.httpOutput(from:), UpdateCachePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCachePolicyInput, UpdateCachePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10990,6 +11954,12 @@ extension CloudFrontClient {
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func updateCloudFrontOriginAccessIdentity(input: UpdateCloudFrontOriginAccessIdentityInput) async throws -> UpdateCloudFrontOriginAccessIdentityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateCloudFrontOriginAccessIdentityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -11002,8 +11972,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -11014,9 +11986,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput>(UpdateCloudFrontOriginAccessIdentityInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput, CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig, SmithyXML.Writer>(rootNodeInfo: .init("CloudFrontOriginAccessIdentityConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig.write(value:to:), keyPath: \.cloudFrontOriginAccessIdentityConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCloudFrontOriginAccessIdentityOutput>(UpdateCloudFrontOriginAccessIdentityOutput.httpOutput(from:), UpdateCloudFrontOriginAccessIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCloudFrontOriginAccessIdentityInput, UpdateCloudFrontOriginAccessIdentityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -11065,6 +12035,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func updateConnectionFunction(input: UpdateConnectionFunctionInput) async throws -> UpdateConnectionFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateConnectionFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -11077,8 +12053,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateConnectionFunctionInput, UpdateConnectionFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -11089,9 +12067,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateConnectionFunctionInput, UpdateConnectionFunctionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateConnectionFunctionInput, UpdateConnectionFunctionOutput>(UpdateConnectionFunctionInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConnectionFunctionInput, UpdateConnectionFunctionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateConnectionFunctionInput, UpdateConnectionFunctionOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateConnectionFunctionRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: UpdateConnectionFunctionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectionFunctionInput, UpdateConnectionFunctionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectionFunctionOutput>(UpdateConnectionFunctionOutput.httpOutput(from:), UpdateConnectionFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionFunctionInput, UpdateConnectionFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -11141,6 +12117,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `ResourceInUse` : Cannot delete this resource because it is in use.
     public func updateConnectionGroup(input: UpdateConnectionGroupInput) async throws -> UpdateConnectionGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateConnectionGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -11153,8 +12135,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateConnectionGroupInput, UpdateConnectionGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -11165,9 +12149,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateConnectionGroupInput, UpdateConnectionGroupOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateConnectionGroupInput, UpdateConnectionGroupOutput>(UpdateConnectionGroupInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConnectionGroupInput, UpdateConnectionGroupOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateConnectionGroupInput, UpdateConnectionGroupOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateConnectionGroupRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: UpdateConnectionGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectionGroupInput, UpdateConnectionGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectionGroupOutput>(UpdateConnectionGroupOutput.httpOutput(from:), UpdateConnectionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionGroupInput, UpdateConnectionGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -11222,6 +12204,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `StagingDistributionInUse` : A continuous deployment policy for this staging distribution already exists.
     public func updateContinuousDeploymentPolicy(input: UpdateContinuousDeploymentPolicyInput) async throws -> UpdateContinuousDeploymentPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateContinuousDeploymentPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -11234,8 +12222,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -11246,9 +12236,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput>(UpdateContinuousDeploymentPolicyInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput, CloudFrontClientTypes.ContinuousDeploymentPolicyConfig, SmithyXML.Writer>(rootNodeInfo: .init("ContinuousDeploymentPolicyConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig.write(value:to:), keyPath: \.continuousDeploymentPolicyConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContinuousDeploymentPolicyOutput>(UpdateContinuousDeploymentPolicyOutput.httpOutput(from:), UpdateContinuousDeploymentPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContinuousDeploymentPolicyInput, UpdateContinuousDeploymentPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -11370,6 +12358,12 @@ extension CloudFrontClient {
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     public func updateDistribution(input: UpdateDistributionInput) async throws -> UpdateDistributionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateDistributionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -11382,8 +12376,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateDistributionInput, UpdateDistributionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -11394,9 +12390,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDistributionInput, UpdateDistributionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateDistributionInput, UpdateDistributionOutput>(UpdateDistributionInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDistributionInput, UpdateDistributionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateDistributionInput, UpdateDistributionOutput, CloudFrontClientTypes.DistributionConfig, SmithyXML.Writer>(rootNodeInfo: .init("DistributionConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.DistributionConfig.write(value:to:), keyPath: \.distributionConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDistributionInput, UpdateDistributionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDistributionOutput>(UpdateDistributionOutput.httpOutput(from:), UpdateDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDistributionInput, UpdateDistributionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -11447,6 +12441,12 @@ extension CloudFrontClient {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func updateDistributionTenant(input: UpdateDistributionTenantInput) async throws -> UpdateDistributionTenantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateDistributionTenantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -11459,8 +12459,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateDistributionTenantInput, UpdateDistributionTenantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -11471,9 +12473,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDistributionTenantInput, UpdateDistributionTenantOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateDistributionTenantInput, UpdateDistributionTenantOutput>(UpdateDistributionTenantInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDistributionTenantInput, UpdateDistributionTenantOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDistributionTenantInput, UpdateDistributionTenantOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateDistributionTenantRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: UpdateDistributionTenantInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDistributionTenantInput, UpdateDistributionTenantOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDistributionTenantOutput>(UpdateDistributionTenantOutput.httpOutput(from:), UpdateDistributionTenantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDistributionTenantInput, UpdateDistributionTenantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -11582,6 +12582,12 @@ extension CloudFrontClient {
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     public func updateDistributionWithStagingConfig(input: UpdateDistributionWithStagingConfigInput) async throws -> UpdateDistributionWithStagingConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateDistributionWithStagingConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -11594,8 +12600,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -11606,7 +12614,6 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutput>(UpdateDistributionWithStagingConfigInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutput>(UpdateDistributionWithStagingConfigInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDistributionWithStagingConfigOutput>(UpdateDistributionWithStagingConfigOutput.httpOutput(from:), UpdateDistributionWithStagingConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -11654,6 +12661,12 @@ extension CloudFrontClient {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func updateDomainAssociation(input: UpdateDomainAssociationInput) async throws -> UpdateDomainAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateDomainAssociationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -11666,8 +12679,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateDomainAssociationInput, UpdateDomainAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -11678,9 +12693,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDomainAssociationInput, UpdateDomainAssociationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateDomainAssociationInput, UpdateDomainAssociationOutput>(UpdateDomainAssociationInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainAssociationInput, UpdateDomainAssociationOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDomainAssociationInput, UpdateDomainAssociationOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateDomainAssociationRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: UpdateDomainAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainAssociationInput, UpdateDomainAssociationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainAssociationOutput>(UpdateDomainAssociationOutput.httpOutput(from:), UpdateDomainAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainAssociationInput, UpdateDomainAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -11733,6 +12746,12 @@ extension CloudFrontClient {
     /// - `TooManyFieldLevelEncryptionContentTypeProfiles` : The maximum number of content type profiles for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionQueryArgProfiles` : The maximum number of query arg profiles for field-level encryption have been created.
     public func updateFieldLevelEncryptionConfig(input: UpdateFieldLevelEncryptionConfigInput) async throws -> UpdateFieldLevelEncryptionConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateFieldLevelEncryptionConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -11745,8 +12764,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -11757,9 +12778,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput>(UpdateFieldLevelEncryptionConfigInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput, CloudFrontClientTypes.FieldLevelEncryptionConfig, SmithyXML.Writer>(rootNodeInfo: .init("FieldLevelEncryptionConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.FieldLevelEncryptionConfig.write(value:to:), keyPath: \.fieldLevelEncryptionConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFieldLevelEncryptionConfigOutput>(UpdateFieldLevelEncryptionConfigOutput.httpOutput(from:), UpdateFieldLevelEncryptionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFieldLevelEncryptionConfigInput, UpdateFieldLevelEncryptionConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -11813,6 +12832,12 @@ extension CloudFrontClient {
     /// - `TooManyFieldLevelEncryptionEncryptionEntities` : The maximum number of encryption entities for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionFieldPatterns` : The maximum number of field patterns for field-level encryption have been created.
     public func updateFieldLevelEncryptionProfile(input: UpdateFieldLevelEncryptionProfileInput) async throws -> UpdateFieldLevelEncryptionProfileOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateFieldLevelEncryptionProfileOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -11825,8 +12850,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -11837,9 +12864,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput>(UpdateFieldLevelEncryptionProfileInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput, CloudFrontClientTypes.FieldLevelEncryptionProfileConfig, SmithyXML.Writer>(rootNodeInfo: .init("FieldLevelEncryptionProfileConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.FieldLevelEncryptionProfileConfig.write(value:to:), keyPath: \.fieldLevelEncryptionProfileConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFieldLevelEncryptionProfileOutput>(UpdateFieldLevelEncryptionProfileOutput.httpOutput(from:), UpdateFieldLevelEncryptionProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFieldLevelEncryptionProfileInput, UpdateFieldLevelEncryptionProfileOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -11887,6 +12912,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func updateFunction(input: UpdateFunctionInput) async throws -> UpdateFunctionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateFunctionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -11899,8 +12930,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateFunctionInput, UpdateFunctionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -11911,9 +12944,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFunctionInput, UpdateFunctionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateFunctionInput, UpdateFunctionOutput>(UpdateFunctionInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFunctionInput, UpdateFunctionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFunctionInput, UpdateFunctionOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateFunctionRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: UpdateFunctionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFunctionInput, UpdateFunctionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFunctionOutput>(UpdateFunctionOutput.httpOutput(from:), UpdateFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFunctionInput, UpdateFunctionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -11967,6 +12998,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `TooManyPublicKeysInKeyGroup` : The number of public keys in this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public func updateKeyGroup(input: UpdateKeyGroupInput) async throws -> UpdateKeyGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateKeyGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -11979,8 +13016,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateKeyGroupInput, UpdateKeyGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -11991,9 +13030,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutput>(UpdateKeyGroupInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutput, CloudFrontClientTypes.KeyGroupConfig, SmithyXML.Writer>(rootNodeInfo: .init("KeyGroupConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.KeyGroupConfig.write(value:to:), keyPath: \.keyGroupConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKeyGroupOutput>(UpdateKeyGroupOutput.httpOutput(from:), UpdateKeyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKeyGroupInput, UpdateKeyGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -12041,6 +13078,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func updateKeyValueStore(input: UpdateKeyValueStoreInput) async throws -> UpdateKeyValueStoreOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateKeyValueStoreOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -12053,8 +13096,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateKeyValueStoreInput, UpdateKeyValueStoreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -12065,9 +13110,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateKeyValueStoreInput, UpdateKeyValueStoreOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateKeyValueStoreInput, UpdateKeyValueStoreOutput>(UpdateKeyValueStoreInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateKeyValueStoreInput, UpdateKeyValueStoreOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateKeyValueStoreInput, UpdateKeyValueStoreOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateKeyValueStoreRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: UpdateKeyValueStoreInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKeyValueStoreInput, UpdateKeyValueStoreOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKeyValueStoreOutput>(UpdateKeyValueStoreOutput.httpOutput(from:), UpdateKeyValueStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKeyValueStoreInput, UpdateKeyValueStoreOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -12116,6 +13159,12 @@ extension CloudFrontClient {
     /// - `OriginAccessControlAlreadyExists` : An origin access control with the specified parameters already exists.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func updateOriginAccessControl(input: UpdateOriginAccessControlInput) async throws -> UpdateOriginAccessControlOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateOriginAccessControlOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -12128,8 +13177,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -12140,9 +13191,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput>(UpdateOriginAccessControlInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput, CloudFrontClientTypes.OriginAccessControlConfig, SmithyXML.Writer>(rootNodeInfo: .init("OriginAccessControlConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.OriginAccessControlConfig.write(value:to:), keyPath: \.originAccessControlConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOriginAccessControlOutput>(UpdateOriginAccessControlOutput.httpOutput(from:), UpdateOriginAccessControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOriginAccessControlInput, UpdateOriginAccessControlOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -12201,6 +13250,12 @@ extension CloudFrontClient {
     /// - `TooManyHeadersInOriginRequestPolicy` : The number of headers in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInOriginRequestPolicy` : The number of query strings in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public func updateOriginRequestPolicy(input: UpdateOriginRequestPolicyInput) async throws -> UpdateOriginRequestPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateOriginRequestPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -12213,8 +13268,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -12225,9 +13282,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput>(UpdateOriginRequestPolicyInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput, CloudFrontClientTypes.OriginRequestPolicyConfig, SmithyXML.Writer>(rootNodeInfo: .init("OriginRequestPolicyConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.OriginRequestPolicyConfig.write(value:to:), keyPath: \.originRequestPolicyConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOriginRequestPolicyOutput>(UpdateOriginRequestPolicyOutput.httpOutput(from:), UpdateOriginRequestPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOriginRequestPolicyInput, UpdateOriginRequestPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -12276,6 +13331,12 @@ extension CloudFrontClient {
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func updatePublicKey(input: UpdatePublicKeyInput) async throws -> UpdatePublicKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updatePublicKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -12288,8 +13349,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdatePublicKeyInput, UpdatePublicKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -12300,9 +13363,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutput>(UpdatePublicKeyInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutput, CloudFrontClientTypes.PublicKeyConfig, SmithyXML.Writer>(rootNodeInfo: .init("PublicKeyConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.PublicKeyConfig.write(value:to:), keyPath: \.publicKeyConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePublicKeyOutput>(UpdatePublicKeyOutput.httpOutput(from:), UpdatePublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePublicKeyInput, UpdatePublicKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -12356,6 +13417,12 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
     public func updateRealtimeLogConfig(input: UpdateRealtimeLogConfigInput) async throws -> UpdateRealtimeLogConfigOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateRealtimeLogConfigOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -12368,8 +13435,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -12379,9 +13448,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput>(UpdateRealtimeLogConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateRealtimeLogConfigRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: UpdateRealtimeLogConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRealtimeLogConfigOutput>(UpdateRealtimeLogConfigOutput.httpOutput(from:), UpdateRealtimeLogConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -12440,6 +13507,12 @@ extension CloudFrontClient {
     /// - `TooManyCustomHeadersInResponseHeadersPolicy` : The number of custom headers in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyRemoveHeadersInResponseHeadersPolicy` : The number of headers in RemoveHeadersConfig in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public func updateResponseHeadersPolicy(input: UpdateResponseHeadersPolicyInput) async throws -> UpdateResponseHeadersPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateResponseHeadersPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -12452,8 +13525,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -12464,9 +13539,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput>(UpdateResponseHeadersPolicyInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput, CloudFrontClientTypes.ResponseHeadersPolicyConfig, SmithyXML.Writer>(rootNodeInfo: .init("ResponseHeadersPolicyConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.ResponseHeadersPolicyConfig.write(value:to:), keyPath: \.responseHeadersPolicyConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResponseHeadersPolicyOutput>(UpdateResponseHeadersPolicyOutput.httpOutput(from:), UpdateResponseHeadersPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResponseHeadersPolicyInput, UpdateResponseHeadersPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -12522,6 +13595,12 @@ extension CloudFrontClient {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     public func updateStreamingDistribution(input: UpdateStreamingDistributionInput) async throws -> UpdateStreamingDistributionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateStreamingDistributionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -12534,8 +13613,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -12546,9 +13627,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput>(UpdateStreamingDistributionInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput, CloudFrontClientTypes.StreamingDistributionConfig, SmithyXML.Writer>(rootNodeInfo: .init("StreamingDistributionConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.StreamingDistributionConfig.write(value:to:), keyPath: \.streamingDistributionConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStreamingDistributionOutput>(UpdateStreamingDistributionOutput.httpOutput(from:), UpdateStreamingDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamingDistributionInput, UpdateStreamingDistributionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -12595,6 +13674,12 @@ extension CloudFrontClient {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     public func updateTrustStore(input: UpdateTrustStoreInput) async throws -> UpdateTrustStoreOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateTrustStoreOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -12607,8 +13692,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateTrustStoreInput, UpdateTrustStoreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -12619,9 +13706,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>(UpdateTrustStoreInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput, CloudFrontClientTypes.CaCertificatesBundleSource, SmithyXML.Writer>(rootNodeInfo: .init("CaCertificatesBundleSource", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.CaCertificatesBundleSource.write(value:to:), keyPath: \.caCertificatesBundleSource, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrustStoreOutput>(UpdateTrustStoreOutput.httpOutput(from:), UpdateTrustStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -12674,6 +13759,12 @@ extension CloudFrontClient {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func updateVpcOrigin(input: UpdateVpcOriginInput) async throws -> UpdateVpcOriginOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.updateVpcOriginOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -12686,8 +13777,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateVpcOriginInput, UpdateVpcOriginOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -12698,9 +13791,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateVpcOriginInput, UpdateVpcOriginOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateVpcOriginInput, UpdateVpcOriginOutput>(UpdateVpcOriginInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVpcOriginInput, UpdateVpcOriginOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateVpcOriginInput, UpdateVpcOriginOutput, CloudFrontClientTypes.VpcOriginEndpointConfig, SmithyXML.Writer>(rootNodeInfo: .init("VpcOriginEndpointConfig", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: CloudFrontClientTypes.VpcOriginEndpointConfig.write(value:to:), keyPath: \.vpcOriginEndpointConfig, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVpcOriginInput, UpdateVpcOriginOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVpcOriginOutput>(UpdateVpcOriginOutput.httpOutput(from:), UpdateVpcOriginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVpcOriginInput, UpdateVpcOriginOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -12745,6 +13836,12 @@ extension CloudFrontClient {
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
     public func verifyDnsConfiguration(input: VerifyDnsConfigurationInput) async throws -> VerifyDnsConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudFrontClient.verifyDnsConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -12757,8 +13854,10 @@ extension CloudFrontClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cloudfront")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<VerifyDnsConfigurationInput, VerifyDnsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -12768,9 +13867,7 @@ extension CloudFrontClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<VerifyDnsConfigurationInput, VerifyDnsConfigurationOutput>(VerifyDnsConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<VerifyDnsConfigurationInput, VerifyDnsConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<VerifyDnsConfigurationInput, VerifyDnsConfigurationOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<VerifyDnsConfigurationInput, VerifyDnsConfigurationOutput, SmithyXML.Writer>(rootNodeInfo: .init("VerifyDnsConfigurationRequest", namespaceDef: .init(prefix: "", uri: "http://cloudfront.amazonaws.com/doc/2020-05-31/")), inputWritingClosure: VerifyDnsConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyDnsConfigurationInput, VerifyDnsConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyDnsConfigurationOutput>(VerifyDnsConfigurationOutput.httpOutput(from:), VerifyDnsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyDnsConfigurationInput, VerifyDnsConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))

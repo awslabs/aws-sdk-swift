@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.keyspaces#KeyspacesService",
+    "module": "AWSKeyspaces",
+    "sdkId": "Keyspaces",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/keyspaces.json"
+}

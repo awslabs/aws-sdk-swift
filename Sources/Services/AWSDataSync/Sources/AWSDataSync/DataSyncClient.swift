@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,30 +36,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -626,6 +623,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func cancelTaskExecution(input: CancelTaskExecutionInput) async throws -> CancelTaskExecutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.cancelTaskExecutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -638,18 +641,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelTaskExecutionInput, CancelTaskExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>(CancelTaskExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelTaskExecutionOutput>(CancelTaskExecutionOutput.httpOutput(from:), CancelTaskExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -661,7 +664,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelTaskExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>(overrides: ["X-Amz-Target": "FmrsService.CancelTaskExecution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelTaskExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelTaskExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>())
@@ -696,6 +698,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createAgent(input: CreateAgentInput) async throws -> CreateAgentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.createAgentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -708,18 +716,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAgentInput, CreateAgentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAgentInput, CreateAgentOutput>(CreateAgentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAgentInput, CreateAgentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAgentInput, CreateAgentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAgentOutput>(CreateAgentOutput.httpOutput(from:), CreateAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAgentInput, CreateAgentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -731,7 +739,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAgentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAgentInput, CreateAgentOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateAgent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAgentInput, CreateAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAgentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAgentInput, CreateAgentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAgentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAgentInput, CreateAgentOutput>())
@@ -766,6 +773,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationAzureBlob(input: CreateLocationAzureBlobInput) async throws -> CreateLocationAzureBlobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.createLocationAzureBlobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -778,18 +791,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>(CreateLocationAzureBlobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocationAzureBlobOutput>(CreateLocationAzureBlobOutput.httpOutput(from:), CreateLocationAzureBlobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -801,7 +814,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationAzureBlobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationAzureBlob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationAzureBlobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationAzureBlobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>())
@@ -836,6 +848,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationEfs(input: CreateLocationEfsInput) async throws -> CreateLocationEfsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.createLocationEfsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -848,18 +866,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLocationEfsInput, CreateLocationEfsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>(CreateLocationEfsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocationEfsOutput>(CreateLocationEfsOutput.httpOutput(from:), CreateLocationEfsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -871,7 +889,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationEfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationEfs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationEfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationEfsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>())
@@ -906,6 +923,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationFsxLustre(input: CreateLocationFsxLustreInput) async throws -> CreateLocationFsxLustreOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.createLocationFsxLustreOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -918,18 +941,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>(CreateLocationFsxLustreInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocationFsxLustreOutput>(CreateLocationFsxLustreOutput.httpOutput(from:), CreateLocationFsxLustreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -941,7 +964,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationFsxLustreOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationFsxLustre"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationFsxLustreInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationFsxLustreOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>())
@@ -976,6 +998,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationFsxOntap(input: CreateLocationFsxOntapInput) async throws -> CreateLocationFsxOntapOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.createLocationFsxOntapOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -988,18 +1016,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>(CreateLocationFsxOntapInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocationFsxOntapOutput>(CreateLocationFsxOntapOutput.httpOutput(from:), CreateLocationFsxOntapOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1011,7 +1039,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationFsxOntapOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationFsxOntap"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationFsxOntapInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationFsxOntapOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>())
@@ -1046,6 +1073,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationFsxOpenZfs(input: CreateLocationFsxOpenZfsInput) async throws -> CreateLocationFsxOpenZfsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.createLocationFsxOpenZfsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1058,18 +1091,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>(CreateLocationFsxOpenZfsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocationFsxOpenZfsOutput>(CreateLocationFsxOpenZfsOutput.httpOutput(from:), CreateLocationFsxOpenZfsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1081,7 +1114,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationFsxOpenZfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationFsxOpenZfs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationFsxOpenZfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationFsxOpenZfsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>())
@@ -1116,6 +1148,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationFsxWindows(input: CreateLocationFsxWindowsInput) async throws -> CreateLocationFsxWindowsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.createLocationFsxWindowsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1128,18 +1166,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>(CreateLocationFsxWindowsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocationFsxWindowsOutput>(CreateLocationFsxWindowsOutput.httpOutput(from:), CreateLocationFsxWindowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1151,7 +1189,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationFsxWindowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationFsxWindows"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationFsxWindowsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationFsxWindowsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>())
@@ -1186,6 +1223,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationHdfs(input: CreateLocationHdfsInput) async throws -> CreateLocationHdfsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.createLocationHdfsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1198,18 +1241,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLocationHdfsInput, CreateLocationHdfsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>(CreateLocationHdfsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocationHdfsOutput>(CreateLocationHdfsOutput.httpOutput(from:), CreateLocationHdfsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1221,7 +1264,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationHdfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationHdfs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationHdfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationHdfsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>())
@@ -1256,6 +1298,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationNfs(input: CreateLocationNfsInput) async throws -> CreateLocationNfsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.createLocationNfsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1268,18 +1316,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLocationNfsInput, CreateLocationNfsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>(CreateLocationNfsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocationNfsOutput>(CreateLocationNfsOutput.httpOutput(from:), CreateLocationNfsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1291,7 +1339,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationNfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationNfs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationNfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationNfsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>())
@@ -1326,6 +1373,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationObjectStorage(input: CreateLocationObjectStorageInput) async throws -> CreateLocationObjectStorageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.createLocationObjectStorageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1338,18 +1391,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>(CreateLocationObjectStorageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocationObjectStorageOutput>(CreateLocationObjectStorageOutput.httpOutput(from:), CreateLocationObjectStorageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1361,7 +1414,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationObjectStorageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationObjectStorage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationObjectStorageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationObjectStorageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>())
@@ -1403,6 +1455,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationS3(input: CreateLocationS3Input) async throws -> CreateLocationS3Output {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.createLocationS3Operation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1415,18 +1473,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLocationS3Input, CreateLocationS3Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLocationS3Input, CreateLocationS3Output>(CreateLocationS3Input.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLocationS3Input, CreateLocationS3Output>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationS3Input, CreateLocationS3Output>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocationS3Output>(CreateLocationS3Output.httpOutput(from:), CreateLocationS3OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocationS3Input, CreateLocationS3Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1438,7 +1496,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationS3Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationS3Input, CreateLocationS3Output>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationS3"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationS3Input, CreateLocationS3Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationS3Input.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationS3Input, CreateLocationS3Output>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationS3Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLocationS3Input, CreateLocationS3Output>())
@@ -1473,6 +1530,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createLocationSmb(input: CreateLocationSmbInput) async throws -> CreateLocationSmbOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.createLocationSmbOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1485,18 +1548,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateLocationSmbInput, CreateLocationSmbOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>(CreateLocationSmbInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocationSmbOutput>(CreateLocationSmbOutput.httpOutput(from:), CreateLocationSmbOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1508,7 +1571,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLocationSmbOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateLocationSmb"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLocationSmbInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLocationSmbOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>())
@@ -1543,6 +1605,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func createTask(input: CreateTaskInput) async throws -> CreateTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.createTaskOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1555,18 +1623,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTaskInput, CreateTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTaskInput, CreateTaskOutput>(CreateTaskInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTaskInput, CreateTaskOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTaskInput, CreateTaskOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTaskOutput>(CreateTaskOutput.httpOutput(from:), CreateTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTaskInput, CreateTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1578,7 +1646,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTaskInput, CreateTaskOutput>(overrides: ["X-Amz-Target": "FmrsService.CreateTask"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateTaskInput, CreateTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTaskInput, CreateTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTaskInput, CreateTaskOutput>())
@@ -1613,6 +1680,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func deleteAgent(input: DeleteAgentInput) async throws -> DeleteAgentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.deleteAgentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1625,18 +1698,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAgentInput, DeleteAgentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAgentInput, DeleteAgentOutput>(DeleteAgentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAgentInput, DeleteAgentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAgentInput, DeleteAgentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAgentOutput>(DeleteAgentOutput.httpOutput(from:), DeleteAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAgentInput, DeleteAgentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1648,7 +1721,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAgentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAgentInput, DeleteAgentOutput>(overrides: ["X-Amz-Target": "FmrsService.DeleteAgent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAgentInput, DeleteAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAgentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAgentInput, DeleteAgentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAgentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAgentInput, DeleteAgentOutput>())
@@ -1683,6 +1755,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func deleteLocation(input: DeleteLocationInput) async throws -> DeleteLocationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.deleteLocationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1695,18 +1773,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteLocationInput, DeleteLocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLocationInput, DeleteLocationOutput>(DeleteLocationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLocationInput, DeleteLocationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLocationInput, DeleteLocationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLocationOutput>(DeleteLocationOutput.httpOutput(from:), DeleteLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLocationInput, DeleteLocationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1718,7 +1796,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLocationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLocationInput, DeleteLocationOutput>(overrides: ["X-Amz-Target": "FmrsService.DeleteLocation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteLocationInput, DeleteLocationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLocationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLocationInput, DeleteLocationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLocationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLocationInput, DeleteLocationOutput>())
@@ -1753,6 +1830,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func deleteTask(input: DeleteTaskInput) async throws -> DeleteTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.deleteTaskOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1765,18 +1848,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTaskInput, DeleteTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTaskInput, DeleteTaskOutput>(DeleteTaskInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTaskInput, DeleteTaskOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTaskInput, DeleteTaskOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTaskOutput>(DeleteTaskOutput.httpOutput(from:), DeleteTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTaskInput, DeleteTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1788,7 +1871,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTaskInput, DeleteTaskOutput>(overrides: ["X-Amz-Target": "FmrsService.DeleteTask"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTaskInput, DeleteTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTaskInput, DeleteTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTaskInput, DeleteTaskOutput>())
@@ -1823,6 +1905,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeAgent(input: DescribeAgentInput) async throws -> DescribeAgentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeAgentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1835,18 +1923,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeAgentInput, DescribeAgentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAgentInput, DescribeAgentOutput>(DescribeAgentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAgentInput, DescribeAgentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAgentInput, DescribeAgentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAgentOutput>(DescribeAgentOutput.httpOutput(from:), DescribeAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAgentInput, DescribeAgentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1858,7 +1946,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAgentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAgentInput, DescribeAgentOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeAgent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAgentInput, DescribeAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAgentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAgentInput, DescribeAgentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAgentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAgentInput, DescribeAgentOutput>())
@@ -1893,6 +1980,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationAzureBlob(input: DescribeLocationAzureBlobInput) async throws -> DescribeLocationAzureBlobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeLocationAzureBlobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1905,18 +1998,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>(DescribeLocationAzureBlobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocationAzureBlobOutput>(DescribeLocationAzureBlobOutput.httpOutput(from:), DescribeLocationAzureBlobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1928,7 +2021,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationAzureBlobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationAzureBlob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationAzureBlobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationAzureBlobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>())
@@ -1963,6 +2055,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationEfs(input: DescribeLocationEfsInput) async throws -> DescribeLocationEfsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeLocationEfsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1975,18 +2073,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeLocationEfsInput, DescribeLocationEfsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>(DescribeLocationEfsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocationEfsOutput>(DescribeLocationEfsOutput.httpOutput(from:), DescribeLocationEfsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1998,7 +2096,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationEfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationEfs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationEfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationEfsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>())
@@ -2033,6 +2130,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationFsxLustre(input: DescribeLocationFsxLustreInput) async throws -> DescribeLocationFsxLustreOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeLocationFsxLustreOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2045,18 +2148,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>(DescribeLocationFsxLustreInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocationFsxLustreOutput>(DescribeLocationFsxLustreOutput.httpOutput(from:), DescribeLocationFsxLustreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2068,7 +2171,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationFsxLustreOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationFsxLustre"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationFsxLustreInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationFsxLustreOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>())
@@ -2103,6 +2205,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationFsxOntap(input: DescribeLocationFsxOntapInput) async throws -> DescribeLocationFsxOntapOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeLocationFsxOntapOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2115,18 +2223,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>(DescribeLocationFsxOntapInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocationFsxOntapOutput>(DescribeLocationFsxOntapOutput.httpOutput(from:), DescribeLocationFsxOntapOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2138,7 +2246,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationFsxOntapOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationFsxOntap"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationFsxOntapInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationFsxOntapOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>())
@@ -2173,6 +2280,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationFsxOpenZfs(input: DescribeLocationFsxOpenZfsInput) async throws -> DescribeLocationFsxOpenZfsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeLocationFsxOpenZfsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2185,18 +2298,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>(DescribeLocationFsxOpenZfsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocationFsxOpenZfsOutput>(DescribeLocationFsxOpenZfsOutput.httpOutput(from:), DescribeLocationFsxOpenZfsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2208,7 +2321,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationFsxOpenZfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationFsxOpenZfs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationFsxOpenZfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationFsxOpenZfsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>())
@@ -2243,6 +2355,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationFsxWindows(input: DescribeLocationFsxWindowsInput) async throws -> DescribeLocationFsxWindowsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeLocationFsxWindowsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2255,18 +2373,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>(DescribeLocationFsxWindowsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocationFsxWindowsOutput>(DescribeLocationFsxWindowsOutput.httpOutput(from:), DescribeLocationFsxWindowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2278,7 +2396,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationFsxWindowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationFsxWindows"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationFsxWindowsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationFsxWindowsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>())
@@ -2313,6 +2430,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationHdfs(input: DescribeLocationHdfsInput) async throws -> DescribeLocationHdfsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeLocationHdfsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2325,18 +2448,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeLocationHdfsInput, DescribeLocationHdfsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>(DescribeLocationHdfsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocationHdfsOutput>(DescribeLocationHdfsOutput.httpOutput(from:), DescribeLocationHdfsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2348,7 +2471,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationHdfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationHdfs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationHdfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationHdfsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>())
@@ -2383,6 +2505,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationNfs(input: DescribeLocationNfsInput) async throws -> DescribeLocationNfsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeLocationNfsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2395,18 +2523,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeLocationNfsInput, DescribeLocationNfsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>(DescribeLocationNfsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocationNfsOutput>(DescribeLocationNfsOutput.httpOutput(from:), DescribeLocationNfsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2418,7 +2546,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationNfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationNfs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationNfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationNfsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>())
@@ -2453,6 +2580,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationObjectStorage(input: DescribeLocationObjectStorageInput) async throws -> DescribeLocationObjectStorageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeLocationObjectStorageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2465,18 +2598,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>(DescribeLocationObjectStorageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocationObjectStorageOutput>(DescribeLocationObjectStorageOutput.httpOutput(from:), DescribeLocationObjectStorageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2488,7 +2621,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationObjectStorageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationObjectStorage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationObjectStorageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationObjectStorageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>())
@@ -2523,6 +2655,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationS3(input: DescribeLocationS3Input) async throws -> DescribeLocationS3Output {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeLocationS3Operation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2535,18 +2673,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeLocationS3Input, DescribeLocationS3Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>(DescribeLocationS3Input.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocationS3Output>(DescribeLocationS3Output.httpOutput(from:), DescribeLocationS3OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2558,7 +2696,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationS3Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationS3"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationS3Input, DescribeLocationS3Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationS3Input.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationS3Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>())
@@ -2593,6 +2730,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeLocationSmb(input: DescribeLocationSmbInput) async throws -> DescribeLocationSmbOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeLocationSmbOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2605,18 +2748,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeLocationSmbInput, DescribeLocationSmbOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>(DescribeLocationSmbInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocationSmbOutput>(DescribeLocationSmbOutput.httpOutput(from:), DescribeLocationSmbOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2628,7 +2771,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationSmbOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeLocationSmb"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationSmbInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationSmbOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>())
@@ -2663,6 +2805,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeTask(input: DescribeTaskInput) async throws -> DescribeTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeTaskOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2675,18 +2823,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTaskInput, DescribeTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTaskInput, DescribeTaskOutput>(DescribeTaskInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTaskInput, DescribeTaskOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTaskInput, DescribeTaskOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTaskOutput>(DescribeTaskOutput.httpOutput(from:), DescribeTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTaskInput, DescribeTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2698,7 +2846,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTaskInput, DescribeTaskOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeTask"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTaskInput, DescribeTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTaskInput, DescribeTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTaskInput, DescribeTaskOutput>())
@@ -2733,6 +2880,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func describeTaskExecution(input: DescribeTaskExecutionInput) async throws -> DescribeTaskExecutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.describeTaskExecutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2745,18 +2898,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTaskExecutionInput, DescribeTaskExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>(DescribeTaskExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTaskExecutionOutput>(DescribeTaskExecutionOutput.httpOutput(from:), DescribeTaskExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2768,7 +2921,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTaskExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>(overrides: ["X-Amz-Target": "FmrsService.DescribeTaskExecution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTaskExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTaskExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>())
@@ -2803,6 +2955,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func listAgents(input: ListAgentsInput) async throws -> ListAgentsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.listAgentsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2815,18 +2973,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAgentsInput, ListAgentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAgentsInput, ListAgentsOutput>(ListAgentsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAgentsInput, ListAgentsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgentsInput, ListAgentsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAgentsOutput>(ListAgentsOutput.httpOutput(from:), ListAgentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgentsInput, ListAgentsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2838,7 +2996,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAgentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgentsInput, ListAgentsOutput>(overrides: ["X-Amz-Target": "FmrsService.ListAgents"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListAgentsInput, ListAgentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAgentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgentsInput, ListAgentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgentsInput, ListAgentsOutput>())
@@ -2873,6 +3030,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func listLocations(input: ListLocationsInput) async throws -> ListLocationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.listLocationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2885,18 +3048,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListLocationsInput, ListLocationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLocationsInput, ListLocationsOutput>(ListLocationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLocationsInput, ListLocationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLocationsInput, ListLocationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLocationsOutput>(ListLocationsOutput.httpOutput(from:), ListLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLocationsInput, ListLocationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2908,7 +3071,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLocationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLocationsInput, ListLocationsOutput>(overrides: ["X-Amz-Target": "FmrsService.ListLocations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListLocationsInput, ListLocationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLocationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLocationsInput, ListLocationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLocationsInput, ListLocationsOutput>())
@@ -2943,6 +3105,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2955,18 +3123,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2978,7 +3146,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "FmrsService.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -3013,6 +3180,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func listTaskExecutions(input: ListTaskExecutionsInput) async throws -> ListTaskExecutionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.listTaskExecutionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3025,18 +3198,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTaskExecutionsInput, ListTaskExecutionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>(ListTaskExecutionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaskExecutionsOutput>(ListTaskExecutionsOutput.httpOutput(from:), ListTaskExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3048,7 +3221,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTaskExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>(overrides: ["X-Amz-Target": "FmrsService.ListTaskExecutions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTaskExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTaskExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>())
@@ -3083,6 +3255,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func listTasks(input: ListTasksInput) async throws -> ListTasksOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.listTasksOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3095,18 +3273,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTasksInput, ListTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTasksInput, ListTasksOutput>(ListTasksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTasksInput, ListTasksOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTasksInput, ListTasksOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTasksOutput>(ListTasksOutput.httpOutput(from:), ListTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTasksInput, ListTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3118,7 +3296,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTasksInput, ListTasksOutput>(overrides: ["X-Amz-Target": "FmrsService.ListTasks"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTasksInput, ListTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTasksInput, ListTasksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTasksInput, ListTasksOutput>())
@@ -3153,6 +3330,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func startTaskExecution(input: StartTaskExecutionInput) async throws -> StartTaskExecutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.startTaskExecutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3165,18 +3348,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartTaskExecutionInput, StartTaskExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>(StartTaskExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTaskExecutionOutput>(StartTaskExecutionOutput.httpOutput(from:), StartTaskExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3188,7 +3371,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartTaskExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>(overrides: ["X-Amz-Target": "FmrsService.StartTaskExecution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTaskExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTaskExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>())
@@ -3223,6 +3405,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3235,18 +3423,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3258,7 +3446,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "FmrsService.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -3293,6 +3480,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3305,18 +3498,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3328,7 +3521,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "FmrsService.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -3363,6 +3555,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateAgent(input: UpdateAgentInput) async throws -> UpdateAgentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateAgentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3375,18 +3573,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateAgentInput, UpdateAgentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAgentInput, UpdateAgentOutput>(UpdateAgentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAgentInput, UpdateAgentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAgentInput, UpdateAgentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAgentOutput>(UpdateAgentOutput.httpOutput(from:), UpdateAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAgentInput, UpdateAgentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3398,7 +3596,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAgentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAgentInput, UpdateAgentOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateAgent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAgentInput, UpdateAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAgentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAgentInput, UpdateAgentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAgentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAgentInput, UpdateAgentOutput>())
@@ -3433,6 +3630,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationAzureBlob(input: UpdateLocationAzureBlobInput) async throws -> UpdateLocationAzureBlobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateLocationAzureBlobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3445,18 +3648,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>(UpdateLocationAzureBlobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLocationAzureBlobOutput>(UpdateLocationAzureBlobOutput.httpOutput(from:), UpdateLocationAzureBlobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3468,7 +3671,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationAzureBlobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationAzureBlob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationAzureBlobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationAzureBlobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>())
@@ -3503,6 +3705,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationEfs(input: UpdateLocationEfsInput) async throws -> UpdateLocationEfsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateLocationEfsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3515,18 +3723,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLocationEfsInput, UpdateLocationEfsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLocationEfsInput, UpdateLocationEfsOutput>(UpdateLocationEfsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLocationEfsInput, UpdateLocationEfsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLocationEfsInput, UpdateLocationEfsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLocationEfsOutput>(UpdateLocationEfsOutput.httpOutput(from:), UpdateLocationEfsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLocationEfsInput, UpdateLocationEfsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3538,7 +3746,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationEfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationEfsInput, UpdateLocationEfsOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationEfs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationEfsInput, UpdateLocationEfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationEfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationEfsInput, UpdateLocationEfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationEfsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLocationEfsInput, UpdateLocationEfsOutput>())
@@ -3573,6 +3780,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationFsxLustre(input: UpdateLocationFsxLustreInput) async throws -> UpdateLocationFsxLustreOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateLocationFsxLustreOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3585,18 +3798,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLocationFsxLustreInput, UpdateLocationFsxLustreOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLocationFsxLustreInput, UpdateLocationFsxLustreOutput>(UpdateLocationFsxLustreInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLocationFsxLustreInput, UpdateLocationFsxLustreOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLocationFsxLustreInput, UpdateLocationFsxLustreOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLocationFsxLustreOutput>(UpdateLocationFsxLustreOutput.httpOutput(from:), UpdateLocationFsxLustreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLocationFsxLustreInput, UpdateLocationFsxLustreOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3608,7 +3821,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationFsxLustreOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationFsxLustreInput, UpdateLocationFsxLustreOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationFsxLustre"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationFsxLustreInput, UpdateLocationFsxLustreOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationFsxLustreInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationFsxLustreInput, UpdateLocationFsxLustreOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationFsxLustreOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLocationFsxLustreInput, UpdateLocationFsxLustreOutput>())
@@ -3643,6 +3855,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationFsxOntap(input: UpdateLocationFsxOntapInput) async throws -> UpdateLocationFsxOntapOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateLocationFsxOntapOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3655,18 +3873,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLocationFsxOntapInput, UpdateLocationFsxOntapOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLocationFsxOntapInput, UpdateLocationFsxOntapOutput>(UpdateLocationFsxOntapInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLocationFsxOntapInput, UpdateLocationFsxOntapOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLocationFsxOntapInput, UpdateLocationFsxOntapOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLocationFsxOntapOutput>(UpdateLocationFsxOntapOutput.httpOutput(from:), UpdateLocationFsxOntapOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLocationFsxOntapInput, UpdateLocationFsxOntapOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3678,7 +3896,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationFsxOntapOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationFsxOntapInput, UpdateLocationFsxOntapOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationFsxOntap"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationFsxOntapInput, UpdateLocationFsxOntapOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationFsxOntapInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationFsxOntapInput, UpdateLocationFsxOntapOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationFsxOntapOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLocationFsxOntapInput, UpdateLocationFsxOntapOutput>())
@@ -3713,6 +3930,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationFsxOpenZfs(input: UpdateLocationFsxOpenZfsInput) async throws -> UpdateLocationFsxOpenZfsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateLocationFsxOpenZfsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3725,18 +3948,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLocationFsxOpenZfsInput, UpdateLocationFsxOpenZfsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLocationFsxOpenZfsInput, UpdateLocationFsxOpenZfsOutput>(UpdateLocationFsxOpenZfsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLocationFsxOpenZfsInput, UpdateLocationFsxOpenZfsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLocationFsxOpenZfsInput, UpdateLocationFsxOpenZfsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLocationFsxOpenZfsOutput>(UpdateLocationFsxOpenZfsOutput.httpOutput(from:), UpdateLocationFsxOpenZfsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLocationFsxOpenZfsInput, UpdateLocationFsxOpenZfsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3748,7 +3971,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationFsxOpenZfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationFsxOpenZfsInput, UpdateLocationFsxOpenZfsOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationFsxOpenZfs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationFsxOpenZfsInput, UpdateLocationFsxOpenZfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationFsxOpenZfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationFsxOpenZfsInput, UpdateLocationFsxOpenZfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationFsxOpenZfsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLocationFsxOpenZfsInput, UpdateLocationFsxOpenZfsOutput>())
@@ -3783,6 +4005,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationFsxWindows(input: UpdateLocationFsxWindowsInput) async throws -> UpdateLocationFsxWindowsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateLocationFsxWindowsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3795,18 +4023,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLocationFsxWindowsInput, UpdateLocationFsxWindowsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLocationFsxWindowsInput, UpdateLocationFsxWindowsOutput>(UpdateLocationFsxWindowsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLocationFsxWindowsInput, UpdateLocationFsxWindowsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLocationFsxWindowsInput, UpdateLocationFsxWindowsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLocationFsxWindowsOutput>(UpdateLocationFsxWindowsOutput.httpOutput(from:), UpdateLocationFsxWindowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLocationFsxWindowsInput, UpdateLocationFsxWindowsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3818,7 +4046,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationFsxWindowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationFsxWindowsInput, UpdateLocationFsxWindowsOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationFsxWindows"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationFsxWindowsInput, UpdateLocationFsxWindowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationFsxWindowsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationFsxWindowsInput, UpdateLocationFsxWindowsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationFsxWindowsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLocationFsxWindowsInput, UpdateLocationFsxWindowsOutput>())
@@ -3853,6 +4080,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationHdfs(input: UpdateLocationHdfsInput) async throws -> UpdateLocationHdfsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateLocationHdfsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3865,18 +4098,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLocationHdfsInput, UpdateLocationHdfsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>(UpdateLocationHdfsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLocationHdfsOutput>(UpdateLocationHdfsOutput.httpOutput(from:), UpdateLocationHdfsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3888,7 +4121,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationHdfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationHdfs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationHdfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationHdfsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>())
@@ -3923,6 +4155,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationNfs(input: UpdateLocationNfsInput) async throws -> UpdateLocationNfsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateLocationNfsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3935,18 +4173,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLocationNfsInput, UpdateLocationNfsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>(UpdateLocationNfsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLocationNfsOutput>(UpdateLocationNfsOutput.httpOutput(from:), UpdateLocationNfsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3958,7 +4196,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationNfsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationNfs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationNfsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationNfsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>())
@@ -3993,6 +4230,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationObjectStorage(input: UpdateLocationObjectStorageInput) async throws -> UpdateLocationObjectStorageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateLocationObjectStorageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4005,18 +4248,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>(UpdateLocationObjectStorageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLocationObjectStorageOutput>(UpdateLocationObjectStorageOutput.httpOutput(from:), UpdateLocationObjectStorageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4028,7 +4271,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationObjectStorageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationObjectStorage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationObjectStorageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationObjectStorageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>())
@@ -4067,6 +4309,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationS3(input: UpdateLocationS3Input) async throws -> UpdateLocationS3Output {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateLocationS3Operation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4079,18 +4327,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLocationS3Input, UpdateLocationS3Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLocationS3Input, UpdateLocationS3Output>(UpdateLocationS3Input.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLocationS3Input, UpdateLocationS3Output>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLocationS3Input, UpdateLocationS3Output>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLocationS3Output>(UpdateLocationS3Output.httpOutput(from:), UpdateLocationS3OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLocationS3Input, UpdateLocationS3Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4102,7 +4350,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationS3Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationS3Input, UpdateLocationS3Output>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationS3"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationS3Input, UpdateLocationS3Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationS3Input.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationS3Input, UpdateLocationS3Output>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationS3Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLocationS3Input, UpdateLocationS3Output>())
@@ -4137,6 +4384,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateLocationSmb(input: UpdateLocationSmbInput) async throws -> UpdateLocationSmbOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateLocationSmbOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4149,18 +4402,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateLocationSmbInput, UpdateLocationSmbOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>(UpdateLocationSmbInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLocationSmbOutput>(UpdateLocationSmbOutput.httpOutput(from:), UpdateLocationSmbOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4172,7 +4425,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLocationSmbOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateLocationSmb"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLocationSmbInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLocationSmbOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>())
@@ -4207,6 +4459,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateTask(input: UpdateTaskInput) async throws -> UpdateTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateTaskOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4219,18 +4477,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateTaskInput, UpdateTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTaskInput, UpdateTaskOutput>(UpdateTaskInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTaskInput, UpdateTaskOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTaskInput, UpdateTaskOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTaskOutput>(UpdateTaskOutput.httpOutput(from:), UpdateTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTaskInput, UpdateTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4242,7 +4500,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTaskInput, UpdateTaskOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateTask"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTaskInput, UpdateTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTaskInput, UpdateTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTaskInput, UpdateTaskOutput>())
@@ -4277,6 +4534,12 @@ extension DataSyncClient {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     public func updateTaskExecution(input: UpdateTaskExecutionInput) async throws -> UpdateTaskExecutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DataSyncClient.updateTaskExecutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4289,18 +4552,18 @@ extension DataSyncClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateTaskExecutionInput, UpdateTaskExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>(UpdateTaskExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTaskExecutionOutput>(UpdateTaskExecutionOutput.httpOutput(from:), UpdateTaskExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4312,7 +4575,6 @@ extension DataSyncClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTaskExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>(overrides: ["X-Amz-Target": "FmrsService.UpdateTaskExecution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTaskExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTaskExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>())

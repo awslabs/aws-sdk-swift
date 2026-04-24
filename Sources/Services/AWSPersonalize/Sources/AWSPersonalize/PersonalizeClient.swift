@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,30 +35,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -629,6 +626,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func createBatchInferenceJob(input: CreateBatchInferenceJobInput) async throws -> CreateBatchInferenceJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createBatchInferenceJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -641,18 +644,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateBatchInferenceJobInput, CreateBatchInferenceJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateBatchInferenceJobInput, CreateBatchInferenceJobOutput>(CreateBatchInferenceJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateBatchInferenceJobInput, CreateBatchInferenceJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBatchInferenceJobInput, CreateBatchInferenceJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBatchInferenceJobOutput>(CreateBatchInferenceJobOutput.httpOutput(from:), CreateBatchInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBatchInferenceJobInput, CreateBatchInferenceJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -664,7 +667,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBatchInferenceJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBatchInferenceJobInput, CreateBatchInferenceJobOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateBatchInferenceJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateBatchInferenceJobInput, CreateBatchInferenceJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBatchInferenceJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBatchInferenceJobInput, CreateBatchInferenceJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBatchInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBatchInferenceJobInput, CreateBatchInferenceJobOutput>())
@@ -703,6 +705,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func createBatchSegmentJob(input: CreateBatchSegmentJobInput) async throws -> CreateBatchSegmentJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createBatchSegmentJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -715,18 +723,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateBatchSegmentJobInput, CreateBatchSegmentJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateBatchSegmentJobInput, CreateBatchSegmentJobOutput>(CreateBatchSegmentJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateBatchSegmentJobInput, CreateBatchSegmentJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBatchSegmentJobInput, CreateBatchSegmentJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBatchSegmentJobOutput>(CreateBatchSegmentJobOutput.httpOutput(from:), CreateBatchSegmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBatchSegmentJobInput, CreateBatchSegmentJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -738,7 +746,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBatchSegmentJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBatchSegmentJobInput, CreateBatchSegmentJobOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateBatchSegmentJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateBatchSegmentJobInput, CreateBatchSegmentJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBatchSegmentJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBatchSegmentJobInput, CreateBatchSegmentJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBatchSegmentJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBatchSegmentJobInput, CreateBatchSegmentJobOutput>())
@@ -792,6 +799,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createCampaignOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -804,18 +817,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCampaignInput, CreateCampaignOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCampaignInput, CreateCampaignOutput>(CreateCampaignInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCampaignInput, CreateCampaignOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCampaignInput, CreateCampaignOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCampaignOutput>(CreateCampaignOutput.httpOutput(from:), CreateCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCampaignInput, CreateCampaignOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -827,7 +840,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCampaignOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCampaignInput, CreateCampaignOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateCampaign"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateCampaignInput, CreateCampaignOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCampaignInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCampaignInput, CreateCampaignOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCampaignOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCampaignInput, CreateCampaignOutput>())
@@ -882,6 +894,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func createDataDeletionJob(input: CreateDataDeletionJobInput) async throws -> CreateDataDeletionJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createDataDeletionJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -894,18 +912,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateDataDeletionJobInput, CreateDataDeletionJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDataDeletionJobInput, CreateDataDeletionJobOutput>(CreateDataDeletionJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDataDeletionJobInput, CreateDataDeletionJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataDeletionJobInput, CreateDataDeletionJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataDeletionJobOutput>(CreateDataDeletionJobOutput.httpOutput(from:), CreateDataDeletionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataDeletionJobInput, CreateDataDeletionJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -917,7 +935,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDataDeletionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDataDeletionJobInput, CreateDataDeletionJobOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateDataDeletionJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateDataDeletionJobInput, CreateDataDeletionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDataDeletionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDataDeletionJobInput, CreateDataDeletionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataDeletionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDataDeletionJobInput, CreateDataDeletionJobOutput>())
@@ -984,6 +1001,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createDatasetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -996,18 +1019,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateDatasetInput, CreateDatasetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDatasetInput, CreateDatasetOutput>(CreateDatasetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDatasetInput, CreateDatasetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetInput, CreateDatasetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetOutput>(CreateDatasetOutput.httpOutput(from:), CreateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetInput, CreateDatasetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1019,7 +1042,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDatasetInput, CreateDatasetOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateDataset"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateDatasetInput, CreateDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDatasetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDatasetInput, CreateDatasetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDatasetInput, CreateDatasetOutput>())
@@ -1063,6 +1085,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func createDatasetExportJob(input: CreateDatasetExportJobInput) async throws -> CreateDatasetExportJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createDatasetExportJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1075,18 +1103,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateDatasetExportJobInput, CreateDatasetExportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDatasetExportJobInput, CreateDatasetExportJobOutput>(CreateDatasetExportJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDatasetExportJobInput, CreateDatasetExportJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetExportJobInput, CreateDatasetExportJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetExportJobOutput>(CreateDatasetExportJobOutput.httpOutput(from:), CreateDatasetExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetExportJobInput, CreateDatasetExportJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1098,7 +1126,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDatasetExportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDatasetExportJobInput, CreateDatasetExportJobOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateDatasetExportJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateDatasetExportJobInput, CreateDatasetExportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDatasetExportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDatasetExportJobInput, CreateDatasetExportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDatasetExportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDatasetExportJobInput, CreateDatasetExportJobOutput>())
@@ -1170,6 +1197,12 @@ extension PersonalizeClient {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func createDatasetGroup(input: CreateDatasetGroupInput) async throws -> CreateDatasetGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createDatasetGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1182,18 +1215,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateDatasetGroupInput, CreateDatasetGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutput>(CreateDatasetGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetGroupOutput>(CreateDatasetGroupOutput.httpOutput(from:), CreateDatasetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1205,7 +1238,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDatasetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateDatasetGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDatasetGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDatasetGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutput>())
@@ -1253,6 +1285,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func createDatasetImportJob(input: CreateDatasetImportJobInput) async throws -> CreateDatasetImportJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createDatasetImportJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1265,18 +1303,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateDatasetImportJobInput, CreateDatasetImportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutput>(CreateDatasetImportJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetImportJobOutput>(CreateDatasetImportJobOutput.httpOutput(from:), CreateDatasetImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1288,7 +1326,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDatasetImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateDatasetImportJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDatasetImportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDatasetImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutput>())
@@ -1340,6 +1377,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func createEventTracker(input: CreateEventTrackerInput) async throws -> CreateEventTrackerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createEventTrackerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1352,18 +1395,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateEventTrackerInput, CreateEventTrackerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEventTrackerInput, CreateEventTrackerOutput>(CreateEventTrackerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEventTrackerInput, CreateEventTrackerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventTrackerInput, CreateEventTrackerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventTrackerOutput>(CreateEventTrackerOutput.httpOutput(from:), CreateEventTrackerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventTrackerInput, CreateEventTrackerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1375,7 +1418,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEventTrackerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEventTrackerInput, CreateEventTrackerOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateEventTracker"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateEventTrackerInput, CreateEventTrackerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEventTrackerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEventTrackerInput, CreateEventTrackerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEventTrackerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEventTrackerInput, CreateEventTrackerOutput>())
@@ -1413,6 +1455,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createFilterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1425,18 +1473,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateFilterInput, CreateFilterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFilterInput, CreateFilterOutput>(CreateFilterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFilterInput, CreateFilterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFilterInput, CreateFilterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFilterOutput>(CreateFilterOutput.httpOutput(from:), CreateFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFilterInput, CreateFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1448,7 +1496,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFilterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFilterInput, CreateFilterOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateFilter"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateFilterInput, CreateFilterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFilterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFilterInput, CreateFilterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFilterInput, CreateFilterOutput>())
@@ -1486,6 +1533,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func createMetricAttribution(input: CreateMetricAttributionInput) async throws -> CreateMetricAttributionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createMetricAttributionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1498,18 +1551,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateMetricAttributionInput, CreateMetricAttributionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateMetricAttributionInput, CreateMetricAttributionOutput>(CreateMetricAttributionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateMetricAttributionInput, CreateMetricAttributionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMetricAttributionInput, CreateMetricAttributionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMetricAttributionOutput>(CreateMetricAttributionOutput.httpOutput(from:), CreateMetricAttributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMetricAttributionInput, CreateMetricAttributionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1521,7 +1574,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateMetricAttributionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateMetricAttributionInput, CreateMetricAttributionOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateMetricAttribution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateMetricAttributionInput, CreateMetricAttributionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateMetricAttributionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMetricAttributionInput, CreateMetricAttributionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMetricAttributionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMetricAttributionInput, CreateMetricAttributionOutput>())
@@ -1577,6 +1629,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func createRecommender(input: CreateRecommenderInput) async throws -> CreateRecommenderOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createRecommenderOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1589,18 +1647,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRecommenderInput, CreateRecommenderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRecommenderInput, CreateRecommenderOutput>(CreateRecommenderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRecommenderInput, CreateRecommenderOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRecommenderInput, CreateRecommenderOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRecommenderOutput>(CreateRecommenderOutput.httpOutput(from:), CreateRecommenderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRecommenderInput, CreateRecommenderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1612,7 +1670,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRecommenderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRecommenderInput, CreateRecommenderOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateRecommender"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRecommenderInput, CreateRecommenderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRecommenderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRecommenderInput, CreateRecommenderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRecommenderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRecommenderInput, CreateRecommenderOutput>())
@@ -1654,6 +1711,12 @@ extension PersonalizeClient {
     /// - `LimitExceededException` : The limit on the number of requests per second has been exceeded.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     public func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createSchemaOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1666,18 +1729,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateSchemaInput, CreateSchemaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSchemaInput, CreateSchemaOutput>(CreateSchemaInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSchemaInput, CreateSchemaOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSchemaInput, CreateSchemaOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSchemaOutput>(CreateSchemaOutput.httpOutput(from:), CreateSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSchemaInput, CreateSchemaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1689,7 +1752,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSchemaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSchemaInput, CreateSchemaOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateSchema"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateSchemaInput, CreateSchemaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSchemaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSchemaInput, CreateSchemaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSchemaInput, CreateSchemaOutput>())
@@ -1752,6 +1814,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func createSolution(input: CreateSolutionInput) async throws -> CreateSolutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createSolutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1764,18 +1832,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateSolutionInput, CreateSolutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSolutionInput, CreateSolutionOutput>(CreateSolutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSolutionInput, CreateSolutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSolutionInput, CreateSolutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSolutionOutput>(CreateSolutionOutput.httpOutput(from:), CreateSolutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSolutionInput, CreateSolutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1787,7 +1855,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSolutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSolutionInput, CreateSolutionOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateSolution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateSolutionInput, CreateSolutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSolutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSolutionInput, CreateSolutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSolutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSolutionInput, CreateSolutionOutput>())
@@ -1853,6 +1920,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func createSolutionVersion(input: CreateSolutionVersionInput) async throws -> CreateSolutionVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.createSolutionVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1865,18 +1938,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateSolutionVersionInput, CreateSolutionVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSolutionVersionInput, CreateSolutionVersionOutput>(CreateSolutionVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSolutionVersionInput, CreateSolutionVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSolutionVersionInput, CreateSolutionVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSolutionVersionOutput>(CreateSolutionVersionOutput.httpOutput(from:), CreateSolutionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSolutionVersionInput, CreateSolutionVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1888,7 +1961,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSolutionVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSolutionVersionInput, CreateSolutionVersionOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.CreateSolutionVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateSolutionVersionInput, CreateSolutionVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSolutionVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSolutionVersionInput, CreateSolutionVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSolutionVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSolutionVersionInput, CreateSolutionVersionOutput>())
@@ -1924,6 +1996,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.deleteCampaignOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1936,18 +2014,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCampaignInput, DeleteCampaignOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCampaignInput, DeleteCampaignOutput>(DeleteCampaignInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCampaignInput, DeleteCampaignOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCampaignInput, DeleteCampaignOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCampaignOutput>(DeleteCampaignOutput.httpOutput(from:), DeleteCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCampaignInput, DeleteCampaignOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1959,7 +2037,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCampaignOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCampaignInput, DeleteCampaignOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DeleteCampaign"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCampaignInput, DeleteCampaignOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCampaignInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCampaignInput, DeleteCampaignOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCampaignOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCampaignInput, DeleteCampaignOutput>())
@@ -1995,6 +2072,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.deleteDatasetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2007,18 +2090,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteDatasetInput, DeleteDatasetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(DeleteDatasetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(DeleteDatasetOutput.httpOutput(from:), DeleteDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2030,7 +2113,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DeleteDataset"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteDatasetInput, DeleteDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDatasetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
@@ -2072,6 +2154,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func deleteDatasetGroup(input: DeleteDatasetGroupInput) async throws -> DeleteDatasetGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.deleteDatasetGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2084,18 +2172,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteDatasetGroupInput, DeleteDatasetGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutput>(DeleteDatasetGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetGroupOutput>(DeleteDatasetGroupOutput.httpOutput(from:), DeleteDatasetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2107,7 +2195,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDatasetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DeleteDatasetGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDatasetGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDatasetGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutput>())
@@ -2143,6 +2230,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func deleteEventTracker(input: DeleteEventTrackerInput) async throws -> DeleteEventTrackerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.deleteEventTrackerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2155,18 +2248,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteEventTrackerInput, DeleteEventTrackerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEventTrackerInput, DeleteEventTrackerOutput>(DeleteEventTrackerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventTrackerInput, DeleteEventTrackerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventTrackerInput, DeleteEventTrackerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventTrackerOutput>(DeleteEventTrackerOutput.httpOutput(from:), DeleteEventTrackerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventTrackerInput, DeleteEventTrackerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2178,7 +2271,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEventTrackerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEventTrackerInput, DeleteEventTrackerOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DeleteEventTracker"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEventTrackerInput, DeleteEventTrackerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEventTrackerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEventTrackerInput, DeleteEventTrackerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEventTrackerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEventTrackerInput, DeleteEventTrackerOutput>())
@@ -2214,6 +2306,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func deleteFilter(input: DeleteFilterInput) async throws -> DeleteFilterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.deleteFilterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2226,18 +2324,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteFilterInput, DeleteFilterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFilterInput, DeleteFilterOutput>(DeleteFilterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFilterInput, DeleteFilterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFilterInput, DeleteFilterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFilterOutput>(DeleteFilterOutput.httpOutput(from:), DeleteFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFilterInput, DeleteFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2249,7 +2347,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFilterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFilterInput, DeleteFilterOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DeleteFilter"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFilterInput, DeleteFilterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFilterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFilterInput, DeleteFilterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFilterInput, DeleteFilterOutput>())
@@ -2285,6 +2382,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func deleteMetricAttribution(input: DeleteMetricAttributionInput) async throws -> DeleteMetricAttributionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.deleteMetricAttributionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2297,18 +2400,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteMetricAttributionInput, DeleteMetricAttributionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteMetricAttributionInput, DeleteMetricAttributionOutput>(DeleteMetricAttributionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMetricAttributionInput, DeleteMetricAttributionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMetricAttributionInput, DeleteMetricAttributionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMetricAttributionOutput>(DeleteMetricAttributionOutput.httpOutput(from:), DeleteMetricAttributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMetricAttributionInput, DeleteMetricAttributionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2320,7 +2423,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMetricAttributionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMetricAttributionInput, DeleteMetricAttributionOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DeleteMetricAttribution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteMetricAttributionInput, DeleteMetricAttributionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMetricAttributionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMetricAttributionInput, DeleteMetricAttributionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMetricAttributionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMetricAttributionInput, DeleteMetricAttributionOutput>())
@@ -2356,6 +2458,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func deleteRecommender(input: DeleteRecommenderInput) async throws -> DeleteRecommenderOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.deleteRecommenderOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2368,18 +2476,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRecommenderInput, DeleteRecommenderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRecommenderInput, DeleteRecommenderOutput>(DeleteRecommenderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRecommenderInput, DeleteRecommenderOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRecommenderInput, DeleteRecommenderOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecommenderOutput>(DeleteRecommenderOutput.httpOutput(from:), DeleteRecommenderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecommenderInput, DeleteRecommenderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2391,7 +2499,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRecommenderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRecommenderInput, DeleteRecommenderOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DeleteRecommender"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRecommenderInput, DeleteRecommenderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRecommenderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRecommenderInput, DeleteRecommenderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRecommenderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRecommenderInput, DeleteRecommenderOutput>())
@@ -2427,6 +2534,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.deleteSchemaOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2439,18 +2552,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteSchemaInput, DeleteSchemaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(DeleteSchemaInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSchemaInput, DeleteSchemaOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSchemaInput, DeleteSchemaOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSchemaOutput>(DeleteSchemaOutput.httpOutput(from:), DeleteSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2462,7 +2575,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSchemaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DeleteSchema"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSchemaInput, DeleteSchemaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSchemaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSchemaInput, DeleteSchemaOutput>())
@@ -2498,6 +2610,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func deleteSolution(input: DeleteSolutionInput) async throws -> DeleteSolutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.deleteSolutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2510,18 +2628,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteSolutionInput, DeleteSolutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSolutionInput, DeleteSolutionOutput>(DeleteSolutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSolutionInput, DeleteSolutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSolutionInput, DeleteSolutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSolutionOutput>(DeleteSolutionOutput.httpOutput(from:), DeleteSolutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSolutionInput, DeleteSolutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2533,7 +2651,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSolutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSolutionInput, DeleteSolutionOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DeleteSolution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSolutionInput, DeleteSolutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSolutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSolutionInput, DeleteSolutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSolutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSolutionInput, DeleteSolutionOutput>())
@@ -2568,6 +2685,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeAlgorithm(input: DescribeAlgorithmInput) async throws -> DescribeAlgorithmOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeAlgorithmOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2580,18 +2703,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeAlgorithmInput, DescribeAlgorithmOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>(DescribeAlgorithmInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlgorithmOutput>(DescribeAlgorithmOutput.httpOutput(from:), DescribeAlgorithmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2603,7 +2726,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAlgorithmOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeAlgorithm"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAlgorithmInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAlgorithmOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>())
@@ -2638,6 +2760,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeBatchInferenceJob(input: DescribeBatchInferenceJobInput) async throws -> DescribeBatchInferenceJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeBatchInferenceJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2650,18 +2778,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeBatchInferenceJobInput, DescribeBatchInferenceJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBatchInferenceJobInput, DescribeBatchInferenceJobOutput>(DescribeBatchInferenceJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBatchInferenceJobInput, DescribeBatchInferenceJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBatchInferenceJobInput, DescribeBatchInferenceJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBatchInferenceJobOutput>(DescribeBatchInferenceJobOutput.httpOutput(from:), DescribeBatchInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBatchInferenceJobInput, DescribeBatchInferenceJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2673,7 +2801,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBatchInferenceJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBatchInferenceJobInput, DescribeBatchInferenceJobOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeBatchInferenceJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBatchInferenceJobInput, DescribeBatchInferenceJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBatchInferenceJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBatchInferenceJobInput, DescribeBatchInferenceJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBatchInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBatchInferenceJobInput, DescribeBatchInferenceJobOutput>())
@@ -2708,6 +2835,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeBatchSegmentJob(input: DescribeBatchSegmentJobInput) async throws -> DescribeBatchSegmentJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeBatchSegmentJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2720,18 +2853,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeBatchSegmentJobInput, DescribeBatchSegmentJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBatchSegmentJobInput, DescribeBatchSegmentJobOutput>(DescribeBatchSegmentJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBatchSegmentJobInput, DescribeBatchSegmentJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBatchSegmentJobInput, DescribeBatchSegmentJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBatchSegmentJobOutput>(DescribeBatchSegmentJobOutput.httpOutput(from:), DescribeBatchSegmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBatchSegmentJobInput, DescribeBatchSegmentJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2743,7 +2876,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBatchSegmentJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBatchSegmentJobInput, DescribeBatchSegmentJobOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeBatchSegmentJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBatchSegmentJobInput, DescribeBatchSegmentJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBatchSegmentJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBatchSegmentJobInput, DescribeBatchSegmentJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBatchSegmentJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBatchSegmentJobInput, DescribeBatchSegmentJobOutput>())
@@ -2785,6 +2917,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeCampaign(input: DescribeCampaignInput) async throws -> DescribeCampaignOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeCampaignOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2797,18 +2935,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCampaignInput, DescribeCampaignOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCampaignInput, DescribeCampaignOutput>(DescribeCampaignInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCampaignInput, DescribeCampaignOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCampaignInput, DescribeCampaignOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCampaignOutput>(DescribeCampaignOutput.httpOutput(from:), DescribeCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCampaignInput, DescribeCampaignOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2820,7 +2958,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCampaignOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCampaignInput, DescribeCampaignOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeCampaign"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCampaignInput, DescribeCampaignOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCampaignInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCampaignInput, DescribeCampaignOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCampaignOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCampaignInput, DescribeCampaignOutput>())
@@ -2855,6 +2992,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeDataDeletionJob(input: DescribeDataDeletionJobInput) async throws -> DescribeDataDeletionJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeDataDeletionJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2867,18 +3010,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeDataDeletionJobInput, DescribeDataDeletionJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDataDeletionJobInput, DescribeDataDeletionJobOutput>(DescribeDataDeletionJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDataDeletionJobInput, DescribeDataDeletionJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataDeletionJobInput, DescribeDataDeletionJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataDeletionJobOutput>(DescribeDataDeletionJobOutput.httpOutput(from:), DescribeDataDeletionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataDeletionJobInput, DescribeDataDeletionJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2890,7 +3033,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDataDeletionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDataDeletionJobInput, DescribeDataDeletionJobOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeDataDeletionJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDataDeletionJobInput, DescribeDataDeletionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDataDeletionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDataDeletionJobInput, DescribeDataDeletionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDataDeletionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDataDeletionJobInput, DescribeDataDeletionJobOutput>())
@@ -2925,6 +3067,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeDatasetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2937,18 +3085,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeDatasetInput, DescribeDatasetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(DescribeDatasetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(DescribeDatasetOutput.httpOutput(from:), DescribeDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2960,7 +3108,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeDataset"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDatasetInput, DescribeDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDatasetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
@@ -2995,6 +3142,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeDatasetExportJob(input: DescribeDatasetExportJobInput) async throws -> DescribeDatasetExportJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeDatasetExportJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3007,18 +3160,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeDatasetExportJobInput, DescribeDatasetExportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDatasetExportJobInput, DescribeDatasetExportJobOutput>(DescribeDatasetExportJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDatasetExportJobInput, DescribeDatasetExportJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetExportJobInput, DescribeDatasetExportJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetExportJobOutput>(DescribeDatasetExportJobOutput.httpOutput(from:), DescribeDatasetExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetExportJobInput, DescribeDatasetExportJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3030,7 +3183,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDatasetExportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDatasetExportJobInput, DescribeDatasetExportJobOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeDatasetExportJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDatasetExportJobInput, DescribeDatasetExportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDatasetExportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDatasetExportJobInput, DescribeDatasetExportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDatasetExportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDatasetExportJobInput, DescribeDatasetExportJobOutput>())
@@ -3065,6 +3217,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeDatasetGroup(input: DescribeDatasetGroupInput) async throws -> DescribeDatasetGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeDatasetGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3077,18 +3235,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeDatasetGroupInput, DescribeDatasetGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutput>(DescribeDatasetGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetGroupOutput>(DescribeDatasetGroupOutput.httpOutput(from:), DescribeDatasetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3100,7 +3258,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDatasetGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeDatasetGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDatasetGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDatasetGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutput>())
@@ -3135,6 +3292,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeDatasetImportJob(input: DescribeDatasetImportJobInput) async throws -> DescribeDatasetImportJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeDatasetImportJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3147,18 +3310,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutput>(DescribeDatasetImportJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetImportJobOutput>(DescribeDatasetImportJobOutput.httpOutput(from:), DescribeDatasetImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3170,7 +3333,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDatasetImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeDatasetImportJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDatasetImportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDatasetImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutput>())
@@ -3205,6 +3367,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeEventTracker(input: DescribeEventTrackerInput) async throws -> DescribeEventTrackerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeEventTrackerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3217,18 +3385,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeEventTrackerInput, DescribeEventTrackerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeEventTrackerInput, DescribeEventTrackerOutput>(DescribeEventTrackerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEventTrackerInput, DescribeEventTrackerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventTrackerInput, DescribeEventTrackerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventTrackerOutput>(DescribeEventTrackerOutput.httpOutput(from:), DescribeEventTrackerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventTrackerInput, DescribeEventTrackerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3240,7 +3408,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEventTrackerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEventTrackerInput, DescribeEventTrackerOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeEventTracker"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeEventTrackerInput, DescribeEventTrackerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEventTrackerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEventTrackerInput, DescribeEventTrackerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEventTrackerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEventTrackerInput, DescribeEventTrackerOutput>())
@@ -3275,6 +3442,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeFeatureTransformation(input: DescribeFeatureTransformationInput) async throws -> DescribeFeatureTransformationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeFeatureTransformationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3287,18 +3460,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeFeatureTransformationInput, DescribeFeatureTransformationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFeatureTransformationInput, DescribeFeatureTransformationOutput>(DescribeFeatureTransformationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFeatureTransformationInput, DescribeFeatureTransformationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFeatureTransformationInput, DescribeFeatureTransformationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFeatureTransformationOutput>(DescribeFeatureTransformationOutput.httpOutput(from:), DescribeFeatureTransformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFeatureTransformationInput, DescribeFeatureTransformationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3310,7 +3483,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFeatureTransformationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFeatureTransformationInput, DescribeFeatureTransformationOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeFeatureTransformation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFeatureTransformationInput, DescribeFeatureTransformationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFeatureTransformationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFeatureTransformationInput, DescribeFeatureTransformationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFeatureTransformationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFeatureTransformationInput, DescribeFeatureTransformationOutput>())
@@ -3345,6 +3517,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeFilter(input: DescribeFilterInput) async throws -> DescribeFilterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeFilterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3357,18 +3535,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeFilterInput, DescribeFilterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFilterInput, DescribeFilterOutput>(DescribeFilterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFilterInput, DescribeFilterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFilterInput, DescribeFilterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFilterOutput>(DescribeFilterOutput.httpOutput(from:), DescribeFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFilterInput, DescribeFilterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3380,7 +3558,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFilterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFilterInput, DescribeFilterOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeFilter"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFilterInput, DescribeFilterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFilterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFilterInput, DescribeFilterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFilterInput, DescribeFilterOutput>())
@@ -3415,6 +3592,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeMetricAttribution(input: DescribeMetricAttributionInput) async throws -> DescribeMetricAttributionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeMetricAttributionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3427,18 +3610,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeMetricAttributionInput, DescribeMetricAttributionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMetricAttributionInput, DescribeMetricAttributionOutput>(DescribeMetricAttributionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMetricAttributionInput, DescribeMetricAttributionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetricAttributionInput, DescribeMetricAttributionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMetricAttributionOutput>(DescribeMetricAttributionOutput.httpOutput(from:), DescribeMetricAttributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetricAttributionInput, DescribeMetricAttributionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3450,7 +3633,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMetricAttributionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeMetricAttributionInput, DescribeMetricAttributionOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeMetricAttribution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMetricAttributionInput, DescribeMetricAttributionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMetricAttributionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMetricAttributionInput, DescribeMetricAttributionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMetricAttributionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMetricAttributionInput, DescribeMetricAttributionOutput>())
@@ -3494,6 +3676,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeRecipe(input: DescribeRecipeInput) async throws -> DescribeRecipeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeRecipeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3506,18 +3694,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRecipeInput, DescribeRecipeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRecipeInput, DescribeRecipeOutput>(DescribeRecipeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRecipeInput, DescribeRecipeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRecipeInput, DescribeRecipeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRecipeOutput>(DescribeRecipeOutput.httpOutput(from:), DescribeRecipeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRecipeInput, DescribeRecipeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3529,7 +3717,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRecipeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRecipeInput, DescribeRecipeOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeRecipe"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRecipeInput, DescribeRecipeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRecipeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRecipeInput, DescribeRecipeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRecipeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRecipeInput, DescribeRecipeOutput>())
@@ -3573,6 +3760,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeRecommender(input: DescribeRecommenderInput) async throws -> DescribeRecommenderOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeRecommenderOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3585,18 +3778,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRecommenderInput, DescribeRecommenderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRecommenderInput, DescribeRecommenderOutput>(DescribeRecommenderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRecommenderInput, DescribeRecommenderOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRecommenderInput, DescribeRecommenderOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRecommenderOutput>(DescribeRecommenderOutput.httpOutput(from:), DescribeRecommenderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRecommenderInput, DescribeRecommenderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3608,7 +3801,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRecommenderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRecommenderInput, DescribeRecommenderOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeRecommender"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRecommenderInput, DescribeRecommenderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRecommenderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRecommenderInput, DescribeRecommenderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRecommenderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRecommenderInput, DescribeRecommenderOutput>())
@@ -3643,6 +3835,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeSchema(input: DescribeSchemaInput) async throws -> DescribeSchemaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeSchemaOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3655,18 +3853,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSchemaInput, DescribeSchemaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSchemaInput, DescribeSchemaOutput>(DescribeSchemaInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSchemaInput, DescribeSchemaOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSchemaInput, DescribeSchemaOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSchemaOutput>(DescribeSchemaOutput.httpOutput(from:), DescribeSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSchemaInput, DescribeSchemaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3678,7 +3876,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSchemaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSchemaInput, DescribeSchemaOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeSchema"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSchemaInput, DescribeSchemaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSchemaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSchemaInput, DescribeSchemaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSchemaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSchemaInput, DescribeSchemaOutput>())
@@ -3713,6 +3910,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeSolution(input: DescribeSolutionInput) async throws -> DescribeSolutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeSolutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3725,18 +3928,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSolutionInput, DescribeSolutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSolutionInput, DescribeSolutionOutput>(DescribeSolutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSolutionInput, DescribeSolutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSolutionInput, DescribeSolutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSolutionOutput>(DescribeSolutionOutput.httpOutput(from:), DescribeSolutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSolutionInput, DescribeSolutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3748,7 +3951,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSolutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSolutionInput, DescribeSolutionOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeSolution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSolutionInput, DescribeSolutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSolutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSolutionInput, DescribeSolutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSolutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSolutionInput, DescribeSolutionOutput>())
@@ -3783,6 +3985,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func describeSolutionVersion(input: DescribeSolutionVersionInput) async throws -> DescribeSolutionVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.describeSolutionVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3795,18 +4003,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSolutionVersionInput, DescribeSolutionVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSolutionVersionInput, DescribeSolutionVersionOutput>(DescribeSolutionVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSolutionVersionInput, DescribeSolutionVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSolutionVersionInput, DescribeSolutionVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSolutionVersionOutput>(DescribeSolutionVersionOutput.httpOutput(from:), DescribeSolutionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSolutionVersionInput, DescribeSolutionVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3818,7 +4026,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSolutionVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSolutionVersionInput, DescribeSolutionVersionOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.DescribeSolutionVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSolutionVersionInput, DescribeSolutionVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSolutionVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSolutionVersionInput, DescribeSolutionVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSolutionVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSolutionVersionInput, DescribeSolutionVersionOutput>())
@@ -3854,6 +4061,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func getSolutionMetrics(input: GetSolutionMetricsInput) async throws -> GetSolutionMetricsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.getSolutionMetricsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3866,18 +4079,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetSolutionMetricsInput, GetSolutionMetricsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSolutionMetricsInput, GetSolutionMetricsOutput>(GetSolutionMetricsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSolutionMetricsInput, GetSolutionMetricsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSolutionMetricsInput, GetSolutionMetricsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolutionMetricsOutput>(GetSolutionMetricsOutput.httpOutput(from:), GetSolutionMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolutionMetricsInput, GetSolutionMetricsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3889,7 +4102,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSolutionMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSolutionMetricsInput, GetSolutionMetricsOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.GetSolutionMetrics"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSolutionMetricsInput, GetSolutionMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSolutionMetricsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSolutionMetricsInput, GetSolutionMetricsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSolutionMetricsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSolutionMetricsInput, GetSolutionMetricsOutput>())
@@ -3924,6 +4136,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listBatchInferenceJobs(input: ListBatchInferenceJobsInput) async throws -> ListBatchInferenceJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listBatchInferenceJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3936,18 +4154,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListBatchInferenceJobsInput, ListBatchInferenceJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListBatchInferenceJobsInput, ListBatchInferenceJobsOutput>(ListBatchInferenceJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBatchInferenceJobsInput, ListBatchInferenceJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBatchInferenceJobsInput, ListBatchInferenceJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBatchInferenceJobsOutput>(ListBatchInferenceJobsOutput.httpOutput(from:), ListBatchInferenceJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBatchInferenceJobsInput, ListBatchInferenceJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3959,7 +4177,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBatchInferenceJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBatchInferenceJobsInput, ListBatchInferenceJobsOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListBatchInferenceJobs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListBatchInferenceJobsInput, ListBatchInferenceJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBatchInferenceJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBatchInferenceJobsInput, ListBatchInferenceJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBatchInferenceJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBatchInferenceJobsInput, ListBatchInferenceJobsOutput>())
@@ -3994,6 +4211,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listBatchSegmentJobs(input: ListBatchSegmentJobsInput) async throws -> ListBatchSegmentJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listBatchSegmentJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4006,18 +4229,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListBatchSegmentJobsInput, ListBatchSegmentJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListBatchSegmentJobsInput, ListBatchSegmentJobsOutput>(ListBatchSegmentJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBatchSegmentJobsInput, ListBatchSegmentJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBatchSegmentJobsInput, ListBatchSegmentJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBatchSegmentJobsOutput>(ListBatchSegmentJobsOutput.httpOutput(from:), ListBatchSegmentJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBatchSegmentJobsInput, ListBatchSegmentJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4029,7 +4252,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBatchSegmentJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBatchSegmentJobsInput, ListBatchSegmentJobsOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListBatchSegmentJobs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListBatchSegmentJobsInput, ListBatchSegmentJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBatchSegmentJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBatchSegmentJobsInput, ListBatchSegmentJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBatchSegmentJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBatchSegmentJobsInput, ListBatchSegmentJobsOutput>())
@@ -4064,6 +4286,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listCampaigns(input: ListCampaignsInput) async throws -> ListCampaignsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listCampaignsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4076,18 +4304,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCampaignsInput, ListCampaignsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCampaignsInput, ListCampaignsOutput>(ListCampaignsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCampaignsInput, ListCampaignsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCampaignsInput, ListCampaignsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCampaignsOutput>(ListCampaignsOutput.httpOutput(from:), ListCampaignsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCampaignsInput, ListCampaignsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4099,7 +4327,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCampaignsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCampaignsInput, ListCampaignsOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListCampaigns"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCampaignsInput, ListCampaignsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCampaignsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCampaignsInput, ListCampaignsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCampaignsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCampaignsInput, ListCampaignsOutput>())
@@ -4134,6 +4361,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listDataDeletionJobs(input: ListDataDeletionJobsInput) async throws -> ListDataDeletionJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listDataDeletionJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4146,18 +4379,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDataDeletionJobsInput, ListDataDeletionJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDataDeletionJobsInput, ListDataDeletionJobsOutput>(ListDataDeletionJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDataDeletionJobsInput, ListDataDeletionJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataDeletionJobsInput, ListDataDeletionJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataDeletionJobsOutput>(ListDataDeletionJobsOutput.httpOutput(from:), ListDataDeletionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataDeletionJobsInput, ListDataDeletionJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4169,7 +4402,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataDeletionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataDeletionJobsInput, ListDataDeletionJobsOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListDataDeletionJobs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDataDeletionJobsInput, ListDataDeletionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataDeletionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataDeletionJobsInput, ListDataDeletionJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataDeletionJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataDeletionJobsInput, ListDataDeletionJobsOutput>())
@@ -4204,6 +4436,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listDatasetExportJobs(input: ListDatasetExportJobsInput) async throws -> ListDatasetExportJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listDatasetExportJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4216,18 +4454,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDatasetExportJobsInput, ListDatasetExportJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDatasetExportJobsInput, ListDatasetExportJobsOutput>(ListDatasetExportJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDatasetExportJobsInput, ListDatasetExportJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetExportJobsInput, ListDatasetExportJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetExportJobsOutput>(ListDatasetExportJobsOutput.httpOutput(from:), ListDatasetExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetExportJobsInput, ListDatasetExportJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4239,7 +4477,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDatasetExportJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDatasetExportJobsInput, ListDatasetExportJobsOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListDatasetExportJobs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDatasetExportJobsInput, ListDatasetExportJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetExportJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatasetExportJobsInput, ListDatasetExportJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDatasetExportJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDatasetExportJobsInput, ListDatasetExportJobsOutput>())
@@ -4273,6 +4510,12 @@ extension PersonalizeClient {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listDatasetGroups(input: ListDatasetGroupsInput) async throws -> ListDatasetGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listDatasetGroupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4285,18 +4528,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDatasetGroupsInput, ListDatasetGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutput>(ListDatasetGroupsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetGroupsOutput>(ListDatasetGroupsOutput.httpOutput(from:), ListDatasetGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4308,7 +4551,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDatasetGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListDatasetGroups"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDatasetGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutput>())
@@ -4343,6 +4585,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listDatasetImportJobs(input: ListDatasetImportJobsInput) async throws -> ListDatasetImportJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listDatasetImportJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4355,18 +4603,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDatasetImportJobsInput, ListDatasetImportJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutput>(ListDatasetImportJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetImportJobsOutput>(ListDatasetImportJobsOutput.httpOutput(from:), ListDatasetImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4378,7 +4626,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDatasetImportJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListDatasetImportJobs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetImportJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDatasetImportJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutput>())
@@ -4413,6 +4660,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listDatasetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4425,18 +4678,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDatasetsInput, ListDatasetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDatasetsInput, ListDatasetsOutput>(ListDatasetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDatasetsInput, ListDatasetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetsInput, ListDatasetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetsOutput>(ListDatasetsOutput.httpOutput(from:), ListDatasetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetsInput, ListDatasetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4448,7 +4701,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDatasetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDatasetsInput, ListDatasetsOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListDatasets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDatasetsInput, ListDatasetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatasetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatasetsInput, ListDatasetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDatasetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDatasetsInput, ListDatasetsOutput>())
@@ -4483,6 +4735,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listEventTrackers(input: ListEventTrackersInput) async throws -> ListEventTrackersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listEventTrackersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4495,18 +4753,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListEventTrackersInput, ListEventTrackersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEventTrackersInput, ListEventTrackersOutput>(ListEventTrackersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEventTrackersInput, ListEventTrackersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventTrackersInput, ListEventTrackersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventTrackersOutput>(ListEventTrackersOutput.httpOutput(from:), ListEventTrackersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventTrackersInput, ListEventTrackersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4518,7 +4776,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEventTrackersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEventTrackersInput, ListEventTrackersOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListEventTrackers"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListEventTrackersInput, ListEventTrackersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEventTrackersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEventTrackersInput, ListEventTrackersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEventTrackersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEventTrackersInput, ListEventTrackersOutput>())
@@ -4553,6 +4810,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listFilters(input: ListFiltersInput) async throws -> ListFiltersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listFiltersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4565,18 +4828,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFiltersInput, ListFiltersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFiltersInput, ListFiltersOutput>(ListFiltersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFiltersInput, ListFiltersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFiltersInput, ListFiltersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFiltersOutput>(ListFiltersOutput.httpOutput(from:), ListFiltersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFiltersInput, ListFiltersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4588,7 +4851,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFiltersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFiltersInput, ListFiltersOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListFilters"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFiltersInput, ListFiltersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFiltersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFiltersInput, ListFiltersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFiltersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFiltersInput, ListFiltersOutput>())
@@ -4623,6 +4885,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listMetricAttributionMetrics(input: ListMetricAttributionMetricsInput) async throws -> ListMetricAttributionMetricsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listMetricAttributionMetricsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4635,18 +4903,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListMetricAttributionMetricsInput, ListMetricAttributionMetricsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMetricAttributionMetricsInput, ListMetricAttributionMetricsOutput>(ListMetricAttributionMetricsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMetricAttributionMetricsInput, ListMetricAttributionMetricsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricAttributionMetricsInput, ListMetricAttributionMetricsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMetricAttributionMetricsOutput>(ListMetricAttributionMetricsOutput.httpOutput(from:), ListMetricAttributionMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricAttributionMetricsInput, ListMetricAttributionMetricsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4658,7 +4926,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMetricAttributionMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMetricAttributionMetricsInput, ListMetricAttributionMetricsOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListMetricAttributionMetrics"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListMetricAttributionMetricsInput, ListMetricAttributionMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMetricAttributionMetricsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMetricAttributionMetricsInput, ListMetricAttributionMetricsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMetricAttributionMetricsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMetricAttributionMetricsInput, ListMetricAttributionMetricsOutput>())
@@ -4693,6 +4960,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listMetricAttributions(input: ListMetricAttributionsInput) async throws -> ListMetricAttributionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listMetricAttributionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4705,18 +4978,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListMetricAttributionsInput, ListMetricAttributionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMetricAttributionsInput, ListMetricAttributionsOutput>(ListMetricAttributionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMetricAttributionsInput, ListMetricAttributionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricAttributionsInput, ListMetricAttributionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMetricAttributionsOutput>(ListMetricAttributionsOutput.httpOutput(from:), ListMetricAttributionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricAttributionsInput, ListMetricAttributionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4728,7 +5001,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMetricAttributionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMetricAttributionsInput, ListMetricAttributionsOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListMetricAttributions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListMetricAttributionsInput, ListMetricAttributionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMetricAttributionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMetricAttributionsInput, ListMetricAttributionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMetricAttributionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMetricAttributionsInput, ListMetricAttributionsOutput>())
@@ -4763,6 +5035,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listRecipes(input: ListRecipesInput) async throws -> ListRecipesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listRecipesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4775,18 +5053,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRecipesInput, ListRecipesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRecipesInput, ListRecipesOutput>(ListRecipesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRecipesInput, ListRecipesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecipesInput, ListRecipesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecipesOutput>(ListRecipesOutput.httpOutput(from:), ListRecipesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecipesInput, ListRecipesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4798,7 +5076,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecipesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRecipesInput, ListRecipesOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListRecipes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRecipesInput, ListRecipesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRecipesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecipesInput, ListRecipesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecipesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecipesInput, ListRecipesOutput>())
@@ -4833,6 +5110,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listRecommenders(input: ListRecommendersInput) async throws -> ListRecommendersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listRecommendersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4845,18 +5128,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRecommendersInput, ListRecommendersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRecommendersInput, ListRecommendersOutput>(ListRecommendersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRecommendersInput, ListRecommendersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendersInput, ListRecommendersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecommendersOutput>(ListRecommendersOutput.httpOutput(from:), ListRecommendersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendersInput, ListRecommendersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4868,7 +5151,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecommendersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRecommendersInput, ListRecommendersOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListRecommenders"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRecommendersInput, ListRecommendersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRecommendersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendersInput, ListRecommendersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecommendersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecommendersInput, ListRecommendersOutput>())
@@ -4902,6 +5184,12 @@ extension PersonalizeClient {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listSchemasOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4914,18 +5202,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSchemasInput, ListSchemasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSchemasInput, ListSchemasOutput>(ListSchemasInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSchemasInput, ListSchemasOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSchemasInput, ListSchemasOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSchemasOutput>(ListSchemasOutput.httpOutput(from:), ListSchemasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchemasInput, ListSchemasOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4937,7 +5225,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSchemasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSchemasInput, ListSchemasOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListSchemas"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSchemasInput, ListSchemasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSchemasInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSchemasInput, ListSchemasOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSchemasOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSchemasInput, ListSchemasOutput>())
@@ -4973,6 +5260,12 @@ extension PersonalizeClient {
     /// - `InvalidNextTokenException` : The token is not valid.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func listSolutionVersions(input: ListSolutionVersionsInput) async throws -> ListSolutionVersionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listSolutionVersionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4985,18 +5278,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSolutionVersionsInput, ListSolutionVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSolutionVersionsInput, ListSolutionVersionsOutput>(ListSolutionVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSolutionVersionsInput, ListSolutionVersionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSolutionVersionsInput, ListSolutionVersionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolutionVersionsOutput>(ListSolutionVersionsOutput.httpOutput(from:), ListSolutionVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolutionVersionsInput, ListSolutionVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5008,7 +5301,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSolutionVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSolutionVersionsInput, ListSolutionVersionsOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListSolutionVersions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSolutionVersionsInput, ListSolutionVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSolutionVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSolutionVersionsInput, ListSolutionVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSolutionVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSolutionVersionsInput, ListSolutionVersionsOutput>())
@@ -5043,6 +5335,12 @@ extension PersonalizeClient {
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     /// - `InvalidNextTokenException` : The token is not valid.
     public func listSolutions(input: ListSolutionsInput) async throws -> ListSolutionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listSolutionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5055,18 +5353,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSolutionsInput, ListSolutionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSolutionsInput, ListSolutionsOutput>(ListSolutionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSolutionsInput, ListSolutionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSolutionsInput, ListSolutionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolutionsOutput>(ListSolutionsOutput.httpOutput(from:), ListSolutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolutionsInput, ListSolutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5078,7 +5376,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSolutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSolutionsInput, ListSolutionsOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListSolutions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSolutionsInput, ListSolutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSolutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSolutionsInput, ListSolutionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSolutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSolutionsInput, ListSolutionsOutput>())
@@ -5114,6 +5411,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5126,18 +5429,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5149,7 +5452,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -5185,6 +5487,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func startRecommender(input: StartRecommenderInput) async throws -> StartRecommenderOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.startRecommenderOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5197,18 +5505,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartRecommenderInput, StartRecommenderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartRecommenderInput, StartRecommenderOutput>(StartRecommenderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartRecommenderInput, StartRecommenderOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRecommenderInput, StartRecommenderOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRecommenderOutput>(StartRecommenderOutput.httpOutput(from:), StartRecommenderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRecommenderInput, StartRecommenderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5220,7 +5528,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartRecommenderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartRecommenderInput, StartRecommenderOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.StartRecommender"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartRecommenderInput, StartRecommenderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartRecommenderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartRecommenderInput, StartRecommenderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartRecommenderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartRecommenderInput, StartRecommenderOutput>())
@@ -5256,6 +5563,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func stopRecommender(input: StopRecommenderInput) async throws -> StopRecommenderOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.stopRecommenderOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5268,18 +5581,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopRecommenderInput, StopRecommenderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopRecommenderInput, StopRecommenderOutput>(StopRecommenderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopRecommenderInput, StopRecommenderOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopRecommenderInput, StopRecommenderOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopRecommenderOutput>(StopRecommenderOutput.httpOutput(from:), StopRecommenderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopRecommenderInput, StopRecommenderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5291,7 +5604,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopRecommenderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopRecommenderInput, StopRecommenderOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.StopRecommender"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopRecommenderInput, StopRecommenderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopRecommenderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopRecommenderInput, StopRecommenderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopRecommenderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopRecommenderInput, StopRecommenderOutput>())
@@ -5334,6 +5646,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func stopSolutionVersionCreation(input: StopSolutionVersionCreationInput) async throws -> StopSolutionVersionCreationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.stopSolutionVersionCreationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5346,18 +5664,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopSolutionVersionCreationInput, StopSolutionVersionCreationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopSolutionVersionCreationInput, StopSolutionVersionCreationOutput>(StopSolutionVersionCreationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopSolutionVersionCreationInput, StopSolutionVersionCreationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopSolutionVersionCreationInput, StopSolutionVersionCreationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopSolutionVersionCreationOutput>(StopSolutionVersionCreationOutput.httpOutput(from:), StopSolutionVersionCreationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSolutionVersionCreationInput, StopSolutionVersionCreationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5369,7 +5687,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopSolutionVersionCreationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopSolutionVersionCreationInput, StopSolutionVersionCreationOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.StopSolutionVersionCreation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopSolutionVersionCreationInput, StopSolutionVersionCreationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopSolutionVersionCreationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopSolutionVersionCreationInput, StopSolutionVersionCreationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopSolutionVersionCreationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopSolutionVersionCreationInput, StopSolutionVersionCreationOutput>())
@@ -5407,6 +5724,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagsException` : You have exceeded the maximum number of tags you can apply to this resource.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5419,18 +5742,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5442,7 +5765,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -5479,6 +5801,12 @@ extension PersonalizeClient {
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     /// - `TooManyTagKeysException` : The request contains more tag keys than can be associated with a resource (50 tag keys per resource).
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5491,18 +5819,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5514,7 +5842,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -5557,6 +5884,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.updateCampaignOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5569,18 +5902,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateCampaignInput, UpdateCampaignOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCampaignInput, UpdateCampaignOutput>(UpdateCampaignInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCampaignInput, UpdateCampaignOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCampaignInput, UpdateCampaignOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCampaignOutput>(UpdateCampaignOutput.httpOutput(from:), UpdateCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCampaignInput, UpdateCampaignOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5592,7 +5925,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCampaignOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCampaignInput, UpdateCampaignOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.UpdateCampaign"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCampaignInput, UpdateCampaignOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCampaignInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCampaignInput, UpdateCampaignOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCampaignOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCampaignInput, UpdateCampaignOutput>())
@@ -5628,6 +5960,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.updateDatasetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5640,18 +5978,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateDatasetInput, UpdateDatasetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDatasetInput, UpdateDatasetOutput>(UpdateDatasetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDatasetInput, UpdateDatasetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatasetInput, UpdateDatasetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDatasetOutput>(UpdateDatasetOutput.httpOutput(from:), UpdateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatasetInput, UpdateDatasetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5663,7 +6001,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDatasetInput, UpdateDatasetOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.UpdateDataset"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDatasetInput, UpdateDatasetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDatasetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDatasetInput, UpdateDatasetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDatasetInput, UpdateDatasetOutput>())
@@ -5700,6 +6037,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func updateMetricAttribution(input: UpdateMetricAttributionInput) async throws -> UpdateMetricAttributionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.updateMetricAttributionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5712,18 +6055,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateMetricAttributionInput, UpdateMetricAttributionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateMetricAttributionInput, UpdateMetricAttributionOutput>(UpdateMetricAttributionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateMetricAttributionInput, UpdateMetricAttributionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMetricAttributionInput, UpdateMetricAttributionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMetricAttributionOutput>(UpdateMetricAttributionOutput.httpOutput(from:), UpdateMetricAttributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMetricAttributionInput, UpdateMetricAttributionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5735,7 +6078,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMetricAttributionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateMetricAttributionInput, UpdateMetricAttributionOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.UpdateMetricAttribution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateMetricAttributionInput, UpdateMetricAttributionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateMetricAttributionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMetricAttributionInput, UpdateMetricAttributionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMetricAttributionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMetricAttributionInput, UpdateMetricAttributionOutput>())
@@ -5771,6 +6113,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func updateRecommender(input: UpdateRecommenderInput) async throws -> UpdateRecommenderOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.updateRecommenderOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5783,18 +6131,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateRecommenderInput, UpdateRecommenderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRecommenderInput, UpdateRecommenderOutput>(UpdateRecommenderInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRecommenderInput, UpdateRecommenderOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRecommenderInput, UpdateRecommenderOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRecommenderOutput>(UpdateRecommenderOutput.httpOutput(from:), UpdateRecommenderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRecommenderInput, UpdateRecommenderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5806,7 +6154,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRecommenderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRecommenderInput, UpdateRecommenderOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.UpdateRecommender"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRecommenderInput, UpdateRecommenderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRecommenderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRecommenderInput, UpdateRecommenderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRecommenderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRecommenderInput, UpdateRecommenderOutput>())
@@ -5843,6 +6190,12 @@ extension PersonalizeClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func updateSolution(input: UpdateSolutionInput) async throws -> UpdateSolutionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PersonalizeClient.updateSolutionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5855,18 +6208,18 @@ extension PersonalizeClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateSolutionInput, UpdateSolutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSolutionInput, UpdateSolutionOutput>(UpdateSolutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSolutionInput, UpdateSolutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSolutionInput, UpdateSolutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSolutionOutput>(UpdateSolutionOutput.httpOutput(from:), UpdateSolutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSolutionInput, UpdateSolutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5878,7 +6231,6 @@ extension PersonalizeClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSolutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSolutionInput, UpdateSolutionOutput>(overrides: ["X-Amz-Target": "AmazonPersonalize.UpdateSolution"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSolutionInput, UpdateSolutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSolutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSolutionInput, UpdateSolutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSolutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSolutionInput, UpdateSolutionOutput>())

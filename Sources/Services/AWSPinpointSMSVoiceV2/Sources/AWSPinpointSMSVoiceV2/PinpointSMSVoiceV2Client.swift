@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,22 +36,21 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
@@ -62,8 +58,9 @@ import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -632,6 +629,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func associateOriginationIdentity(input: AssociateOriginationIdentityInput) async throws -> AssociateOriginationIdentityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.associateOriginationIdentityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -644,8 +647,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -653,10 +658,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(AssociateOriginationIdentityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateOriginationIdentityOutput>(AssociateOriginationIdentityOutput.httpOutput(from:), AssociateOriginationIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -668,7 +671,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateOriginationIdentityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.AssociateOriginationIdentity"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateOriginationIdentityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateOriginationIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>())
@@ -707,6 +709,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func associateProtectConfiguration(input: AssociateProtectConfigurationInput) async throws -> AssociateProtectConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.associateProtectConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -719,18 +727,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(AssociateProtectConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateProtectConfigurationOutput>(AssociateProtectConfigurationOutput.httpOutput(from:), AssociateProtectConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -742,7 +750,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.AssociateProtectConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>())
@@ -780,6 +787,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func carrierLookup(input: CarrierLookupInput) async throws -> CarrierLookupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.carrierLookupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -792,18 +805,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CarrierLookupInput, CarrierLookupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CarrierLookupInput, CarrierLookupOutput>(CarrierLookupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CarrierLookupInput, CarrierLookupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CarrierLookupInput, CarrierLookupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CarrierLookupOutput>(CarrierLookupOutput.httpOutput(from:), CarrierLookupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CarrierLookupInput, CarrierLookupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -815,7 +828,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CarrierLookupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CarrierLookupInput, CarrierLookupOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CarrierLookup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CarrierLookupInput, CarrierLookupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CarrierLookupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CarrierLookupInput, CarrierLookupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CarrierLookupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CarrierLookupInput, CarrierLookupOutput>())
@@ -854,6 +866,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.createConfigurationSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -866,8 +884,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateConfigurationSetInput, CreateConfigurationSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -875,10 +895,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(CreateConfigurationSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfigurationSetOutput>(CreateConfigurationSetOutput.httpOutput(from:), CreateConfigurationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -890,7 +908,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateConfigurationSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateConfigurationSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConfigurationSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConfigurationSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>())
@@ -930,6 +947,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func createEventDestination(input: CreateEventDestinationInput) async throws -> CreateEventDestinationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.createEventDestinationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -942,8 +965,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateEventDestinationInput, CreateEventDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -951,10 +976,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(CreateEventDestinationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventDestinationOutput>(CreateEventDestinationOutput.httpOutput(from:), CreateEventDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -966,7 +989,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEventDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateEventDestination"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEventDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEventDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>())
@@ -1006,6 +1028,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func createNotifyConfiguration(input: CreateNotifyConfigurationInput) async throws -> CreateNotifyConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.createNotifyConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1018,8 +1046,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateNotifyConfigurationInput, CreateNotifyConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1027,10 +1057,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateNotifyConfigurationInput, CreateNotifyConfigurationOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateNotifyConfigurationInput, CreateNotifyConfigurationOutput>(CreateNotifyConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateNotifyConfigurationInput, CreateNotifyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNotifyConfigurationInput, CreateNotifyConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNotifyConfigurationOutput>(CreateNotifyConfigurationOutput.httpOutput(from:), CreateNotifyConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNotifyConfigurationInput, CreateNotifyConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1042,7 +1070,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateNotifyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateNotifyConfigurationInput, CreateNotifyConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateNotifyConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateNotifyConfigurationInput, CreateNotifyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateNotifyConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateNotifyConfigurationInput, CreateNotifyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateNotifyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateNotifyConfigurationInput, CreateNotifyConfigurationOutput>())
@@ -1081,6 +1108,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func createOptOutList(input: CreateOptOutListInput) async throws -> CreateOptOutListOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.createOptOutListOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1093,8 +1126,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateOptOutListInput, CreateOptOutListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1102,10 +1137,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(CreateOptOutListInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateOptOutListInput, CreateOptOutListOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOptOutListInput, CreateOptOutListOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOptOutListOutput>(CreateOptOutListOutput.httpOutput(from:), CreateOptOutListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1117,7 +1150,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOptOutListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateOptOutList"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateOptOutListInput, CreateOptOutListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOptOutListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOptOutListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateOptOutListInput, CreateOptOutListOutput>())
@@ -1157,6 +1189,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func createPool(input: CreatePoolInput) async throws -> CreatePoolOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.createPoolOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1169,8 +1207,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreatePoolInput, CreatePoolOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1178,10 +1218,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreatePoolInput, CreatePoolOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePoolInput, CreatePoolOutput>(CreatePoolInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePoolInput, CreatePoolOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePoolInput, CreatePoolOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePoolOutput>(CreatePoolOutput.httpOutput(from:), CreatePoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePoolInput, CreatePoolOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1193,7 +1231,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePoolInput, CreatePoolOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreatePool"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreatePoolInput, CreatePoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePoolInput, CreatePoolOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePoolInput, CreatePoolOutput>())
@@ -1232,6 +1269,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func createProtectConfiguration(input: CreateProtectConfigurationInput) async throws -> CreateProtectConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.createProtectConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1244,8 +1287,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateProtectConfigurationInput, CreateProtectConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1253,10 +1298,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(CreateProtectConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProtectConfigurationOutput>(CreateProtectConfigurationOutput.httpOutput(from:), CreateProtectConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1268,7 +1311,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateProtectConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>())
@@ -1308,6 +1350,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func createRcsAgent(input: CreateRcsAgentInput) async throws -> CreateRcsAgentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.createRcsAgentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1320,8 +1368,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRcsAgentInput, CreateRcsAgentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1329,10 +1379,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateRcsAgentInput, CreateRcsAgentOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRcsAgentInput, CreateRcsAgentOutput>(CreateRcsAgentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRcsAgentInput, CreateRcsAgentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRcsAgentInput, CreateRcsAgentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRcsAgentOutput>(CreateRcsAgentOutput.httpOutput(from:), CreateRcsAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRcsAgentInput, CreateRcsAgentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1344,7 +1392,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRcsAgentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRcsAgentInput, CreateRcsAgentOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateRcsAgent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRcsAgentInput, CreateRcsAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRcsAgentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRcsAgentInput, CreateRcsAgentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRcsAgentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRcsAgentInput, CreateRcsAgentOutput>())
@@ -1383,6 +1430,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func createRegistration(input: CreateRegistrationInput) async throws -> CreateRegistrationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.createRegistrationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1395,8 +1448,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRegistrationInput, CreateRegistrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1404,10 +1459,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateRegistrationInput, CreateRegistrationOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRegistrationInput, CreateRegistrationOutput>(CreateRegistrationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRegistrationInput, CreateRegistrationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRegistrationInput, CreateRegistrationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRegistrationOutput>(CreateRegistrationOutput.httpOutput(from:), CreateRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRegistrationInput, CreateRegistrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1419,7 +1472,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegistrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRegistrationInput, CreateRegistrationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateRegistration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRegistrationInput, CreateRegistrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegistrationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegistrationInput, CreateRegistrationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRegistrationInput, CreateRegistrationOutput>())
@@ -1459,6 +1511,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func createRegistrationAssociation(input: CreateRegistrationAssociationInput) async throws -> CreateRegistrationAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.createRegistrationAssociationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1471,18 +1529,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>(CreateRegistrationAssociationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRegistrationAssociationOutput>(CreateRegistrationAssociationOutput.httpOutput(from:), CreateRegistrationAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1494,7 +1552,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegistrationAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateRegistrationAssociation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegistrationAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistrationAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>())
@@ -1533,6 +1590,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func createRegistrationAttachment(input: CreateRegistrationAttachmentInput) async throws -> CreateRegistrationAttachmentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.createRegistrationAttachmentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1545,8 +1608,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1554,10 +1619,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>(CreateRegistrationAttachmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRegistrationAttachmentOutput>(CreateRegistrationAttachmentOutput.httpOutput(from:), CreateRegistrationAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1569,7 +1632,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegistrationAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateRegistrationAttachment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegistrationAttachmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistrationAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>())
@@ -1609,6 +1671,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func createRegistrationVersion(input: CreateRegistrationVersionInput) async throws -> CreateRegistrationVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.createRegistrationVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1621,18 +1689,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRegistrationVersionInput, CreateRegistrationVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>(CreateRegistrationVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRegistrationVersionOutput>(CreateRegistrationVersionOutput.httpOutput(from:), CreateRegistrationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1644,7 +1712,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegistrationVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateRegistrationVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegistrationVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistrationVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>())
@@ -1684,6 +1751,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func createVerifiedDestinationNumber(input: CreateVerifiedDestinationNumberInput) async throws -> CreateVerifiedDestinationNumberOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.createVerifiedDestinationNumberOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1696,8 +1769,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1705,10 +1780,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>(CreateVerifiedDestinationNumberInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVerifiedDestinationNumberOutput>(CreateVerifiedDestinationNumberOutput.httpOutput(from:), CreateVerifiedDestinationNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1720,7 +1793,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVerifiedDestinationNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.CreateVerifiedDestinationNumber"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVerifiedDestinationNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVerifiedDestinationNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>())
@@ -1758,6 +1830,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteAccountDefaultProtectConfiguration(input: DeleteAccountDefaultProtectConfigurationInput) async throws -> DeleteAccountDefaultProtectConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteAccountDefaultProtectConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1770,18 +1848,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(DeleteAccountDefaultProtectConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountDefaultProtectConfigurationOutput>(DeleteAccountDefaultProtectConfigurationOutput.httpOutput(from:), DeleteAccountDefaultProtectConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1793,7 +1871,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAccountDefaultProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteAccountDefaultProtectConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAccountDefaultProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAccountDefaultProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>())
@@ -1831,6 +1908,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteConfigurationSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1843,18 +1926,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteConfigurationSetInput, DeleteConfigurationSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(DeleteConfigurationSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetOutput>(DeleteConfigurationSetOutput.httpOutput(from:), DeleteConfigurationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1866,7 +1949,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConfigurationSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteConfigurationSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConfigurationSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfigurationSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>())
@@ -1904,6 +1986,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteDefaultMessageType(input: DeleteDefaultMessageTypeInput) async throws -> DeleteDefaultMessageTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteDefaultMessageTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1916,18 +2004,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(DeleteDefaultMessageTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDefaultMessageTypeOutput>(DeleteDefaultMessageTypeOutput.httpOutput(from:), DeleteDefaultMessageTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1939,7 +2027,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDefaultMessageTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteDefaultMessageType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDefaultMessageTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDefaultMessageTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>())
@@ -1977,6 +2064,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteDefaultSenderId(input: DeleteDefaultSenderIdInput) async throws -> DeleteDefaultSenderIdOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteDefaultSenderIdOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1989,18 +2082,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(DeleteDefaultSenderIdInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDefaultSenderIdOutput>(DeleteDefaultSenderIdOutput.httpOutput(from:), DeleteDefaultSenderIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2012,7 +2105,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDefaultSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteDefaultSenderId"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDefaultSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDefaultSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>())
@@ -2050,6 +2142,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteEventDestination(input: DeleteEventDestinationInput) async throws -> DeleteEventDestinationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteEventDestinationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2062,18 +2160,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteEventDestinationInput, DeleteEventDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(DeleteEventDestinationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventDestinationOutput>(DeleteEventDestinationOutput.httpOutput(from:), DeleteEventDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2085,7 +2183,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEventDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteEventDestination"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEventDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEventDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>())
@@ -2124,6 +2221,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteKeyword(input: DeleteKeywordInput) async throws -> DeleteKeywordOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteKeywordOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2136,18 +2239,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteKeywordInput, DeleteKeywordOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(DeleteKeywordInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteKeywordInput, DeleteKeywordOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteKeywordInput, DeleteKeywordOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeywordOutput>(DeleteKeywordOutput.httpOutput(from:), DeleteKeywordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2159,7 +2262,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteKeywordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteKeyword"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteKeywordInput, DeleteKeywordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteKeywordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteKeywordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteKeywordInput, DeleteKeywordOutput>())
@@ -2196,6 +2298,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteMediaMessageSpendLimitOverride(input: DeleteMediaMessageSpendLimitOverrideInput) async throws -> DeleteMediaMessageSpendLimitOverrideOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteMediaMessageSpendLimitOverrideOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2208,18 +2316,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(DeleteMediaMessageSpendLimitOverrideInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMediaMessageSpendLimitOverrideOutput>(DeleteMediaMessageSpendLimitOverrideOutput.httpOutput(from:), DeleteMediaMessageSpendLimitOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2231,7 +2339,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMediaMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteMediaMessageSpendLimitOverride"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMediaMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMediaMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>())
@@ -2270,6 +2377,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteNotifyConfiguration(input: DeleteNotifyConfigurationInput) async throws -> DeleteNotifyConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteNotifyConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2282,18 +2395,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteNotifyConfigurationInput, DeleteNotifyConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteNotifyConfigurationInput, DeleteNotifyConfigurationOutput>(DeleteNotifyConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNotifyConfigurationInput, DeleteNotifyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNotifyConfigurationInput, DeleteNotifyConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNotifyConfigurationOutput>(DeleteNotifyConfigurationOutput.httpOutput(from:), DeleteNotifyConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNotifyConfigurationInput, DeleteNotifyConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2305,7 +2418,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteNotifyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteNotifyConfigurationInput, DeleteNotifyConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteNotifyConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteNotifyConfigurationInput, DeleteNotifyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteNotifyConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteNotifyConfigurationInput, DeleteNotifyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteNotifyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteNotifyConfigurationInput, DeleteNotifyConfigurationOutput>())
@@ -2342,6 +2454,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteNotifyMessageSpendLimitOverride(input: DeleteNotifyMessageSpendLimitOverrideInput) async throws -> DeleteNotifyMessageSpendLimitOverrideOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteNotifyMessageSpendLimitOverrideOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2354,18 +2472,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteNotifyMessageSpendLimitOverrideInput, DeleteNotifyMessageSpendLimitOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteNotifyMessageSpendLimitOverrideInput, DeleteNotifyMessageSpendLimitOverrideOutput>(DeleteNotifyMessageSpendLimitOverrideInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNotifyMessageSpendLimitOverrideInput, DeleteNotifyMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNotifyMessageSpendLimitOverrideInput, DeleteNotifyMessageSpendLimitOverrideOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNotifyMessageSpendLimitOverrideOutput>(DeleteNotifyMessageSpendLimitOverrideOutput.httpOutput(from:), DeleteNotifyMessageSpendLimitOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNotifyMessageSpendLimitOverrideInput, DeleteNotifyMessageSpendLimitOverrideOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2377,7 +2495,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteNotifyMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteNotifyMessageSpendLimitOverrideInput, DeleteNotifyMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteNotifyMessageSpendLimitOverride"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteNotifyMessageSpendLimitOverrideInput, DeleteNotifyMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteNotifyMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteNotifyMessageSpendLimitOverrideInput, DeleteNotifyMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteNotifyMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteNotifyMessageSpendLimitOverrideInput, DeleteNotifyMessageSpendLimitOverrideOutput>())
@@ -2416,6 +2533,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteOptOutList(input: DeleteOptOutListInput) async throws -> DeleteOptOutListOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteOptOutListOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2428,18 +2551,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteOptOutListInput, DeleteOptOutListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(DeleteOptOutListInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOptOutListOutput>(DeleteOptOutListOutput.httpOutput(from:), DeleteOptOutListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2451,7 +2574,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOptOutListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteOptOutList"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOptOutListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOptOutListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>())
@@ -2490,6 +2612,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteOptedOutNumber(input: DeleteOptedOutNumberInput) async throws -> DeleteOptedOutNumberOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteOptedOutNumberOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2502,18 +2630,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(DeleteOptedOutNumberInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOptedOutNumberOutput>(DeleteOptedOutNumberOutput.httpOutput(from:), DeleteOptedOutNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2525,7 +2653,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOptedOutNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteOptedOutNumber"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOptedOutNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOptedOutNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>())
@@ -2564,6 +2691,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deletePool(input: DeletePoolInput) async throws -> DeletePoolOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deletePoolOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2576,18 +2709,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeletePoolInput, DeletePoolOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePoolInput, DeletePoolOutput>(DeletePoolInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePoolInput, DeletePoolOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePoolInput, DeletePoolOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePoolOutput>(DeletePoolOutput.httpOutput(from:), DeletePoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePoolInput, DeletePoolOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2599,7 +2732,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePoolInput, DeletePoolOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeletePool"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeletePoolInput, DeletePoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePoolInput, DeletePoolOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePoolInput, DeletePoolOutput>())
@@ -2638,6 +2770,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteProtectConfiguration(input: DeleteProtectConfigurationInput) async throws -> DeleteProtectConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteProtectConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2650,18 +2788,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(DeleteProtectConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProtectConfigurationOutput>(DeleteProtectConfigurationOutput.httpOutput(from:), DeleteProtectConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2673,7 +2811,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteProtectConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>())
@@ -2711,6 +2848,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteProtectConfigurationRuleSetNumberOverride(input: DeleteProtectConfigurationRuleSetNumberOverrideInput) async throws -> DeleteProtectConfigurationRuleSetNumberOverrideOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteProtectConfigurationRuleSetNumberOverrideOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2723,18 +2866,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(DeleteProtectConfigurationRuleSetNumberOverrideInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideOutput>(DeleteProtectConfigurationRuleSetNumberOverrideOutput.httpOutput(from:), DeleteProtectConfigurationRuleSetNumberOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2746,7 +2889,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteProtectConfigurationRuleSetNumberOverride"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProtectConfigurationRuleSetNumberOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
@@ -2785,6 +2927,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteRcsAgent(input: DeleteRcsAgentInput) async throws -> DeleteRcsAgentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteRcsAgentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2797,18 +2945,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRcsAgentInput, DeleteRcsAgentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRcsAgentInput, DeleteRcsAgentOutput>(DeleteRcsAgentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRcsAgentInput, DeleteRcsAgentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRcsAgentInput, DeleteRcsAgentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRcsAgentOutput>(DeleteRcsAgentOutput.httpOutput(from:), DeleteRcsAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRcsAgentInput, DeleteRcsAgentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2820,7 +2968,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRcsAgentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRcsAgentInput, DeleteRcsAgentOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteRcsAgent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRcsAgentInput, DeleteRcsAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRcsAgentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRcsAgentInput, DeleteRcsAgentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRcsAgentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRcsAgentInput, DeleteRcsAgentOutput>())
@@ -2859,6 +3006,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteRegistration(input: DeleteRegistrationInput) async throws -> DeleteRegistrationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteRegistrationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2871,18 +3024,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRegistrationInput, DeleteRegistrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>(DeleteRegistrationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRegistrationOutput>(DeleteRegistrationOutput.httpOutput(from:), DeleteRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2894,7 +3047,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRegistrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteRegistration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRegistrationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>())
@@ -2933,6 +3085,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteRegistrationAttachment(input: DeleteRegistrationAttachmentInput) async throws -> DeleteRegistrationAttachmentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteRegistrationAttachmentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2945,18 +3103,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>(DeleteRegistrationAttachmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRegistrationAttachmentOutput>(DeleteRegistrationAttachmentOutput.httpOutput(from:), DeleteRegistrationAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2968,7 +3126,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRegistrationAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteRegistrationAttachment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRegistrationAttachmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegistrationAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>())
@@ -3007,6 +3164,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteRegistrationFieldValue(input: DeleteRegistrationFieldValueInput) async throws -> DeleteRegistrationFieldValueOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteRegistrationFieldValueOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3019,18 +3182,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>(DeleteRegistrationFieldValueInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRegistrationFieldValueOutput>(DeleteRegistrationFieldValueOutput.httpOutput(from:), DeleteRegistrationFieldValueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3042,7 +3205,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRegistrationFieldValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteRegistrationFieldValue"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRegistrationFieldValueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegistrationFieldValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>())
@@ -3080,6 +3242,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteResourcePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3092,18 +3260,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(DeleteResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3115,7 +3283,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteResourcePolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
@@ -3152,6 +3319,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteTextMessageSpendLimitOverride(input: DeleteTextMessageSpendLimitOverrideInput) async throws -> DeleteTextMessageSpendLimitOverrideOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteTextMessageSpendLimitOverrideOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3164,18 +3337,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(DeleteTextMessageSpendLimitOverrideInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTextMessageSpendLimitOverrideOutput>(DeleteTextMessageSpendLimitOverrideOutput.httpOutput(from:), DeleteTextMessageSpendLimitOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3187,7 +3360,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTextMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteTextMessageSpendLimitOverride"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTextMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTextMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>())
@@ -3226,6 +3398,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteVerifiedDestinationNumber(input: DeleteVerifiedDestinationNumberInput) async throws -> DeleteVerifiedDestinationNumberOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteVerifiedDestinationNumberOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3238,18 +3416,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>(DeleteVerifiedDestinationNumberInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVerifiedDestinationNumberOutput>(DeleteVerifiedDestinationNumberOutput.httpOutput(from:), DeleteVerifiedDestinationNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3261,7 +3439,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVerifiedDestinationNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteVerifiedDestinationNumber"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVerifiedDestinationNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVerifiedDestinationNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>())
@@ -3298,6 +3475,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func deleteVoiceMessageSpendLimitOverride(input: DeleteVoiceMessageSpendLimitOverrideInput) async throws -> DeleteVoiceMessageSpendLimitOverrideOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteVoiceMessageSpendLimitOverrideOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3310,18 +3493,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(DeleteVoiceMessageSpendLimitOverrideInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceMessageSpendLimitOverrideOutput>(DeleteVoiceMessageSpendLimitOverrideOutput.httpOutput(from:), DeleteVoiceMessageSpendLimitOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3333,7 +3516,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVoiceMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteVoiceMessageSpendLimitOverride"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVoiceMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVoiceMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>())
@@ -3370,6 +3552,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeAccountAttributesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3382,18 +3570,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeAccountAttributesInput, DescribeAccountAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(DescribeAccountAttributesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutput>(DescribeAccountAttributesOutput.httpOutput(from:), DescribeAccountAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3405,7 +3593,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAccountAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeAccountAttributes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
@@ -3442,6 +3629,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeAccountLimitsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3454,18 +3647,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeAccountLimitsInput, DescribeAccountLimitsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(DescribeAccountLimitsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountLimitsOutput>(DescribeAccountLimitsOutput.httpOutput(from:), DescribeAccountLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3477,7 +3670,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAccountLimitsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeAccountLimits"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountLimitsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountLimitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>())
@@ -3515,6 +3707,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeConfigurationSets(input: DescribeConfigurationSetsInput) async throws -> DescribeConfigurationSetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeConfigurationSetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3527,18 +3725,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(DescribeConfigurationSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationSetsOutput>(DescribeConfigurationSetsOutput.httpOutput(from:), DescribeConfigurationSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3550,7 +3748,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConfigurationSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeConfigurationSets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigurationSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>())
@@ -3588,6 +3785,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeKeywords(input: DescribeKeywordsInput) async throws -> DescribeKeywordsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeKeywordsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3600,18 +3803,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeKeywordsInput, DescribeKeywordsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(DescribeKeywordsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeKeywordsOutput>(DescribeKeywordsOutput.httpOutput(from:), DescribeKeywordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3623,7 +3826,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeKeywordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeKeywords"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeKeywordsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeKeywordsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>())
@@ -3661,6 +3863,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeNotifyConfigurations(input: DescribeNotifyConfigurationsInput) async throws -> DescribeNotifyConfigurationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeNotifyConfigurationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3673,18 +3881,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeNotifyConfigurationsInput, DescribeNotifyConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeNotifyConfigurationsInput, DescribeNotifyConfigurationsOutput>(DescribeNotifyConfigurationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeNotifyConfigurationsInput, DescribeNotifyConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNotifyConfigurationsInput, DescribeNotifyConfigurationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNotifyConfigurationsOutput>(DescribeNotifyConfigurationsOutput.httpOutput(from:), DescribeNotifyConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNotifyConfigurationsInput, DescribeNotifyConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3696,7 +3904,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeNotifyConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeNotifyConfigurationsInput, DescribeNotifyConfigurationsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeNotifyConfigurations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeNotifyConfigurationsInput, DescribeNotifyConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeNotifyConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeNotifyConfigurationsInput, DescribeNotifyConfigurationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeNotifyConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeNotifyConfigurationsInput, DescribeNotifyConfigurationsOutput>())
@@ -3734,6 +3941,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeNotifyTemplates(input: DescribeNotifyTemplatesInput) async throws -> DescribeNotifyTemplatesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeNotifyTemplatesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3746,18 +3959,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeNotifyTemplatesInput, DescribeNotifyTemplatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeNotifyTemplatesInput, DescribeNotifyTemplatesOutput>(DescribeNotifyTemplatesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeNotifyTemplatesInput, DescribeNotifyTemplatesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNotifyTemplatesInput, DescribeNotifyTemplatesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNotifyTemplatesOutput>(DescribeNotifyTemplatesOutput.httpOutput(from:), DescribeNotifyTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNotifyTemplatesInput, DescribeNotifyTemplatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3769,7 +3982,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeNotifyTemplatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeNotifyTemplatesInput, DescribeNotifyTemplatesOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeNotifyTemplates"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeNotifyTemplatesInput, DescribeNotifyTemplatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeNotifyTemplatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeNotifyTemplatesInput, DescribeNotifyTemplatesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeNotifyTemplatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeNotifyTemplatesInput, DescribeNotifyTemplatesOutput>())
@@ -3807,6 +4019,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeOptOutLists(input: DescribeOptOutListsInput) async throws -> DescribeOptOutListsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeOptOutListsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3819,18 +4037,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeOptOutListsInput, DescribeOptOutListsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(DescribeOptOutListsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOptOutListsOutput>(DescribeOptOutListsOutput.httpOutput(from:), DescribeOptOutListsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3842,7 +4060,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeOptOutListsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeOptOutLists"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeOptOutListsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOptOutListsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>())
@@ -3880,6 +4097,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeOptedOutNumbers(input: DescribeOptedOutNumbersInput) async throws -> DescribeOptedOutNumbersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeOptedOutNumbersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3892,18 +4115,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(DescribeOptedOutNumbersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOptedOutNumbersOutput>(DescribeOptedOutNumbersOutput.httpOutput(from:), DescribeOptedOutNumbersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3915,7 +4138,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeOptedOutNumbersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeOptedOutNumbers"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeOptedOutNumbersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOptedOutNumbersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>())
@@ -3953,6 +4175,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describePhoneNumbers(input: DescribePhoneNumbersInput) async throws -> DescribePhoneNumbersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describePhoneNumbersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3965,18 +4193,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribePhoneNumbersInput, DescribePhoneNumbersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(DescribePhoneNumbersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePhoneNumbersOutput>(DescribePhoneNumbersOutput.httpOutput(from:), DescribePhoneNumbersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3988,7 +4216,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePhoneNumbersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribePhoneNumbers"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePhoneNumbersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePhoneNumbersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>())
@@ -4026,6 +4253,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describePools(input: DescribePoolsInput) async throws -> DescribePoolsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describePoolsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4038,18 +4271,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribePoolsInput, DescribePoolsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePoolsInput, DescribePoolsOutput>(DescribePoolsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePoolsInput, DescribePoolsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePoolsInput, DescribePoolsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePoolsOutput>(DescribePoolsOutput.httpOutput(from:), DescribePoolsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePoolsInput, DescribePoolsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4061,7 +4294,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePoolsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePoolsInput, DescribePoolsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribePools"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribePoolsInput, DescribePoolsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePoolsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePoolsInput, DescribePoolsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePoolsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePoolsInput, DescribePoolsOutput>())
@@ -4099,6 +4331,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeProtectConfigurations(input: DescribeProtectConfigurationsInput) async throws -> DescribeProtectConfigurationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeProtectConfigurationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4111,18 +4349,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(DescribeProtectConfigurationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProtectConfigurationsOutput>(DescribeProtectConfigurationsOutput.httpOutput(from:), DescribeProtectConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4134,7 +4372,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProtectConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeProtectConfigurations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProtectConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProtectConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>())
@@ -4172,6 +4409,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeRcsAgentCountryLaunchStatus(input: DescribeRcsAgentCountryLaunchStatusInput) async throws -> DescribeRcsAgentCountryLaunchStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeRcsAgentCountryLaunchStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4184,18 +4427,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRcsAgentCountryLaunchStatusInput, DescribeRcsAgentCountryLaunchStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRcsAgentCountryLaunchStatusInput, DescribeRcsAgentCountryLaunchStatusOutput>(DescribeRcsAgentCountryLaunchStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRcsAgentCountryLaunchStatusInput, DescribeRcsAgentCountryLaunchStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRcsAgentCountryLaunchStatusInput, DescribeRcsAgentCountryLaunchStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRcsAgentCountryLaunchStatusOutput>(DescribeRcsAgentCountryLaunchStatusOutput.httpOutput(from:), DescribeRcsAgentCountryLaunchStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRcsAgentCountryLaunchStatusInput, DescribeRcsAgentCountryLaunchStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4207,7 +4450,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRcsAgentCountryLaunchStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRcsAgentCountryLaunchStatusInput, DescribeRcsAgentCountryLaunchStatusOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRcsAgentCountryLaunchStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRcsAgentCountryLaunchStatusInput, DescribeRcsAgentCountryLaunchStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRcsAgentCountryLaunchStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRcsAgentCountryLaunchStatusInput, DescribeRcsAgentCountryLaunchStatusOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRcsAgentCountryLaunchStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRcsAgentCountryLaunchStatusInput, DescribeRcsAgentCountryLaunchStatusOutput>())
@@ -4245,6 +4487,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeRcsAgents(input: DescribeRcsAgentsInput) async throws -> DescribeRcsAgentsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeRcsAgentsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4257,18 +4505,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRcsAgentsInput, DescribeRcsAgentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRcsAgentsInput, DescribeRcsAgentsOutput>(DescribeRcsAgentsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRcsAgentsInput, DescribeRcsAgentsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRcsAgentsInput, DescribeRcsAgentsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRcsAgentsOutput>(DescribeRcsAgentsOutput.httpOutput(from:), DescribeRcsAgentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRcsAgentsInput, DescribeRcsAgentsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4280,7 +4528,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRcsAgentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRcsAgentsInput, DescribeRcsAgentsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRcsAgents"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRcsAgentsInput, DescribeRcsAgentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRcsAgentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRcsAgentsInput, DescribeRcsAgentsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRcsAgentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRcsAgentsInput, DescribeRcsAgentsOutput>())
@@ -4318,6 +4565,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeRegistrationAttachments(input: DescribeRegistrationAttachmentsInput) async throws -> DescribeRegistrationAttachmentsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeRegistrationAttachmentsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4330,18 +4583,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>(DescribeRegistrationAttachmentsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRegistrationAttachmentsOutput>(DescribeRegistrationAttachmentsOutput.httpOutput(from:), DescribeRegistrationAttachmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4353,7 +4606,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationAttachmentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrationAttachments"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationAttachmentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationAttachmentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>())
@@ -4390,6 +4642,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeRegistrationFieldDefinitions(input: DescribeRegistrationFieldDefinitionsInput) async throws -> DescribeRegistrationFieldDefinitionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeRegistrationFieldDefinitionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4402,18 +4660,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>(DescribeRegistrationFieldDefinitionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRegistrationFieldDefinitionsOutput>(DescribeRegistrationFieldDefinitionsOutput.httpOutput(from:), DescribeRegistrationFieldDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4425,7 +4683,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationFieldDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrationFieldDefinitions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationFieldDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationFieldDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>())
@@ -4463,6 +4720,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeRegistrationFieldValues(input: DescribeRegistrationFieldValuesInput) async throws -> DescribeRegistrationFieldValuesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeRegistrationFieldValuesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4475,18 +4738,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>(DescribeRegistrationFieldValuesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRegistrationFieldValuesOutput>(DescribeRegistrationFieldValuesOutput.httpOutput(from:), DescribeRegistrationFieldValuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4498,7 +4761,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationFieldValuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrationFieldValues"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationFieldValuesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationFieldValuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>())
@@ -4535,6 +4797,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeRegistrationSectionDefinitions(input: DescribeRegistrationSectionDefinitionsInput) async throws -> DescribeRegistrationSectionDefinitionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeRegistrationSectionDefinitionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4547,18 +4815,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>(DescribeRegistrationSectionDefinitionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRegistrationSectionDefinitionsOutput>(DescribeRegistrationSectionDefinitionsOutput.httpOutput(from:), DescribeRegistrationSectionDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4570,7 +4838,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationSectionDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrationSectionDefinitions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationSectionDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationSectionDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>())
@@ -4607,6 +4874,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeRegistrationTypeDefinitions(input: DescribeRegistrationTypeDefinitionsInput) async throws -> DescribeRegistrationTypeDefinitionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeRegistrationTypeDefinitionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4619,18 +4892,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>(DescribeRegistrationTypeDefinitionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRegistrationTypeDefinitionsOutput>(DescribeRegistrationTypeDefinitionsOutput.httpOutput(from:), DescribeRegistrationTypeDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4642,7 +4915,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationTypeDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrationTypeDefinitions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationTypeDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationTypeDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>())
@@ -4680,6 +4952,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeRegistrationVersions(input: DescribeRegistrationVersionsInput) async throws -> DescribeRegistrationVersionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeRegistrationVersionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4692,18 +4970,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>(DescribeRegistrationVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRegistrationVersionsOutput>(DescribeRegistrationVersionsOutput.httpOutput(from:), DescribeRegistrationVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4715,7 +4993,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrationVersions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>())
@@ -4753,6 +5030,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeRegistrations(input: DescribeRegistrationsInput) async throws -> DescribeRegistrationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeRegistrationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4765,18 +5048,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRegistrationsInput, DescribeRegistrationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>(DescribeRegistrationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRegistrationsOutput>(DescribeRegistrationsOutput.httpOutput(from:), DescribeRegistrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4788,7 +5071,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeRegistrations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>())
@@ -4826,6 +5108,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeSenderIds(input: DescribeSenderIdsInput) async throws -> DescribeSenderIdsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeSenderIdsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4838,18 +5126,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSenderIdsInput, DescribeSenderIdsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(DescribeSenderIdsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSenderIdsOutput>(DescribeSenderIdsOutput.httpOutput(from:), DescribeSenderIdsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4861,7 +5149,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSenderIdsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeSenderIds"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSenderIdsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSenderIdsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>())
@@ -4898,6 +5185,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeSpendLimits(input: DescribeSpendLimitsInput) async throws -> DescribeSpendLimitsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeSpendLimitsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4910,18 +5203,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSpendLimitsInput, DescribeSpendLimitsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(DescribeSpendLimitsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSpendLimitsOutput>(DescribeSpendLimitsOutput.httpOutput(from:), DescribeSpendLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4933,7 +5226,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSpendLimitsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeSpendLimits"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSpendLimitsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSpendLimitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>())
@@ -4971,6 +5263,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func describeVerifiedDestinationNumbers(input: DescribeVerifiedDestinationNumbersInput) async throws -> DescribeVerifiedDestinationNumbersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.describeVerifiedDestinationNumbersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4983,18 +5281,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>(DescribeVerifiedDestinationNumbersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVerifiedDestinationNumbersOutput>(DescribeVerifiedDestinationNumbersOutput.httpOutput(from:), DescribeVerifiedDestinationNumbersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5006,7 +5304,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeVerifiedDestinationNumbersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DescribeVerifiedDestinationNumbers"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVerifiedDestinationNumbersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVerifiedDestinationNumbersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>())
@@ -5045,6 +5342,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func disassociateOriginationIdentity(input: DisassociateOriginationIdentityInput) async throws -> DisassociateOriginationIdentityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.disassociateOriginationIdentityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5057,8 +5360,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5066,10 +5371,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(DisassociateOriginationIdentityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateOriginationIdentityOutput>(DisassociateOriginationIdentityOutput.httpOutput(from:), DisassociateOriginationIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5081,7 +5384,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateOriginationIdentityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DisassociateOriginationIdentity"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateOriginationIdentityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateOriginationIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>())
@@ -5120,6 +5422,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func disassociateProtectConfiguration(input: DisassociateProtectConfigurationInput) async throws -> DisassociateProtectConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.disassociateProtectConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5132,18 +5440,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(DisassociateProtectConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateProtectConfigurationOutput>(DisassociateProtectConfigurationOutput.httpOutput(from:), DisassociateProtectConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5155,7 +5463,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DisassociateProtectConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>())
@@ -5194,6 +5501,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func discardRegistrationVersion(input: DiscardRegistrationVersionInput) async throws -> DiscardRegistrationVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.discardRegistrationVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5206,18 +5519,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>(DiscardRegistrationVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DiscardRegistrationVersionOutput>(DiscardRegistrationVersionOutput.httpOutput(from:), DiscardRegistrationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5229,7 +5542,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DiscardRegistrationVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DiscardRegistrationVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DiscardRegistrationVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DiscardRegistrationVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>())
@@ -5267,6 +5579,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func getProtectConfigurationCountryRuleSet(input: GetProtectConfigurationCountryRuleSetInput) async throws -> GetProtectConfigurationCountryRuleSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.getProtectConfigurationCountryRuleSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5279,18 +5597,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(GetProtectConfigurationCountryRuleSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProtectConfigurationCountryRuleSetOutput>(GetProtectConfigurationCountryRuleSetOutput.httpOutput(from:), GetProtectConfigurationCountryRuleSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5302,7 +5620,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetProtectConfigurationCountryRuleSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.GetProtectConfigurationCountryRuleSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetProtectConfigurationCountryRuleSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetProtectConfigurationCountryRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>())
@@ -5340,6 +5657,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.getResourcePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5352,18 +5675,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(GetResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5375,7 +5698,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.GetResourcePolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
@@ -5412,6 +5734,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func listNotifyCountries(input: ListNotifyCountriesInput) async throws -> ListNotifyCountriesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.listNotifyCountriesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5424,18 +5752,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListNotifyCountriesInput, ListNotifyCountriesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListNotifyCountriesInput, ListNotifyCountriesOutput>(ListNotifyCountriesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListNotifyCountriesInput, ListNotifyCountriesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNotifyCountriesInput, ListNotifyCountriesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNotifyCountriesOutput>(ListNotifyCountriesOutput.httpOutput(from:), ListNotifyCountriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNotifyCountriesInput, ListNotifyCountriesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5447,7 +5775,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListNotifyCountriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListNotifyCountriesInput, ListNotifyCountriesOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.ListNotifyCountries"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListNotifyCountriesInput, ListNotifyCountriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListNotifyCountriesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListNotifyCountriesInput, ListNotifyCountriesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListNotifyCountriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListNotifyCountriesInput, ListNotifyCountriesOutput>())
@@ -5485,6 +5812,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func listPoolOriginationIdentities(input: ListPoolOriginationIdentitiesInput) async throws -> ListPoolOriginationIdentitiesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.listPoolOriginationIdentitiesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5497,18 +5830,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(ListPoolOriginationIdentitiesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPoolOriginationIdentitiesOutput>(ListPoolOriginationIdentitiesOutput.httpOutput(from:), ListPoolOriginationIdentitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5520,7 +5853,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPoolOriginationIdentitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.ListPoolOriginationIdentities"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPoolOriginationIdentitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPoolOriginationIdentitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>())
@@ -5558,6 +5890,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func listProtectConfigurationRuleSetNumberOverrides(input: ListProtectConfigurationRuleSetNumberOverridesInput) async throws -> ListProtectConfigurationRuleSetNumberOverridesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.listProtectConfigurationRuleSetNumberOverridesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5570,18 +5908,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(ListProtectConfigurationRuleSetNumberOverridesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProtectConfigurationRuleSetNumberOverridesOutput>(ListProtectConfigurationRuleSetNumberOverridesOutput.httpOutput(from:), ListProtectConfigurationRuleSetNumberOverridesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5593,7 +5931,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProtectConfigurationRuleSetNumberOverridesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.ListProtectConfigurationRuleSetNumberOverrides"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProtectConfigurationRuleSetNumberOverridesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProtectConfigurationRuleSetNumberOverridesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>())
@@ -5631,6 +5968,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func listRegistrationAssociations(input: ListRegistrationAssociationsInput) async throws -> ListRegistrationAssociationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.listRegistrationAssociationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5643,18 +5986,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>(ListRegistrationAssociationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRegistrationAssociationsOutput>(ListRegistrationAssociationsOutput.httpOutput(from:), ListRegistrationAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5666,7 +6009,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRegistrationAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.ListRegistrationAssociations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRegistrationAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRegistrationAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>())
@@ -5704,6 +6046,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5716,18 +6064,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5739,7 +6087,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -5779,6 +6126,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func putKeyword(input: PutKeywordInput) async throws -> PutKeywordOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.putKeywordOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5791,18 +6144,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutKeywordInput, PutKeywordOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutKeywordInput, PutKeywordOutput>(PutKeywordInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutKeywordInput, PutKeywordOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutKeywordInput, PutKeywordOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutKeywordOutput>(PutKeywordOutput.httpOutput(from:), PutKeywordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutKeywordInput, PutKeywordOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5814,7 +6167,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutKeywordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutKeywordInput, PutKeywordOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.PutKeyword"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutKeywordInput, PutKeywordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutKeywordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutKeywordInput, PutKeywordOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutKeywordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutKeywordInput, PutKeywordOutput>())
@@ -5852,6 +6204,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func putMessageFeedback(input: PutMessageFeedbackInput) async throws -> PutMessageFeedbackOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.putMessageFeedbackOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5864,18 +6222,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutMessageFeedbackInput, PutMessageFeedbackOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(PutMessageFeedbackInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMessageFeedbackOutput>(PutMessageFeedbackOutput.httpOutput(from:), PutMessageFeedbackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5887,7 +6245,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutMessageFeedbackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.PutMessageFeedback"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutMessageFeedbackInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutMessageFeedbackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>())
@@ -5925,6 +6282,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func putOptedOutNumber(input: PutOptedOutNumberInput) async throws -> PutOptedOutNumberOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.putOptedOutNumberOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5937,18 +6300,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutOptedOutNumberInput, PutOptedOutNumberOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(PutOptedOutNumberInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutOptedOutNumberOutput>(PutOptedOutNumberOutput.httpOutput(from:), PutOptedOutNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5960,7 +6323,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutOptedOutNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.PutOptedOutNumber"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutOptedOutNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutOptedOutNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>())
@@ -6000,6 +6362,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func putProtectConfigurationRuleSetNumberOverride(input: PutProtectConfigurationRuleSetNumberOverrideInput) async throws -> PutProtectConfigurationRuleSetNumberOverrideOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.putProtectConfigurationRuleSetNumberOverrideOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6012,8 +6380,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6021,10 +6391,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(PutProtectConfigurationRuleSetNumberOverrideInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutProtectConfigurationRuleSetNumberOverrideOutput>(PutProtectConfigurationRuleSetNumberOverrideOutput.httpOutput(from:), PutProtectConfigurationRuleSetNumberOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6036,7 +6404,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutProtectConfigurationRuleSetNumberOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.PutProtectConfigurationRuleSetNumberOverride"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutProtectConfigurationRuleSetNumberOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutProtectConfigurationRuleSetNumberOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>())
@@ -6075,6 +6442,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func putRegistrationFieldValue(input: PutRegistrationFieldValueInput) async throws -> PutRegistrationFieldValueOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.putRegistrationFieldValueOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6087,18 +6460,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>(PutRegistrationFieldValueInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRegistrationFieldValueOutput>(PutRegistrationFieldValueOutput.httpOutput(from:), PutRegistrationFieldValueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6110,7 +6483,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutRegistrationFieldValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.PutRegistrationFieldValue"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRegistrationFieldValueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRegistrationFieldValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>())
@@ -6148,6 +6520,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.putResourcePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6160,18 +6538,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(PutResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6183,7 +6561,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.PutResourcePolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
@@ -6222,6 +6599,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func releasePhoneNumber(input: ReleasePhoneNumberInput) async throws -> ReleasePhoneNumberOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.releasePhoneNumberOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6234,18 +6617,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ReleasePhoneNumberInput, ReleasePhoneNumberOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(ReleasePhoneNumberInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ReleasePhoneNumberOutput>(ReleasePhoneNumberOutput.httpOutput(from:), ReleasePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6257,7 +6640,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReleasePhoneNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.ReleasePhoneNumber"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReleasePhoneNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReleasePhoneNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>())
@@ -6296,6 +6678,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func releaseSenderId(input: ReleaseSenderIdInput) async throws -> ReleaseSenderIdOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.releaseSenderIdOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6308,18 +6696,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ReleaseSenderIdInput, ReleaseSenderIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>(ReleaseSenderIdInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ReleaseSenderIdOutput>(ReleaseSenderIdOutput.httpOutput(from:), ReleaseSenderIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6331,7 +6719,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReleaseSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.ReleaseSenderId"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReleaseSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReleaseSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>())
@@ -6371,6 +6758,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func requestPhoneNumber(input: RequestPhoneNumberInput) async throws -> RequestPhoneNumberOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.requestPhoneNumberOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6383,8 +6776,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RequestPhoneNumberInput, RequestPhoneNumberOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6392,10 +6787,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(RequestPhoneNumberInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RequestPhoneNumberOutput>(RequestPhoneNumberOutput.httpOutput(from:), RequestPhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6407,7 +6800,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RequestPhoneNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.RequestPhoneNumber"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RequestPhoneNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RequestPhoneNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>())
@@ -6446,6 +6838,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func requestSenderId(input: RequestSenderIdInput) async throws -> RequestSenderIdOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.requestSenderIdOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6458,8 +6856,10 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RequestSenderIdInput, RequestSenderIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6467,10 +6867,8 @@ extension PinpointSMSVoiceV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<RequestSenderIdInput, RequestSenderIdOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RequestSenderIdInput, RequestSenderIdOutput>(RequestSenderIdInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RequestSenderIdInput, RequestSenderIdOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RequestSenderIdInput, RequestSenderIdOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RequestSenderIdOutput>(RequestSenderIdOutput.httpOutput(from:), RequestSenderIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestSenderIdInput, RequestSenderIdOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6482,7 +6880,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RequestSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RequestSenderIdInput, RequestSenderIdOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.RequestSenderId"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RequestSenderIdInput, RequestSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RequestSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RequestSenderIdInput, RequestSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RequestSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RequestSenderIdInput, RequestSenderIdOutput>())
@@ -6522,6 +6919,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func sendDestinationNumberVerificationCode(input: SendDestinationNumberVerificationCodeInput) async throws -> SendDestinationNumberVerificationCodeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.sendDestinationNumberVerificationCodeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6534,18 +6937,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>(SendDestinationNumberVerificationCodeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendDestinationNumberVerificationCodeOutput>(SendDestinationNumberVerificationCodeOutput.httpOutput(from:), SendDestinationNumberVerificationCodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6557,7 +6960,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendDestinationNumberVerificationCodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SendDestinationNumberVerificationCode"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendDestinationNumberVerificationCodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendDestinationNumberVerificationCodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>())
@@ -6597,6 +6999,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func sendMediaMessage(input: SendMediaMessageInput) async throws -> SendMediaMessageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.sendMediaMessageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6609,18 +7017,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SendMediaMessageInput, SendMediaMessageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(SendMediaMessageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendMediaMessageInput, SendMediaMessageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendMediaMessageInput, SendMediaMessageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendMediaMessageOutput>(SendMediaMessageOutput.httpOutput(from:), SendMediaMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6632,7 +7040,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendMediaMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SendMediaMessage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SendMediaMessageInput, SendMediaMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendMediaMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendMediaMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendMediaMessageInput, SendMediaMessageOutput>())
@@ -6672,6 +7079,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func sendNotifyTextMessage(input: SendNotifyTextMessageInput) async throws -> SendNotifyTextMessageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.sendNotifyTextMessageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6684,18 +7097,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SendNotifyTextMessageInput, SendNotifyTextMessageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendNotifyTextMessageInput, SendNotifyTextMessageOutput>(SendNotifyTextMessageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendNotifyTextMessageInput, SendNotifyTextMessageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendNotifyTextMessageInput, SendNotifyTextMessageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendNotifyTextMessageOutput>(SendNotifyTextMessageOutput.httpOutput(from:), SendNotifyTextMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendNotifyTextMessageInput, SendNotifyTextMessageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6707,7 +7120,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendNotifyTextMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendNotifyTextMessageInput, SendNotifyTextMessageOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SendNotifyTextMessage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SendNotifyTextMessageInput, SendNotifyTextMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendNotifyTextMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendNotifyTextMessageInput, SendNotifyTextMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendNotifyTextMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendNotifyTextMessageInput, SendNotifyTextMessageOutput>())
@@ -6747,6 +7159,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func sendNotifyVoiceMessage(input: SendNotifyVoiceMessageInput) async throws -> SendNotifyVoiceMessageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.sendNotifyVoiceMessageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6759,18 +7177,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SendNotifyVoiceMessageInput, SendNotifyVoiceMessageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendNotifyVoiceMessageInput, SendNotifyVoiceMessageOutput>(SendNotifyVoiceMessageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendNotifyVoiceMessageInput, SendNotifyVoiceMessageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendNotifyVoiceMessageInput, SendNotifyVoiceMessageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendNotifyVoiceMessageOutput>(SendNotifyVoiceMessageOutput.httpOutput(from:), SendNotifyVoiceMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendNotifyVoiceMessageInput, SendNotifyVoiceMessageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6782,7 +7200,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendNotifyVoiceMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendNotifyVoiceMessageInput, SendNotifyVoiceMessageOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SendNotifyVoiceMessage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SendNotifyVoiceMessageInput, SendNotifyVoiceMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendNotifyVoiceMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendNotifyVoiceMessageInput, SendNotifyVoiceMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendNotifyVoiceMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendNotifyVoiceMessageInput, SendNotifyVoiceMessageOutput>())
@@ -6822,6 +7239,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func sendTextMessage(input: SendTextMessageInput) async throws -> SendTextMessageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.sendTextMessageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6834,18 +7257,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SendTextMessageInput, SendTextMessageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendTextMessageInput, SendTextMessageOutput>(SendTextMessageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendTextMessageInput, SendTextMessageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendTextMessageInput, SendTextMessageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendTextMessageOutput>(SendTextMessageOutput.httpOutput(from:), SendTextMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendTextMessageInput, SendTextMessageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6857,7 +7280,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendTextMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendTextMessageInput, SendTextMessageOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SendTextMessage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SendTextMessageInput, SendTextMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendTextMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendTextMessageInput, SendTextMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendTextMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendTextMessageInput, SendTextMessageOutput>())
@@ -6897,6 +7319,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func sendVoiceMessage(input: SendVoiceMessageInput) async throws -> SendVoiceMessageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.sendVoiceMessageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6909,18 +7337,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SendVoiceMessageInput, SendVoiceMessageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(SendVoiceMessageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendVoiceMessageOutput>(SendVoiceMessageOutput.httpOutput(from:), SendVoiceMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6932,7 +7360,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendVoiceMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SendVoiceMessage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendVoiceMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendVoiceMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>())
@@ -6970,6 +7397,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func setAccountDefaultProtectConfiguration(input: SetAccountDefaultProtectConfigurationInput) async throws -> SetAccountDefaultProtectConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.setAccountDefaultProtectConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6982,18 +7415,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(SetAccountDefaultProtectConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetAccountDefaultProtectConfigurationOutput>(SetAccountDefaultProtectConfigurationOutput.httpOutput(from:), SetAccountDefaultProtectConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7005,7 +7438,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetAccountDefaultProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetAccountDefaultProtectConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetAccountDefaultProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetAccountDefaultProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>())
@@ -7043,6 +7475,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func setDefaultMessageFeedbackEnabled(input: SetDefaultMessageFeedbackEnabledInput) async throws -> SetDefaultMessageFeedbackEnabledOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.setDefaultMessageFeedbackEnabledOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7055,18 +7493,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(SetDefaultMessageFeedbackEnabledInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetDefaultMessageFeedbackEnabledOutput>(SetDefaultMessageFeedbackEnabledOutput.httpOutput(from:), SetDefaultMessageFeedbackEnabledOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7078,7 +7516,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetDefaultMessageFeedbackEnabledOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetDefaultMessageFeedbackEnabled"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetDefaultMessageFeedbackEnabledInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetDefaultMessageFeedbackEnabledOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>())
@@ -7116,6 +7553,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func setDefaultMessageType(input: SetDefaultMessageTypeInput) async throws -> SetDefaultMessageTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.setDefaultMessageTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7128,18 +7571,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(SetDefaultMessageTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetDefaultMessageTypeOutput>(SetDefaultMessageTypeOutput.httpOutput(from:), SetDefaultMessageTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7151,7 +7594,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetDefaultMessageTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetDefaultMessageType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetDefaultMessageTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetDefaultMessageTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>())
@@ -7189,6 +7631,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func setDefaultSenderId(input: SetDefaultSenderIdInput) async throws -> SetDefaultSenderIdOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.setDefaultSenderIdOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7201,18 +7649,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SetDefaultSenderIdInput, SetDefaultSenderIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(SetDefaultSenderIdInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetDefaultSenderIdOutput>(SetDefaultSenderIdOutput.httpOutput(from:), SetDefaultSenderIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7224,7 +7672,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetDefaultSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetDefaultSenderId"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetDefaultSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetDefaultSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>())
@@ -7261,6 +7708,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func setMediaMessageSpendLimitOverride(input: SetMediaMessageSpendLimitOverrideInput) async throws -> SetMediaMessageSpendLimitOverrideOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.setMediaMessageSpendLimitOverrideOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7273,18 +7726,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(SetMediaMessageSpendLimitOverrideInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetMediaMessageSpendLimitOverrideOutput>(SetMediaMessageSpendLimitOverrideOutput.httpOutput(from:), SetMediaMessageSpendLimitOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7296,7 +7749,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetMediaMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetMediaMessageSpendLimitOverride"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetMediaMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetMediaMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>())
@@ -7333,6 +7785,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func setNotifyMessageSpendLimitOverride(input: SetNotifyMessageSpendLimitOverrideInput) async throws -> SetNotifyMessageSpendLimitOverrideOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.setNotifyMessageSpendLimitOverrideOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7345,18 +7803,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SetNotifyMessageSpendLimitOverrideInput, SetNotifyMessageSpendLimitOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetNotifyMessageSpendLimitOverrideInput, SetNotifyMessageSpendLimitOverrideOutput>(SetNotifyMessageSpendLimitOverrideInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetNotifyMessageSpendLimitOverrideInput, SetNotifyMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetNotifyMessageSpendLimitOverrideInput, SetNotifyMessageSpendLimitOverrideOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetNotifyMessageSpendLimitOverrideOutput>(SetNotifyMessageSpendLimitOverrideOutput.httpOutput(from:), SetNotifyMessageSpendLimitOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetNotifyMessageSpendLimitOverrideInput, SetNotifyMessageSpendLimitOverrideOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7368,7 +7826,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetNotifyMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetNotifyMessageSpendLimitOverrideInput, SetNotifyMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetNotifyMessageSpendLimitOverride"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SetNotifyMessageSpendLimitOverrideInput, SetNotifyMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetNotifyMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetNotifyMessageSpendLimitOverrideInput, SetNotifyMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetNotifyMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetNotifyMessageSpendLimitOverrideInput, SetNotifyMessageSpendLimitOverrideOutput>())
@@ -7405,6 +7862,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func setTextMessageSpendLimitOverride(input: SetTextMessageSpendLimitOverrideInput) async throws -> SetTextMessageSpendLimitOverrideOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.setTextMessageSpendLimitOverrideOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7417,18 +7880,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(SetTextMessageSpendLimitOverrideInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetTextMessageSpendLimitOverrideOutput>(SetTextMessageSpendLimitOverrideOutput.httpOutput(from:), SetTextMessageSpendLimitOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7440,7 +7903,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetTextMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetTextMessageSpendLimitOverride"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetTextMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetTextMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>())
@@ -7477,6 +7939,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func setVoiceMessageSpendLimitOverride(input: SetVoiceMessageSpendLimitOverrideInput) async throws -> SetVoiceMessageSpendLimitOverrideOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.setVoiceMessageSpendLimitOverrideOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7489,18 +7957,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(SetVoiceMessageSpendLimitOverrideInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetVoiceMessageSpendLimitOverrideOutput>(SetVoiceMessageSpendLimitOverrideOutput.httpOutput(from:), SetVoiceMessageSpendLimitOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7512,7 +7980,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetVoiceMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetVoiceMessageSpendLimitOverride"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetVoiceMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetVoiceMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>())
@@ -7551,6 +8018,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func submitRegistrationVersion(input: SubmitRegistrationVersionInput) async throws -> SubmitRegistrationVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.submitRegistrationVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7563,18 +8036,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>(SubmitRegistrationVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitRegistrationVersionOutput>(SubmitRegistrationVersionOutput.httpOutput(from:), SubmitRegistrationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7586,7 +8059,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SubmitRegistrationVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SubmitRegistrationVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitRegistrationVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitRegistrationVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>())
@@ -7625,6 +8097,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7637,18 +8115,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7660,7 +8138,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -7698,6 +8175,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7710,18 +8193,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7733,7 +8216,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -7772,6 +8254,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func updateEventDestination(input: UpdateEventDestinationInput) async throws -> UpdateEventDestinationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.updateEventDestinationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7784,18 +8272,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateEventDestinationInput, UpdateEventDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(UpdateEventDestinationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventDestinationOutput>(UpdateEventDestinationOutput.httpOutput(from:), UpdateEventDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7807,7 +8295,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEventDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdateEventDestination"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEventDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEventDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>())
@@ -7846,6 +8333,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func updateNotifyConfiguration(input: UpdateNotifyConfigurationInput) async throws -> UpdateNotifyConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.updateNotifyConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7858,18 +8351,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateNotifyConfigurationInput, UpdateNotifyConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateNotifyConfigurationInput, UpdateNotifyConfigurationOutput>(UpdateNotifyConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateNotifyConfigurationInput, UpdateNotifyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNotifyConfigurationInput, UpdateNotifyConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNotifyConfigurationOutput>(UpdateNotifyConfigurationOutput.httpOutput(from:), UpdateNotifyConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNotifyConfigurationInput, UpdateNotifyConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7881,7 +8374,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateNotifyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateNotifyConfigurationInput, UpdateNotifyConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdateNotifyConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateNotifyConfigurationInput, UpdateNotifyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateNotifyConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateNotifyConfigurationInput, UpdateNotifyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateNotifyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateNotifyConfigurationInput, UpdateNotifyConfigurationOutput>())
@@ -7920,6 +8412,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.updatePhoneNumberOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7932,18 +8430,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdatePhoneNumberInput, UpdatePhoneNumberOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(UpdatePhoneNumberInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberOutput>(UpdatePhoneNumberOutput.httpOutput(from:), UpdatePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7955,7 +8453,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePhoneNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdatePhoneNumber"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePhoneNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePhoneNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>())
@@ -7994,6 +8491,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func updatePool(input: UpdatePoolInput) async throws -> UpdatePoolOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.updatePoolOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8006,18 +8509,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdatePoolInput, UpdatePoolOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePoolInput, UpdatePoolOutput>(UpdatePoolInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePoolInput, UpdatePoolOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePoolInput, UpdatePoolOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePoolOutput>(UpdatePoolOutput.httpOutput(from:), UpdatePoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePoolInput, UpdatePoolOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8029,7 +8532,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePoolInput, UpdatePoolOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdatePool"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePoolInput, UpdatePoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePoolInput, UpdatePoolOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePoolInput, UpdatePoolOutput>())
@@ -8067,6 +8569,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func updateProtectConfiguration(input: UpdateProtectConfigurationInput) async throws -> UpdateProtectConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.updateProtectConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8079,18 +8587,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(UpdateProtectConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProtectConfigurationOutput>(UpdateProtectConfigurationOutput.httpOutput(from:), UpdateProtectConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8102,7 +8610,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdateProtectConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>())
@@ -8140,6 +8647,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func updateProtectConfigurationCountryRuleSet(input: UpdateProtectConfigurationCountryRuleSetInput) async throws -> UpdateProtectConfigurationCountryRuleSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.updateProtectConfigurationCountryRuleSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8152,18 +8665,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(UpdateProtectConfigurationCountryRuleSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProtectConfigurationCountryRuleSetOutput>(UpdateProtectConfigurationCountryRuleSetOutput.httpOutput(from:), UpdateProtectConfigurationCountryRuleSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8175,7 +8688,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProtectConfigurationCountryRuleSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdateProtectConfigurationCountryRuleSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProtectConfigurationCountryRuleSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProtectConfigurationCountryRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>())
@@ -8214,6 +8726,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func updateRcsAgent(input: UpdateRcsAgentInput) async throws -> UpdateRcsAgentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.updateRcsAgentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8226,18 +8744,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateRcsAgentInput, UpdateRcsAgentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRcsAgentInput, UpdateRcsAgentOutput>(UpdateRcsAgentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRcsAgentInput, UpdateRcsAgentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRcsAgentInput, UpdateRcsAgentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRcsAgentOutput>(UpdateRcsAgentOutput.httpOutput(from:), UpdateRcsAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRcsAgentInput, UpdateRcsAgentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8249,7 +8767,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRcsAgentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRcsAgentInput, UpdateRcsAgentOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdateRcsAgent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRcsAgentInput, UpdateRcsAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRcsAgentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRcsAgentInput, UpdateRcsAgentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRcsAgentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRcsAgentInput, UpdateRcsAgentOutput>())
@@ -8287,6 +8804,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func updateSenderId(input: UpdateSenderIdInput) async throws -> UpdateSenderIdOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.updateSenderIdOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8299,18 +8822,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateSenderIdInput, UpdateSenderIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>(UpdateSenderIdInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSenderIdOutput>(UpdateSenderIdOutput.httpOutput(from:), UpdateSenderIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8322,7 +8845,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.UpdateSenderId"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>())
@@ -8361,6 +8883,12 @@ extension PinpointSMSVoiceV2Client {
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : A validation exception for a field.
     public func verifyDestinationNumber(input: VerifyDestinationNumberInput) async throws -> VerifyDestinationNumberOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.verifyDestinationNumberOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -8373,18 +8901,18 @@ extension PinpointSMSVoiceV2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<VerifyDestinationNumberInput, VerifyDestinationNumberOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>(VerifyDestinationNumberInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyDestinationNumberOutput>(VerifyDestinationNumberOutput.httpOutput(from:), VerifyDestinationNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8396,7 +8924,6 @@ extension PinpointSMSVoiceV2Client {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<VerifyDestinationNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.VerifyDestinationNumber"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: VerifyDestinationNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<VerifyDestinationNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>())

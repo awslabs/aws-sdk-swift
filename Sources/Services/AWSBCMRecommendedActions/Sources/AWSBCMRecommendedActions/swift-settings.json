@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.bcmrecommendedactions#AWSBillingAndCostManagementRecommendedActions",
+    "module": "AWSBCMRecommendedActions",
+    "sdkId": "BCM Recommended Actions",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/bcm-recommended-actions.json"
+}

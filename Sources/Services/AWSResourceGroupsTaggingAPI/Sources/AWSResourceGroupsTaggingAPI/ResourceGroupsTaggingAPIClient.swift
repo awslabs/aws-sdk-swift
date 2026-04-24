@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,30 +35,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -645,6 +642,12 @@ extension ResourceGroupsTaggingAPIClient {
     /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
     /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func describeReportCreation(input: DescribeReportCreationInput) async throws -> DescribeReportCreationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ResourceGroupsTaggingAPIClient.describeReportCreationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -657,18 +660,18 @@ extension ResourceGroupsTaggingAPIClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "tagging")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeReportCreationInput, DescribeReportCreationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeReportCreationInput, DescribeReportCreationOutput>(DescribeReportCreationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeReportCreationInput, DescribeReportCreationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReportCreationInput, DescribeReportCreationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReportCreationOutput>(DescribeReportCreationOutput.httpOutput(from:), DescribeReportCreationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReportCreationInput, DescribeReportCreationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -680,7 +683,6 @@ extension ResourceGroupsTaggingAPIClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeReportCreationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeReportCreationInput, DescribeReportCreationOutput>(overrides: ["X-Amz-Target": "ResourceGroupsTaggingAPI_20170126.DescribeReportCreation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeReportCreationInput, DescribeReportCreationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeReportCreationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeReportCreationInput, DescribeReportCreationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeReportCreationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeReportCreationInput, DescribeReportCreationOutput>())
@@ -735,6 +737,12 @@ extension ResourceGroupsTaggingAPIClient {
     /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
     /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func getComplianceSummary(input: GetComplianceSummaryInput) async throws -> GetComplianceSummaryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ResourceGroupsTaggingAPIClient.getComplianceSummaryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -747,18 +755,18 @@ extension ResourceGroupsTaggingAPIClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "tagging")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetComplianceSummaryInput, GetComplianceSummaryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetComplianceSummaryInput, GetComplianceSummaryOutput>(GetComplianceSummaryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetComplianceSummaryInput, GetComplianceSummaryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComplianceSummaryInput, GetComplianceSummaryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComplianceSummaryOutput>(GetComplianceSummaryOutput.httpOutput(from:), GetComplianceSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComplianceSummaryInput, GetComplianceSummaryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -770,7 +778,6 @@ extension ResourceGroupsTaggingAPIClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetComplianceSummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetComplianceSummaryInput, GetComplianceSummaryOutput>(overrides: ["X-Amz-Target": "ResourceGroupsTaggingAPI_20170126.GetComplianceSummary"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetComplianceSummaryInput, GetComplianceSummaryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetComplianceSummaryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetComplianceSummaryInput, GetComplianceSummaryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComplianceSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComplianceSummaryInput, GetComplianceSummaryOutput>())
@@ -826,6 +833,12 @@ extension ResourceGroupsTaggingAPIClient {
     /// - `PaginationTokenExpiredException` : The request failed because the specified PaginationToken has expired. A PaginationToken is valid for a maximum of 15 minutes.
     /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func getResources(input: GetResourcesInput) async throws -> GetResourcesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ResourceGroupsTaggingAPIClient.getResourcesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -838,18 +851,18 @@ extension ResourceGroupsTaggingAPIClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "tagging")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetResourcesInput, GetResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResourcesInput, GetResourcesOutput>(GetResourcesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcesInput, GetResourcesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcesInput, GetResourcesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcesOutput>(GetResourcesOutput.httpOutput(from:), GetResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcesInput, GetResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -861,7 +874,6 @@ extension ResourceGroupsTaggingAPIClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourcesInput, GetResourcesOutput>(overrides: ["X-Amz-Target": "ResourceGroupsTaggingAPI_20170126.GetResources"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResourcesInput, GetResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcesInput, GetResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcesInput, GetResourcesOutput>())
@@ -910,6 +922,12 @@ extension ResourceGroupsTaggingAPIClient {
     /// - `PaginationTokenExpiredException` : The request failed because the specified PaginationToken has expired. A PaginationToken is valid for a maximum of 15 minutes.
     /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func getTagKeys(input: GetTagKeysInput) async throws -> GetTagKeysOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ResourceGroupsTaggingAPIClient.getTagKeysOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -922,18 +940,18 @@ extension ResourceGroupsTaggingAPIClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "tagging")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTagKeysInput, GetTagKeysOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTagKeysInput, GetTagKeysOutput>(GetTagKeysInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTagKeysInput, GetTagKeysOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTagKeysInput, GetTagKeysOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTagKeysOutput>(GetTagKeysOutput.httpOutput(from:), GetTagKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTagKeysInput, GetTagKeysOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -945,7 +963,6 @@ extension ResourceGroupsTaggingAPIClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTagKeysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTagKeysInput, GetTagKeysOutput>(overrides: ["X-Amz-Target": "ResourceGroupsTaggingAPI_20170126.GetTagKeys"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetTagKeysInput, GetTagKeysOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTagKeysInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTagKeysInput, GetTagKeysOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTagKeysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTagKeysInput, GetTagKeysOutput>())
@@ -994,6 +1011,12 @@ extension ResourceGroupsTaggingAPIClient {
     /// - `PaginationTokenExpiredException` : The request failed because the specified PaginationToken has expired. A PaginationToken is valid for a maximum of 15 minutes.
     /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func getTagValues(input: GetTagValuesInput) async throws -> GetTagValuesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ResourceGroupsTaggingAPIClient.getTagValuesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1006,18 +1029,18 @@ extension ResourceGroupsTaggingAPIClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "tagging")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTagValuesInput, GetTagValuesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTagValuesInput, GetTagValuesOutput>(GetTagValuesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTagValuesInput, GetTagValuesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTagValuesInput, GetTagValuesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTagValuesOutput>(GetTagValuesOutput.httpOutput(from:), GetTagValuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTagValuesInput, GetTagValuesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1029,7 +1052,6 @@ extension ResourceGroupsTaggingAPIClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTagValuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTagValuesInput, GetTagValuesOutput>(overrides: ["X-Amz-Target": "ResourceGroupsTaggingAPI_20170126.GetTagValues"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetTagValuesInput, GetTagValuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTagValuesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTagValuesInput, GetTagValuesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTagValuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTagValuesInput, GetTagValuesOutput>())
@@ -1078,6 +1100,12 @@ extension ResourceGroupsTaggingAPIClient {
     /// - `PaginationTokenExpiredException` : The request failed because the specified PaginationToken has expired. A PaginationToken is valid for a maximum of 15 minutes.
     /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func listRequiredTags(input: ListRequiredTagsInput) async throws -> ListRequiredTagsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ResourceGroupsTaggingAPIClient.listRequiredTagsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1090,18 +1118,18 @@ extension ResourceGroupsTaggingAPIClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "tagging")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRequiredTagsInput, ListRequiredTagsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>(ListRequiredTagsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRequiredTagsOutput>(ListRequiredTagsOutput.httpOutput(from:), ListRequiredTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1113,7 +1141,6 @@ extension ResourceGroupsTaggingAPIClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRequiredTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>(overrides: ["X-Amz-Target": "ResourceGroupsTaggingAPI_20170126.ListRequiredTags"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRequiredTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRequiredTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRequiredTagsInput, ListRequiredTagsOutput>())
@@ -1169,6 +1196,12 @@ extension ResourceGroupsTaggingAPIClient {
     /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
     /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func startReportCreation(input: StartReportCreationInput) async throws -> StartReportCreationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ResourceGroupsTaggingAPIClient.startReportCreationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1181,18 +1214,18 @@ extension ResourceGroupsTaggingAPIClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "tagging")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartReportCreationInput, StartReportCreationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartReportCreationInput, StartReportCreationOutput>(StartReportCreationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartReportCreationInput, StartReportCreationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReportCreationInput, StartReportCreationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReportCreationOutput>(StartReportCreationOutput.httpOutput(from:), StartReportCreationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReportCreationInput, StartReportCreationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1204,7 +1237,6 @@ extension ResourceGroupsTaggingAPIClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartReportCreationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartReportCreationInput, StartReportCreationOutput>(overrides: ["X-Amz-Target": "ResourceGroupsTaggingAPI_20170126.StartReportCreation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartReportCreationInput, StartReportCreationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartReportCreationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartReportCreationInput, StartReportCreationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartReportCreationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartReportCreationInput, StartReportCreationOutput>())
@@ -1272,6 +1304,12 @@ extension ResourceGroupsTaggingAPIClient {
     /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
     /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func tagResources(input: TagResourcesInput) async throws -> TagResourcesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ResourceGroupsTaggingAPIClient.tagResourcesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1284,18 +1322,18 @@ extension ResourceGroupsTaggingAPIClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "tagging")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourcesInput, TagResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourcesInput, TagResourcesOutput>(TagResourcesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourcesInput, TagResourcesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourcesInput, TagResourcesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourcesOutput>(TagResourcesOutput.httpOutput(from:), TagResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourcesInput, TagResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1307,7 +1345,6 @@ extension ResourceGroupsTaggingAPIClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourcesInput, TagResourcesOutput>(overrides: ["X-Amz-Target": "ResourceGroupsTaggingAPI_20170126.TagResources"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourcesInput, TagResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourcesInput, TagResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourcesInput, TagResourcesOutput>())
@@ -1369,6 +1406,12 @@ extension ResourceGroupsTaggingAPIClient {
     /// * The partition specified in an ARN parameter in the request doesn't match the partition where you invoked the operation. The partition is specified by the second field of the ARN.
     /// - `ThrottledException` : The request failed because it exceeded the allowed frequency of submitted requests.
     public func untagResources(input: UntagResourcesInput) async throws -> UntagResourcesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ResourceGroupsTaggingAPIClient.untagResourcesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1381,18 +1424,18 @@ extension ResourceGroupsTaggingAPIClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "tagging")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourcesInput, UntagResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourcesInput, UntagResourcesOutput>(UntagResourcesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourcesInput, UntagResourcesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourcesInput, UntagResourcesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourcesOutput>(UntagResourcesOutput.httpOutput(from:), UntagResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourcesInput, UntagResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1404,7 +1447,6 @@ extension ResourceGroupsTaggingAPIClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourcesInput, UntagResourcesOutput>(overrides: ["X-Amz-Target": "ResourceGroupsTaggingAPI_20170126.UntagResources"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourcesInput, UntagResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourcesInput, UntagResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourcesInput, UntagResourcesOutput>())

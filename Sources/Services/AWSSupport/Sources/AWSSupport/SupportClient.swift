@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,30 +35,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -632,6 +629,12 @@ extension SupportClient {
     /// - `AttachmentSetSizeLimitExceeded` : A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
     /// - `InternalServerError` : An internal server error occurred.
     public func addAttachmentsToSet(input: AddAttachmentsToSetInput) async throws -> AddAttachmentsToSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.addAttachmentsToSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -644,18 +647,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AddAttachmentsToSetInput, AddAttachmentsToSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutput>(AddAttachmentsToSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddAttachmentsToSetOutput>(AddAttachmentsToSetOutput.httpOutput(from:), AddAttachmentsToSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -667,7 +670,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddAttachmentsToSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.AddAttachmentsToSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddAttachmentsToSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddAttachmentsToSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutput>())
@@ -708,6 +710,12 @@ extension SupportClient {
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
     /// - `InternalServerError` : An internal server error occurred.
     public func addCommunicationToCase(input: AddCommunicationToCaseInput) async throws -> AddCommunicationToCaseOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.addCommunicationToCaseOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -720,18 +728,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AddCommunicationToCaseInput, AddCommunicationToCaseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutput>(AddCommunicationToCaseInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddCommunicationToCaseOutput>(AddCommunicationToCaseOutput.httpOutput(from:), AddCommunicationToCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -743,7 +751,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddCommunicationToCaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.AddCommunicationToCase"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddCommunicationToCaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddCommunicationToCaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutput>())
@@ -791,6 +798,12 @@ extension SupportClient {
     /// - `CaseCreationLimitExceeded` : The case creation limit for the account has been exceeded.
     /// - `InternalServerError` : An internal server error occurred.
     public func createCase(input: CreateCaseInput) async throws -> CreateCaseOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.createCaseOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -803,18 +816,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCaseInput, CreateCaseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCaseInput, CreateCaseOutput>(CreateCaseInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCaseInput, CreateCaseOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCaseInput, CreateCaseOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCaseOutput>(CreateCaseOutput.httpOutput(from:), CreateCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCaseInput, CreateCaseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -826,7 +839,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCaseInput, CreateCaseOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.CreateCase"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateCaseInput, CreateCaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCaseInput, CreateCaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCaseInput, CreateCaseOutput>())
@@ -866,6 +878,12 @@ extension SupportClient {
     /// - `DescribeAttachmentLimitExceeded` : The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
     /// - `InternalServerError` : An internal server error occurred.
     public func describeAttachment(input: DescribeAttachmentInput) async throws -> DescribeAttachmentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.describeAttachmentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -878,18 +896,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeAttachmentInput, DescribeAttachmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAttachmentInput, DescribeAttachmentOutput>(DescribeAttachmentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAttachmentInput, DescribeAttachmentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAttachmentInput, DescribeAttachmentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAttachmentOutput>(DescribeAttachmentOutput.httpOutput(from:), DescribeAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAttachmentInput, DescribeAttachmentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -901,7 +919,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAttachmentInput, DescribeAttachmentOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.DescribeAttachment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAttachmentInput, DescribeAttachmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAttachmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAttachmentInput, DescribeAttachmentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAttachmentInput, DescribeAttachmentOutput>())
@@ -947,6 +964,12 @@ extension SupportClient {
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
     /// - `InternalServerError` : An internal server error occurred.
     public func describeCases(input: DescribeCasesInput) async throws -> DescribeCasesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.describeCasesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -959,18 +982,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCasesInput, DescribeCasesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCasesInput, DescribeCasesOutput>(DescribeCasesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCasesInput, DescribeCasesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCasesInput, DescribeCasesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCasesOutput>(DescribeCasesOutput.httpOutput(from:), DescribeCasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCasesInput, DescribeCasesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -982,7 +1005,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCasesInput, DescribeCasesOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.DescribeCases"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCasesInput, DescribeCasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCasesInput, DescribeCasesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCasesInput, DescribeCasesOutput>())
@@ -1021,6 +1043,12 @@ extension SupportClient {
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
     /// - `InternalServerError` : An internal server error occurred.
     public func describeCommunications(input: DescribeCommunicationsInput) async throws -> DescribeCommunicationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.describeCommunicationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1033,18 +1061,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCommunicationsInput, DescribeCommunicationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutput>(DescribeCommunicationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCommunicationsOutput>(DescribeCommunicationsOutput.httpOutput(from:), DescribeCommunicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1056,7 +1084,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCommunicationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.DescribeCommunications"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCommunicationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCommunicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutput>())
@@ -1095,6 +1122,12 @@ extension SupportClient {
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeCreateCaseOptions(input: DescribeCreateCaseOptionsInput) async throws -> DescribeCreateCaseOptionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.describeCreateCaseOptionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1107,18 +1140,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput>(DescribeCreateCaseOptionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCreateCaseOptionsOutput>(DescribeCreateCaseOptionsOutput.httpOutput(from:), DescribeCreateCaseOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1130,7 +1163,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCreateCaseOptionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.DescribeCreateCaseOptions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCreateCaseOptionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCreateCaseOptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCreateCaseOptionsInput, DescribeCreateCaseOptionsOutput>())
@@ -1168,6 +1200,12 @@ extension SupportClient {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.describeServicesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1180,18 +1218,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeServicesInput, DescribeServicesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeServicesInput, DescribeServicesOutput>(DescribeServicesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeServicesInput, DescribeServicesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServicesInput, DescribeServicesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServicesOutput>(DescribeServicesOutput.httpOutput(from:), DescribeServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServicesInput, DescribeServicesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1203,7 +1241,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeServicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeServicesInput, DescribeServicesOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.DescribeServices"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeServicesInput, DescribeServicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeServicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeServicesInput, DescribeServicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeServicesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeServicesInput, DescribeServicesOutput>())
@@ -1241,6 +1278,12 @@ extension SupportClient {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     public func describeSeverityLevels(input: DescribeSeverityLevelsInput) async throws -> DescribeSeverityLevelsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.describeSeverityLevelsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1253,18 +1296,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput>(DescribeSeverityLevelsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSeverityLevelsOutput>(DescribeSeverityLevelsOutput.httpOutput(from:), DescribeSeverityLevelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1276,7 +1319,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSeverityLevelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.DescribeSeverityLevels"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSeverityLevelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSeverityLevelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutput>())
@@ -1315,6 +1357,12 @@ extension SupportClient {
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeSupportedLanguages(input: DescribeSupportedLanguagesInput) async throws -> DescribeSupportedLanguagesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.describeSupportedLanguagesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1327,18 +1375,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput>(DescribeSupportedLanguagesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSupportedLanguagesOutput>(DescribeSupportedLanguagesOutput.httpOutput(from:), DescribeSupportedLanguagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1350,7 +1398,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSupportedLanguagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.DescribeSupportedLanguages"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSupportedLanguagesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSupportedLanguagesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSupportedLanguagesInput, DescribeSupportedLanguagesOutput>())
@@ -1392,6 +1439,12 @@ extension SupportClient {
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeTrustedAdvisorCheckRefreshStatuses(input: DescribeTrustedAdvisorCheckRefreshStatusesInput) async throws -> DescribeTrustedAdvisorCheckRefreshStatusesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.describeTrustedAdvisorCheckRefreshStatusesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1404,18 +1457,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput>(DescribeTrustedAdvisorCheckRefreshStatusesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesOutput>(DescribeTrustedAdvisorCheckRefreshStatusesOutput.httpOutput(from:), DescribeTrustedAdvisorCheckRefreshStatusesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1427,7 +1480,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.DescribeTrustedAdvisorCheckRefreshStatuses"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTrustedAdvisorCheckRefreshStatusesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutput>())
@@ -1487,6 +1539,12 @@ extension SupportClient {
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeTrustedAdvisorCheckResult(input: DescribeTrustedAdvisorCheckResultInput) async throws -> DescribeTrustedAdvisorCheckResultOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.describeTrustedAdvisorCheckResultOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1499,18 +1557,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput>(DescribeTrustedAdvisorCheckResultInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorCheckResultOutput>(DescribeTrustedAdvisorCheckResultOutput.httpOutput(from:), DescribeTrustedAdvisorCheckResultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1522,7 +1580,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTrustedAdvisorCheckResultOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.DescribeTrustedAdvisorCheckResult"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTrustedAdvisorCheckResultInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTrustedAdvisorCheckResultOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutput>())
@@ -1564,6 +1621,12 @@ extension SupportClient {
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeTrustedAdvisorCheckSummaries(input: DescribeTrustedAdvisorCheckSummariesInput) async throws -> DescribeTrustedAdvisorCheckSummariesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.describeTrustedAdvisorCheckSummariesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1576,18 +1639,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput>(DescribeTrustedAdvisorCheckSummariesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorCheckSummariesOutput>(DescribeTrustedAdvisorCheckSummariesOutput.httpOutput(from:), DescribeTrustedAdvisorCheckSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1599,7 +1662,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTrustedAdvisorCheckSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.DescribeTrustedAdvisorCheckSummaries"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTrustedAdvisorCheckSummariesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTrustedAdvisorCheckSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutput>())
@@ -1643,6 +1705,12 @@ extension SupportClient {
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeTrustedAdvisorChecks(input: DescribeTrustedAdvisorChecksInput) async throws -> DescribeTrustedAdvisorChecksOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.describeTrustedAdvisorChecksOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1655,18 +1723,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput>(DescribeTrustedAdvisorChecksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorChecksOutput>(DescribeTrustedAdvisorChecksOutput.httpOutput(from:), DescribeTrustedAdvisorChecksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1678,7 +1746,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTrustedAdvisorChecksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.DescribeTrustedAdvisorChecks"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTrustedAdvisorChecksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTrustedAdvisorChecksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutput>())
@@ -1719,6 +1786,12 @@ extension SupportClient {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An internal server error occurred.
     public func refreshTrustedAdvisorCheck(input: RefreshTrustedAdvisorCheckInput) async throws -> RefreshTrustedAdvisorCheckOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.refreshTrustedAdvisorCheckOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1731,18 +1804,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput>(RefreshTrustedAdvisorCheckInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RefreshTrustedAdvisorCheckOutput>(RefreshTrustedAdvisorCheckOutput.httpOutput(from:), RefreshTrustedAdvisorCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1754,7 +1827,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RefreshTrustedAdvisorCheckOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.RefreshTrustedAdvisorCheck"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RefreshTrustedAdvisorCheckInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RefreshTrustedAdvisorCheckOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutput>())
@@ -1793,6 +1865,12 @@ extension SupportClient {
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
     /// - `InternalServerError` : An internal server error occurred.
     public func resolveCase(input: ResolveCaseInput) async throws -> ResolveCaseOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.resolveCaseOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1805,18 +1883,18 @@ extension SupportClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ResolveCaseInput, ResolveCaseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ResolveCaseInput, ResolveCaseOutput>(ResolveCaseInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResolveCaseInput, ResolveCaseOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResolveCaseInput, ResolveCaseOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ResolveCaseOutput>(ResolveCaseOutput.httpOutput(from:), ResolveCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResolveCaseInput, ResolveCaseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1828,7 +1906,6 @@ extension SupportClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResolveCaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResolveCaseInput, ResolveCaseOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.ResolveCase"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ResolveCaseInput, ResolveCaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResolveCaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResolveCaseInput, ResolveCaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResolveCaseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResolveCaseInput, ResolveCaseOutput>())

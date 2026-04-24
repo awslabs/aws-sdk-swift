@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,30 +36,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -631,6 +628,12 @@ extension ACMClient {
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
     /// - `TooManyTagsException` : The request contains too many tags. Try the request again with fewer tags.
     public func addTagsToCertificate(input: AddTagsToCertificateInput) async throws -> AddTagsToCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.addTagsToCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -643,18 +646,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AddTagsToCertificateInput, AddTagsToCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>(AddTagsToCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToCertificateOutput>(AddTagsToCertificateOutput.httpOutput(from:), AddTagsToCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -666,7 +669,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddTagsToCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.AddTagsToCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddTagsToCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddTagsToCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>())
@@ -705,6 +707,12 @@ extension ACMClient {
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
     public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.deleteCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -717,18 +725,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCertificateInput, DeleteCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(DeleteCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCertificateInput, DeleteCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCertificateInput, DeleteCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCertificateOutput>(DeleteCertificateOutput.httpOutput(from:), DeleteCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -740,7 +748,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.DeleteCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCertificateInput, DeleteCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCertificateInput, DeleteCertificateOutput>())
@@ -775,6 +782,12 @@ extension ACMClient {
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     public func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.describeCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -787,18 +800,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCertificateInput, DescribeCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(DescribeCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCertificateInput, DescribeCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCertificateInput, DescribeCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCertificateOutput>(DescribeCertificateOutput.httpOutput(from:), DescribeCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -810,7 +823,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.DescribeCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCertificateInput, DescribeCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCertificateInput, DescribeCertificateOutput>())
@@ -847,6 +859,12 @@ extension ACMClient {
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
     public func exportCertificate(input: ExportCertificateInput) async throws -> ExportCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.exportCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -859,18 +877,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExportCertificateInput, ExportCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExportCertificateInput, ExportCertificateOutput>(ExportCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportCertificateInput, ExportCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportCertificateInput, ExportCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportCertificateOutput>(ExportCertificateOutput.httpOutput(from:), ExportCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportCertificateInput, ExportCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -882,7 +900,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportCertificateInput, ExportCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.ExportCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ExportCertificateInput, ExportCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportCertificateInput, ExportCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportCertificateInput, ExportCertificateOutput>())
@@ -917,6 +934,12 @@ extension ACMClient {
     /// - `AccessDeniedException` : You do not have access required to perform this action.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
     public func getAccountConfiguration(input: GetAccountConfigurationInput) async throws -> GetAccountConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.getAccountConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -929,18 +952,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccountConfigurationInput, GetAccountConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>(GetAccountConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountConfigurationOutput>(GetAccountConfigurationOutput.httpOutput(from:), GetAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -952,7 +975,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAccountConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>(overrides: ["X-Amz-Target": "CertificateManager.GetAccountConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAccountConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAccountConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>())
@@ -988,6 +1010,12 @@ extension ACMClient {
     /// - `RequestInProgressException` : The certificate request is in process and the certificate in your account has not yet been issued.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     public func getCertificate(input: GetCertificateInput) async throws -> GetCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.getCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1000,18 +1028,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCertificateInput, GetCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCertificateInput, GetCertificateOutput>(GetCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCertificateInput, GetCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCertificateInput, GetCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCertificateOutput>(GetCertificateOutput.httpOutput(from:), GetCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCertificateInput, GetCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1023,7 +1051,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCertificateInput, GetCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.GetCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCertificateInput, GetCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCertificateInput, GetCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCertificateInput, GetCertificateOutput>())
@@ -1089,6 +1116,12 @@ extension ACMClient {
     /// - `TagPolicyException` : A specified tag did not comply with an existing tag policy and was rejected.
     /// - `TooManyTagsException` : The request contains too many tags. Try the request again with fewer tags.
     public func importCertificate(input: ImportCertificateInput) async throws -> ImportCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.importCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1101,18 +1134,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ImportCertificateInput, ImportCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ImportCertificateInput, ImportCertificateOutput>(ImportCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportCertificateInput, ImportCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportCertificateInput, ImportCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportCertificateOutput>(ImportCertificateOutput.httpOutput(from:), ImportCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportCertificateInput, ImportCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1124,7 +1157,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportCertificateInput, ImportCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.ImportCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ImportCertificateInput, ImportCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportCertificateInput, ImportCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportCertificateInput, ImportCertificateOutput>())
@@ -1159,6 +1191,12 @@ extension ACMClient {
     /// - `InvalidArgsException` : One or more of request parameters specified is not valid.
     /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.listCertificatesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1171,18 +1209,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCertificatesInput, ListCertificatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCertificatesInput, ListCertificatesOutput>(ListCertificatesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCertificatesInput, ListCertificatesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCertificatesInput, ListCertificatesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCertificatesOutput>(ListCertificatesOutput.httpOutput(from:), ListCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCertificatesInput, ListCertificatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1194,7 +1232,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCertificatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCertificatesInput, ListCertificatesOutput>(overrides: ["X-Amz-Target": "CertificateManager.ListCertificates"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCertificatesInput, ListCertificatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCertificatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCertificatesInput, ListCertificatesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCertificatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCertificatesInput, ListCertificatesOutput>())
@@ -1229,6 +1266,12 @@ extension ACMClient {
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     public func listTagsForCertificate(input: ListTagsForCertificateInput) async throws -> ListTagsForCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.listTagsForCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1241,18 +1284,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForCertificateInput, ListTagsForCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>(ListTagsForCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForCertificateOutput>(ListTagsForCertificateOutput.httpOutput(from:), ListTagsForCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1264,7 +1307,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.ListTagsForCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>())
@@ -1301,6 +1343,12 @@ extension ACMClient {
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
     /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func putAccountConfiguration(input: PutAccountConfigurationInput) async throws -> PutAccountConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.putAccountConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1313,18 +1361,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutAccountConfigurationInput, PutAccountConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>(PutAccountConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountConfigurationOutput>(PutAccountConfigurationOutput.httpOutput(from:), PutAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1336,7 +1384,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAccountConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>(overrides: ["X-Amz-Target": "CertificateManager.PutAccountConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAccountConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>())
@@ -1375,6 +1422,12 @@ extension ACMClient {
     /// - `TagPolicyException` : A specified tag did not comply with an existing tag policy and was rejected.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
     public func removeTagsFromCertificate(input: RemoveTagsFromCertificateInput) async throws -> RemoveTagsFromCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.removeTagsFromCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1387,18 +1440,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>(RemoveTagsFromCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromCertificateOutput>(RemoveTagsFromCertificateOutput.httpOutput(from:), RemoveTagsFromCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1410,7 +1463,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveTagsFromCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.RemoveTagsFromCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveTagsFromCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveTagsFromCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>())
@@ -1446,6 +1498,12 @@ extension ACMClient {
     /// - `RequestInProgressException` : The certificate request is in process and the certificate in your account has not yet been issued.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     public func renewCertificate(input: RenewCertificateInput) async throws -> RenewCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.renewCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1458,18 +1516,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RenewCertificateInput, RenewCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RenewCertificateInput, RenewCertificateOutput>(RenewCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RenewCertificateInput, RenewCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RenewCertificateInput, RenewCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RenewCertificateOutput>(RenewCertificateOutput.httpOutput(from:), RenewCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RenewCertificateInput, RenewCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1481,7 +1539,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RenewCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RenewCertificateInput, RenewCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.RenewCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RenewCertificateInput, RenewCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RenewCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RenewCertificateInput, RenewCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RenewCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RenewCertificateInput, RenewCertificateOutput>())
@@ -1521,6 +1578,12 @@ extension ACMClient {
     /// - `TagPolicyException` : A specified tag did not comply with an existing tag policy and was rejected.
     /// - `TooManyTagsException` : The request contains too many tags. Try the request again with fewer tags.
     public func requestCertificate(input: RequestCertificateInput) async throws -> RequestCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.requestCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1533,18 +1596,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RequestCertificateInput, RequestCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RequestCertificateInput, RequestCertificateOutput>(RequestCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RequestCertificateInput, RequestCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RequestCertificateInput, RequestCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RequestCertificateOutput>(RequestCertificateOutput.httpOutput(from:), RequestCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestCertificateInput, RequestCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1556,7 +1619,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RequestCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RequestCertificateInput, RequestCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.RequestCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RequestCertificateInput, RequestCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RequestCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RequestCertificateInput, RequestCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RequestCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RequestCertificateInput, RequestCertificateOutput>())
@@ -1593,6 +1655,12 @@ extension ACMClient {
     /// - `InvalidStateException` : Processing has reached an invalid state.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     public func resendValidationEmail(input: ResendValidationEmailInput) async throws -> ResendValidationEmailOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.resendValidationEmailOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1605,18 +1673,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ResendValidationEmailInput, ResendValidationEmailOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>(ResendValidationEmailInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ResendValidationEmailOutput>(ResendValidationEmailOutput.httpOutput(from:), ResendValidationEmailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1628,7 +1696,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResendValidationEmailOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>(overrides: ["X-Amz-Target": "CertificateManager.ResendValidationEmail"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResendValidationEmailInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResendValidationEmailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>())
@@ -1667,6 +1734,12 @@ extension ACMClient {
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
     public func revokeCertificate(input: RevokeCertificateInput) async throws -> RevokeCertificateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.revokeCertificateOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1679,18 +1752,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RevokeCertificateInput, RevokeCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RevokeCertificateInput, RevokeCertificateOutput>(RevokeCertificateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RevokeCertificateInput, RevokeCertificateOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeCertificateInput, RevokeCertificateOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeCertificateOutput>(RevokeCertificateOutput.httpOutput(from:), RevokeCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeCertificateInput, RevokeCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1702,7 +1775,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RevokeCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RevokeCertificateInput, RevokeCertificateOutput>(overrides: ["X-Amz-Target": "CertificateManager.RevokeCertificate"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RevokeCertificateInput, RevokeCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RevokeCertificateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RevokeCertificateInput, RevokeCertificateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RevokeCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RevokeCertificateInput, RevokeCertificateOutput>())
@@ -1738,6 +1810,12 @@ extension ACMClient {
     /// - `ThrottlingException` : The request was denied because it exceeded a quota.
     /// - `ValidationException` : The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public func searchCertificates(input: SearchCertificatesInput) async throws -> SearchCertificatesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.searchCertificatesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1750,18 +1828,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SearchCertificatesInput, SearchCertificatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchCertificatesInput, SearchCertificatesOutput>(SearchCertificatesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchCertificatesInput, SearchCertificatesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchCertificatesInput, SearchCertificatesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchCertificatesOutput>(SearchCertificatesOutput.httpOutput(from:), SearchCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchCertificatesInput, SearchCertificatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1773,7 +1851,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchCertificatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchCertificatesInput, SearchCertificatesOutput>(overrides: ["X-Amz-Target": "CertificateManager.SearchCertificates"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SearchCertificatesInput, SearchCertificatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchCertificatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchCertificatesInput, SearchCertificatesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchCertificatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchCertificatesInput, SearchCertificatesOutput>())
@@ -1810,6 +1887,12 @@ extension ACMClient {
     /// - `LimitExceededException` : An ACM quota has been exceeded.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     public func updateCertificateOptions(input: UpdateCertificateOptionsInput) async throws -> UpdateCertificateOptionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ACMClient.updateCertificateOptionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1822,18 +1905,18 @@ extension ACMClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>(UpdateCertificateOptionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCertificateOptionsOutput>(UpdateCertificateOptionsOutput.httpOutput(from:), UpdateCertificateOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1845,7 +1928,6 @@ extension ACMClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCertificateOptionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>(overrides: ["X-Amz-Target": "CertificateManager.UpdateCertificateOptions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCertificateOptionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCertificateOptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>())

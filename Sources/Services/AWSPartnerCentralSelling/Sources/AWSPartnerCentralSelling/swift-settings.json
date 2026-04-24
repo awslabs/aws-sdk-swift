@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.partnercentralselling#AWSPartnerCentralSelling",
+    "module": "AWSPartnerCentralSelling",
+    "sdkId": "PartnerCentral Selling",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/partnercentral-selling.json"
+}

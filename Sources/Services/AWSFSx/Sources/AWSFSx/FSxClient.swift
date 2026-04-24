@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,22 +35,21 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
@@ -61,8 +57,9 @@ import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -627,6 +624,12 @@ extension FSxClient {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     public func associateFileSystemAliases(input: AssociateFileSystemAliasesInput) async throws -> AssociateFileSystemAliasesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.associateFileSystemAliasesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -639,8 +642,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateFileSystemAliasesInput, AssociateFileSystemAliasesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -648,10 +653,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateFileSystemAliasesInput, AssociateFileSystemAliasesOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateFileSystemAliasesInput, AssociateFileSystemAliasesOutput>(AssociateFileSystemAliasesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateFileSystemAliasesInput, AssociateFileSystemAliasesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFileSystemAliasesInput, AssociateFileSystemAliasesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateFileSystemAliasesOutput>(AssociateFileSystemAliasesOutput.httpOutput(from:), AssociateFileSystemAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFileSystemAliasesInput, AssociateFileSystemAliasesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -663,7 +666,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateFileSystemAliasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateFileSystemAliasesInput, AssociateFileSystemAliasesOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.AssociateFileSystemAliases"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateFileSystemAliasesInput, AssociateFileSystemAliasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateFileSystemAliasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateFileSystemAliasesInput, AssociateFileSystemAliasesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateFileSystemAliasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateFileSystemAliasesInput, AssociateFileSystemAliasesOutput>())
@@ -710,6 +712,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func cancelDataRepositoryTask(input: CancelDataRepositoryTaskInput) async throws -> CancelDataRepositoryTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.cancelDataRepositoryTaskOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -722,18 +730,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelDataRepositoryTaskInput, CancelDataRepositoryTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelDataRepositoryTaskInput, CancelDataRepositoryTaskOutput>(CancelDataRepositoryTaskInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelDataRepositoryTaskInput, CancelDataRepositoryTaskOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelDataRepositoryTaskInput, CancelDataRepositoryTaskOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelDataRepositoryTaskOutput>(CancelDataRepositoryTaskOutput.httpOutput(from:), CancelDataRepositoryTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelDataRepositoryTaskInput, CancelDataRepositoryTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -745,7 +753,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelDataRepositoryTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelDataRepositoryTaskInput, CancelDataRepositoryTaskOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CancelDataRepositoryTask"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelDataRepositoryTaskInput, CancelDataRepositoryTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelDataRepositoryTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelDataRepositoryTaskInput, CancelDataRepositoryTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelDataRepositoryTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelDataRepositoryTaskInput, CancelDataRepositoryTaskOutput>())
@@ -789,6 +796,12 @@ extension FSxClient {
     /// - `SourceBackupUnavailable` : The request was rejected because the lifecycle status of the source backup isn't AVAILABLE.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func copyBackup(input: CopyBackupInput) async throws -> CopyBackupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.copyBackupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -801,8 +814,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CopyBackupInput, CopyBackupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -810,10 +825,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CopyBackupInput, CopyBackupOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CopyBackupInput, CopyBackupOutput>(CopyBackupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CopyBackupInput, CopyBackupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyBackupInput, CopyBackupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyBackupOutput>(CopyBackupOutput.httpOutput(from:), CopyBackupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyBackupInput, CopyBackupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -825,7 +838,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CopyBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CopyBackupInput, CopyBackupOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CopyBackup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CopyBackupInput, CopyBackupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CopyBackupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopyBackupInput, CopyBackupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CopyBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CopyBackupInput, CopyBackupOutput>())
@@ -862,6 +874,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     public func copySnapshotAndUpdateVolume(input: CopySnapshotAndUpdateVolumeInput) async throws -> CopySnapshotAndUpdateVolumeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.copySnapshotAndUpdateVolumeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -874,8 +892,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CopySnapshotAndUpdateVolumeInput, CopySnapshotAndUpdateVolumeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -883,10 +903,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CopySnapshotAndUpdateVolumeInput, CopySnapshotAndUpdateVolumeOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CopySnapshotAndUpdateVolumeInput, CopySnapshotAndUpdateVolumeOutput>(CopySnapshotAndUpdateVolumeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CopySnapshotAndUpdateVolumeInput, CopySnapshotAndUpdateVolumeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopySnapshotAndUpdateVolumeInput, CopySnapshotAndUpdateVolumeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CopySnapshotAndUpdateVolumeOutput>(CopySnapshotAndUpdateVolumeOutput.httpOutput(from:), CopySnapshotAndUpdateVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopySnapshotAndUpdateVolumeInput, CopySnapshotAndUpdateVolumeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -898,7 +916,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CopySnapshotAndUpdateVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CopySnapshotAndUpdateVolumeInput, CopySnapshotAndUpdateVolumeOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CopySnapshotAndUpdateVolume"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CopySnapshotAndUpdateVolumeInput, CopySnapshotAndUpdateVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CopySnapshotAndUpdateVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopySnapshotAndUpdateVolumeInput, CopySnapshotAndUpdateVolumeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CopySnapshotAndUpdateVolumeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CopySnapshotAndUpdateVolumeInput, CopySnapshotAndUpdateVolumeOutput>())
@@ -957,6 +974,12 @@ extension FSxClient {
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
     public func createAndAttachS3AccessPoint(input: CreateAndAttachS3AccessPointInput) async throws -> CreateAndAttachS3AccessPointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createAndAttachS3AccessPointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -969,8 +992,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAndAttachS3AccessPointInput, CreateAndAttachS3AccessPointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -978,10 +1003,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAndAttachS3AccessPointInput, CreateAndAttachS3AccessPointOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAndAttachS3AccessPointInput, CreateAndAttachS3AccessPointOutput>(CreateAndAttachS3AccessPointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAndAttachS3AccessPointInput, CreateAndAttachS3AccessPointOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAndAttachS3AccessPointInput, CreateAndAttachS3AccessPointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAndAttachS3AccessPointOutput>(CreateAndAttachS3AccessPointOutput.httpOutput(from:), CreateAndAttachS3AccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAndAttachS3AccessPointInput, CreateAndAttachS3AccessPointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -993,7 +1016,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAndAttachS3AccessPointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAndAttachS3AccessPointInput, CreateAndAttachS3AccessPointOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateAndAttachS3AccessPoint"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAndAttachS3AccessPointInput, CreateAndAttachS3AccessPointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAndAttachS3AccessPointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAndAttachS3AccessPointInput, CreateAndAttachS3AccessPointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAndAttachS3AccessPointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAndAttachS3AccessPointInput, CreateAndAttachS3AccessPointOutput>())
@@ -1059,6 +1081,12 @@ extension FSxClient {
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
     public func createBackup(input: CreateBackupInput) async throws -> CreateBackupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createBackupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1071,8 +1099,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateBackupInput, CreateBackupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1080,10 +1110,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateBackupInput, CreateBackupOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateBackupInput, CreateBackupOutput>(CreateBackupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateBackupInput, CreateBackupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBackupInput, CreateBackupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBackupOutput>(CreateBackupOutput.httpOutput(from:), CreateBackupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBackupInput, CreateBackupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1095,7 +1123,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBackupInput, CreateBackupOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateBackup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateBackupInput, CreateBackupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBackupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBackupInput, CreateBackupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBackupInput, CreateBackupOutput>())
@@ -1134,6 +1161,12 @@ extension FSxClient {
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func createDataRepositoryAssociation(input: CreateDataRepositoryAssociationInput) async throws -> CreateDataRepositoryAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createDataRepositoryAssociationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1146,8 +1179,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateDataRepositoryAssociationInput, CreateDataRepositoryAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1155,10 +1190,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateDataRepositoryAssociationInput, CreateDataRepositoryAssociationOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDataRepositoryAssociationInput, CreateDataRepositoryAssociationOutput>(CreateDataRepositoryAssociationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDataRepositoryAssociationInput, CreateDataRepositoryAssociationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataRepositoryAssociationInput, CreateDataRepositoryAssociationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataRepositoryAssociationOutput>(CreateDataRepositoryAssociationOutput.httpOutput(from:), CreateDataRepositoryAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataRepositoryAssociationInput, CreateDataRepositoryAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1170,7 +1203,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDataRepositoryAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDataRepositoryAssociationInput, CreateDataRepositoryAssociationOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateDataRepositoryAssociation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateDataRepositoryAssociationInput, CreateDataRepositoryAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDataRepositoryAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDataRepositoryAssociationInput, CreateDataRepositoryAssociationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataRepositoryAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDataRepositoryAssociationInput, CreateDataRepositoryAssociationOutput>())
@@ -1213,6 +1245,12 @@ extension FSxClient {
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func createDataRepositoryTask(input: CreateDataRepositoryTaskInput) async throws -> CreateDataRepositoryTaskOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createDataRepositoryTaskOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1225,8 +1263,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateDataRepositoryTaskInput, CreateDataRepositoryTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1234,10 +1274,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateDataRepositoryTaskInput, CreateDataRepositoryTaskOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDataRepositoryTaskInput, CreateDataRepositoryTaskOutput>(CreateDataRepositoryTaskInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDataRepositoryTaskInput, CreateDataRepositoryTaskOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataRepositoryTaskInput, CreateDataRepositoryTaskOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataRepositoryTaskOutput>(CreateDataRepositoryTaskOutput.httpOutput(from:), CreateDataRepositoryTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataRepositoryTaskInput, CreateDataRepositoryTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1249,7 +1287,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDataRepositoryTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDataRepositoryTaskInput, CreateDataRepositoryTaskOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateDataRepositoryTask"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateDataRepositoryTaskInput, CreateDataRepositoryTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDataRepositoryTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDataRepositoryTaskInput, CreateDataRepositoryTaskOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataRepositoryTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDataRepositoryTaskInput, CreateDataRepositoryTaskOutput>())
@@ -1296,6 +1333,12 @@ extension FSxClient {
     /// - `MissingFileCacheConfiguration` : A cache configuration is required for this operation.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     public func createFileCache(input: CreateFileCacheInput) async throws -> CreateFileCacheOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createFileCacheOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1308,8 +1351,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateFileCacheInput, CreateFileCacheOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1317,10 +1362,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateFileCacheInput, CreateFileCacheOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFileCacheInput, CreateFileCacheOutput>(CreateFileCacheInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFileCacheInput, CreateFileCacheOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFileCacheInput, CreateFileCacheOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFileCacheOutput>(CreateFileCacheOutput.httpOutput(from:), CreateFileCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFileCacheInput, CreateFileCacheOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1332,7 +1375,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFileCacheOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFileCacheInput, CreateFileCacheOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateFileCache"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateFileCacheInput, CreateFileCacheOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFileCacheInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFileCacheInput, CreateFileCacheOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFileCacheOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFileCacheInput, CreateFileCacheOutput>())
@@ -1393,6 +1435,12 @@ extension FSxClient {
     /// - `MissingFileSystemConfiguration` : A file system configuration is required for this operation.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     public func createFileSystem(input: CreateFileSystemInput) async throws -> CreateFileSystemOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createFileSystemOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1405,8 +1453,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateFileSystemInput, CreateFileSystemOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1414,10 +1464,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateFileSystemInput, CreateFileSystemOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFileSystemInput, CreateFileSystemOutput>(CreateFileSystemInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFileSystemInput, CreateFileSystemOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFileSystemInput, CreateFileSystemOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFileSystemOutput>(CreateFileSystemOutput.httpOutput(from:), CreateFileSystemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFileSystemInput, CreateFileSystemOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1429,7 +1477,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFileSystemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFileSystemInput, CreateFileSystemOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateFileSystem"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateFileSystemInput, CreateFileSystemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFileSystemInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFileSystemInput, CreateFileSystemOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFileSystemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFileSystemInput, CreateFileSystemOutput>())
@@ -1478,6 +1525,12 @@ extension FSxClient {
     /// - `MissingFileSystemConfiguration` : A file system configuration is required for this operation.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     public func createFileSystemFromBackup(input: CreateFileSystemFromBackupInput) async throws -> CreateFileSystemFromBackupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createFileSystemFromBackupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1490,8 +1543,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateFileSystemFromBackupInput, CreateFileSystemFromBackupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1499,10 +1554,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateFileSystemFromBackupInput, CreateFileSystemFromBackupOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateFileSystemFromBackupInput, CreateFileSystemFromBackupOutput>(CreateFileSystemFromBackupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFileSystemFromBackupInput, CreateFileSystemFromBackupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFileSystemFromBackupInput, CreateFileSystemFromBackupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFileSystemFromBackupOutput>(CreateFileSystemFromBackupOutput.httpOutput(from:), CreateFileSystemFromBackupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFileSystemFromBackupInput, CreateFileSystemFromBackupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1514,7 +1567,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFileSystemFromBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFileSystemFromBackupInput, CreateFileSystemFromBackupOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateFileSystemFromBackup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateFileSystemFromBackupInput, CreateFileSystemFromBackupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFileSystemFromBackupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFileSystemFromBackupInput, CreateFileSystemFromBackupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFileSystemFromBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFileSystemFromBackupInput, CreateFileSystemFromBackupOutput>())
@@ -1558,6 +1610,12 @@ extension FSxClient {
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
     public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createSnapshotOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1570,8 +1628,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateSnapshotInput, CreateSnapshotOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1579,10 +1639,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(CreateSnapshotInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSnapshotOutput>(CreateSnapshotOutput.httpOutput(from:), CreateSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1594,7 +1652,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateSnapshot"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateSnapshotInput, CreateSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
@@ -1634,6 +1691,12 @@ extension FSxClient {
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func createStorageVirtualMachine(input: CreateStorageVirtualMachineInput) async throws -> CreateStorageVirtualMachineOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createStorageVirtualMachineOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1646,8 +1709,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateStorageVirtualMachineInput, CreateStorageVirtualMachineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1655,10 +1720,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateStorageVirtualMachineInput, CreateStorageVirtualMachineOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateStorageVirtualMachineInput, CreateStorageVirtualMachineOutput>(CreateStorageVirtualMachineInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStorageVirtualMachineInput, CreateStorageVirtualMachineOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStorageVirtualMachineInput, CreateStorageVirtualMachineOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStorageVirtualMachineOutput>(CreateStorageVirtualMachineOutput.httpOutput(from:), CreateStorageVirtualMachineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStorageVirtualMachineInput, CreateStorageVirtualMachineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1670,7 +1733,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateStorageVirtualMachineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateStorageVirtualMachineInput, CreateStorageVirtualMachineOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateStorageVirtualMachine"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateStorageVirtualMachineInput, CreateStorageVirtualMachineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStorageVirtualMachineInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStorageVirtualMachineInput, CreateStorageVirtualMachineOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStorageVirtualMachineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateStorageVirtualMachineInput, CreateStorageVirtualMachineOutput>())
@@ -1711,6 +1773,12 @@ extension FSxClient {
     /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func createVolume(input: CreateVolumeInput) async throws -> CreateVolumeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createVolumeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1723,8 +1791,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateVolumeInput, CreateVolumeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1732,10 +1802,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateVolumeInput, CreateVolumeOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateVolumeInput, CreateVolumeOutput>(CreateVolumeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVolumeInput, CreateVolumeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVolumeInput, CreateVolumeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVolumeOutput>(CreateVolumeOutput.httpOutput(from:), CreateVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVolumeInput, CreateVolumeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1747,7 +1815,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVolumeInput, CreateVolumeOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateVolume"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateVolumeInput, CreateVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVolumeInput, CreateVolumeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVolumeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVolumeInput, CreateVolumeOutput>())
@@ -1788,6 +1855,12 @@ extension FSxClient {
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
     public func createVolumeFromBackup(input: CreateVolumeFromBackupInput) async throws -> CreateVolumeFromBackupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.createVolumeFromBackupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1800,8 +1873,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateVolumeFromBackupInput, CreateVolumeFromBackupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1809,10 +1884,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateVolumeFromBackupInput, CreateVolumeFromBackupOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateVolumeFromBackupInput, CreateVolumeFromBackupOutput>(CreateVolumeFromBackupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVolumeFromBackupInput, CreateVolumeFromBackupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVolumeFromBackupInput, CreateVolumeFromBackupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVolumeFromBackupOutput>(CreateVolumeFromBackupOutput.httpOutput(from:), CreateVolumeFromBackupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVolumeFromBackupInput, CreateVolumeFromBackupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1824,7 +1897,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVolumeFromBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVolumeFromBackupInput, CreateVolumeFromBackupOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.CreateVolumeFromBackup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateVolumeFromBackupInput, CreateVolumeFromBackupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVolumeFromBackupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVolumeFromBackupInput, CreateVolumeFromBackupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVolumeFromBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVolumeFromBackupInput, CreateVolumeFromBackupOutput>())
@@ -1864,6 +1936,12 @@ extension FSxClient {
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     public func deleteBackup(input: DeleteBackupInput) async throws -> DeleteBackupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.deleteBackupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1876,8 +1954,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBackupInput, DeleteBackupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1885,10 +1965,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteBackupInput, DeleteBackupOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBackupInput, DeleteBackupOutput>(DeleteBackupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBackupInput, DeleteBackupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBackupInput, DeleteBackupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackupOutput>(DeleteBackupOutput.httpOutput(from:), DeleteBackupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackupInput, DeleteBackupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1900,7 +1978,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBackupInput, DeleteBackupOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DeleteBackup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteBackupInput, DeleteBackupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBackupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBackupInput, DeleteBackupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBackupInput, DeleteBackupOutput>())
@@ -1938,6 +2015,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     public func deleteDataRepositoryAssociation(input: DeleteDataRepositoryAssociationInput) async throws -> DeleteDataRepositoryAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.deleteDataRepositoryAssociationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1950,8 +2033,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteDataRepositoryAssociationInput, DeleteDataRepositoryAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1959,10 +2044,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteDataRepositoryAssociationInput, DeleteDataRepositoryAssociationOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDataRepositoryAssociationInput, DeleteDataRepositoryAssociationOutput>(DeleteDataRepositoryAssociationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataRepositoryAssociationInput, DeleteDataRepositoryAssociationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDataRepositoryAssociationInput, DeleteDataRepositoryAssociationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataRepositoryAssociationOutput>(DeleteDataRepositoryAssociationOutput.httpOutput(from:), DeleteDataRepositoryAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataRepositoryAssociationInput, DeleteDataRepositoryAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1974,7 +2057,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDataRepositoryAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDataRepositoryAssociationInput, DeleteDataRepositoryAssociationOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DeleteDataRepositoryAssociation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteDataRepositoryAssociationInput, DeleteDataRepositoryAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDataRepositoryAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDataRepositoryAssociationInput, DeleteDataRepositoryAssociationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDataRepositoryAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDataRepositoryAssociationInput, DeleteDataRepositoryAssociationOutput>())
@@ -2012,6 +2094,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     public func deleteFileCache(input: DeleteFileCacheInput) async throws -> DeleteFileCacheOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.deleteFileCacheOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2024,8 +2112,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteFileCacheInput, DeleteFileCacheOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2033,10 +2123,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteFileCacheInput, DeleteFileCacheOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFileCacheInput, DeleteFileCacheOutput>(DeleteFileCacheInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFileCacheInput, DeleteFileCacheOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFileCacheInput, DeleteFileCacheOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFileCacheOutput>(DeleteFileCacheOutput.httpOutput(from:), DeleteFileCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFileCacheInput, DeleteFileCacheOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2048,7 +2136,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFileCacheOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFileCacheInput, DeleteFileCacheOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DeleteFileCache"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFileCacheInput, DeleteFileCacheOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFileCacheInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFileCacheInput, DeleteFileCacheOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFileCacheOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFileCacheInput, DeleteFileCacheOutput>())
@@ -2086,6 +2173,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     public func deleteFileSystem(input: DeleteFileSystemInput) async throws -> DeleteFileSystemOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.deleteFileSystemOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2098,8 +2191,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteFileSystemInput, DeleteFileSystemOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2107,10 +2202,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteFileSystemInput, DeleteFileSystemOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFileSystemInput, DeleteFileSystemOutput>(DeleteFileSystemInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFileSystemInput, DeleteFileSystemOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFileSystemInput, DeleteFileSystemOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFileSystemOutput>(DeleteFileSystemOutput.httpOutput(from:), DeleteFileSystemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFileSystemInput, DeleteFileSystemOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2122,7 +2215,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFileSystemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFileSystemInput, DeleteFileSystemOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DeleteFileSystem"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFileSystemInput, DeleteFileSystemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFileSystemInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFileSystemInput, DeleteFileSystemOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFileSystemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFileSystemInput, DeleteFileSystemOutput>())
@@ -2158,6 +2250,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `SnapshotNotFound` : No Amazon FSx snapshots were found based on the supplied parameters.
     public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.deleteSnapshotOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2170,8 +2268,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteSnapshotInput, DeleteSnapshotOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2179,10 +2279,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(DeleteSnapshotInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSnapshotOutput>(DeleteSnapshotOutput.httpOutput(from:), DeleteSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2194,7 +2292,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DeleteSnapshot"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>())
@@ -2231,6 +2328,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
     public func deleteStorageVirtualMachine(input: DeleteStorageVirtualMachineInput) async throws -> DeleteStorageVirtualMachineOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.deleteStorageVirtualMachineOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2243,8 +2346,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteStorageVirtualMachineInput, DeleteStorageVirtualMachineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2252,10 +2357,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteStorageVirtualMachineInput, DeleteStorageVirtualMachineOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteStorageVirtualMachineInput, DeleteStorageVirtualMachineOutput>(DeleteStorageVirtualMachineInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStorageVirtualMachineInput, DeleteStorageVirtualMachineOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStorageVirtualMachineInput, DeleteStorageVirtualMachineOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStorageVirtualMachineOutput>(DeleteStorageVirtualMachineOutput.httpOutput(from:), DeleteStorageVirtualMachineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStorageVirtualMachineInput, DeleteStorageVirtualMachineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2267,7 +2370,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteStorageVirtualMachineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteStorageVirtualMachineInput, DeleteStorageVirtualMachineOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DeleteStorageVirtualMachine"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteStorageVirtualMachineInput, DeleteStorageVirtualMachineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteStorageVirtualMachineInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStorageVirtualMachineInput, DeleteStorageVirtualMachineOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStorageVirtualMachineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteStorageVirtualMachineInput, DeleteStorageVirtualMachineOutput>())
@@ -2305,6 +2407,12 @@ extension FSxClient {
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
     public func deleteVolume(input: DeleteVolumeInput) async throws -> DeleteVolumeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.deleteVolumeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2317,8 +2425,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteVolumeInput, DeleteVolumeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2326,10 +2436,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(DeleteVolumeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVolumeInput, DeleteVolumeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVolumeInput, DeleteVolumeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVolumeOutput>(DeleteVolumeOutput.httpOutput(from:), DeleteVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2341,7 +2449,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DeleteVolume"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteVolumeInput, DeleteVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVolumeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVolumeInput, DeleteVolumeOutput>())
@@ -2383,6 +2490,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
     public func describeBackups(input: DescribeBackupsInput) async throws -> DescribeBackupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeBackupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2395,18 +2508,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeBackupsInput, DescribeBackupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBackupsInput, DescribeBackupsOutput>(DescribeBackupsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBackupsInput, DescribeBackupsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBackupsInput, DescribeBackupsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBackupsOutput>(DescribeBackupsOutput.httpOutput(from:), DescribeBackupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBackupsInput, DescribeBackupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2418,7 +2531,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBackupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBackupsInput, DescribeBackupsOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeBackups"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBackupsInput, DescribeBackupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBackupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBackupsInput, DescribeBackupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBackupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBackupsInput, DescribeBackupsOutput>())
@@ -2456,6 +2568,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `InvalidDataRepositoryType` : You have filtered the response to a data repository type that is not supported.
     public func describeDataRepositoryAssociations(input: DescribeDataRepositoryAssociationsInput) async throws -> DescribeDataRepositoryAssociationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeDataRepositoryAssociationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2468,18 +2586,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutput>(DescribeDataRepositoryAssociationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataRepositoryAssociationsOutput>(DescribeDataRepositoryAssociationsOutput.httpOutput(from:), DescribeDataRepositoryAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2491,7 +2609,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDataRepositoryAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeDataRepositoryAssociations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDataRepositoryAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDataRepositoryAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutput>())
@@ -2528,6 +2645,12 @@ extension FSxClient {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     public func describeDataRepositoryTasks(input: DescribeDataRepositoryTasksInput) async throws -> DescribeDataRepositoryTasksOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeDataRepositoryTasksOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2540,18 +2663,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutput>(DescribeDataRepositoryTasksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataRepositoryTasksOutput>(DescribeDataRepositoryTasksOutput.httpOutput(from:), DescribeDataRepositoryTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2563,7 +2686,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDataRepositoryTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeDataRepositoryTasks"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDataRepositoryTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDataRepositoryTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutput>())
@@ -2603,6 +2725,12 @@ extension FSxClient {
     /// - `FileCacheNotFound` : No caches were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     public func describeFileCaches(input: DescribeFileCachesInput) async throws -> DescribeFileCachesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeFileCachesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2615,18 +2743,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeFileCachesInput, DescribeFileCachesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFileCachesInput, DescribeFileCachesOutput>(DescribeFileCachesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFileCachesInput, DescribeFileCachesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFileCachesInput, DescribeFileCachesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFileCachesOutput>(DescribeFileCachesOutput.httpOutput(from:), DescribeFileCachesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFileCachesInput, DescribeFileCachesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2638,7 +2766,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFileCachesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFileCachesInput, DescribeFileCachesOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeFileCaches"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFileCachesInput, DescribeFileCachesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFileCachesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFileCachesInput, DescribeFileCachesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFileCachesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFileCachesInput, DescribeFileCachesOutput>())
@@ -2674,6 +2801,12 @@ extension FSxClient {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     public func describeFileSystemAliases(input: DescribeFileSystemAliasesInput) async throws -> DescribeFileSystemAliasesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeFileSystemAliasesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2686,8 +2819,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2695,10 +2830,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutput>(DescribeFileSystemAliasesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFileSystemAliasesOutput>(DescribeFileSystemAliasesOutput.httpOutput(from:), DescribeFileSystemAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2710,7 +2843,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFileSystemAliasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeFileSystemAliases"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFileSystemAliasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFileSystemAliasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutput>())
@@ -2750,6 +2882,12 @@ extension FSxClient {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     public func describeFileSystems(input: DescribeFileSystemsInput) async throws -> DescribeFileSystemsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeFileSystemsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2762,18 +2900,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeFileSystemsInput, DescribeFileSystemsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutput>(DescribeFileSystemsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFileSystemsOutput>(DescribeFileSystemsOutput.httpOutput(from:), DescribeFileSystemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2785,7 +2923,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFileSystemsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeFileSystems"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFileSystemsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFileSystemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutput>())
@@ -2824,6 +2961,12 @@ extension FSxClient {
     /// - `S3AccessPointAttachmentNotFound` : The access point specified was not found.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func describeS3AccessPointAttachments(input: DescribeS3AccessPointAttachmentsInput) async throws -> DescribeS3AccessPointAttachmentsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeS3AccessPointAttachmentsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2836,18 +2979,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeS3AccessPointAttachmentsInput, DescribeS3AccessPointAttachmentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeS3AccessPointAttachmentsInput, DescribeS3AccessPointAttachmentsOutput>(DescribeS3AccessPointAttachmentsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeS3AccessPointAttachmentsInput, DescribeS3AccessPointAttachmentsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeS3AccessPointAttachmentsInput, DescribeS3AccessPointAttachmentsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeS3AccessPointAttachmentsOutput>(DescribeS3AccessPointAttachmentsOutput.httpOutput(from:), DescribeS3AccessPointAttachmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeS3AccessPointAttachmentsInput, DescribeS3AccessPointAttachmentsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2859,7 +3002,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeS3AccessPointAttachmentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeS3AccessPointAttachmentsInput, DescribeS3AccessPointAttachmentsOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeS3AccessPointAttachments"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeS3AccessPointAttachmentsInput, DescribeS3AccessPointAttachmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeS3AccessPointAttachmentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeS3AccessPointAttachmentsInput, DescribeS3AccessPointAttachmentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeS3AccessPointAttachmentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeS3AccessPointAttachmentsInput, DescribeS3AccessPointAttachmentsOutput>())
@@ -2894,6 +3036,12 @@ extension FSxClient {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     public func describeSharedVpcConfiguration(input: DescribeSharedVpcConfigurationInput) async throws -> DescribeSharedVpcConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeSharedVpcConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2906,18 +3054,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSharedVpcConfigurationInput, DescribeSharedVpcConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSharedVpcConfigurationInput, DescribeSharedVpcConfigurationOutput>(DescribeSharedVpcConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSharedVpcConfigurationInput, DescribeSharedVpcConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSharedVpcConfigurationInput, DescribeSharedVpcConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSharedVpcConfigurationOutput>(DescribeSharedVpcConfigurationOutput.httpOutput(from:), DescribeSharedVpcConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSharedVpcConfigurationInput, DescribeSharedVpcConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2929,7 +3077,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSharedVpcConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSharedVpcConfigurationInput, DescribeSharedVpcConfigurationOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeSharedVpcConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSharedVpcConfigurationInput, DescribeSharedVpcConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSharedVpcConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSharedVpcConfigurationInput, DescribeSharedVpcConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSharedVpcConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSharedVpcConfigurationInput, DescribeSharedVpcConfigurationOutput>())
@@ -2969,6 +3116,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `SnapshotNotFound` : No Amazon FSx snapshots were found based on the supplied parameters.
     public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeSnapshotsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2981,18 +3134,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSnapshotsInput, DescribeSnapshotsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>(DescribeSnapshotsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSnapshotsOutput>(DescribeSnapshotsOutput.httpOutput(from:), DescribeSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3004,7 +3157,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSnapshotsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeSnapshots"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSnapshotsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSnapshotsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>())
@@ -3040,6 +3192,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
     public func describeStorageVirtualMachines(input: DescribeStorageVirtualMachinesInput) async throws -> DescribeStorageVirtualMachinesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeStorageVirtualMachinesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3052,18 +3210,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutput>(DescribeStorageVirtualMachinesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStorageVirtualMachinesOutput>(DescribeStorageVirtualMachinesOutput.httpOutput(from:), DescribeStorageVirtualMachinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3075,7 +3233,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStorageVirtualMachinesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeStorageVirtualMachines"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStorageVirtualMachinesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStorageVirtualMachinesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutput>())
@@ -3111,6 +3268,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
     public func describeVolumes(input: DescribeVolumesInput) async throws -> DescribeVolumesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.describeVolumesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3123,18 +3286,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeVolumesInput, DescribeVolumesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeVolumesInput, DescribeVolumesOutput>(DescribeVolumesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVolumesInput, DescribeVolumesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVolumesInput, DescribeVolumesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVolumesOutput>(DescribeVolumesOutput.httpOutput(from:), DescribeVolumesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVolumesInput, DescribeVolumesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3146,7 +3309,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeVolumesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeVolumesInput, DescribeVolumesOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DescribeVolumes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeVolumesInput, DescribeVolumesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVolumesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVolumesInput, DescribeVolumesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVolumesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVolumesInput, DescribeVolumesOutput>())
@@ -3188,6 +3350,12 @@ extension FSxClient {
     /// - `S3AccessPointAttachmentNotFound` : The access point specified was not found.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func detachAndDeleteS3AccessPoint(input: DetachAndDeleteS3AccessPointInput) async throws -> DetachAndDeleteS3AccessPointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.detachAndDeleteS3AccessPointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3200,8 +3368,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DetachAndDeleteS3AccessPointInput, DetachAndDeleteS3AccessPointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3209,10 +3379,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DetachAndDeleteS3AccessPointInput, DetachAndDeleteS3AccessPointOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetachAndDeleteS3AccessPointInput, DetachAndDeleteS3AccessPointOutput>(DetachAndDeleteS3AccessPointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetachAndDeleteS3AccessPointInput, DetachAndDeleteS3AccessPointOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachAndDeleteS3AccessPointInput, DetachAndDeleteS3AccessPointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachAndDeleteS3AccessPointOutput>(DetachAndDeleteS3AccessPointOutput.httpOutput(from:), DetachAndDeleteS3AccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachAndDeleteS3AccessPointInput, DetachAndDeleteS3AccessPointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3224,7 +3392,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetachAndDeleteS3AccessPointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetachAndDeleteS3AccessPointInput, DetachAndDeleteS3AccessPointOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DetachAndDeleteS3AccessPoint"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DetachAndDeleteS3AccessPointInput, DetachAndDeleteS3AccessPointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachAndDeleteS3AccessPointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachAndDeleteS3AccessPointInput, DetachAndDeleteS3AccessPointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachAndDeleteS3AccessPointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetachAndDeleteS3AccessPointInput, DetachAndDeleteS3AccessPointOutput>())
@@ -3260,6 +3427,12 @@ extension FSxClient {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     public func disassociateFileSystemAliases(input: DisassociateFileSystemAliasesInput) async throws -> DisassociateFileSystemAliasesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.disassociateFileSystemAliasesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3272,8 +3445,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateFileSystemAliasesInput, DisassociateFileSystemAliasesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3281,10 +3456,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateFileSystemAliasesInput, DisassociateFileSystemAliasesOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateFileSystemAliasesInput, DisassociateFileSystemAliasesOutput>(DisassociateFileSystemAliasesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFileSystemAliasesInput, DisassociateFileSystemAliasesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateFileSystemAliasesInput, DisassociateFileSystemAliasesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFileSystemAliasesOutput>(DisassociateFileSystemAliasesOutput.httpOutput(from:), DisassociateFileSystemAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFileSystemAliasesInput, DisassociateFileSystemAliasesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3296,7 +3469,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateFileSystemAliasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateFileSystemAliasesInput, DisassociateFileSystemAliasesOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.DisassociateFileSystemAliases"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateFileSystemAliasesInput, DisassociateFileSystemAliasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateFileSystemAliasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateFileSystemAliasesInput, DisassociateFileSystemAliasesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateFileSystemAliasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateFileSystemAliasesInput, DisassociateFileSystemAliasesOutput>())
@@ -3338,6 +3510,12 @@ extension FSxClient {
     /// - `ResourceDoesNotSupportTagging` : The resource specified does not support tagging.
     /// - `ResourceNotFound` : The resource specified by the Amazon Resource Name (ARN) can't be found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3350,18 +3528,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3373,7 +3551,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -3411,6 +3588,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     public func releaseFileSystemNfsV3Locks(input: ReleaseFileSystemNfsV3LocksInput) async throws -> ReleaseFileSystemNfsV3LocksOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.releaseFileSystemNfsV3LocksOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3423,8 +3606,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ReleaseFileSystemNfsV3LocksInput, ReleaseFileSystemNfsV3LocksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3432,10 +3617,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<ReleaseFileSystemNfsV3LocksInput, ReleaseFileSystemNfsV3LocksOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ReleaseFileSystemNfsV3LocksInput, ReleaseFileSystemNfsV3LocksOutput>(ReleaseFileSystemNfsV3LocksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReleaseFileSystemNfsV3LocksInput, ReleaseFileSystemNfsV3LocksOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReleaseFileSystemNfsV3LocksInput, ReleaseFileSystemNfsV3LocksOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ReleaseFileSystemNfsV3LocksOutput>(ReleaseFileSystemNfsV3LocksOutput.httpOutput(from:), ReleaseFileSystemNfsV3LocksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReleaseFileSystemNfsV3LocksInput, ReleaseFileSystemNfsV3LocksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3447,7 +3630,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReleaseFileSystemNfsV3LocksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReleaseFileSystemNfsV3LocksInput, ReleaseFileSystemNfsV3LocksOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.ReleaseFileSystemNfsV3Locks"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ReleaseFileSystemNfsV3LocksInput, ReleaseFileSystemNfsV3LocksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReleaseFileSystemNfsV3LocksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReleaseFileSystemNfsV3LocksInput, ReleaseFileSystemNfsV3LocksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReleaseFileSystemNfsV3LocksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReleaseFileSystemNfsV3LocksInput, ReleaseFileSystemNfsV3LocksOutput>())
@@ -3483,6 +3665,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
     public func restoreVolumeFromSnapshot(input: RestoreVolumeFromSnapshotInput) async throws -> RestoreVolumeFromSnapshotOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.restoreVolumeFromSnapshotOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3495,8 +3683,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RestoreVolumeFromSnapshotInput, RestoreVolumeFromSnapshotOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3504,10 +3694,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<RestoreVolumeFromSnapshotInput, RestoreVolumeFromSnapshotOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RestoreVolumeFromSnapshotInput, RestoreVolumeFromSnapshotOutput>(RestoreVolumeFromSnapshotInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestoreVolumeFromSnapshotInput, RestoreVolumeFromSnapshotOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreVolumeFromSnapshotInput, RestoreVolumeFromSnapshotOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreVolumeFromSnapshotOutput>(RestoreVolumeFromSnapshotOutput.httpOutput(from:), RestoreVolumeFromSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreVolumeFromSnapshotInput, RestoreVolumeFromSnapshotOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3519,7 +3707,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestoreVolumeFromSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RestoreVolumeFromSnapshotInput, RestoreVolumeFromSnapshotOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.RestoreVolumeFromSnapshot"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RestoreVolumeFromSnapshotInput, RestoreVolumeFromSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RestoreVolumeFromSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreVolumeFromSnapshotInput, RestoreVolumeFromSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreVolumeFromSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreVolumeFromSnapshotInput, RestoreVolumeFromSnapshotOutput>())
@@ -3555,6 +3742,12 @@ extension FSxClient {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     public func startMisconfiguredStateRecovery(input: StartMisconfiguredStateRecoveryInput) async throws -> StartMisconfiguredStateRecoveryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.startMisconfiguredStateRecoveryOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3567,8 +3760,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartMisconfiguredStateRecoveryInput, StartMisconfiguredStateRecoveryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3576,10 +3771,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartMisconfiguredStateRecoveryInput, StartMisconfiguredStateRecoveryOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartMisconfiguredStateRecoveryInput, StartMisconfiguredStateRecoveryOutput>(StartMisconfiguredStateRecoveryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMisconfiguredStateRecoveryInput, StartMisconfiguredStateRecoveryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMisconfiguredStateRecoveryInput, StartMisconfiguredStateRecoveryOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMisconfiguredStateRecoveryOutput>(StartMisconfiguredStateRecoveryOutput.httpOutput(from:), StartMisconfiguredStateRecoveryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMisconfiguredStateRecoveryInput, StartMisconfiguredStateRecoveryOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3591,7 +3784,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMisconfiguredStateRecoveryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMisconfiguredStateRecoveryInput, StartMisconfiguredStateRecoveryOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.StartMisconfiguredStateRecovery"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartMisconfiguredStateRecoveryInput, StartMisconfiguredStateRecoveryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMisconfiguredStateRecoveryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMisconfiguredStateRecoveryInput, StartMisconfiguredStateRecoveryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMisconfiguredStateRecoveryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMisconfiguredStateRecoveryInput, StartMisconfiguredStateRecoveryOutput>())
@@ -3629,6 +3821,12 @@ extension FSxClient {
     /// - `ResourceDoesNotSupportTagging` : The resource specified does not support tagging.
     /// - `ResourceNotFound` : The resource specified by the Amazon Resource Name (ARN) can't be found.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3641,18 +3839,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3664,7 +3862,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -3702,6 +3899,12 @@ extension FSxClient {
     /// - `ResourceDoesNotSupportTagging` : The resource specified does not support tagging.
     /// - `ResourceNotFound` : The resource specified by the Amazon Resource Name (ARN) can't be found.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3714,18 +3917,18 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3737,7 +3940,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -3775,6 +3977,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     public func updateDataRepositoryAssociation(input: UpdateDataRepositoryAssociationInput) async throws -> UpdateDataRepositoryAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.updateDataRepositoryAssociationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3787,8 +3995,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateDataRepositoryAssociationInput, UpdateDataRepositoryAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3796,10 +4006,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateDataRepositoryAssociationInput, UpdateDataRepositoryAssociationOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDataRepositoryAssociationInput, UpdateDataRepositoryAssociationOutput>(UpdateDataRepositoryAssociationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDataRepositoryAssociationInput, UpdateDataRepositoryAssociationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataRepositoryAssociationInput, UpdateDataRepositoryAssociationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataRepositoryAssociationOutput>(UpdateDataRepositoryAssociationOutput.httpOutput(from:), UpdateDataRepositoryAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataRepositoryAssociationInput, UpdateDataRepositoryAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3811,7 +4019,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDataRepositoryAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDataRepositoryAssociationInput, UpdateDataRepositoryAssociationOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.UpdateDataRepositoryAssociation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDataRepositoryAssociationInput, UpdateDataRepositoryAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDataRepositoryAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDataRepositoryAssociationInput, UpdateDataRepositoryAssociationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDataRepositoryAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDataRepositoryAssociationInput, UpdateDataRepositoryAssociationOutput>())
@@ -3851,6 +4058,12 @@ extension FSxClient {
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func updateFileCache(input: UpdateFileCacheInput) async throws -> UpdateFileCacheOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.updateFileCacheOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3863,8 +4076,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateFileCacheInput, UpdateFileCacheOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3872,10 +4087,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateFileCacheInput, UpdateFileCacheOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFileCacheInput, UpdateFileCacheOutput>(UpdateFileCacheInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFileCacheInput, UpdateFileCacheOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFileCacheInput, UpdateFileCacheOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFileCacheOutput>(UpdateFileCacheOutput.httpOutput(from:), UpdateFileCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFileCacheInput, UpdateFileCacheOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3887,7 +4100,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFileCacheOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFileCacheInput, UpdateFileCacheOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.UpdateFileCache"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFileCacheInput, UpdateFileCacheOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFileCacheInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFileCacheInput, UpdateFileCacheOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFileCacheOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFileCacheInput, UpdateFileCacheOutput>())
@@ -4029,6 +4241,12 @@ extension FSxClient {
     /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func updateFileSystem(input: UpdateFileSystemInput) async throws -> UpdateFileSystemOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.updateFileSystemOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4041,8 +4259,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateFileSystemInput, UpdateFileSystemOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4050,10 +4270,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput>(UpdateFileSystemInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFileSystemOutput>(UpdateFileSystemOutput.httpOutput(from:), UpdateFileSystemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4065,7 +4283,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFileSystemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.UpdateFileSystem"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFileSystemInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFileSystemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput>())
@@ -4101,6 +4318,12 @@ extension FSxClient {
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     public func updateSharedVpcConfiguration(input: UpdateSharedVpcConfigurationInput) async throws -> UpdateSharedVpcConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.updateSharedVpcConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4113,8 +4336,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateSharedVpcConfigurationInput, UpdateSharedVpcConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4122,10 +4347,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateSharedVpcConfigurationInput, UpdateSharedVpcConfigurationOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSharedVpcConfigurationInput, UpdateSharedVpcConfigurationOutput>(UpdateSharedVpcConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSharedVpcConfigurationInput, UpdateSharedVpcConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSharedVpcConfigurationInput, UpdateSharedVpcConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSharedVpcConfigurationOutput>(UpdateSharedVpcConfigurationOutput.httpOutput(from:), UpdateSharedVpcConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSharedVpcConfigurationInput, UpdateSharedVpcConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4137,7 +4360,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSharedVpcConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSharedVpcConfigurationInput, UpdateSharedVpcConfigurationOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.UpdateSharedVpcConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSharedVpcConfigurationInput, UpdateSharedVpcConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSharedVpcConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSharedVpcConfigurationInput, UpdateSharedVpcConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSharedVpcConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSharedVpcConfigurationInput, UpdateSharedVpcConfigurationOutput>())
@@ -4173,6 +4395,12 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `SnapshotNotFound` : No Amazon FSx snapshots were found based on the supplied parameters.
     public func updateSnapshot(input: UpdateSnapshotInput) async throws -> UpdateSnapshotOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.updateSnapshotOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4185,8 +4413,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateSnapshotInput, UpdateSnapshotOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4194,10 +4424,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateSnapshotInput, UpdateSnapshotOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSnapshotInput, UpdateSnapshotOutput>(UpdateSnapshotInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSnapshotInput, UpdateSnapshotOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSnapshotInput, UpdateSnapshotOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSnapshotOutput>(UpdateSnapshotOutput.httpOutput(from:), UpdateSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSnapshotInput, UpdateSnapshotOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4209,7 +4437,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSnapshotInput, UpdateSnapshotOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.UpdateSnapshot"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSnapshotInput, UpdateSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSnapshotInput, UpdateSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSnapshotInput, UpdateSnapshotOutput>())
@@ -4247,6 +4474,12 @@ extension FSxClient {
     /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func updateStorageVirtualMachine(input: UpdateStorageVirtualMachineInput) async throws -> UpdateStorageVirtualMachineOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.updateStorageVirtualMachineOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4259,8 +4492,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateStorageVirtualMachineInput, UpdateStorageVirtualMachineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4268,10 +4503,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateStorageVirtualMachineInput, UpdateStorageVirtualMachineOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateStorageVirtualMachineInput, UpdateStorageVirtualMachineOutput>(UpdateStorageVirtualMachineInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateStorageVirtualMachineInput, UpdateStorageVirtualMachineOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStorageVirtualMachineInput, UpdateStorageVirtualMachineOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStorageVirtualMachineOutput>(UpdateStorageVirtualMachineOutput.httpOutput(from:), UpdateStorageVirtualMachineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStorageVirtualMachineInput, UpdateStorageVirtualMachineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4283,7 +4516,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateStorageVirtualMachineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateStorageVirtualMachineInput, UpdateStorageVirtualMachineOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.UpdateStorageVirtualMachine"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateStorageVirtualMachineInput, UpdateStorageVirtualMachineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateStorageVirtualMachineInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStorageVirtualMachineInput, UpdateStorageVirtualMachineOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStorageVirtualMachineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateStorageVirtualMachineInput, UpdateStorageVirtualMachineOutput>())
@@ -4321,6 +4553,12 @@ extension FSxClient {
     /// - `MissingVolumeConfiguration` : A volume configuration is required for this operation.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
     public func updateVolume(input: UpdateVolumeInput) async throws -> UpdateVolumeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FSxClient.updateVolumeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4333,8 +4571,10 @@ extension FSxClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "fsx")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateVolumeInput, UpdateVolumeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4342,10 +4582,8 @@ extension FSxClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateVolumeInput, UpdateVolumeOutput>(keyPath: \.clientRequestToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateVolumeInput, UpdateVolumeOutput>(UpdateVolumeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateVolumeInput, UpdateVolumeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVolumeInput, UpdateVolumeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVolumeOutput>(UpdateVolumeOutput.httpOutput(from:), UpdateVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVolumeInput, UpdateVolumeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4357,7 +4595,6 @@ extension FSxClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateVolumeInput, UpdateVolumeOutput>(overrides: ["X-Amz-Target": "AWSSimbaAPIService_v20180301.UpdateVolume"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateVolumeInput, UpdateVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVolumeInput, UpdateVolumeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateVolumeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateVolumeInput, UpdateVolumeOutput>())

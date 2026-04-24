@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,30 +35,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -626,6 +623,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     public func associateCustomDomain(input: AssociateCustomDomainInput) async throws -> AssociateCustomDomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.associateCustomDomainOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -638,18 +641,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateCustomDomainInput, AssociateCustomDomainOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateCustomDomainInput, AssociateCustomDomainOutput>(AssociateCustomDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateCustomDomainInput, AssociateCustomDomainOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateCustomDomainInput, AssociateCustomDomainOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateCustomDomainOutput>(AssociateCustomDomainOutput.httpOutput(from:), AssociateCustomDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateCustomDomainInput, AssociateCustomDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -661,7 +664,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateCustomDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateCustomDomainInput, AssociateCustomDomainOutput>(overrides: ["X-Amz-Target": "AppRunner.AssociateCustomDomain"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateCustomDomainInput, AssociateCustomDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateCustomDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateCustomDomainInput, AssociateCustomDomainOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateCustomDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateCustomDomainInput, AssociateCustomDomainOutput>())
@@ -697,6 +699,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
     public func createAutoScalingConfiguration(input: CreateAutoScalingConfigurationInput) async throws -> CreateAutoScalingConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.createAutoScalingConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -709,18 +717,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAutoScalingConfigurationInput, CreateAutoScalingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAutoScalingConfigurationInput, CreateAutoScalingConfigurationOutput>(CreateAutoScalingConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAutoScalingConfigurationInput, CreateAutoScalingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAutoScalingConfigurationInput, CreateAutoScalingConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAutoScalingConfigurationOutput>(CreateAutoScalingConfigurationOutput.httpOutput(from:), CreateAutoScalingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutoScalingConfigurationInput, CreateAutoScalingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -732,7 +740,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAutoScalingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAutoScalingConfigurationInput, CreateAutoScalingConfigurationOutput>(overrides: ["X-Amz-Target": "AppRunner.CreateAutoScalingConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAutoScalingConfigurationInput, CreateAutoScalingConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAutoScalingConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAutoScalingConfigurationInput, CreateAutoScalingConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAutoScalingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAutoScalingConfigurationInput, CreateAutoScalingConfigurationOutput>())
@@ -768,6 +775,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
     public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.createConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -780,18 +793,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateConnectionInput, CreateConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateConnectionInput, CreateConnectionOutput>(CreateConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateConnectionInput, CreateConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionInput, CreateConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectionOutput>(CreateConnectionOutput.httpOutput(from:), CreateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionInput, CreateConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -803,7 +816,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateConnectionInput, CreateConnectionOutput>(overrides: ["X-Amz-Target": "AppRunner.CreateConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateConnectionInput, CreateConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConnectionInput, CreateConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConnectionInput, CreateConnectionOutput>())
@@ -839,6 +851,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
     public func createObservabilityConfiguration(input: CreateObservabilityConfigurationInput) async throws -> CreateObservabilityConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.createObservabilityConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -851,18 +869,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateObservabilityConfigurationInput, CreateObservabilityConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateObservabilityConfigurationInput, CreateObservabilityConfigurationOutput>(CreateObservabilityConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateObservabilityConfigurationInput, CreateObservabilityConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateObservabilityConfigurationInput, CreateObservabilityConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateObservabilityConfigurationOutput>(CreateObservabilityConfigurationOutput.httpOutput(from:), CreateObservabilityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateObservabilityConfigurationInput, CreateObservabilityConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -874,7 +892,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateObservabilityConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateObservabilityConfigurationInput, CreateObservabilityConfigurationOutput>(overrides: ["X-Amz-Target": "AppRunner.CreateObservabilityConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateObservabilityConfigurationInput, CreateObservabilityConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateObservabilityConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateObservabilityConfigurationInput, CreateObservabilityConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateObservabilityConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateObservabilityConfigurationInput, CreateObservabilityConfigurationOutput>())
@@ -910,6 +927,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
     public func createService(input: CreateServiceInput) async throws -> CreateServiceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.createServiceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -922,18 +945,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateServiceInput, CreateServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateServiceInput, CreateServiceOutput>(CreateServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateServiceInput, CreateServiceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceInput, CreateServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceOutput>(CreateServiceOutput.httpOutput(from:), CreateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceInput, CreateServiceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -945,7 +968,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateServiceInput, CreateServiceOutput>(overrides: ["X-Amz-Target": "AppRunner.CreateService"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateServiceInput, CreateServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateServiceInput, CreateServiceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateServiceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateServiceInput, CreateServiceOutput>())
@@ -981,6 +1003,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
     public func createVpcConnector(input: CreateVpcConnectorInput) async throws -> CreateVpcConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.createVpcConnectorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -993,18 +1021,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateVpcConnectorInput, CreateVpcConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateVpcConnectorInput, CreateVpcConnectorOutput>(CreateVpcConnectorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVpcConnectorInput, CreateVpcConnectorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcConnectorInput, CreateVpcConnectorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcConnectorOutput>(CreateVpcConnectorOutput.httpOutput(from:), CreateVpcConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcConnectorInput, CreateVpcConnectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1016,7 +1044,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVpcConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVpcConnectorInput, CreateVpcConnectorOutput>(overrides: ["X-Amz-Target": "AppRunner.CreateVpcConnector"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateVpcConnectorInput, CreateVpcConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVpcConnectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcConnectorInput, CreateVpcConnectorOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVpcConnectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVpcConnectorInput, CreateVpcConnectorOutput>())
@@ -1053,6 +1080,12 @@ extension AppRunnerClient {
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
     public func createVpcIngressConnection(input: CreateVpcIngressConnectionInput) async throws -> CreateVpcIngressConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.createVpcIngressConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1065,18 +1098,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateVpcIngressConnectionInput, CreateVpcIngressConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateVpcIngressConnectionInput, CreateVpcIngressConnectionOutput>(CreateVpcIngressConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVpcIngressConnectionInput, CreateVpcIngressConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcIngressConnectionInput, CreateVpcIngressConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcIngressConnectionOutput>(CreateVpcIngressConnectionOutput.httpOutput(from:), CreateVpcIngressConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcIngressConnectionInput, CreateVpcIngressConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1088,7 +1121,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVpcIngressConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVpcIngressConnectionInput, CreateVpcIngressConnectionOutput>(overrides: ["X-Amz-Target": "AppRunner.CreateVpcIngressConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateVpcIngressConnectionInput, CreateVpcIngressConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVpcIngressConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcIngressConnectionInput, CreateVpcIngressConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVpcIngressConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVpcIngressConnectionInput, CreateVpcIngressConnectionOutput>())
@@ -1124,6 +1156,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func deleteAutoScalingConfiguration(input: DeleteAutoScalingConfigurationInput) async throws -> DeleteAutoScalingConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.deleteAutoScalingConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1136,18 +1174,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAutoScalingConfigurationInput, DeleteAutoScalingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAutoScalingConfigurationInput, DeleteAutoScalingConfigurationOutput>(DeleteAutoScalingConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAutoScalingConfigurationInput, DeleteAutoScalingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAutoScalingConfigurationInput, DeleteAutoScalingConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAutoScalingConfigurationOutput>(DeleteAutoScalingConfigurationOutput.httpOutput(from:), DeleteAutoScalingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAutoScalingConfigurationInput, DeleteAutoScalingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1159,7 +1197,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAutoScalingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAutoScalingConfigurationInput, DeleteAutoScalingConfigurationOutput>(overrides: ["X-Amz-Target": "AppRunner.DeleteAutoScalingConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAutoScalingConfigurationInput, DeleteAutoScalingConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAutoScalingConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAutoScalingConfigurationInput, DeleteAutoScalingConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAutoScalingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAutoScalingConfigurationInput, DeleteAutoScalingConfigurationOutput>())
@@ -1195,6 +1232,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.deleteConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1207,18 +1250,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteConnectionInput, DeleteConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(DeleteConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionOutput>(DeleteConnectionOutput.httpOutput(from:), DeleteConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1230,7 +1273,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(overrides: ["X-Amz-Target": "AppRunner.DeleteConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteConnectionInput, DeleteConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
@@ -1266,6 +1308,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func deleteObservabilityConfiguration(input: DeleteObservabilityConfigurationInput) async throws -> DeleteObservabilityConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.deleteObservabilityConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1278,18 +1326,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteObservabilityConfigurationInput, DeleteObservabilityConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteObservabilityConfigurationInput, DeleteObservabilityConfigurationOutput>(DeleteObservabilityConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteObservabilityConfigurationInput, DeleteObservabilityConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteObservabilityConfigurationInput, DeleteObservabilityConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteObservabilityConfigurationOutput>(DeleteObservabilityConfigurationOutput.httpOutput(from:), DeleteObservabilityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteObservabilityConfigurationInput, DeleteObservabilityConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1301,7 +1349,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteObservabilityConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteObservabilityConfigurationInput, DeleteObservabilityConfigurationOutput>(overrides: ["X-Amz-Target": "AppRunner.DeleteObservabilityConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteObservabilityConfigurationInput, DeleteObservabilityConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteObservabilityConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteObservabilityConfigurationInput, DeleteObservabilityConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteObservabilityConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteObservabilityConfigurationInput, DeleteObservabilityConfigurationOutput>())
@@ -1338,6 +1385,12 @@ extension AppRunnerClient {
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.deleteServiceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1350,18 +1403,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteServiceInput, DeleteServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteServiceInput, DeleteServiceOutput>(DeleteServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceInput, DeleteServiceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceInput, DeleteServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceOutput>(DeleteServiceOutput.httpOutput(from:), DeleteServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceInput, DeleteServiceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1373,7 +1426,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteServiceInput, DeleteServiceOutput>(overrides: ["X-Amz-Target": "AppRunner.DeleteService"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteServiceInput, DeleteServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteServiceInput, DeleteServiceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteServiceInput, DeleteServiceOutput>())
@@ -1409,6 +1461,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func deleteVpcConnector(input: DeleteVpcConnectorInput) async throws -> DeleteVpcConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.deleteVpcConnectorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1421,18 +1479,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteVpcConnectorInput, DeleteVpcConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVpcConnectorInput, DeleteVpcConnectorOutput>(DeleteVpcConnectorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVpcConnectorInput, DeleteVpcConnectorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcConnectorInput, DeleteVpcConnectorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcConnectorOutput>(DeleteVpcConnectorOutput.httpOutput(from:), DeleteVpcConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcConnectorInput, DeleteVpcConnectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1444,7 +1502,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVpcConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVpcConnectorInput, DeleteVpcConnectorOutput>(overrides: ["X-Amz-Target": "AppRunner.DeleteVpcConnector"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteVpcConnectorInput, DeleteVpcConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVpcConnectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVpcConnectorInput, DeleteVpcConnectorOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVpcConnectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVpcConnectorInput, DeleteVpcConnectorOutput>())
@@ -1489,6 +1546,12 @@ extension AppRunnerClient {
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func deleteVpcIngressConnection(input: DeleteVpcIngressConnectionInput) async throws -> DeleteVpcIngressConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.deleteVpcIngressConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1501,18 +1564,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteVpcIngressConnectionInput, DeleteVpcIngressConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVpcIngressConnectionInput, DeleteVpcIngressConnectionOutput>(DeleteVpcIngressConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVpcIngressConnectionInput, DeleteVpcIngressConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcIngressConnectionInput, DeleteVpcIngressConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcIngressConnectionOutput>(DeleteVpcIngressConnectionOutput.httpOutput(from:), DeleteVpcIngressConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcIngressConnectionInput, DeleteVpcIngressConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1524,7 +1587,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVpcIngressConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVpcIngressConnectionInput, DeleteVpcIngressConnectionOutput>(overrides: ["X-Amz-Target": "AppRunner.DeleteVpcIngressConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteVpcIngressConnectionInput, DeleteVpcIngressConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVpcIngressConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVpcIngressConnectionInput, DeleteVpcIngressConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVpcIngressConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVpcIngressConnectionInput, DeleteVpcIngressConnectionOutput>())
@@ -1560,6 +1622,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func describeAutoScalingConfiguration(input: DescribeAutoScalingConfigurationInput) async throws -> DescribeAutoScalingConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.describeAutoScalingConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1572,18 +1640,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeAutoScalingConfigurationInput, DescribeAutoScalingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAutoScalingConfigurationInput, DescribeAutoScalingConfigurationOutput>(DescribeAutoScalingConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAutoScalingConfigurationInput, DescribeAutoScalingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAutoScalingConfigurationInput, DescribeAutoScalingConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAutoScalingConfigurationOutput>(DescribeAutoScalingConfigurationOutput.httpOutput(from:), DescribeAutoScalingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAutoScalingConfigurationInput, DescribeAutoScalingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1595,7 +1663,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAutoScalingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAutoScalingConfigurationInput, DescribeAutoScalingConfigurationOutput>(overrides: ["X-Amz-Target": "AppRunner.DescribeAutoScalingConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAutoScalingConfigurationInput, DescribeAutoScalingConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAutoScalingConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAutoScalingConfigurationInput, DescribeAutoScalingConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAutoScalingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAutoScalingConfigurationInput, DescribeAutoScalingConfigurationOutput>())
@@ -1631,6 +1698,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func describeCustomDomains(input: DescribeCustomDomainsInput) async throws -> DescribeCustomDomainsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.describeCustomDomainsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1643,18 +1716,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCustomDomainsInput, DescribeCustomDomainsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCustomDomainsInput, DescribeCustomDomainsOutput>(DescribeCustomDomainsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCustomDomainsInput, DescribeCustomDomainsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCustomDomainsInput, DescribeCustomDomainsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomDomainsOutput>(DescribeCustomDomainsOutput.httpOutput(from:), DescribeCustomDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomDomainsInput, DescribeCustomDomainsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1666,7 +1739,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCustomDomainsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCustomDomainsInput, DescribeCustomDomainsOutput>(overrides: ["X-Amz-Target": "AppRunner.DescribeCustomDomains"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCustomDomainsInput, DescribeCustomDomainsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCustomDomainsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCustomDomainsInput, DescribeCustomDomainsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCustomDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCustomDomainsInput, DescribeCustomDomainsOutput>())
@@ -1702,6 +1774,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func describeObservabilityConfiguration(input: DescribeObservabilityConfigurationInput) async throws -> DescribeObservabilityConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.describeObservabilityConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1714,18 +1792,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeObservabilityConfigurationInput, DescribeObservabilityConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeObservabilityConfigurationInput, DescribeObservabilityConfigurationOutput>(DescribeObservabilityConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeObservabilityConfigurationInput, DescribeObservabilityConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeObservabilityConfigurationInput, DescribeObservabilityConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeObservabilityConfigurationOutput>(DescribeObservabilityConfigurationOutput.httpOutput(from:), DescribeObservabilityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeObservabilityConfigurationInput, DescribeObservabilityConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1737,7 +1815,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeObservabilityConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeObservabilityConfigurationInput, DescribeObservabilityConfigurationOutput>(overrides: ["X-Amz-Target": "AppRunner.DescribeObservabilityConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeObservabilityConfigurationInput, DescribeObservabilityConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeObservabilityConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeObservabilityConfigurationInput, DescribeObservabilityConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeObservabilityConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeObservabilityConfigurationInput, DescribeObservabilityConfigurationOutput>())
@@ -1773,6 +1850,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func describeService(input: DescribeServiceInput) async throws -> DescribeServiceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.describeServiceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1785,18 +1868,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeServiceInput, DescribeServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeServiceInput, DescribeServiceOutput>(DescribeServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeServiceInput, DescribeServiceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServiceInput, DescribeServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServiceOutput>(DescribeServiceOutput.httpOutput(from:), DescribeServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServiceInput, DescribeServiceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1808,7 +1891,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeServiceInput, DescribeServiceOutput>(overrides: ["X-Amz-Target": "AppRunner.DescribeService"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeServiceInput, DescribeServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeServiceInput, DescribeServiceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeServiceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeServiceInput, DescribeServiceOutput>())
@@ -1844,6 +1926,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func describeVpcConnector(input: DescribeVpcConnectorInput) async throws -> DescribeVpcConnectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.describeVpcConnectorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1856,18 +1944,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeVpcConnectorInput, DescribeVpcConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeVpcConnectorInput, DescribeVpcConnectorOutput>(DescribeVpcConnectorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVpcConnectorInput, DescribeVpcConnectorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcConnectorInput, DescribeVpcConnectorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcConnectorOutput>(DescribeVpcConnectorOutput.httpOutput(from:), DescribeVpcConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcConnectorInput, DescribeVpcConnectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1879,7 +1967,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeVpcConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeVpcConnectorInput, DescribeVpcConnectorOutput>(overrides: ["X-Amz-Target": "AppRunner.DescribeVpcConnector"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeVpcConnectorInput, DescribeVpcConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVpcConnectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcConnectorInput, DescribeVpcConnectorOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVpcConnectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVpcConnectorInput, DescribeVpcConnectorOutput>())
@@ -1915,6 +2002,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func describeVpcIngressConnection(input: DescribeVpcIngressConnectionInput) async throws -> DescribeVpcIngressConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.describeVpcIngressConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1927,18 +2020,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeVpcIngressConnectionInput, DescribeVpcIngressConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeVpcIngressConnectionInput, DescribeVpcIngressConnectionOutput>(DescribeVpcIngressConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVpcIngressConnectionInput, DescribeVpcIngressConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcIngressConnectionInput, DescribeVpcIngressConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcIngressConnectionOutput>(DescribeVpcIngressConnectionOutput.httpOutput(from:), DescribeVpcIngressConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcIngressConnectionInput, DescribeVpcIngressConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1950,7 +2043,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeVpcIngressConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeVpcIngressConnectionInput, DescribeVpcIngressConnectionOutput>(overrides: ["X-Amz-Target": "AppRunner.DescribeVpcIngressConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeVpcIngressConnectionInput, DescribeVpcIngressConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVpcIngressConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcIngressConnectionInput, DescribeVpcIngressConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVpcIngressConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVpcIngressConnectionInput, DescribeVpcIngressConnectionOutput>())
@@ -1987,6 +2079,12 @@ extension AppRunnerClient {
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func disassociateCustomDomain(input: DisassociateCustomDomainInput) async throws -> DisassociateCustomDomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.disassociateCustomDomainOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1999,18 +2097,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateCustomDomainInput, DisassociateCustomDomainOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateCustomDomainInput, DisassociateCustomDomainOutput>(DisassociateCustomDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateCustomDomainInput, DisassociateCustomDomainOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateCustomDomainInput, DisassociateCustomDomainOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateCustomDomainOutput>(DisassociateCustomDomainOutput.httpOutput(from:), DisassociateCustomDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateCustomDomainInput, DisassociateCustomDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2022,7 +2120,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateCustomDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateCustomDomainInput, DisassociateCustomDomainOutput>(overrides: ["X-Amz-Target": "AppRunner.DisassociateCustomDomain"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateCustomDomainInput, DisassociateCustomDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateCustomDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateCustomDomainInput, DisassociateCustomDomainOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateCustomDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateCustomDomainInput, DisassociateCustomDomainOutput>())
@@ -2057,6 +2154,12 @@ extension AppRunnerClient {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     public func listAutoScalingConfigurations(input: ListAutoScalingConfigurationsInput) async throws -> ListAutoScalingConfigurationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.listAutoScalingConfigurationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2069,18 +2172,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput>(ListAutoScalingConfigurationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutoScalingConfigurationsOutput>(ListAutoScalingConfigurationsOutput.httpOutput(from:), ListAutoScalingConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2092,7 +2195,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutoScalingConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput>(overrides: ["X-Amz-Target": "AppRunner.ListAutoScalingConfigurations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutoScalingConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutoScalingConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput>())
@@ -2127,6 +2229,12 @@ extension AppRunnerClient {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     public func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.listConnectionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2139,18 +2247,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListConnectionsInput, ListConnectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConnectionsInput, ListConnectionsOutput>(ListConnectionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConnectionsInput, ListConnectionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectionsInput, ListConnectionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectionsOutput>(ListConnectionsOutput.httpOutput(from:), ListConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectionsInput, ListConnectionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2162,7 +2270,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConnectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListConnectionsInput, ListConnectionsOutput>(overrides: ["X-Amz-Target": "AppRunner.ListConnections"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListConnectionsInput, ListConnectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConnectionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConnectionsInput, ListConnectionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConnectionsInput, ListConnectionsOutput>())
@@ -2197,6 +2304,12 @@ extension AppRunnerClient {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     public func listObservabilityConfigurations(input: ListObservabilityConfigurationsInput) async throws -> ListObservabilityConfigurationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.listObservabilityConfigurationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2209,18 +2322,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput>(ListObservabilityConfigurationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObservabilityConfigurationsOutput>(ListObservabilityConfigurationsOutput.httpOutput(from:), ListObservabilityConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2232,7 +2345,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListObservabilityConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput>(overrides: ["X-Amz-Target": "AppRunner.ListObservabilityConfigurations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListObservabilityConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListObservabilityConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput>())
@@ -2268,6 +2380,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.listOperationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2280,18 +2398,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListOperationsInput, ListOperationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOperationsInput, ListOperationsOutput>(ListOperationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOperationsInput, ListOperationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOperationsInput, ListOperationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOperationsOutput>(ListOperationsOutput.httpOutput(from:), ListOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOperationsInput, ListOperationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2303,7 +2421,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOperationsInput, ListOperationsOutput>(overrides: ["X-Amz-Target": "AppRunner.ListOperations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListOperationsInput, ListOperationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOperationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOperationsInput, ListOperationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOperationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOperationsInput, ListOperationsOutput>())
@@ -2338,6 +2455,12 @@ extension AppRunnerClient {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     public func listServices(input: ListServicesInput) async throws -> ListServicesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.listServicesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2350,18 +2473,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServicesInput, ListServicesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServicesInput, ListServicesOutput>(ListServicesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServicesInput, ListServicesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicesInput, ListServicesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesOutput>(ListServicesOutput.httpOutput(from:), ListServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesInput, ListServicesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2373,7 +2496,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServicesInput, ListServicesOutput>(overrides: ["X-Amz-Target": "AppRunner.ListServices"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServicesInput, ListServicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServicesInput, ListServicesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServicesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServicesInput, ListServicesOutput>())
@@ -2409,6 +2531,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func listServicesForAutoScalingConfiguration(input: ListServicesForAutoScalingConfigurationInput) async throws -> ListServicesForAutoScalingConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.listServicesForAutoScalingConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2421,18 +2549,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput>(ListServicesForAutoScalingConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesForAutoScalingConfigurationOutput>(ListServicesForAutoScalingConfigurationOutput.httpOutput(from:), ListServicesForAutoScalingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2444,7 +2572,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServicesForAutoScalingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput>(overrides: ["X-Amz-Target": "AppRunner.ListServicesForAutoScalingConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServicesForAutoScalingConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServicesForAutoScalingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput>())
@@ -2481,6 +2608,12 @@ extension AppRunnerClient {
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2493,18 +2626,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2516,7 +2649,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AppRunner.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -2551,6 +2683,12 @@ extension AppRunnerClient {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     public func listVpcConnectors(input: ListVpcConnectorsInput) async throws -> ListVpcConnectorsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.listVpcConnectorsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2563,18 +2701,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListVpcConnectorsInput, ListVpcConnectorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListVpcConnectorsInput, ListVpcConnectorsOutput>(ListVpcConnectorsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVpcConnectorsInput, ListVpcConnectorsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVpcConnectorsInput, ListVpcConnectorsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcConnectorsOutput>(ListVpcConnectorsOutput.httpOutput(from:), ListVpcConnectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcConnectorsInput, ListVpcConnectorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2586,7 +2724,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVpcConnectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVpcConnectorsInput, ListVpcConnectorsOutput>(overrides: ["X-Amz-Target": "AppRunner.ListVpcConnectors"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListVpcConnectorsInput, ListVpcConnectorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListVpcConnectorsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVpcConnectorsInput, ListVpcConnectorsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVpcConnectorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVpcConnectorsInput, ListVpcConnectorsOutput>())
@@ -2621,6 +2758,12 @@ extension AppRunnerClient {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     public func listVpcIngressConnections(input: ListVpcIngressConnectionsInput) async throws -> ListVpcIngressConnectionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.listVpcIngressConnectionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2633,18 +2776,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput>(ListVpcIngressConnectionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcIngressConnectionsOutput>(ListVpcIngressConnectionsOutput.httpOutput(from:), ListVpcIngressConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2656,7 +2799,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVpcIngressConnectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput>(overrides: ["X-Amz-Target": "AppRunner.ListVpcIngressConnections"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListVpcIngressConnectionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVpcIngressConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput>())
@@ -2693,6 +2835,12 @@ extension AppRunnerClient {
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func pauseService(input: PauseServiceInput) async throws -> PauseServiceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.pauseServiceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2705,18 +2853,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PauseServiceInput, PauseServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PauseServiceInput, PauseServiceOutput>(PauseServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PauseServiceInput, PauseServiceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PauseServiceInput, PauseServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PauseServiceOutput>(PauseServiceOutput.httpOutput(from:), PauseServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PauseServiceInput, PauseServiceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2728,7 +2876,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PauseServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PauseServiceInput, PauseServiceOutput>(overrides: ["X-Amz-Target": "AppRunner.PauseService"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PauseServiceInput, PauseServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PauseServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PauseServiceInput, PauseServiceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PauseServiceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PauseServiceInput, PauseServiceOutput>())
@@ -2765,6 +2912,12 @@ extension AppRunnerClient {
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func resumeService(input: ResumeServiceInput) async throws -> ResumeServiceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.resumeServiceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2777,18 +2930,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ResumeServiceInput, ResumeServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ResumeServiceInput, ResumeServiceOutput>(ResumeServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResumeServiceInput, ResumeServiceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeServiceInput, ResumeServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeServiceOutput>(ResumeServiceOutput.httpOutput(from:), ResumeServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeServiceInput, ResumeServiceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2800,7 +2953,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResumeServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResumeServiceInput, ResumeServiceOutput>(overrides: ["X-Amz-Target": "AppRunner.ResumeService"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ResumeServiceInput, ResumeServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResumeServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResumeServiceInput, ResumeServiceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResumeServiceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResumeServiceInput, ResumeServiceOutput>())
@@ -2836,6 +2988,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func startDeployment(input: StartDeploymentInput) async throws -> StartDeploymentOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.startDeploymentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2848,18 +3006,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartDeploymentInput, StartDeploymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartDeploymentInput, StartDeploymentOutput>(StartDeploymentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartDeploymentInput, StartDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDeploymentInput, StartDeploymentOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDeploymentOutput>(StartDeploymentOutput.httpOutput(from:), StartDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDeploymentInput, StartDeploymentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2871,7 +3029,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartDeploymentInput, StartDeploymentOutput>(overrides: ["X-Amz-Target": "AppRunner.StartDeployment"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartDeploymentInput, StartDeploymentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDeploymentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDeploymentInput, StartDeploymentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartDeploymentInput, StartDeploymentOutput>())
@@ -2908,6 +3065,12 @@ extension AppRunnerClient {
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2920,18 +3083,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2943,7 +3106,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AppRunner.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -2980,6 +3142,12 @@ extension AppRunnerClient {
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2992,18 +3160,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3015,7 +3183,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AppRunner.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -3051,6 +3218,12 @@ extension AppRunnerClient {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func updateDefaultAutoScalingConfiguration(input: UpdateDefaultAutoScalingConfigurationInput) async throws -> UpdateDefaultAutoScalingConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.updateDefaultAutoScalingConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3063,18 +3236,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateDefaultAutoScalingConfigurationInput, UpdateDefaultAutoScalingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDefaultAutoScalingConfigurationInput, UpdateDefaultAutoScalingConfigurationOutput>(UpdateDefaultAutoScalingConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDefaultAutoScalingConfigurationInput, UpdateDefaultAutoScalingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDefaultAutoScalingConfigurationInput, UpdateDefaultAutoScalingConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDefaultAutoScalingConfigurationOutput>(UpdateDefaultAutoScalingConfigurationOutput.httpOutput(from:), UpdateDefaultAutoScalingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDefaultAutoScalingConfigurationInput, UpdateDefaultAutoScalingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3086,7 +3259,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDefaultAutoScalingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDefaultAutoScalingConfigurationInput, UpdateDefaultAutoScalingConfigurationOutput>(overrides: ["X-Amz-Target": "AppRunner.UpdateDefaultAutoScalingConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDefaultAutoScalingConfigurationInput, UpdateDefaultAutoScalingConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDefaultAutoScalingConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDefaultAutoScalingConfigurationInput, UpdateDefaultAutoScalingConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDefaultAutoScalingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDefaultAutoScalingConfigurationInput, UpdateDefaultAutoScalingConfigurationOutput>())
@@ -3123,6 +3295,12 @@ extension AppRunnerClient {
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func updateService(input: UpdateServiceInput) async throws -> UpdateServiceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.updateServiceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3135,18 +3313,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateServiceInput, UpdateServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServiceInput, UpdateServiceOutput>(UpdateServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServiceInput, UpdateServiceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceInput, UpdateServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceOutput>(UpdateServiceOutput.httpOutput(from:), UpdateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceInput, UpdateServiceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3158,7 +3336,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateServiceInput, UpdateServiceOutput>(overrides: ["X-Amz-Target": "AppRunner.UpdateService"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServiceInput, UpdateServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServiceInput, UpdateServiceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServiceInput, UpdateServiceOutput>())
@@ -3201,6 +3378,12 @@ extension AppRunnerClient {
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     public func updateVpcIngressConnection(input: UpdateVpcIngressConnectionInput) async throws -> UpdateVpcIngressConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AppRunnerClient.updateVpcIngressConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3213,18 +3396,18 @@ extension AppRunnerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "apprunner")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateVpcIngressConnectionInput, UpdateVpcIngressConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateVpcIngressConnectionInput, UpdateVpcIngressConnectionOutput>(UpdateVpcIngressConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateVpcIngressConnectionInput, UpdateVpcIngressConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVpcIngressConnectionInput, UpdateVpcIngressConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVpcIngressConnectionOutput>(UpdateVpcIngressConnectionOutput.httpOutput(from:), UpdateVpcIngressConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVpcIngressConnectionInput, UpdateVpcIngressConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3236,7 +3419,6 @@ extension AppRunnerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateVpcIngressConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateVpcIngressConnectionInput, UpdateVpcIngressConnectionOutput>(overrides: ["X-Amz-Target": "AppRunner.UpdateVpcIngressConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateVpcIngressConnectionInput, UpdateVpcIngressConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateVpcIngressConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVpcIngressConnectionInput, UpdateVpcIngressConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateVpcIngressConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateVpcIngressConnectionInput, UpdateVpcIngressConnectionOutput>())

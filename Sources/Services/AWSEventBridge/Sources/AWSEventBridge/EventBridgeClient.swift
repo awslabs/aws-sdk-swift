@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,32 +36,32 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AAuthScheme
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.AttributeKey
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -646,6 +643,12 @@ extension EventBridgeClient {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func activateEventSource(input: ActivateEventSourceInput) async throws -> ActivateEventSourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.activateEventSourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -659,18 +662,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ActivateEventSourceInput, ActivateEventSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ActivateEventSourceInput, ActivateEventSourceOutput>(ActivateEventSourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ActivateEventSourceInput, ActivateEventSourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ActivateEventSourceInput, ActivateEventSourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateEventSourceOutput>(ActivateEventSourceOutput.httpOutput(from:), ActivateEventSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateEventSourceInput, ActivateEventSourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -683,7 +686,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ActivateEventSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ActivateEventSourceInput, ActivateEventSourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.ActivateEventSource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ActivateEventSourceInput, ActivateEventSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ActivateEventSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ActivateEventSourceInput, ActivateEventSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ActivateEventSourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ActivateEventSourceInput, ActivateEventSourceOutput>())
@@ -720,6 +722,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func cancelReplay(input: CancelReplayInput) async throws -> CancelReplayOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.cancelReplayOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -733,18 +741,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelReplayInput, CancelReplayOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelReplayInput, CancelReplayOutput>(CancelReplayInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelReplayInput, CancelReplayOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelReplayInput, CancelReplayOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelReplayOutput>(CancelReplayOutput.httpOutput(from:), CancelReplayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelReplayInput, CancelReplayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -757,7 +765,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelReplayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelReplayInput, CancelReplayOutput>(overrides: ["X-Amz-Target": "AWSEvents.CancelReplay"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelReplayInput, CancelReplayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelReplayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelReplayInput, CancelReplayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelReplayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelReplayInput, CancelReplayOutput>())
@@ -794,6 +801,12 @@ extension EventBridgeClient {
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func createApiDestination(input: CreateApiDestinationInput) async throws -> CreateApiDestinationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.createApiDestinationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -807,18 +820,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateApiDestinationInput, CreateApiDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateApiDestinationInput, CreateApiDestinationOutput>(CreateApiDestinationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateApiDestinationInput, CreateApiDestinationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApiDestinationInput, CreateApiDestinationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApiDestinationOutput>(CreateApiDestinationOutput.httpOutput(from:), CreateApiDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApiDestinationInput, CreateApiDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -831,7 +844,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateApiDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateApiDestinationInput, CreateApiDestinationOutput>(overrides: ["X-Amz-Target": "AWSEvents.CreateApiDestination"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateApiDestinationInput, CreateApiDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateApiDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApiDestinationInput, CreateApiDestinationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateApiDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateApiDestinationInput, CreateApiDestinationOutput>())
@@ -870,6 +882,12 @@ extension EventBridgeClient {
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func createArchive(input: CreateArchiveInput) async throws -> CreateArchiveOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.createArchiveOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -883,18 +901,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateArchiveInput, CreateArchiveOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateArchiveInput, CreateArchiveOutput>(CreateArchiveInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateArchiveInput, CreateArchiveOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateArchiveInput, CreateArchiveOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateArchiveOutput>(CreateArchiveOutput.httpOutput(from:), CreateArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateArchiveInput, CreateArchiveOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -907,7 +925,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateArchiveInput, CreateArchiveOutput>(overrides: ["X-Amz-Target": "AWSEvents.CreateArchive"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateArchiveInput, CreateArchiveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateArchiveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateArchiveInput, CreateArchiveOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateArchiveInput, CreateArchiveOutput>())
@@ -946,6 +963,12 @@ extension EventBridgeClient {
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     /// - `ThrottlingException` : This request cannot be completed due to throttling issues.
     public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.createConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -959,18 +982,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateConnectionInput, CreateConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateConnectionInput, CreateConnectionOutput>(CreateConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateConnectionInput, CreateConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionInput, CreateConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectionOutput>(CreateConnectionOutput.httpOutput(from:), CreateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionInput, CreateConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -983,7 +1006,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateConnectionInput, CreateConnectionOutput>(overrides: ["X-Amz-Target": "AWSEvents.CreateConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateConnectionInput, CreateConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConnectionInput, CreateConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConnectionInput, CreateConnectionOutput>())
@@ -1019,6 +1041,12 @@ extension EventBridgeClient {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     public func createEndpoint(input: CreateEndpointInput) async throws -> CreateEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.createEndpointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1032,18 +1060,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateEndpointInput, CreateEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEndpointInput, CreateEndpointOutput>(CreateEndpointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEndpointInput, CreateEndpointOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEndpointInput, CreateEndpointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEndpointOutput>(CreateEndpointOutput.httpOutput(from:), CreateEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEndpointInput, CreateEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1056,7 +1084,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEndpointInput, CreateEndpointOutput>(overrides: ["X-Amz-Target": "AWSEvents.CreateEndpoint"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateEndpointInput, CreateEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEndpointInput, CreateEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEndpointInput, CreateEndpointOutput>())
@@ -1096,6 +1123,12 @@ extension EventBridgeClient {
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func createEventBus(input: CreateEventBusInput) async throws -> CreateEventBusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.createEventBusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1109,18 +1142,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateEventBusInput, CreateEventBusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEventBusInput, CreateEventBusOutput>(CreateEventBusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEventBusInput, CreateEventBusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventBusInput, CreateEventBusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventBusOutput>(CreateEventBusOutput.httpOutput(from:), CreateEventBusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventBusInput, CreateEventBusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1133,7 +1166,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEventBusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEventBusInput, CreateEventBusOutput>(overrides: ["X-Amz-Target": "AWSEvents.CreateEventBus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateEventBusInput, CreateEventBusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEventBusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEventBusInput, CreateEventBusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEventBusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEventBusInput, CreateEventBusOutput>())
@@ -1180,6 +1212,12 @@ extension EventBridgeClient {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     public func createPartnerEventSource(input: CreatePartnerEventSourceInput) async throws -> CreatePartnerEventSourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.createPartnerEventSourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1193,18 +1231,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput>(CreatePartnerEventSourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePartnerEventSourceOutput>(CreatePartnerEventSourceOutput.httpOutput(from:), CreatePartnerEventSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1217,7 +1255,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePartnerEventSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.CreatePartnerEventSource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePartnerEventSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePartnerEventSourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput>())
@@ -1255,6 +1292,12 @@ extension EventBridgeClient {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func deactivateEventSource(input: DeactivateEventSourceInput) async throws -> DeactivateEventSourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.deactivateEventSourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1268,18 +1311,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeactivateEventSourceInput, DeactivateEventSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeactivateEventSourceInput, DeactivateEventSourceOutput>(DeactivateEventSourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeactivateEventSourceInput, DeactivateEventSourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeactivateEventSourceInput, DeactivateEventSourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivateEventSourceOutput>(DeactivateEventSourceOutput.httpOutput(from:), DeactivateEventSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivateEventSourceInput, DeactivateEventSourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1292,7 +1335,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeactivateEventSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeactivateEventSourceInput, DeactivateEventSourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeactivateEventSource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeactivateEventSourceInput, DeactivateEventSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeactivateEventSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeactivateEventSourceInput, DeactivateEventSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeactivateEventSourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeactivateEventSourceInput, DeactivateEventSourceOutput>())
@@ -1328,6 +1370,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func deauthorizeConnection(input: DeauthorizeConnectionInput) async throws -> DeauthorizeConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.deauthorizeConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1341,18 +1389,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeauthorizeConnectionInput, DeauthorizeConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeauthorizeConnectionInput, DeauthorizeConnectionOutput>(DeauthorizeConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeauthorizeConnectionInput, DeauthorizeConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeauthorizeConnectionInput, DeauthorizeConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeauthorizeConnectionOutput>(DeauthorizeConnectionOutput.httpOutput(from:), DeauthorizeConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeauthorizeConnectionInput, DeauthorizeConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1365,7 +1413,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeauthorizeConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeauthorizeConnectionInput, DeauthorizeConnectionOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeauthorizeConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeauthorizeConnectionInput, DeauthorizeConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeauthorizeConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeauthorizeConnectionInput, DeauthorizeConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeauthorizeConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeauthorizeConnectionInput, DeauthorizeConnectionOutput>())
@@ -1401,6 +1448,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func deleteApiDestination(input: DeleteApiDestinationInput) async throws -> DeleteApiDestinationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.deleteApiDestinationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1414,18 +1467,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteApiDestinationInput, DeleteApiDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteApiDestinationInput, DeleteApiDestinationOutput>(DeleteApiDestinationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApiDestinationInput, DeleteApiDestinationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApiDestinationInput, DeleteApiDestinationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApiDestinationOutput>(DeleteApiDestinationOutput.httpOutput(from:), DeleteApiDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApiDestinationInput, DeleteApiDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1438,7 +1491,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteApiDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteApiDestinationInput, DeleteApiDestinationOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeleteApiDestination"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteApiDestinationInput, DeleteApiDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApiDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApiDestinationInput, DeleteApiDestinationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApiDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApiDestinationInput, DeleteApiDestinationOutput>())
@@ -1474,6 +1526,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func deleteArchive(input: DeleteArchiveInput) async throws -> DeleteArchiveOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.deleteArchiveOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1487,18 +1545,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteArchiveInput, DeleteArchiveOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(DeleteArchiveInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteArchiveOutput>(DeleteArchiveOutput.httpOutput(from:), DeleteArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1511,7 +1569,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeleteArchive"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteArchiveInput, DeleteArchiveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteArchiveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
@@ -1547,6 +1604,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.deleteConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1560,18 +1623,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteConnectionInput, DeleteConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(DeleteConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionOutput>(DeleteConnectionOutput.httpOutput(from:), DeleteConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1584,7 +1647,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeleteConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteConnectionInput, DeleteConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
@@ -1620,6 +1682,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.deleteEndpointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1633,18 +1701,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteEndpointInput, DeleteEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(DeleteEndpointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEndpointInput, DeleteEndpointOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEndpointInput, DeleteEndpointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEndpointOutput>(DeleteEndpointOutput.httpOutput(from:), DeleteEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1657,7 +1725,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeleteEndpoint"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEndpointInput, DeleteEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEndpointInput, DeleteEndpointOutput>())
@@ -1692,6 +1759,12 @@ extension EventBridgeClient {
     /// - `ConcurrentModificationException` : There is concurrent modification on a rule, target, archive, or replay.
     /// - `InternalException` : This exception occurs due to unexpected causes.
     public func deleteEventBus(input: DeleteEventBusInput) async throws -> DeleteEventBusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.deleteEventBusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1705,18 +1778,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteEventBusInput, DeleteEventBusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEventBusInput, DeleteEventBusOutput>(DeleteEventBusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventBusInput, DeleteEventBusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventBusInput, DeleteEventBusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventBusOutput>(DeleteEventBusOutput.httpOutput(from:), DeleteEventBusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventBusInput, DeleteEventBusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1729,7 +1802,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEventBusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEventBusInput, DeleteEventBusOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeleteEventBus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEventBusInput, DeleteEventBusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEventBusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEventBusInput, DeleteEventBusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEventBusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEventBusInput, DeleteEventBusOutput>())
@@ -1765,6 +1837,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     public func deletePartnerEventSource(input: DeletePartnerEventSourceInput) async throws -> DeletePartnerEventSourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.deletePartnerEventSourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1778,18 +1856,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput>(DeletePartnerEventSourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePartnerEventSourceOutput>(DeletePartnerEventSourceOutput.httpOutput(from:), DeletePartnerEventSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1802,7 +1880,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePartnerEventSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeletePartnerEventSource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePartnerEventSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePartnerEventSourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput>())
@@ -1839,6 +1916,12 @@ extension EventBridgeClient {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.deleteRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1852,18 +1935,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRuleInput, DeleteRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRuleInput, DeleteRuleOutput>(DeleteRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRuleInput, DeleteRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleInput, DeleteRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleOutput>(DeleteRuleOutput.httpOutput(from:), DeleteRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleInput, DeleteRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1876,7 +1959,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRuleInput, DeleteRuleOutput>(overrides: ["X-Amz-Target": "AWSEvents.DeleteRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRuleInput, DeleteRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRuleInput, DeleteRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRuleInput, DeleteRuleOutput>())
@@ -1911,6 +1993,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func describeApiDestination(input: DescribeApiDestinationInput) async throws -> DescribeApiDestinationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.describeApiDestinationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1924,18 +2012,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeApiDestinationInput, DescribeApiDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeApiDestinationInput, DescribeApiDestinationOutput>(DescribeApiDestinationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeApiDestinationInput, DescribeApiDestinationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApiDestinationInput, DescribeApiDestinationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApiDestinationOutput>(DescribeApiDestinationOutput.httpOutput(from:), DescribeApiDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApiDestinationInput, DescribeApiDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1948,7 +2036,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeApiDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeApiDestinationInput, DescribeApiDestinationOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeApiDestination"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeApiDestinationInput, DescribeApiDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApiDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApiDestinationInput, DescribeApiDestinationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApiDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeApiDestinationInput, DescribeApiDestinationOutput>())
@@ -1984,6 +2071,12 @@ extension EventBridgeClient {
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func describeArchive(input: DescribeArchiveInput) async throws -> DescribeArchiveOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.describeArchiveOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1997,18 +2090,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeArchiveInput, DescribeArchiveOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeArchiveInput, DescribeArchiveOutput>(DescribeArchiveInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeArchiveInput, DescribeArchiveOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeArchiveInput, DescribeArchiveOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeArchiveOutput>(DescribeArchiveOutput.httpOutput(from:), DescribeArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeArchiveInput, DescribeArchiveOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2021,7 +2114,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeArchiveInput, DescribeArchiveOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeArchive"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeArchiveInput, DescribeArchiveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeArchiveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeArchiveInput, DescribeArchiveOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeArchiveInput, DescribeArchiveOutput>())
@@ -2056,6 +2148,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func describeConnection(input: DescribeConnectionInput) async throws -> DescribeConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.describeConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2069,18 +2167,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeConnectionInput, DescribeConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeConnectionInput, DescribeConnectionOutput>(DescribeConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeConnectionInput, DescribeConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectionInput, DescribeConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectionOutput>(DescribeConnectionOutput.httpOutput(from:), DescribeConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionInput, DescribeConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2093,7 +2191,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeConnectionInput, DescribeConnectionOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeConnectionInput, DescribeConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConnectionInput, DescribeConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConnectionInput, DescribeConnectionOutput>())
@@ -2128,6 +2225,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.describeEndpointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2141,18 +2244,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeEndpointInput, DescribeEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(DescribeEndpointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEndpointInput, DescribeEndpointOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointInput, DescribeEndpointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointOutput>(DescribeEndpointOutput.httpOutput(from:), DescribeEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2165,7 +2268,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeEndpoint"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeEndpointInput, DescribeEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEndpointInput, DescribeEndpointOutput>())
@@ -2200,6 +2302,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func describeEventBus(input: DescribeEventBusInput) async throws -> DescribeEventBusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.describeEventBusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2213,18 +2321,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeEventBusInput, DescribeEventBusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeEventBusInput, DescribeEventBusOutput>(DescribeEventBusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEventBusInput, DescribeEventBusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventBusInput, DescribeEventBusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventBusOutput>(DescribeEventBusOutput.httpOutput(from:), DescribeEventBusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventBusInput, DescribeEventBusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2237,7 +2345,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEventBusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEventBusInput, DescribeEventBusOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeEventBus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeEventBusInput, DescribeEventBusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEventBusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEventBusInput, DescribeEventBusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEventBusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEventBusInput, DescribeEventBusOutput>())
@@ -2273,6 +2380,12 @@ extension EventBridgeClient {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func describeEventSource(input: DescribeEventSourceInput) async throws -> DescribeEventSourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.describeEventSourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2286,18 +2399,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeEventSourceInput, DescribeEventSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeEventSourceInput, DescribeEventSourceOutput>(DescribeEventSourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEventSourceInput, DescribeEventSourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventSourceInput, DescribeEventSourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventSourceOutput>(DescribeEventSourceOutput.httpOutput(from:), DescribeEventSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventSourceInput, DescribeEventSourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2310,7 +2423,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEventSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEventSourceInput, DescribeEventSourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeEventSource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeEventSourceInput, DescribeEventSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEventSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEventSourceInput, DescribeEventSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEventSourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEventSourceInput, DescribeEventSourceOutput>())
@@ -2346,6 +2458,12 @@ extension EventBridgeClient {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func describePartnerEventSource(input: DescribePartnerEventSourceInput) async throws -> DescribePartnerEventSourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.describePartnerEventSourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2359,18 +2477,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput>(DescribePartnerEventSourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePartnerEventSourceOutput>(DescribePartnerEventSourceOutput.httpOutput(from:), DescribePartnerEventSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2383,7 +2501,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePartnerEventSourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribePartnerEventSource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePartnerEventSourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePartnerEventSourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput>())
@@ -2418,6 +2535,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func describeReplay(input: DescribeReplayInput) async throws -> DescribeReplayOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.describeReplayOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2431,18 +2554,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeReplayInput, DescribeReplayOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeReplayInput, DescribeReplayOutput>(DescribeReplayInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeReplayInput, DescribeReplayOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReplayInput, DescribeReplayOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplayOutput>(DescribeReplayOutput.httpOutput(from:), DescribeReplayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplayInput, DescribeReplayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2455,7 +2578,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeReplayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeReplayInput, DescribeReplayOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeReplay"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeReplayInput, DescribeReplayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeReplayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeReplayInput, DescribeReplayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeReplayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeReplayInput, DescribeReplayOutput>())
@@ -2490,6 +2612,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func describeRule(input: DescribeRuleInput) async throws -> DescribeRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.describeRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2503,18 +2631,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRuleInput, DescribeRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRuleInput, DescribeRuleOutput>(DescribeRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRuleInput, DescribeRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleInput, DescribeRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRuleOutput>(DescribeRuleOutput.httpOutput(from:), DescribeRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleInput, DescribeRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2527,7 +2655,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRuleInput, DescribeRuleOutput>(overrides: ["X-Amz-Target": "AWSEvents.DescribeRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRuleInput, DescribeRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleInput, DescribeRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRuleInput, DescribeRuleOutput>())
@@ -2564,6 +2691,12 @@ extension EventBridgeClient {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func disableRule(input: DisableRuleInput) async throws -> DisableRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.disableRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2577,18 +2710,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisableRuleInput, DisableRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableRuleInput, DisableRuleOutput>(DisableRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableRuleInput, DisableRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableRuleInput, DisableRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableRuleOutput>(DisableRuleOutput.httpOutput(from:), DisableRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableRuleInput, DisableRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2601,7 +2734,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableRuleInput, DisableRuleOutput>(overrides: ["X-Amz-Target": "AWSEvents.DisableRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisableRuleInput, DisableRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableRuleInput, DisableRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableRuleInput, DisableRuleOutput>())
@@ -2638,6 +2770,12 @@ extension EventBridgeClient {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func enableRule(input: EnableRuleInput) async throws -> EnableRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.enableRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2651,18 +2789,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<EnableRuleInput, EnableRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableRuleInput, EnableRuleOutput>(EnableRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableRuleInput, EnableRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableRuleInput, EnableRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableRuleOutput>(EnableRuleOutput.httpOutput(from:), EnableRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableRuleInput, EnableRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2675,7 +2813,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableRuleInput, EnableRuleOutput>(overrides: ["X-Amz-Target": "AWSEvents.EnableRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<EnableRuleInput, EnableRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableRuleInput, EnableRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableRuleInput, EnableRuleOutput>())
@@ -2709,6 +2846,12 @@ extension EventBridgeClient {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     public func listApiDestinations(input: ListApiDestinationsInput) async throws -> ListApiDestinationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.listApiDestinationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2722,18 +2865,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListApiDestinationsInput, ListApiDestinationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListApiDestinationsInput, ListApiDestinationsOutput>(ListApiDestinationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListApiDestinationsInput, ListApiDestinationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApiDestinationsInput, ListApiDestinationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApiDestinationsOutput>(ListApiDestinationsOutput.httpOutput(from:), ListApiDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApiDestinationsInput, ListApiDestinationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2746,7 +2889,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListApiDestinationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListApiDestinationsInput, ListApiDestinationsOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListApiDestinations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListApiDestinationsInput, ListApiDestinationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApiDestinationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApiDestinationsInput, ListApiDestinationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApiDestinationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApiDestinationsInput, ListApiDestinationsOutput>())
@@ -2781,6 +2923,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func listArchives(input: ListArchivesInput) async throws -> ListArchivesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.listArchivesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2794,18 +2942,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListArchivesInput, ListArchivesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListArchivesInput, ListArchivesOutput>(ListArchivesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListArchivesInput, ListArchivesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListArchivesInput, ListArchivesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListArchivesOutput>(ListArchivesOutput.httpOutput(from:), ListArchivesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListArchivesInput, ListArchivesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2818,7 +2966,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListArchivesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListArchivesInput, ListArchivesOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListArchives"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListArchivesInput, ListArchivesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListArchivesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListArchivesInput, ListArchivesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListArchivesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListArchivesInput, ListArchivesOutput>())
@@ -2852,6 +2999,12 @@ extension EventBridgeClient {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     public func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.listConnectionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2865,18 +3018,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListConnectionsInput, ListConnectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConnectionsInput, ListConnectionsOutput>(ListConnectionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConnectionsInput, ListConnectionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectionsInput, ListConnectionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectionsOutput>(ListConnectionsOutput.httpOutput(from:), ListConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectionsInput, ListConnectionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2889,7 +3042,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConnectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListConnectionsInput, ListConnectionsOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListConnections"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListConnectionsInput, ListConnectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConnectionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConnectionsInput, ListConnectionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConnectionsInput, ListConnectionsOutput>())
@@ -2923,6 +3075,12 @@ extension EventBridgeClient {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     public func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.listEndpointsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2936,18 +3094,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListEndpointsInput, ListEndpointsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEndpointsInput, ListEndpointsOutput>(ListEndpointsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEndpointsInput, ListEndpointsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEndpointsInput, ListEndpointsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEndpointsOutput>(ListEndpointsOutput.httpOutput(from:), ListEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEndpointsInput, ListEndpointsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2960,7 +3118,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEndpointsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEndpointsInput, ListEndpointsOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListEndpoints"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListEndpointsInput, ListEndpointsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEndpointsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEndpointsInput, ListEndpointsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEndpointsInput, ListEndpointsOutput>())
@@ -2994,6 +3151,12 @@ extension EventBridgeClient {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     public func listEventBuses(input: ListEventBusesInput) async throws -> ListEventBusesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.listEventBusesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3007,18 +3170,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListEventBusesInput, ListEventBusesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEventBusesInput, ListEventBusesOutput>(ListEventBusesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEventBusesInput, ListEventBusesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventBusesInput, ListEventBusesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventBusesOutput>(ListEventBusesOutput.httpOutput(from:), ListEventBusesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventBusesInput, ListEventBusesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3031,7 +3194,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEventBusesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEventBusesInput, ListEventBusesOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListEventBuses"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListEventBusesInput, ListEventBusesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEventBusesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEventBusesInput, ListEventBusesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEventBusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEventBusesInput, ListEventBusesOutput>())
@@ -3066,6 +3228,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     public func listEventSources(input: ListEventSourcesInput) async throws -> ListEventSourcesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.listEventSourcesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3079,18 +3247,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListEventSourcesInput, ListEventSourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEventSourcesInput, ListEventSourcesOutput>(ListEventSourcesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEventSourcesInput, ListEventSourcesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventSourcesInput, ListEventSourcesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventSourcesOutput>(ListEventSourcesOutput.httpOutput(from:), ListEventSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventSourcesInput, ListEventSourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3103,7 +3271,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEventSourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEventSourcesInput, ListEventSourcesOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListEventSources"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListEventSourcesInput, ListEventSourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEventSourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEventSourcesInput, ListEventSourcesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEventSourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEventSourcesInput, ListEventSourcesOutput>())
@@ -3139,6 +3306,12 @@ extension EventBridgeClient {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func listPartnerEventSourceAccounts(input: ListPartnerEventSourceAccountsInput) async throws -> ListPartnerEventSourceAccountsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.listPartnerEventSourceAccountsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3152,18 +3325,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput>(ListPartnerEventSourceAccountsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPartnerEventSourceAccountsOutput>(ListPartnerEventSourceAccountsOutput.httpOutput(from:), ListPartnerEventSourceAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3176,7 +3349,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPartnerEventSourceAccountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListPartnerEventSourceAccounts"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPartnerEventSourceAccountsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPartnerEventSourceAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput>())
@@ -3211,6 +3383,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     public func listPartnerEventSources(input: ListPartnerEventSourcesInput) async throws -> ListPartnerEventSourcesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.listPartnerEventSourcesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3224,18 +3402,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput>(ListPartnerEventSourcesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPartnerEventSourcesOutput>(ListPartnerEventSourcesOutput.httpOutput(from:), ListPartnerEventSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3248,7 +3426,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPartnerEventSourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListPartnerEventSources"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPartnerEventSourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPartnerEventSourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput>())
@@ -3282,6 +3459,12 @@ extension EventBridgeClient {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     public func listReplays(input: ListReplaysInput) async throws -> ListReplaysOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.listReplaysOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3295,18 +3478,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListReplaysInput, ListReplaysOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListReplaysInput, ListReplaysOutput>(ListReplaysInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReplaysInput, ListReplaysOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReplaysInput, ListReplaysOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReplaysOutput>(ListReplaysOutput.httpOutput(from:), ListReplaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReplaysInput, ListReplaysOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3319,7 +3502,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReplaysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReplaysInput, ListReplaysOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListReplays"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListReplaysInput, ListReplaysOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListReplaysInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReplaysInput, ListReplaysOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReplaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReplaysInput, ListReplaysOutput>())
@@ -3354,6 +3536,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func listRuleNamesByTarget(input: ListRuleNamesByTargetInput) async throws -> ListRuleNamesByTargetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.listRuleNamesByTargetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3367,18 +3555,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput>(ListRuleNamesByTargetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRuleNamesByTargetOutput>(ListRuleNamesByTargetOutput.httpOutput(from:), ListRuleNamesByTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3391,7 +3579,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRuleNamesByTargetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListRuleNamesByTarget"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRuleNamesByTargetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRuleNamesByTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput>())
@@ -3426,6 +3613,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func listRules(input: ListRulesInput) async throws -> ListRulesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.listRulesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3439,18 +3632,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRulesInput, ListRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRulesInput, ListRulesOutput>(ListRulesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRulesInput, ListRulesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRulesInput, ListRulesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRulesOutput>(ListRulesOutput.httpOutput(from:), ListRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRulesInput, ListRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3463,7 +3656,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRulesInput, ListRulesOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListRules"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRulesInput, ListRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRulesInput, ListRulesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRulesInput, ListRulesOutput>())
@@ -3498,6 +3690,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3511,18 +3709,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3535,7 +3733,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -3570,6 +3767,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func listTargetsByRule(input: ListTargetsByRuleInput) async throws -> ListTargetsByRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.listTargetsByRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3583,18 +3786,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTargetsByRuleInput, ListTargetsByRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTargetsByRuleInput, ListTargetsByRuleOutput>(ListTargetsByRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTargetsByRuleInput, ListTargetsByRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTargetsByRuleInput, ListTargetsByRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTargetsByRuleOutput>(ListTargetsByRuleOutput.httpOutput(from:), ListTargetsByRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTargetsByRuleInput, ListTargetsByRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3607,7 +3810,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTargetsByRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTargetsByRuleInput, ListTargetsByRuleOutput>(overrides: ["X-Amz-Target": "AWSEvents.ListTargetsByRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTargetsByRuleInput, ListTargetsByRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTargetsByRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTargetsByRuleInput, ListTargetsByRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTargetsByRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTargetsByRuleInput, ListTargetsByRuleOutput>())
@@ -3641,6 +3843,12 @@ extension EventBridgeClient {
     /// __Possible Exceptions:__
     /// - `InternalException` : This exception occurs due to unexpected causes.
     public func putEvents(input: PutEventsInput) async throws -> PutEventsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.putEventsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3654,18 +3862,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutEventsInput, PutEventsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutEventsInput, PutEventsOutput>(PutEventsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutEventsInput, PutEventsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEventsInput, PutEventsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEventsOutput>(PutEventsOutput.httpOutput(from:), PutEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEventsInput, PutEventsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3678,7 +3886,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutEventsInput, PutEventsOutput>(overrides: ["X-Amz-Target": "AWSEvents.PutEvents"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutEventsInput, PutEventsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutEventsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutEventsInput, PutEventsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutEventsInput, PutEventsOutput>())
@@ -3713,6 +3920,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     public func putPartnerEvents(input: PutPartnerEventsInput) async throws -> PutPartnerEventsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.putPartnerEventsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3726,18 +3939,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutPartnerEventsInput, PutPartnerEventsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutPartnerEventsInput, PutPartnerEventsOutput>(PutPartnerEventsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutPartnerEventsInput, PutPartnerEventsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPartnerEventsInput, PutPartnerEventsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPartnerEventsOutput>(PutPartnerEventsOutput.httpOutput(from:), PutPartnerEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPartnerEventsInput, PutPartnerEventsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3750,7 +3963,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutPartnerEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutPartnerEventsInput, PutPartnerEventsOutput>(overrides: ["X-Amz-Target": "AWSEvents.PutPartnerEvents"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutPartnerEventsInput, PutPartnerEventsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutPartnerEventsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutPartnerEventsInput, PutPartnerEventsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutPartnerEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutPartnerEventsInput, PutPartnerEventsOutput>())
@@ -3788,6 +4000,12 @@ extension EventBridgeClient {
     /// - `PolicyLengthExceededException` : The event bus policy is too long. For more information, see the limits.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func putPermission(input: PutPermissionInput) async throws -> PutPermissionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.putPermissionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3801,18 +4019,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutPermissionInput, PutPermissionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutPermissionInput, PutPermissionOutput>(PutPermissionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutPermissionInput, PutPermissionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPermissionInput, PutPermissionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPermissionOutput>(PutPermissionOutput.httpOutput(from:), PutPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPermissionInput, PutPermissionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3825,7 +4043,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutPermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutPermissionInput, PutPermissionOutput>(overrides: ["X-Amz-Target": "AWSEvents.PutPermission"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutPermissionInput, PutPermissionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutPermissionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutPermissionInput, PutPermissionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutPermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutPermissionInput, PutPermissionOutput>())
@@ -3864,6 +4081,12 @@ extension EventBridgeClient {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func putRule(input: PutRuleInput) async throws -> PutRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.putRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3877,18 +4100,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutRuleInput, PutRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutRuleInput, PutRuleOutput>(PutRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutRuleInput, PutRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRuleInput, PutRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRuleOutput>(PutRuleOutput.httpOutput(from:), PutRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRuleInput, PutRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3901,7 +4124,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutRuleInput, PutRuleOutput>(overrides: ["X-Amz-Target": "AWSEvents.PutRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutRuleInput, PutRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRuleInput, PutRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRuleInput, PutRuleOutput>())
@@ -3968,6 +4190,12 @@ extension EventBridgeClient {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func putTargets(input: PutTargetsInput) async throws -> PutTargetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.putTargetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3981,18 +4209,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutTargetsInput, PutTargetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutTargetsInput, PutTargetsOutput>(PutTargetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutTargetsInput, PutTargetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTargetsInput, PutTargetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTargetsOutput>(PutTargetsOutput.httpOutput(from:), PutTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTargetsInput, PutTargetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4005,7 +4233,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutTargetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutTargetsInput, PutTargetsOutput>(overrides: ["X-Amz-Target": "AWSEvents.PutTargets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutTargetsInput, PutTargetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutTargetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutTargetsInput, PutTargetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutTargetsInput, PutTargetsOutput>())
@@ -4042,6 +4269,12 @@ extension EventBridgeClient {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.removePermissionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4055,18 +4288,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RemovePermissionInput, RemovePermissionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RemovePermissionInput, RemovePermissionOutput>(RemovePermissionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemovePermissionInput, RemovePermissionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemovePermissionInput, RemovePermissionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RemovePermissionOutput>(RemovePermissionOutput.httpOutput(from:), RemovePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemovePermissionInput, RemovePermissionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4079,7 +4312,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemovePermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemovePermissionInput, RemovePermissionOutput>(overrides: ["X-Amz-Target": "AWSEvents.RemovePermission"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RemovePermissionInput, RemovePermissionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemovePermissionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemovePermissionInput, RemovePermissionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemovePermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemovePermissionInput, RemovePermissionOutput>())
@@ -4116,6 +4348,12 @@ extension EventBridgeClient {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func removeTargets(input: RemoveTargetsInput) async throws -> RemoveTargetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.removeTargetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4129,18 +4367,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RemoveTargetsInput, RemoveTargetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RemoveTargetsInput, RemoveTargetsOutput>(RemoveTargetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveTargetsInput, RemoveTargetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTargetsInput, RemoveTargetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTargetsOutput>(RemoveTargetsOutput.httpOutput(from:), RemoveTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTargetsInput, RemoveTargetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4153,7 +4391,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveTargetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveTargetsInput, RemoveTargetsOutput>(overrides: ["X-Amz-Target": "AWSEvents.RemoveTargets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RemoveTargetsInput, RemoveTargetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveTargetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveTargetsInput, RemoveTargetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveTargetsInput, RemoveTargetsOutput>())
@@ -4191,6 +4428,12 @@ extension EventBridgeClient {
     /// - `ResourceAlreadyExistsException` : The resource you are trying to create already exists.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func startReplay(input: StartReplayInput) async throws -> StartReplayOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.startReplayOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4204,18 +4447,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartReplayInput, StartReplayOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartReplayInput, StartReplayOutput>(StartReplayInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartReplayInput, StartReplayOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReplayInput, StartReplayOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReplayOutput>(StartReplayOutput.httpOutput(from:), StartReplayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReplayInput, StartReplayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4228,7 +4471,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartReplayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartReplayInput, StartReplayOutput>(overrides: ["X-Amz-Target": "AWSEvents.StartReplay"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartReplayInput, StartReplayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartReplayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartReplayInput, StartReplayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartReplayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartReplayInput, StartReplayOutput>())
@@ -4265,6 +4507,12 @@ extension EventBridgeClient {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4278,18 +4526,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4302,7 +4550,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -4337,6 +4584,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `InvalidEventPatternException` : The event pattern is not valid.
     public func testEventPattern(input: TestEventPatternInput) async throws -> TestEventPatternOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.testEventPatternOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4350,18 +4603,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TestEventPatternInput, TestEventPatternOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TestEventPatternInput, TestEventPatternOutput>(TestEventPatternInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TestEventPatternInput, TestEventPatternOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestEventPatternInput, TestEventPatternOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TestEventPatternOutput>(TestEventPatternOutput.httpOutput(from:), TestEventPatternOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestEventPatternInput, TestEventPatternOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4374,7 +4627,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TestEventPatternOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TestEventPatternInput, TestEventPatternOutput>(overrides: ["X-Amz-Target": "AWSEvents.TestEventPattern"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TestEventPatternInput, TestEventPatternOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TestEventPatternInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TestEventPatternInput, TestEventPatternOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TestEventPatternOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TestEventPatternInput, TestEventPatternOutput>())
@@ -4411,6 +4663,12 @@ extension EventBridgeClient {
     /// - `ManagedRuleException` : This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4424,18 +4682,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4448,7 +4706,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSEvents.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -4485,6 +4742,12 @@ extension EventBridgeClient {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func updateApiDestination(input: UpdateApiDestinationInput) async throws -> UpdateApiDestinationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.updateApiDestinationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4498,18 +4761,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateApiDestinationInput, UpdateApiDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateApiDestinationInput, UpdateApiDestinationOutput>(UpdateApiDestinationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateApiDestinationInput, UpdateApiDestinationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApiDestinationInput, UpdateApiDestinationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApiDestinationOutput>(UpdateApiDestinationOutput.httpOutput(from:), UpdateApiDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApiDestinationInput, UpdateApiDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4522,7 +4785,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateApiDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateApiDestinationInput, UpdateApiDestinationOutput>(overrides: ["X-Amz-Target": "AWSEvents.UpdateApiDestination"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateApiDestinationInput, UpdateApiDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateApiDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApiDestinationInput, UpdateApiDestinationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateApiDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateApiDestinationInput, UpdateApiDestinationOutput>())
@@ -4560,6 +4822,12 @@ extension EventBridgeClient {
     /// - `LimitExceededException` : The request failed because it attempted to create resource beyond the allowed service quota.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func updateArchive(input: UpdateArchiveInput) async throws -> UpdateArchiveOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.updateArchiveOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4573,18 +4841,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateArchiveInput, UpdateArchiveOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(UpdateArchiveInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateArchiveInput, UpdateArchiveOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateArchiveInput, UpdateArchiveOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateArchiveOutput>(UpdateArchiveOutput.httpOutput(from:), UpdateArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4597,7 +4865,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(overrides: ["X-Amz-Target": "AWSEvents.UpdateArchive"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateArchiveInput, UpdateArchiveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateArchiveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateArchiveInput, UpdateArchiveOutput>())
@@ -4636,6 +4903,12 @@ extension EventBridgeClient {
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     /// - `ThrottlingException` : This request cannot be completed due to throttling issues.
     public func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.updateConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4649,18 +4922,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateConnectionInput, UpdateConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(UpdateConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateConnectionInput, UpdateConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectionInput, UpdateConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectionOutput>(UpdateConnectionOutput.httpOutput(from:), UpdateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4673,7 +4946,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(overrides: ["X-Amz-Target": "AWSEvents.UpdateConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateConnectionInput, UpdateConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConnectionInput, UpdateConnectionOutput>())
@@ -4709,6 +4981,12 @@ extension EventBridgeClient {
     /// - `InternalException` : This exception occurs due to unexpected causes.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.updateEndpointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4722,18 +5000,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateEndpointInput, UpdateEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(UpdateEndpointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEndpointInput, UpdateEndpointOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEndpointInput, UpdateEndpointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEndpointOutput>(UpdateEndpointOutput.httpOutput(from:), UpdateEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4746,7 +5024,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(overrides: ["X-Amz-Target": "AWSEvents.UpdateEndpoint"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEndpointInput, UpdateEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEndpointInput, UpdateEndpointOutput>())
@@ -4783,6 +5060,12 @@ extension EventBridgeClient {
     /// - `OperationDisabledException` : The operation you are attempting is not available in this region.
     /// - `ResourceNotFoundException` : An entity that you specified does not exist.
     public func updateEventBus(input: UpdateEventBusInput) async throws -> UpdateEventBusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = EventBridgeClient.updateEventBusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4796,18 +5079,18 @@ extension EventBridgeClient {
                       .withSigningName(value: "events")
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateEventBusInput, UpdateEventBusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEventBusInput, UpdateEventBusOutput>(UpdateEventBusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEventBusInput, UpdateEventBusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventBusInput, UpdateEventBusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventBusOutput>(UpdateEventBusOutput.httpOutput(from:), UpdateEventBusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventBusInput, UpdateEventBusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4820,7 +5103,6 @@ extension EventBridgeClient {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEventBusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEventBusInput, UpdateEventBusOutput>(overrides: ["X-Amz-Target": "AWSEvents.UpdateEventBus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEventBusInput, UpdateEventBusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEventBusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEventBusInput, UpdateEventBusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEventBusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEventBusInput, UpdateEventBusOutput>())

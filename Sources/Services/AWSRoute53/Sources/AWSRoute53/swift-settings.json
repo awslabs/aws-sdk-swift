@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.route53#AWSDnsV20130401",
+    "module": "AWSRoute53",
+    "sdkId": "Route 53",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/route-53.json"
+}

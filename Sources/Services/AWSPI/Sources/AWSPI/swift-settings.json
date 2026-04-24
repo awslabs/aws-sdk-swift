@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.pi#PerformanceInsightsv20180227",
+    "module": "AWSPI",
+    "sdkId": "PI",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/pi.json"
+}

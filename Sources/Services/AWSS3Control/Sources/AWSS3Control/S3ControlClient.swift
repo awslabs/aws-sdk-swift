@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyXML.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,27 +36,24 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentMD5Middleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.HeaderMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
-import struct ClientRuntime.PayloadBodyMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
@@ -69,6 +63,8 @@ import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+import struct SmithyRestXML.HTTPClientProtocol
+import struct SmithyRestXML.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -639,6 +635,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `AssociateAccessGrantsIdentityCenterOutput`)
     public func associateAccessGrantsIdentityCenter(input: AssociateAccessGrantsIdentityCenterInput) async throws -> AssociateAccessGrantsIdentityCenterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.associateAccessGrantsIdentityCenterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -651,8 +653,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateAccessGrantsIdentityCenterInput, AssociateAccessGrantsIdentityCenterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -664,9 +668,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateAccessGrantsIdentityCenterInput, AssociateAccessGrantsIdentityCenterOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<AssociateAccessGrantsIdentityCenterInput, AssociateAccessGrantsIdentityCenterOutput>(AssociateAccessGrantsIdentityCenterInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateAccessGrantsIdentityCenterInput, AssociateAccessGrantsIdentityCenterOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateAccessGrantsIdentityCenterInput, AssociateAccessGrantsIdentityCenterOutput, SmithyXML.Writer>(rootNodeInfo: .init("AssociateAccessGrantsIdentityCenterRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: AssociateAccessGrantsIdentityCenterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAccessGrantsIdentityCenterInput, AssociateAccessGrantsIdentityCenterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAccessGrantsIdentityCenterOutput>(AssociateAccessGrantsIdentityCenterOutput.httpOutput(from:), AssociateAccessGrantsIdentityCenterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAccessGrantsIdentityCenterInput, AssociateAccessGrantsIdentityCenterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -704,6 +706,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `CreateAccessGrantOutput`)
     public func createAccessGrant(input: CreateAccessGrantInput) async throws -> CreateAccessGrantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.createAccessGrantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -716,8 +724,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAccessGrantInput, CreateAccessGrantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -729,9 +739,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAccessGrantInput, CreateAccessGrantOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateAccessGrantInput, CreateAccessGrantOutput>(CreateAccessGrantInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAccessGrantInput, CreateAccessGrantOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAccessGrantInput, CreateAccessGrantOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateAccessGrantRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: CreateAccessGrantInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessGrantInput, CreateAccessGrantOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessGrantOutput>(CreateAccessGrantOutput.httpOutput(from:), CreateAccessGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessGrantInput, CreateAccessGrantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -769,6 +777,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `CreateAccessGrantsInstanceOutput`)
     public func createAccessGrantsInstance(input: CreateAccessGrantsInstanceInput) async throws -> CreateAccessGrantsInstanceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.createAccessGrantsInstanceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -781,8 +795,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAccessGrantsInstanceInput, CreateAccessGrantsInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -794,9 +810,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAccessGrantsInstanceInput, CreateAccessGrantsInstanceOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateAccessGrantsInstanceInput, CreateAccessGrantsInstanceOutput>(CreateAccessGrantsInstanceInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAccessGrantsInstanceInput, CreateAccessGrantsInstanceOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAccessGrantsInstanceInput, CreateAccessGrantsInstanceOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateAccessGrantsInstanceRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: CreateAccessGrantsInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessGrantsInstanceInput, CreateAccessGrantsInstanceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessGrantsInstanceOutput>(CreateAccessGrantsInstanceOutput.httpOutput(from:), CreateAccessGrantsInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessGrantsInstanceInput, CreateAccessGrantsInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -843,6 +857,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `CreateAccessGrantsLocationOutput`)
     public func createAccessGrantsLocation(input: CreateAccessGrantsLocationInput) async throws -> CreateAccessGrantsLocationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.createAccessGrantsLocationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -855,8 +875,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAccessGrantsLocationInput, CreateAccessGrantsLocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -868,9 +890,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAccessGrantsLocationInput, CreateAccessGrantsLocationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateAccessGrantsLocationInput, CreateAccessGrantsLocationOutput>(CreateAccessGrantsLocationInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAccessGrantsLocationInput, CreateAccessGrantsLocationOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAccessGrantsLocationInput, CreateAccessGrantsLocationOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateAccessGrantsLocationRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: CreateAccessGrantsLocationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessGrantsLocationInput, CreateAccessGrantsLocationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessGrantsLocationOutput>(CreateAccessGrantsLocationOutput.httpOutput(from:), CreateAccessGrantsLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessGrantsLocationInput, CreateAccessGrantsLocationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -916,6 +936,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `CreateAccessPointOutput`)
     public func createAccessPoint(input: CreateAccessPointInput) async throws -> CreateAccessPointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.createAccessPointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -928,8 +954,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAccessPointInput, CreateAccessPointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -940,9 +968,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAccessPointInput, CreateAccessPointOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateAccessPointInput, CreateAccessPointOutput>(CreateAccessPointInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAccessPointInput, CreateAccessPointOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAccessPointInput, CreateAccessPointOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateAccessPointRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: CreateAccessPointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessPointInput, CreateAccessPointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessPointOutput>(CreateAccessPointOutput.httpOutput(from:), CreateAccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessPointInput, CreateAccessPointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -986,6 +1012,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `CreateAccessPointForObjectLambdaOutput`)
     public func createAccessPointForObjectLambda(input: CreateAccessPointForObjectLambdaInput) async throws -> CreateAccessPointForObjectLambdaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.createAccessPointForObjectLambdaOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -998,8 +1030,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateAccessPointForObjectLambdaInput, CreateAccessPointForObjectLambdaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1010,9 +1044,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAccessPointForObjectLambdaInput, CreateAccessPointForObjectLambdaOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateAccessPointForObjectLambdaInput, CreateAccessPointForObjectLambdaOutput>(CreateAccessPointForObjectLambdaInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAccessPointForObjectLambdaInput, CreateAccessPointForObjectLambdaOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateAccessPointForObjectLambdaInput, CreateAccessPointForObjectLambdaOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateAccessPointForObjectLambdaRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: CreateAccessPointForObjectLambdaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessPointForObjectLambdaInput, CreateAccessPointForObjectLambdaOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessPointForObjectLambdaOutput>(CreateAccessPointForObjectLambdaOutput.httpOutput(from:), CreateAccessPointForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessPointForObjectLambdaInput, CreateAccessPointForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1073,6 +1105,12 @@ extension S3ControlClient {
     /// - `BucketAlreadyExists` : The requested Outposts bucket name is not available. The bucket namespace is shared by all users of the Outposts in this Region. Select a different name and try again.
     /// - `BucketAlreadyOwnedByYou` : The Outposts bucket you tried to create already exists, and you own it.
     public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.createBucketOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -1085,8 +1123,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateBucketInput, CreateBucketOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1098,9 +1138,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateBucketInput, CreateBucketOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateBucketInput, CreateBucketOutput>(CreateBucketInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBucketInput, CreateBucketOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateBucketInput, CreateBucketOutput, S3ControlClientTypes.CreateBucketConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("CreateBucketConfiguration", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: S3ControlClientTypes.CreateBucketConfiguration.write(value:to:), keyPath: \.createBucketConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBucketInput, CreateBucketOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBucketOutput>(CreateBucketOutput.httpOutput(from:), CreateBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBucketInput, CreateBucketOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1156,6 +1194,12 @@ extension S3ControlClient {
     /// - `InternalServiceException` :
     /// - `TooManyRequestsException` :
     public func createJob(input: CreateJobInput) async throws -> CreateJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.createJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1168,8 +1212,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateJobInput, CreateJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1181,9 +1227,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateJobInput, CreateJobOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateJobInput, CreateJobOutput>(CreateJobInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateJobInput, CreateJobOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateJobInput, CreateJobOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateJobRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: CreateJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobInput, CreateJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobOutput>(CreateJobOutput.httpOutput(from:), CreateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobInput, CreateJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1229,6 +1273,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `CreateMultiRegionAccessPointOutput`)
     public func createMultiRegionAccessPoint(input: CreateMultiRegionAccessPointInput) async throws -> CreateMultiRegionAccessPointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.createMultiRegionAccessPointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1241,8 +1291,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateMultiRegionAccessPointInput, CreateMultiRegionAccessPointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1255,9 +1307,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateMultiRegionAccessPointInput, CreateMultiRegionAccessPointOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateMultiRegionAccessPointInput, CreateMultiRegionAccessPointOutput>(CreateMultiRegionAccessPointInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMultiRegionAccessPointInput, CreateMultiRegionAccessPointOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateMultiRegionAccessPointInput, CreateMultiRegionAccessPointOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateMultiRegionAccessPointRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: CreateMultiRegionAccessPointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMultiRegionAccessPointInput, CreateMultiRegionAccessPointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMultiRegionAccessPointOutput>(CreateMultiRegionAccessPointOutput.httpOutput(from:), CreateMultiRegionAccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMultiRegionAccessPointInput, CreateMultiRegionAccessPointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1295,6 +1345,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `CreateStorageLensGroupOutput`)
     public func createStorageLensGroup(input: CreateStorageLensGroupInput) async throws -> CreateStorageLensGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.createStorageLensGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1307,8 +1363,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateStorageLensGroupInput, CreateStorageLensGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1319,9 +1377,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStorageLensGroupInput, CreateStorageLensGroupOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateStorageLensGroupInput, CreateStorageLensGroupOutput>(CreateStorageLensGroupInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStorageLensGroupInput, CreateStorageLensGroupOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateStorageLensGroupInput, CreateStorageLensGroupOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateStorageLensGroupRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: CreateStorageLensGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStorageLensGroupInput, CreateStorageLensGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStorageLensGroupOutput>(CreateStorageLensGroupOutput.httpOutput(from:), CreateStorageLensGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStorageLensGroupInput, CreateStorageLensGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1359,6 +1415,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteAccessGrantOutput`)
     public func deleteAccessGrant(input: DeleteAccessGrantInput) async throws -> DeleteAccessGrantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteAccessGrantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1371,8 +1433,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccessGrantInput, DeleteAccessGrantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1383,7 +1447,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccessGrantInput, DeleteAccessGrantOutput>(DeleteAccessGrantInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessGrantInput, DeleteAccessGrantOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessGrantInput, DeleteAccessGrantOutput>(DeleteAccessGrantInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessGrantOutput>(DeleteAccessGrantOutput.httpOutput(from:), DeleteAccessGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessGrantInput, DeleteAccessGrantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1421,6 +1484,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteAccessGrantsInstanceOutput`)
     public func deleteAccessGrantsInstance(input: DeleteAccessGrantsInstanceInput) async throws -> DeleteAccessGrantsInstanceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteAccessGrantsInstanceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1433,8 +1502,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccessGrantsInstanceInput, DeleteAccessGrantsInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1445,7 +1516,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccessGrantsInstanceInput, DeleteAccessGrantsInstanceOutput>(DeleteAccessGrantsInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessGrantsInstanceInput, DeleteAccessGrantsInstanceOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessGrantsInstanceInput, DeleteAccessGrantsInstanceOutput>(DeleteAccessGrantsInstanceInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessGrantsInstanceOutput>(DeleteAccessGrantsInstanceOutput.httpOutput(from:), DeleteAccessGrantsInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessGrantsInstanceInput, DeleteAccessGrantsInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1483,6 +1553,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteAccessGrantsInstanceResourcePolicyOutput`)
     public func deleteAccessGrantsInstanceResourcePolicy(input: DeleteAccessGrantsInstanceResourcePolicyInput) async throws -> DeleteAccessGrantsInstanceResourcePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteAccessGrantsInstanceResourcePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1495,8 +1571,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccessGrantsInstanceResourcePolicyInput, DeleteAccessGrantsInstanceResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1507,7 +1585,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccessGrantsInstanceResourcePolicyInput, DeleteAccessGrantsInstanceResourcePolicyOutput>(DeleteAccessGrantsInstanceResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessGrantsInstanceResourcePolicyInput, DeleteAccessGrantsInstanceResourcePolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessGrantsInstanceResourcePolicyInput, DeleteAccessGrantsInstanceResourcePolicyOutput>(DeleteAccessGrantsInstanceResourcePolicyInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessGrantsInstanceResourcePolicyOutput>(DeleteAccessGrantsInstanceResourcePolicyOutput.httpOutput(from:), DeleteAccessGrantsInstanceResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessGrantsInstanceResourcePolicyInput, DeleteAccessGrantsInstanceResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1545,6 +1622,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteAccessGrantsLocationOutput`)
     public func deleteAccessGrantsLocation(input: DeleteAccessGrantsLocationInput) async throws -> DeleteAccessGrantsLocationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteAccessGrantsLocationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1557,8 +1640,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccessGrantsLocationInput, DeleteAccessGrantsLocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1569,7 +1654,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccessGrantsLocationInput, DeleteAccessGrantsLocationOutput>(DeleteAccessGrantsLocationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessGrantsLocationInput, DeleteAccessGrantsLocationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessGrantsLocationInput, DeleteAccessGrantsLocationOutput>(DeleteAccessGrantsLocationInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessGrantsLocationOutput>(DeleteAccessGrantsLocationOutput.httpOutput(from:), DeleteAccessGrantsLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessGrantsLocationInput, DeleteAccessGrantsLocationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1613,6 +1697,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteAccessPointOutput`)
     public func deleteAccessPoint(input: DeleteAccessPointInput) async throws -> DeleteAccessPointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteAccessPointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1625,8 +1715,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccessPointInput, DeleteAccessPointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1636,7 +1728,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccessPointInput, DeleteAccessPointOutput>(DeleteAccessPointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessPointInput, DeleteAccessPointOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessPointInput, DeleteAccessPointOutput>(DeleteAccessPointInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessPointOutput>(DeleteAccessPointOutput.httpOutput(from:), DeleteAccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessPointInput, DeleteAccessPointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1680,6 +1771,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteAccessPointForObjectLambdaOutput`)
     public func deleteAccessPointForObjectLambda(input: DeleteAccessPointForObjectLambdaInput) async throws -> DeleteAccessPointForObjectLambdaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteAccessPointForObjectLambdaOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1692,8 +1789,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccessPointForObjectLambdaInput, DeleteAccessPointForObjectLambdaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1703,7 +1802,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccessPointForObjectLambdaInput, DeleteAccessPointForObjectLambdaOutput>(DeleteAccessPointForObjectLambdaInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessPointForObjectLambdaInput, DeleteAccessPointForObjectLambdaOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessPointForObjectLambdaInput, DeleteAccessPointForObjectLambdaOutput>(DeleteAccessPointForObjectLambdaInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessPointForObjectLambdaOutput>(DeleteAccessPointForObjectLambdaOutput.httpOutput(from:), DeleteAccessPointForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessPointForObjectLambdaInput, DeleteAccessPointForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1745,6 +1843,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteAccessPointPolicyOutput`)
     public func deleteAccessPointPolicy(input: DeleteAccessPointPolicyInput) async throws -> DeleteAccessPointPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteAccessPointPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1757,8 +1861,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccessPointPolicyInput, DeleteAccessPointPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1768,7 +1874,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccessPointPolicyInput, DeleteAccessPointPolicyOutput>(DeleteAccessPointPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessPointPolicyInput, DeleteAccessPointPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessPointPolicyInput, DeleteAccessPointPolicyOutput>(DeleteAccessPointPolicyInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessPointPolicyOutput>(DeleteAccessPointPolicyOutput.httpOutput(from:), DeleteAccessPointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessPointPolicyInput, DeleteAccessPointPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1810,6 +1915,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteAccessPointPolicyForObjectLambdaOutput`)
     public func deleteAccessPointPolicyForObjectLambda(input: DeleteAccessPointPolicyForObjectLambdaInput) async throws -> DeleteAccessPointPolicyForObjectLambdaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteAccessPointPolicyForObjectLambdaOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1822,8 +1933,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccessPointPolicyForObjectLambdaInput, DeleteAccessPointPolicyForObjectLambdaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1833,7 +1946,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccessPointPolicyForObjectLambdaInput, DeleteAccessPointPolicyForObjectLambdaOutput>(DeleteAccessPointPolicyForObjectLambdaInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessPointPolicyForObjectLambdaInput, DeleteAccessPointPolicyForObjectLambdaOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessPointPolicyForObjectLambdaInput, DeleteAccessPointPolicyForObjectLambdaOutput>(DeleteAccessPointPolicyForObjectLambdaInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessPointPolicyForObjectLambdaOutput>(DeleteAccessPointPolicyForObjectLambdaOutput.httpOutput(from:), DeleteAccessPointPolicyForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessPointPolicyForObjectLambdaInput, DeleteAccessPointPolicyForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1871,6 +1983,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteAccessPointScopeOutput`)
     public func deleteAccessPointScope(input: DeleteAccessPointScopeInput) async throws -> DeleteAccessPointScopeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteAccessPointScopeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1883,8 +2001,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccessPointScopeInput, DeleteAccessPointScopeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1894,7 +2014,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccessPointScopeInput, DeleteAccessPointScopeOutput>(DeleteAccessPointScopeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessPointScopeInput, DeleteAccessPointScopeOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessPointScopeInput, DeleteAccessPointScopeOutput>(DeleteAccessPointScopeInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessPointScopeOutput>(DeleteAccessPointScopeOutput.httpOutput(from:), DeleteAccessPointScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessPointScopeInput, DeleteAccessPointScopeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1938,6 +2057,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketOutput`)
     public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteBucketOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1950,8 +2075,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketInput, DeleteBucketOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1961,7 +2088,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBucketInput, DeleteBucketOutput>(DeleteBucketInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketInput, DeleteBucketOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketInput, DeleteBucketOutput>(DeleteBucketInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketOutput>(DeleteBucketOutput.httpOutput(from:), DeleteBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketInput, DeleteBucketOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2003,6 +2129,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketLifecycleConfigurationOutput`)
     public func deleteBucketLifecycleConfiguration(input: DeleteBucketLifecycleConfigurationInput) async throws -> DeleteBucketLifecycleConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteBucketLifecycleConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2015,8 +2147,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketLifecycleConfigurationInput, DeleteBucketLifecycleConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2026,7 +2160,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBucketLifecycleConfigurationInput, DeleteBucketLifecycleConfigurationOutput>(DeleteBucketLifecycleConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketLifecycleConfigurationInput, DeleteBucketLifecycleConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketLifecycleConfigurationInput, DeleteBucketLifecycleConfigurationOutput>(DeleteBucketLifecycleConfigurationInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketLifecycleConfigurationOutput>(DeleteBucketLifecycleConfigurationOutput.httpOutput(from:), DeleteBucketLifecycleConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketLifecycleConfigurationInput, DeleteBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2068,6 +2201,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketPolicyOutput`)
     public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteBucketPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2080,8 +2219,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketPolicyInput, DeleteBucketPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2091,7 +2232,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(DeleteBucketPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(DeleteBucketPolicyInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketPolicyOutput>(DeleteBucketPolicyOutput.httpOutput(from:), DeleteBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2133,6 +2273,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketReplicationOutput`)
     public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteBucketReplicationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2145,8 +2291,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketReplicationInput, DeleteBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2156,7 +2304,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(DeleteBucketReplicationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(DeleteBucketReplicationInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketReplicationOutput>(DeleteBucketReplicationOutput.httpOutput(from:), DeleteBucketReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2198,6 +2345,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketTaggingOutput`)
     public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteBucketTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2210,8 +2363,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketTaggingInput, DeleteBucketTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2221,7 +2376,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(DeleteBucketTaggingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(DeleteBucketTaggingInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketTaggingOutput>(DeleteBucketTaggingOutput.httpOutput(from:), DeleteBucketTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2272,6 +2426,12 @@ extension S3ControlClient {
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
     public func deleteJobTagging(input: DeleteJobTaggingInput) async throws -> DeleteJobTaggingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteJobTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2284,8 +2444,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteJobTaggingInput, DeleteJobTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2295,7 +2457,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteJobTaggingInput, DeleteJobTaggingOutput>(DeleteJobTaggingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteJobTaggingInput, DeleteJobTaggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteJobTaggingInput, DeleteJobTaggingOutput>(DeleteJobTaggingInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobTaggingOutput>(DeleteJobTaggingOutput.httpOutput(from:), DeleteJobTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobTaggingInput, DeleteJobTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2341,6 +2502,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteMultiRegionAccessPointOutput`)
     public func deleteMultiRegionAccessPoint(input: DeleteMultiRegionAccessPointInput) async throws -> DeleteMultiRegionAccessPointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteMultiRegionAccessPointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2353,8 +2520,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteMultiRegionAccessPointInput, DeleteMultiRegionAccessPointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2367,9 +2536,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMultiRegionAccessPointInput, DeleteMultiRegionAccessPointOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteMultiRegionAccessPointInput, DeleteMultiRegionAccessPointOutput>(DeleteMultiRegionAccessPointInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMultiRegionAccessPointInput, DeleteMultiRegionAccessPointOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteMultiRegionAccessPointInput, DeleteMultiRegionAccessPointOutput, SmithyXML.Writer>(rootNodeInfo: .init("DeleteMultiRegionAccessPointRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: DeleteMultiRegionAccessPointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMultiRegionAccessPointInput, DeleteMultiRegionAccessPointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMultiRegionAccessPointOutput>(DeleteMultiRegionAccessPointOutput.httpOutput(from:), DeleteMultiRegionAccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMultiRegionAccessPointInput, DeleteMultiRegionAccessPointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2411,6 +2578,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeletePublicAccessBlockOutput`)
     public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deletePublicAccessBlockOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2423,8 +2596,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2434,7 +2609,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(DeletePublicAccessBlockInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(DeletePublicAccessBlockInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePublicAccessBlockOutput>(DeletePublicAccessBlockOutput.httpOutput(from:), DeletePublicAccessBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2472,6 +2646,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteStorageLensConfigurationOutput`)
     public func deleteStorageLensConfiguration(input: DeleteStorageLensConfigurationInput) async throws -> DeleteStorageLensConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteStorageLensConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2484,8 +2664,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteStorageLensConfigurationInput, DeleteStorageLensConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2495,7 +2677,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteStorageLensConfigurationInput, DeleteStorageLensConfigurationOutput>(DeleteStorageLensConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStorageLensConfigurationInput, DeleteStorageLensConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteStorageLensConfigurationInput, DeleteStorageLensConfigurationOutput>(DeleteStorageLensConfigurationInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStorageLensConfigurationOutput>(DeleteStorageLensConfigurationOutput.httpOutput(from:), DeleteStorageLensConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStorageLensConfigurationInput, DeleteStorageLensConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2533,6 +2714,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteStorageLensConfigurationTaggingOutput`)
     public func deleteStorageLensConfigurationTagging(input: DeleteStorageLensConfigurationTaggingInput) async throws -> DeleteStorageLensConfigurationTaggingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteStorageLensConfigurationTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2545,8 +2732,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteStorageLensConfigurationTaggingInput, DeleteStorageLensConfigurationTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2556,7 +2745,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteStorageLensConfigurationTaggingInput, DeleteStorageLensConfigurationTaggingOutput>(DeleteStorageLensConfigurationTaggingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStorageLensConfigurationTaggingInput, DeleteStorageLensConfigurationTaggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteStorageLensConfigurationTaggingInput, DeleteStorageLensConfigurationTaggingOutput>(DeleteStorageLensConfigurationTaggingInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStorageLensConfigurationTaggingOutput>(DeleteStorageLensConfigurationTaggingOutput.httpOutput(from:), DeleteStorageLensConfigurationTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStorageLensConfigurationTaggingInput, DeleteStorageLensConfigurationTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2594,6 +2782,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteStorageLensGroupOutput`)
     public func deleteStorageLensGroup(input: DeleteStorageLensGroupInput) async throws -> DeleteStorageLensGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.deleteStorageLensGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2606,8 +2800,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteStorageLensGroupInput, DeleteStorageLensGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2617,7 +2813,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteStorageLensGroupInput, DeleteStorageLensGroupOutput>(DeleteStorageLensGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStorageLensGroupInput, DeleteStorageLensGroupOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteStorageLensGroupInput, DeleteStorageLensGroupOutput>(DeleteStorageLensGroupInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStorageLensGroupOutput>(DeleteStorageLensGroupOutput.httpOutput(from:), DeleteStorageLensGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStorageLensGroupInput, DeleteStorageLensGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2671,6 +2866,12 @@ extension S3ControlClient {
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
     public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.describeJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -2683,8 +2884,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeJobInput, DescribeJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2694,7 +2897,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeJobInput, DescribeJobOutput>(DescribeJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJobInput, DescribeJobOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DescribeJobInput, DescribeJobOutput>(DescribeJobInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobOutput>(DescribeJobOutput.httpOutput(from:), DescribeJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobInput, DescribeJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2740,6 +2942,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DescribeMultiRegionAccessPointOperationOutput`)
     public func describeMultiRegionAccessPointOperation(input: DescribeMultiRegionAccessPointOperationInput) async throws -> DescribeMultiRegionAccessPointOperationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.describeMultiRegionAccessPointOperationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -2752,8 +2960,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeMultiRegionAccessPointOperationInput, DescribeMultiRegionAccessPointOperationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2764,7 +2974,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMultiRegionAccessPointOperationInput, DescribeMultiRegionAccessPointOperationOutput>(DescribeMultiRegionAccessPointOperationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMultiRegionAccessPointOperationInput, DescribeMultiRegionAccessPointOperationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DescribeMultiRegionAccessPointOperationInput, DescribeMultiRegionAccessPointOperationOutput>(DescribeMultiRegionAccessPointOperationInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMultiRegionAccessPointOperationOutput>(DescribeMultiRegionAccessPointOperationOutput.httpOutput(from:), DescribeMultiRegionAccessPointOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMultiRegionAccessPointOperationInput, DescribeMultiRegionAccessPointOperationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2802,6 +3011,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `DissociateAccessGrantsIdentityCenterOutput`)
     public func dissociateAccessGrantsIdentityCenter(input: DissociateAccessGrantsIdentityCenterInput) async throws -> DissociateAccessGrantsIdentityCenterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.dissociateAccessGrantsIdentityCenterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2814,8 +3029,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DissociateAccessGrantsIdentityCenterInput, DissociateAccessGrantsIdentityCenterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2826,7 +3043,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DissociateAccessGrantsIdentityCenterInput, DissociateAccessGrantsIdentityCenterOutput>(DissociateAccessGrantsIdentityCenterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DissociateAccessGrantsIdentityCenterInput, DissociateAccessGrantsIdentityCenterOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DissociateAccessGrantsIdentityCenterInput, DissociateAccessGrantsIdentityCenterOutput>(DissociateAccessGrantsIdentityCenterInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DissociateAccessGrantsIdentityCenterOutput>(DissociateAccessGrantsIdentityCenterOutput.httpOutput(from:), DissociateAccessGrantsIdentityCenterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DissociateAccessGrantsIdentityCenterInput, DissociateAccessGrantsIdentityCenterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2864,6 +3080,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetAccessGrantOutput`)
     public func getAccessGrant(input: GetAccessGrantInput) async throws -> GetAccessGrantOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getAccessGrantOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -2876,8 +3098,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessGrantInput, GetAccessGrantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2888,7 +3112,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccessGrantInput, GetAccessGrantOutput>(GetAccessGrantInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessGrantInput, GetAccessGrantOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessGrantInput, GetAccessGrantOutput>(GetAccessGrantInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessGrantOutput>(GetAccessGrantOutput.httpOutput(from:), GetAccessGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessGrantInput, GetAccessGrantOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2926,6 +3149,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetAccessGrantsInstanceOutput`)
     public func getAccessGrantsInstance(input: GetAccessGrantsInstanceInput) async throws -> GetAccessGrantsInstanceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getAccessGrantsInstanceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -2938,8 +3167,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessGrantsInstanceInput, GetAccessGrantsInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2950,7 +3181,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccessGrantsInstanceInput, GetAccessGrantsInstanceOutput>(GetAccessGrantsInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessGrantsInstanceInput, GetAccessGrantsInstanceOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessGrantsInstanceInput, GetAccessGrantsInstanceOutput>(GetAccessGrantsInstanceInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessGrantsInstanceOutput>(GetAccessGrantsInstanceOutput.httpOutput(from:), GetAccessGrantsInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessGrantsInstanceInput, GetAccessGrantsInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2988,6 +3218,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetAccessGrantsInstanceForPrefixOutput`)
     public func getAccessGrantsInstanceForPrefix(input: GetAccessGrantsInstanceForPrefixInput) async throws -> GetAccessGrantsInstanceForPrefixOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getAccessGrantsInstanceForPrefixOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3000,8 +3236,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessGrantsInstanceForPrefixInput, GetAccessGrantsInstanceForPrefixOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3013,7 +3251,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessGrantsInstanceForPrefixInput, GetAccessGrantsInstanceForPrefixOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessGrantsInstanceForPrefixInput, GetAccessGrantsInstanceForPrefixOutput>(GetAccessGrantsInstanceForPrefixInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAccessGrantsInstanceForPrefixInput, GetAccessGrantsInstanceForPrefixOutput>(GetAccessGrantsInstanceForPrefixInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessGrantsInstanceForPrefixOutput>(GetAccessGrantsInstanceForPrefixOutput.httpOutput(from:), GetAccessGrantsInstanceForPrefixOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessGrantsInstanceForPrefixInput, GetAccessGrantsInstanceForPrefixOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3051,6 +3288,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetAccessGrantsInstanceResourcePolicyOutput`)
     public func getAccessGrantsInstanceResourcePolicy(input: GetAccessGrantsInstanceResourcePolicyInput) async throws -> GetAccessGrantsInstanceResourcePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getAccessGrantsInstanceResourcePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3063,8 +3306,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessGrantsInstanceResourcePolicyInput, GetAccessGrantsInstanceResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3075,7 +3320,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccessGrantsInstanceResourcePolicyInput, GetAccessGrantsInstanceResourcePolicyOutput>(GetAccessGrantsInstanceResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessGrantsInstanceResourcePolicyInput, GetAccessGrantsInstanceResourcePolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessGrantsInstanceResourcePolicyInput, GetAccessGrantsInstanceResourcePolicyOutput>(GetAccessGrantsInstanceResourcePolicyInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessGrantsInstanceResourcePolicyOutput>(GetAccessGrantsInstanceResourcePolicyOutput.httpOutput(from:), GetAccessGrantsInstanceResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessGrantsInstanceResourcePolicyInput, GetAccessGrantsInstanceResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3113,6 +3357,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetAccessGrantsLocationOutput`)
     public func getAccessGrantsLocation(input: GetAccessGrantsLocationInput) async throws -> GetAccessGrantsLocationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getAccessGrantsLocationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3125,8 +3375,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessGrantsLocationInput, GetAccessGrantsLocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3137,7 +3389,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccessGrantsLocationInput, GetAccessGrantsLocationOutput>(GetAccessGrantsLocationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessGrantsLocationInput, GetAccessGrantsLocationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessGrantsLocationInput, GetAccessGrantsLocationOutput>(GetAccessGrantsLocationInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessGrantsLocationOutput>(GetAccessGrantsLocationOutput.httpOutput(from:), GetAccessGrantsLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessGrantsLocationInput, GetAccessGrantsLocationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3181,6 +3432,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetAccessPointOutput`)
     public func getAccessPoint(input: GetAccessPointInput) async throws -> GetAccessPointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getAccessPointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3193,8 +3450,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessPointInput, GetAccessPointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3204,7 +3463,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccessPointInput, GetAccessPointOutput>(GetAccessPointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessPointInput, GetAccessPointOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointInput, GetAccessPointOutput>(GetAccessPointInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointOutput>(GetAccessPointOutput.httpOutput(from:), GetAccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointInput, GetAccessPointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3244,6 +3502,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetAccessPointConfigurationForObjectLambdaOutput`)
     public func getAccessPointConfigurationForObjectLambda(input: GetAccessPointConfigurationForObjectLambdaInput) async throws -> GetAccessPointConfigurationForObjectLambdaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getAccessPointConfigurationForObjectLambdaOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3256,8 +3520,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessPointConfigurationForObjectLambdaInput, GetAccessPointConfigurationForObjectLambdaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3267,7 +3533,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccessPointConfigurationForObjectLambdaInput, GetAccessPointConfigurationForObjectLambdaOutput>(GetAccessPointConfigurationForObjectLambdaInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessPointConfigurationForObjectLambdaInput, GetAccessPointConfigurationForObjectLambdaOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointConfigurationForObjectLambdaInput, GetAccessPointConfigurationForObjectLambdaOutput>(GetAccessPointConfigurationForObjectLambdaInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointConfigurationForObjectLambdaOutput>(GetAccessPointConfigurationForObjectLambdaOutput.httpOutput(from:), GetAccessPointConfigurationForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointConfigurationForObjectLambdaInput, GetAccessPointConfigurationForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3311,6 +3576,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetAccessPointForObjectLambdaOutput`)
     public func getAccessPointForObjectLambda(input: GetAccessPointForObjectLambdaInput) async throws -> GetAccessPointForObjectLambdaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getAccessPointForObjectLambdaOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3323,8 +3594,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessPointForObjectLambdaInput, GetAccessPointForObjectLambdaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3334,7 +3607,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccessPointForObjectLambdaInput, GetAccessPointForObjectLambdaOutput>(GetAccessPointForObjectLambdaInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessPointForObjectLambdaInput, GetAccessPointForObjectLambdaOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointForObjectLambdaInput, GetAccessPointForObjectLambdaOutput>(GetAccessPointForObjectLambdaInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointForObjectLambdaOutput>(GetAccessPointForObjectLambdaOutput.httpOutput(from:), GetAccessPointForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointForObjectLambdaInput, GetAccessPointForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3376,6 +3648,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetAccessPointPolicyOutput`)
     public func getAccessPointPolicy(input: GetAccessPointPolicyInput) async throws -> GetAccessPointPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getAccessPointPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3388,8 +3666,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessPointPolicyInput, GetAccessPointPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3399,7 +3679,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccessPointPolicyInput, GetAccessPointPolicyOutput>(GetAccessPointPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessPointPolicyInput, GetAccessPointPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointPolicyInput, GetAccessPointPolicyOutput>(GetAccessPointPolicyInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointPolicyOutput>(GetAccessPointPolicyOutput.httpOutput(from:), GetAccessPointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointPolicyInput, GetAccessPointPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3441,6 +3720,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetAccessPointPolicyForObjectLambdaOutput`)
     public func getAccessPointPolicyForObjectLambda(input: GetAccessPointPolicyForObjectLambdaInput) async throws -> GetAccessPointPolicyForObjectLambdaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getAccessPointPolicyForObjectLambdaOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3453,8 +3738,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessPointPolicyForObjectLambdaInput, GetAccessPointPolicyForObjectLambdaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3464,7 +3751,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccessPointPolicyForObjectLambdaInput, GetAccessPointPolicyForObjectLambdaOutput>(GetAccessPointPolicyForObjectLambdaInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessPointPolicyForObjectLambdaInput, GetAccessPointPolicyForObjectLambdaOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointPolicyForObjectLambdaInput, GetAccessPointPolicyForObjectLambdaOutput>(GetAccessPointPolicyForObjectLambdaInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointPolicyForObjectLambdaOutput>(GetAccessPointPolicyForObjectLambdaOutput.httpOutput(from:), GetAccessPointPolicyForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointPolicyForObjectLambdaInput, GetAccessPointPolicyForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3502,6 +3788,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetAccessPointPolicyStatusOutput`)
     public func getAccessPointPolicyStatus(input: GetAccessPointPolicyStatusInput) async throws -> GetAccessPointPolicyStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getAccessPointPolicyStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3514,8 +3806,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessPointPolicyStatusInput, GetAccessPointPolicyStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3525,7 +3819,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccessPointPolicyStatusInput, GetAccessPointPolicyStatusOutput>(GetAccessPointPolicyStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessPointPolicyStatusInput, GetAccessPointPolicyStatusOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointPolicyStatusInput, GetAccessPointPolicyStatusOutput>(GetAccessPointPolicyStatusInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointPolicyStatusOutput>(GetAccessPointPolicyStatusOutput.httpOutput(from:), GetAccessPointPolicyStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointPolicyStatusInput, GetAccessPointPolicyStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3563,6 +3856,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetAccessPointPolicyStatusForObjectLambdaOutput`)
     public func getAccessPointPolicyStatusForObjectLambda(input: GetAccessPointPolicyStatusForObjectLambdaInput) async throws -> GetAccessPointPolicyStatusForObjectLambdaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getAccessPointPolicyStatusForObjectLambdaOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3575,8 +3874,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessPointPolicyStatusForObjectLambdaInput, GetAccessPointPolicyStatusForObjectLambdaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3586,7 +3887,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccessPointPolicyStatusForObjectLambdaInput, GetAccessPointPolicyStatusForObjectLambdaOutput>(GetAccessPointPolicyStatusForObjectLambdaInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessPointPolicyStatusForObjectLambdaInput, GetAccessPointPolicyStatusForObjectLambdaOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointPolicyStatusForObjectLambdaInput, GetAccessPointPolicyStatusForObjectLambdaOutput>(GetAccessPointPolicyStatusForObjectLambdaInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointPolicyStatusForObjectLambdaOutput>(GetAccessPointPolicyStatusForObjectLambdaOutput.httpOutput(from:), GetAccessPointPolicyStatusForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointPolicyStatusForObjectLambdaInput, GetAccessPointPolicyStatusForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3624,6 +3924,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetAccessPointScopeOutput`)
     public func getAccessPointScope(input: GetAccessPointScopeInput) async throws -> GetAccessPointScopeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getAccessPointScopeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3636,8 +3942,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccessPointScopeInput, GetAccessPointScopeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3647,7 +3955,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccessPointScopeInput, GetAccessPointScopeOutput>(GetAccessPointScopeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessPointScopeInput, GetAccessPointScopeOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointScopeInput, GetAccessPointScopeOutput>(GetAccessPointScopeInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointScopeOutput>(GetAccessPointScopeOutput.httpOutput(from:), GetAccessPointScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointScopeInput, GetAccessPointScopeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3691,6 +3998,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketOutput`)
     public func getBucket(input: GetBucketInput) async throws -> GetBucketOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getBucketOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3703,8 +4016,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketInput, GetBucketOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3714,7 +4029,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetBucketInput, GetBucketOutput>(GetBucketInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketInput, GetBucketOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketInput, GetBucketOutput>(GetBucketInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketOutput>(GetBucketOutput.httpOutput(from:), GetBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketInput, GetBucketOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3770,6 +4084,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketLifecycleConfigurationOutput`)
     public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getBucketLifecycleConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3782,8 +4102,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3793,7 +4115,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(GetBucketLifecycleConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(GetBucketLifecycleConfigurationInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketLifecycleConfigurationOutput>(GetBucketLifecycleConfigurationOutput.httpOutput(from:), GetBucketLifecycleConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3837,6 +4158,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketPolicyOutput`)
     public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getBucketPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3849,8 +4176,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketPolicyInput, GetBucketPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3860,7 +4189,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>(GetBucketPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>(GetBucketPolicyInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketPolicyOutput>(GetBucketPolicyOutput.httpOutput(from:), GetBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3902,6 +4230,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketReplicationOutput`)
     public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getBucketReplicationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3914,8 +4248,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketReplicationInput, GetBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3925,7 +4261,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>(GetBucketReplicationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>(GetBucketReplicationInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketReplicationOutput>(GetBucketReplicationOutput.httpOutput(from:), GetBucketReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3977,6 +4312,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketTaggingOutput`)
     public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getBucketTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3989,8 +4330,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketTaggingInput, GetBucketTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4000,7 +4343,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>(GetBucketTaggingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>(GetBucketTaggingInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketTaggingOutput>(GetBucketTaggingOutput.httpOutput(from:), GetBucketTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4044,6 +4386,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketVersioningOutput`)
     public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getBucketVersioningOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4056,8 +4404,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBucketVersioningInput, GetBucketVersioningOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4067,7 +4417,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>(GetBucketVersioningInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>(GetBucketVersioningInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketVersioningOutput>(GetBucketVersioningOutput.httpOutput(from:), GetBucketVersioningOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4105,6 +4454,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetDataAccessOutput`)
     public func getDataAccess(input: GetDataAccessInput) async throws -> GetDataAccessOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getDataAccessOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4117,8 +4472,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDataAccessInput, GetDataAccessOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4130,7 +4487,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataAccessInput, GetDataAccessOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetDataAccessInput, GetDataAccessOutput>(GetDataAccessInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDataAccessInput, GetDataAccessOutput>(GetDataAccessInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataAccessOutput>(GetDataAccessOutput.httpOutput(from:), GetDataAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataAccessInput, GetDataAccessOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4181,6 +4537,12 @@ extension S3ControlClient {
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
     public func getJobTagging(input: GetJobTaggingInput) async throws -> GetJobTaggingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getJobTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4193,8 +4555,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetJobTaggingInput, GetJobTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4204,7 +4568,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetJobTaggingInput, GetJobTaggingOutput>(GetJobTaggingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJobTaggingInput, GetJobTaggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetJobTaggingInput, GetJobTaggingOutput>(GetJobTaggingInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobTaggingOutput>(GetJobTaggingOutput.httpOutput(from:), GetJobTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobTaggingInput, GetJobTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4250,6 +4613,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetMultiRegionAccessPointOutput`)
     public func getMultiRegionAccessPoint(input: GetMultiRegionAccessPointInput) async throws -> GetMultiRegionAccessPointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getMultiRegionAccessPointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4262,8 +4631,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetMultiRegionAccessPointInput, GetMultiRegionAccessPointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4274,7 +4645,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMultiRegionAccessPointInput, GetMultiRegionAccessPointOutput>(GetMultiRegionAccessPointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMultiRegionAccessPointInput, GetMultiRegionAccessPointOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetMultiRegionAccessPointInput, GetMultiRegionAccessPointOutput>(GetMultiRegionAccessPointInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMultiRegionAccessPointOutput>(GetMultiRegionAccessPointOutput.httpOutput(from:), GetMultiRegionAccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMultiRegionAccessPointInput, GetMultiRegionAccessPointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4316,6 +4686,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetMultiRegionAccessPointPolicyOutput`)
     public func getMultiRegionAccessPointPolicy(input: GetMultiRegionAccessPointPolicyInput) async throws -> GetMultiRegionAccessPointPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getMultiRegionAccessPointPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4328,8 +4704,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetMultiRegionAccessPointPolicyInput, GetMultiRegionAccessPointPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4340,7 +4718,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMultiRegionAccessPointPolicyInput, GetMultiRegionAccessPointPolicyOutput>(GetMultiRegionAccessPointPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMultiRegionAccessPointPolicyInput, GetMultiRegionAccessPointPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetMultiRegionAccessPointPolicyInput, GetMultiRegionAccessPointPolicyOutput>(GetMultiRegionAccessPointPolicyInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMultiRegionAccessPointPolicyOutput>(GetMultiRegionAccessPointPolicyOutput.httpOutput(from:), GetMultiRegionAccessPointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMultiRegionAccessPointPolicyInput, GetMultiRegionAccessPointPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4382,6 +4759,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetMultiRegionAccessPointPolicyStatusOutput`)
     public func getMultiRegionAccessPointPolicyStatus(input: GetMultiRegionAccessPointPolicyStatusInput) async throws -> GetMultiRegionAccessPointPolicyStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getMultiRegionAccessPointPolicyStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4394,8 +4777,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetMultiRegionAccessPointPolicyStatusInput, GetMultiRegionAccessPointPolicyStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4406,7 +4791,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMultiRegionAccessPointPolicyStatusInput, GetMultiRegionAccessPointPolicyStatusOutput>(GetMultiRegionAccessPointPolicyStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMultiRegionAccessPointPolicyStatusInput, GetMultiRegionAccessPointPolicyStatusOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetMultiRegionAccessPointPolicyStatusInput, GetMultiRegionAccessPointPolicyStatusOutput>(GetMultiRegionAccessPointPolicyStatusInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMultiRegionAccessPointPolicyStatusOutput>(GetMultiRegionAccessPointPolicyStatusOutput.httpOutput(from:), GetMultiRegionAccessPointPolicyStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMultiRegionAccessPointPolicyStatusInput, GetMultiRegionAccessPointPolicyStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4454,6 +4838,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetMultiRegionAccessPointRoutesOutput`)
     public func getMultiRegionAccessPointRoutes(input: GetMultiRegionAccessPointRoutesInput) async throws -> GetMultiRegionAccessPointRoutesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getMultiRegionAccessPointRoutesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4466,8 +4856,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetMultiRegionAccessPointRoutesInput, GetMultiRegionAccessPointRoutesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4478,7 +4870,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMultiRegionAccessPointRoutesInput, GetMultiRegionAccessPointRoutesOutput>(GetMultiRegionAccessPointRoutesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMultiRegionAccessPointRoutesInput, GetMultiRegionAccessPointRoutesOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetMultiRegionAccessPointRoutesInput, GetMultiRegionAccessPointRoutesOutput>(GetMultiRegionAccessPointRoutesInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMultiRegionAccessPointRoutesOutput>(GetMultiRegionAccessPointRoutesOutput.httpOutput(from:), GetMultiRegionAccessPointRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMultiRegionAccessPointRoutesInput, GetMultiRegionAccessPointRoutesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4525,6 +4916,12 @@ extension S3ControlClient {
     /// __Possible Exceptions:__
     /// - `NoSuchPublicAccessBlockConfiguration` : Amazon S3 throws this exception if you make a GetPublicAccessBlock request against an account that doesn't have a PublicAccessBlockConfiguration set.
     public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getPublicAccessBlockOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4537,8 +4934,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetPublicAccessBlockInput, GetPublicAccessBlockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4548,7 +4947,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(GetPublicAccessBlockInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(GetPublicAccessBlockInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPublicAccessBlockOutput>(GetPublicAccessBlockOutput.httpOutput(from:), GetPublicAccessBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4586,6 +4984,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetStorageLensConfigurationOutput`)
     public func getStorageLensConfiguration(input: GetStorageLensConfigurationInput) async throws -> GetStorageLensConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getStorageLensConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4598,8 +5002,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetStorageLensConfigurationInput, GetStorageLensConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4609,7 +5015,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetStorageLensConfigurationInput, GetStorageLensConfigurationOutput>(GetStorageLensConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStorageLensConfigurationInput, GetStorageLensConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetStorageLensConfigurationInput, GetStorageLensConfigurationOutput>(GetStorageLensConfigurationInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStorageLensConfigurationOutput>(GetStorageLensConfigurationOutput.httpOutput(from:), GetStorageLensConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStorageLensConfigurationInput, GetStorageLensConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4647,6 +5052,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetStorageLensConfigurationTaggingOutput`)
     public func getStorageLensConfigurationTagging(input: GetStorageLensConfigurationTaggingInput) async throws -> GetStorageLensConfigurationTaggingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getStorageLensConfigurationTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4659,8 +5070,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetStorageLensConfigurationTaggingInput, GetStorageLensConfigurationTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4670,7 +5083,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetStorageLensConfigurationTaggingInput, GetStorageLensConfigurationTaggingOutput>(GetStorageLensConfigurationTaggingInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStorageLensConfigurationTaggingInput, GetStorageLensConfigurationTaggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetStorageLensConfigurationTaggingInput, GetStorageLensConfigurationTaggingOutput>(GetStorageLensConfigurationTaggingInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStorageLensConfigurationTaggingOutput>(GetStorageLensConfigurationTaggingOutput.httpOutput(from:), GetStorageLensConfigurationTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStorageLensConfigurationTaggingInput, GetStorageLensConfigurationTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4708,6 +5120,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `GetStorageLensGroupOutput`)
     public func getStorageLensGroup(input: GetStorageLensGroupInput) async throws -> GetStorageLensGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.getStorageLensGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4720,8 +5138,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetStorageLensGroupInput, GetStorageLensGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4731,7 +5151,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetStorageLensGroupInput, GetStorageLensGroupOutput>(GetStorageLensGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStorageLensGroupInput, GetStorageLensGroupOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetStorageLensGroupInput, GetStorageLensGroupOutput>(GetStorageLensGroupInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStorageLensGroupOutput>(GetStorageLensGroupOutput.httpOutput(from:), GetStorageLensGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStorageLensGroupInput, GetStorageLensGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4769,6 +5188,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListAccessGrantsOutput`)
     public func listAccessGrants(input: ListAccessGrantsInput) async throws -> ListAccessGrantsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.listAccessGrantsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4781,8 +5206,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAccessGrantsInput, ListAccessGrantsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4794,7 +5221,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccessGrantsInput, ListAccessGrantsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListAccessGrantsInput, ListAccessGrantsOutput>(ListAccessGrantsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessGrantsInput, ListAccessGrantsOutput>(ListAccessGrantsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessGrantsOutput>(ListAccessGrantsOutput.httpOutput(from:), ListAccessGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessGrantsInput, ListAccessGrantsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4832,6 +5258,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListAccessGrantsInstancesOutput`)
     public func listAccessGrantsInstances(input: ListAccessGrantsInstancesInput) async throws -> ListAccessGrantsInstancesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.listAccessGrantsInstancesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4844,8 +5276,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAccessGrantsInstancesInput, ListAccessGrantsInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4857,7 +5291,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccessGrantsInstancesInput, ListAccessGrantsInstancesOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListAccessGrantsInstancesInput, ListAccessGrantsInstancesOutput>(ListAccessGrantsInstancesInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessGrantsInstancesInput, ListAccessGrantsInstancesOutput>(ListAccessGrantsInstancesInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessGrantsInstancesOutput>(ListAccessGrantsInstancesOutput.httpOutput(from:), ListAccessGrantsInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessGrantsInstancesInput, ListAccessGrantsInstancesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4895,6 +5328,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListAccessGrantsLocationsOutput`)
     public func listAccessGrantsLocations(input: ListAccessGrantsLocationsInput) async throws -> ListAccessGrantsLocationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.listAccessGrantsLocationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4907,8 +5346,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAccessGrantsLocationsInput, ListAccessGrantsLocationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4920,7 +5361,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccessGrantsLocationsInput, ListAccessGrantsLocationsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListAccessGrantsLocationsInput, ListAccessGrantsLocationsOutput>(ListAccessGrantsLocationsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessGrantsLocationsInput, ListAccessGrantsLocationsOutput>(ListAccessGrantsLocationsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessGrantsLocationsOutput>(ListAccessGrantsLocationsOutput.httpOutput(from:), ListAccessGrantsLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessGrantsLocationsInput, ListAccessGrantsLocationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4964,6 +5404,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListAccessPointsOutput`)
     public func listAccessPoints(input: ListAccessPointsInput) async throws -> ListAccessPointsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.listAccessPointsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4976,8 +5422,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAccessPointsInput, ListAccessPointsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4988,7 +5436,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccessPointsInput, ListAccessPointsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListAccessPointsInput, ListAccessPointsOutput>(ListAccessPointsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessPointsInput, ListAccessPointsOutput>(ListAccessPointsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessPointsOutput>(ListAccessPointsOutput.httpOutput(from:), ListAccessPointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessPointsInput, ListAccessPointsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5026,6 +5473,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListAccessPointsForDirectoryBucketsOutput`)
     public func listAccessPointsForDirectoryBuckets(input: ListAccessPointsForDirectoryBucketsInput) async throws -> ListAccessPointsForDirectoryBucketsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.listAccessPointsForDirectoryBucketsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5038,8 +5491,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAccessPointsForDirectoryBucketsInput, ListAccessPointsForDirectoryBucketsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5050,7 +5505,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccessPointsForDirectoryBucketsInput, ListAccessPointsForDirectoryBucketsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListAccessPointsForDirectoryBucketsInput, ListAccessPointsForDirectoryBucketsOutput>(ListAccessPointsForDirectoryBucketsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessPointsForDirectoryBucketsInput, ListAccessPointsForDirectoryBucketsOutput>(ListAccessPointsForDirectoryBucketsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessPointsForDirectoryBucketsOutput>(ListAccessPointsForDirectoryBucketsOutput.httpOutput(from:), ListAccessPointsForDirectoryBucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessPointsForDirectoryBucketsInput, ListAccessPointsForDirectoryBucketsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5094,6 +5548,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListAccessPointsForObjectLambdaOutput`)
     public func listAccessPointsForObjectLambda(input: ListAccessPointsForObjectLambdaInput) async throws -> ListAccessPointsForObjectLambdaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.listAccessPointsForObjectLambdaOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5106,8 +5566,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5118,7 +5580,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutput>(ListAccessPointsForObjectLambdaInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutput>(ListAccessPointsForObjectLambdaInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessPointsForObjectLambdaOutput>(ListAccessPointsForObjectLambdaOutput.httpOutput(from:), ListAccessPointsForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5156,6 +5617,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListCallerAccessGrantsOutput`)
     public func listCallerAccessGrants(input: ListCallerAccessGrantsInput) async throws -> ListCallerAccessGrantsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.listCallerAccessGrantsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5168,8 +5635,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCallerAccessGrantsInput, ListCallerAccessGrantsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5181,7 +5650,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCallerAccessGrantsInput, ListCallerAccessGrantsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListCallerAccessGrantsInput, ListCallerAccessGrantsOutput>(ListCallerAccessGrantsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCallerAccessGrantsInput, ListCallerAccessGrantsOutput>(ListCallerAccessGrantsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCallerAccessGrantsOutput>(ListCallerAccessGrantsOutput.httpOutput(from:), ListCallerAccessGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCallerAccessGrantsInput, ListCallerAccessGrantsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5234,6 +5702,12 @@ extension S3ControlClient {
     /// - `InvalidNextTokenException` :
     /// - `InvalidRequestException` :
     public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.listJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5246,8 +5720,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListJobsInput, ListJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5258,7 +5734,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListJobsInput, ListJobsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5304,6 +5779,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListMultiRegionAccessPointsOutput`)
     public func listMultiRegionAccessPoints(input: ListMultiRegionAccessPointsInput) async throws -> ListMultiRegionAccessPointsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.listMultiRegionAccessPointsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5316,8 +5797,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5329,7 +5812,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutput>(ListMultiRegionAccessPointsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutput>(ListMultiRegionAccessPointsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMultiRegionAccessPointsOutput>(ListMultiRegionAccessPointsOutput.httpOutput(from:), ListMultiRegionAccessPointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5367,6 +5849,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListRegionalBucketsOutput`)
     public func listRegionalBuckets(input: ListRegionalBucketsInput) async throws -> ListRegionalBucketsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.listRegionalBucketsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5379,8 +5867,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRegionalBucketsInput, ListRegionalBucketsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5391,7 +5881,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRegionalBucketsInput, ListRegionalBucketsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListRegionalBucketsInput, ListRegionalBucketsOutput>(ListRegionalBucketsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRegionalBucketsInput, ListRegionalBucketsOutput>(ListRegionalBucketsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRegionalBucketsOutput>(ListRegionalBucketsOutput.httpOutput(from:), ListRegionalBucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRegionalBucketsInput, ListRegionalBucketsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5429,6 +5918,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListStorageLensConfigurationsOutput`)
     public func listStorageLensConfigurations(input: ListStorageLensConfigurationsInput) async throws -> ListStorageLensConfigurationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.listStorageLensConfigurationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5441,8 +5936,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5453,7 +5950,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutput>(ListStorageLensConfigurationsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutput>(ListStorageLensConfigurationsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStorageLensConfigurationsOutput>(ListStorageLensConfigurationsOutput.httpOutput(from:), ListStorageLensConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5491,6 +5987,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListStorageLensGroupsOutput`)
     public func listStorageLensGroups(input: ListStorageLensGroupsInput) async throws -> ListStorageLensGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.listStorageLensGroupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5503,8 +6005,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListStorageLensGroupsInput, ListStorageLensGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5515,7 +6019,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListStorageLensGroupsInput, ListStorageLensGroupsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListStorageLensGroupsInput, ListStorageLensGroupsOutput>(ListStorageLensGroupsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStorageLensGroupsInput, ListStorageLensGroupsOutput>(ListStorageLensGroupsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStorageLensGroupsOutput>(ListStorageLensGroupsOutput.httpOutput(from:), ListStorageLensGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStorageLensGroupsInput, ListStorageLensGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5568,6 +6071,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5580,8 +6089,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5591,7 +6102,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.headerProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5629,6 +6139,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutAccessGrantsInstanceResourcePolicyOutput`)
     public func putAccessGrantsInstanceResourcePolicy(input: PutAccessGrantsInstanceResourcePolicyInput) async throws -> PutAccessGrantsInstanceResourcePolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putAccessGrantsInstanceResourcePolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -5641,8 +6157,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutAccessGrantsInstanceResourcePolicyInput, PutAccessGrantsInstanceResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5654,9 +6172,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAccessGrantsInstanceResourcePolicyInput, PutAccessGrantsInstanceResourcePolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutAccessGrantsInstanceResourcePolicyInput, PutAccessGrantsInstanceResourcePolicyOutput>(PutAccessGrantsInstanceResourcePolicyInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccessGrantsInstanceResourcePolicyInput, PutAccessGrantsInstanceResourcePolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutAccessGrantsInstanceResourcePolicyInput, PutAccessGrantsInstanceResourcePolicyOutput, SmithyXML.Writer>(rootNodeInfo: .init("PutAccessGrantsInstanceResourcePolicyRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: PutAccessGrantsInstanceResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccessGrantsInstanceResourcePolicyInput, PutAccessGrantsInstanceResourcePolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccessGrantsInstanceResourcePolicyOutput>(PutAccessGrantsInstanceResourcePolicyOutput.httpOutput(from:), PutAccessGrantsInstanceResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccessGrantsInstanceResourcePolicyInput, PutAccessGrantsInstanceResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5696,6 +6212,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutAccessPointConfigurationForObjectLambdaOutput`)
     public func putAccessPointConfigurationForObjectLambda(input: PutAccessPointConfigurationForObjectLambdaInput) async throws -> PutAccessPointConfigurationForObjectLambdaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putAccessPointConfigurationForObjectLambdaOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -5708,8 +6230,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutAccessPointConfigurationForObjectLambdaInput, PutAccessPointConfigurationForObjectLambdaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5720,9 +6244,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAccessPointConfigurationForObjectLambdaInput, PutAccessPointConfigurationForObjectLambdaOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutAccessPointConfigurationForObjectLambdaInput, PutAccessPointConfigurationForObjectLambdaOutput>(PutAccessPointConfigurationForObjectLambdaInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccessPointConfigurationForObjectLambdaInput, PutAccessPointConfigurationForObjectLambdaOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutAccessPointConfigurationForObjectLambdaInput, PutAccessPointConfigurationForObjectLambdaOutput, SmithyXML.Writer>(rootNodeInfo: .init("PutAccessPointConfigurationForObjectLambdaRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: PutAccessPointConfigurationForObjectLambdaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccessPointConfigurationForObjectLambdaInput, PutAccessPointConfigurationForObjectLambdaOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccessPointConfigurationForObjectLambdaOutput>(PutAccessPointConfigurationForObjectLambdaOutput.httpOutput(from:), PutAccessPointConfigurationForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccessPointConfigurationForObjectLambdaInput, PutAccessPointConfigurationForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5764,6 +6286,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutAccessPointPolicyOutput`)
     public func putAccessPointPolicy(input: PutAccessPointPolicyInput) async throws -> PutAccessPointPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putAccessPointPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -5776,8 +6304,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutAccessPointPolicyInput, PutAccessPointPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5788,9 +6318,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAccessPointPolicyInput, PutAccessPointPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutAccessPointPolicyInput, PutAccessPointPolicyOutput>(PutAccessPointPolicyInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccessPointPolicyInput, PutAccessPointPolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutAccessPointPolicyInput, PutAccessPointPolicyOutput, SmithyXML.Writer>(rootNodeInfo: .init("PutAccessPointPolicyRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: PutAccessPointPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccessPointPolicyInput, PutAccessPointPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccessPointPolicyOutput>(PutAccessPointPolicyOutput.httpOutput(from:), PutAccessPointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccessPointPolicyInput, PutAccessPointPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5832,6 +6360,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutAccessPointPolicyForObjectLambdaOutput`)
     public func putAccessPointPolicyForObjectLambda(input: PutAccessPointPolicyForObjectLambdaInput) async throws -> PutAccessPointPolicyForObjectLambdaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putAccessPointPolicyForObjectLambdaOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -5844,8 +6378,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutAccessPointPolicyForObjectLambdaInput, PutAccessPointPolicyForObjectLambdaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5856,9 +6392,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAccessPointPolicyForObjectLambdaInput, PutAccessPointPolicyForObjectLambdaOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutAccessPointPolicyForObjectLambdaInput, PutAccessPointPolicyForObjectLambdaOutput>(PutAccessPointPolicyForObjectLambdaInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccessPointPolicyForObjectLambdaInput, PutAccessPointPolicyForObjectLambdaOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutAccessPointPolicyForObjectLambdaInput, PutAccessPointPolicyForObjectLambdaOutput, SmithyXML.Writer>(rootNodeInfo: .init("PutAccessPointPolicyForObjectLambdaRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: PutAccessPointPolicyForObjectLambdaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccessPointPolicyForObjectLambdaInput, PutAccessPointPolicyForObjectLambdaOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccessPointPolicyForObjectLambdaOutput>(PutAccessPointPolicyForObjectLambdaOutput.httpOutput(from:), PutAccessPointPolicyForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccessPointPolicyForObjectLambdaInput, PutAccessPointPolicyForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5896,6 +6430,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutAccessPointScopeOutput`)
     public func putAccessPointScope(input: PutAccessPointScopeInput) async throws -> PutAccessPointScopeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putAccessPointScopeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -5908,8 +6448,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutAccessPointScopeInput, PutAccessPointScopeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5920,9 +6462,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAccessPointScopeInput, PutAccessPointScopeOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutAccessPointScopeInput, PutAccessPointScopeOutput>(PutAccessPointScopeInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccessPointScopeInput, PutAccessPointScopeOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutAccessPointScopeInput, PutAccessPointScopeOutput, SmithyXML.Writer>(rootNodeInfo: .init("PutAccessPointScopeRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: PutAccessPointScopeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccessPointScopeInput, PutAccessPointScopeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccessPointScopeOutput>(PutAccessPointScopeOutput.httpOutput(from:), PutAccessPointScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccessPointScopeInput, PutAccessPointScopeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5964,6 +6504,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketLifecycleConfigurationOutput`)
     public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putBucketLifecycleConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -5976,8 +6522,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5989,9 +6537,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(PutBucketLifecycleConfigurationInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput, S3ControlClientTypes.LifecycleConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("LifecycleConfiguration", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: S3ControlClientTypes.LifecycleConfiguration.write(value:to:), keyPath: \.lifecycleConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketLifecycleConfigurationOutput>(PutBucketLifecycleConfigurationOutput.httpOutput(from:), PutBucketLifecycleConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6033,6 +6579,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketPolicyOutput`)
     public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putBucketPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -6045,8 +6597,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketPolicyInput, PutBucketPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6058,9 +6612,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(PutBucketPolicyInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput, SmithyXML.Writer>(rootNodeInfo: .init("PutBucketPolicyRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: PutBucketPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketPolicyOutput>(PutBucketPolicyOutput.httpOutput(from:), PutBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6111,6 +6663,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketReplicationOutput`)
     public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putBucketReplicationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -6123,8 +6681,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketReplicationInput, PutBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6136,9 +6696,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(PutBucketReplicationInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput, S3ControlClientTypes.ReplicationConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("ReplicationConfiguration", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: S3ControlClientTypes.ReplicationConfiguration.write(value:to:), keyPath: \.replicationConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketReplicationOutput>(PutBucketReplicationOutput.httpOutput(from:), PutBucketReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6211,6 +6769,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketTaggingOutput`)
     public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putBucketTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -6223,8 +6787,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketTaggingInput, PutBucketTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6236,9 +6802,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(PutBucketTaggingInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput, S3ControlClientTypes.Tagging, SmithyXML.Writer>(rootNodeInfo: .init("Tagging", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: S3ControlClientTypes.Tagging.write(value:to:), keyPath: \.tagging, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketTaggingOutput>(PutBucketTaggingOutput.httpOutput(from:), PutBucketTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6289,6 +6853,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketVersioningOutput`)
     public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putBucketVersioningOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -6301,8 +6871,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutBucketVersioningInput, PutBucketVersioningOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6314,9 +6886,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(PutBucketVersioningInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput, S3ControlClientTypes.VersioningConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("VersioningConfiguration", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: S3ControlClientTypes.VersioningConfiguration.write(value:to:), keyPath: \.versioningConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketVersioningOutput>(PutBucketVersioningOutput.httpOutput(from:), PutBucketVersioningOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6390,6 +6960,12 @@ extension S3ControlClient {
     /// - `TooManyRequestsException` :
     /// - `TooManyTagsException` : Amazon S3 throws this exception if you have too many tags in your tag set.
     public func putJobTagging(input: PutJobTaggingInput) async throws -> PutJobTaggingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putJobTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -6402,8 +6978,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutJobTaggingInput, PutJobTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6414,9 +6992,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutJobTaggingInput, PutJobTaggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutJobTaggingInput, PutJobTaggingOutput>(PutJobTaggingInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutJobTaggingInput, PutJobTaggingOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutJobTaggingInput, PutJobTaggingOutput, SmithyXML.Writer>(rootNodeInfo: .init("PutJobTaggingRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: PutJobTaggingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutJobTaggingInput, PutJobTaggingOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutJobTaggingOutput>(PutJobTaggingOutput.httpOutput(from:), PutJobTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutJobTaggingInput, PutJobTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6458,6 +7034,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutMultiRegionAccessPointPolicyOutput`)
     public func putMultiRegionAccessPointPolicy(input: PutMultiRegionAccessPointPolicyInput) async throws -> PutMultiRegionAccessPointPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putMultiRegionAccessPointPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6470,8 +7052,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutMultiRegionAccessPointPolicyInput, PutMultiRegionAccessPointPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6484,9 +7068,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutMultiRegionAccessPointPolicyInput, PutMultiRegionAccessPointPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutMultiRegionAccessPointPolicyInput, PutMultiRegionAccessPointPolicyOutput>(PutMultiRegionAccessPointPolicyInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMultiRegionAccessPointPolicyInput, PutMultiRegionAccessPointPolicyOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutMultiRegionAccessPointPolicyInput, PutMultiRegionAccessPointPolicyOutput, SmithyXML.Writer>(rootNodeInfo: .init("PutMultiRegionAccessPointPolicyRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: PutMultiRegionAccessPointPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMultiRegionAccessPointPolicyInput, PutMultiRegionAccessPointPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMultiRegionAccessPointPolicyOutput>(PutMultiRegionAccessPointPolicyOutput.httpOutput(from:), PutMultiRegionAccessPointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMultiRegionAccessPointPolicyInput, PutMultiRegionAccessPointPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6528,6 +7110,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutPublicAccessBlockOutput`)
     public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putPublicAccessBlockOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -6540,8 +7128,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutPublicAccessBlockInput, PutPublicAccessBlockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6552,9 +7142,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(PutPublicAccessBlockInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput, S3ControlClientTypes.PublicAccessBlockConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("PublicAccessBlockConfiguration", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: S3ControlClientTypes.PublicAccessBlockConfiguration.write(value:to:), keyPath: \.publicAccessBlockConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPublicAccessBlockOutput>(PutPublicAccessBlockOutput.httpOutput(from:), PutPublicAccessBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6592,6 +7180,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutStorageLensConfigurationOutput`)
     public func putStorageLensConfiguration(input: PutStorageLensConfigurationInput) async throws -> PutStorageLensConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putStorageLensConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -6604,8 +7198,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutStorageLensConfigurationInput, PutStorageLensConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6616,9 +7212,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutStorageLensConfigurationInput, PutStorageLensConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutStorageLensConfigurationInput, PutStorageLensConfigurationOutput>(PutStorageLensConfigurationInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutStorageLensConfigurationInput, PutStorageLensConfigurationOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutStorageLensConfigurationInput, PutStorageLensConfigurationOutput, SmithyXML.Writer>(rootNodeInfo: .init("PutStorageLensConfigurationRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: PutStorageLensConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutStorageLensConfigurationInput, PutStorageLensConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutStorageLensConfigurationOutput>(PutStorageLensConfigurationOutput.httpOutput(from:), PutStorageLensConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutStorageLensConfigurationInput, PutStorageLensConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6656,6 +7250,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `PutStorageLensConfigurationTaggingOutput`)
     public func putStorageLensConfigurationTagging(input: PutStorageLensConfigurationTaggingInput) async throws -> PutStorageLensConfigurationTaggingOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.putStorageLensConfigurationTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -6668,8 +7268,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutStorageLensConfigurationTaggingInput, PutStorageLensConfigurationTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6680,9 +7282,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutStorageLensConfigurationTaggingInput, PutStorageLensConfigurationTaggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<PutStorageLensConfigurationTaggingInput, PutStorageLensConfigurationTaggingOutput>(PutStorageLensConfigurationTaggingInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutStorageLensConfigurationTaggingInput, PutStorageLensConfigurationTaggingOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutStorageLensConfigurationTaggingInput, PutStorageLensConfigurationTaggingOutput, SmithyXML.Writer>(rootNodeInfo: .init("PutStorageLensConfigurationTaggingRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: PutStorageLensConfigurationTaggingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutStorageLensConfigurationTaggingInput, PutStorageLensConfigurationTaggingOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutStorageLensConfigurationTaggingOutput>(PutStorageLensConfigurationTaggingOutput.httpOutput(from:), PutStorageLensConfigurationTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutStorageLensConfigurationTaggingInput, PutStorageLensConfigurationTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6730,6 +7330,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `SubmitMultiRegionAccessPointRoutesOutput`)
     public func submitMultiRegionAccessPointRoutes(input: SubmitMultiRegionAccessPointRoutesInput) async throws -> SubmitMultiRegionAccessPointRoutesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.submitMultiRegionAccessPointRoutesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .patch)
                       .withServiceName(value: serviceName)
@@ -6742,8 +7348,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SubmitMultiRegionAccessPointRoutesInput, SubmitMultiRegionAccessPointRoutesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6755,9 +7363,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SubmitMultiRegionAccessPointRoutesInput, SubmitMultiRegionAccessPointRoutesOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<SubmitMultiRegionAccessPointRoutesInput, SubmitMultiRegionAccessPointRoutesOutput>(SubmitMultiRegionAccessPointRoutesInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitMultiRegionAccessPointRoutesInput, SubmitMultiRegionAccessPointRoutesOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<SubmitMultiRegionAccessPointRoutesInput, SubmitMultiRegionAccessPointRoutesOutput, SmithyXML.Writer>(rootNodeInfo: .init("SubmitMultiRegionAccessPointRoutesRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: SubmitMultiRegionAccessPointRoutesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitMultiRegionAccessPointRoutesInput, SubmitMultiRegionAccessPointRoutesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitMultiRegionAccessPointRoutesOutput>(SubmitMultiRegionAccessPointRoutesOutput.httpOutput(from:), SubmitMultiRegionAccessPointRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitMultiRegionAccessPointRoutesInput, SubmitMultiRegionAccessPointRoutesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6810,6 +7416,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6822,8 +7434,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6834,9 +7448,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyXML.Writer>(rootNodeInfo: .init("TagResourceRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6889,6 +7501,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -6901,8 +7519,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6913,7 +7533,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6951,6 +7570,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `UpdateAccessGrantsLocationOutput`)
     public func updateAccessGrantsLocation(input: UpdateAccessGrantsLocationInput) async throws -> UpdateAccessGrantsLocationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.updateAccessGrantsLocationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -6963,8 +7588,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateAccessGrantsLocationInput, UpdateAccessGrantsLocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6976,9 +7603,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAccessGrantsLocationInput, UpdateAccessGrantsLocationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateAccessGrantsLocationInput, UpdateAccessGrantsLocationOutput>(UpdateAccessGrantsLocationInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAccessGrantsLocationInput, UpdateAccessGrantsLocationOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAccessGrantsLocationInput, UpdateAccessGrantsLocationOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateAccessGrantsLocationRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: UpdateAccessGrantsLocationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccessGrantsLocationInput, UpdateAccessGrantsLocationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccessGrantsLocationOutput>(UpdateAccessGrantsLocationOutput.httpOutput(from:), UpdateAccessGrantsLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccessGrantsLocationInput, UpdateAccessGrantsLocationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7032,6 +7657,12 @@ extension S3ControlClient {
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
     public func updateJobPriority(input: UpdateJobPriorityInput) async throws -> UpdateJobPriorityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.updateJobPriorityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7044,8 +7675,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateJobPriorityInput, UpdateJobPriorityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7056,7 +7689,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateJobPriorityInput, UpdateJobPriorityOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateJobPriorityInput, UpdateJobPriorityOutput>(UpdateJobPriorityInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateJobPriorityInput, UpdateJobPriorityOutput>(UpdateJobPriorityInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobPriorityOutput>(UpdateJobPriorityOutput.httpOutput(from:), UpdateJobPriorityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobPriorityInput, UpdateJobPriorityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7111,6 +7743,12 @@ extension S3ControlClient {
     /// - `NotFoundException` :
     /// - `TooManyRequestsException` :
     public func updateJobStatus(input: UpdateJobStatusInput) async throws -> UpdateJobStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.updateJobStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7123,8 +7761,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateJobStatusInput, UpdateJobStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7135,7 +7775,6 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateJobStatusInput, UpdateJobStatusOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateJobStatusInput, UpdateJobStatusOutput>(UpdateJobStatusInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateJobStatusInput, UpdateJobStatusOutput>(UpdateJobStatusInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobStatusOutput>(UpdateJobStatusOutput.httpOutput(from:), UpdateJobStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobStatusInput, UpdateJobStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7173,6 +7812,12 @@ extension S3ControlClient {
     ///
     /// - Returns: [no documentation found] (Type: `UpdateStorageLensGroupOutput`)
     public func updateStorageLensGroup(input: UpdateStorageLensGroupInput) async throws -> UpdateStorageLensGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = S3ControlClient.updateStorageLensGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -7185,8 +7830,10 @@ extension S3ControlClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateStorageLensGroupInput, UpdateStorageLensGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7197,9 +7844,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateStorageLensGroupInput, UpdateStorageLensGroupOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateStorageLensGroupInput, UpdateStorageLensGroupOutput>(UpdateStorageLensGroupInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStorageLensGroupInput, UpdateStorageLensGroupOutput>(contentType: "application/xml"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateStorageLensGroupInput, UpdateStorageLensGroupOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateStorageLensGroupRequest", namespaceDef: .init(prefix: "", uri: "http://awss3control.amazonaws.com/doc/2018-08-20/")), inputWritingClosure: UpdateStorageLensGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStorageLensGroupInput, UpdateStorageLensGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStorageLensGroupOutput>(UpdateStorageLensGroupOutput.httpOutput(from:), UpdateStorageLensGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStorageLensGroupInput, UpdateStorageLensGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))

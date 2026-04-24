@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.datapipeline#DataPipeline",
+    "module": "AWSDataPipeline",
+    "sdkId": "Data Pipeline",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/data-pipeline.json"
+}

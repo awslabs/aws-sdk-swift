@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,22 +35,21 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
@@ -61,8 +57,9 @@ import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -629,6 +626,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func acceptMarketplaceRegistration(input: AcceptMarketplaceRegistrationInput) async throws -> AcceptMarketplaceRegistrationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.acceptMarketplaceRegistrationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -641,18 +644,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput>(AcceptMarketplaceRegistrationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptMarketplaceRegistrationOutput>(AcceptMarketplaceRegistrationOutput.httpOutput(from:), AcceptMarketplaceRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -664,7 +667,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptMarketplaceRegistrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput>(overrides: ["X-Amz-Target": "Odb.AcceptMarketplaceRegistration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptMarketplaceRegistrationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptMarketplaceRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput>())
@@ -703,6 +705,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func associateIamRoleToResource(input: AssociateIamRoleToResourceInput) async throws -> AssociateIamRoleToResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.associateIamRoleToResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -715,18 +723,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>(AssociateIamRoleToResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateIamRoleToResourceOutput>(AssociateIamRoleToResourceOutput.httpOutput(from:), AssociateIamRoleToResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -738,7 +746,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateIamRoleToResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>(overrides: ["X-Amz-Target": "Odb.AssociateIamRoleToResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateIamRoleToResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateIamRoleToResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateIamRoleToResourceInput, AssociateIamRoleToResourceOutput>())
@@ -778,6 +785,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func createCloudAutonomousVmCluster(input: CreateCloudAutonomousVmClusterInput) async throws -> CreateCloudAutonomousVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.createCloudAutonomousVmClusterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -790,8 +803,10 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -799,10 +814,8 @@ extension OdbClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput>(CreateCloudAutonomousVmClusterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudAutonomousVmClusterOutput>(CreateCloudAutonomousVmClusterOutput.httpOutput(from:), CreateCloudAutonomousVmClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -814,7 +827,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCloudAutonomousVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.CreateCloudAutonomousVmCluster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCloudAutonomousVmClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCloudAutonomousVmClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput>())
@@ -853,6 +865,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func createCloudExadataInfrastructure(input: CreateCloudExadataInfrastructureInput) async throws -> CreateCloudExadataInfrastructureOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.createCloudExadataInfrastructureOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -865,8 +883,10 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -874,10 +894,8 @@ extension OdbClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput>(CreateCloudExadataInfrastructureInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudExadataInfrastructureOutput>(CreateCloudExadataInfrastructureOutput.httpOutput(from:), CreateCloudExadataInfrastructureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -889,7 +907,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCloudExadataInfrastructureOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput>(overrides: ["X-Amz-Target": "Odb.CreateCloudExadataInfrastructure"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCloudExadataInfrastructureInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCloudExadataInfrastructureOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput>())
@@ -929,6 +946,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func createCloudVmCluster(input: CreateCloudVmClusterInput) async throws -> CreateCloudVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.createCloudVmClusterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -941,8 +964,10 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCloudVmClusterInput, CreateCloudVmClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -950,10 +975,8 @@ extension OdbClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput>(CreateCloudVmClusterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudVmClusterOutput>(CreateCloudVmClusterOutput.httpOutput(from:), CreateCloudVmClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -965,7 +988,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCloudVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.CreateCloudVmCluster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCloudVmClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCloudVmClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput>())
@@ -1004,6 +1026,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func createOdbNetwork(input: CreateOdbNetworkInput) async throws -> CreateOdbNetworkOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.createOdbNetworkOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1016,8 +1044,10 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateOdbNetworkInput, CreateOdbNetworkOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1025,10 +1055,8 @@ extension OdbClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput>(CreateOdbNetworkInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOdbNetworkOutput>(CreateOdbNetworkOutput.httpOutput(from:), CreateOdbNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1040,7 +1068,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOdbNetworkOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput>(overrides: ["X-Amz-Target": "Odb.CreateOdbNetwork"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOdbNetworkInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOdbNetworkOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput>())
@@ -1079,6 +1106,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func createOdbPeeringConnection(input: CreateOdbPeeringConnectionInput) async throws -> CreateOdbPeeringConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.createOdbPeeringConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1091,8 +1124,10 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1100,10 +1135,8 @@ extension OdbClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput>(CreateOdbPeeringConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOdbPeeringConnectionOutput>(CreateOdbPeeringConnectionOutput.httpOutput(from:), CreateOdbPeeringConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1115,7 +1148,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOdbPeeringConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput>(overrides: ["X-Amz-Target": "Odb.CreateOdbPeeringConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOdbPeeringConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOdbPeeringConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput>())
@@ -1153,6 +1185,12 @@ extension OdbClient {
     /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func deleteCloudAutonomousVmCluster(input: DeleteCloudAutonomousVmClusterInput) async throws -> DeleteCloudAutonomousVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.deleteCloudAutonomousVmClusterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1165,18 +1203,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput>(DeleteCloudAutonomousVmClusterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCloudAutonomousVmClusterOutput>(DeleteCloudAutonomousVmClusterOutput.httpOutput(from:), DeleteCloudAutonomousVmClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1188,7 +1226,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCloudAutonomousVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.DeleteCloudAutonomousVmCluster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCloudAutonomousVmClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCloudAutonomousVmClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput>())
@@ -1227,6 +1264,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func deleteCloudExadataInfrastructure(input: DeleteCloudExadataInfrastructureInput) async throws -> DeleteCloudExadataInfrastructureOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.deleteCloudExadataInfrastructureOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1239,18 +1282,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput>(DeleteCloudExadataInfrastructureInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCloudExadataInfrastructureOutput>(DeleteCloudExadataInfrastructureOutput.httpOutput(from:), DeleteCloudExadataInfrastructureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1262,7 +1305,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCloudExadataInfrastructureOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput>(overrides: ["X-Amz-Target": "Odb.DeleteCloudExadataInfrastructure"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCloudExadataInfrastructureInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCloudExadataInfrastructureOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput>())
@@ -1300,6 +1342,12 @@ extension OdbClient {
     /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func deleteCloudVmCluster(input: DeleteCloudVmClusterInput) async throws -> DeleteCloudVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.deleteCloudVmClusterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1312,18 +1360,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput>(DeleteCloudVmClusterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCloudVmClusterOutput>(DeleteCloudVmClusterOutput.httpOutput(from:), DeleteCloudVmClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1335,7 +1383,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCloudVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.DeleteCloudVmCluster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCloudVmClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCloudVmClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput>())
@@ -1373,6 +1420,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func deleteOdbNetwork(input: DeleteOdbNetworkInput) async throws -> DeleteOdbNetworkOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.deleteOdbNetworkOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1385,18 +1438,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteOdbNetworkInput, DeleteOdbNetworkOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput>(DeleteOdbNetworkInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOdbNetworkOutput>(DeleteOdbNetworkOutput.httpOutput(from:), DeleteOdbNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1408,7 +1461,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOdbNetworkOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput>(overrides: ["X-Amz-Target": "Odb.DeleteOdbNetwork"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOdbNetworkInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOdbNetworkOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput>())
@@ -1446,6 +1498,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func deleteOdbPeeringConnection(input: DeleteOdbPeeringConnectionInput) async throws -> DeleteOdbPeeringConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.deleteOdbPeeringConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1458,18 +1516,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput>(DeleteOdbPeeringConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOdbPeeringConnectionOutput>(DeleteOdbPeeringConnectionOutput.httpOutput(from:), DeleteOdbPeeringConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1481,7 +1539,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOdbPeeringConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput>(overrides: ["X-Amz-Target": "Odb.DeleteOdbPeeringConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOdbPeeringConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOdbPeeringConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput>())
@@ -1520,6 +1577,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func disassociateIamRoleFromResource(input: DisassociateIamRoleFromResourceInput) async throws -> DisassociateIamRoleFromResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.disassociateIamRoleFromResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1532,18 +1595,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>(DisassociateIamRoleFromResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateIamRoleFromResourceOutput>(DisassociateIamRoleFromResourceOutput.httpOutput(from:), DisassociateIamRoleFromResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1555,7 +1618,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateIamRoleFromResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>(overrides: ["X-Amz-Target": "Odb.DisassociateIamRoleFromResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateIamRoleFromResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateIamRoleFromResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateIamRoleFromResourceInput, DisassociateIamRoleFromResourceOutput>())
@@ -1593,6 +1655,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func getCloudAutonomousVmCluster(input: GetCloudAutonomousVmClusterInput) async throws -> GetCloudAutonomousVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.getCloudAutonomousVmClusterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1605,18 +1673,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput>(GetCloudAutonomousVmClusterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudAutonomousVmClusterOutput>(GetCloudAutonomousVmClusterOutput.httpOutput(from:), GetCloudAutonomousVmClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1628,7 +1696,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCloudAutonomousVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.GetCloudAutonomousVmCluster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCloudAutonomousVmClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCloudAutonomousVmClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput>())
@@ -1666,6 +1733,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func getCloudExadataInfrastructure(input: GetCloudExadataInfrastructureInput) async throws -> GetCloudExadataInfrastructureOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.getCloudExadataInfrastructureOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1678,18 +1751,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput>(GetCloudExadataInfrastructureInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudExadataInfrastructureOutput>(GetCloudExadataInfrastructureOutput.httpOutput(from:), GetCloudExadataInfrastructureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1701,7 +1774,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCloudExadataInfrastructureOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput>(overrides: ["X-Amz-Target": "Odb.GetCloudExadataInfrastructure"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCloudExadataInfrastructureInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCloudExadataInfrastructureOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput>())
@@ -1739,6 +1811,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func getCloudExadataInfrastructureUnallocatedResources(input: GetCloudExadataInfrastructureUnallocatedResourcesInput) async throws -> GetCloudExadataInfrastructureUnallocatedResourcesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.getCloudExadataInfrastructureUnallocatedResourcesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1751,18 +1829,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput>(GetCloudExadataInfrastructureUnallocatedResourcesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesOutput>(GetCloudExadataInfrastructureUnallocatedResourcesOutput.httpOutput(from:), GetCloudExadataInfrastructureUnallocatedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1774,7 +1852,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput>(overrides: ["X-Amz-Target": "Odb.GetCloudExadataInfrastructureUnallocatedResources"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCloudExadataInfrastructureUnallocatedResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput>())
@@ -1812,6 +1889,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func getCloudVmCluster(input: GetCloudVmClusterInput) async throws -> GetCloudVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.getCloudVmClusterOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1824,18 +1907,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCloudVmClusterInput, GetCloudVmClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput>(GetCloudVmClusterInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudVmClusterOutput>(GetCloudVmClusterOutput.httpOutput(from:), GetCloudVmClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1847,7 +1930,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCloudVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.GetCloudVmCluster"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCloudVmClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCloudVmClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput>())
@@ -1885,6 +1967,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func getDbNode(input: GetDbNodeInput) async throws -> GetDbNodeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.getDbNodeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1897,18 +1985,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDbNodeInput, GetDbNodeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDbNodeInput, GetDbNodeOutput>(GetDbNodeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDbNodeInput, GetDbNodeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDbNodeInput, GetDbNodeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDbNodeOutput>(GetDbNodeOutput.httpOutput(from:), GetDbNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDbNodeInput, GetDbNodeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1920,7 +2008,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDbNodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDbNodeInput, GetDbNodeOutput>(overrides: ["X-Amz-Target": "Odb.GetDbNode"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetDbNodeInput, GetDbNodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDbNodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDbNodeInput, GetDbNodeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDbNodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDbNodeInput, GetDbNodeOutput>())
@@ -1958,6 +2045,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func getDbServer(input: GetDbServerInput) async throws -> GetDbServerOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.getDbServerOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1970,18 +2063,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDbServerInput, GetDbServerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDbServerInput, GetDbServerOutput>(GetDbServerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDbServerInput, GetDbServerOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDbServerInput, GetDbServerOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDbServerOutput>(GetDbServerOutput.httpOutput(from:), GetDbServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDbServerInput, GetDbServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1993,7 +2086,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDbServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDbServerInput, GetDbServerOutput>(overrides: ["X-Amz-Target": "Odb.GetDbServer"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetDbServerInput, GetDbServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDbServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDbServerInput, GetDbServerOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDbServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDbServerInput, GetDbServerOutput>())
@@ -2030,6 +2122,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func getOciOnboardingStatus(input: GetOciOnboardingStatusInput) async throws -> GetOciOnboardingStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.getOciOnboardingStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2042,18 +2140,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput>(GetOciOnboardingStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOciOnboardingStatusOutput>(GetOciOnboardingStatusOutput.httpOutput(from:), GetOciOnboardingStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2065,7 +2163,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOciOnboardingStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput>(overrides: ["X-Amz-Target": "Odb.GetOciOnboardingStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOciOnboardingStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOciOnboardingStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput>())
@@ -2103,6 +2200,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func getOdbNetwork(input: GetOdbNetworkInput) async throws -> GetOdbNetworkOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.getOdbNetworkOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2115,18 +2218,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetOdbNetworkInput, GetOdbNetworkOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput>(GetOdbNetworkInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOdbNetworkOutput>(GetOdbNetworkOutput.httpOutput(from:), GetOdbNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2138,7 +2241,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOdbNetworkOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput>(overrides: ["X-Amz-Target": "Odb.GetOdbNetwork"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOdbNetworkInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOdbNetworkOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput>())
@@ -2176,6 +2278,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func getOdbPeeringConnection(input: GetOdbPeeringConnectionInput) async throws -> GetOdbPeeringConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.getOdbPeeringConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2188,18 +2296,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput>(GetOdbPeeringConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOdbPeeringConnectionOutput>(GetOdbPeeringConnectionOutput.httpOutput(from:), GetOdbPeeringConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2211,7 +2319,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOdbPeeringConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput>(overrides: ["X-Amz-Target": "Odb.GetOdbPeeringConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOdbPeeringConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOdbPeeringConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput>())
@@ -2248,6 +2355,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func initializeService(input: InitializeServiceInput) async throws -> InitializeServiceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.initializeServiceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2260,18 +2373,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<InitializeServiceInput, InitializeServiceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<InitializeServiceInput, InitializeServiceOutput>(InitializeServiceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<InitializeServiceInput, InitializeServiceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitializeServiceInput, InitializeServiceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<InitializeServiceOutput>(InitializeServiceOutput.httpOutput(from:), InitializeServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitializeServiceInput, InitializeServiceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2283,7 +2396,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InitializeServiceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InitializeServiceInput, InitializeServiceOutput>(overrides: ["X-Amz-Target": "Odb.InitializeService"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<InitializeServiceInput, InitializeServiceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InitializeServiceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InitializeServiceInput, InitializeServiceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InitializeServiceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InitializeServiceInput, InitializeServiceOutput>())
@@ -2321,6 +2433,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func listAutonomousVirtualMachines(input: ListAutonomousVirtualMachinesInput) async throws -> ListAutonomousVirtualMachinesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listAutonomousVirtualMachinesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2333,18 +2451,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput>(ListAutonomousVirtualMachinesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutonomousVirtualMachinesOutput>(ListAutonomousVirtualMachinesOutput.httpOutput(from:), ListAutonomousVirtualMachinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2356,7 +2474,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutonomousVirtualMachinesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput>(overrides: ["X-Amz-Target": "Odb.ListAutonomousVirtualMachines"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutonomousVirtualMachinesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutonomousVirtualMachinesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput>())
@@ -2394,6 +2511,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func listCloudAutonomousVmClusters(input: ListCloudAutonomousVmClustersInput) async throws -> ListCloudAutonomousVmClustersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listCloudAutonomousVmClustersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2406,18 +2529,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput>(ListCloudAutonomousVmClustersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCloudAutonomousVmClustersOutput>(ListCloudAutonomousVmClustersOutput.httpOutput(from:), ListCloudAutonomousVmClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2429,7 +2552,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCloudAutonomousVmClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput>(overrides: ["X-Amz-Target": "Odb.ListCloudAutonomousVmClusters"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCloudAutonomousVmClustersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCloudAutonomousVmClustersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput>())
@@ -2466,6 +2588,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func listCloudExadataInfrastructures(input: ListCloudExadataInfrastructuresInput) async throws -> ListCloudExadataInfrastructuresOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listCloudExadataInfrastructuresOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2478,18 +2606,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput>(ListCloudExadataInfrastructuresInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCloudExadataInfrastructuresOutput>(ListCloudExadataInfrastructuresOutput.httpOutput(from:), ListCloudExadataInfrastructuresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2501,7 +2629,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCloudExadataInfrastructuresOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput>(overrides: ["X-Amz-Target": "Odb.ListCloudExadataInfrastructures"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCloudExadataInfrastructuresInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCloudExadataInfrastructuresOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput>())
@@ -2539,6 +2666,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func listCloudVmClusters(input: ListCloudVmClustersInput) async throws -> ListCloudVmClustersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listCloudVmClustersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2551,18 +2684,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCloudVmClustersInput, ListCloudVmClustersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput>(ListCloudVmClustersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCloudVmClustersOutput>(ListCloudVmClustersOutput.httpOutput(from:), ListCloudVmClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2574,7 +2707,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCloudVmClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput>(overrides: ["X-Amz-Target": "Odb.ListCloudVmClusters"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCloudVmClustersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCloudVmClustersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput>())
@@ -2612,6 +2744,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func listDbNodes(input: ListDbNodesInput) async throws -> ListDbNodesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listDbNodesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2624,18 +2762,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDbNodesInput, ListDbNodesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDbNodesInput, ListDbNodesOutput>(ListDbNodesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDbNodesInput, ListDbNodesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDbNodesInput, ListDbNodesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDbNodesOutput>(ListDbNodesOutput.httpOutput(from:), ListDbNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDbNodesInput, ListDbNodesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2647,7 +2785,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDbNodesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDbNodesInput, ListDbNodesOutput>(overrides: ["X-Amz-Target": "Odb.ListDbNodes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDbNodesInput, ListDbNodesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDbNodesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDbNodesInput, ListDbNodesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDbNodesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDbNodesInput, ListDbNodesOutput>())
@@ -2685,6 +2822,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func listDbServers(input: ListDbServersInput) async throws -> ListDbServersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listDbServersOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2697,18 +2840,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDbServersInput, ListDbServersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDbServersInput, ListDbServersOutput>(ListDbServersInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDbServersInput, ListDbServersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDbServersInput, ListDbServersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDbServersOutput>(ListDbServersOutput.httpOutput(from:), ListDbServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDbServersInput, ListDbServersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2720,7 +2863,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDbServersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDbServersInput, ListDbServersOutput>(overrides: ["X-Amz-Target": "Odb.ListDbServers"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDbServersInput, ListDbServersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDbServersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDbServersInput, ListDbServersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDbServersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDbServersInput, ListDbServersOutput>())
@@ -2757,6 +2899,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func listDbSystemShapes(input: ListDbSystemShapesInput) async throws -> ListDbSystemShapesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listDbSystemShapesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2769,18 +2917,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListDbSystemShapesInput, ListDbSystemShapesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput>(ListDbSystemShapesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDbSystemShapesOutput>(ListDbSystemShapesOutput.httpOutput(from:), ListDbSystemShapesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2792,7 +2940,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDbSystemShapesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput>(overrides: ["X-Amz-Target": "Odb.ListDbSystemShapes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDbSystemShapesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDbSystemShapesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput>())
@@ -2829,6 +2976,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func listGiVersions(input: ListGiVersionsInput) async throws -> ListGiVersionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listGiVersionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2841,18 +2994,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListGiVersionsInput, ListGiVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListGiVersionsInput, ListGiVersionsOutput>(ListGiVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGiVersionsInput, ListGiVersionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGiVersionsInput, ListGiVersionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGiVersionsOutput>(ListGiVersionsOutput.httpOutput(from:), ListGiVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGiVersionsInput, ListGiVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2864,7 +3017,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGiVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGiVersionsInput, ListGiVersionsOutput>(overrides: ["X-Amz-Target": "Odb.ListGiVersions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListGiVersionsInput, ListGiVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListGiVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGiVersionsInput, ListGiVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGiVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGiVersionsInput, ListGiVersionsOutput>())
@@ -2901,6 +3053,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func listOdbNetworks(input: ListOdbNetworksInput) async throws -> ListOdbNetworksOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listOdbNetworksOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2913,18 +3071,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListOdbNetworksInput, ListOdbNetworksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput>(ListOdbNetworksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOdbNetworksOutput>(ListOdbNetworksOutput.httpOutput(from:), ListOdbNetworksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2936,7 +3094,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOdbNetworksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput>(overrides: ["X-Amz-Target": "Odb.ListOdbNetworks"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOdbNetworksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOdbNetworksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput>())
@@ -2974,6 +3131,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func listOdbPeeringConnections(input: ListOdbPeeringConnectionsInput) async throws -> ListOdbPeeringConnectionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listOdbPeeringConnectionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2986,18 +3149,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput>(ListOdbPeeringConnectionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOdbPeeringConnectionsOutput>(ListOdbPeeringConnectionsOutput.httpOutput(from:), ListOdbPeeringConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3009,7 +3172,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOdbPeeringConnectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput>(overrides: ["X-Amz-Target": "Odb.ListOdbPeeringConnections"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOdbPeeringConnectionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOdbPeeringConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput>())
@@ -3047,6 +3209,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func listSystemVersions(input: ListSystemVersionsInput) async throws -> ListSystemVersionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listSystemVersionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3059,18 +3227,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSystemVersionsInput, ListSystemVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput>(ListSystemVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSystemVersionsOutput>(ListSystemVersionsOutput.httpOutput(from:), ListSystemVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3082,7 +3250,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSystemVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput>(overrides: ["X-Amz-Target": "Odb.ListSystemVersions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSystemVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSystemVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput>())
@@ -3116,6 +3283,12 @@ extension OdbClient {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3128,18 +3301,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3151,7 +3324,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "Odb.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -3189,6 +3361,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func rebootDbNode(input: RebootDbNodeInput) async throws -> RebootDbNodeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.rebootDbNodeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3201,18 +3379,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RebootDbNodeInput, RebootDbNodeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RebootDbNodeInput, RebootDbNodeOutput>(RebootDbNodeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RebootDbNodeInput, RebootDbNodeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootDbNodeInput, RebootDbNodeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootDbNodeOutput>(RebootDbNodeOutput.httpOutput(from:), RebootDbNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootDbNodeInput, RebootDbNodeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3224,7 +3402,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RebootDbNodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RebootDbNodeInput, RebootDbNodeOutput>(overrides: ["X-Amz-Target": "Odb.RebootDbNode"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RebootDbNodeInput, RebootDbNodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RebootDbNodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RebootDbNodeInput, RebootDbNodeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RebootDbNodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RebootDbNodeInput, RebootDbNodeOutput>())
@@ -3262,6 +3439,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func startDbNode(input: StartDbNodeInput) async throws -> StartDbNodeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.startDbNodeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3274,18 +3457,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartDbNodeInput, StartDbNodeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartDbNodeInput, StartDbNodeOutput>(StartDbNodeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartDbNodeInput, StartDbNodeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDbNodeInput, StartDbNodeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDbNodeOutput>(StartDbNodeOutput.httpOutput(from:), StartDbNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDbNodeInput, StartDbNodeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3297,7 +3480,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartDbNodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartDbNodeInput, StartDbNodeOutput>(overrides: ["X-Amz-Target": "Odb.StartDbNode"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartDbNodeInput, StartDbNodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDbNodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDbNodeInput, StartDbNodeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDbNodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartDbNodeInput, StartDbNodeOutput>())
@@ -3335,6 +3517,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func stopDbNode(input: StopDbNodeInput) async throws -> StopDbNodeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.stopDbNodeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3347,18 +3535,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StopDbNodeInput, StopDbNodeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopDbNodeInput, StopDbNodeOutput>(StopDbNodeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopDbNodeInput, StopDbNodeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDbNodeInput, StopDbNodeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDbNodeOutput>(StopDbNodeOutput.httpOutput(from:), StopDbNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDbNodeInput, StopDbNodeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3370,7 +3558,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopDbNodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopDbNodeInput, StopDbNodeOutput>(overrides: ["X-Amz-Target": "Odb.StopDbNode"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopDbNodeInput, StopDbNodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopDbNodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopDbNodeInput, StopDbNodeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopDbNodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopDbNodeInput, StopDbNodeOutput>())
@@ -3405,6 +3592,12 @@ extension OdbClient {
     /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3417,18 +3610,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3440,7 +3633,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "Odb.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -3474,6 +3666,12 @@ extension OdbClient {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3486,18 +3684,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3509,7 +3707,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "Odb.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -3548,6 +3745,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func updateCloudExadataInfrastructure(input: UpdateCloudExadataInfrastructureInput) async throws -> UpdateCloudExadataInfrastructureOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.updateCloudExadataInfrastructureOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3560,18 +3763,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput>(UpdateCloudExadataInfrastructureInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCloudExadataInfrastructureOutput>(UpdateCloudExadataInfrastructureOutput.httpOutput(from:), UpdateCloudExadataInfrastructureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3583,7 +3786,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCloudExadataInfrastructureOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput>(overrides: ["X-Amz-Target": "Odb.UpdateCloudExadataInfrastructure"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCloudExadataInfrastructureInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCloudExadataInfrastructureOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput>())
@@ -3622,6 +3824,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func updateOdbNetwork(input: UpdateOdbNetworkInput) async throws -> UpdateOdbNetworkOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.updateOdbNetworkOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3634,18 +3842,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateOdbNetworkInput, UpdateOdbNetworkOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput>(UpdateOdbNetworkInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOdbNetworkOutput>(UpdateOdbNetworkOutput.httpOutput(from:), UpdateOdbNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3657,7 +3865,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateOdbNetworkOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput>(overrides: ["X-Amz-Target": "Odb.UpdateOdbNetwork"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateOdbNetworkInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOdbNetworkOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput>())
@@ -3696,6 +3903,12 @@ extension OdbClient {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func updateOdbPeeringConnection(input: UpdateOdbPeeringConnectionInput) async throws -> UpdateOdbPeeringConnectionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.updateOdbPeeringConnectionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3708,18 +3921,18 @@ extension OdbClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "odb")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateOdbPeeringConnectionInput, UpdateOdbPeeringConnectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateOdbPeeringConnectionInput, UpdateOdbPeeringConnectionOutput>(UpdateOdbPeeringConnectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateOdbPeeringConnectionInput, UpdateOdbPeeringConnectionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOdbPeeringConnectionInput, UpdateOdbPeeringConnectionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOdbPeeringConnectionOutput>(UpdateOdbPeeringConnectionOutput.httpOutput(from:), UpdateOdbPeeringConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOdbPeeringConnectionInput, UpdateOdbPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3731,7 +3944,6 @@ extension OdbClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateOdbPeeringConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateOdbPeeringConnectionInput, UpdateOdbPeeringConnectionOutput>(overrides: ["X-Amz-Target": "Odb.UpdateOdbPeeringConnection"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateOdbPeeringConnectionInput, UpdateOdbPeeringConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateOdbPeeringConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateOdbPeeringConnectionInput, UpdateOdbPeeringConnectionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOdbPeeringConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateOdbPeeringConnectionInput, UpdateOdbPeeringConnectionOutput>())

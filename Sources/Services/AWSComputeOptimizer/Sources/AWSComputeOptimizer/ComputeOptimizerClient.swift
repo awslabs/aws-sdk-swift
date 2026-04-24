@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,30 +36,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -632,6 +629,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func deleteRecommendationPreferences(input: DeleteRecommendationPreferencesInput) async throws -> DeleteRecommendationPreferencesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.deleteRecommendationPreferencesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -644,18 +647,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput>(DeleteRecommendationPreferencesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecommendationPreferencesOutput>(DeleteRecommendationPreferencesOutput.httpOutput(from:), DeleteRecommendationPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -667,7 +670,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRecommendationPreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.DeleteRecommendationPreferences"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRecommendationPreferencesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRecommendationPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput>())
@@ -708,6 +710,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func describeRecommendationExportJobs(input: DescribeRecommendationExportJobsInput) async throws -> DescribeRecommendationExportJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.describeRecommendationExportJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -720,18 +728,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>(DescribeRecommendationExportJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRecommendationExportJobsOutput>(DescribeRecommendationExportJobsOutput.httpOutput(from:), DescribeRecommendationExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -743,7 +751,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRecommendationExportJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.DescribeRecommendationExportJobs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRecommendationExportJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRecommendationExportJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>())
@@ -784,6 +791,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func exportAutoScalingGroupRecommendations(input: ExportAutoScalingGroupRecommendationsInput) async throws -> ExportAutoScalingGroupRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.exportAutoScalingGroupRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -796,18 +809,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput>(ExportAutoScalingGroupRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportAutoScalingGroupRecommendationsOutput>(ExportAutoScalingGroupRecommendationsOutput.httpOutput(from:), ExportAutoScalingGroupRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -819,7 +832,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportAutoScalingGroupRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.ExportAutoScalingGroupRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportAutoScalingGroupRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportAutoScalingGroupRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput>())
@@ -860,6 +872,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func exportEBSVolumeRecommendations(input: ExportEBSVolumeRecommendationsInput) async throws -> ExportEBSVolumeRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.exportEBSVolumeRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -872,18 +890,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput>(ExportEBSVolumeRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportEBSVolumeRecommendationsOutput>(ExportEBSVolumeRecommendationsOutput.httpOutput(from:), ExportEBSVolumeRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -895,7 +913,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportEBSVolumeRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.ExportEBSVolumeRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportEBSVolumeRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportEBSVolumeRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput>())
@@ -936,6 +953,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func exportEC2InstanceRecommendations(input: ExportEC2InstanceRecommendationsInput) async throws -> ExportEC2InstanceRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.exportEC2InstanceRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -948,18 +971,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput>(ExportEC2InstanceRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportEC2InstanceRecommendationsOutput>(ExportEC2InstanceRecommendationsOutput.httpOutput(from:), ExportEC2InstanceRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -971,7 +994,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportEC2InstanceRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.ExportEC2InstanceRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportEC2InstanceRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportEC2InstanceRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput>())
@@ -1012,6 +1034,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func exportECSServiceRecommendations(input: ExportECSServiceRecommendationsInput) async throws -> ExportECSServiceRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.exportECSServiceRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1024,18 +1052,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput>(ExportECSServiceRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportECSServiceRecommendationsOutput>(ExportECSServiceRecommendationsOutput.httpOutput(from:), ExportECSServiceRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1047,7 +1075,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportECSServiceRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.ExportECSServiceRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportECSServiceRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportECSServiceRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput>())
@@ -1088,6 +1115,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func exportIdleRecommendations(input: ExportIdleRecommendationsInput) async throws -> ExportIdleRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.exportIdleRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1100,18 +1133,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>(ExportIdleRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportIdleRecommendationsOutput>(ExportIdleRecommendationsOutput.httpOutput(from:), ExportIdleRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1123,7 +1156,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportIdleRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.ExportIdleRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportIdleRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportIdleRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>())
@@ -1164,6 +1196,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func exportLambdaFunctionRecommendations(input: ExportLambdaFunctionRecommendationsInput) async throws -> ExportLambdaFunctionRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.exportLambdaFunctionRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1176,18 +1214,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput>(ExportLambdaFunctionRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportLambdaFunctionRecommendationsOutput>(ExportLambdaFunctionRecommendationsOutput.httpOutput(from:), ExportLambdaFunctionRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1199,7 +1237,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportLambdaFunctionRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.ExportLambdaFunctionRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportLambdaFunctionRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportLambdaFunctionRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput>())
@@ -1240,6 +1277,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func exportLicenseRecommendations(input: ExportLicenseRecommendationsInput) async throws -> ExportLicenseRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.exportLicenseRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1252,18 +1295,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput>(ExportLicenseRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportLicenseRecommendationsOutput>(ExportLicenseRecommendationsOutput.httpOutput(from:), ExportLicenseRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1275,7 +1318,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportLicenseRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.ExportLicenseRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportLicenseRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportLicenseRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput>())
@@ -1316,6 +1358,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func exportRDSDatabaseRecommendations(input: ExportRDSDatabaseRecommendationsInput) async throws -> ExportRDSDatabaseRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.exportRDSDatabaseRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1328,18 +1376,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ExportRDSDatabaseRecommendationsInput, ExportRDSDatabaseRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExportRDSDatabaseRecommendationsInput, ExportRDSDatabaseRecommendationsOutput>(ExportRDSDatabaseRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportRDSDatabaseRecommendationsInput, ExportRDSDatabaseRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportRDSDatabaseRecommendationsInput, ExportRDSDatabaseRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportRDSDatabaseRecommendationsOutput>(ExportRDSDatabaseRecommendationsOutput.httpOutput(from:), ExportRDSDatabaseRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportRDSDatabaseRecommendationsInput, ExportRDSDatabaseRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1351,7 +1399,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportRDSDatabaseRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportRDSDatabaseRecommendationsInput, ExportRDSDatabaseRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.ExportRDSDatabaseRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ExportRDSDatabaseRecommendationsInput, ExportRDSDatabaseRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportRDSDatabaseRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportRDSDatabaseRecommendationsInput, ExportRDSDatabaseRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportRDSDatabaseRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportRDSDatabaseRecommendationsInput, ExportRDSDatabaseRecommendationsOutput>())
@@ -1392,6 +1439,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getAutoScalingGroupRecommendations(input: GetAutoScalingGroupRecommendationsInput) async throws -> GetAutoScalingGroupRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getAutoScalingGroupRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1404,18 +1457,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput>(GetAutoScalingGroupRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutoScalingGroupRecommendationsOutput>(GetAutoScalingGroupRecommendationsOutput.httpOutput(from:), GetAutoScalingGroupRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1427,7 +1480,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAutoScalingGroupRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetAutoScalingGroupRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAutoScalingGroupRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAutoScalingGroupRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput>())
@@ -1468,6 +1520,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getEBSVolumeRecommendations(input: GetEBSVolumeRecommendationsInput) async throws -> GetEBSVolumeRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getEBSVolumeRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1480,18 +1538,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput>(GetEBSVolumeRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEBSVolumeRecommendationsOutput>(GetEBSVolumeRecommendationsOutput.httpOutput(from:), GetEBSVolumeRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1503,7 +1561,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEBSVolumeRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetEBSVolumeRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEBSVolumeRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEBSVolumeRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput>())
@@ -1544,6 +1601,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getEC2InstanceRecommendations(input: GetEC2InstanceRecommendationsInput) async throws -> GetEC2InstanceRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getEC2InstanceRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1556,18 +1619,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput>(GetEC2InstanceRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEC2InstanceRecommendationsOutput>(GetEC2InstanceRecommendationsOutput.httpOutput(from:), GetEC2InstanceRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1579,7 +1642,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEC2InstanceRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetEC2InstanceRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEC2InstanceRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEC2InstanceRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput>())
@@ -1620,6 +1682,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getEC2RecommendationProjectedMetrics(input: GetEC2RecommendationProjectedMetricsInput) async throws -> GetEC2RecommendationProjectedMetricsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getEC2RecommendationProjectedMetricsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1632,18 +1700,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput>(GetEC2RecommendationProjectedMetricsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEC2RecommendationProjectedMetricsOutput>(GetEC2RecommendationProjectedMetricsOutput.httpOutput(from:), GetEC2RecommendationProjectedMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1655,7 +1723,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEC2RecommendationProjectedMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetEC2RecommendationProjectedMetrics"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEC2RecommendationProjectedMetricsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEC2RecommendationProjectedMetricsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput>())
@@ -1696,6 +1763,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getECSServiceRecommendationProjectedMetrics(input: GetECSServiceRecommendationProjectedMetricsInput) async throws -> GetECSServiceRecommendationProjectedMetricsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getECSServiceRecommendationProjectedMetricsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1708,18 +1781,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput>(GetECSServiceRecommendationProjectedMetricsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetECSServiceRecommendationProjectedMetricsOutput>(GetECSServiceRecommendationProjectedMetricsOutput.httpOutput(from:), GetECSServiceRecommendationProjectedMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1731,7 +1804,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetECSServiceRecommendationProjectedMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetECSServiceRecommendationProjectedMetrics"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetECSServiceRecommendationProjectedMetricsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetECSServiceRecommendationProjectedMetricsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput>())
@@ -1772,6 +1844,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getECSServiceRecommendations(input: GetECSServiceRecommendationsInput) async throws -> GetECSServiceRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getECSServiceRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1784,18 +1862,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput>(GetECSServiceRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetECSServiceRecommendationsOutput>(GetECSServiceRecommendationsOutput.httpOutput(from:), GetECSServiceRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1807,7 +1885,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetECSServiceRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetECSServiceRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetECSServiceRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetECSServiceRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput>())
@@ -1848,6 +1925,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getEffectiveRecommendationPreferences(input: GetEffectiveRecommendationPreferencesInput) async throws -> GetEffectiveRecommendationPreferencesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getEffectiveRecommendationPreferencesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1860,18 +1943,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput>(GetEffectiveRecommendationPreferencesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEffectiveRecommendationPreferencesOutput>(GetEffectiveRecommendationPreferencesOutput.httpOutput(from:), GetEffectiveRecommendationPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1883,7 +1966,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEffectiveRecommendationPreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetEffectiveRecommendationPreferences"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEffectiveRecommendationPreferencesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEffectiveRecommendationPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput>())
@@ -1922,6 +2004,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getEnrollmentStatus(input: GetEnrollmentStatusInput) async throws -> GetEnrollmentStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getEnrollmentStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1934,18 +2022,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEnrollmentStatusInput, GetEnrollmentStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput>(GetEnrollmentStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnrollmentStatusOutput>(GetEnrollmentStatusOutput.httpOutput(from:), GetEnrollmentStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1957,7 +2045,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEnrollmentStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetEnrollmentStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEnrollmentStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEnrollmentStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput>())
@@ -1996,6 +2083,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getEnrollmentStatusesForOrganization(input: GetEnrollmentStatusesForOrganizationInput) async throws -> GetEnrollmentStatusesForOrganizationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getEnrollmentStatusesForOrganizationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2008,18 +2101,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>(GetEnrollmentStatusesForOrganizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnrollmentStatusesForOrganizationOutput>(GetEnrollmentStatusesForOrganizationOutput.httpOutput(from:), GetEnrollmentStatusesForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2031,7 +2124,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEnrollmentStatusesForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetEnrollmentStatusesForOrganization"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEnrollmentStatusesForOrganizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEnrollmentStatusesForOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>())
@@ -2072,6 +2164,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getIdleRecommendations(input: GetIdleRecommendationsInput) async throws -> GetIdleRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getIdleRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2084,18 +2182,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetIdleRecommendationsInput, GetIdleRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>(GetIdleRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdleRecommendationsOutput>(GetIdleRecommendationsOutput.httpOutput(from:), GetIdleRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2107,7 +2205,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIdleRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetIdleRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetIdleRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIdleRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>())
@@ -2148,6 +2245,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getLambdaFunctionRecommendations(input: GetLambdaFunctionRecommendationsInput) async throws -> GetLambdaFunctionRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getLambdaFunctionRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2160,18 +2263,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>(GetLambdaFunctionRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLambdaFunctionRecommendationsOutput>(GetLambdaFunctionRecommendationsOutput.httpOutput(from:), GetLambdaFunctionRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2183,7 +2286,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLambdaFunctionRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetLambdaFunctionRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLambdaFunctionRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLambdaFunctionRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>())
@@ -2224,6 +2326,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getLicenseRecommendations(input: GetLicenseRecommendationsInput) async throws -> GetLicenseRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getLicenseRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2236,18 +2344,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput>(GetLicenseRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseRecommendationsOutput>(GetLicenseRecommendationsOutput.httpOutput(from:), GetLicenseRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2259,7 +2367,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLicenseRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetLicenseRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLicenseRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLicenseRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput>())
@@ -2300,6 +2407,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getRDSDatabaseRecommendationProjectedMetrics(input: GetRDSDatabaseRecommendationProjectedMetricsInput) async throws -> GetRDSDatabaseRecommendationProjectedMetricsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getRDSDatabaseRecommendationProjectedMetricsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2312,18 +2425,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRDSDatabaseRecommendationProjectedMetricsInput, GetRDSDatabaseRecommendationProjectedMetricsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRDSDatabaseRecommendationProjectedMetricsInput, GetRDSDatabaseRecommendationProjectedMetricsOutput>(GetRDSDatabaseRecommendationProjectedMetricsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRDSDatabaseRecommendationProjectedMetricsInput, GetRDSDatabaseRecommendationProjectedMetricsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRDSDatabaseRecommendationProjectedMetricsInput, GetRDSDatabaseRecommendationProjectedMetricsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRDSDatabaseRecommendationProjectedMetricsOutput>(GetRDSDatabaseRecommendationProjectedMetricsOutput.httpOutput(from:), GetRDSDatabaseRecommendationProjectedMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRDSDatabaseRecommendationProjectedMetricsInput, GetRDSDatabaseRecommendationProjectedMetricsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2335,7 +2448,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRDSDatabaseRecommendationProjectedMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRDSDatabaseRecommendationProjectedMetricsInput, GetRDSDatabaseRecommendationProjectedMetricsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetRDSDatabaseRecommendationProjectedMetrics"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRDSDatabaseRecommendationProjectedMetricsInput, GetRDSDatabaseRecommendationProjectedMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRDSDatabaseRecommendationProjectedMetricsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRDSDatabaseRecommendationProjectedMetricsInput, GetRDSDatabaseRecommendationProjectedMetricsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRDSDatabaseRecommendationProjectedMetricsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRDSDatabaseRecommendationProjectedMetricsInput, GetRDSDatabaseRecommendationProjectedMetricsOutput>())
@@ -2376,6 +2488,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getRDSDatabaseRecommendations(input: GetRDSDatabaseRecommendationsInput) async throws -> GetRDSDatabaseRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getRDSDatabaseRecommendationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2388,18 +2506,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRDSDatabaseRecommendationsInput, GetRDSDatabaseRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRDSDatabaseRecommendationsInput, GetRDSDatabaseRecommendationsOutput>(GetRDSDatabaseRecommendationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRDSDatabaseRecommendationsInput, GetRDSDatabaseRecommendationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRDSDatabaseRecommendationsInput, GetRDSDatabaseRecommendationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRDSDatabaseRecommendationsOutput>(GetRDSDatabaseRecommendationsOutput.httpOutput(from:), GetRDSDatabaseRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRDSDatabaseRecommendationsInput, GetRDSDatabaseRecommendationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2411,7 +2529,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRDSDatabaseRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRDSDatabaseRecommendationsInput, GetRDSDatabaseRecommendationsOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetRDSDatabaseRecommendations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRDSDatabaseRecommendationsInput, GetRDSDatabaseRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRDSDatabaseRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRDSDatabaseRecommendationsInput, GetRDSDatabaseRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRDSDatabaseRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRDSDatabaseRecommendationsInput, GetRDSDatabaseRecommendationsOutput>())
@@ -2452,6 +2569,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getRecommendationPreferences(input: GetRecommendationPreferencesInput) async throws -> GetRecommendationPreferencesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getRecommendationPreferencesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2464,18 +2587,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>(GetRecommendationPreferencesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecommendationPreferencesOutput>(GetRecommendationPreferencesOutput.httpOutput(from:), GetRecommendationPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2487,7 +2610,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRecommendationPreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetRecommendationPreferences"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRecommendationPreferencesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRecommendationPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>())
@@ -2541,6 +2663,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getRecommendationSummaries(input: GetRecommendationSummariesInput) async throws -> GetRecommendationSummariesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.getRecommendationSummariesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2553,18 +2681,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRecommendationSummariesInput, GetRecommendationSummariesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>(GetRecommendationSummariesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecommendationSummariesOutput>(GetRecommendationSummariesOutput.httpOutput(from:), GetRecommendationSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2576,7 +2704,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRecommendationSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.GetRecommendationSummaries"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRecommendationSummariesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRecommendationSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>())
@@ -2617,6 +2744,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func putRecommendationPreferences(input: PutRecommendationPreferencesInput) async throws -> PutRecommendationPreferencesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.putRecommendationPreferencesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2629,18 +2762,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput>(PutRecommendationPreferencesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRecommendationPreferencesOutput>(PutRecommendationPreferencesOutput.httpOutput(from:), PutRecommendationPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2652,7 +2785,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutRecommendationPreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.PutRecommendationPreferences"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRecommendationPreferencesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRecommendationPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput>())
@@ -2691,6 +2823,12 @@ extension ComputeOptimizerClient {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     public func updateEnrollmentStatus(input: UpdateEnrollmentStatusInput) async throws -> UpdateEnrollmentStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ComputeOptimizerClient.updateEnrollmentStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2703,18 +2841,18 @@ extension ComputeOptimizerClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(UpdateEnrollmentStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnrollmentStatusOutput>(UpdateEnrollmentStatusOutput.httpOutput(from:), UpdateEnrollmentStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2726,7 +2864,6 @@ extension ComputeOptimizerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEnrollmentStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(overrides: ["X-Amz-Target": "ComputeOptimizerService.UpdateEnrollmentStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEnrollmentStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEnrollmentStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>())

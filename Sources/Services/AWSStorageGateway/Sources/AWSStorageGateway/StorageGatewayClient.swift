@@ -20,9 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -39,30 +36,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -643,6 +640,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func activateGateway(input: ActivateGatewayInput) async throws -> ActivateGatewayOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.activateGatewayOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -655,18 +658,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ActivateGatewayInput, ActivateGatewayOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ActivateGatewayInput, ActivateGatewayOutput>(ActivateGatewayInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ActivateGatewayInput, ActivateGatewayOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ActivateGatewayInput, ActivateGatewayOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateGatewayOutput>(ActivateGatewayOutput.httpOutput(from:), ActivateGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateGatewayInput, ActivateGatewayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -678,7 +681,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ActivateGatewayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ActivateGatewayInput, ActivateGatewayOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ActivateGateway"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ActivateGatewayInput, ActivateGatewayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ActivateGatewayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ActivateGatewayInput, ActivateGatewayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ActivateGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ActivateGatewayInput, ActivateGatewayOutput>())
@@ -713,6 +715,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func addCache(input: AddCacheInput) async throws -> AddCacheOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.addCacheOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -725,18 +733,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AddCacheInput, AddCacheOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddCacheInput, AddCacheOutput>(AddCacheInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddCacheInput, AddCacheOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddCacheInput, AddCacheOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddCacheOutput>(AddCacheOutput.httpOutput(from:), AddCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddCacheInput, AddCacheOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -748,7 +756,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddCacheOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddCacheInput, AddCacheOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.AddCache"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AddCacheInput, AddCacheOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddCacheInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddCacheInput, AddCacheOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddCacheOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddCacheInput, AddCacheOutput>())
@@ -796,6 +803,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.addTagsToResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -808,18 +821,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AddTagsToResourceInput, AddTagsToResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(AddTagsToResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutput>(AddTagsToResourceOutput.httpOutput(from:), AddTagsToResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -831,7 +844,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddTagsToResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.AddTagsToResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddTagsToResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddTagsToResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
@@ -866,6 +878,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func addUploadBuffer(input: AddUploadBufferInput) async throws -> AddUploadBufferOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.addUploadBufferOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -878,18 +896,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AddUploadBufferInput, AddUploadBufferOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddUploadBufferInput, AddUploadBufferOutput>(AddUploadBufferInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddUploadBufferInput, AddUploadBufferOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddUploadBufferInput, AddUploadBufferOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddUploadBufferOutput>(AddUploadBufferOutput.httpOutput(from:), AddUploadBufferOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddUploadBufferInput, AddUploadBufferOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -901,7 +919,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddUploadBufferOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddUploadBufferInput, AddUploadBufferOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.AddUploadBuffer"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AddUploadBufferInput, AddUploadBufferOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddUploadBufferInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddUploadBufferInput, AddUploadBufferOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddUploadBufferOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddUploadBufferInput, AddUploadBufferOutput>())
@@ -941,6 +958,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func addWorkingStorage(input: AddWorkingStorageInput) async throws -> AddWorkingStorageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.addWorkingStorageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -953,18 +976,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AddWorkingStorageInput, AddWorkingStorageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddWorkingStorageInput, AddWorkingStorageOutput>(AddWorkingStorageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddWorkingStorageInput, AddWorkingStorageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddWorkingStorageInput, AddWorkingStorageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddWorkingStorageOutput>(AddWorkingStorageOutput.httpOutput(from:), AddWorkingStorageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddWorkingStorageInput, AddWorkingStorageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -976,7 +999,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddWorkingStorageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddWorkingStorageInput, AddWorkingStorageOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.AddWorkingStorage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AddWorkingStorageInput, AddWorkingStorageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddWorkingStorageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddWorkingStorageInput, AddWorkingStorageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddWorkingStorageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddWorkingStorageInput, AddWorkingStorageOutput>())
@@ -1011,6 +1033,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func assignTapePool(input: AssignTapePoolInput) async throws -> AssignTapePoolOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.assignTapePoolOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1023,18 +1051,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssignTapePoolInput, AssignTapePoolOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssignTapePoolInput, AssignTapePoolOutput>(AssignTapePoolInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssignTapePoolInput, AssignTapePoolOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssignTapePoolInput, AssignTapePoolOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssignTapePoolOutput>(AssignTapePoolOutput.httpOutput(from:), AssignTapePoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssignTapePoolInput, AssignTapePoolOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1046,7 +1074,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssignTapePoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssignTapePoolInput, AssignTapePoolOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.AssignTapePool"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssignTapePoolInput, AssignTapePoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssignTapePoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssignTapePoolInput, AssignTapePoolOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssignTapePoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssignTapePoolInput, AssignTapePoolOutput>())
@@ -1081,6 +1108,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func associateFileSystem(input: AssociateFileSystemInput) async throws -> AssociateFileSystemOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.associateFileSystemOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1093,18 +1126,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateFileSystemInput, AssociateFileSystemOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateFileSystemInput, AssociateFileSystemOutput>(AssociateFileSystemInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateFileSystemInput, AssociateFileSystemOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFileSystemInput, AssociateFileSystemOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateFileSystemOutput>(AssociateFileSystemOutput.httpOutput(from:), AssociateFileSystemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFileSystemInput, AssociateFileSystemOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1116,7 +1149,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateFileSystemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateFileSystemInput, AssociateFileSystemOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.AssociateFileSystem"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AssociateFileSystemInput, AssociateFileSystemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateFileSystemInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateFileSystemInput, AssociateFileSystemOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateFileSystemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateFileSystemInput, AssociateFileSystemOutput>())
@@ -1151,6 +1183,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func attachVolume(input: AttachVolumeInput) async throws -> AttachVolumeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.attachVolumeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1163,18 +1201,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AttachVolumeInput, AttachVolumeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AttachVolumeInput, AttachVolumeOutput>(AttachVolumeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AttachVolumeInput, AttachVolumeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachVolumeInput, AttachVolumeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachVolumeOutput>(AttachVolumeOutput.httpOutput(from:), AttachVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachVolumeInput, AttachVolumeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1186,7 +1224,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AttachVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AttachVolumeInput, AttachVolumeOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.AttachVolume"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<AttachVolumeInput, AttachVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachVolumeInput, AttachVolumeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachVolumeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AttachVolumeInput, AttachVolumeOutput>())
@@ -1221,6 +1258,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func cancelArchival(input: CancelArchivalInput) async throws -> CancelArchivalOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.cancelArchivalOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1233,18 +1276,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelArchivalInput, CancelArchivalOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelArchivalInput, CancelArchivalOutput>(CancelArchivalInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelArchivalInput, CancelArchivalOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelArchivalInput, CancelArchivalOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelArchivalOutput>(CancelArchivalOutput.httpOutput(from:), CancelArchivalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelArchivalInput, CancelArchivalOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1256,7 +1299,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelArchivalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelArchivalInput, CancelArchivalOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.CancelArchival"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelArchivalInput, CancelArchivalOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelArchivalInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelArchivalInput, CancelArchivalOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelArchivalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelArchivalInput, CancelArchivalOutput>())
@@ -1291,6 +1333,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func cancelCacheReport(input: CancelCacheReportInput) async throws -> CancelCacheReportOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.cancelCacheReportOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1303,18 +1351,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelCacheReportInput, CancelCacheReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelCacheReportInput, CancelCacheReportOutput>(CancelCacheReportInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelCacheReportInput, CancelCacheReportOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelCacheReportInput, CancelCacheReportOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelCacheReportOutput>(CancelCacheReportOutput.httpOutput(from:), CancelCacheReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelCacheReportInput, CancelCacheReportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1326,7 +1374,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelCacheReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelCacheReportInput, CancelCacheReportOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.CancelCacheReport"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelCacheReportInput, CancelCacheReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelCacheReportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelCacheReportInput, CancelCacheReportOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelCacheReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelCacheReportInput, CancelCacheReportOutput>())
@@ -1361,6 +1408,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func cancelRetrieval(input: CancelRetrievalInput) async throws -> CancelRetrievalOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.cancelRetrievalOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1373,18 +1426,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelRetrievalInput, CancelRetrievalOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelRetrievalInput, CancelRetrievalOutput>(CancelRetrievalInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelRetrievalInput, CancelRetrievalOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelRetrievalInput, CancelRetrievalOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelRetrievalOutput>(CancelRetrievalOutput.httpOutput(from:), CancelRetrievalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelRetrievalInput, CancelRetrievalOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1396,7 +1449,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelRetrievalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelRetrievalInput, CancelRetrievalOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.CancelRetrieval"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelRetrievalInput, CancelRetrievalOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelRetrievalInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelRetrievalInput, CancelRetrievalOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelRetrievalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelRetrievalInput, CancelRetrievalOutput>())
@@ -1431,6 +1483,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func createCachediSCSIVolume(input: CreateCachediSCSIVolumeInput) async throws -> CreateCachediSCSIVolumeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.createCachediSCSIVolumeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1443,18 +1501,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCachediSCSIVolumeInput, CreateCachediSCSIVolumeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCachediSCSIVolumeInput, CreateCachediSCSIVolumeOutput>(CreateCachediSCSIVolumeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCachediSCSIVolumeInput, CreateCachediSCSIVolumeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCachediSCSIVolumeInput, CreateCachediSCSIVolumeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCachediSCSIVolumeOutput>(CreateCachediSCSIVolumeOutput.httpOutput(from:), CreateCachediSCSIVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCachediSCSIVolumeInput, CreateCachediSCSIVolumeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1466,7 +1524,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCachediSCSIVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCachediSCSIVolumeInput, CreateCachediSCSIVolumeOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.CreateCachediSCSIVolume"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateCachediSCSIVolumeInput, CreateCachediSCSIVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCachediSCSIVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCachediSCSIVolumeInput, CreateCachediSCSIVolumeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCachediSCSIVolumeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCachediSCSIVolumeInput, CreateCachediSCSIVolumeOutput>())
@@ -1501,6 +1558,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func createNFSFileShare(input: CreateNFSFileShareInput) async throws -> CreateNFSFileShareOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.createNFSFileShareOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1513,18 +1576,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateNFSFileShareInput, CreateNFSFileShareOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateNFSFileShareInput, CreateNFSFileShareOutput>(CreateNFSFileShareInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateNFSFileShareInput, CreateNFSFileShareOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNFSFileShareInput, CreateNFSFileShareOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNFSFileShareOutput>(CreateNFSFileShareOutput.httpOutput(from:), CreateNFSFileShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNFSFileShareInput, CreateNFSFileShareOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1536,7 +1599,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateNFSFileShareOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateNFSFileShareInput, CreateNFSFileShareOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.CreateNFSFileShare"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateNFSFileShareInput, CreateNFSFileShareOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateNFSFileShareInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateNFSFileShareInput, CreateNFSFileShareOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateNFSFileShareOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateNFSFileShareInput, CreateNFSFileShareOutput>())
@@ -1571,6 +1633,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func createSMBFileShare(input: CreateSMBFileShareInput) async throws -> CreateSMBFileShareOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.createSMBFileShareOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1583,18 +1651,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateSMBFileShareInput, CreateSMBFileShareOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSMBFileShareInput, CreateSMBFileShareOutput>(CreateSMBFileShareInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSMBFileShareInput, CreateSMBFileShareOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSMBFileShareInput, CreateSMBFileShareOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSMBFileShareOutput>(CreateSMBFileShareOutput.httpOutput(from:), CreateSMBFileShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSMBFileShareInput, CreateSMBFileShareOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1606,7 +1674,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSMBFileShareOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSMBFileShareInput, CreateSMBFileShareOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.CreateSMBFileShare"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateSMBFileShareInput, CreateSMBFileShareOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSMBFileShareInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSMBFileShareInput, CreateSMBFileShareOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSMBFileShareOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSMBFileShareInput, CreateSMBFileShareOutput>())
@@ -1649,6 +1716,12 @@ extension StorageGatewayClient {
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     /// - `ServiceUnavailableError` : An internal server error has occurred because the service is unavailable. For more information, see the error and message fields.
     public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.createSnapshotOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1661,18 +1734,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateSnapshotInput, CreateSnapshotOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(CreateSnapshotInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSnapshotOutput>(CreateSnapshotOutput.httpOutput(from:), CreateSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1684,7 +1757,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.CreateSnapshot"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateSnapshotInput, CreateSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
@@ -1720,6 +1792,12 @@ extension StorageGatewayClient {
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     /// - `ServiceUnavailableError` : An internal server error has occurred because the service is unavailable. For more information, see the error and message fields.
     public func createSnapshotFromVolumeRecoveryPoint(input: CreateSnapshotFromVolumeRecoveryPointInput) async throws -> CreateSnapshotFromVolumeRecoveryPointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.createSnapshotFromVolumeRecoveryPointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1732,18 +1810,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateSnapshotFromVolumeRecoveryPointInput, CreateSnapshotFromVolumeRecoveryPointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSnapshotFromVolumeRecoveryPointInput, CreateSnapshotFromVolumeRecoveryPointOutput>(CreateSnapshotFromVolumeRecoveryPointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSnapshotFromVolumeRecoveryPointInput, CreateSnapshotFromVolumeRecoveryPointOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSnapshotFromVolumeRecoveryPointInput, CreateSnapshotFromVolumeRecoveryPointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSnapshotFromVolumeRecoveryPointOutput>(CreateSnapshotFromVolumeRecoveryPointOutput.httpOutput(from:), CreateSnapshotFromVolumeRecoveryPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapshotFromVolumeRecoveryPointInput, CreateSnapshotFromVolumeRecoveryPointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1755,7 +1833,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSnapshotFromVolumeRecoveryPointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSnapshotFromVolumeRecoveryPointInput, CreateSnapshotFromVolumeRecoveryPointOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.CreateSnapshotFromVolumeRecoveryPoint"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateSnapshotFromVolumeRecoveryPointInput, CreateSnapshotFromVolumeRecoveryPointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSnapshotFromVolumeRecoveryPointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSnapshotFromVolumeRecoveryPointInput, CreateSnapshotFromVolumeRecoveryPointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSnapshotFromVolumeRecoveryPointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSnapshotFromVolumeRecoveryPointInput, CreateSnapshotFromVolumeRecoveryPointOutput>())
@@ -1803,6 +1880,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func createStorediSCSIVolume(input: CreateStorediSCSIVolumeInput) async throws -> CreateStorediSCSIVolumeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.createStorediSCSIVolumeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1815,18 +1898,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateStorediSCSIVolumeInput, CreateStorediSCSIVolumeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateStorediSCSIVolumeInput, CreateStorediSCSIVolumeOutput>(CreateStorediSCSIVolumeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStorediSCSIVolumeInput, CreateStorediSCSIVolumeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStorediSCSIVolumeInput, CreateStorediSCSIVolumeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStorediSCSIVolumeOutput>(CreateStorediSCSIVolumeOutput.httpOutput(from:), CreateStorediSCSIVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStorediSCSIVolumeInput, CreateStorediSCSIVolumeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1838,7 +1921,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateStorediSCSIVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateStorediSCSIVolumeInput, CreateStorediSCSIVolumeOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.CreateStorediSCSIVolume"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateStorediSCSIVolumeInput, CreateStorediSCSIVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStorediSCSIVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStorediSCSIVolumeInput, CreateStorediSCSIVolumeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStorediSCSIVolumeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateStorediSCSIVolumeInput, CreateStorediSCSIVolumeOutput>())
@@ -1873,6 +1955,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func createTapePool(input: CreateTapePoolInput) async throws -> CreateTapePoolOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.createTapePoolOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1885,18 +1973,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTapePoolInput, CreateTapePoolOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTapePoolInput, CreateTapePoolOutput>(CreateTapePoolInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTapePoolInput, CreateTapePoolOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTapePoolInput, CreateTapePoolOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTapePoolOutput>(CreateTapePoolOutput.httpOutput(from:), CreateTapePoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTapePoolInput, CreateTapePoolOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1908,7 +1996,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTapePoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTapePoolInput, CreateTapePoolOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.CreateTapePool"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateTapePoolInput, CreateTapePoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTapePoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTapePoolInput, CreateTapePoolOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTapePoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTapePoolInput, CreateTapePoolOutput>())
@@ -1943,6 +2030,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func createTapeWithBarcode(input: CreateTapeWithBarcodeInput) async throws -> CreateTapeWithBarcodeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.createTapeWithBarcodeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1955,18 +2048,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTapeWithBarcodeInput, CreateTapeWithBarcodeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTapeWithBarcodeInput, CreateTapeWithBarcodeOutput>(CreateTapeWithBarcodeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTapeWithBarcodeInput, CreateTapeWithBarcodeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTapeWithBarcodeInput, CreateTapeWithBarcodeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTapeWithBarcodeOutput>(CreateTapeWithBarcodeOutput.httpOutput(from:), CreateTapeWithBarcodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTapeWithBarcodeInput, CreateTapeWithBarcodeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1978,7 +2071,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTapeWithBarcodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTapeWithBarcodeInput, CreateTapeWithBarcodeOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.CreateTapeWithBarcode"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateTapeWithBarcodeInput, CreateTapeWithBarcodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTapeWithBarcodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTapeWithBarcodeInput, CreateTapeWithBarcodeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTapeWithBarcodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTapeWithBarcodeInput, CreateTapeWithBarcodeOutput>())
@@ -2013,6 +2105,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func createTapes(input: CreateTapesInput) async throws -> CreateTapesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.createTapesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2025,18 +2123,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTapesInput, CreateTapesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTapesInput, CreateTapesOutput>(CreateTapesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTapesInput, CreateTapesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTapesInput, CreateTapesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTapesOutput>(CreateTapesOutput.httpOutput(from:), CreateTapesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTapesInput, CreateTapesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2048,7 +2146,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTapesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTapesInput, CreateTapesOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.CreateTapes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateTapesInput, CreateTapesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTapesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTapesInput, CreateTapesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTapesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTapesInput, CreateTapesOutput>())
@@ -2083,6 +2180,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func deleteAutomaticTapeCreationPolicy(input: DeleteAutomaticTapeCreationPolicyInput) async throws -> DeleteAutomaticTapeCreationPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.deleteAutomaticTapeCreationPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2095,18 +2198,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteAutomaticTapeCreationPolicyInput, DeleteAutomaticTapeCreationPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAutomaticTapeCreationPolicyInput, DeleteAutomaticTapeCreationPolicyOutput>(DeleteAutomaticTapeCreationPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAutomaticTapeCreationPolicyInput, DeleteAutomaticTapeCreationPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAutomaticTapeCreationPolicyInput, DeleteAutomaticTapeCreationPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAutomaticTapeCreationPolicyOutput>(DeleteAutomaticTapeCreationPolicyOutput.httpOutput(from:), DeleteAutomaticTapeCreationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAutomaticTapeCreationPolicyInput, DeleteAutomaticTapeCreationPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2118,7 +2221,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAutomaticTapeCreationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAutomaticTapeCreationPolicyInput, DeleteAutomaticTapeCreationPolicyOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DeleteAutomaticTapeCreationPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAutomaticTapeCreationPolicyInput, DeleteAutomaticTapeCreationPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAutomaticTapeCreationPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAutomaticTapeCreationPolicyInput, DeleteAutomaticTapeCreationPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAutomaticTapeCreationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAutomaticTapeCreationPolicyInput, DeleteAutomaticTapeCreationPolicyOutput>())
@@ -2158,6 +2260,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func deleteBandwidthRateLimit(input: DeleteBandwidthRateLimitInput) async throws -> DeleteBandwidthRateLimitOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.deleteBandwidthRateLimitOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2170,18 +2278,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBandwidthRateLimitInput, DeleteBandwidthRateLimitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBandwidthRateLimitInput, DeleteBandwidthRateLimitOutput>(DeleteBandwidthRateLimitInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBandwidthRateLimitInput, DeleteBandwidthRateLimitOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBandwidthRateLimitInput, DeleteBandwidthRateLimitOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBandwidthRateLimitOutput>(DeleteBandwidthRateLimitOutput.httpOutput(from:), DeleteBandwidthRateLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBandwidthRateLimitInput, DeleteBandwidthRateLimitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2193,7 +2301,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBandwidthRateLimitOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBandwidthRateLimitInput, DeleteBandwidthRateLimitOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DeleteBandwidthRateLimit"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteBandwidthRateLimitInput, DeleteBandwidthRateLimitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBandwidthRateLimitInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBandwidthRateLimitInput, DeleteBandwidthRateLimitOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBandwidthRateLimitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBandwidthRateLimitInput, DeleteBandwidthRateLimitOutput>())
@@ -2228,6 +2335,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func deleteCacheReport(input: DeleteCacheReportInput) async throws -> DeleteCacheReportOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.deleteCacheReportOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2240,18 +2353,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCacheReportInput, DeleteCacheReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCacheReportInput, DeleteCacheReportOutput>(DeleteCacheReportInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCacheReportInput, DeleteCacheReportOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCacheReportInput, DeleteCacheReportOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCacheReportOutput>(DeleteCacheReportOutput.httpOutput(from:), DeleteCacheReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCacheReportInput, DeleteCacheReportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2263,7 +2376,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCacheReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCacheReportInput, DeleteCacheReportOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DeleteCacheReport"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCacheReportInput, DeleteCacheReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCacheReportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCacheReportInput, DeleteCacheReportOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCacheReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCacheReportInput, DeleteCacheReportOutput>())
@@ -2305,6 +2417,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func deleteChapCredentials(input: DeleteChapCredentialsInput) async throws -> DeleteChapCredentialsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.deleteChapCredentialsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2317,18 +2435,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteChapCredentialsInput, DeleteChapCredentialsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteChapCredentialsInput, DeleteChapCredentialsOutput>(DeleteChapCredentialsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChapCredentialsInput, DeleteChapCredentialsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteChapCredentialsInput, DeleteChapCredentialsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChapCredentialsOutput>(DeleteChapCredentialsOutput.httpOutput(from:), DeleteChapCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChapCredentialsInput, DeleteChapCredentialsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2340,7 +2458,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteChapCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteChapCredentialsInput, DeleteChapCredentialsOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DeleteChapCredentials"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteChapCredentialsInput, DeleteChapCredentialsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteChapCredentialsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteChapCredentialsInput, DeleteChapCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteChapCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteChapCredentialsInput, DeleteChapCredentialsOutput>())
@@ -2375,6 +2492,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func deleteFileShare(input: DeleteFileShareInput) async throws -> DeleteFileShareOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.deleteFileShareOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2387,18 +2510,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteFileShareInput, DeleteFileShareOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteFileShareInput, DeleteFileShareOutput>(DeleteFileShareInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFileShareInput, DeleteFileShareOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFileShareInput, DeleteFileShareOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFileShareOutput>(DeleteFileShareOutput.httpOutput(from:), DeleteFileShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFileShareInput, DeleteFileShareOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2410,7 +2533,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFileShareOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFileShareInput, DeleteFileShareOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DeleteFileShare"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteFileShareInput, DeleteFileShareOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFileShareInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFileShareInput, DeleteFileShareOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFileShareOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFileShareInput, DeleteFileShareOutput>())
@@ -2445,6 +2567,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.deleteGatewayOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2457,18 +2585,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteGatewayInput, DeleteGatewayOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(DeleteGatewayInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGatewayOutput>(DeleteGatewayOutput.httpOutput(from:), DeleteGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2480,7 +2608,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteGatewayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DeleteGateway"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteGatewayInput, DeleteGatewayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteGatewayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
@@ -2515,6 +2642,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func deleteSnapshotSchedule(input: DeleteSnapshotScheduleInput) async throws -> DeleteSnapshotScheduleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.deleteSnapshotScheduleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2527,18 +2660,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutput>(DeleteSnapshotScheduleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSnapshotScheduleOutput>(DeleteSnapshotScheduleOutput.httpOutput(from:), DeleteSnapshotScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2550,7 +2683,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSnapshotScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DeleteSnapshotSchedule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSnapshotScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSnapshotScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutput>())
@@ -2585,6 +2717,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func deleteTape(input: DeleteTapeInput) async throws -> DeleteTapeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.deleteTapeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2597,18 +2735,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTapeInput, DeleteTapeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTapeInput, DeleteTapeOutput>(DeleteTapeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTapeInput, DeleteTapeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTapeInput, DeleteTapeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTapeOutput>(DeleteTapeOutput.httpOutput(from:), DeleteTapeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTapeInput, DeleteTapeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2620,7 +2758,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTapeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTapeInput, DeleteTapeOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DeleteTape"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTapeInput, DeleteTapeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTapeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTapeInput, DeleteTapeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTapeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTapeInput, DeleteTapeOutput>())
@@ -2655,6 +2792,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func deleteTapeArchive(input: DeleteTapeArchiveInput) async throws -> DeleteTapeArchiveOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.deleteTapeArchiveOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2667,18 +2810,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTapeArchiveInput, DeleteTapeArchiveOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTapeArchiveInput, DeleteTapeArchiveOutput>(DeleteTapeArchiveInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTapeArchiveInput, DeleteTapeArchiveOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTapeArchiveInput, DeleteTapeArchiveOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTapeArchiveOutput>(DeleteTapeArchiveOutput.httpOutput(from:), DeleteTapeArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTapeArchiveInput, DeleteTapeArchiveOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2690,7 +2833,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTapeArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTapeArchiveInput, DeleteTapeArchiveOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DeleteTapeArchive"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTapeArchiveInput, DeleteTapeArchiveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTapeArchiveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTapeArchiveInput, DeleteTapeArchiveOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTapeArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTapeArchiveInput, DeleteTapeArchiveOutput>())
@@ -2725,6 +2867,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func deleteTapePool(input: DeleteTapePoolInput) async throws -> DeleteTapePoolOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.deleteTapePoolOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2737,18 +2885,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTapePoolInput, DeleteTapePoolOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTapePoolInput, DeleteTapePoolOutput>(DeleteTapePoolInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTapePoolInput, DeleteTapePoolOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTapePoolInput, DeleteTapePoolOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTapePoolOutput>(DeleteTapePoolOutput.httpOutput(from:), DeleteTapePoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTapePoolInput, DeleteTapePoolOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2760,7 +2908,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTapePoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTapePoolInput, DeleteTapePoolOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DeleteTapePool"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTapePoolInput, DeleteTapePoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTapePoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTapePoolInput, DeleteTapePoolOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTapePoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTapePoolInput, DeleteTapePoolOutput>())
@@ -2795,6 +2942,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func deleteVolume(input: DeleteVolumeInput) async throws -> DeleteVolumeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.deleteVolumeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2807,18 +2960,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteVolumeInput, DeleteVolumeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(DeleteVolumeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVolumeInput, DeleteVolumeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVolumeInput, DeleteVolumeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVolumeOutput>(DeleteVolumeOutput.httpOutput(from:), DeleteVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2830,7 +2983,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DeleteVolume"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteVolumeInput, DeleteVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVolumeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVolumeInput, DeleteVolumeOutput>())
@@ -2865,6 +3017,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeAvailabilityMonitorTest(input: DescribeAvailabilityMonitorTestInput) async throws -> DescribeAvailabilityMonitorTestOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeAvailabilityMonitorTestOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2877,18 +3035,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeAvailabilityMonitorTestInput, DescribeAvailabilityMonitorTestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAvailabilityMonitorTestInput, DescribeAvailabilityMonitorTestOutput>(DescribeAvailabilityMonitorTestInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAvailabilityMonitorTestInput, DescribeAvailabilityMonitorTestOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAvailabilityMonitorTestInput, DescribeAvailabilityMonitorTestOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAvailabilityMonitorTestOutput>(DescribeAvailabilityMonitorTestOutput.httpOutput(from:), DescribeAvailabilityMonitorTestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAvailabilityMonitorTestInput, DescribeAvailabilityMonitorTestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2900,7 +3058,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAvailabilityMonitorTestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAvailabilityMonitorTestInput, DescribeAvailabilityMonitorTestOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeAvailabilityMonitorTest"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAvailabilityMonitorTestInput, DescribeAvailabilityMonitorTestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAvailabilityMonitorTestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAvailabilityMonitorTestInput, DescribeAvailabilityMonitorTestOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAvailabilityMonitorTestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAvailabilityMonitorTestInput, DescribeAvailabilityMonitorTestOutput>())
@@ -2935,6 +3092,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeBandwidthRateLimit(input: DescribeBandwidthRateLimitInput) async throws -> DescribeBandwidthRateLimitOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeBandwidthRateLimitOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2947,18 +3110,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeBandwidthRateLimitInput, DescribeBandwidthRateLimitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBandwidthRateLimitInput, DescribeBandwidthRateLimitOutput>(DescribeBandwidthRateLimitInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBandwidthRateLimitInput, DescribeBandwidthRateLimitOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBandwidthRateLimitInput, DescribeBandwidthRateLimitOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBandwidthRateLimitOutput>(DescribeBandwidthRateLimitOutput.httpOutput(from:), DescribeBandwidthRateLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBandwidthRateLimitInput, DescribeBandwidthRateLimitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2970,7 +3133,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBandwidthRateLimitOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBandwidthRateLimitInput, DescribeBandwidthRateLimitOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeBandwidthRateLimit"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBandwidthRateLimitInput, DescribeBandwidthRateLimitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBandwidthRateLimitInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBandwidthRateLimitInput, DescribeBandwidthRateLimitOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBandwidthRateLimitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBandwidthRateLimitInput, DescribeBandwidthRateLimitOutput>())
@@ -3005,6 +3167,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeBandwidthRateLimitSchedule(input: DescribeBandwidthRateLimitScheduleInput) async throws -> DescribeBandwidthRateLimitScheduleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeBandwidthRateLimitScheduleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3017,18 +3185,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeBandwidthRateLimitScheduleInput, DescribeBandwidthRateLimitScheduleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBandwidthRateLimitScheduleInput, DescribeBandwidthRateLimitScheduleOutput>(DescribeBandwidthRateLimitScheduleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBandwidthRateLimitScheduleInput, DescribeBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBandwidthRateLimitScheduleInput, DescribeBandwidthRateLimitScheduleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBandwidthRateLimitScheduleOutput>(DescribeBandwidthRateLimitScheduleOutput.httpOutput(from:), DescribeBandwidthRateLimitScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBandwidthRateLimitScheduleInput, DescribeBandwidthRateLimitScheduleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3040,7 +3208,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBandwidthRateLimitScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBandwidthRateLimitScheduleInput, DescribeBandwidthRateLimitScheduleOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeBandwidthRateLimitSchedule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBandwidthRateLimitScheduleInput, DescribeBandwidthRateLimitScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBandwidthRateLimitScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBandwidthRateLimitScheduleInput, DescribeBandwidthRateLimitScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBandwidthRateLimitScheduleInput, DescribeBandwidthRateLimitScheduleOutput>())
@@ -3075,6 +3242,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeCache(input: DescribeCacheInput) async throws -> DescribeCacheOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeCacheOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3087,18 +3260,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCacheInput, DescribeCacheOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCacheInput, DescribeCacheOutput>(DescribeCacheInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCacheInput, DescribeCacheOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCacheInput, DescribeCacheOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCacheOutput>(DescribeCacheOutput.httpOutput(from:), DescribeCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCacheInput, DescribeCacheOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3110,7 +3283,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCacheOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCacheInput, DescribeCacheOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeCache"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCacheInput, DescribeCacheOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCacheInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCacheInput, DescribeCacheOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCacheOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCacheInput, DescribeCacheOutput>())
@@ -3145,6 +3317,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeCacheReport(input: DescribeCacheReportInput) async throws -> DescribeCacheReportOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeCacheReportOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3157,18 +3335,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCacheReportInput, DescribeCacheReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCacheReportInput, DescribeCacheReportOutput>(DescribeCacheReportInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCacheReportInput, DescribeCacheReportOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCacheReportInput, DescribeCacheReportOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCacheReportOutput>(DescribeCacheReportOutput.httpOutput(from:), DescribeCacheReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCacheReportInput, DescribeCacheReportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3180,7 +3358,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCacheReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCacheReportInput, DescribeCacheReportOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeCacheReport"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCacheReportInput, DescribeCacheReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCacheReportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCacheReportInput, DescribeCacheReportOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCacheReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCacheReportInput, DescribeCacheReportOutput>())
@@ -3215,6 +3392,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeCachediSCSIVolumes(input: DescribeCachediSCSIVolumesInput) async throws -> DescribeCachediSCSIVolumesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeCachediSCSIVolumesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3227,18 +3410,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeCachediSCSIVolumesInput, DescribeCachediSCSIVolumesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCachediSCSIVolumesInput, DescribeCachediSCSIVolumesOutput>(DescribeCachediSCSIVolumesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCachediSCSIVolumesInput, DescribeCachediSCSIVolumesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCachediSCSIVolumesInput, DescribeCachediSCSIVolumesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCachediSCSIVolumesOutput>(DescribeCachediSCSIVolumesOutput.httpOutput(from:), DescribeCachediSCSIVolumesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCachediSCSIVolumesInput, DescribeCachediSCSIVolumesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3250,7 +3433,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCachediSCSIVolumesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCachediSCSIVolumesInput, DescribeCachediSCSIVolumesOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeCachediSCSIVolumes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCachediSCSIVolumesInput, DescribeCachediSCSIVolumesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCachediSCSIVolumesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCachediSCSIVolumesInput, DescribeCachediSCSIVolumesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCachediSCSIVolumesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCachediSCSIVolumesInput, DescribeCachediSCSIVolumesOutput>())
@@ -3285,6 +3467,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeChapCredentials(input: DescribeChapCredentialsInput) async throws -> DescribeChapCredentialsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeChapCredentialsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3297,18 +3485,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeChapCredentialsInput, DescribeChapCredentialsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeChapCredentialsInput, DescribeChapCredentialsOutput>(DescribeChapCredentialsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeChapCredentialsInput, DescribeChapCredentialsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeChapCredentialsInput, DescribeChapCredentialsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeChapCredentialsOutput>(DescribeChapCredentialsOutput.httpOutput(from:), DescribeChapCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeChapCredentialsInput, DescribeChapCredentialsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3320,7 +3508,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeChapCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeChapCredentialsInput, DescribeChapCredentialsOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeChapCredentials"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeChapCredentialsInput, DescribeChapCredentialsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeChapCredentialsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeChapCredentialsInput, DescribeChapCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeChapCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeChapCredentialsInput, DescribeChapCredentialsOutput>())
@@ -3355,6 +3542,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeFileSystemAssociations(input: DescribeFileSystemAssociationsInput) async throws -> DescribeFileSystemAssociationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeFileSystemAssociationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3367,18 +3560,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeFileSystemAssociationsInput, DescribeFileSystemAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeFileSystemAssociationsInput, DescribeFileSystemAssociationsOutput>(DescribeFileSystemAssociationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFileSystemAssociationsInput, DescribeFileSystemAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFileSystemAssociationsInput, DescribeFileSystemAssociationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFileSystemAssociationsOutput>(DescribeFileSystemAssociationsOutput.httpOutput(from:), DescribeFileSystemAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFileSystemAssociationsInput, DescribeFileSystemAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3390,7 +3583,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFileSystemAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFileSystemAssociationsInput, DescribeFileSystemAssociationsOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeFileSystemAssociations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeFileSystemAssociationsInput, DescribeFileSystemAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFileSystemAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFileSystemAssociationsInput, DescribeFileSystemAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFileSystemAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFileSystemAssociationsInput, DescribeFileSystemAssociationsOutput>())
@@ -3425,6 +3617,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeGatewayInformation(input: DescribeGatewayInformationInput) async throws -> DescribeGatewayInformationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeGatewayInformationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3437,18 +3635,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeGatewayInformationInput, DescribeGatewayInformationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeGatewayInformationInput, DescribeGatewayInformationOutput>(DescribeGatewayInformationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGatewayInformationInput, DescribeGatewayInformationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGatewayInformationInput, DescribeGatewayInformationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGatewayInformationOutput>(DescribeGatewayInformationOutput.httpOutput(from:), DescribeGatewayInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGatewayInformationInput, DescribeGatewayInformationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3460,7 +3658,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeGatewayInformationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeGatewayInformationInput, DescribeGatewayInformationOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeGatewayInformation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeGatewayInformationInput, DescribeGatewayInformationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeGatewayInformationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGatewayInformationInput, DescribeGatewayInformationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGatewayInformationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGatewayInformationInput, DescribeGatewayInformationOutput>())
@@ -3510,6 +3707,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeMaintenanceStartTime(input: DescribeMaintenanceStartTimeInput) async throws -> DescribeMaintenanceStartTimeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeMaintenanceStartTimeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3522,18 +3725,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeMaintenanceStartTimeInput, DescribeMaintenanceStartTimeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMaintenanceStartTimeInput, DescribeMaintenanceStartTimeOutput>(DescribeMaintenanceStartTimeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMaintenanceStartTimeInput, DescribeMaintenanceStartTimeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceStartTimeInput, DescribeMaintenanceStartTimeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMaintenanceStartTimeOutput>(DescribeMaintenanceStartTimeOutput.httpOutput(from:), DescribeMaintenanceStartTimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceStartTimeInput, DescribeMaintenanceStartTimeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3545,7 +3748,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMaintenanceStartTimeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeMaintenanceStartTimeInput, DescribeMaintenanceStartTimeOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeMaintenanceStartTime"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMaintenanceStartTimeInput, DescribeMaintenanceStartTimeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMaintenanceStartTimeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMaintenanceStartTimeInput, DescribeMaintenanceStartTimeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMaintenanceStartTimeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMaintenanceStartTimeInput, DescribeMaintenanceStartTimeOutput>())
@@ -3580,6 +3782,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeNFSFileShares(input: DescribeNFSFileSharesInput) async throws -> DescribeNFSFileSharesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeNFSFileSharesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3592,18 +3800,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeNFSFileSharesInput, DescribeNFSFileSharesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeNFSFileSharesInput, DescribeNFSFileSharesOutput>(DescribeNFSFileSharesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeNFSFileSharesInput, DescribeNFSFileSharesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNFSFileSharesInput, DescribeNFSFileSharesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNFSFileSharesOutput>(DescribeNFSFileSharesOutput.httpOutput(from:), DescribeNFSFileSharesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNFSFileSharesInput, DescribeNFSFileSharesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3615,7 +3823,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeNFSFileSharesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeNFSFileSharesInput, DescribeNFSFileSharesOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeNFSFileShares"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeNFSFileSharesInput, DescribeNFSFileSharesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeNFSFileSharesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeNFSFileSharesInput, DescribeNFSFileSharesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeNFSFileSharesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeNFSFileSharesInput, DescribeNFSFileSharesOutput>())
@@ -3650,6 +3857,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeSMBFileShares(input: DescribeSMBFileSharesInput) async throws -> DescribeSMBFileSharesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeSMBFileSharesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3662,18 +3875,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSMBFileSharesInput, DescribeSMBFileSharesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSMBFileSharesInput, DescribeSMBFileSharesOutput>(DescribeSMBFileSharesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSMBFileSharesInput, DescribeSMBFileSharesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSMBFileSharesInput, DescribeSMBFileSharesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSMBFileSharesOutput>(DescribeSMBFileSharesOutput.httpOutput(from:), DescribeSMBFileSharesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSMBFileSharesInput, DescribeSMBFileSharesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3685,7 +3898,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSMBFileSharesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSMBFileSharesInput, DescribeSMBFileSharesOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeSMBFileShares"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSMBFileSharesInput, DescribeSMBFileSharesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSMBFileSharesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSMBFileSharesInput, DescribeSMBFileSharesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSMBFileSharesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSMBFileSharesInput, DescribeSMBFileSharesOutput>())
@@ -3720,6 +3932,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeSMBSettings(input: DescribeSMBSettingsInput) async throws -> DescribeSMBSettingsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeSMBSettingsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3732,18 +3950,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSMBSettingsInput, DescribeSMBSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSMBSettingsInput, DescribeSMBSettingsOutput>(DescribeSMBSettingsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSMBSettingsInput, DescribeSMBSettingsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSMBSettingsInput, DescribeSMBSettingsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSMBSettingsOutput>(DescribeSMBSettingsOutput.httpOutput(from:), DescribeSMBSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSMBSettingsInput, DescribeSMBSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3755,7 +3973,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSMBSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSMBSettingsInput, DescribeSMBSettingsOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeSMBSettings"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSMBSettingsInput, DescribeSMBSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSMBSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSMBSettingsInput, DescribeSMBSettingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSMBSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSMBSettingsInput, DescribeSMBSettingsOutput>())
@@ -3790,6 +4007,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeSnapshotSchedule(input: DescribeSnapshotScheduleInput) async throws -> DescribeSnapshotScheduleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeSnapshotScheduleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3802,18 +4025,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeSnapshotScheduleInput, DescribeSnapshotScheduleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSnapshotScheduleInput, DescribeSnapshotScheduleOutput>(DescribeSnapshotScheduleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSnapshotScheduleInput, DescribeSnapshotScheduleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSnapshotScheduleInput, DescribeSnapshotScheduleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSnapshotScheduleOutput>(DescribeSnapshotScheduleOutput.httpOutput(from:), DescribeSnapshotScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapshotScheduleInput, DescribeSnapshotScheduleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3825,7 +4048,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSnapshotScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSnapshotScheduleInput, DescribeSnapshotScheduleOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeSnapshotSchedule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSnapshotScheduleInput, DescribeSnapshotScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSnapshotScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSnapshotScheduleInput, DescribeSnapshotScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSnapshotScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSnapshotScheduleInput, DescribeSnapshotScheduleOutput>())
@@ -3860,6 +4082,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeStorediSCSIVolumes(input: DescribeStorediSCSIVolumesInput) async throws -> DescribeStorediSCSIVolumesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeStorediSCSIVolumesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3872,18 +4100,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeStorediSCSIVolumesInput, DescribeStorediSCSIVolumesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeStorediSCSIVolumesInput, DescribeStorediSCSIVolumesOutput>(DescribeStorediSCSIVolumesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStorediSCSIVolumesInput, DescribeStorediSCSIVolumesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStorediSCSIVolumesInput, DescribeStorediSCSIVolumesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStorediSCSIVolumesOutput>(DescribeStorediSCSIVolumesOutput.httpOutput(from:), DescribeStorediSCSIVolumesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStorediSCSIVolumesInput, DescribeStorediSCSIVolumesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3895,7 +4123,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStorediSCSIVolumesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeStorediSCSIVolumesInput, DescribeStorediSCSIVolumesOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeStorediSCSIVolumes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeStorediSCSIVolumesInput, DescribeStorediSCSIVolumesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStorediSCSIVolumesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStorediSCSIVolumesInput, DescribeStorediSCSIVolumesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStorediSCSIVolumesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeStorediSCSIVolumesInput, DescribeStorediSCSIVolumesOutput>())
@@ -3930,6 +4157,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeTapeArchives(input: DescribeTapeArchivesInput) async throws -> DescribeTapeArchivesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeTapeArchivesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3942,18 +4175,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTapeArchivesInput, DescribeTapeArchivesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTapeArchivesInput, DescribeTapeArchivesOutput>(DescribeTapeArchivesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTapeArchivesInput, DescribeTapeArchivesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTapeArchivesInput, DescribeTapeArchivesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTapeArchivesOutput>(DescribeTapeArchivesOutput.httpOutput(from:), DescribeTapeArchivesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTapeArchivesInput, DescribeTapeArchivesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3965,7 +4198,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTapeArchivesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTapeArchivesInput, DescribeTapeArchivesOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeTapeArchives"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTapeArchivesInput, DescribeTapeArchivesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTapeArchivesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTapeArchivesInput, DescribeTapeArchivesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTapeArchivesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTapeArchivesInput, DescribeTapeArchivesOutput>())
@@ -4000,6 +4232,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeTapeRecoveryPoints(input: DescribeTapeRecoveryPointsInput) async throws -> DescribeTapeRecoveryPointsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeTapeRecoveryPointsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4012,18 +4250,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput>(DescribeTapeRecoveryPointsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTapeRecoveryPointsOutput>(DescribeTapeRecoveryPointsOutput.httpOutput(from:), DescribeTapeRecoveryPointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4035,7 +4273,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTapeRecoveryPointsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeTapeRecoveryPoints"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTapeRecoveryPointsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTapeRecoveryPointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput>())
@@ -4070,6 +4307,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeTapes(input: DescribeTapesInput) async throws -> DescribeTapesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeTapesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4082,18 +4325,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeTapesInput, DescribeTapesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTapesInput, DescribeTapesOutput>(DescribeTapesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTapesInput, DescribeTapesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTapesInput, DescribeTapesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTapesOutput>(DescribeTapesOutput.httpOutput(from:), DescribeTapesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTapesInput, DescribeTapesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4105,7 +4348,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTapesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTapesInput, DescribeTapesOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeTapes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTapesInput, DescribeTapesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTapesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTapesInput, DescribeTapesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTapesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTapesInput, DescribeTapesOutput>())
@@ -4140,6 +4382,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeUploadBuffer(input: DescribeUploadBufferInput) async throws -> DescribeUploadBufferOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeUploadBufferOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4152,18 +4400,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeUploadBufferInput, DescribeUploadBufferOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeUploadBufferInput, DescribeUploadBufferOutput>(DescribeUploadBufferInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeUploadBufferInput, DescribeUploadBufferOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUploadBufferInput, DescribeUploadBufferOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUploadBufferOutput>(DescribeUploadBufferOutput.httpOutput(from:), DescribeUploadBufferOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUploadBufferInput, DescribeUploadBufferOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4175,7 +4423,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeUploadBufferOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeUploadBufferInput, DescribeUploadBufferOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeUploadBuffer"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeUploadBufferInput, DescribeUploadBufferOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeUploadBufferInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUploadBufferInput, DescribeUploadBufferOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUploadBufferOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeUploadBufferInput, DescribeUploadBufferOutput>())
@@ -4210,6 +4457,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeVTLDevices(input: DescribeVTLDevicesInput) async throws -> DescribeVTLDevicesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeVTLDevicesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4222,18 +4475,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeVTLDevicesInput, DescribeVTLDevicesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeVTLDevicesInput, DescribeVTLDevicesOutput>(DescribeVTLDevicesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVTLDevicesInput, DescribeVTLDevicesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVTLDevicesInput, DescribeVTLDevicesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVTLDevicesOutput>(DescribeVTLDevicesOutput.httpOutput(from:), DescribeVTLDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVTLDevicesInput, DescribeVTLDevicesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4245,7 +4498,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeVTLDevicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeVTLDevicesInput, DescribeVTLDevicesOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeVTLDevices"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeVTLDevicesInput, DescribeVTLDevicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVTLDevicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVTLDevicesInput, DescribeVTLDevicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVTLDevicesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVTLDevicesInput, DescribeVTLDevicesOutput>())
@@ -4280,6 +4532,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func describeWorkingStorage(input: DescribeWorkingStorageInput) async throws -> DescribeWorkingStorageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.describeWorkingStorageOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4292,18 +4550,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeWorkingStorageInput, DescribeWorkingStorageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeWorkingStorageInput, DescribeWorkingStorageOutput>(DescribeWorkingStorageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeWorkingStorageInput, DescribeWorkingStorageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkingStorageInput, DescribeWorkingStorageOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkingStorageOutput>(DescribeWorkingStorageOutput.httpOutput(from:), DescribeWorkingStorageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkingStorageInput, DescribeWorkingStorageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4315,7 +4573,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeWorkingStorageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeWorkingStorageInput, DescribeWorkingStorageOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DescribeWorkingStorage"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeWorkingStorageInput, DescribeWorkingStorageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeWorkingStorageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeWorkingStorageInput, DescribeWorkingStorageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeWorkingStorageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeWorkingStorageInput, DescribeWorkingStorageOutput>())
@@ -4350,6 +4607,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func detachVolume(input: DetachVolumeInput) async throws -> DetachVolumeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.detachVolumeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4362,18 +4625,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DetachVolumeInput, DetachVolumeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetachVolumeInput, DetachVolumeOutput>(DetachVolumeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetachVolumeInput, DetachVolumeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachVolumeInput, DetachVolumeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachVolumeOutput>(DetachVolumeOutput.httpOutput(from:), DetachVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachVolumeInput, DetachVolumeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4385,7 +4648,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetachVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetachVolumeInput, DetachVolumeOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DetachVolume"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DetachVolumeInput, DetachVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachVolumeInput, DetachVolumeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachVolumeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetachVolumeInput, DetachVolumeOutput>())
@@ -4420,6 +4682,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func disableGateway(input: DisableGatewayInput) async throws -> DisableGatewayOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.disableGatewayOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4432,18 +4700,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisableGatewayInput, DisableGatewayOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableGatewayInput, DisableGatewayOutput>(DisableGatewayInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableGatewayInput, DisableGatewayOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableGatewayInput, DisableGatewayOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableGatewayOutput>(DisableGatewayOutput.httpOutput(from:), DisableGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableGatewayInput, DisableGatewayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4455,7 +4723,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableGatewayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableGatewayInput, DisableGatewayOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DisableGateway"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisableGatewayInput, DisableGatewayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableGatewayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableGatewayInput, DisableGatewayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableGatewayInput, DisableGatewayOutput>())
@@ -4490,6 +4757,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func disassociateFileSystem(input: DisassociateFileSystemInput) async throws -> DisassociateFileSystemOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.disassociateFileSystemOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4502,18 +4775,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateFileSystemInput, DisassociateFileSystemOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateFileSystemInput, DisassociateFileSystemOutput>(DisassociateFileSystemInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFileSystemInput, DisassociateFileSystemOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateFileSystemInput, DisassociateFileSystemOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFileSystemOutput>(DisassociateFileSystemOutput.httpOutput(from:), DisassociateFileSystemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFileSystemInput, DisassociateFileSystemOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4525,7 +4798,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateFileSystemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateFileSystemInput, DisassociateFileSystemOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.DisassociateFileSystem"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateFileSystemInput, DisassociateFileSystemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateFileSystemInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateFileSystemInput, DisassociateFileSystemOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateFileSystemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateFileSystemInput, DisassociateFileSystemOutput>())
@@ -4560,6 +4832,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func evictFilesFailingUpload(input: EvictFilesFailingUploadInput) async throws -> EvictFilesFailingUploadOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.evictFilesFailingUploadOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4572,18 +4850,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<EvictFilesFailingUploadInput, EvictFilesFailingUploadOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EvictFilesFailingUploadInput, EvictFilesFailingUploadOutput>(EvictFilesFailingUploadInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EvictFilesFailingUploadInput, EvictFilesFailingUploadOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EvictFilesFailingUploadInput, EvictFilesFailingUploadOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<EvictFilesFailingUploadOutput>(EvictFilesFailingUploadOutput.httpOutput(from:), EvictFilesFailingUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EvictFilesFailingUploadInput, EvictFilesFailingUploadOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4595,7 +4873,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EvictFilesFailingUploadOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EvictFilesFailingUploadInput, EvictFilesFailingUploadOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.EvictFilesFailingUpload"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<EvictFilesFailingUploadInput, EvictFilesFailingUploadOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EvictFilesFailingUploadInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EvictFilesFailingUploadInput, EvictFilesFailingUploadOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EvictFilesFailingUploadOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EvictFilesFailingUploadInput, EvictFilesFailingUploadOutput>())
@@ -4630,6 +4907,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func joinDomain(input: JoinDomainInput) async throws -> JoinDomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.joinDomainOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4642,18 +4925,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<JoinDomainInput, JoinDomainOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<JoinDomainInput, JoinDomainOutput>(JoinDomainInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<JoinDomainInput, JoinDomainOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<JoinDomainInput, JoinDomainOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<JoinDomainOutput>(JoinDomainOutput.httpOutput(from:), JoinDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<JoinDomainInput, JoinDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4665,7 +4948,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<JoinDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<JoinDomainInput, JoinDomainOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.JoinDomain"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<JoinDomainInput, JoinDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: JoinDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<JoinDomainInput, JoinDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<JoinDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<JoinDomainInput, JoinDomainOutput>())
@@ -4700,6 +4982,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func listAutomaticTapeCreationPolicies(input: ListAutomaticTapeCreationPoliciesInput) async throws -> ListAutomaticTapeCreationPoliciesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.listAutomaticTapeCreationPoliciesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4712,18 +5000,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListAutomaticTapeCreationPoliciesInput, ListAutomaticTapeCreationPoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAutomaticTapeCreationPoliciesInput, ListAutomaticTapeCreationPoliciesOutput>(ListAutomaticTapeCreationPoliciesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAutomaticTapeCreationPoliciesInput, ListAutomaticTapeCreationPoliciesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutomaticTapeCreationPoliciesInput, ListAutomaticTapeCreationPoliciesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomaticTapeCreationPoliciesOutput>(ListAutomaticTapeCreationPoliciesOutput.httpOutput(from:), ListAutomaticTapeCreationPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomaticTapeCreationPoliciesInput, ListAutomaticTapeCreationPoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4735,7 +5023,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutomaticTapeCreationPoliciesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutomaticTapeCreationPoliciesInput, ListAutomaticTapeCreationPoliciesOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ListAutomaticTapeCreationPolicies"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListAutomaticTapeCreationPoliciesInput, ListAutomaticTapeCreationPoliciesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutomaticTapeCreationPoliciesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutomaticTapeCreationPoliciesInput, ListAutomaticTapeCreationPoliciesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutomaticTapeCreationPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAutomaticTapeCreationPoliciesInput, ListAutomaticTapeCreationPoliciesOutput>())
@@ -4770,6 +5057,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func listCacheReports(input: ListCacheReportsInput) async throws -> ListCacheReportsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.listCacheReportsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4782,18 +5075,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCacheReportsInput, ListCacheReportsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCacheReportsInput, ListCacheReportsOutput>(ListCacheReportsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCacheReportsInput, ListCacheReportsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCacheReportsInput, ListCacheReportsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCacheReportsOutput>(ListCacheReportsOutput.httpOutput(from:), ListCacheReportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCacheReportsInput, ListCacheReportsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4805,7 +5098,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCacheReportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCacheReportsInput, ListCacheReportsOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ListCacheReports"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListCacheReportsInput, ListCacheReportsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCacheReportsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCacheReportsInput, ListCacheReportsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCacheReportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCacheReportsInput, ListCacheReportsOutput>())
@@ -4840,6 +5132,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func listFileShares(input: ListFileSharesInput) async throws -> ListFileSharesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.listFileSharesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4852,18 +5150,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFileSharesInput, ListFileSharesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFileSharesInput, ListFileSharesOutput>(ListFileSharesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFileSharesInput, ListFileSharesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFileSharesInput, ListFileSharesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFileSharesOutput>(ListFileSharesOutput.httpOutput(from:), ListFileSharesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFileSharesInput, ListFileSharesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4875,7 +5173,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFileSharesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFileSharesInput, ListFileSharesOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ListFileShares"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFileSharesInput, ListFileSharesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFileSharesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFileSharesInput, ListFileSharesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFileSharesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFileSharesInput, ListFileSharesOutput>())
@@ -4910,6 +5207,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func listFileSystemAssociations(input: ListFileSystemAssociationsInput) async throws -> ListFileSystemAssociationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.listFileSystemAssociationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4922,18 +5225,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput>(ListFileSystemAssociationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFileSystemAssociationsOutput>(ListFileSystemAssociationsOutput.httpOutput(from:), ListFileSystemAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4945,7 +5248,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFileSystemAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ListFileSystemAssociations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFileSystemAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFileSystemAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput>())
@@ -4987,6 +5289,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.listGatewaysOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4999,18 +5307,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListGatewaysInput, ListGatewaysOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListGatewaysInput, ListGatewaysOutput>(ListGatewaysInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGatewaysInput, ListGatewaysOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGatewaysInput, ListGatewaysOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGatewaysOutput>(ListGatewaysOutput.httpOutput(from:), ListGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGatewaysInput, ListGatewaysOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5022,7 +5330,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGatewaysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGatewaysInput, ListGatewaysOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ListGateways"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListGatewaysInput, ListGatewaysOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListGatewaysInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGatewaysInput, ListGatewaysOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGatewaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGatewaysInput, ListGatewaysOutput>())
@@ -5057,6 +5364,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func listLocalDisks(input: ListLocalDisksInput) async throws -> ListLocalDisksOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.listLocalDisksOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5069,18 +5382,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListLocalDisksInput, ListLocalDisksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLocalDisksInput, ListLocalDisksOutput>(ListLocalDisksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLocalDisksInput, ListLocalDisksOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLocalDisksInput, ListLocalDisksOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLocalDisksOutput>(ListLocalDisksOutput.httpOutput(from:), ListLocalDisksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLocalDisksInput, ListLocalDisksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5092,7 +5405,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLocalDisksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLocalDisksInput, ListLocalDisksOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ListLocalDisks"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListLocalDisksInput, ListLocalDisksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLocalDisksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLocalDisksInput, ListLocalDisksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLocalDisksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLocalDisksInput, ListLocalDisksOutput>())
@@ -5127,6 +5439,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5139,18 +5457,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5162,7 +5480,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -5197,6 +5514,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func listTapePools(input: ListTapePoolsInput) async throws -> ListTapePoolsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.listTapePoolsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5209,18 +5532,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTapePoolsInput, ListTapePoolsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTapePoolsInput, ListTapePoolsOutput>(ListTapePoolsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTapePoolsInput, ListTapePoolsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTapePoolsInput, ListTapePoolsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTapePoolsOutput>(ListTapePoolsOutput.httpOutput(from:), ListTapePoolsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTapePoolsInput, ListTapePoolsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5232,7 +5555,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTapePoolsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTapePoolsInput, ListTapePoolsOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ListTapePools"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTapePoolsInput, ListTapePoolsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTapePoolsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTapePoolsInput, ListTapePoolsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTapePoolsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTapePoolsInput, ListTapePoolsOutput>())
@@ -5283,6 +5605,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func listTapes(input: ListTapesInput) async throws -> ListTapesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.listTapesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5295,18 +5623,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTapesInput, ListTapesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTapesInput, ListTapesOutput>(ListTapesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTapesInput, ListTapesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTapesInput, ListTapesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTapesOutput>(ListTapesOutput.httpOutput(from:), ListTapesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTapesInput, ListTapesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5318,7 +5646,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTapesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTapesInput, ListTapesOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ListTapes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTapesInput, ListTapesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTapesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTapesInput, ListTapesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTapesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTapesInput, ListTapesOutput>())
@@ -5353,6 +5680,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func listVolumeInitiators(input: ListVolumeInitiatorsInput) async throws -> ListVolumeInitiatorsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.listVolumeInitiatorsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5365,18 +5698,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListVolumeInitiatorsInput, ListVolumeInitiatorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListVolumeInitiatorsInput, ListVolumeInitiatorsOutput>(ListVolumeInitiatorsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVolumeInitiatorsInput, ListVolumeInitiatorsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVolumeInitiatorsInput, ListVolumeInitiatorsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVolumeInitiatorsOutput>(ListVolumeInitiatorsOutput.httpOutput(from:), ListVolumeInitiatorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVolumeInitiatorsInput, ListVolumeInitiatorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5388,7 +5721,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVolumeInitiatorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVolumeInitiatorsInput, ListVolumeInitiatorsOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ListVolumeInitiators"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListVolumeInitiatorsInput, ListVolumeInitiatorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListVolumeInitiatorsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVolumeInitiatorsInput, ListVolumeInitiatorsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVolumeInitiatorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVolumeInitiatorsInput, ListVolumeInitiatorsOutput>())
@@ -5423,6 +5755,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func listVolumeRecoveryPoints(input: ListVolumeRecoveryPointsInput) async throws -> ListVolumeRecoveryPointsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.listVolumeRecoveryPointsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5435,18 +5773,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListVolumeRecoveryPointsInput, ListVolumeRecoveryPointsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListVolumeRecoveryPointsInput, ListVolumeRecoveryPointsOutput>(ListVolumeRecoveryPointsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVolumeRecoveryPointsInput, ListVolumeRecoveryPointsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVolumeRecoveryPointsInput, ListVolumeRecoveryPointsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVolumeRecoveryPointsOutput>(ListVolumeRecoveryPointsOutput.httpOutput(from:), ListVolumeRecoveryPointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVolumeRecoveryPointsInput, ListVolumeRecoveryPointsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5458,7 +5796,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVolumeRecoveryPointsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVolumeRecoveryPointsInput, ListVolumeRecoveryPointsOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ListVolumeRecoveryPoints"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListVolumeRecoveryPointsInput, ListVolumeRecoveryPointsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListVolumeRecoveryPointsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVolumeRecoveryPointsInput, ListVolumeRecoveryPointsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVolumeRecoveryPointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVolumeRecoveryPointsInput, ListVolumeRecoveryPointsOutput>())
@@ -5507,6 +5844,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func listVolumes(input: ListVolumesInput) async throws -> ListVolumesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.listVolumesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5519,18 +5862,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListVolumesInput, ListVolumesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListVolumesInput, ListVolumesOutput>(ListVolumesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVolumesInput, ListVolumesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVolumesInput, ListVolumesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVolumesOutput>(ListVolumesOutput.httpOutput(from:), ListVolumesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVolumesInput, ListVolumesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5542,7 +5885,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVolumesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVolumesInput, ListVolumesOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ListVolumes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListVolumesInput, ListVolumesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListVolumesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVolumesInput, ListVolumesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVolumesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVolumesInput, ListVolumesOutput>())
@@ -5577,6 +5919,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func notifyWhenUploaded(input: NotifyWhenUploadedInput) async throws -> NotifyWhenUploadedOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.notifyWhenUploadedOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5589,18 +5937,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<NotifyWhenUploadedInput, NotifyWhenUploadedOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<NotifyWhenUploadedInput, NotifyWhenUploadedOutput>(NotifyWhenUploadedInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<NotifyWhenUploadedInput, NotifyWhenUploadedOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<NotifyWhenUploadedInput, NotifyWhenUploadedOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<NotifyWhenUploadedOutput>(NotifyWhenUploadedOutput.httpOutput(from:), NotifyWhenUploadedOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<NotifyWhenUploadedInput, NotifyWhenUploadedOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5612,7 +5960,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<NotifyWhenUploadedOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<NotifyWhenUploadedInput, NotifyWhenUploadedOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.NotifyWhenUploaded"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<NotifyWhenUploadedInput, NotifyWhenUploadedOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: NotifyWhenUploadedInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<NotifyWhenUploadedInput, NotifyWhenUploadedOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<NotifyWhenUploadedOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<NotifyWhenUploadedInput, NotifyWhenUploadedOutput>())
@@ -5654,6 +6001,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func refreshCache(input: RefreshCacheInput) async throws -> RefreshCacheOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.refreshCacheOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5666,18 +6019,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RefreshCacheInput, RefreshCacheOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RefreshCacheInput, RefreshCacheOutput>(RefreshCacheInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RefreshCacheInput, RefreshCacheOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RefreshCacheInput, RefreshCacheOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RefreshCacheOutput>(RefreshCacheOutput.httpOutput(from:), RefreshCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RefreshCacheInput, RefreshCacheOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5689,7 +6042,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RefreshCacheOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RefreshCacheInput, RefreshCacheOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.RefreshCache"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RefreshCacheInput, RefreshCacheOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RefreshCacheInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RefreshCacheInput, RefreshCacheOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RefreshCacheOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RefreshCacheInput, RefreshCacheOutput>())
@@ -5724,6 +6076,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.removeTagsFromResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5736,18 +6094,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(RemoveTagsFromResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutput>(RemoveTagsFromResourceOutput.httpOutput(from:), RemoveTagsFromResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5759,7 +6117,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveTagsFromResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.RemoveTagsFromResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveTagsFromResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveTagsFromResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
@@ -5794,6 +6151,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func resetCache(input: ResetCacheInput) async throws -> ResetCacheOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.resetCacheOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5806,18 +6169,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ResetCacheInput, ResetCacheOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ResetCacheInput, ResetCacheOutput>(ResetCacheInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResetCacheInput, ResetCacheOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetCacheInput, ResetCacheOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetCacheOutput>(ResetCacheOutput.httpOutput(from:), ResetCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetCacheInput, ResetCacheOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5829,7 +6192,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResetCacheOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResetCacheInput, ResetCacheOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ResetCache"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ResetCacheInput, ResetCacheOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResetCacheInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResetCacheInput, ResetCacheOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResetCacheOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResetCacheInput, ResetCacheOutput>())
@@ -5864,6 +6226,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func retrieveTapeArchive(input: RetrieveTapeArchiveInput) async throws -> RetrieveTapeArchiveOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.retrieveTapeArchiveOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5876,18 +6244,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RetrieveTapeArchiveInput, RetrieveTapeArchiveOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RetrieveTapeArchiveInput, RetrieveTapeArchiveOutput>(RetrieveTapeArchiveInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RetrieveTapeArchiveInput, RetrieveTapeArchiveOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetrieveTapeArchiveInput, RetrieveTapeArchiveOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RetrieveTapeArchiveOutput>(RetrieveTapeArchiveOutput.httpOutput(from:), RetrieveTapeArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetrieveTapeArchiveInput, RetrieveTapeArchiveOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5899,7 +6267,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RetrieveTapeArchiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RetrieveTapeArchiveInput, RetrieveTapeArchiveOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.RetrieveTapeArchive"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RetrieveTapeArchiveInput, RetrieveTapeArchiveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RetrieveTapeArchiveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetrieveTapeArchiveInput, RetrieveTapeArchiveOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetrieveTapeArchiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RetrieveTapeArchiveInput, RetrieveTapeArchiveOutput>())
@@ -5934,6 +6301,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func retrieveTapeRecoveryPoint(input: RetrieveTapeRecoveryPointInput) async throws -> RetrieveTapeRecoveryPointOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.retrieveTapeRecoveryPointOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5946,18 +6319,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<RetrieveTapeRecoveryPointInput, RetrieveTapeRecoveryPointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RetrieveTapeRecoveryPointInput, RetrieveTapeRecoveryPointOutput>(RetrieveTapeRecoveryPointInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RetrieveTapeRecoveryPointInput, RetrieveTapeRecoveryPointOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetrieveTapeRecoveryPointInput, RetrieveTapeRecoveryPointOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<RetrieveTapeRecoveryPointOutput>(RetrieveTapeRecoveryPointOutput.httpOutput(from:), RetrieveTapeRecoveryPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetrieveTapeRecoveryPointInput, RetrieveTapeRecoveryPointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5969,7 +6342,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RetrieveTapeRecoveryPointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RetrieveTapeRecoveryPointInput, RetrieveTapeRecoveryPointOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.RetrieveTapeRecoveryPoint"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<RetrieveTapeRecoveryPointInput, RetrieveTapeRecoveryPointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RetrieveTapeRecoveryPointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetrieveTapeRecoveryPointInput, RetrieveTapeRecoveryPointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetrieveTapeRecoveryPointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RetrieveTapeRecoveryPointInput, RetrieveTapeRecoveryPointOutput>())
@@ -6004,6 +6376,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func setLocalConsolePassword(input: SetLocalConsolePasswordInput) async throws -> SetLocalConsolePasswordOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.setLocalConsolePasswordOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6016,18 +6394,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SetLocalConsolePasswordInput, SetLocalConsolePasswordOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetLocalConsolePasswordInput, SetLocalConsolePasswordOutput>(SetLocalConsolePasswordInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetLocalConsolePasswordInput, SetLocalConsolePasswordOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetLocalConsolePasswordInput, SetLocalConsolePasswordOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetLocalConsolePasswordOutput>(SetLocalConsolePasswordOutput.httpOutput(from:), SetLocalConsolePasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetLocalConsolePasswordInput, SetLocalConsolePasswordOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6039,7 +6417,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetLocalConsolePasswordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetLocalConsolePasswordInput, SetLocalConsolePasswordOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.SetLocalConsolePassword"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SetLocalConsolePasswordInput, SetLocalConsolePasswordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetLocalConsolePasswordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetLocalConsolePasswordInput, SetLocalConsolePasswordOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetLocalConsolePasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetLocalConsolePasswordInput, SetLocalConsolePasswordOutput>())
@@ -6074,6 +6451,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func setSMBGuestPassword(input: SetSMBGuestPasswordInput) async throws -> SetSMBGuestPasswordOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.setSMBGuestPasswordOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6086,18 +6469,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SetSMBGuestPasswordInput, SetSMBGuestPasswordOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetSMBGuestPasswordInput, SetSMBGuestPasswordOutput>(SetSMBGuestPasswordInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetSMBGuestPasswordInput, SetSMBGuestPasswordOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetSMBGuestPasswordInput, SetSMBGuestPasswordOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetSMBGuestPasswordOutput>(SetSMBGuestPasswordOutput.httpOutput(from:), SetSMBGuestPasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetSMBGuestPasswordInput, SetSMBGuestPasswordOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6109,7 +6492,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetSMBGuestPasswordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetSMBGuestPasswordInput, SetSMBGuestPasswordOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.SetSMBGuestPassword"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SetSMBGuestPasswordInput, SetSMBGuestPasswordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetSMBGuestPasswordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetSMBGuestPasswordInput, SetSMBGuestPasswordOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetSMBGuestPasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetSMBGuestPasswordInput, SetSMBGuestPasswordOutput>())
@@ -6144,6 +6526,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func shutdownGateway(input: ShutdownGatewayInput) async throws -> ShutdownGatewayOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.shutdownGatewayOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6156,18 +6544,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ShutdownGatewayInput, ShutdownGatewayOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ShutdownGatewayInput, ShutdownGatewayOutput>(ShutdownGatewayInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ShutdownGatewayInput, ShutdownGatewayOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ShutdownGatewayInput, ShutdownGatewayOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ShutdownGatewayOutput>(ShutdownGatewayOutput.httpOutput(from:), ShutdownGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ShutdownGatewayInput, ShutdownGatewayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6179,7 +6567,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ShutdownGatewayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ShutdownGatewayInput, ShutdownGatewayOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.ShutdownGateway"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ShutdownGatewayInput, ShutdownGatewayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ShutdownGatewayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ShutdownGatewayInput, ShutdownGatewayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ShutdownGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ShutdownGatewayInput, ShutdownGatewayOutput>())
@@ -6214,6 +6601,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func startAvailabilityMonitorTest(input: StartAvailabilityMonitorTestInput) async throws -> StartAvailabilityMonitorTestOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.startAvailabilityMonitorTestOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6226,18 +6619,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartAvailabilityMonitorTestInput, StartAvailabilityMonitorTestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartAvailabilityMonitorTestInput, StartAvailabilityMonitorTestOutput>(StartAvailabilityMonitorTestInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartAvailabilityMonitorTestInput, StartAvailabilityMonitorTestOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAvailabilityMonitorTestInput, StartAvailabilityMonitorTestOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAvailabilityMonitorTestOutput>(StartAvailabilityMonitorTestOutput.httpOutput(from:), StartAvailabilityMonitorTestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAvailabilityMonitorTestInput, StartAvailabilityMonitorTestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6249,7 +6642,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAvailabilityMonitorTestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAvailabilityMonitorTestInput, StartAvailabilityMonitorTestOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.StartAvailabilityMonitorTest"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartAvailabilityMonitorTestInput, StartAvailabilityMonitorTestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartAvailabilityMonitorTestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAvailabilityMonitorTestInput, StartAvailabilityMonitorTestOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAvailabilityMonitorTestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAvailabilityMonitorTestInput, StartAvailabilityMonitorTestOutput>())
@@ -6296,6 +6688,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func startCacheReport(input: StartCacheReportInput) async throws -> StartCacheReportOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.startCacheReportOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6308,18 +6706,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartCacheReportInput, StartCacheReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartCacheReportInput, StartCacheReportOutput>(StartCacheReportInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCacheReportInput, StartCacheReportOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCacheReportInput, StartCacheReportOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCacheReportOutput>(StartCacheReportOutput.httpOutput(from:), StartCacheReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCacheReportInput, StartCacheReportOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6331,7 +6729,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCacheReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCacheReportInput, StartCacheReportOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.StartCacheReport"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartCacheReportInput, StartCacheReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCacheReportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCacheReportInput, StartCacheReportOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCacheReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCacheReportInput, StartCacheReportOutput>())
@@ -6366,6 +6763,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func startGateway(input: StartGatewayInput) async throws -> StartGatewayOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.startGatewayOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6378,18 +6781,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<StartGatewayInput, StartGatewayOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartGatewayInput, StartGatewayOutput>(StartGatewayInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartGatewayInput, StartGatewayOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartGatewayInput, StartGatewayOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartGatewayOutput>(StartGatewayOutput.httpOutput(from:), StartGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartGatewayInput, StartGatewayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6401,7 +6804,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartGatewayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartGatewayInput, StartGatewayOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.StartGateway"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartGatewayInput, StartGatewayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartGatewayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartGatewayInput, StartGatewayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartGatewayInput, StartGatewayOutput>())
@@ -6436,6 +6838,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateAutomaticTapeCreationPolicy(input: UpdateAutomaticTapeCreationPolicyInput) async throws -> UpdateAutomaticTapeCreationPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateAutomaticTapeCreationPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6448,18 +6856,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateAutomaticTapeCreationPolicyInput, UpdateAutomaticTapeCreationPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAutomaticTapeCreationPolicyInput, UpdateAutomaticTapeCreationPolicyOutput>(UpdateAutomaticTapeCreationPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAutomaticTapeCreationPolicyInput, UpdateAutomaticTapeCreationPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAutomaticTapeCreationPolicyInput, UpdateAutomaticTapeCreationPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAutomaticTapeCreationPolicyOutput>(UpdateAutomaticTapeCreationPolicyOutput.httpOutput(from:), UpdateAutomaticTapeCreationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAutomaticTapeCreationPolicyInput, UpdateAutomaticTapeCreationPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6471,7 +6879,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAutomaticTapeCreationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAutomaticTapeCreationPolicyInput, UpdateAutomaticTapeCreationPolicyOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateAutomaticTapeCreationPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAutomaticTapeCreationPolicyInput, UpdateAutomaticTapeCreationPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAutomaticTapeCreationPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAutomaticTapeCreationPolicyInput, UpdateAutomaticTapeCreationPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAutomaticTapeCreationPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAutomaticTapeCreationPolicyInput, UpdateAutomaticTapeCreationPolicyOutput>())
@@ -6513,6 +6920,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateBandwidthRateLimit(input: UpdateBandwidthRateLimitInput) async throws -> UpdateBandwidthRateLimitOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateBandwidthRateLimitOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6525,18 +6938,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateBandwidthRateLimitInput, UpdateBandwidthRateLimitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateBandwidthRateLimitInput, UpdateBandwidthRateLimitOutput>(UpdateBandwidthRateLimitInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateBandwidthRateLimitInput, UpdateBandwidthRateLimitOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBandwidthRateLimitInput, UpdateBandwidthRateLimitOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBandwidthRateLimitOutput>(UpdateBandwidthRateLimitOutput.httpOutput(from:), UpdateBandwidthRateLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBandwidthRateLimitInput, UpdateBandwidthRateLimitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6548,7 +6961,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBandwidthRateLimitOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBandwidthRateLimitInput, UpdateBandwidthRateLimitOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateBandwidthRateLimit"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateBandwidthRateLimitInput, UpdateBandwidthRateLimitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBandwidthRateLimitInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBandwidthRateLimitInput, UpdateBandwidthRateLimitOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBandwidthRateLimitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateBandwidthRateLimitInput, UpdateBandwidthRateLimitOutput>())
@@ -6583,6 +6995,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateBandwidthRateLimitSchedule(input: UpdateBandwidthRateLimitScheduleInput) async throws -> UpdateBandwidthRateLimitScheduleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateBandwidthRateLimitScheduleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6595,18 +7013,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateBandwidthRateLimitScheduleInput, UpdateBandwidthRateLimitScheduleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateBandwidthRateLimitScheduleInput, UpdateBandwidthRateLimitScheduleOutput>(UpdateBandwidthRateLimitScheduleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateBandwidthRateLimitScheduleInput, UpdateBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBandwidthRateLimitScheduleInput, UpdateBandwidthRateLimitScheduleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBandwidthRateLimitScheduleOutput>(UpdateBandwidthRateLimitScheduleOutput.httpOutput(from:), UpdateBandwidthRateLimitScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBandwidthRateLimitScheduleInput, UpdateBandwidthRateLimitScheduleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6618,7 +7036,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBandwidthRateLimitScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateBandwidthRateLimitScheduleInput, UpdateBandwidthRateLimitScheduleOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateBandwidthRateLimitSchedule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateBandwidthRateLimitScheduleInput, UpdateBandwidthRateLimitScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBandwidthRateLimitScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBandwidthRateLimitScheduleInput, UpdateBandwidthRateLimitScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateBandwidthRateLimitScheduleInput, UpdateBandwidthRateLimitScheduleOutput>())
@@ -6664,6 +7081,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateChapCredentials(input: UpdateChapCredentialsInput) async throws -> UpdateChapCredentialsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateChapCredentialsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6676,18 +7099,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateChapCredentialsInput, UpdateChapCredentialsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateChapCredentialsInput, UpdateChapCredentialsOutput>(UpdateChapCredentialsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateChapCredentialsInput, UpdateChapCredentialsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChapCredentialsInput, UpdateChapCredentialsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChapCredentialsOutput>(UpdateChapCredentialsOutput.httpOutput(from:), UpdateChapCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChapCredentialsInput, UpdateChapCredentialsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6699,7 +7122,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateChapCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateChapCredentialsInput, UpdateChapCredentialsOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateChapCredentials"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateChapCredentialsInput, UpdateChapCredentialsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateChapCredentialsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateChapCredentialsInput, UpdateChapCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateChapCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateChapCredentialsInput, UpdateChapCredentialsOutput>())
@@ -6734,6 +7156,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateFileSystemAssociation(input: UpdateFileSystemAssociationInput) async throws -> UpdateFileSystemAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateFileSystemAssociationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6746,18 +7174,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateFileSystemAssociationInput, UpdateFileSystemAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFileSystemAssociationInput, UpdateFileSystemAssociationOutput>(UpdateFileSystemAssociationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFileSystemAssociationInput, UpdateFileSystemAssociationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFileSystemAssociationInput, UpdateFileSystemAssociationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFileSystemAssociationOutput>(UpdateFileSystemAssociationOutput.httpOutput(from:), UpdateFileSystemAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFileSystemAssociationInput, UpdateFileSystemAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6769,7 +7197,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFileSystemAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFileSystemAssociationInput, UpdateFileSystemAssociationOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateFileSystemAssociation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFileSystemAssociationInput, UpdateFileSystemAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFileSystemAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFileSystemAssociationInput, UpdateFileSystemAssociationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFileSystemAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFileSystemAssociationInput, UpdateFileSystemAssociationOutput>())
@@ -6804,6 +7231,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateGatewayInformation(input: UpdateGatewayInformationInput) async throws -> UpdateGatewayInformationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateGatewayInformationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6816,18 +7249,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateGatewayInformationInput, UpdateGatewayInformationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(UpdateGatewayInformationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGatewayInformationOutput>(UpdateGatewayInformationOutput.httpOutput(from:), UpdateGatewayInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6839,7 +7272,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGatewayInformationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateGatewayInformation"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateGatewayInformationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGatewayInformationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>())
@@ -6874,6 +7306,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateGatewaySoftwareNow(input: UpdateGatewaySoftwareNowInput) async throws -> UpdateGatewaySoftwareNowOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateGatewaySoftwareNowOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6886,18 +7324,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(UpdateGatewaySoftwareNowInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGatewaySoftwareNowOutput>(UpdateGatewaySoftwareNowOutput.httpOutput(from:), UpdateGatewaySoftwareNowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6909,7 +7347,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGatewaySoftwareNowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateGatewaySoftwareNow"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateGatewaySoftwareNowInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGatewaySoftwareNowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>())
@@ -6957,6 +7394,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateMaintenanceStartTime(input: UpdateMaintenanceStartTimeInput) async throws -> UpdateMaintenanceStartTimeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateMaintenanceStartTimeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6969,18 +7412,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateMaintenanceStartTimeInput, UpdateMaintenanceStartTimeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateMaintenanceStartTimeInput, UpdateMaintenanceStartTimeOutput>(UpdateMaintenanceStartTimeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateMaintenanceStartTimeInput, UpdateMaintenanceStartTimeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMaintenanceStartTimeInput, UpdateMaintenanceStartTimeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMaintenanceStartTimeOutput>(UpdateMaintenanceStartTimeOutput.httpOutput(from:), UpdateMaintenanceStartTimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMaintenanceStartTimeInput, UpdateMaintenanceStartTimeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6992,7 +7435,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMaintenanceStartTimeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateMaintenanceStartTimeInput, UpdateMaintenanceStartTimeOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateMaintenanceStartTime"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateMaintenanceStartTimeInput, UpdateMaintenanceStartTimeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateMaintenanceStartTimeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMaintenanceStartTimeInput, UpdateMaintenanceStartTimeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMaintenanceStartTimeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMaintenanceStartTimeInput, UpdateMaintenanceStartTimeOutput>())
@@ -7037,6 +7479,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateNFSFileShare(input: UpdateNFSFileShareInput) async throws -> UpdateNFSFileShareOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateNFSFileShareOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7049,18 +7497,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateNFSFileShareInput, UpdateNFSFileShareOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateNFSFileShareInput, UpdateNFSFileShareOutput>(UpdateNFSFileShareInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateNFSFileShareInput, UpdateNFSFileShareOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNFSFileShareInput, UpdateNFSFileShareOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNFSFileShareOutput>(UpdateNFSFileShareOutput.httpOutput(from:), UpdateNFSFileShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNFSFileShareInput, UpdateNFSFileShareOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7072,7 +7520,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateNFSFileShareOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateNFSFileShareInput, UpdateNFSFileShareOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateNFSFileShare"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateNFSFileShareInput, UpdateNFSFileShareOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateNFSFileShareInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateNFSFileShareInput, UpdateNFSFileShareOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateNFSFileShareOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateNFSFileShareInput, UpdateNFSFileShareOutput>())
@@ -7107,6 +7554,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateSMBFileShare(input: UpdateSMBFileShareInput) async throws -> UpdateSMBFileShareOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateSMBFileShareOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7119,18 +7572,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateSMBFileShareInput, UpdateSMBFileShareOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSMBFileShareInput, UpdateSMBFileShareOutput>(UpdateSMBFileShareInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSMBFileShareInput, UpdateSMBFileShareOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSMBFileShareInput, UpdateSMBFileShareOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSMBFileShareOutput>(UpdateSMBFileShareOutput.httpOutput(from:), UpdateSMBFileShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSMBFileShareInput, UpdateSMBFileShareOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7142,7 +7595,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSMBFileShareOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSMBFileShareInput, UpdateSMBFileShareOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateSMBFileShare"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSMBFileShareInput, UpdateSMBFileShareOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSMBFileShareInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSMBFileShareInput, UpdateSMBFileShareOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSMBFileShareOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSMBFileShareInput, UpdateSMBFileShareOutput>())
@@ -7177,6 +7629,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateSMBFileShareVisibility(input: UpdateSMBFileShareVisibilityInput) async throws -> UpdateSMBFileShareVisibilityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateSMBFileShareVisibilityOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7189,18 +7647,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateSMBFileShareVisibilityInput, UpdateSMBFileShareVisibilityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSMBFileShareVisibilityInput, UpdateSMBFileShareVisibilityOutput>(UpdateSMBFileShareVisibilityInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSMBFileShareVisibilityInput, UpdateSMBFileShareVisibilityOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSMBFileShareVisibilityInput, UpdateSMBFileShareVisibilityOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSMBFileShareVisibilityOutput>(UpdateSMBFileShareVisibilityOutput.httpOutput(from:), UpdateSMBFileShareVisibilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSMBFileShareVisibilityInput, UpdateSMBFileShareVisibilityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7212,7 +7670,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSMBFileShareVisibilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSMBFileShareVisibilityInput, UpdateSMBFileShareVisibilityOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateSMBFileShareVisibility"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSMBFileShareVisibilityInput, UpdateSMBFileShareVisibilityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSMBFileShareVisibilityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSMBFileShareVisibilityInput, UpdateSMBFileShareVisibilityOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSMBFileShareVisibilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSMBFileShareVisibilityInput, UpdateSMBFileShareVisibilityOutput>())
@@ -7247,6 +7704,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateSMBLocalGroups(input: UpdateSMBLocalGroupsInput) async throws -> UpdateSMBLocalGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateSMBLocalGroupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7259,18 +7722,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateSMBLocalGroupsInput, UpdateSMBLocalGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSMBLocalGroupsInput, UpdateSMBLocalGroupsOutput>(UpdateSMBLocalGroupsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSMBLocalGroupsInput, UpdateSMBLocalGroupsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSMBLocalGroupsInput, UpdateSMBLocalGroupsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSMBLocalGroupsOutput>(UpdateSMBLocalGroupsOutput.httpOutput(from:), UpdateSMBLocalGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSMBLocalGroupsInput, UpdateSMBLocalGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7282,7 +7745,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSMBLocalGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSMBLocalGroupsInput, UpdateSMBLocalGroupsOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateSMBLocalGroups"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSMBLocalGroupsInput, UpdateSMBLocalGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSMBLocalGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSMBLocalGroupsInput, UpdateSMBLocalGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSMBLocalGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSMBLocalGroupsInput, UpdateSMBLocalGroupsOutput>())
@@ -7317,6 +7779,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateSMBSecurityStrategy(input: UpdateSMBSecurityStrategyInput) async throws -> UpdateSMBSecurityStrategyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateSMBSecurityStrategyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7329,18 +7797,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateSMBSecurityStrategyInput, UpdateSMBSecurityStrategyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSMBSecurityStrategyInput, UpdateSMBSecurityStrategyOutput>(UpdateSMBSecurityStrategyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSMBSecurityStrategyInput, UpdateSMBSecurityStrategyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSMBSecurityStrategyInput, UpdateSMBSecurityStrategyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSMBSecurityStrategyOutput>(UpdateSMBSecurityStrategyOutput.httpOutput(from:), UpdateSMBSecurityStrategyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSMBSecurityStrategyInput, UpdateSMBSecurityStrategyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7352,7 +7820,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSMBSecurityStrategyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSMBSecurityStrategyInput, UpdateSMBSecurityStrategyOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateSMBSecurityStrategy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSMBSecurityStrategyInput, UpdateSMBSecurityStrategyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSMBSecurityStrategyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSMBSecurityStrategyInput, UpdateSMBSecurityStrategyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSMBSecurityStrategyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSMBSecurityStrategyInput, UpdateSMBSecurityStrategyOutput>())
@@ -7398,6 +7865,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateSnapshotSchedule(input: UpdateSnapshotScheduleInput) async throws -> UpdateSnapshotScheduleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateSnapshotScheduleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7410,18 +7883,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateSnapshotScheduleInput, UpdateSnapshotScheduleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSnapshotScheduleInput, UpdateSnapshotScheduleOutput>(UpdateSnapshotScheduleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSnapshotScheduleInput, UpdateSnapshotScheduleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSnapshotScheduleInput, UpdateSnapshotScheduleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSnapshotScheduleOutput>(UpdateSnapshotScheduleOutput.httpOutput(from:), UpdateSnapshotScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSnapshotScheduleInput, UpdateSnapshotScheduleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7433,7 +7906,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSnapshotScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSnapshotScheduleInput, UpdateSnapshotScheduleOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateSnapshotSchedule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSnapshotScheduleInput, UpdateSnapshotScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSnapshotScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSnapshotScheduleInput, UpdateSnapshotScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSnapshotScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSnapshotScheduleInput, UpdateSnapshotScheduleOutput>())
@@ -7468,6 +7940,12 @@ extension StorageGatewayClient {
     /// - `InternalServerError` : An internal server error has occurred during the request. For more information, see the error and message fields.
     /// - `InvalidGatewayRequestException` : An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public func updateVTLDeviceType(input: UpdateVTLDeviceTypeInput) async throws -> UpdateVTLDeviceTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = StorageGatewayClient.updateVTLDeviceTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7480,18 +7958,18 @@ extension StorageGatewayClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "storagegateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateVTLDeviceTypeInput, UpdateVTLDeviceTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateVTLDeviceTypeInput, UpdateVTLDeviceTypeOutput>(UpdateVTLDeviceTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateVTLDeviceTypeInput, UpdateVTLDeviceTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVTLDeviceTypeInput, UpdateVTLDeviceTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVTLDeviceTypeOutput>(UpdateVTLDeviceTypeOutput.httpOutput(from:), UpdateVTLDeviceTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVTLDeviceTypeInput, UpdateVTLDeviceTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7503,7 +7981,6 @@ extension StorageGatewayClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateVTLDeviceTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateVTLDeviceTypeInput, UpdateVTLDeviceTypeOutput>(overrides: ["X-Amz-Target": "StorageGateway_20130630.UpdateVTLDeviceType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateVTLDeviceTypeInput, UpdateVTLDeviceTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateVTLDeviceTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVTLDeviceTypeInput, UpdateVTLDeviceTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateVTLDeviceTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateVTLDeviceTypeInput, UpdateVTLDeviceTypeOutput>())

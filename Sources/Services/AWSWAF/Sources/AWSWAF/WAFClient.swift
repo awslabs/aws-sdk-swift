@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,30 +35,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -658,6 +655,12 @@ extension WAFClient {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func createByteMatchSet(input: CreateByteMatchSetInput) async throws -> CreateByteMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.createByteMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -670,18 +673,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateByteMatchSetInput, CreateByteMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateByteMatchSetInput, CreateByteMatchSetOutput>(CreateByteMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateByteMatchSetInput, CreateByteMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateByteMatchSetInput, CreateByteMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateByteMatchSetOutput>(CreateByteMatchSetOutput.httpOutput(from:), CreateByteMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateByteMatchSetInput, CreateByteMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -693,7 +696,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateByteMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateByteMatchSetInput, CreateByteMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.CreateByteMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateByteMatchSetInput, CreateByteMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateByteMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateByteMatchSetInput, CreateByteMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateByteMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateByteMatchSetInput, CreateByteMatchSetOutput>())
@@ -761,6 +763,12 @@ extension WAFClient {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func createGeoMatchSet(input: CreateGeoMatchSetInput) async throws -> CreateGeoMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.createGeoMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -773,18 +781,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateGeoMatchSetInput, CreateGeoMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateGeoMatchSetInput, CreateGeoMatchSetOutput>(CreateGeoMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateGeoMatchSetInput, CreateGeoMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGeoMatchSetInput, CreateGeoMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGeoMatchSetOutput>(CreateGeoMatchSetOutput.httpOutput(from:), CreateGeoMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGeoMatchSetInput, CreateGeoMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -796,7 +804,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGeoMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateGeoMatchSetInput, CreateGeoMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.CreateGeoMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateGeoMatchSetInput, CreateGeoMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateGeoMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGeoMatchSetInput, CreateGeoMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGeoMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGeoMatchSetInput, CreateGeoMatchSetOutput>())
@@ -864,6 +871,12 @@ extension WAFClient {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.createIPSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -876,18 +889,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateIPSetInput, CreateIPSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateIPSetInput, CreateIPSetOutput>(CreateIPSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateIPSetInput, CreateIPSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIPSetInput, CreateIPSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIPSetOutput>(CreateIPSetOutput.httpOutput(from:), CreateIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIPSetInput, CreateIPSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -899,7 +912,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateIPSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateIPSetInput, CreateIPSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.CreateIPSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateIPSetInput, CreateIPSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIPSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIPSetInput, CreateIPSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIPSetInput, CreateIPSetOutput>())
@@ -989,6 +1001,12 @@ extension WAFClient {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     public func createRateBasedRule(input: CreateRateBasedRuleInput) async throws -> CreateRateBasedRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.createRateBasedRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1001,18 +1019,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRateBasedRuleInput, CreateRateBasedRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRateBasedRuleInput, CreateRateBasedRuleOutput>(CreateRateBasedRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRateBasedRuleInput, CreateRateBasedRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRateBasedRuleInput, CreateRateBasedRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRateBasedRuleOutput>(CreateRateBasedRuleOutput.httpOutput(from:), CreateRateBasedRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRateBasedRuleInput, CreateRateBasedRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1024,7 +1042,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRateBasedRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRateBasedRuleInput, CreateRateBasedRuleOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.CreateRateBasedRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRateBasedRuleInput, CreateRateBasedRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRateBasedRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRateBasedRuleInput, CreateRateBasedRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRateBasedRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRateBasedRuleInput, CreateRateBasedRuleOutput>())
@@ -1072,6 +1089,12 @@ extension WAFClient {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func createRegexMatchSet(input: CreateRegexMatchSetInput) async throws -> CreateRegexMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.createRegexMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1084,18 +1107,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRegexMatchSetInput, CreateRegexMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRegexMatchSetInput, CreateRegexMatchSetOutput>(CreateRegexMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRegexMatchSetInput, CreateRegexMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRegexMatchSetInput, CreateRegexMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRegexMatchSetOutput>(CreateRegexMatchSetOutput.httpOutput(from:), CreateRegexMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRegexMatchSetInput, CreateRegexMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1107,7 +1130,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegexMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRegexMatchSetInput, CreateRegexMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.CreateRegexMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRegexMatchSetInput, CreateRegexMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegexMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegexMatchSetInput, CreateRegexMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegexMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRegexMatchSetInput, CreateRegexMatchSetOutput>())
@@ -1155,6 +1177,12 @@ extension WAFClient {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func createRegexPatternSet(input: CreateRegexPatternSetInput) async throws -> CreateRegexPatternSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.createRegexPatternSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1167,18 +1195,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRegexPatternSetInput, CreateRegexPatternSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>(CreateRegexPatternSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRegexPatternSetOutput>(CreateRegexPatternSetOutput.httpOutput(from:), CreateRegexPatternSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1190,7 +1218,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegexPatternSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.CreateRegexPatternSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegexPatternSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegexPatternSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>())
@@ -1271,6 +1298,12 @@ extension WAFClient {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.createRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1283,18 +1316,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRuleInput, CreateRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRuleInput, CreateRuleOutput>(CreateRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRuleInput, CreateRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleInput, CreateRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuleOutput>(CreateRuleOutput.httpOutput(from:), CreateRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleInput, CreateRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1306,7 +1339,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRuleInput, CreateRuleOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.CreateRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRuleInput, CreateRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuleInput, CreateRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRuleInput, CreateRuleOutput>())
@@ -1355,6 +1387,12 @@ extension WAFClient {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     public func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.createRuleGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1367,18 +1405,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRuleGroupInput, CreateRuleGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(CreateRuleGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuleGroupOutput>(CreateRuleGroupOutput.httpOutput(from:), CreateRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1390,7 +1428,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.CreateRuleGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
@@ -1458,6 +1495,12 @@ extension WAFClient {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func createSizeConstraintSet(input: CreateSizeConstraintSetInput) async throws -> CreateSizeConstraintSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.createSizeConstraintSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1470,18 +1513,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateSizeConstraintSetInput, CreateSizeConstraintSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSizeConstraintSetInput, CreateSizeConstraintSetOutput>(CreateSizeConstraintSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSizeConstraintSetInput, CreateSizeConstraintSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSizeConstraintSetInput, CreateSizeConstraintSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSizeConstraintSetOutput>(CreateSizeConstraintSetOutput.httpOutput(from:), CreateSizeConstraintSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSizeConstraintSetInput, CreateSizeConstraintSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1493,7 +1536,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSizeConstraintSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSizeConstraintSetInput, CreateSizeConstraintSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.CreateSizeConstraintSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateSizeConstraintSetInput, CreateSizeConstraintSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSizeConstraintSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSizeConstraintSetInput, CreateSizeConstraintSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSizeConstraintSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSizeConstraintSetInput, CreateSizeConstraintSetOutput>())
@@ -1561,6 +1603,12 @@ extension WAFClient {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func createSqlInjectionMatchSet(input: CreateSqlInjectionMatchSetInput) async throws -> CreateSqlInjectionMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.createSqlInjectionMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1573,18 +1621,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateSqlInjectionMatchSetInput, CreateSqlInjectionMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSqlInjectionMatchSetInput, CreateSqlInjectionMatchSetOutput>(CreateSqlInjectionMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSqlInjectionMatchSetInput, CreateSqlInjectionMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSqlInjectionMatchSetInput, CreateSqlInjectionMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSqlInjectionMatchSetOutput>(CreateSqlInjectionMatchSetOutput.httpOutput(from:), CreateSqlInjectionMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSqlInjectionMatchSetInput, CreateSqlInjectionMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1596,7 +1644,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSqlInjectionMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSqlInjectionMatchSetInput, CreateSqlInjectionMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.CreateSqlInjectionMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateSqlInjectionMatchSetInput, CreateSqlInjectionMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSqlInjectionMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSqlInjectionMatchSetInput, CreateSqlInjectionMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSqlInjectionMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSqlInjectionMatchSetInput, CreateSqlInjectionMatchSetOutput>())
@@ -1671,6 +1718,12 @@ extension WAFClient {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     public func createWebACL(input: CreateWebACLInput) async throws -> CreateWebACLOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.createWebACLOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1683,18 +1736,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateWebACLInput, CreateWebACLOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateWebACLInput, CreateWebACLOutput>(CreateWebACLInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateWebACLInput, CreateWebACLOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWebACLInput, CreateWebACLOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWebACLOutput>(CreateWebACLOutput.httpOutput(from:), CreateWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWebACLInput, CreateWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1706,7 +1759,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWebACLOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWebACLInput, CreateWebACLOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.CreateWebACL"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateWebACLInput, CreateWebACLOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWebACLInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWebACLInput, CreateWebACLOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWebACLInput, CreateWebACLOutput>())
@@ -1786,6 +1838,12 @@ extension WAFClient {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func createWebACLMigrationStack(input: CreateWebACLMigrationStackInput) async throws -> CreateWebACLMigrationStackOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.createWebACLMigrationStackOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1798,18 +1856,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateWebACLMigrationStackInput, CreateWebACLMigrationStackOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateWebACLMigrationStackInput, CreateWebACLMigrationStackOutput>(CreateWebACLMigrationStackInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateWebACLMigrationStackInput, CreateWebACLMigrationStackOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWebACLMigrationStackInput, CreateWebACLMigrationStackOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWebACLMigrationStackOutput>(CreateWebACLMigrationStackOutput.httpOutput(from:), CreateWebACLMigrationStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWebACLMigrationStackInput, CreateWebACLMigrationStackOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1821,7 +1879,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWebACLMigrationStackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWebACLMigrationStackInput, CreateWebACLMigrationStackOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.CreateWebACLMigrationStack"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateWebACLMigrationStackInput, CreateWebACLMigrationStackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWebACLMigrationStackInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWebACLMigrationStackInput, CreateWebACLMigrationStackOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWebACLMigrationStackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWebACLMigrationStackInput, CreateWebACLMigrationStackOutput>())
@@ -1889,6 +1946,12 @@ extension WAFClient {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func createXssMatchSet(input: CreateXssMatchSetInput) async throws -> CreateXssMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.createXssMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1901,18 +1964,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateXssMatchSetInput, CreateXssMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateXssMatchSetInput, CreateXssMatchSetOutput>(CreateXssMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateXssMatchSetInput, CreateXssMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateXssMatchSetInput, CreateXssMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateXssMatchSetOutput>(CreateXssMatchSetOutput.httpOutput(from:), CreateXssMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateXssMatchSetInput, CreateXssMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1924,7 +1987,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateXssMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateXssMatchSetInput, CreateXssMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.CreateXssMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateXssMatchSetInput, CreateXssMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateXssMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateXssMatchSetInput, CreateXssMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateXssMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateXssMatchSetInput, CreateXssMatchSetOutput>())
@@ -1981,6 +2043,12 @@ extension WAFClient {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func deleteByteMatchSet(input: DeleteByteMatchSetInput) async throws -> DeleteByteMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deleteByteMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1993,18 +2061,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteByteMatchSetInput, DeleteByteMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteByteMatchSetInput, DeleteByteMatchSetOutput>(DeleteByteMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteByteMatchSetInput, DeleteByteMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteByteMatchSetInput, DeleteByteMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteByteMatchSetOutput>(DeleteByteMatchSetOutput.httpOutput(from:), DeleteByteMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteByteMatchSetInput, DeleteByteMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2016,7 +2084,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteByteMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteByteMatchSetInput, DeleteByteMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeleteByteMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteByteMatchSetInput, DeleteByteMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteByteMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteByteMatchSetInput, DeleteByteMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteByteMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteByteMatchSetInput, DeleteByteMatchSetOutput>())
@@ -2073,6 +2140,12 @@ extension WAFClient {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func deleteGeoMatchSet(input: DeleteGeoMatchSetInput) async throws -> DeleteGeoMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deleteGeoMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2085,18 +2158,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteGeoMatchSetInput, DeleteGeoMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteGeoMatchSetInput, DeleteGeoMatchSetOutput>(DeleteGeoMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGeoMatchSetInput, DeleteGeoMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGeoMatchSetInput, DeleteGeoMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGeoMatchSetOutput>(DeleteGeoMatchSetOutput.httpOutput(from:), DeleteGeoMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGeoMatchSetInput, DeleteGeoMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2108,7 +2181,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteGeoMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGeoMatchSetInput, DeleteGeoMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeleteGeoMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteGeoMatchSetInput, DeleteGeoMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteGeoMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGeoMatchSetInput, DeleteGeoMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGeoMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGeoMatchSetInput, DeleteGeoMatchSetOutput>())
@@ -2165,6 +2237,12 @@ extension WAFClient {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func deleteIPSet(input: DeleteIPSetInput) async throws -> DeleteIPSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deleteIPSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2177,18 +2255,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteIPSetInput, DeleteIPSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteIPSetInput, DeleteIPSetOutput>(DeleteIPSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIPSetInput, DeleteIPSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIPSetInput, DeleteIPSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIPSetOutput>(DeleteIPSetOutput.httpOutput(from:), DeleteIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIPSetInput, DeleteIPSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2200,7 +2278,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteIPSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteIPSetInput, DeleteIPSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeleteIPSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteIPSetInput, DeleteIPSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteIPSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIPSetInput, DeleteIPSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIPSetInput, DeleteIPSetOutput>())
@@ -2236,6 +2313,12 @@ extension WAFClient {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func deleteLoggingConfiguration(input: DeleteLoggingConfigurationInput) async throws -> DeleteLoggingConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deleteLoggingConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2248,18 +2331,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>(DeleteLoggingConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLoggingConfigurationOutput>(DeleteLoggingConfigurationOutput.httpOutput(from:), DeleteLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2271,7 +2354,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLoggingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeleteLoggingConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLoggingConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>())
@@ -2307,6 +2389,12 @@ extension WAFClient {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func deletePermissionPolicy(input: DeletePermissionPolicyInput) async throws -> DeletePermissionPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deletePermissionPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2319,18 +2407,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeletePermissionPolicyInput, DeletePermissionPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>(DeletePermissionPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePermissionPolicyOutput>(DeletePermissionPolicyOutput.httpOutput(from:), DeletePermissionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2342,7 +2430,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePermissionPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeletePermissionPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePermissionPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePermissionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>())
@@ -2401,6 +2488,12 @@ extension WAFClient {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     public func deleteRateBasedRule(input: DeleteRateBasedRuleInput) async throws -> DeleteRateBasedRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deleteRateBasedRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2413,18 +2506,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRateBasedRuleInput, DeleteRateBasedRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRateBasedRuleInput, DeleteRateBasedRuleOutput>(DeleteRateBasedRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRateBasedRuleInput, DeleteRateBasedRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRateBasedRuleInput, DeleteRateBasedRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRateBasedRuleOutput>(DeleteRateBasedRuleOutput.httpOutput(from:), DeleteRateBasedRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRateBasedRuleInput, DeleteRateBasedRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2436,7 +2529,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRateBasedRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRateBasedRuleInput, DeleteRateBasedRuleOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeleteRateBasedRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRateBasedRuleInput, DeleteRateBasedRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRateBasedRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRateBasedRuleInput, DeleteRateBasedRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRateBasedRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRateBasedRuleInput, DeleteRateBasedRuleOutput>())
@@ -2493,6 +2585,12 @@ extension WAFClient {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func deleteRegexMatchSet(input: DeleteRegexMatchSetInput) async throws -> DeleteRegexMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deleteRegexMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2505,18 +2603,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRegexMatchSetInput, DeleteRegexMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRegexMatchSetInput, DeleteRegexMatchSetOutput>(DeleteRegexMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRegexMatchSetInput, DeleteRegexMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRegexMatchSetInput, DeleteRegexMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRegexMatchSetOutput>(DeleteRegexMatchSetOutput.httpOutput(from:), DeleteRegexMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRegexMatchSetInput, DeleteRegexMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2528,7 +2626,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRegexMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRegexMatchSetInput, DeleteRegexMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeleteRegexMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRegexMatchSetInput, DeleteRegexMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRegexMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRegexMatchSetInput, DeleteRegexMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegexMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRegexMatchSetInput, DeleteRegexMatchSetOutput>())
@@ -2579,6 +2676,12 @@ extension WAFClient {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func deleteRegexPatternSet(input: DeleteRegexPatternSetInput) async throws -> DeleteRegexPatternSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deleteRegexPatternSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2591,18 +2694,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>(DeleteRegexPatternSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRegexPatternSetOutput>(DeleteRegexPatternSetOutput.httpOutput(from:), DeleteRegexPatternSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2614,7 +2717,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRegexPatternSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeleteRegexPatternSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRegexPatternSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegexPatternSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>())
@@ -2673,6 +2775,12 @@ extension WAFClient {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deleteRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2685,18 +2793,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRuleInput, DeleteRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRuleInput, DeleteRuleOutput>(DeleteRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRuleInput, DeleteRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleInput, DeleteRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleOutput>(DeleteRuleOutput.httpOutput(from:), DeleteRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleInput, DeleteRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2708,7 +2816,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRuleInput, DeleteRuleOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeleteRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRuleInput, DeleteRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRuleInput, DeleteRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRuleInput, DeleteRuleOutput>())
@@ -2777,6 +2884,12 @@ extension WAFClient {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     public func deleteRuleGroup(input: DeleteRuleGroupInput) async throws -> DeleteRuleGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deleteRuleGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2789,18 +2902,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRuleGroupInput, DeleteRuleGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(DeleteRuleGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleGroupOutput>(DeleteRuleGroupOutput.httpOutput(from:), DeleteRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2812,7 +2925,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeleteRuleGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
@@ -2869,6 +2981,12 @@ extension WAFClient {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func deleteSizeConstraintSet(input: DeleteSizeConstraintSetInput) async throws -> DeleteSizeConstraintSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deleteSizeConstraintSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2881,18 +2999,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteSizeConstraintSetInput, DeleteSizeConstraintSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSizeConstraintSetInput, DeleteSizeConstraintSetOutput>(DeleteSizeConstraintSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSizeConstraintSetInput, DeleteSizeConstraintSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSizeConstraintSetInput, DeleteSizeConstraintSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSizeConstraintSetOutput>(DeleteSizeConstraintSetOutput.httpOutput(from:), DeleteSizeConstraintSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSizeConstraintSetInput, DeleteSizeConstraintSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2904,7 +3022,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSizeConstraintSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSizeConstraintSetInput, DeleteSizeConstraintSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeleteSizeConstraintSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSizeConstraintSetInput, DeleteSizeConstraintSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSizeConstraintSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSizeConstraintSetInput, DeleteSizeConstraintSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSizeConstraintSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSizeConstraintSetInput, DeleteSizeConstraintSetOutput>())
@@ -2961,6 +3078,12 @@ extension WAFClient {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func deleteSqlInjectionMatchSet(input: DeleteSqlInjectionMatchSetInput) async throws -> DeleteSqlInjectionMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deleteSqlInjectionMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2973,18 +3096,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteSqlInjectionMatchSetInput, DeleteSqlInjectionMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSqlInjectionMatchSetInput, DeleteSqlInjectionMatchSetOutput>(DeleteSqlInjectionMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSqlInjectionMatchSetInput, DeleteSqlInjectionMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSqlInjectionMatchSetInput, DeleteSqlInjectionMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSqlInjectionMatchSetOutput>(DeleteSqlInjectionMatchSetOutput.httpOutput(from:), DeleteSqlInjectionMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSqlInjectionMatchSetInput, DeleteSqlInjectionMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2996,7 +3119,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSqlInjectionMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSqlInjectionMatchSetInput, DeleteSqlInjectionMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeleteSqlInjectionMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSqlInjectionMatchSetInput, DeleteSqlInjectionMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSqlInjectionMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSqlInjectionMatchSetInput, DeleteSqlInjectionMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSqlInjectionMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSqlInjectionMatchSetInput, DeleteSqlInjectionMatchSetOutput>())
@@ -3055,6 +3177,12 @@ extension WAFClient {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     public func deleteWebACL(input: DeleteWebACLInput) async throws -> DeleteWebACLOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deleteWebACLOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3067,18 +3195,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteWebACLInput, DeleteWebACLOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteWebACLInput, DeleteWebACLOutput>(DeleteWebACLInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWebACLInput, DeleteWebACLOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWebACLInput, DeleteWebACLOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWebACLOutput>(DeleteWebACLOutput.httpOutput(from:), DeleteWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebACLInput, DeleteWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3090,7 +3218,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWebACLOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWebACLInput, DeleteWebACLOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeleteWebACL"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteWebACLInput, DeleteWebACLOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWebACLInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWebACLInput, DeleteWebACLOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWebACLInput, DeleteWebACLOutput>())
@@ -3147,6 +3274,12 @@ extension WAFClient {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func deleteXssMatchSet(input: DeleteXssMatchSetInput) async throws -> DeleteXssMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.deleteXssMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3159,18 +3292,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteXssMatchSetInput, DeleteXssMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteXssMatchSetInput, DeleteXssMatchSetOutput>(DeleteXssMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteXssMatchSetInput, DeleteXssMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteXssMatchSetInput, DeleteXssMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteXssMatchSetOutput>(DeleteXssMatchSetOutput.httpOutput(from:), DeleteXssMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteXssMatchSetInput, DeleteXssMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3182,7 +3315,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteXssMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteXssMatchSetInput, DeleteXssMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.DeleteXssMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteXssMatchSetInput, DeleteXssMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteXssMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteXssMatchSetInput, DeleteXssMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteXssMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteXssMatchSetInput, DeleteXssMatchSetOutput>())
@@ -3218,6 +3350,12 @@ extension WAFClient {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getByteMatchSet(input: GetByteMatchSetInput) async throws -> GetByteMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getByteMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3230,18 +3368,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetByteMatchSetInput, GetByteMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetByteMatchSetInput, GetByteMatchSetOutput>(GetByteMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetByteMatchSetInput, GetByteMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetByteMatchSetInput, GetByteMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetByteMatchSetOutput>(GetByteMatchSetOutput.httpOutput(from:), GetByteMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetByteMatchSetInput, GetByteMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3253,7 +3391,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetByteMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetByteMatchSetInput, GetByteMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetByteMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetByteMatchSetInput, GetByteMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetByteMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetByteMatchSetInput, GetByteMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetByteMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetByteMatchSetInput, GetByteMatchSetOutput>())
@@ -3287,6 +3424,12 @@ extension WAFClient {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     public func getChangeToken(input: GetChangeTokenInput) async throws -> GetChangeTokenOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getChangeTokenOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3299,18 +3442,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetChangeTokenInput, GetChangeTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetChangeTokenInput, GetChangeTokenOutput>(GetChangeTokenInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChangeTokenInput, GetChangeTokenOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetChangeTokenInput, GetChangeTokenOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChangeTokenOutput>(GetChangeTokenOutput.httpOutput(from:), GetChangeTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChangeTokenInput, GetChangeTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3322,7 +3465,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetChangeTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetChangeTokenInput, GetChangeTokenOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetChangeToken"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetChangeTokenInput, GetChangeTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetChangeTokenInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetChangeTokenInput, GetChangeTokenOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetChangeTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetChangeTokenInput, GetChangeTokenOutput>())
@@ -3363,6 +3505,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getChangeTokenStatus(input: GetChangeTokenStatusInput) async throws -> GetChangeTokenStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getChangeTokenStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3375,18 +3523,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetChangeTokenStatusInput, GetChangeTokenStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetChangeTokenStatusInput, GetChangeTokenStatusOutput>(GetChangeTokenStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChangeTokenStatusInput, GetChangeTokenStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetChangeTokenStatusInput, GetChangeTokenStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChangeTokenStatusOutput>(GetChangeTokenStatusOutput.httpOutput(from:), GetChangeTokenStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChangeTokenStatusInput, GetChangeTokenStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3398,7 +3546,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetChangeTokenStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetChangeTokenStatusInput, GetChangeTokenStatusOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetChangeTokenStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetChangeTokenStatusInput, GetChangeTokenStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetChangeTokenStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetChangeTokenStatusInput, GetChangeTokenStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetChangeTokenStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetChangeTokenStatusInput, GetChangeTokenStatusOutput>())
@@ -3434,6 +3581,12 @@ extension WAFClient {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getGeoMatchSet(input: GetGeoMatchSetInput) async throws -> GetGeoMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getGeoMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3446,18 +3599,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetGeoMatchSetInput, GetGeoMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetGeoMatchSetInput, GetGeoMatchSetOutput>(GetGeoMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGeoMatchSetInput, GetGeoMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGeoMatchSetInput, GetGeoMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGeoMatchSetOutput>(GetGeoMatchSetOutput.httpOutput(from:), GetGeoMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGeoMatchSetInput, GetGeoMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3469,7 +3622,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetGeoMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetGeoMatchSetInput, GetGeoMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetGeoMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetGeoMatchSetInput, GetGeoMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetGeoMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGeoMatchSetInput, GetGeoMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGeoMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetGeoMatchSetInput, GetGeoMatchSetOutput>())
@@ -3505,6 +3657,12 @@ extension WAFClient {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getIPSet(input: GetIPSetInput) async throws -> GetIPSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getIPSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3517,18 +3675,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetIPSetInput, GetIPSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIPSetInput, GetIPSetOutput>(GetIPSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIPSetInput, GetIPSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIPSetInput, GetIPSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIPSetOutput>(GetIPSetOutput.httpOutput(from:), GetIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIPSetInput, GetIPSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3540,7 +3698,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIPSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetIPSetInput, GetIPSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetIPSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetIPSetInput, GetIPSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetIPSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIPSetInput, GetIPSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIPSetInput, GetIPSetOutput>())
@@ -3575,6 +3732,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getLoggingConfiguration(input: GetLoggingConfigurationInput) async throws -> GetLoggingConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getLoggingConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3587,18 +3750,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLoggingConfigurationInput, GetLoggingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>(GetLoggingConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoggingConfigurationOutput>(GetLoggingConfigurationOutput.httpOutput(from:), GetLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3610,7 +3773,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLoggingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetLoggingConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLoggingConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>())
@@ -3645,6 +3807,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getPermissionPolicy(input: GetPermissionPolicyInput) async throws -> GetPermissionPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getPermissionPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3657,18 +3825,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetPermissionPolicyInput, GetPermissionPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>(GetPermissionPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPermissionPolicyOutput>(GetPermissionPolicyOutput.httpOutput(from:), GetPermissionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3680,7 +3848,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPermissionPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetPermissionPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPermissionPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPermissionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>())
@@ -3716,6 +3883,12 @@ extension WAFClient {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getRateBasedRule(input: GetRateBasedRuleInput) async throws -> GetRateBasedRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getRateBasedRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3728,18 +3901,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRateBasedRuleInput, GetRateBasedRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRateBasedRuleInput, GetRateBasedRuleOutput>(GetRateBasedRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRateBasedRuleInput, GetRateBasedRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRateBasedRuleInput, GetRateBasedRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRateBasedRuleOutput>(GetRateBasedRuleOutput.httpOutput(from:), GetRateBasedRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRateBasedRuleInput, GetRateBasedRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3751,7 +3924,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRateBasedRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRateBasedRuleInput, GetRateBasedRuleOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetRateBasedRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRateBasedRuleInput, GetRateBasedRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRateBasedRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRateBasedRuleInput, GetRateBasedRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRateBasedRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRateBasedRuleInput, GetRateBasedRuleOutput>())
@@ -3806,6 +3978,12 @@ extension WAFClient {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getRateBasedRuleManagedKeys(input: GetRateBasedRuleManagedKeysInput) async throws -> GetRateBasedRuleManagedKeysOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getRateBasedRuleManagedKeysOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3818,18 +3996,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRateBasedRuleManagedKeysInput, GetRateBasedRuleManagedKeysOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRateBasedRuleManagedKeysInput, GetRateBasedRuleManagedKeysOutput>(GetRateBasedRuleManagedKeysInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRateBasedRuleManagedKeysInput, GetRateBasedRuleManagedKeysOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRateBasedRuleManagedKeysInput, GetRateBasedRuleManagedKeysOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRateBasedRuleManagedKeysOutput>(GetRateBasedRuleManagedKeysOutput.httpOutput(from:), GetRateBasedRuleManagedKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRateBasedRuleManagedKeysInput, GetRateBasedRuleManagedKeysOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3841,7 +4019,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRateBasedRuleManagedKeysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRateBasedRuleManagedKeysInput, GetRateBasedRuleManagedKeysOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetRateBasedRuleManagedKeys"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRateBasedRuleManagedKeysInput, GetRateBasedRuleManagedKeysOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRateBasedRuleManagedKeysInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRateBasedRuleManagedKeysInput, GetRateBasedRuleManagedKeysOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRateBasedRuleManagedKeysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRateBasedRuleManagedKeysInput, GetRateBasedRuleManagedKeysOutput>())
@@ -3877,6 +4054,12 @@ extension WAFClient {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getRegexMatchSet(input: GetRegexMatchSetInput) async throws -> GetRegexMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getRegexMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3889,18 +4072,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRegexMatchSetInput, GetRegexMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRegexMatchSetInput, GetRegexMatchSetOutput>(GetRegexMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRegexMatchSetInput, GetRegexMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegexMatchSetInput, GetRegexMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegexMatchSetOutput>(GetRegexMatchSetOutput.httpOutput(from:), GetRegexMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegexMatchSetInput, GetRegexMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3912,7 +4095,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRegexMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRegexMatchSetInput, GetRegexMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetRegexMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRegexMatchSetInput, GetRegexMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRegexMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRegexMatchSetInput, GetRegexMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRegexMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRegexMatchSetInput, GetRegexMatchSetOutput>())
@@ -3948,6 +4130,12 @@ extension WAFClient {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getRegexPatternSet(input: GetRegexPatternSetInput) async throws -> GetRegexPatternSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getRegexPatternSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3960,18 +4148,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRegexPatternSetInput, GetRegexPatternSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>(GetRegexPatternSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegexPatternSetOutput>(GetRegexPatternSetOutput.httpOutput(from:), GetRegexPatternSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3983,7 +4171,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRegexPatternSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetRegexPatternSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRegexPatternSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRegexPatternSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>())
@@ -4019,6 +4206,12 @@ extension WAFClient {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getRule(input: GetRuleInput) async throws -> GetRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4031,18 +4224,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRuleInput, GetRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRuleInput, GetRuleOutput>(GetRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRuleInput, GetRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRuleInput, GetRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRuleOutput>(GetRuleOutput.httpOutput(from:), GetRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuleInput, GetRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4054,7 +4247,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRuleInput, GetRuleOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRuleInput, GetRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRuleInput, GetRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRuleInput, GetRuleOutput>())
@@ -4089,6 +4281,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getRuleGroup(input: GetRuleGroupInput) async throws -> GetRuleGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getRuleGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4101,18 +4299,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRuleGroupInput, GetRuleGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRuleGroupInput, GetRuleGroupOutput>(GetRuleGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRuleGroupInput, GetRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRuleGroupInput, GetRuleGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRuleGroupOutput>(GetRuleGroupOutput.httpOutput(from:), GetRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuleGroupInput, GetRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4124,7 +4322,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRuleGroupInput, GetRuleGroupOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetRuleGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRuleGroupInput, GetRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRuleGroupInput, GetRuleGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRuleGroupInput, GetRuleGroupOutput>())
@@ -4159,6 +4356,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getSampledRequests(input: GetSampledRequestsInput) async throws -> GetSampledRequestsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getSampledRequestsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4171,18 +4374,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetSampledRequestsInput, GetSampledRequestsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>(GetSampledRequestsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSampledRequestsOutput>(GetSampledRequestsOutput.httpOutput(from:), GetSampledRequestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4194,7 +4397,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSampledRequestsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetSampledRequests"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSampledRequestsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSampledRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>())
@@ -4230,6 +4432,12 @@ extension WAFClient {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getSizeConstraintSet(input: GetSizeConstraintSetInput) async throws -> GetSizeConstraintSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getSizeConstraintSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4242,18 +4450,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetSizeConstraintSetInput, GetSizeConstraintSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSizeConstraintSetInput, GetSizeConstraintSetOutput>(GetSizeConstraintSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSizeConstraintSetInput, GetSizeConstraintSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSizeConstraintSetInput, GetSizeConstraintSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSizeConstraintSetOutput>(GetSizeConstraintSetOutput.httpOutput(from:), GetSizeConstraintSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSizeConstraintSetInput, GetSizeConstraintSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4265,7 +4473,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSizeConstraintSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSizeConstraintSetInput, GetSizeConstraintSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetSizeConstraintSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSizeConstraintSetInput, GetSizeConstraintSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSizeConstraintSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSizeConstraintSetInput, GetSizeConstraintSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSizeConstraintSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSizeConstraintSetInput, GetSizeConstraintSetOutput>())
@@ -4301,6 +4508,12 @@ extension WAFClient {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getSqlInjectionMatchSet(input: GetSqlInjectionMatchSetInput) async throws -> GetSqlInjectionMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getSqlInjectionMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4313,18 +4526,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetSqlInjectionMatchSetInput, GetSqlInjectionMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSqlInjectionMatchSetInput, GetSqlInjectionMatchSetOutput>(GetSqlInjectionMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSqlInjectionMatchSetInput, GetSqlInjectionMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSqlInjectionMatchSetInput, GetSqlInjectionMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSqlInjectionMatchSetOutput>(GetSqlInjectionMatchSetOutput.httpOutput(from:), GetSqlInjectionMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSqlInjectionMatchSetInput, GetSqlInjectionMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4336,7 +4549,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSqlInjectionMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSqlInjectionMatchSetInput, GetSqlInjectionMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetSqlInjectionMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSqlInjectionMatchSetInput, GetSqlInjectionMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSqlInjectionMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSqlInjectionMatchSetInput, GetSqlInjectionMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSqlInjectionMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSqlInjectionMatchSetInput, GetSqlInjectionMatchSetOutput>())
@@ -4372,6 +4584,12 @@ extension WAFClient {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getWebACL(input: GetWebACLInput) async throws -> GetWebACLOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getWebACLOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4384,18 +4602,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetWebACLInput, GetWebACLOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetWebACLInput, GetWebACLOutput>(GetWebACLInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWebACLInput, GetWebACLOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWebACLInput, GetWebACLOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWebACLOutput>(GetWebACLOutput.httpOutput(from:), GetWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWebACLInput, GetWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4407,7 +4625,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWebACLOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetWebACLInput, GetWebACLOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetWebACL"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetWebACLInput, GetWebACLOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetWebACLInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWebACLInput, GetWebACLOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWebACLInput, GetWebACLOutput>())
@@ -4443,6 +4660,12 @@ extension WAFClient {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func getXssMatchSet(input: GetXssMatchSetInput) async throws -> GetXssMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.getXssMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4455,18 +4678,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetXssMatchSetInput, GetXssMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetXssMatchSetInput, GetXssMatchSetOutput>(GetXssMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetXssMatchSetInput, GetXssMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetXssMatchSetInput, GetXssMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetXssMatchSetOutput>(GetXssMatchSetOutput.httpOutput(from:), GetXssMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetXssMatchSetInput, GetXssMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4478,7 +4701,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetXssMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetXssMatchSetInput, GetXssMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.GetXssMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetXssMatchSetInput, GetXssMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetXssMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetXssMatchSetInput, GetXssMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetXssMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetXssMatchSetInput, GetXssMatchSetOutput>())
@@ -4532,6 +4754,12 @@ extension WAFClient {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func listActivatedRulesInRuleGroup(input: ListActivatedRulesInRuleGroupInput) async throws -> ListActivatedRulesInRuleGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listActivatedRulesInRuleGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4544,18 +4772,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListActivatedRulesInRuleGroupInput, ListActivatedRulesInRuleGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListActivatedRulesInRuleGroupInput, ListActivatedRulesInRuleGroupOutput>(ListActivatedRulesInRuleGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListActivatedRulesInRuleGroupInput, ListActivatedRulesInRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListActivatedRulesInRuleGroupInput, ListActivatedRulesInRuleGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListActivatedRulesInRuleGroupOutput>(ListActivatedRulesInRuleGroupOutput.httpOutput(from:), ListActivatedRulesInRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListActivatedRulesInRuleGroupInput, ListActivatedRulesInRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4567,7 +4795,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListActivatedRulesInRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListActivatedRulesInRuleGroupInput, ListActivatedRulesInRuleGroupOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListActivatedRulesInRuleGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListActivatedRulesInRuleGroupInput, ListActivatedRulesInRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListActivatedRulesInRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListActivatedRulesInRuleGroupInput, ListActivatedRulesInRuleGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListActivatedRulesInRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListActivatedRulesInRuleGroupInput, ListActivatedRulesInRuleGroupOutput>())
@@ -4602,6 +4829,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     public func listByteMatchSets(input: ListByteMatchSetsInput) async throws -> ListByteMatchSetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listByteMatchSetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4614,18 +4847,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListByteMatchSetsInput, ListByteMatchSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListByteMatchSetsInput, ListByteMatchSetsOutput>(ListByteMatchSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListByteMatchSetsInput, ListByteMatchSetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListByteMatchSetsInput, ListByteMatchSetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListByteMatchSetsOutput>(ListByteMatchSetsOutput.httpOutput(from:), ListByteMatchSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListByteMatchSetsInput, ListByteMatchSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4637,7 +4870,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListByteMatchSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListByteMatchSetsInput, ListByteMatchSetsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListByteMatchSets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListByteMatchSetsInput, ListByteMatchSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListByteMatchSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListByteMatchSetsInput, ListByteMatchSetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListByteMatchSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListByteMatchSetsInput, ListByteMatchSetsOutput>())
@@ -4672,6 +4904,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     public func listGeoMatchSets(input: ListGeoMatchSetsInput) async throws -> ListGeoMatchSetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listGeoMatchSetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4684,18 +4922,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListGeoMatchSetsInput, ListGeoMatchSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListGeoMatchSetsInput, ListGeoMatchSetsOutput>(ListGeoMatchSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGeoMatchSetsInput, ListGeoMatchSetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGeoMatchSetsInput, ListGeoMatchSetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGeoMatchSetsOutput>(ListGeoMatchSetsOutput.httpOutput(from:), ListGeoMatchSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGeoMatchSetsInput, ListGeoMatchSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4707,7 +4945,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGeoMatchSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGeoMatchSetsInput, ListGeoMatchSetsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListGeoMatchSets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListGeoMatchSetsInput, ListGeoMatchSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListGeoMatchSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGeoMatchSetsInput, ListGeoMatchSetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGeoMatchSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGeoMatchSetsInput, ListGeoMatchSetsOutput>())
@@ -4742,6 +4979,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     public func listIPSets(input: ListIPSetsInput) async throws -> ListIPSetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listIPSetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4754,18 +4997,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListIPSetsInput, ListIPSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListIPSetsInput, ListIPSetsOutput>(ListIPSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListIPSetsInput, ListIPSetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIPSetsInput, ListIPSetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIPSetsOutput>(ListIPSetsOutput.httpOutput(from:), ListIPSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIPSetsInput, ListIPSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4777,7 +5020,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListIPSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListIPSetsInput, ListIPSetsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListIPSets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListIPSetsInput, ListIPSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListIPSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListIPSetsInput, ListIPSetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIPSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIPSetsInput, ListIPSetsOutput>())
@@ -4831,6 +5073,12 @@ extension WAFClient {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func listLoggingConfigurations(input: ListLoggingConfigurationsInput) async throws -> ListLoggingConfigurationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listLoggingConfigurationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4843,18 +5091,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>(ListLoggingConfigurationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLoggingConfigurationsOutput>(ListLoggingConfigurationsOutput.httpOutput(from:), ListLoggingConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4866,7 +5114,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLoggingConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListLoggingConfigurations"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLoggingConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLoggingConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>())
@@ -4901,6 +5148,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     public func listRateBasedRules(input: ListRateBasedRulesInput) async throws -> ListRateBasedRulesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listRateBasedRulesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4913,18 +5166,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRateBasedRulesInput, ListRateBasedRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRateBasedRulesInput, ListRateBasedRulesOutput>(ListRateBasedRulesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRateBasedRulesInput, ListRateBasedRulesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRateBasedRulesInput, ListRateBasedRulesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRateBasedRulesOutput>(ListRateBasedRulesOutput.httpOutput(from:), ListRateBasedRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRateBasedRulesInput, ListRateBasedRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4936,7 +5189,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRateBasedRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRateBasedRulesInput, ListRateBasedRulesOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListRateBasedRules"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRateBasedRulesInput, ListRateBasedRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRateBasedRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRateBasedRulesInput, ListRateBasedRulesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRateBasedRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRateBasedRulesInput, ListRateBasedRulesOutput>())
@@ -4971,6 +5223,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     public func listRegexMatchSets(input: ListRegexMatchSetsInput) async throws -> ListRegexMatchSetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listRegexMatchSetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4983,18 +5241,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRegexMatchSetsInput, ListRegexMatchSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRegexMatchSetsInput, ListRegexMatchSetsOutput>(ListRegexMatchSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRegexMatchSetsInput, ListRegexMatchSetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRegexMatchSetsInput, ListRegexMatchSetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRegexMatchSetsOutput>(ListRegexMatchSetsOutput.httpOutput(from:), ListRegexMatchSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRegexMatchSetsInput, ListRegexMatchSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5006,7 +5264,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRegexMatchSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRegexMatchSetsInput, ListRegexMatchSetsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListRegexMatchSets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRegexMatchSetsInput, ListRegexMatchSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRegexMatchSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRegexMatchSetsInput, ListRegexMatchSetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRegexMatchSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRegexMatchSetsInput, ListRegexMatchSetsOutput>())
@@ -5041,6 +5298,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     public func listRegexPatternSets(input: ListRegexPatternSetsInput) async throws -> ListRegexPatternSetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listRegexPatternSetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5053,18 +5316,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRegexPatternSetsInput, ListRegexPatternSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>(ListRegexPatternSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRegexPatternSetsOutput>(ListRegexPatternSetsOutput.httpOutput(from:), ListRegexPatternSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5076,7 +5339,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRegexPatternSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListRegexPatternSets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRegexPatternSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRegexPatternSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>())
@@ -5110,6 +5372,12 @@ extension WAFClient {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     public func listRuleGroups(input: ListRuleGroupsInput) async throws -> ListRuleGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listRuleGroupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5122,18 +5390,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRuleGroupsInput, ListRuleGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(ListRuleGroupsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRuleGroupsOutput>(ListRuleGroupsOutput.httpOutput(from:), ListRuleGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5145,7 +5413,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRuleGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListRuleGroups"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRuleGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
@@ -5180,6 +5447,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     public func listRules(input: ListRulesInput) async throws -> ListRulesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listRulesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5192,18 +5465,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRulesInput, ListRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRulesInput, ListRulesOutput>(ListRulesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRulesInput, ListRulesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRulesInput, ListRulesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRulesOutput>(ListRulesOutput.httpOutput(from:), ListRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRulesInput, ListRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5215,7 +5488,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRulesInput, ListRulesOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListRules"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRulesInput, ListRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRulesInput, ListRulesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRulesInput, ListRulesOutput>())
@@ -5250,6 +5522,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     public func listSizeConstraintSets(input: ListSizeConstraintSetsInput) async throws -> ListSizeConstraintSetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listSizeConstraintSetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5262,18 +5540,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSizeConstraintSetsInput, ListSizeConstraintSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSizeConstraintSetsInput, ListSizeConstraintSetsOutput>(ListSizeConstraintSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSizeConstraintSetsInput, ListSizeConstraintSetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSizeConstraintSetsInput, ListSizeConstraintSetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSizeConstraintSetsOutput>(ListSizeConstraintSetsOutput.httpOutput(from:), ListSizeConstraintSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSizeConstraintSetsInput, ListSizeConstraintSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5285,7 +5563,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSizeConstraintSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSizeConstraintSetsInput, ListSizeConstraintSetsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListSizeConstraintSets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSizeConstraintSetsInput, ListSizeConstraintSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSizeConstraintSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSizeConstraintSetsInput, ListSizeConstraintSetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSizeConstraintSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSizeConstraintSetsInput, ListSizeConstraintSetsOutput>())
@@ -5320,6 +5597,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     public func listSqlInjectionMatchSets(input: ListSqlInjectionMatchSetsInput) async throws -> ListSqlInjectionMatchSetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listSqlInjectionMatchSetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5332,18 +5615,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSqlInjectionMatchSetsInput, ListSqlInjectionMatchSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSqlInjectionMatchSetsInput, ListSqlInjectionMatchSetsOutput>(ListSqlInjectionMatchSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSqlInjectionMatchSetsInput, ListSqlInjectionMatchSetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSqlInjectionMatchSetsInput, ListSqlInjectionMatchSetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSqlInjectionMatchSetsOutput>(ListSqlInjectionMatchSetsOutput.httpOutput(from:), ListSqlInjectionMatchSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSqlInjectionMatchSetsInput, ListSqlInjectionMatchSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5355,7 +5638,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSqlInjectionMatchSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSqlInjectionMatchSetsInput, ListSqlInjectionMatchSetsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListSqlInjectionMatchSets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSqlInjectionMatchSetsInput, ListSqlInjectionMatchSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSqlInjectionMatchSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSqlInjectionMatchSetsInput, ListSqlInjectionMatchSetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSqlInjectionMatchSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSqlInjectionMatchSetsInput, ListSqlInjectionMatchSetsOutput>())
@@ -5390,6 +5672,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     public func listSubscribedRuleGroups(input: ListSubscribedRuleGroupsInput) async throws -> ListSubscribedRuleGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listSubscribedRuleGroupsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5402,18 +5690,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListSubscribedRuleGroupsInput, ListSubscribedRuleGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSubscribedRuleGroupsInput, ListSubscribedRuleGroupsOutput>(ListSubscribedRuleGroupsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSubscribedRuleGroupsInput, ListSubscribedRuleGroupsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSubscribedRuleGroupsInput, ListSubscribedRuleGroupsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSubscribedRuleGroupsOutput>(ListSubscribedRuleGroupsOutput.httpOutput(from:), ListSubscribedRuleGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSubscribedRuleGroupsInput, ListSubscribedRuleGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5425,7 +5713,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSubscribedRuleGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSubscribedRuleGroupsInput, ListSubscribedRuleGroupsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListSubscribedRuleGroups"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSubscribedRuleGroupsInput, ListSubscribedRuleGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSubscribedRuleGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSubscribedRuleGroupsInput, ListSubscribedRuleGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSubscribedRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSubscribedRuleGroupsInput, ListSubscribedRuleGroupsOutput>())
@@ -5482,6 +5769,12 @@ extension WAFClient {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5494,18 +5787,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5517,7 +5810,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -5552,6 +5844,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     public func listWebACLs(input: ListWebACLsInput) async throws -> ListWebACLsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listWebACLsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5564,18 +5862,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListWebACLsInput, ListWebACLsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListWebACLsInput, ListWebACLsOutput>(ListWebACLsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListWebACLsInput, ListWebACLsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWebACLsInput, ListWebACLsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWebACLsOutput>(ListWebACLsOutput.httpOutput(from:), ListWebACLsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWebACLsInput, ListWebACLsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5587,7 +5885,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWebACLsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWebACLsInput, ListWebACLsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListWebACLs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListWebACLsInput, ListWebACLsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWebACLsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWebACLsInput, ListWebACLsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWebACLsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWebACLsInput, ListWebACLsOutput>())
@@ -5622,6 +5919,12 @@ extension WAFClient {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     public func listXssMatchSets(input: ListXssMatchSetsInput) async throws -> ListXssMatchSetsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.listXssMatchSetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5634,18 +5937,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListXssMatchSetsInput, ListXssMatchSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListXssMatchSetsInput, ListXssMatchSetsOutput>(ListXssMatchSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListXssMatchSetsInput, ListXssMatchSetsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListXssMatchSetsInput, ListXssMatchSetsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListXssMatchSetsOutput>(ListXssMatchSetsOutput.httpOutput(from:), ListXssMatchSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListXssMatchSetsInput, ListXssMatchSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5657,7 +5960,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListXssMatchSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListXssMatchSetsInput, ListXssMatchSetsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.ListXssMatchSets"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListXssMatchSetsInput, ListXssMatchSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListXssMatchSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListXssMatchSetsInput, ListXssMatchSetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListXssMatchSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListXssMatchSetsInput, ListXssMatchSetsOutput>())
@@ -5701,6 +6003,12 @@ extension WAFClient {
     /// - `WAFServiceLinkedRoleErrorException` : AWS WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func putLoggingConfiguration(input: PutLoggingConfigurationInput) async throws -> PutLoggingConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.putLoggingConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5713,18 +6021,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutLoggingConfigurationInput, PutLoggingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>(PutLoggingConfigurationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLoggingConfigurationOutput>(PutLoggingConfigurationOutput.httpOutput(from:), PutLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5736,7 +6044,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutLoggingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.PutLoggingConfiguration"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutLoggingConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>())
@@ -5811,6 +6118,12 @@ extension WAFClient {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func putPermissionPolicy(input: PutPermissionPolicyInput) async throws -> PutPermissionPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.putPermissionPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5823,18 +6136,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutPermissionPolicyInput, PutPermissionPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>(PutPermissionPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPermissionPolicyOutput>(PutPermissionPolicyOutput.httpOutput(from:), PutPermissionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5846,7 +6159,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutPermissionPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.PutPermissionPolicy"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutPermissionPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutPermissionPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>())
@@ -5904,6 +6216,12 @@ extension WAFClient {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5916,18 +6234,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5939,7 +6257,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -5996,6 +6313,12 @@ extension WAFClient {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6008,18 +6331,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6031,7 +6354,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -6130,6 +6452,12 @@ extension WAFClient {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func updateByteMatchSet(input: UpdateByteMatchSetInput) async throws -> UpdateByteMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.updateByteMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6142,18 +6470,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateByteMatchSetInput, UpdateByteMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateByteMatchSetInput, UpdateByteMatchSetOutput>(UpdateByteMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateByteMatchSetInput, UpdateByteMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateByteMatchSetInput, UpdateByteMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateByteMatchSetOutput>(UpdateByteMatchSetOutput.httpOutput(from:), UpdateByteMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateByteMatchSetInput, UpdateByteMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6165,7 +6493,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateByteMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateByteMatchSetInput, UpdateByteMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.UpdateByteMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateByteMatchSetInput, UpdateByteMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateByteMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateByteMatchSetInput, UpdateByteMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateByteMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateByteMatchSetInput, UpdateByteMatchSetOutput>())
@@ -6265,6 +6592,12 @@ extension WAFClient {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func updateGeoMatchSet(input: UpdateGeoMatchSetInput) async throws -> UpdateGeoMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.updateGeoMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6277,18 +6610,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateGeoMatchSetInput, UpdateGeoMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateGeoMatchSetInput, UpdateGeoMatchSetOutput>(UpdateGeoMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateGeoMatchSetInput, UpdateGeoMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGeoMatchSetInput, UpdateGeoMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGeoMatchSetOutput>(UpdateGeoMatchSetOutput.httpOutput(from:), UpdateGeoMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGeoMatchSetInput, UpdateGeoMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6300,7 +6633,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGeoMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateGeoMatchSetInput, UpdateGeoMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.UpdateGeoMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateGeoMatchSetInput, UpdateGeoMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateGeoMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGeoMatchSetInput, UpdateGeoMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGeoMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGeoMatchSetInput, UpdateGeoMatchSetOutput>())
@@ -6411,6 +6743,12 @@ extension WAFClient {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func updateIPSet(input: UpdateIPSetInput) async throws -> UpdateIPSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.updateIPSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6423,18 +6761,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateIPSetInput, UpdateIPSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateIPSetInput, UpdateIPSetOutput>(UpdateIPSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateIPSetInput, UpdateIPSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIPSetInput, UpdateIPSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIPSetOutput>(UpdateIPSetOutput.httpOutput(from:), UpdateIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIPSetInput, UpdateIPSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6446,7 +6784,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateIPSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateIPSetInput, UpdateIPSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.UpdateIPSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateIPSetInput, UpdateIPSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateIPSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateIPSetInput, UpdateIPSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIPSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIPSetInput, UpdateIPSetOutput>())
@@ -6544,6 +6881,12 @@ extension WAFClient {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func updateRateBasedRule(input: UpdateRateBasedRuleInput) async throws -> UpdateRateBasedRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.updateRateBasedRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6556,18 +6899,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateRateBasedRuleInput, UpdateRateBasedRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRateBasedRuleInput, UpdateRateBasedRuleOutput>(UpdateRateBasedRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRateBasedRuleInput, UpdateRateBasedRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRateBasedRuleInput, UpdateRateBasedRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRateBasedRuleOutput>(UpdateRateBasedRuleOutput.httpOutput(from:), UpdateRateBasedRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRateBasedRuleInput, UpdateRateBasedRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6579,7 +6922,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRateBasedRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRateBasedRuleInput, UpdateRateBasedRuleOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.UpdateRateBasedRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRateBasedRuleInput, UpdateRateBasedRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRateBasedRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRateBasedRuleInput, UpdateRateBasedRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRateBasedRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRateBasedRuleInput, UpdateRateBasedRuleOutput>())
@@ -6658,6 +7000,12 @@ extension WAFClient {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func updateRegexMatchSet(input: UpdateRegexMatchSetInput) async throws -> UpdateRegexMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.updateRegexMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6670,18 +7018,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateRegexMatchSetInput, UpdateRegexMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRegexMatchSetInput, UpdateRegexMatchSetOutput>(UpdateRegexMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRegexMatchSetInput, UpdateRegexMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRegexMatchSetInput, UpdateRegexMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRegexMatchSetOutput>(UpdateRegexMatchSetOutput.httpOutput(from:), UpdateRegexMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRegexMatchSetInput, UpdateRegexMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6693,7 +7041,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRegexMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRegexMatchSetInput, UpdateRegexMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.UpdateRegexMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRegexMatchSetInput, UpdateRegexMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRegexMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRegexMatchSetInput, UpdateRegexMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRegexMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRegexMatchSetInput, UpdateRegexMatchSetOutput>())
@@ -6779,6 +7126,12 @@ extension WAFClient {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func updateRegexPatternSet(input: UpdateRegexPatternSetInput) async throws -> UpdateRegexPatternSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.updateRegexPatternSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6791,18 +7144,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>(UpdateRegexPatternSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRegexPatternSetOutput>(UpdateRegexPatternSetOutput.httpOutput(from:), UpdateRegexPatternSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6814,7 +7167,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRegexPatternSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.UpdateRegexPatternSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRegexPatternSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRegexPatternSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>())
@@ -6916,6 +7268,12 @@ extension WAFClient {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.updateRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -6928,18 +7286,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateRuleInput, UpdateRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRuleInput, UpdateRuleOutput>(UpdateRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRuleInput, UpdateRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleInput, UpdateRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuleOutput>(UpdateRuleOutput.httpOutput(from:), UpdateRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleInput, UpdateRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6951,7 +7309,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRuleInput, UpdateRuleOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.UpdateRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRuleInput, UpdateRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuleInput, UpdateRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRuleInput, UpdateRuleOutput>())
@@ -7038,6 +7395,12 @@ extension WAFClient {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.updateRuleGroupOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7050,18 +7413,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateRuleGroupInput, UpdateRuleGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(UpdateRuleGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuleGroupOutput>(UpdateRuleGroupOutput.httpOutput(from:), UpdateRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7073,7 +7436,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.UpdateRuleGroup"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRuleGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
@@ -7177,6 +7539,12 @@ extension WAFClient {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func updateSizeConstraintSet(input: UpdateSizeConstraintSetInput) async throws -> UpdateSizeConstraintSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.updateSizeConstraintSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7189,18 +7557,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateSizeConstraintSetInput, UpdateSizeConstraintSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSizeConstraintSetInput, UpdateSizeConstraintSetOutput>(UpdateSizeConstraintSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSizeConstraintSetInput, UpdateSizeConstraintSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSizeConstraintSetInput, UpdateSizeConstraintSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSizeConstraintSetOutput>(UpdateSizeConstraintSetOutput.httpOutput(from:), UpdateSizeConstraintSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSizeConstraintSetInput, UpdateSizeConstraintSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7212,7 +7580,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSizeConstraintSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSizeConstraintSetInput, UpdateSizeConstraintSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.UpdateSizeConstraintSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSizeConstraintSetInput, UpdateSizeConstraintSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSizeConstraintSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSizeConstraintSetInput, UpdateSizeConstraintSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSizeConstraintSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSizeConstraintSetInput, UpdateSizeConstraintSetOutput>())
@@ -7307,6 +7674,12 @@ extension WAFClient {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func updateSqlInjectionMatchSet(input: UpdateSqlInjectionMatchSetInput) async throws -> UpdateSqlInjectionMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.updateSqlInjectionMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7319,18 +7692,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateSqlInjectionMatchSetInput, UpdateSqlInjectionMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSqlInjectionMatchSetInput, UpdateSqlInjectionMatchSetOutput>(UpdateSqlInjectionMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSqlInjectionMatchSetInput, UpdateSqlInjectionMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSqlInjectionMatchSetInput, UpdateSqlInjectionMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSqlInjectionMatchSetOutput>(UpdateSqlInjectionMatchSetOutput.httpOutput(from:), UpdateSqlInjectionMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSqlInjectionMatchSetInput, UpdateSqlInjectionMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7342,7 +7715,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSqlInjectionMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSqlInjectionMatchSetInput, UpdateSqlInjectionMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.UpdateSqlInjectionMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSqlInjectionMatchSetInput, UpdateSqlInjectionMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSqlInjectionMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSqlInjectionMatchSetInput, UpdateSqlInjectionMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSqlInjectionMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSqlInjectionMatchSetInput, UpdateSqlInjectionMatchSetOutput>())
@@ -7449,6 +7821,12 @@ extension WAFClient {
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     /// - `WAFSubscriptionNotFoundException` : The specified subscription does not exist.
     public func updateWebACL(input: UpdateWebACLInput) async throws -> UpdateWebACLOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.updateWebACLOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7461,18 +7839,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateWebACLInput, UpdateWebACLOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateWebACLInput, UpdateWebACLOutput>(UpdateWebACLInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateWebACLInput, UpdateWebACLOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWebACLInput, UpdateWebACLOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWebACLOutput>(UpdateWebACLOutput.httpOutput(from:), UpdateWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWebACLInput, UpdateWebACLOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7484,7 +7862,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWebACLOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWebACLInput, UpdateWebACLOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.UpdateWebACL"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateWebACLInput, UpdateWebACLOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWebACLInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWebACLInput, UpdateWebACLOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWebACLOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWebACLInput, UpdateWebACLOutput>())
@@ -7579,6 +7956,12 @@ extension WAFClient {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     public func updateXssMatchSet(input: UpdateXssMatchSetInput) async throws -> UpdateXssMatchSetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFClient.updateXssMatchSetOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -7591,18 +7974,18 @@ extension WAFClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "waf")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateXssMatchSetInput, UpdateXssMatchSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateXssMatchSetInput, UpdateXssMatchSetOutput>(UpdateXssMatchSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateXssMatchSetInput, UpdateXssMatchSetOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateXssMatchSetInput, UpdateXssMatchSetOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateXssMatchSetOutput>(UpdateXssMatchSetOutput.httpOutput(from:), UpdateXssMatchSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateXssMatchSetInput, UpdateXssMatchSetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7614,7 +7997,6 @@ extension WAFClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateXssMatchSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateXssMatchSetInput, UpdateXssMatchSetOutput>(overrides: ["X-Amz-Target": "AWSWAF_20150824.UpdateXssMatchSet"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateXssMatchSetInput, UpdateXssMatchSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateXssMatchSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateXssMatchSetInput, UpdateXssMatchSetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateXssMatchSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateXssMatchSetInput, UpdateXssMatchSetOutput>())

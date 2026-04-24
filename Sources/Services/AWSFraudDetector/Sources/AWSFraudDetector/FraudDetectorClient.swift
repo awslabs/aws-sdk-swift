@@ -19,9 +19,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -38,30 +35,30 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
+import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct SmithyAWSJSON.HTTPClientProtocol
+import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
@@ -627,6 +624,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func batchCreateVariable(input: BatchCreateVariableInput) async throws -> BatchCreateVariableOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.batchCreateVariableOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -639,18 +642,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchCreateVariableInput, BatchCreateVariableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput>(BatchCreateVariableInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreateVariableOutput>(BatchCreateVariableOutput.httpOutput(from:), BatchCreateVariableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -662,7 +665,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateVariableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.BatchCreateVariable"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateVariableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateVariableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput>())
@@ -699,6 +701,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func batchGetVariable(input: BatchGetVariableInput) async throws -> BatchGetVariableOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.batchGetVariableOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -711,18 +719,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<BatchGetVariableInput, BatchGetVariableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetVariableInput, BatchGetVariableOutput>(BatchGetVariableInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetVariableInput, BatchGetVariableOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetVariableInput, BatchGetVariableOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetVariableOutput>(BatchGetVariableOutput.httpOutput(from:), BatchGetVariableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetVariableInput, BatchGetVariableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -734,7 +742,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetVariableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetVariableInput, BatchGetVariableOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.BatchGetVariable"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetVariableInput, BatchGetVariableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetVariableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetVariableInput, BatchGetVariableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetVariableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetVariableInput, BatchGetVariableOutput>())
@@ -772,6 +779,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func cancelBatchImportJob(input: CancelBatchImportJobInput) async throws -> CancelBatchImportJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.cancelBatchImportJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -784,18 +797,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelBatchImportJobInput, CancelBatchImportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput>(CancelBatchImportJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelBatchImportJobOutput>(CancelBatchImportJobOutput.httpOutput(from:), CancelBatchImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -807,7 +820,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelBatchImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CancelBatchImportJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelBatchImportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelBatchImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput>())
@@ -845,6 +857,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func cancelBatchPredictionJob(input: CancelBatchPredictionJobInput) async throws -> CancelBatchPredictionJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.cancelBatchPredictionJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -857,18 +875,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput>(CancelBatchPredictionJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelBatchPredictionJobOutput>(CancelBatchPredictionJobOutput.httpOutput(from:), CancelBatchPredictionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -880,7 +898,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelBatchPredictionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CancelBatchPredictionJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelBatchPredictionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelBatchPredictionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput>())
@@ -918,6 +935,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func createBatchImportJob(input: CreateBatchImportJobInput) async throws -> CreateBatchImportJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.createBatchImportJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -930,18 +953,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateBatchImportJobInput, CreateBatchImportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput>(CreateBatchImportJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBatchImportJobOutput>(CreateBatchImportJobOutput.httpOutput(from:), CreateBatchImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -953,7 +976,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBatchImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateBatchImportJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBatchImportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBatchImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput>())
@@ -991,6 +1013,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func createBatchPredictionJob(input: CreateBatchPredictionJobInput) async throws -> CreateBatchPredictionJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.createBatchPredictionJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1003,18 +1031,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput>(CreateBatchPredictionJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBatchPredictionJobOutput>(CreateBatchPredictionJobOutput.httpOutput(from:), CreateBatchPredictionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1026,7 +1054,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBatchPredictionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateBatchPredictionJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBatchPredictionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBatchPredictionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput>())
@@ -1064,6 +1091,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func createDetectorVersion(input: CreateDetectorVersionInput) async throws -> CreateDetectorVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.createDetectorVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1076,18 +1109,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateDetectorVersionInput, CreateDetectorVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput>(CreateDetectorVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDetectorVersionOutput>(CreateDetectorVersionOutput.httpOutput(from:), CreateDetectorVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1099,7 +1132,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDetectorVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateDetectorVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDetectorVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDetectorVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput>())
@@ -1136,6 +1168,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func createList(input: CreateListInput) async throws -> CreateListOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.createListOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1148,18 +1186,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateListInput, CreateListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateListInput, CreateListOutput>(CreateListInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateListInput, CreateListOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateListInput, CreateListOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateListOutput>(CreateListOutput.httpOutput(from:), CreateListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateListInput, CreateListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1171,7 +1209,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateListInput, CreateListOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateList"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateListInput, CreateListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateListInput, CreateListOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateListInput, CreateListOutput>())
@@ -1208,6 +1245,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func createModel(input: CreateModelInput) async throws -> CreateModelOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.createModelOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1220,18 +1263,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateModelInput, CreateModelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateModelInput, CreateModelOutput>(CreateModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateModelInput, CreateModelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelInput, CreateModelOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelOutput>(CreateModelOutput.httpOutput(from:), CreateModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelInput, CreateModelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1243,7 +1286,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelInput, CreateModelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateModel"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateModelInput, CreateModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelInput, CreateModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateModelInput, CreateModelOutput>())
@@ -1281,6 +1323,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func createModelVersion(input: CreateModelVersionInput) async throws -> CreateModelVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.createModelVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1293,18 +1341,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateModelVersionInput, CreateModelVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateModelVersionInput, CreateModelVersionOutput>(CreateModelVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateModelVersionInput, CreateModelVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelVersionInput, CreateModelVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelVersionOutput>(CreateModelVersionOutput.httpOutput(from:), CreateModelVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelVersionInput, CreateModelVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1316,7 +1364,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelVersionInput, CreateModelVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateModelVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateModelVersionInput, CreateModelVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelVersionInput, CreateModelVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateModelVersionInput, CreateModelVersionOutput>())
@@ -1353,6 +1400,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.createRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1365,18 +1418,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateRuleInput, CreateRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRuleInput, CreateRuleOutput>(CreateRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRuleInput, CreateRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleInput, CreateRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuleOutput>(CreateRuleOutput.httpOutput(from:), CreateRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleInput, CreateRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1388,7 +1441,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRuleInput, CreateRuleOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateRuleInput, CreateRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuleInput, CreateRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRuleInput, CreateRuleOutput>())
@@ -1425,6 +1477,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func createVariable(input: CreateVariableInput) async throws -> CreateVariableOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.createVariableOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1437,18 +1495,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateVariableInput, CreateVariableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateVariableInput, CreateVariableOutput>(CreateVariableInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVariableInput, CreateVariableOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVariableInput, CreateVariableOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVariableOutput>(CreateVariableOutput.httpOutput(from:), CreateVariableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVariableInput, CreateVariableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1460,7 +1518,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVariableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVariableInput, CreateVariableOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateVariable"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateVariableInput, CreateVariableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVariableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVariableInput, CreateVariableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVariableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVariableInput, CreateVariableOutput>())
@@ -1497,6 +1554,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteBatchImportJob(input: DeleteBatchImportJobInput) async throws -> DeleteBatchImportJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteBatchImportJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1509,18 +1572,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBatchImportJobInput, DeleteBatchImportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput>(DeleteBatchImportJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBatchImportJobOutput>(DeleteBatchImportJobOutput.httpOutput(from:), DeleteBatchImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1532,7 +1595,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBatchImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteBatchImportJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBatchImportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBatchImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput>())
@@ -1569,6 +1631,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteBatchPredictionJob(input: DeleteBatchPredictionJobInput) async throws -> DeleteBatchPredictionJobOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteBatchPredictionJobOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1581,18 +1649,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput>(DeleteBatchPredictionJobInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBatchPredictionJobOutput>(DeleteBatchPredictionJobOutput.httpOutput(from:), DeleteBatchPredictionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1604,7 +1672,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBatchPredictionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteBatchPredictionJob"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBatchPredictionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBatchPredictionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput>())
@@ -1642,6 +1709,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteDetector(input: DeleteDetectorInput) async throws -> DeleteDetectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteDetectorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1654,18 +1727,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteDetectorInput, DeleteDetectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDetectorInput, DeleteDetectorOutput>(DeleteDetectorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDetectorInput, DeleteDetectorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDetectorInput, DeleteDetectorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDetectorOutput>(DeleteDetectorOutput.httpOutput(from:), DeleteDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDetectorInput, DeleteDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1677,7 +1750,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDetectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDetectorInput, DeleteDetectorOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteDetector"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteDetectorInput, DeleteDetectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDetectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDetectorInput, DeleteDetectorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDetectorInput, DeleteDetectorOutput>())
@@ -1716,6 +1788,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteDetectorVersion(input: DeleteDetectorVersionInput) async throws -> DeleteDetectorVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteDetectorVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1728,18 +1806,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteDetectorVersionInput, DeleteDetectorVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput>(DeleteDetectorVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDetectorVersionOutput>(DeleteDetectorVersionOutput.httpOutput(from:), DeleteDetectorVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1751,7 +1829,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDetectorVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteDetectorVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDetectorVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDetectorVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput>())
@@ -1789,6 +1866,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteEntityType(input: DeleteEntityTypeInput) async throws -> DeleteEntityTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteEntityTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1801,18 +1884,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteEntityTypeInput, DeleteEntityTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput>(DeleteEntityTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEntityTypeOutput>(DeleteEntityTypeOutput.httpOutput(from:), DeleteEntityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1824,7 +1907,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEntityTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteEntityType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEntityTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEntityTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput>())
@@ -1861,6 +1943,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteEvent(input: DeleteEventInput) async throws -> DeleteEventOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteEventOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1873,18 +1961,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteEventInput, DeleteEventOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEventInput, DeleteEventOutput>(DeleteEventInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventInput, DeleteEventOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventInput, DeleteEventOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventOutput>(DeleteEventOutput.httpOutput(from:), DeleteEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventInput, DeleteEventOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1896,7 +1984,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEventInput, DeleteEventOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteEvent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEventInput, DeleteEventOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEventInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEventInput, DeleteEventOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEventInput, DeleteEventOutput>())
@@ -1934,6 +2021,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteEventType(input: DeleteEventTypeInput) async throws -> DeleteEventTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteEventTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1946,18 +2039,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteEventTypeInput, DeleteEventTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput>(DeleteEventTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventTypeOutput>(DeleteEventTypeOutput.httpOutput(from:), DeleteEventTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1969,7 +2062,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEventTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteEventType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEventTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEventTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput>())
@@ -2008,6 +2100,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteEventsByEventType(input: DeleteEventsByEventTypeInput) async throws -> DeleteEventsByEventTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteEventsByEventTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2020,18 +2118,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput>(DeleteEventsByEventTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventsByEventTypeOutput>(DeleteEventsByEventTypeOutput.httpOutput(from:), DeleteEventsByEventTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2043,7 +2141,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEventsByEventTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteEventsByEventType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEventsByEventTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEventsByEventTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput>())
@@ -2081,6 +2178,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteExternalModel(input: DeleteExternalModelInput) async throws -> DeleteExternalModelOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteExternalModelOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2093,18 +2196,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteExternalModelInput, DeleteExternalModelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput>(DeleteExternalModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteExternalModelOutput>(DeleteExternalModelOutput.httpOutput(from:), DeleteExternalModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2116,7 +2219,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteExternalModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteExternalModel"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteExternalModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteExternalModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput>())
@@ -2153,6 +2255,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteLabel(input: DeleteLabelInput) async throws -> DeleteLabelOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteLabelOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2165,18 +2273,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteLabelInput, DeleteLabelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteLabelInput, DeleteLabelOutput>(DeleteLabelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLabelInput, DeleteLabelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLabelInput, DeleteLabelOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLabelOutput>(DeleteLabelOutput.httpOutput(from:), DeleteLabelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLabelInput, DeleteLabelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2188,7 +2296,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLabelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLabelInput, DeleteLabelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteLabel"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteLabelInput, DeleteLabelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLabelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLabelInput, DeleteLabelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLabelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLabelInput, DeleteLabelOutput>())
@@ -2226,6 +2333,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteList(input: DeleteListInput) async throws -> DeleteListOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteListOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2238,18 +2351,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteListInput, DeleteListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteListInput, DeleteListOutput>(DeleteListInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteListInput, DeleteListOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteListInput, DeleteListOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteListOutput>(DeleteListOutput.httpOutput(from:), DeleteListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteListInput, DeleteListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2261,7 +2374,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteListInput, DeleteListOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteList"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteListInput, DeleteListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteListInput, DeleteListOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteListInput, DeleteListOutput>())
@@ -2299,6 +2411,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteModelOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2311,18 +2429,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteModelInput, DeleteModelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteModelInput, DeleteModelOutput>(DeleteModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteModelInput, DeleteModelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelInput, DeleteModelOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelOutput>(DeleteModelOutput.httpOutput(from:), DeleteModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelInput, DeleteModelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2334,7 +2452,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelInput, DeleteModelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteModel"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelInput, DeleteModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelInput, DeleteModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteModelInput, DeleteModelOutput>())
@@ -2372,6 +2489,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteModelVersion(input: DeleteModelVersionInput) async throws -> DeleteModelVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteModelVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2384,18 +2507,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteModelVersionInput, DeleteModelVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput>(DeleteModelVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelVersionOutput>(DeleteModelVersionOutput.httpOutput(from:), DeleteModelVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2407,7 +2530,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteModelVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput>())
@@ -2445,6 +2567,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteOutcome(input: DeleteOutcomeInput) async throws -> DeleteOutcomeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteOutcomeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2457,18 +2585,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteOutcomeInput, DeleteOutcomeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput>(DeleteOutcomeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOutcomeOutput>(DeleteOutcomeOutput.httpOutput(from:), DeleteOutcomeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2480,7 +2608,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOutcomeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteOutcome"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOutcomeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOutcomeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput>())
@@ -2518,6 +2645,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteRuleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2530,18 +2663,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteRuleInput, DeleteRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRuleInput, DeleteRuleOutput>(DeleteRuleInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRuleInput, DeleteRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleInput, DeleteRuleOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleOutput>(DeleteRuleOutput.httpOutput(from:), DeleteRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleInput, DeleteRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2553,7 +2686,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRuleInput, DeleteRuleOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteRule"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRuleInput, DeleteRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRuleInput, DeleteRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRuleInput, DeleteRuleOutput>())
@@ -2591,6 +2723,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func deleteVariable(input: DeleteVariableInput) async throws -> DeleteVariableOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.deleteVariableOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2603,18 +2741,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteVariableInput, DeleteVariableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVariableInput, DeleteVariableOutput>(DeleteVariableInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVariableInput, DeleteVariableOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVariableInput, DeleteVariableOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVariableOutput>(DeleteVariableOutput.httpOutput(from:), DeleteVariableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVariableInput, DeleteVariableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2626,7 +2764,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVariableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVariableInput, DeleteVariableOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteVariable"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteVariableInput, DeleteVariableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVariableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVariableInput, DeleteVariableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVariableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVariableInput, DeleteVariableOutput>())
@@ -2664,6 +2801,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func describeDetector(input: DescribeDetectorInput) async throws -> DescribeDetectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.describeDetectorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2676,18 +2819,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeDetectorInput, DescribeDetectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDetectorInput, DescribeDetectorOutput>(DescribeDetectorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDetectorInput, DescribeDetectorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDetectorInput, DescribeDetectorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDetectorOutput>(DescribeDetectorOutput.httpOutput(from:), DescribeDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDetectorInput, DescribeDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2699,7 +2842,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDetectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDetectorInput, DescribeDetectorOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DescribeDetector"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDetectorInput, DescribeDetectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDetectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDetectorInput, DescribeDetectorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDetectorInput, DescribeDetectorOutput>())
@@ -2737,6 +2879,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func describeModelVersions(input: DescribeModelVersionsInput) async throws -> DescribeModelVersionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.describeModelVersionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2749,18 +2897,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeModelVersionsInput, DescribeModelVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput>(DescribeModelVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeModelVersionsOutput>(DescribeModelVersionsOutput.httpOutput(from:), DescribeModelVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2772,7 +2920,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeModelVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DescribeModelVersions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeModelVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeModelVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput>())
@@ -2810,6 +2957,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getBatchImportJobs(input: GetBatchImportJobsInput) async throws -> GetBatchImportJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getBatchImportJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2822,18 +2975,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBatchImportJobsInput, GetBatchImportJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput>(GetBatchImportJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBatchImportJobsOutput>(GetBatchImportJobsOutput.httpOutput(from:), GetBatchImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2845,7 +2998,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBatchImportJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetBatchImportJobs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBatchImportJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBatchImportJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput>())
@@ -2883,6 +3035,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getBatchPredictionJobs(input: GetBatchPredictionJobsInput) async throws -> GetBatchPredictionJobsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getBatchPredictionJobsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2895,18 +3053,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>(GetBatchPredictionJobsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBatchPredictionJobsOutput>(GetBatchPredictionJobsOutput.httpOutput(from:), GetBatchPredictionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2918,7 +3076,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBatchPredictionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetBatchPredictionJobs"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBatchPredictionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBatchPredictionJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>())
@@ -2956,6 +3113,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getDeleteEventsByEventTypeStatus(input: GetDeleteEventsByEventTypeStatusInput) async throws -> GetDeleteEventsByEventTypeStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getDeleteEventsByEventTypeStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -2968,18 +3131,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput>(GetDeleteEventsByEventTypeStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeleteEventsByEventTypeStatusOutput>(GetDeleteEventsByEventTypeStatusOutput.httpOutput(from:), GetDeleteEventsByEventTypeStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2991,7 +3154,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDeleteEventsByEventTypeStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetDeleteEventsByEventTypeStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDeleteEventsByEventTypeStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeleteEventsByEventTypeStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput>())
@@ -3029,6 +3191,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getDetectorVersion(input: GetDetectorVersionInput) async throws -> GetDetectorVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getDetectorVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3041,18 +3209,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDetectorVersionInput, GetDetectorVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput>(GetDetectorVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDetectorVersionOutput>(GetDetectorVersionOutput.httpOutput(from:), GetDetectorVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3064,7 +3232,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDetectorVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetDetectorVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDetectorVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDetectorVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput>())
@@ -3102,6 +3269,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getDetectors(input: GetDetectorsInput) async throws -> GetDetectorsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getDetectorsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3114,18 +3287,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDetectorsInput, GetDetectorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDetectorsInput, GetDetectorsOutput>(GetDetectorsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDetectorsInput, GetDetectorsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDetectorsInput, GetDetectorsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDetectorsOutput>(GetDetectorsOutput.httpOutput(from:), GetDetectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDetectorsInput, GetDetectorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3137,7 +3310,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDetectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDetectorsInput, GetDetectorsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetDetectors"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetDetectorsInput, GetDetectorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDetectorsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDetectorsInput, GetDetectorsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDetectorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDetectorsInput, GetDetectorsOutput>())
@@ -3175,6 +3347,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getEntityTypes(input: GetEntityTypesInput) async throws -> GetEntityTypesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getEntityTypesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3187,18 +3365,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEntityTypesInput, GetEntityTypesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEntityTypesInput, GetEntityTypesOutput>(GetEntityTypesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEntityTypesInput, GetEntityTypesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEntityTypesInput, GetEntityTypesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEntityTypesOutput>(GetEntityTypesOutput.httpOutput(from:), GetEntityTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEntityTypesInput, GetEntityTypesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3210,7 +3388,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEntityTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEntityTypesInput, GetEntityTypesOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetEntityTypes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEntityTypesInput, GetEntityTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEntityTypesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEntityTypesInput, GetEntityTypesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEntityTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEntityTypesInput, GetEntityTypesOutput>())
@@ -3248,6 +3425,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getEvent(input: GetEventInput) async throws -> GetEventOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getEventOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3260,18 +3443,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEventInput, GetEventOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEventInput, GetEventOutput>(GetEventInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventInput, GetEventOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventInput, GetEventOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventOutput>(GetEventOutput.httpOutput(from:), GetEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventInput, GetEventOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3283,7 +3466,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEventInput, GetEventOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetEvent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEventInput, GetEventOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEventInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEventInput, GetEventOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEventInput, GetEventOutput>())
@@ -3323,6 +3505,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getEventPrediction(input: GetEventPredictionInput) async throws -> GetEventPredictionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getEventPredictionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3335,18 +3523,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEventPredictionInput, GetEventPredictionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEventPredictionInput, GetEventPredictionOutput>(GetEventPredictionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventPredictionInput, GetEventPredictionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventPredictionInput, GetEventPredictionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventPredictionOutput>(GetEventPredictionOutput.httpOutput(from:), GetEventPredictionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventPredictionInput, GetEventPredictionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3358,7 +3546,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEventPredictionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEventPredictionInput, GetEventPredictionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetEventPrediction"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEventPredictionInput, GetEventPredictionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEventPredictionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEventPredictionInput, GetEventPredictionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEventPredictionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEventPredictionInput, GetEventPredictionOutput>())
@@ -3396,6 +3583,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getEventPredictionMetadata(input: GetEventPredictionMetadataInput) async throws -> GetEventPredictionMetadataOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getEventPredictionMetadataOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3408,18 +3601,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput>(GetEventPredictionMetadataInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventPredictionMetadataOutput>(GetEventPredictionMetadataOutput.httpOutput(from:), GetEventPredictionMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3431,7 +3624,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEventPredictionMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetEventPredictionMetadata"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEventPredictionMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEventPredictionMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput>())
@@ -3469,6 +3661,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getEventTypes(input: GetEventTypesInput) async throws -> GetEventTypesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getEventTypesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3481,18 +3679,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetEventTypesInput, GetEventTypesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEventTypesInput, GetEventTypesOutput>(GetEventTypesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventTypesInput, GetEventTypesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventTypesInput, GetEventTypesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventTypesOutput>(GetEventTypesOutput.httpOutput(from:), GetEventTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventTypesInput, GetEventTypesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3504,7 +3702,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEventTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEventTypesInput, GetEventTypesOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetEventTypes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetEventTypesInput, GetEventTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEventTypesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEventTypesInput, GetEventTypesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEventTypesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEventTypesInput, GetEventTypesOutput>())
@@ -3542,6 +3739,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getExternalModels(input: GetExternalModelsInput) async throws -> GetExternalModelsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getExternalModelsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3554,18 +3757,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetExternalModelsInput, GetExternalModelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetExternalModelsInput, GetExternalModelsOutput>(GetExternalModelsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExternalModelsInput, GetExternalModelsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetExternalModelsInput, GetExternalModelsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExternalModelsOutput>(GetExternalModelsOutput.httpOutput(from:), GetExternalModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExternalModelsInput, GetExternalModelsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3577,7 +3780,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetExternalModelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetExternalModelsInput, GetExternalModelsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetExternalModels"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetExternalModelsInput, GetExternalModelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetExternalModelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetExternalModelsInput, GetExternalModelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetExternalModelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetExternalModelsInput, GetExternalModelsOutput>())
@@ -3614,6 +3816,12 @@ extension FraudDetectorClient {
     /// - `ResourceNotFoundException` : An exception indicating the specified resource was not found.
     /// - `ThrottlingException` : An exception indicating a throttling error.
     public func getKMSEncryptionKey(input: GetKMSEncryptionKeyInput) async throws -> GetKMSEncryptionKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getKMSEncryptionKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3626,18 +3834,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput>(GetKMSEncryptionKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKMSEncryptionKeyOutput>(GetKMSEncryptionKeyOutput.httpOutput(from:), GetKMSEncryptionKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3649,7 +3857,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetKMSEncryptionKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetKMSEncryptionKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetKMSEncryptionKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetKMSEncryptionKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput>())
@@ -3687,6 +3894,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getLabels(input: GetLabelsInput) async throws -> GetLabelsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getLabelsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3699,18 +3912,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetLabelsInput, GetLabelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLabelsInput, GetLabelsOutput>(GetLabelsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLabelsInput, GetLabelsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLabelsInput, GetLabelsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLabelsOutput>(GetLabelsOutput.httpOutput(from:), GetLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLabelsInput, GetLabelsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3722,7 +3935,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLabelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLabelsInput, GetLabelsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetLabels"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetLabelsInput, GetLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLabelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLabelsInput, GetLabelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLabelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLabelsInput, GetLabelsOutput>())
@@ -3760,6 +3972,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getListElements(input: GetListElementsInput) async throws -> GetListElementsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getListElementsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3772,18 +3990,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetListElementsInput, GetListElementsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetListElementsInput, GetListElementsOutput>(GetListElementsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetListElementsInput, GetListElementsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetListElementsInput, GetListElementsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetListElementsOutput>(GetListElementsOutput.httpOutput(from:), GetListElementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetListElementsInput, GetListElementsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3795,7 +4013,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetListElementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetListElementsInput, GetListElementsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetListElements"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetListElementsInput, GetListElementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetListElementsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetListElementsInput, GetListElementsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetListElementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetListElementsInput, GetListElementsOutput>())
@@ -3833,6 +4050,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getListsMetadata(input: GetListsMetadataInput) async throws -> GetListsMetadataOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getListsMetadataOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3845,18 +4068,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetListsMetadataInput, GetListsMetadataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetListsMetadataInput, GetListsMetadataOutput>(GetListsMetadataInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetListsMetadataInput, GetListsMetadataOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetListsMetadataInput, GetListsMetadataOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetListsMetadataOutput>(GetListsMetadataOutput.httpOutput(from:), GetListsMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetListsMetadataInput, GetListsMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3868,7 +4091,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetListsMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetListsMetadataInput, GetListsMetadataOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetListsMetadata"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetListsMetadataInput, GetListsMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetListsMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetListsMetadataInput, GetListsMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetListsMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetListsMetadataInput, GetListsMetadataOutput>())
@@ -3906,6 +4128,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getModelVersion(input: GetModelVersionInput) async throws -> GetModelVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getModelVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3918,18 +4146,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetModelVersionInput, GetModelVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetModelVersionInput, GetModelVersionOutput>(GetModelVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetModelVersionInput, GetModelVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetModelVersionInput, GetModelVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelVersionOutput>(GetModelVersionOutput.httpOutput(from:), GetModelVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelVersionInput, GetModelVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3941,7 +4169,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetModelVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetModelVersionInput, GetModelVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetModelVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetModelVersionInput, GetModelVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetModelVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetModelVersionInput, GetModelVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetModelVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetModelVersionInput, GetModelVersionOutput>())
@@ -3979,6 +4206,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getModels(input: GetModelsInput) async throws -> GetModelsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getModelsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3991,18 +4224,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetModelsInput, GetModelsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetModelsInput, GetModelsOutput>(GetModelsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetModelsInput, GetModelsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetModelsInput, GetModelsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelsOutput>(GetModelsOutput.httpOutput(from:), GetModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelsInput, GetModelsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4014,7 +4247,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetModelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetModelsInput, GetModelsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetModels"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetModelsInput, GetModelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetModelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetModelsInput, GetModelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetModelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetModelsInput, GetModelsOutput>())
@@ -4052,6 +4284,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getOutcomes(input: GetOutcomesInput) async throws -> GetOutcomesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getOutcomesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4064,18 +4302,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetOutcomesInput, GetOutcomesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOutcomesInput, GetOutcomesOutput>(GetOutcomesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOutcomesInput, GetOutcomesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOutcomesInput, GetOutcomesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOutcomesOutput>(GetOutcomesOutput.httpOutput(from:), GetOutcomesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOutcomesInput, GetOutcomesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4087,7 +4325,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOutcomesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOutcomesInput, GetOutcomesOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetOutcomes"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetOutcomesInput, GetOutcomesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOutcomesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOutcomesInput, GetOutcomesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOutcomesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOutcomesInput, GetOutcomesOutput>())
@@ -4125,6 +4362,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getRules(input: GetRulesInput) async throws -> GetRulesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getRulesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4137,18 +4380,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRulesInput, GetRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRulesInput, GetRulesOutput>(GetRulesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRulesInput, GetRulesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRulesInput, GetRulesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRulesOutput>(GetRulesOutput.httpOutput(from:), GetRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRulesInput, GetRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4160,7 +4403,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRulesInput, GetRulesOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetRules"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRulesInput, GetRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRulesInput, GetRulesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRulesInput, GetRulesOutput>())
@@ -4198,6 +4440,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func getVariables(input: GetVariablesInput) async throws -> GetVariablesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.getVariablesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4210,18 +4458,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetVariablesInput, GetVariablesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetVariablesInput, GetVariablesOutput>(GetVariablesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVariablesInput, GetVariablesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVariablesInput, GetVariablesOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVariablesOutput>(GetVariablesOutput.httpOutput(from:), GetVariablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVariablesInput, GetVariablesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4233,7 +4481,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetVariablesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetVariablesInput, GetVariablesOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetVariables"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetVariablesInput, GetVariablesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetVariablesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVariablesInput, GetVariablesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVariablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetVariablesInput, GetVariablesOutput>())
@@ -4270,6 +4517,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func listEventPredictions(input: ListEventPredictionsInput) async throws -> ListEventPredictionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.listEventPredictionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4282,18 +4535,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListEventPredictionsInput, ListEventPredictionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput>(ListEventPredictionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventPredictionsOutput>(ListEventPredictionsOutput.httpOutput(from:), ListEventPredictionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4305,7 +4558,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEventPredictionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.ListEventPredictions"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEventPredictionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEventPredictionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput>())
@@ -4342,6 +4594,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.listTagsForResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4354,18 +4612,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4377,7 +4635,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.ListTagsForResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -4415,6 +4672,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func putDetector(input: PutDetectorInput) async throws -> PutDetectorOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.putDetectorOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4427,18 +4690,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutDetectorInput, PutDetectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutDetectorInput, PutDetectorOutput>(PutDetectorInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutDetectorInput, PutDetectorOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDetectorInput, PutDetectorOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDetectorOutput>(PutDetectorOutput.httpOutput(from:), PutDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDetectorInput, PutDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4450,7 +4713,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutDetectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutDetectorInput, PutDetectorOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutDetector"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutDetectorInput, PutDetectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutDetectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutDetectorInput, PutDetectorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDetectorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDetectorInput, PutDetectorOutput>())
@@ -4488,6 +4750,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func putEntityType(input: PutEntityTypeInput) async throws -> PutEntityTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.putEntityTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4500,18 +4768,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutEntityTypeInput, PutEntityTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutEntityTypeInput, PutEntityTypeOutput>(PutEntityTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutEntityTypeInput, PutEntityTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEntityTypeInput, PutEntityTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEntityTypeOutput>(PutEntityTypeOutput.httpOutput(from:), PutEntityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEntityTypeInput, PutEntityTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4523,7 +4791,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutEntityTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutEntityTypeInput, PutEntityTypeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutEntityType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutEntityTypeInput, PutEntityTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutEntityTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutEntityTypeInput, PutEntityTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutEntityTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutEntityTypeInput, PutEntityTypeOutput>())
@@ -4561,6 +4828,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func putEventType(input: PutEventTypeInput) async throws -> PutEventTypeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.putEventTypeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4573,18 +4846,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutEventTypeInput, PutEventTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutEventTypeInput, PutEventTypeOutput>(PutEventTypeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutEventTypeInput, PutEventTypeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEventTypeInput, PutEventTypeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEventTypeOutput>(PutEventTypeOutput.httpOutput(from:), PutEventTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEventTypeInput, PutEventTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4596,7 +4869,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutEventTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutEventTypeInput, PutEventTypeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutEventType"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutEventTypeInput, PutEventTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutEventTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutEventTypeInput, PutEventTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutEventTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutEventTypeInput, PutEventTypeOutput>())
@@ -4634,6 +4906,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func putExternalModel(input: PutExternalModelInput) async throws -> PutExternalModelOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.putExternalModelOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4646,18 +4924,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutExternalModelInput, PutExternalModelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutExternalModelInput, PutExternalModelOutput>(PutExternalModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutExternalModelInput, PutExternalModelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutExternalModelInput, PutExternalModelOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutExternalModelOutput>(PutExternalModelOutput.httpOutput(from:), PutExternalModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutExternalModelInput, PutExternalModelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4669,7 +4947,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutExternalModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutExternalModelInput, PutExternalModelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutExternalModel"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutExternalModelInput, PutExternalModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutExternalModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutExternalModelInput, PutExternalModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutExternalModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutExternalModelInput, PutExternalModelOutput>())
@@ -4708,6 +4985,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func putKMSEncryptionKey(input: PutKMSEncryptionKeyInput) async throws -> PutKMSEncryptionKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.putKMSEncryptionKeyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4720,18 +5003,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput>(PutKMSEncryptionKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutKMSEncryptionKeyOutput>(PutKMSEncryptionKeyOutput.httpOutput(from:), PutKMSEncryptionKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4743,7 +5026,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutKMSEncryptionKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutKMSEncryptionKey"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutKMSEncryptionKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutKMSEncryptionKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput>())
@@ -4781,6 +5063,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func putLabel(input: PutLabelInput) async throws -> PutLabelOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.putLabelOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4793,18 +5081,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutLabelInput, PutLabelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutLabelInput, PutLabelOutput>(PutLabelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutLabelInput, PutLabelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLabelInput, PutLabelOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLabelOutput>(PutLabelOutput.httpOutput(from:), PutLabelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLabelInput, PutLabelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4816,7 +5104,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutLabelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutLabelInput, PutLabelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutLabel"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutLabelInput, PutLabelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutLabelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLabelInput, PutLabelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLabelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutLabelInput, PutLabelOutput>())
@@ -4854,6 +5141,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func putOutcome(input: PutOutcomeInput) async throws -> PutOutcomeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.putOutcomeOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4866,18 +5159,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<PutOutcomeInput, PutOutcomeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutOutcomeInput, PutOutcomeOutput>(PutOutcomeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutOutcomeInput, PutOutcomeOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutOutcomeInput, PutOutcomeOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutOutcomeOutput>(PutOutcomeOutput.httpOutput(from:), PutOutcomeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutOutcomeInput, PutOutcomeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4889,7 +5182,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutOutcomeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutOutcomeInput, PutOutcomeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutOutcome"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutOutcomeInput, PutOutcomeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutOutcomeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutOutcomeInput, PutOutcomeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutOutcomeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutOutcomeInput, PutOutcomeOutput>())
@@ -4928,6 +5220,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func sendEvent(input: SendEventInput) async throws -> SendEventOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.sendEventOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4940,18 +5238,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<SendEventInput, SendEventOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendEventInput, SendEventOutput>(SendEventInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendEventInput, SendEventOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendEventInput, SendEventOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendEventOutput>(SendEventOutput.httpOutput(from:), SendEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendEventInput, SendEventOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4963,7 +5261,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendEventInput, SendEventOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.SendEvent"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<SendEventInput, SendEventOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendEventInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendEventInput, SendEventOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendEventInput, SendEventOutput>())
@@ -5000,6 +5297,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.tagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5012,18 +5315,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5035,7 +5338,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.TagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
@@ -5072,6 +5374,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.untagResourceOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5084,18 +5392,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5107,7 +5415,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UntagResource"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -5146,6 +5453,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func updateDetectorVersion(input: UpdateDetectorVersionInput) async throws -> UpdateDetectorVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.updateDetectorVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5158,18 +5471,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateDetectorVersionInput, UpdateDetectorVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput>(UpdateDetectorVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDetectorVersionOutput>(UpdateDetectorVersionOutput.httpOutput(from:), UpdateDetectorVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5181,7 +5494,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDetectorVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateDetectorVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDetectorVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDetectorVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput>())
@@ -5219,6 +5531,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func updateDetectorVersionMetadata(input: UpdateDetectorVersionMetadataInput) async throws -> UpdateDetectorVersionMetadataOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.updateDetectorVersionMetadataOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5231,18 +5549,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput>(UpdateDetectorVersionMetadataInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDetectorVersionMetadataOutput>(UpdateDetectorVersionMetadataOutput.httpOutput(from:), UpdateDetectorVersionMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5254,7 +5572,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDetectorVersionMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateDetectorVersionMetadata"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDetectorVersionMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDetectorVersionMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput>())
@@ -5293,6 +5610,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func updateDetectorVersionStatus(input: UpdateDetectorVersionStatusInput) async throws -> UpdateDetectorVersionStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.updateDetectorVersionStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5305,18 +5628,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput>(UpdateDetectorVersionStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDetectorVersionStatusOutput>(UpdateDetectorVersionStatusOutput.httpOutput(from:), UpdateDetectorVersionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5328,7 +5651,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDetectorVersionStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateDetectorVersionStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDetectorVersionStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDetectorVersionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput>())
@@ -5367,6 +5689,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func updateEventLabel(input: UpdateEventLabelInput) async throws -> UpdateEventLabelOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.updateEventLabelOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5379,18 +5707,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateEventLabelInput, UpdateEventLabelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput>(UpdateEventLabelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventLabelOutput>(UpdateEventLabelOutput.httpOutput(from:), UpdateEventLabelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5402,7 +5730,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEventLabelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateEventLabel"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEventLabelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEventLabelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput>())
@@ -5441,6 +5768,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func updateList(input: UpdateListInput) async throws -> UpdateListOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.updateListOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5453,18 +5786,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateListInput, UpdateListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateListInput, UpdateListOutput>(UpdateListInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateListInput, UpdateListOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateListInput, UpdateListOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateListOutput>(UpdateListOutput.httpOutput(from:), UpdateListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateListInput, UpdateListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5476,7 +5809,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateListInput, UpdateListOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateList"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateListInput, UpdateListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateListInput, UpdateListOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateListInput, UpdateListOutput>())
@@ -5515,6 +5847,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.updateModelOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5527,18 +5865,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateModelInput, UpdateModelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateModelInput, UpdateModelOutput>(UpdateModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateModelInput, UpdateModelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateModelInput, UpdateModelOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateModelOutput>(UpdateModelOutput.httpOutput(from:), UpdateModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateModelInput, UpdateModelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5550,7 +5888,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateModelInput, UpdateModelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateModel"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateModelInput, UpdateModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateModelInput, UpdateModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateModelInput, UpdateModelOutput>())
@@ -5589,6 +5926,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func updateModelVersion(input: UpdateModelVersionInput) async throws -> UpdateModelVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.updateModelVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5601,18 +5944,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateModelVersionInput, UpdateModelVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput>(UpdateModelVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateModelVersionOutput>(UpdateModelVersionOutput.httpOutput(from:), UpdateModelVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5624,7 +5967,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateModelVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateModelVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateModelVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateModelVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput>())
@@ -5669,6 +6011,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func updateModelVersionStatus(input: UpdateModelVersionStatusInput) async throws -> UpdateModelVersionStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.updateModelVersionStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5681,18 +6029,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput>(UpdateModelVersionStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateModelVersionStatusOutput>(UpdateModelVersionStatusOutput.httpOutput(from:), UpdateModelVersionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5704,7 +6052,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateModelVersionStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateModelVersionStatus"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateModelVersionStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateModelVersionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput>())
@@ -5743,6 +6090,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func updateRuleMetadata(input: UpdateRuleMetadataInput) async throws -> UpdateRuleMetadataOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.updateRuleMetadataOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5755,18 +6108,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateRuleMetadataInput, UpdateRuleMetadataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput>(UpdateRuleMetadataInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuleMetadataOutput>(UpdateRuleMetadataOutput.httpOutput(from:), UpdateRuleMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5778,7 +6131,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRuleMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateRuleMetadata"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRuleMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuleMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput>())
@@ -5817,6 +6169,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func updateRuleVersion(input: UpdateRuleVersionInput) async throws -> UpdateRuleVersionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.updateRuleVersionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5829,18 +6187,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateRuleVersionInput, UpdateRuleVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput>(UpdateRuleVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuleVersionOutput>(UpdateRuleVersionOutput.httpOutput(from:), UpdateRuleVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5852,7 +6210,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRuleVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateRuleVersion"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRuleVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuleVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput>())
@@ -5891,6 +6248,12 @@ extension FraudDetectorClient {
     /// - `ThrottlingException` : An exception indicating a throttling error.
     /// - `ValidationException` : An exception indicating a specified value is not allowed.
     public func updateVariable(input: UpdateVariableInput) async throws -> UpdateVariableOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = FraudDetectorClient.updateVariableOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -5903,18 +6266,18 @@ extension FraudDetectorClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "frauddetector")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateVariableInput, UpdateVariableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateVariableInput, UpdateVariableOutput>(UpdateVariableInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateVariableInput, UpdateVariableOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVariableInput, UpdateVariableOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVariableOutput>(UpdateVariableOutput.httpOutput(from:), UpdateVariableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVariableInput, UpdateVariableOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5926,7 +6289,6 @@ extension FraudDetectorClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateVariableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateVariableInput, UpdateVariableOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateVariable"]))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateVariableInput, UpdateVariableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateVariableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVariableInput, UpdateVariableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateVariableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateVariableInput, UpdateVariableOutput>())
