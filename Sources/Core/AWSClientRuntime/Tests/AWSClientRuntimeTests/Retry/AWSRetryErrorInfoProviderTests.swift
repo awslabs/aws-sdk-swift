@@ -92,7 +92,7 @@ class AWSRetryErrorInfoProviderTests: XCTestCase {
         }
     }
 
-    // MARK: - x-amz-retry-after header
+    // x-amz-retry-after header
 
     func test_retryAfterHeader_parsedAsMilliseconds() throws {
         let error = try TestHTTPError(statusCode: 500, headers: ["x-amz-retry-after": "1500"])
@@ -118,7 +118,7 @@ class AWSRetryErrorInfoProviderTests: XCTestCase {
         XCTAssertNil(errorInfo?.retryAfterHint)
     }
 
-    // MARK: - Service-aware error info provider
+    // Service-aware error info provider
 
     func test_errorInfoProvider_dynamoDB_setsBackoffMultiplier() throws {
         let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DynamoDB")

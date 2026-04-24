@@ -144,7 +144,7 @@ final class RetryIntegrationTests: XCTestCase {
         try await next.verifyResult()
     }
 
-    // MARK: - Throttling error (THROTTLING_RETRY_COST=5, delay=1.0)
+    // Throttling error (THROTTLING_RETRY_COST=5, delay=1.0)
 
     func test_throttlingError() async throws {
         await setUpWithAWSErrorInfoProvider(
@@ -157,7 +157,7 @@ final class RetryIntegrationTests: XCTestCase {
         try await runTest()
     }
 
-    // MARK: - DynamoDB (x=0.025, max_attempts=4)
+    // DynamoDB
 
     func test_dynamoDB() async throws {
         await setUpWithAWSErrorInfoProvider(
@@ -173,10 +173,8 @@ final class RetryIntegrationTests: XCTestCase {
         try await runTest()
     }
 
-    // MARK: - Long-polling backoff when token bucket empty
-    // Note: The long-polling backoff delay is applied in the Orchestrator via Task.sleep,
-    // not through the retry strategy's sleeper, so we verify the outcome only.
-    // The actual backoff computation is tested in LongPollingBackoffProvider unit tests.
+    // Long-polling
+    // The delay is applied via Task.sleep in the Orchestrator, not the strategy's sleeper.
 
     func test_longPollingBackoff() async throws {
         await setUpWithAWSErrorInfoProvider(
@@ -190,7 +188,7 @@ final class RetryIntegrationTests: XCTestCase {
         try await runTest()
     }
 
-    // MARK: - x-amz-retry-after header tests
+    // x-amz-retry-after header tests
 
     func test_retryAfterHeader_1500ms() async throws {
         await setUpWithAWSErrorInfoProvider(
@@ -489,4 +487,6 @@ private enum RetryIntegrationTestError: Error {
     case maxAttemptsExceeded
     case unexpectedSuccess
     case unexpectedFailure
+}
+nexpectedFailure
 }
