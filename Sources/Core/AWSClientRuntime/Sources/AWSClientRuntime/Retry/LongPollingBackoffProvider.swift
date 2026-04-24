@@ -11,8 +11,7 @@ import SmithyHTTPAPI
 import struct SmithyRetries.ExponentialBackoffStrategy
 import struct SmithyRetriesAPI.RetryErrorInfo
 
-/// Provides long-polling backoff for operations that should
-/// back off even when the retry token bucket is empty.
+/// Backoff provider for long-polling operations when the token bucket is empty.
 public enum LongPollingBackoffProvider {
 
     /// Returns a backoff delay for long-polling operations when the token bucket is empty.

@@ -5,10 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-/// Identifies long-polling operations that should back off
-/// even when the retry token bucket is empty.
-///
-/// These are hard-coded until the `aws.api#longPoll` Smithy trait is available.
+/// Long-polling operations that back off even when the retry token bucket is empty.
+/// Hard-coded until the `aws.api#longPoll` Smithy trait is available.
 public enum LongPollingOperations {
 
     /// Service/operation pairs that are long-polling operations.
