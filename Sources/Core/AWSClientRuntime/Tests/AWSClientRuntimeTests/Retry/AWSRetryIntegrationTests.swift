@@ -179,7 +179,7 @@ final class RetryIntegrationTests: XCTestCase {
     func test_longPollingBackoff() async throws {
         await setUpWithAWSErrorInfoProvider(
             availableCapacity: 0, maxCapacity: 500, maxRetriesBase: 2, maxBackoff: 20.0,
-            serviceName: "SQS", operationName: "ReceiveMessage"
+            serviceName: "SQS", operationName: "receiveMessage"
         )
         builder.longPollingBackoffProvider(LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         next.testSteps = [

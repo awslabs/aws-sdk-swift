@@ -11,10 +11,10 @@ public enum LongPollingOperations {
 
     /// Service/operation pairs that are long-polling operations.
     private static let longPollingPairs: Set<String> = [
-        "SQS/ReceiveMessage",
-        "SFN/GetActivityTask",
-        "SWF/PollForActivityTask",
-        "SWF/PollForDecisionTask",
+        "SQS/receiveMessage",
+        "SFN/getActivityTask",
+        "SWF/pollForActivityTask",
+        "SWF/pollForDecisionTask",
     ]
 
     /// Returns true if the given service/operation pair is a long-polling operation.
