@@ -127,7 +127,7 @@ class AWSRetryErrorInfoProviderTests: XCTestCase {
         XCTAssertEqual(errorInfo?.backoffMultiplier, 0.025)
     }
 
-    func test_errorInfoProvider_dynamDBStreams_setsBackoffMultiplier() throws {
+    func test_errorInfoProvider_dynamoDBStreams_setsBackoffMultiplier() throws {
         let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DynamoDB Streams")
         let error = try TestHTTPError(statusCode: 500)
         let errorInfo = provider(error)
