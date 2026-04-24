@@ -3185,8 +3185,39 @@ public struct CreateUserOutput: Swift.Sendable {
 
 extension TransferClientTypes {
 
+    public enum WebAppVpcEndpointIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebAppVpcEndpointIpAddressType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "DUALSTACK"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     /// Contains the VPC configuration settings for hosting a web app endpoint, including the VPC ID, subnet IDs, and security group IDs for access control.
     public struct WebAppVpcConfig: Swift.Sendable {
+        /// The IP address type for the web app's VPC endpoint. This determines whether the endpoint is accessible over IPv4 only, or over both IPv4 and IPv6.
+        public var ipAddressType: TransferClientTypes.WebAppVpcEndpointIpAddressType?
         /// The list of security group IDs that control access to the web app endpoint. These security groups determine which sources can access the endpoint based on IP addresses and port configurations.
         public var securityGroupIds: [Swift.String]?
         /// The list of subnet IDs within the VPC where the web app endpoint will be deployed. These subnets must be in the same VPC specified in the VpcId parameter.
@@ -3195,10 +3226,12 @@ extension TransferClientTypes {
         public var vpcId: Swift.String?
 
         public init(
+            ipAddressType: TransferClientTypes.WebAppVpcEndpointIpAddressType? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
         ) {
+            self.ipAddressType = ipAddressType
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -6665,12 +6698,16 @@ extension TransferClientTypes {
 
     /// Contains the VPC configuration settings for updating a web app endpoint, including the subnet IDs where the endpoint should be deployed.
     public struct UpdateWebAppVpcConfig: Swift.Sendable {
+        /// The IP address type for the web app's VPC endpoint. This determines whether the endpoint is accessible over IPv4 only, or over both IPv4 and IPv6.
+        public var ipAddressType: TransferClientTypes.WebAppVpcEndpointIpAddressType?
         /// The list of subnet IDs within the VPC where the web app endpoint should be deployed during the update operation.
         public var subnetIds: [Swift.String]?
 
         public init(
+            ipAddressType: TransferClientTypes.WebAppVpcEndpointIpAddressType? = nil,
             subnetIds: [Swift.String]? = nil
         ) {
+            self.ipAddressType = ipAddressType
             self.subnetIds = subnetIds
         }
     }
@@ -11297,6 +11334,7 @@ extension TransferClientTypes.UpdateWebAppVpcConfig {
 
     static func write(value: TransferClientTypes.UpdateWebAppVpcConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -11367,6 +11405,7 @@ extension TransferClientTypes.WebAppVpcConfig {
 
     static func write(value: TransferClientTypes.WebAppVpcConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcId"].write(value.vpcId)
