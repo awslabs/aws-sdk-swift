@@ -113,11 +113,24 @@ struct PrepareRelease {
             return
         }
 
+        let buildRequest = try BuildRequestReader().getFeaturesFromFile()
+
+        guard buildRequest.buildType != .dryRun else {
+            // If the build request is a dry run,
+            // create an empty release-manifest.json file.
+            log("Build is a dry run.")
+            log("Writing empty manifest and exiting.")
+            try createEmptyReleaseManifest()
+            // Return without creating new commit or tag in local repos.
+            // This makes GitPublisher be no-op.
+            return
+        }
+
         let newVersion = try createNewVersion(previousVersion)
 
-        // Determine the build type.  For known types that don't require publishing,
+        // For known types that don't require publishing,
         // add the -nonrelease modifier to the tag
-        let buildType = try BuildRequestReader().getFeaturesFromFile().buildType
+        let buildType = buildRequest.buildType
         let modifier = [BuildType.preview, .dryRun, .pullRequest].contains(buildType) ? "-nonrelease" : ""
 
         try stageFiles()
