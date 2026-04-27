@@ -11,6 +11,7 @@ import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
+@_spi(SchemaBasedSerde) import SmithySerialization
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
@@ -19,7 +20,7 @@ import class AWSSDKIdentity.DefaultS3ExpressIdentityResolver
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -76,8 +77,8 @@ import struct Smithy.AttributeKey
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
-import struct SmithyRestXML.HTTPClientProtocol
-import struct SmithyRestXML.Plugin
+@_spi(SchemaBasedSerde) import struct SmithyRestXML.HTTPClientProtocol
+@_spi(SchemaBasedSerde) import struct SmithyRestXML.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -808,7 +809,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -941,7 +942,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1080,7 +1081,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1192,7 +1193,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1297,7 +1298,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1394,7 +1395,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1541,7 +1542,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1629,7 +1630,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1724,7 +1725,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1806,7 +1807,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1887,7 +1888,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1982,7 +1983,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2065,7 +2066,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2155,7 +2156,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2246,7 +2247,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2331,7 +2332,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2412,7 +2413,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2504,7 +2505,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2585,7 +2586,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2673,7 +2674,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2754,7 +2755,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2835,7 +2836,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2916,7 +2917,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3025,7 +3026,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3106,7 +3107,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3221,7 +3222,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3309,7 +3310,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3383,7 +3384,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3462,7 +3463,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3538,7 +3539,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3621,7 +3622,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3702,7 +3703,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3797,7 +3798,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3880,7 +3881,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3970,7 +3971,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4077,7 +4078,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4158,7 +4159,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4239,7 +4240,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4324,7 +4325,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4405,7 +4406,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4497,7 +4498,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4576,7 +4577,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4664,7 +4665,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4750,7 +4751,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4835,7 +4836,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4916,7 +4917,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4995,7 +4996,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5086,7 +5087,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5169,7 +5170,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5250,7 +5251,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5366,7 +5367,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5456,7 +5457,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5605,7 +5606,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5684,7 +5685,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5763,7 +5764,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5842,7 +5843,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5925,7 +5926,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6004,7 +6005,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6088,7 +6089,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6174,7 +6175,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6296,7 +6297,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6379,7 +6380,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6462,7 +6463,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6552,7 +6553,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6642,7 +6643,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6716,7 +6717,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6789,7 +6790,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6896,7 +6897,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6981,7 +6982,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7073,7 +7074,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7184,7 +7185,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7280,7 +7281,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7354,7 +7355,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7445,7 +7446,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7601,7 +7602,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7720,7 +7721,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7814,7 +7815,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7932,7 +7933,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8018,7 +8019,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8110,7 +8111,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8221,7 +8222,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8318,7 +8319,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8423,7 +8424,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8504,7 +8505,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8587,7 +8588,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8678,7 +8679,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8762,7 +8763,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8846,7 +8847,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8941,7 +8942,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9027,7 +9028,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9150,7 +9151,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9297,7 +9298,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9449,7 +9450,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9526,7 +9527,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9612,7 +9613,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9689,7 +9690,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9784,7 +9785,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9872,7 +9873,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9959,7 +9960,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10104,7 +10105,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10208,7 +10209,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10313,7 +10314,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10401,7 +10402,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10538,7 +10539,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10665,7 +10666,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10808,7 +10809,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10882,7 +10883,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol()
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
