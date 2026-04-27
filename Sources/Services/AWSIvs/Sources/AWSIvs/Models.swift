@@ -1218,13 +1218,17 @@ public struct CreateAdConfigurationInput: Swift.Sendable {
     public var mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]?
     /// Ad configuration name. Defaults to “”.
     public var name: Swift.String?
+    /// Array of 1-50 maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.mediaTailorPlaybackConfigurations = mediaTailorPlaybackConfigurations
         self.name = name
+        self.tags = tags
     }
 }
 
@@ -3648,6 +3652,7 @@ extension CreateAdConfigurationInput {
         guard let value else { return }
         try writer["mediaTailorPlaybackConfigurations"].writeList(value.mediaTailorPlaybackConfigurations, memberWritingClosure: IvsClientTypes.MediaTailorPlaybackConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 

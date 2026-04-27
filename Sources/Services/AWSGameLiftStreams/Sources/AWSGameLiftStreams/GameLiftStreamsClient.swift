@@ -2021,8 +2021,6 @@ extension GameLiftStreamsClient {
     ///
     /// * Connection timeout: The amount of time that Amazon GameLift Streams waits for a client to connect to a stream session in ACTIVE status, or reconnect to a stream session in PENDING_CLIENT_RECONNECTION status, the latter of which occurs when a client disconnects or loses connection from a stream session. If no client connects before the timeout, Amazon GameLift Streams terminates the stream session. This value is specified by ConnectionTimeoutSeconds in the StartStreamSession parameters.
     ///
-    /// * Idle timeout: A stream session will be terminated if no user input has been received for 60 minutes.
-    ///
     /// * Maximum session length: A stream session will be terminated after this amount of time has elapsed since it started, regardless of any existing client connections. This value is specified by SessionLengthSeconds in the StartStreamSession parameters.
     ///
     ///

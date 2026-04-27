@@ -497,7 +497,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 ///
 /// * You requested the [DisconnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or DISCONNECTED. This operation is valid for all other ConnectionState values.
 ///
-/// * You requested the [UpdateCustomKeyStore] or [DeleteCustomKeyStore] operation on a custom key store that is not disconnected. This operation is valid only when the custom key store ConnectionState is DISCONNECTED.
+/// * You requested the [UpdateCustomKeyStore] or [DeleteCustomKeyStore] operation on a custom key store that is not disconnected. UpdateCustomKeyStore can be called on a custom key store in the CONNECTED state only to update NewCustomKeyStoreName. For all other properties, the custom key store ConnectionState must be DISCONNECTED.
 ///
 /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
 public struct CustomKeyStoreInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -2814,7 +2814,7 @@ public struct DecryptInput: Swift.Sendable {
     public var encryptionContext: [Swift.String: Swift.String]?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/using-grant-token.html) in the Key Management Service Developer Guide.
     public var grantTokens: [Swift.String]?
-    /// Specifies the KMS key that KMS uses to decrypt the ciphertext. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the Decrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
+    /// Specifies the KMS key that KMS uses to decrypt the ciphertext. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the Decrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you should use the key ARN or alias ARN. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
@@ -3701,6 +3701,134 @@ public struct GenerateRandomOutput: Swift.Sendable {
 extension GenerateRandomOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GenerateRandomOutput(ciphertextForRecipient: \(Swift.String(describing: ciphertextForRecipient)), plaintext: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetKeyLastUsageInput: Swift.Sendable {
+    /// Identifies the KMS key to get usage information for. To specify a KMS key, use its key ID or key ARN. Alias names are not supported. Specify the key ID or key ARN of the KMS key. For example:
+    ///
+    /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    ///
+    /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
+    /// This member is required.
+    public var keyId: Swift.String?
+
+    public init(
+        keyId: Swift.String? = nil
+    ) {
+        self.keyId = keyId
+    }
+}
+
+extension KMSClientTypes {
+
+    public enum KeyLastUsageTrackingOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case decrypt
+        case derivesharedsecret
+        case encrypt
+        case generatedatakey
+        case generatedatakeypair
+        case generatedatakeypairwithoutplaintext
+        case generatedatakeywithoutplaintext
+        case generatemac
+        case reencrypt
+        case sign
+        case verify
+        case verifymac
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KeyLastUsageTrackingOperation] {
+            return [
+                .decrypt,
+                .derivesharedsecret,
+                .encrypt,
+                .generatedatakey,
+                .generatedatakeypair,
+                .generatedatakeypairwithoutplaintext,
+                .generatedatakeywithoutplaintext,
+                .generatemac,
+                .reencrypt,
+                .sign,
+                .verify,
+                .verifymac
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .decrypt: return "Decrypt"
+            case .derivesharedsecret: return "DeriveSharedSecret"
+            case .encrypt: return "Encrypt"
+            case .generatedatakey: return "GenerateDataKey"
+            case .generatedatakeypair: return "GenerateDataKeyPair"
+            case .generatedatakeypairwithoutplaintext: return "GenerateDataKeyPairWithoutPlaintext"
+            case .generatedatakeywithoutplaintext: return "GenerateDataKeyWithoutPlaintext"
+            case .generatemac: return "GenerateMac"
+            case .reencrypt: return "ReEncrypt"
+            case .sign: return "Sign"
+            case .verify: return "Verify"
+            case .verifymac: return "VerifyMac"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KMSClientTypes {
+
+    /// Contains usage information about the last time the KMS key was used for a successful cryptographic operation.
+    public struct KeyLastUsageData: Swift.Sendable {
+        /// The CloudTrail eventId associated with the last successful cryptographic operation. Absent if the key has not been used since KMS began tracking.
+        public var cloudTrailEventId: Swift.String?
+        /// The KMS request ID associated with the last successful cryptographic operation. Absent if the key has not been used since KMS began tracking.
+        public var kmsRequestId: Swift.String?
+        /// The last successful cryptographic operation the KMS key was used for. Absent if the key has not been used since KMS began tracking.
+        public var operation: KMSClientTypes.KeyLastUsageTrackingOperation?
+        /// The date and time when the KMS key was most recently used for a successful cryptographic operation. Absent if the key has not been used since KMS began tracking.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            cloudTrailEventId: Swift.String? = nil,
+            kmsRequestId: Swift.String? = nil,
+            operation: KMSClientTypes.KeyLastUsageTrackingOperation? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.cloudTrailEventId = cloudTrailEventId
+            self.kmsRequestId = kmsRequestId
+            self.operation = operation
+            self.timestamp = timestamp
+        }
+    }
+}
+
+public struct GetKeyLastUsageOutput: Swift.Sendable {
+    /// The date and time when the KMS key was created.
+    public var keyCreationDate: Foundation.Date?
+    /// The globally unique identifier for the KMS key.
+    public var keyId: Swift.String?
+    /// Contains usage information about the last time the KMS key was used for a successful cryptographic operation. If the key has not been used since tracking began, this response element is empty.
+    public var keyLastUsage: KMSClientTypes.KeyLastUsageData?
+    /// The date from which KMS began recording cryptographic activity for this key, or the date the KMS key was created, whichever is later.
+    public var trackingStartDate: Foundation.Date?
+
+    public init(
+        keyCreationDate: Foundation.Date? = nil,
+        keyId: Swift.String? = nil,
+        keyLastUsage: KMSClientTypes.KeyLastUsageData? = nil,
+        trackingStartDate: Foundation.Date? = nil
+    ) {
+        self.keyCreationDate = keyCreationDate
+        self.keyId = keyId
+        self.keyLastUsage = keyLastUsage
+        self.trackingStartDate = trackingStartDate
+    }
 }
 
 public struct GetKeyPolicyInput: Swift.Sendable {
@@ -4833,7 +4961,7 @@ public struct ReEncryptInput: Swift.Sendable {
     public var sourceEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     /// Specifies the encryption context to use to decrypt the ciphertext. Enter the same encryption context that was used to encrypt the ciphertext. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html) in the Key Management Service Developer Guide.
     public var sourceEncryptionContext: [Swift.String: Swift.String]?
-    /// Specifies the KMS key that KMS will use to decrypt the ciphertext before it is re-encrypted. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the ReEncrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
+    /// Specifies the KMS key that KMS will use to decrypt the ciphertext before it is re-encrypted. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the ReEncrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you should use the key ARN or alias ARN. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
@@ -5140,7 +5268,7 @@ public struct SignInput: Swift.Sendable {
     /// * ED25519_PH_SHA_512 signing algorithm requires KMS MessageType:DIGEST
     ///
     ///
-    /// When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm that Sign uses is based on the SigningAlgorithm value.
+    /// When you specify the ED25519_PH_SHA_512 signing algorithm with MessageType:DIGEST, KMS still performs the SHA-512 prehash described in [Step 1 of Section 7.8.1 in FIPS 186-5](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf#page=39). This means the input is hashed twice: once by you and once by KMS. When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm that Sign uses is based on the SigningAlgorithm value.
     ///
     /// * Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.
     ///
@@ -5284,7 +5412,7 @@ public struct UpdateCustomKeyStoreInput: Swift.Sendable {
     public var customKeyStoreId: Swift.String?
     /// Enter the current password of the kmsuser crypto user (CU) in the CloudHSM cluster that is associated with the custom key store. This parameter is valid only for custom key stores with a CustomKeyStoreType of AWS_CLOUDHSM. This parameter tells KMS the current password of the kmsuser crypto user (CU). It does not set or change the password of any users in the CloudHSM cluster. To change this value, the CloudHSM key store must be disconnected.
     public var keyStorePassword: Swift.String?
-    /// Changes the friendly name of the custom key store to the value that you specify. The custom key store name must be unique in the Amazon Web Services account. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. To change this value, an CloudHSM key store must be disconnected. An external key store can be connected or disconnected.
+    /// Changes the friendly name of the custom key store to the value that you specify. The custom key store name must be unique in the Amazon Web Services account. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. To change this value, the custom key store can be connected or disconnected.
     public var newCustomKeyStoreName: Swift.String?
     /// Changes the credentials that KMS uses to sign requests to the external key store proxy (XKS proxy). This parameter is valid only for custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE. You must specify both the AccessKeyId and SecretAccessKey value in the authentication credential, even if you are only updating one value. This parameter doesn't establish or change your authentication credentials on the proxy. It just tells KMS the credential that you established with your external key store proxy. For example, if you rotate the credential on your external key store proxy, you can use this parameter to update the credential in KMS. You can change this value when the external key store is connected or disconnected.
     public var xksProxyAuthenticationCredential: KMSClientTypes.XksProxyAuthenticationCredentialType?
@@ -5411,7 +5539,7 @@ public struct VerifyInput: Swift.Sendable {
     /// * ED25519_PH_SHA_512 signing algorithm requires KMS MessageType:DIGEST
     ///
     ///
-    /// When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm that Verify uses is based on the SigningAlgorithm value.
+    /// When you specify the ED25519_PH_SHA_512 signing algorithm with MessageType:DIGEST, KMS still performs the SHA-512 prehash described in [Step 1 of Section 7.8.1 in FIPS 186-5](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf#page=39). This means the input is hashed twice: once by you and once by KMS. When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm that Verify uses is based on the SigningAlgorithm value.
     ///
     /// * Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.
     ///
@@ -5703,6 +5831,13 @@ extension GenerateMacInput {
 extension GenerateRandomInput {
 
     static func urlPathProvider(_ value: GenerateRandomInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetKeyLastUsageInput {
+
+    static func urlPathProvider(_ value: GetKeyLastUsageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6177,6 +6312,14 @@ extension GenerateRandomInput {
         try writer["CustomKeyStoreId"].write(value.customKeyStoreId)
         try writer["NumberOfBytes"].write(value.numberOfBytes)
         try writer["Recipient"].write(value.recipient, with: KMSClientTypes.RecipientInfo.write(value:to:))
+    }
+}
+
+extension GetKeyLastUsageInput {
+
+    static func write(value: GetKeyLastUsageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyId"].write(value.keyId)
     }
 }
 
@@ -6768,6 +6911,21 @@ extension GenerateRandomOutput {
         var value = GenerateRandomOutput()
         value.ciphertextForRecipient = try reader["CiphertextForRecipient"].readIfPresent()
         value.plaintext = try reader["Plaintext"].readIfPresent()
+        return value
+    }
+}
+
+extension GetKeyLastUsageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetKeyLastUsageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetKeyLastUsageOutput()
+        value.keyCreationDate = try reader["KeyCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.keyId = try reader["KeyId"].readIfPresent()
+        value.keyLastUsage = try reader["KeyLastUsage"].readIfPresent(with: KMSClientTypes.KeyLastUsageData.read(from:))
+        value.trackingStartDate = try reader["TrackingStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -7615,6 +7773,23 @@ enum GenerateRandomOutputError {
             case "DependencyTimeout": return try DependencyTimeoutException.makeError(baseError: baseError)
             case "KMSInternal": return try KMSInternalException.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetKeyLastUsageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependencyTimeout": return try DependencyTimeoutException.makeError(baseError: baseError)
+            case "InvalidArn": return try InvalidArnException.makeError(baseError: baseError)
+            case "KMSInternal": return try KMSInternalException.makeError(baseError: baseError)
+            case "NotFound": return try NotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8873,6 +9048,19 @@ extension KMSClientTypes.GrantListEntry {
         value.issuingAccount = try reader["IssuingAccount"].readIfPresent()
         value.operations = try reader["Operations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<KMSClientTypes.GrantOperation>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.constraints = try reader["Constraints"].readIfPresent(with: KMSClientTypes.GrantConstraints.read(from:))
+        return value
+    }
+}
+
+extension KMSClientTypes.KeyLastUsageData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.KeyLastUsageData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSClientTypes.KeyLastUsageData()
+        value.operation = try reader["Operation"].readIfPresent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.cloudTrailEventId = try reader["CloudTrailEventId"].readIfPresent()
+        value.kmsRequestId = try reader["KmsRequestId"].readIfPresent()
         return value
     }
 }

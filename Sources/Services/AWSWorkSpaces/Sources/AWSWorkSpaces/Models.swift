@@ -3119,6 +3119,7 @@ extension WorkSpacesClientTypes {
 
     public enum ModificationResourceEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case computeType
+        case `protocol`
         case rootVolume
         case userVolume
         case sdkUnknown(Swift.String)
@@ -3126,6 +3127,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [ModificationResourceEnum] {
             return [
                 .computeType,
+                .protocol,
                 .rootVolume,
                 .userVolume
             ]
@@ -3139,6 +3141,7 @@ extension WorkSpacesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .computeType: return "COMPUTE_TYPE"
+            case .protocol: return "PROTOCOL"
             case .rootVolume: return "ROOT_VOLUME"
             case .userVolume: return "USER_VOLUME"
             case let .sdkUnknown(s): return s
@@ -3150,12 +3153,14 @@ extension WorkSpacesClientTypes {
 extension WorkSpacesClientTypes {
 
     public enum ModificationStateEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case updateFailed
         case updateInitiated
         case updateInProgress
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ModificationStateEnum] {
             return [
+                .updateFailed,
                 .updateInitiated,
                 .updateInProgress
             ]
@@ -3168,6 +3173,7 @@ extension WorkSpacesClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .updateFailed: return "UPDATE_FAILED"
             case .updateInitiated: return "UPDATE_INITIATED"
             case .updateInProgress: return "UPDATE_IN_PROGRESS"
             case let .sdkUnknown(s): return s

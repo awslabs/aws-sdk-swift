@@ -379,6 +379,7 @@ extension GlueClient {
 extension GetPartitionsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetPartitionsInput {
         return GetPartitionsInput(
+            auditContext: self.auditContext,
             catalogId: self.catalogId,
             databaseName: self.databaseName,
             excludeColumnSchema: self.excludeColumnSchema,
@@ -497,6 +498,7 @@ extension GlueClient {
 extension GetTableVersionsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetTableVersionsInput {
         return GetTableVersionsInput(
+            auditContext: self.auditContext,
             catalogId: self.catalogId,
             databaseName: self.databaseName,
             maxResults: self.maxResults,
