@@ -539,11 +539,13 @@ extension EvsClientTypes {
 
     public enum InstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case i4iMetal
+        case i7iMetal24xl
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InstanceType] {
             return [
-                .i4iMetal
+                .i4iMetal,
+                .i7iMetal24xl
             ]
         }
 
@@ -555,6 +557,7 @@ extension EvsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .i4iMetal: return "i4i.metal"
+            case .i7iMetal24xl: return "i7i.metal-24xl"
             case let .sdkUnknown(s): return s
             }
         }
@@ -570,7 +573,7 @@ extension EvsClientTypes {
         /// The DNS hostname of the host. DNS hostnames for hosts must be unique across Amazon EVS environments and within VCF.
         /// This member is required.
         public var hostName: Swift.String?
-        /// The EC2 instance type that represents the host. Currently, Amazon EVS supports only the i4i.metal instance type.
+        /// The EC2 instance type that represents the host.
         /// This member is required.
         public var instanceType: EvsClientTypes.InstanceType?
         /// The name of the SSH key that is used to access the host.
@@ -690,10 +693,10 @@ extension EvsClientTypes {
 
     /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key.
     public struct LicenseInfo: Swift.Sendable {
-        /// The VCF solution key. This license unlocks VMware VCF product features, including vSphere, NSX, SDDC Manager, and vCenter Server. The VCF solution key must cover a minimum of 256 cores.
+        /// The VCF solution key. This license unlocks VMware VCF product features, including vSphere, NSX, SDDC Manager, and vCenter Server. The VCF solution key must meet the instance-type-specific minimum core requirements.
         /// This member is required.
         public var solutionKey: Swift.String?
-        /// The VSAN license key. This license unlocks vSAN features. The vSAN license key must provide at least 110 TiB of vSAN capacity.
+        /// The VSAN license key. This license unlocks vSAN features. The vSAN license key must meet the instance-type-specific minimum capacity requirements.
         /// This member is required.
         public var vsanKey: Swift.String?
 
@@ -823,7 +826,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     public var initialVlans: EvsClientTypes.InitialVlans?
     /// A unique ID for the customer-managed KMS key that is used to encrypt the VCF credential pairs for SDDC Manager, NSX Manager, and vCenter appliances. These credentials are stored in Amazon Web Services Secrets Manager.
     public var kmsKeyId: Swift.String?
-    /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must cover a minimum of 256 cores. The vSAN license key must provide at least 110 TiB of vSAN capacity. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal.
+    /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must meet minimum core requirements, and the vSAN license key must meet minimum capacity requirements for your selected instance type. For information about minimum license requirements, see [the VCF subscriptions section](https://docs.aws.amazon.com/evs/latest/userguide/vcf-license-mgmt.html) in the Amazon EVS User Guide. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal.
     /// This member is required.
     public var licenseInfo: [EvsClientTypes.LicenseInfo]?
     /// The security group that controls communication between the Amazon EVS control plane and VPC. The default security group is used if a custom security group isn't specified. The security group should allow access to the following.
@@ -1077,7 +1080,7 @@ extension EvsClientTypes {
         public var environmentStatus: EvsClientTypes.CheckResult?
         /// The Amazon Web Services KMS key ID that Amazon Web Services Secrets Manager uses to encrypt secrets that are associated with the environment. These secrets contain the VCF credentials that are needed to install vCenter Server, NSX, and SDDC Manager. By default, Amazon EVS use the Amazon Web Services Secrets Manager managed key aws/secretsmanager. You can also specify a customer managed key.
         public var kmsKeyId: Swift.String?
-        /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must cover a minimum of 256 cores. The vSAN license key must provide at least 110 TiB of vSAN capacity.
+        /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must meet minimum core requirements, and the vSAN license key must meet minimum capacity requirements for your selected instance type. For information about minimum license requirements, see [the VCF subscriptions section](https://docs.aws.amazon.com/evs/latest/userguide/vcf-license-mgmt.html) in the Amazon EVS User Guide.
         public var licenseInfo: [EvsClientTypes.LicenseInfo]?
         /// The date and time that the environment was modified.
         public var modifiedAt: Foundation.Date?
@@ -1490,7 +1493,7 @@ extension EvsClientTypes {
         public var hostName: Swift.String?
         /// The state of the host.
         public var hostState: EvsClientTypes.HostState?
-        /// The EC2 instance type of the host. Currently, Amazon EVS supports only the i4i.metal instance type. EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
+        /// The EC2 instance type of the host. EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
         public var instanceType: EvsClientTypes.InstanceType?
         /// The IP address of the host.
         public var ipAddress: Swift.String?

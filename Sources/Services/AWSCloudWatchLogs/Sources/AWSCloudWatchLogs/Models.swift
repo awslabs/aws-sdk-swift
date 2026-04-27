@@ -5580,13 +5580,21 @@ public struct GetLookupTableOutput: Swift.Sendable {
 }
 
 public struct GetQueryResultsInput: Swift.Sendable {
+    /// The maximum number of log events to return in the response. The maximum is 10,000 log events.
+    public var maxItems: Swift.Int?
+    /// The token for the next set of items to return. The token expires after 1 hour.
+    public var nextToken: Swift.String?
     /// The ID number of the query.
     /// This member is required.
     public var queryId: Swift.String?
 
     public init(
+        maxItems: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
         queryId: Swift.String? = nil
     ) {
+        self.maxItems = maxItems
+        self.nextToken = nextToken
         self.queryId = queryId
     }
 }
@@ -5648,6 +5656,8 @@ extension CloudWatchLogsClientTypes {
 public struct GetQueryResultsOutput: Swift.Sendable {
     /// If you associated an KMS key with the CloudWatch Logs Insights query results in this account, this field displays the ARN of the key that's used to encrypt the query results when [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html) stores them.
     public var encryptionKey: Swift.String?
+    /// If there are more log events remaining in the results, the response includes a nextToken. You can use this token in a subsequent GetQueryResults request to get the next set of results.
+    public var nextToken: Swift.String?
     /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see [Supported query languages](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
     public var queryLanguage: CloudWatchLogsClientTypes.QueryLanguage?
     /// The log events that matched the query criteria during the most recent time it ran. The results value is an array of arrays. Each log event is one object in the top-level array. Each of these log event objects is an array of field/value pairs.
@@ -5659,12 +5669,14 @@ public struct GetQueryResultsOutput: Swift.Sendable {
 
     public init(
         encryptionKey: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
         queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
         results: [[CloudWatchLogsClientTypes.ResultField]]? = nil,
         statistics: CloudWatchLogsClientTypes.QueryStatistics? = nil,
         status: CloudWatchLogsClientTypes.QueryStatus? = nil
     ) {
         self.encryptionKey = encryptionKey
+        self.nextToken = nextToken
         self.queryLanguage = queryLanguage
         self.results = results
         self.statistics = statistics
@@ -10454,6 +10466,8 @@ extension GetQueryResultsInput {
 
     static func write(value: GetQueryResultsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxItems"].write(value.maxItems)
+        try writer["nextToken"].write(value.nextToken)
         try writer["queryId"].write(value.queryId)
     }
 }
@@ -11690,6 +11704,7 @@ extension GetQueryResultsOutput {
         let reader = responseReader
         var value = GetQueryResultsOutput()
         value.encryptionKey = try reader["encryptionKey"].readIfPresent()
+        value.nextToken = try reader["nextToken"].readIfPresent()
         value.queryLanguage = try reader["queryLanguage"].readIfPresent()
         value.results = try reader["results"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CloudWatchLogsClientTypes.ResultField.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.statistics = try reader["statistics"].readIfPresent(with: CloudWatchLogsClientTypes.QueryStatistics.read(from:))

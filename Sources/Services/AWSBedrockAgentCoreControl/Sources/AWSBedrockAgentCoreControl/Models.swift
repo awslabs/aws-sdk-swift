@@ -731,6 +731,7 @@ public struct UpdateAgentRuntimeEndpointOutput: Swift.Sendable {
 extension BedrockAgentCoreControlClientTypes {
 
     public enum AgentManagedRuntimeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case node22
         case python310
         case python311
         case python312
@@ -740,6 +741,7 @@ extension BedrockAgentCoreControlClientTypes {
 
         public static var allCases: [AgentManagedRuntimeType] {
             return [
+                .node22,
                 .python310,
                 .python311,
                 .python312,
@@ -755,6 +757,7 @@ extension BedrockAgentCoreControlClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .node22: return "NODE_22"
             case .python310: return "PYTHON_3_10"
             case .python311: return "PYTHON_3_11"
             case .python312: return "PYTHON_3_12"
@@ -811,7 +814,7 @@ extension BedrockAgentCoreControlClientTypes {
         /// The entry point for the code execution, specifying the function or method that should be invoked when the code runs.
         /// This member is required.
         public var entryPoint: [Swift.String]?
-        /// The runtime environment for executing the code (for example, Python 3.9 or Node.js 18).
+        /// The runtime environment for executing the agent code. Specify the programming language and version to use for the agent runtime. For valid values, see the list of supported runtimes.
         /// This member is required.
         public var runtime: BedrockAgentCoreControlClientTypes.AgentManagedRuntimeType?
 
@@ -989,6 +992,116 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    public enum EndpointIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointIpAddressType] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for a managed VPC Lattice resource. The gateway creates and manages the VPC Lattice resource gateway and resource configuration on your behalf using a service-linked role.
+    public struct ManagedVpcResource: Swift.Sendable {
+        /// The IP address type for the resource configuration endpoint.
+        /// This member is required.
+        public var endpointIpAddressType: BedrockAgentCoreControlClientTypes.EndpointIpAddressType?
+        /// An intermediate publicly resolvable domain used as the VPC Lattice resource configuration endpoint. Required when your private endpoint uses a domain that is not publicly resolvable.
+        public var routingDomain: Swift.String?
+        /// The security group IDs to associate with the VPC Lattice resource gateway. If not specified, the default security group for the VPC is used.
+        public var securityGroupIds: [Swift.String]?
+        /// The subnet IDs within the VPC where the VPC Lattice resource gateway is placed.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+        /// Tags to apply to the managed VPC Lattice resource gateway.
+        public var tags: [Swift.String: Swift.String]?
+        /// The ID of the VPC that contains your private resource.
+        /// This member is required.
+        public var vpcIdentifier: Swift.String?
+
+        public init(
+            endpointIpAddressType: BedrockAgentCoreControlClientTypes.EndpointIpAddressType? = nil,
+            routingDomain: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            vpcIdentifier: Swift.String? = nil
+        ) {
+            self.endpointIpAddressType = endpointIpAddressType
+            self.routingDomain = routingDomain
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.vpcIdentifier = vpcIdentifier
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for a self-managed VPC Lattice resource. You create and manage the VPC Lattice resource gateway and resource configuration, then provide the resource configuration identifier.
+    public enum SelfManagedLatticeResource: Swift.Sendable {
+        /// The ARN or ID of the VPC Lattice resource configuration.
+        case resourceconfigurationidentifier(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The private endpoint configuration for a gateway target. Defines how the gateway connects to private resources in your VPC.
+    public enum PrivateEndpoint: Swift.Sendable {
+        /// Configuration for connecting to a private resource using a self-managed VPC Lattice resource configuration.
+        case selfmanagedlatticeresource(BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource)
+        /// Configuration for connecting to a private resource using a managed VPC Lattice resource. The gateway creates and manages the VPC Lattice resources on your behalf.
+        case managedvpcresource(BedrockAgentCoreControlClientTypes.ManagedVpcResource)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A mapping of a specific domain to a private endpoint for secure connectivity through a VPC Lattice resource configuration.
+    public struct PrivateEndpointOverride: Swift.Sendable {
+        /// The domain to override with a private endpoint.
+        /// This member is required.
+        public var domain: Swift.String?
+        /// The private endpoint configuration for the specified domain.
+        /// This member is required.
+        public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
+
+        public init(
+            domain: Swift.String? = nil,
+            privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil
+        ) {
+            self.domain = domain
+            self.privateEndpoint = privateEndpoint
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Configuration for inbound JWT-based authorization, specifying how incoming requests should be authenticated.
     public struct CustomJWTAuthorizerConfiguration: Swift.Sendable {
         /// Represents individual audience values that are validated in the incoming JWT token validation process.
@@ -1002,19 +1115,27 @@ extension BedrockAgentCoreControlClientTypes {
         /// This URL is used to fetch OpenID Connect configuration or authorization server metadata for validating incoming tokens.
         /// This member is required.
         public var discoveryUrl: Swift.String?
+        /// The private endpoint configuration for a gateway target. Defines how the gateway connects to private resources in your VPC.
+        public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
+        /// A list of private endpoint overrides for the JWT authorizer. Each override maps a specific domain to a private endpoint, enabling secure connectivity through VPC Lattice resource configurations.
+        public var privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]?
 
         public init(
             allowedAudience: [Swift.String]? = nil,
             allowedClients: [Swift.String]? = nil,
             allowedScopes: [Swift.String]? = nil,
             customClaims: [BedrockAgentCoreControlClientTypes.CustomClaimValidationType]? = nil,
-            discoveryUrl: Swift.String? = nil
+            discoveryUrl: Swift.String? = nil,
+            privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
+            privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]? = nil
         ) {
             self.allowedAudience = allowedAudience
             self.allowedClients = allowedClients
             self.allowedScopes = allowedScopes
             self.customClaims = customClaims
             self.discoveryUrl = discoveryUrl
+            self.privateEndpoint = privateEndpoint
+            self.privateEndpointOverrides = privateEndpointOverrides
         }
     }
 }
@@ -5163,95 +5284,6 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    public enum EndpointIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ipv4
-        case ipv6
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [EndpointIpAddressType] {
-            return [
-                .ipv4,
-                .ipv6
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .ipv4: return "IPV4"
-            case .ipv6: return "IPV6"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// Configuration for a managed VPC Lattice resource. The gateway creates and manages the VPC Lattice resource gateway and resource configuration on your behalf using a service-linked role.
-    public struct ManagedLatticeResource: Swift.Sendable {
-        /// The IP address type for the resource configuration endpoint.
-        /// This member is required.
-        public var endpointIpAddressType: BedrockAgentCoreControlClientTypes.EndpointIpAddressType?
-        /// An intermediate publicly resolvable domain used as the VPC Lattice resource configuration endpoint. Required when your private endpoint uses a domain that is not publicly resolvable.
-        public var routingDomain: Swift.String?
-        /// The security group IDs to associate with the VPC Lattice resource gateway. If not specified, the default security group for the VPC is used.
-        public var securityGroupIds: [Swift.String]?
-        /// The subnet IDs within the VPC where the VPC Lattice resource gateway is placed.
-        /// This member is required.
-        public var subnetIds: [Swift.String]?
-        /// Tags to apply to the managed VPC Lattice resource gateway.
-        public var tags: [Swift.String: Swift.String]?
-        /// The ID of the VPC that contains your private resource.
-        /// This member is required.
-        public var vpcIdentifier: Swift.String?
-
-        public init(
-            endpointIpAddressType: BedrockAgentCoreControlClientTypes.EndpointIpAddressType? = nil,
-            routingDomain: Swift.String? = nil,
-            securityGroupIds: [Swift.String]? = nil,
-            subnetIds: [Swift.String]? = nil,
-            tags: [Swift.String: Swift.String]? = nil,
-            vpcIdentifier: Swift.String? = nil
-        ) {
-            self.endpointIpAddressType = endpointIpAddressType
-            self.routingDomain = routingDomain
-            self.securityGroupIds = securityGroupIds
-            self.subnetIds = subnetIds
-            self.tags = tags
-            self.vpcIdentifier = vpcIdentifier
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// Configuration for a self-managed VPC Lattice resource. You create and manage the VPC Lattice resource gateway and resource configuration, then provide the resource configuration identifier.
-    public enum SelfManagedLatticeResource: Swift.Sendable {
-        /// The ARN or ID of the VPC Lattice resource configuration.
-        case resourceconfigurationidentifier(Swift.String)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// The private endpoint configuration for a gateway target. Defines how the gateway connects to private resources in your VPC.
-    public enum PrivateEndpoint: Swift.Sendable {
-        /// Configuration for connecting to a private resource using a self-managed VPC Lattice resource configuration.
-        case selfmanagedlatticeresource(BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource)
-        /// Configuration for connecting to a private resource using a managed VPC Lattice resource. The gateway creates and manages the VPC Lattice resources on your behalf.
-        case managedlatticeresource(BedrockAgentCoreControlClientTypes.ManagedLatticeResource)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
     public enum RestApiMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case delete
         case `get`
@@ -9238,22 +9270,30 @@ extension BedrockAgentCoreControlClientTypes {
         /// The OAuth2 discovery information for the custom provider.
         /// This member is required.
         public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
+        /// The default private endpoint for the custom OAuth2 provider, enabling secure connectivity through a VPC Lattice resource configuration.
+        public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
+        /// The list of private endpoint overrides for the custom OAuth2 provider. Each override maps a specific domain to a private endpoint, enabling secure connectivity through VPC Lattice resource configurations.
+        public var privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]?
 
         public init(
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
-            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
+            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil,
+            privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
+            privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]? = nil
         ) {
             self.clientId = clientId
             self.clientSecret = clientSecret
             self.oauthDiscovery = oauthDiscovery
+            self.privateEndpoint = privateEndpoint
+            self.privateEndpointOverrides = privateEndpointOverrides
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CustomOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), oauthDiscovery: \(Swift.String(describing: oauthDiscovery)), clientSecret: \"CONTENT_REDACTED\")"}
+        "CustomOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), oauthDiscovery: \(Swift.String(describing: oauthDiscovery)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointOverrides: \(Swift.String(describing: privateEndpointOverrides)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -9535,13 +9575,21 @@ extension BedrockAgentCoreControlClientTypes {
         /// The OAuth2 discovery information for the custom provider.
         /// This member is required.
         public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
+        /// The default private endpoint for the custom OAuth2 provider, enabling secure connectivity through a VPC Lattice resource configuration.
+        public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
+        /// The list of private endpoint overrides for the custom OAuth2 provider. Each override maps a specific domain to a private endpoint, enabling secure connectivity through VPC Lattice resource configurations.
+        public var privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]?
 
         public init(
             clientId: Swift.String? = nil,
-            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
+            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil,
+            privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
+            privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]? = nil
         ) {
             self.clientId = clientId
             self.oauthDiscovery = oauthDiscovery
+            self.privateEndpoint = privateEndpoint
+            self.privateEndpointOverrides = privateEndpointOverrides
         }
     }
 }
@@ -9712,6 +9760,50 @@ extension BedrockAgentCoreControlClientTypes {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createFailed
+        case creating
+        case deleteFailed
+        case deleting
+        case ready
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Status] {
+            return [
+                .createFailed,
+                .creating,
+                .deleteFailed,
+                .deleting,
+                .ready,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .ready: return "READY"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateOauth2CredentialProviderOutput: Swift.Sendable {
     /// Callback URL to register on the OAuth2 credential provider as an allowed callback URL. This URL is where the OAuth2 authorization server redirects users after they complete the authorization flow.
     public var callbackUrl: Swift.String?
@@ -9726,19 +9818,23 @@ public struct CreateOauth2CredentialProviderOutput: Swift.Sendable {
     public var name: Swift.String?
     /// Contains the output configuration for an OAuth2 provider.
     public var oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput?
+    /// The current status of the OAuth2 credential provider.
+    public var status: BedrockAgentCoreControlClientTypes.Status?
 
     public init(
         callbackUrl: Swift.String? = nil,
         clientSecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
         credentialProviderArn: Swift.String? = nil,
         name: Swift.String? = nil,
-        oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput? = nil
+        oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput? = nil,
+        status: BedrockAgentCoreControlClientTypes.Status? = nil
     ) {
         self.callbackUrl = callbackUrl
         self.clientSecretArn = clientSecretArn
         self.credentialProviderArn = credentialProviderArn
         self.name = name
         self.oauth2ProviderConfigOutput = oauth2ProviderConfigOutput
+        self.status = status
     }
 }
 
@@ -9786,6 +9882,8 @@ public struct GetOauth2CredentialProviderOutput: Swift.Sendable {
     /// The vendor of the OAuth2 credential provider.
     /// This member is required.
     public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.CredentialProviderVendorType?
+    /// The reason for the failure if the OAuth2 credential provider is in a failed state.
+    public var failureReason: Swift.String?
     /// The timestamp when the OAuth2 credential provider was last updated.
     /// This member is required.
     public var lastUpdatedTime: Foundation.Date?
@@ -9795,6 +9893,8 @@ public struct GetOauth2CredentialProviderOutput: Swift.Sendable {
     /// The configuration output for the OAuth2 provider.
     /// This member is required.
     public var oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput?
+    /// The current status of the OAuth2 credential provider.
+    public var status: BedrockAgentCoreControlClientTypes.Status?
 
     public init(
         callbackUrl: Swift.String? = nil,
@@ -9802,18 +9902,22 @@ public struct GetOauth2CredentialProviderOutput: Swift.Sendable {
         createdTime: Foundation.Date? = nil,
         credentialProviderArn: Swift.String? = nil,
         credentialProviderVendor: BedrockAgentCoreControlClientTypes.CredentialProviderVendorType? = nil,
+        failureReason: Swift.String? = nil,
         lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
-        oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput? = nil
+        oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput? = nil,
+        status: BedrockAgentCoreControlClientTypes.Status? = nil
     ) {
         self.callbackUrl = callbackUrl
         self.clientSecretArn = clientSecretArn
         self.createdTime = createdTime
         self.credentialProviderArn = credentialProviderArn
         self.credentialProviderVendor = credentialProviderVendor
+        self.failureReason = failureReason
         self.lastUpdatedTime = lastUpdatedTime
         self.name = name
         self.oauth2ProviderConfigOutput = oauth2ProviderConfigOutput
+        self.status = status
     }
 }
 
@@ -9930,6 +10034,8 @@ public struct UpdateOauth2CredentialProviderOutput: Swift.Sendable {
     /// The configuration output for the OAuth2 provider.
     /// This member is required.
     public var oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput?
+    /// The current status of the OAuth2 credential provider.
+    public var status: BedrockAgentCoreControlClientTypes.Status?
 
     public init(
         callbackUrl: Swift.String? = nil,
@@ -9939,7 +10045,8 @@ public struct UpdateOauth2CredentialProviderOutput: Swift.Sendable {
         credentialProviderVendor: BedrockAgentCoreControlClientTypes.CredentialProviderVendorType? = nil,
         lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
-        oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput? = nil
+        oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput? = nil,
+        status: BedrockAgentCoreControlClientTypes.Status? = nil
     ) {
         self.callbackUrl = callbackUrl
         self.clientSecretArn = clientSecretArn
@@ -9949,6 +10056,7 @@ public struct UpdateOauth2CredentialProviderOutput: Swift.Sendable {
         self.lastUpdatedTime = lastUpdatedTime
         self.name = name
         self.oauth2ProviderConfigOutput = oauth2ProviderConfigOutput
+        self.status = status
     }
 }
 
@@ -16786,6 +16894,7 @@ extension CreateOauth2CredentialProviderOutput {
         value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.oauth2ProviderConfigOutput = try reader["oauth2ProviderConfigOutput"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput.read(from:))
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -17379,9 +17488,11 @@ extension GetOauth2CredentialProviderOutput {
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
         value.credentialProviderVendor = try reader["credentialProviderVendor"].readIfPresent() ?? .sdkUnknown("")
+        value.failureReason = try reader["failureReason"].readIfPresent()
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.name = try reader["name"].readIfPresent() ?? ""
         value.oauth2ProviderConfigOutput = try reader["oauth2ProviderConfigOutput"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput.read(from:))
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -18098,6 +18209,7 @@ extension UpdateOauth2CredentialProviderOutput {
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.name = try reader["name"].readIfPresent() ?? ""
         value.oauth2ProviderConfigOutput = try reader["oauth2ProviderConfigOutput"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput.read(from:))
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -18815,6 +18927,7 @@ enum DeleteOauth2CredentialProviderOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -21263,6 +21376,8 @@ extension BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration {
         try writer["allowedScopes"].writeList(value.allowedScopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["customClaims"].writeList(value.customClaims, memberWritingClosure: BedrockAgentCoreControlClientTypes.CustomClaimValidationType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["discoveryUrl"].write(value.discoveryUrl)
+        try writer["privateEndpoint"].write(value.privateEndpoint, with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.write(value:to:))
+        try writer["privateEndpointOverrides"].writeList(value.privateEndpointOverrides, memberWritingClosure: BedrockAgentCoreControlClientTypes.PrivateEndpointOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration {
@@ -21273,6 +21388,8 @@ extension BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration {
         value.allowedClients = try reader["allowedClients"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.allowedScopes = try reader["allowedScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.customClaims = try reader["customClaims"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CustomClaimValidationType.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
+        value.privateEndpointOverrides = try reader["privateEndpointOverrides"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.PrivateEndpointOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -21296,6 +21413,8 @@ extension BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigInput {
         try writer["clientId"].write(value.clientId)
         try writer["clientSecret"].write(value.clientSecret)
         try writer["oauthDiscovery"].write(value.oauthDiscovery, with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.write(value:to:))
+        try writer["privateEndpoint"].write(value.privateEndpoint, with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.write(value:to:))
+        try writer["privateEndpointOverrides"].writeList(value.privateEndpointOverrides, memberWritingClosure: BedrockAgentCoreControlClientTypes.PrivateEndpointOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -21306,6 +21425,8 @@ extension BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput {
         var value = BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput()
         value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
         value.clientId = try reader["clientId"].readIfPresent()
+        value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
+        value.privateEndpointOverrides = try reader["privateEndpointOverrides"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.PrivateEndpointOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -22698,9 +22819,21 @@ extension BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.ManagedLatticeResource {
+extension BedrockAgentCoreControlClientTypes.ManagedResourceDetails {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.ManagedLatticeResource?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ManagedResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ManagedResourceDetails()
+        value.domain = try reader["domain"].readIfPresent()
+        value.resourceGatewayArn = try reader["resourceGatewayArn"].readIfPresent()
+        value.resourceAssociationArn = try reader["resourceAssociationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ManagedVpcResource {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ManagedVpcResource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["endpointIpAddressType"].write(value.endpointIpAddressType)
         try writer["routingDomain"].write(value.routingDomain)
@@ -22710,27 +22843,15 @@ extension BedrockAgentCoreControlClientTypes.ManagedLatticeResource {
         try writer["vpcIdentifier"].write(value.vpcIdentifier)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ManagedLatticeResource {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ManagedVpcResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.ManagedLatticeResource()
+        var value = BedrockAgentCoreControlClientTypes.ManagedVpcResource()
         value.vpcIdentifier = try reader["vpcIdentifier"].readIfPresent() ?? ""
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.endpointIpAddressType = try reader["endpointIpAddressType"].readIfPresent() ?? .sdkUnknown("")
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.routingDomain = try reader["routingDomain"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.ManagedResourceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ManagedResourceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.ManagedResourceDetails()
-        value.domain = try reader["domain"].readIfPresent()
-        value.resourceGatewayArn = try reader["resourceGatewayArn"].readIfPresent()
-        value.resourceAssociationArn = try reader["resourceAssociationArn"].readIfPresent()
         return value
     }
 }
@@ -23445,8 +23566,8 @@ extension BedrockAgentCoreControlClientTypes.PrivateEndpoint {
     static func write(value: BedrockAgentCoreControlClientTypes.PrivateEndpoint?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .managedlatticeresource(managedlatticeresource):
-                try writer["managedLatticeResource"].write(managedlatticeresource, with: BedrockAgentCoreControlClientTypes.ManagedLatticeResource.write(value:to:))
+            case let .managedvpcresource(managedvpcresource):
+                try writer["managedVpcResource"].write(managedvpcresource, with: BedrockAgentCoreControlClientTypes.ManagedVpcResource.write(value:to:))
             case let .selfmanagedlatticeresource(selfmanagedlatticeresource):
                 try writer["selfManagedLatticeResource"].write(selfmanagedlatticeresource, with: BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -23460,11 +23581,28 @@ extension BedrockAgentCoreControlClientTypes.PrivateEndpoint {
         switch name {
             case "selfManagedLatticeResource":
                 return .selfmanagedlatticeresource(try reader["selfManagedLatticeResource"].read(with: BedrockAgentCoreControlClientTypes.SelfManagedLatticeResource.read(from:)))
-            case "managedLatticeResource":
-                return .managedlatticeresource(try reader["managedLatticeResource"].read(with: BedrockAgentCoreControlClientTypes.ManagedLatticeResource.read(from:)))
+            case "managedVpcResource":
+                return .managedvpcresource(try reader["managedVpcResource"].read(with: BedrockAgentCoreControlClientTypes.ManagedVpcResource.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PrivateEndpointOverride {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.PrivateEndpointOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domain"].write(value.domain)
+        try writer["privateEndpoint"].write(value.privateEndpoint, with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PrivateEndpointOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.PrivateEndpointOverride()
+        value.domain = try reader["domain"].readIfPresent() ?? ""
+        value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
+        return value
     }
 }
 
