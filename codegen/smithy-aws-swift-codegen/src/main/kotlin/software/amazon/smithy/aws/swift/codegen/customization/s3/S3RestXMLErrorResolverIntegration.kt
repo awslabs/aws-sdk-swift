@@ -17,6 +17,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
 
 /**
  * Generates `s3CustomErrorResolver` and `s3ErrorPostProcessor` for S3.
@@ -45,7 +46,8 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
         delegator: SwiftDelegator,
     ) {
         val noErrorWrapping = protocolGenerationContext.service.getTrait<RestXmlTrait>()?.isNoErrorWrapping ?: false
-        delegator.useFileWriter("Sources/AWSS3/S3ErrorHelpers.swift") { writer ->
+        val filename = ModelFileUtils.filename(protocolGenerationContext.settings, "S3ErrorHelpers")
+        delegator.useFileWriter(filename) { writer ->
             renderCustomErrorResolver(writer, noErrorWrapping)
             writer.write("")
             renderErrorPostProcessor(writer)
