@@ -22079,6 +22079,8 @@ public struct GetMLTransformsOutput: Swift.Sendable {
 }
 
 public struct GetPartitionInput: Swift.Sendable {
+    /// A structure containing the Lake Formation audit context.
+    public var auditContext: GlueClientTypes.AuditContext?
     /// The ID of the Data Catalog where the partition in question resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database where the partition resides.
@@ -22092,11 +22094,13 @@ public struct GetPartitionInput: Swift.Sendable {
     public var tableName: Swift.String?
 
     public init(
+        auditContext: GlueClientTypes.AuditContext? = nil,
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         partitionValues: [Swift.String]? = nil,
         tableName: Swift.String? = nil
     ) {
+        self.auditContext = auditContext
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionValues = partitionValues
@@ -22338,6 +22342,8 @@ extension GlueClientTypes {
 }
 
 public struct GetPartitionsInput: Swift.Sendable {
+    /// A structure containing the Lake Formation audit context.
+    public var auditContext: GlueClientTypes.AuditContext?
     /// The ID of the Data Catalog where the partitions in question reside. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database where the partitions reside.
@@ -22383,6 +22389,7 @@ public struct GetPartitionsInput: Swift.Sendable {
     public var transactionId: Swift.String?
 
     public init(
+        auditContext: GlueClientTypes.AuditContext? = nil,
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         excludeColumnSchema: Swift.Bool? = nil,
@@ -22394,6 +22401,7 @@ public struct GetPartitionsInput: Swift.Sendable {
         tableName: Swift.String? = nil,
         transactionId: Swift.String? = nil
     ) {
+        self.auditContext = auditContext
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.excludeColumnSchema = excludeColumnSchema
@@ -23521,6 +23529,8 @@ public struct GetTablesInput: Swift.Sendable {
 }
 
 public struct GetTableVersionInput: Swift.Sendable {
+    /// A structure containing the Lake Formation audit context.
+    public var auditContext: GlueClientTypes.AuditContext?
     /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -23533,11 +23543,13 @@ public struct GetTableVersionInput: Swift.Sendable {
     public var versionId: Swift.String?
 
     public init(
+        auditContext: GlueClientTypes.AuditContext? = nil,
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         versionId: Swift.String? = nil
     ) {
+        self.auditContext = auditContext
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -23546,6 +23558,8 @@ public struct GetTableVersionInput: Swift.Sendable {
 }
 
 public struct GetTableVersionsInput: Swift.Sendable {
+    /// A structure containing the Lake Formation audit context.
+    public var auditContext: GlueClientTypes.AuditContext?
     /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -23560,12 +23574,14 @@ public struct GetTableVersionsInput: Swift.Sendable {
     public var tableName: Swift.String?
 
     public init(
+        auditContext: GlueClientTypes.AuditContext? = nil,
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil
     ) {
+        self.auditContext = auditContext
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.maxResults = maxResults
@@ -34400,6 +34416,7 @@ extension GetPartitionInput {
 
     static func write(value: GetPartitionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuditContext"].write(value.auditContext, with: GlueClientTypes.AuditContext.write(value:to:))
         try writer["CatalogId"].write(value.catalogId)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["PartitionValues"].writeList(value.partitionValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -34422,6 +34439,7 @@ extension GetPartitionsInput {
 
     static func write(value: GetPartitionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuditContext"].write(value.auditContext, with: GlueClientTypes.AuditContext.write(value:to:))
         try writer["CatalogId"].write(value.catalogId)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["ExcludeColumnSchema"].write(value.excludeColumnSchema)
@@ -34593,6 +34611,7 @@ extension GetTableVersionInput {
 
     static func write(value: GetTableVersionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuditContext"].write(value.auditContext, with: GlueClientTypes.AuditContext.write(value:to:))
         try writer["CatalogId"].write(value.catalogId)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["TableName"].write(value.tableName)
@@ -34604,6 +34623,7 @@ extension GetTableVersionsInput {
 
     static func write(value: GetTableVersionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuditContext"].write(value.auditContext, with: GlueClientTypes.AuditContext.write(value:to:))
         try writer["CatalogId"].write(value.catalogId)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["MaxResults"].write(value.maxResults)

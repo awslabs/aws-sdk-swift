@@ -942,6 +942,8 @@ extension OpenSearchClientTypes {
     public struct JWTOptionsOutput: Swift.Sendable {
         /// True if JWT use is enabled.
         public var enabled: Swift.Bool?
+        /// The configured JWKS URL endpoint from which the cluster retrieves public keys to verify JWT requests.
+        public var jwksUrl: Swift.String?
         /// The key used to verify the signature of incoming JWT requests.
         public var publicKey: Swift.String?
         /// The key used for matching the JWT roles attribute.
@@ -951,11 +953,13 @@ extension OpenSearchClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil,
+            jwksUrl: Swift.String? = nil,
             publicKey: Swift.String? = nil,
             rolesKey: Swift.String? = nil,
             subjectKey: Swift.String? = nil
         ) {
             self.enabled = enabled
+            self.jwksUrl = jwksUrl
             self.publicKey = publicKey
             self.rolesKey = rolesKey
             self.subjectKey = subjectKey
@@ -1083,6 +1087,8 @@ extension OpenSearchClientTypes {
     public struct JWTOptionsInput: Swift.Sendable {
         /// True to enable JWT authentication and authorization for a domain.
         public var enabled: Swift.Bool?
+        /// The URL endpoint that hosts the JSON Web Key Set (JWKS) containing public keys used to verify JWT signatures.
+        public var jwksUrl: Swift.String?
         /// Element of the JWT assertion used by the cluster to verify JWT signatures.
         public var publicKey: Swift.String?
         /// Element of the JWT assertion to use for roles.
@@ -1092,11 +1098,13 @@ extension OpenSearchClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil,
+            jwksUrl: Swift.String? = nil,
             publicKey: Swift.String? = nil,
             rolesKey: Swift.String? = nil,
             subjectKey: Swift.String? = nil
         ) {
             self.enabled = enabled
+            self.jwksUrl = jwksUrl
             self.publicKey = publicKey
             self.rolesKey = rolesKey
             self.subjectKey = subjectKey
@@ -16136,6 +16144,7 @@ extension OpenSearchClientTypes.JWTOptionsInput {
     static func write(value: OpenSearchClientTypes.JWTOptionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
+        try writer["JwksUrl"].write(value.jwksUrl)
         try writer["PublicKey"].write(value.publicKey)
         try writer["RolesKey"].write(value.rolesKey)
         try writer["SubjectKey"].write(value.subjectKey)
@@ -16150,6 +16159,7 @@ extension OpenSearchClientTypes.JWTOptionsOutput {
         value.enabled = try reader["Enabled"].readIfPresent()
         value.subjectKey = try reader["SubjectKey"].readIfPresent()
         value.rolesKey = try reader["RolesKey"].readIfPresent()
+        value.jwksUrl = try reader["JwksUrl"].readIfPresent()
         value.publicKey = try reader["PublicKey"].readIfPresent()
         return value
     }

@@ -4357,6 +4357,8 @@ extension MgnClientTypes {
         public var createdAt: Foundation.Date?
         /// A description of the construct.
         public var description: Swift.String?
+        /// Whether this construct is excluded from the migration.
+        public var excluded: Swift.Bool?
         /// The logical identifier for the construct in the infrastructure code.
         public var logicalID: Swift.String?
         /// The name of the construct.
@@ -4371,6 +4373,7 @@ extension MgnClientTypes {
             constructType: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            excluded: Swift.Bool? = nil,
             logicalID: Swift.String? = nil,
             name: Swift.String? = nil,
             properties: [Swift.String: Swift.String]? = nil,
@@ -4380,6 +4383,7 @@ extension MgnClientTypes {
             self.constructType = constructType
             self.createdAt = createdAt
             self.description = description
+            self.excluded = excluded
             self.logicalID = logicalID
             self.name = name
             self.properties = properties
@@ -6315,14 +6319,95 @@ public struct StartNetworkMigrationMappingOutput: Swift.Sendable {
 
 extension MgnClientTypes {
 
+    /// An operation that deletes a construct from the mapping.
+    public struct DeleteOperation: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// A construct reference specifying the source segment and construct to merge.
+    public struct MergeConstruct: Swift.Sendable {
+        /// The construct ID to merge.
+        public var constructID: Swift.String?
+        /// The segment ID of the construct to merge.
+        public var segmentID: Swift.String?
+
+        public init(
+            constructID: Swift.String? = nil,
+            segmentID: Swift.String? = nil
+        ) {
+            self.constructID = constructID
+            self.segmentID = segmentID
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// An operation that merges constructs from different segments into the target construct.
+    public struct MergeOperation: Swift.Sendable {
+        /// The list of constructs to merge into the target.
+        public var mergeConstructs: [MgnClientTypes.MergeConstruct]?
+
+        public init(
+            mergeConstructs: [MgnClientTypes.MergeConstruct]? = nil
+        ) {
+            self.mergeConstructs = mergeConstructs
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// A split target specifying the CIDR block for the new construct.
+    public struct SplitConstruct: Swift.Sendable {
+        /// The CIDR block for the split construct.
+        public var cidrBlock: Swift.String?
+
+        public init(
+            cidrBlock: Swift.String? = nil
+        ) {
+            self.cidrBlock = cidrBlock
+        }
+    }
+}
+
+extension MgnClientTypes {
+
+    /// An operation that splits a construct into multiple constructs with different CIDR blocks.
+    public struct SplitOperation: Swift.Sendable {
+        /// The list of split targets with their CIDR blocks.
+        public var splitConstructs: [MgnClientTypes.SplitConstruct]?
+
+        public init(
+            splitConstructs: [MgnClientTypes.SplitConstruct]? = nil
+        ) {
+            self.splitConstructs = splitConstructs
+        }
+    }
+}
+
+extension MgnClientTypes {
+
     /// An operation that updates the properties of a construct.
     public struct UpdateOperation: Swift.Sendable {
+        /// Whether to exclude this construct from the migration.
+        public var excluded: Swift.Bool?
+        /// The updated name for the construct.
+        public var name: Swift.String?
         /// The properties to update on the construct.
         public var properties: [Swift.String: Swift.String]?
 
         public init(
+            excluded: Swift.Bool? = nil,
+            name: Swift.String? = nil,
             properties: [Swift.String: Swift.String]? = nil
         ) {
+            self.excluded = excluded
+            self.name = name
             self.properties = properties
         }
     }
@@ -6332,6 +6417,12 @@ extension MgnClientTypes {
 
     /// A union type representing the operation to perform on a construct during a mapping update.
     public enum OperationUnion: Swift.Sendable {
+        /// A merge operation to combine constructs from different segments.
+        case merge(MgnClientTypes.MergeOperation)
+        /// A split operation to divide a construct into multiple constructs with specified CIDR blocks.
+        case split(MgnClientTypes.SplitOperation)
+        /// A delete operation to remove a construct from the mapping.
+        case delete(MgnClientTypes.DeleteOperation)
         /// An update operation to modify construct properties.
         case update(MgnClientTypes.UpdateOperation)
         case sdkUnknown(Swift.String)
@@ -16047,6 +16138,14 @@ extension MgnClientTypes.DataReplicationInitiationStep {
     }
 }
 
+extension MgnClientTypes.DeleteOperation {
+
+    static func write(value: MgnClientTypes.DeleteOperation?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
 extension MgnClientTypes.DescribeJobsRequestFilters {
 
     static func write(value: MgnClientTypes.DescribeJobsRequestFilters?, to writer: SmithyJSON.Writer) throws {
@@ -16682,6 +16781,23 @@ extension MgnClientTypes.ManagedAccount {
     }
 }
 
+extension MgnClientTypes.MergeConstruct {
+
+    static func write(value: MgnClientTypes.MergeConstruct?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["constructID"].write(value.constructID)
+        try writer["segmentID"].write(value.segmentID)
+    }
+}
+
+extension MgnClientTypes.MergeOperation {
+
+    static func write(value: MgnClientTypes.MergeOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mergeConstructs"].writeList(value.mergeConstructs, memberWritingClosure: MgnClientTypes.MergeConstruct.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension MgnClientTypes.NetworkInterface {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.NetworkInterface {
@@ -16909,6 +17025,7 @@ extension MgnClientTypes.NetworkMigrationMapperSegmentConstruct {
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.logicalID = try reader["logicalID"].readIfPresent()
+        value.excluded = try reader["excluded"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.properties = try reader["properties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -16953,6 +17070,12 @@ extension MgnClientTypes.OperationUnion {
     static func write(value: MgnClientTypes.OperationUnion?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .delete(delete):
+                try writer["delete"].write(delete, with: MgnClientTypes.DeleteOperation.write(value:to:))
+            case let .merge(merge):
+                try writer["merge"].write(merge, with: MgnClientTypes.MergeOperation.write(value:to:))
+            case let .split(split):
+                try writer["split"].write(split, with: MgnClientTypes.SplitOperation.write(value:to:))
             case let .update(update):
                 try writer["update"].write(update, with: MgnClientTypes.UpdateOperation.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -17221,6 +17344,22 @@ extension MgnClientTypes.SourceServerConnectorAction {
     }
 }
 
+extension MgnClientTypes.SplitConstruct {
+
+    static func write(value: MgnClientTypes.SplitConstruct?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidrBlock"].write(value.cidrBlock)
+    }
+}
+
+extension MgnClientTypes.SplitOperation {
+
+    static func write(value: MgnClientTypes.SplitOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["splitConstructs"].writeList(value.splitConstructs, memberWritingClosure: MgnClientTypes.SplitConstruct.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension MgnClientTypes.SsmDocument {
 
     static func write(value: MgnClientTypes.SsmDocument?, to writer: SmithyJSON.Writer) throws {
@@ -17400,6 +17539,8 @@ extension MgnClientTypes.UpdateOperation {
 
     static func write(value: MgnClientTypes.UpdateOperation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["excluded"].write(value.excluded)
+        try writer["name"].write(value.name)
         try writer["properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
