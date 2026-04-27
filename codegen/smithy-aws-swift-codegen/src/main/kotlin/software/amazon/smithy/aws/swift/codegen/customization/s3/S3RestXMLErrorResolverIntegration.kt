@@ -8,6 +8,7 @@ package software.amazon.smithy.aws.swift.codegen.customization.s3
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.ServiceShape
+import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -16,7 +17,6 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.getTrait
-import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
 
 /**
  * Generates `s3CustomErrorResolver` and `s3ErrorPostProcessor` for S3.
@@ -45,8 +45,7 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
         delegator: SwiftDelegator,
     ) {
         val noErrorWrapping = protocolGenerationContext.service.getTrait<RestXmlTrait>()?.isNoErrorWrapping ?: false
-        val filename = ModelFileUtils.filename(protocolGenerationContext.settings, "S3ErrorHelpers")
-        delegator.useFileWriter(filename) { writer ->
+        delegator.useFileWriter("Sources/AWSS3/S3ErrorHelpers.swift") { writer ->
             renderCustomErrorResolver(writer, noErrorWrapping)
             writer.write("")
             renderErrorPostProcessor(writer)
@@ -58,15 +57,6 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
         writer: SwiftWriter,
         noErrorWrapping: Boolean,
     ) {
-        writer.write("import Foundation")
-        writer.write("@_spi(SmithyReadWrite) import ClientRuntime")
-        writer.write("import SmithyHTTPAPI")
-        writer.write("@_spi(SmithyReadWrite) import SmithyXML")
-        writer.write("@_spi(SchemaBasedSerde) import SmithySerialization")
-        writer.write("@_spi(SchemaBasedSerde) import Smithy")
-        writer.write("@_spi(UnknownAWSHTTPServiceError) import AWSClientRuntime")
-        writer.write("")
-
         // The custom error resolver handles errors that the generic TypeRegistry path
         // cannot: candidate errors (InvalidAccessKeyId) and unknown errors with requestID2.
         // For modeled errors (those in the TypeRegistry), it returns nil so the generic path
@@ -100,9 +90,6 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
     }
 
     private fun renderErrorPostProcessor(writer: SwiftWriter) {
-        writer.write("import AWSClientRuntime")
-        writer.write("")
-
         // Post-processor sets requestID and requestID2 on modeled S3 errors
         writer.openBlock(
             "func s3ErrorPostProcessor(_ error: inout any (ClientRuntime.ServiceError & ClientRuntime.HTTPError & Swift.Error), _ response: SmithyHTTPAPI.HTTPResponse) {",
@@ -133,10 +120,10 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
     ) {
-        val errorShapes = mutableSetOf<software.amazon.smithy.model.shapes.StructureShape>()
+        val errorShapes = mutableSetOf<StructureShape>()
         ctx.service.errors.forEach { errorId ->
             ctx.model.getShape(errorId).ifPresent { shape ->
-                if (shape is software.amazon.smithy.model.shapes.StructureShape) errorShapes.add(shape)
+                if (shape is StructureShape) errorShapes.add(shape)
             }
         }
         ctx.service.allOperations.forEach { opId ->
@@ -144,7 +131,7 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
                 opShape.asOperationShape().ifPresent { op ->
                     op.errors.forEach { errorId ->
                         ctx.model.getShape(errorId).ifPresent { shape ->
-                            if (shape is software.amazon.smithy.model.shapes.StructureShape) errorShapes.add(shape)
+                            if (shape is StructureShape) errorShapes.add(shape)
                         }
                     }
                 }
