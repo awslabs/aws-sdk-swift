@@ -1913,6 +1913,22 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Information about an allowed file extension.
+    public struct AllowedExtension: Swift.Sendable {
+        /// The file extension. The extension must be between 1 and 10 characters and can contain only alphanumeric characters, hyphens, and underscores.
+        /// This member is required.
+        public var `extension`: Swift.String?
+
+        public init(
+            `extension`: Swift.String? = nil
+        ) {
+            self.`extension` = `extension`
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum FlowModuleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mcp
         case sdkUnknown(Swift.String)
@@ -12243,6 +12259,128 @@ public struct DescribeAgentStatusOutput: Swift.Sendable {
     }
 }
 
+extension ConnectClientTypes {
+
+    /// The scope of the attachment. Valid values are:
+    ///
+    /// * EMAIL - Attachments for email messages.
+    ///
+    /// * CHAT - Attachments for chat conversations.
+    ///
+    /// * CASE - Attachments for cases.
+    ///
+    /// * TASK - Attachments for tasks.
+    public enum AttachmentScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `case`
+        case chat
+        case email
+        case task
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttachmentScope] {
+            return [
+                .case,
+                .chat,
+                .email,
+                .task
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .case: return "CASE"
+            case .chat: return "CHAT"
+            case .email: return "EMAIL"
+            case .task: return "TASK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeAttachedFilesConfigurationInput: Swift.Sendable {
+    /// The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+    /// This member is required.
+    public var attachmentScope: ConnectClientTypes.AttachmentScope?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        attachmentScope: ConnectClientTypes.AttachmentScope? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.attachmentScope = attachmentScope
+        self.instanceId = instanceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The configuration for allowed file extensions.
+    public struct ExtensionConfiguration: Swift.Sendable {
+        /// The list of allowed file extensions.
+        /// This member is required.
+        public var allowedExtensions: [ConnectClientTypes.AllowedExtension]?
+
+        public init(
+            allowedExtensions: [ConnectClientTypes.AllowedExtension]? = nil
+        ) {
+            self.allowedExtensions = allowedExtensions
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The configuration for attached files for a specific attachment scope.
+    public struct AttachedFilesConfiguration: Swift.Sendable {
+        /// The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+        /// This member is required.
+        public var attachmentScope: ConnectClientTypes.AttachmentScope?
+        /// The configuration for allowed file extensions.
+        public var extensionConfiguration: ConnectClientTypes.ExtensionConfiguration?
+        /// The identifier of the Amazon Connect instance.
+        /// This member is required.
+        public var instanceId: Swift.String?
+        /// The timestamp when the configuration was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The maximum size limit for attached files in bytes.
+        public var maximumSizeLimitInBytes: Swift.Int?
+
+        public init(
+            attachmentScope: ConnectClientTypes.AttachmentScope? = nil,
+            extensionConfiguration: ConnectClientTypes.ExtensionConfiguration? = nil,
+            instanceId: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            maximumSizeLimitInBytes: Swift.Int? = nil
+        ) {
+            self.attachmentScope = attachmentScope
+            self.extensionConfiguration = extensionConfiguration
+            self.instanceId = instanceId
+            self.lastModifiedTime = lastModifiedTime
+            self.maximumSizeLimitInBytes = maximumSizeLimitInBytes
+        }
+    }
+}
+
+public struct DescribeAttachedFilesConfigurationOutput: Swift.Sendable {
+    /// Information about the attached files configuration.
+    /// This member is required.
+    public var attachedFilesConfiguration: ConnectClientTypes.AttachedFilesConfiguration?
+
+    public init(
+        attachedFilesConfiguration: ConnectClientTypes.AttachedFilesConfiguration? = nil
+    ) {
+        self.attachedFilesConfiguration = attachedFilesConfiguration
+    }
+}
+
 public struct DescribeAuthenticationProfileInput: Swift.Sendable {
     /// A unique identifier for the authentication profile.
     /// This member is required.
@@ -20759,6 +20897,70 @@ public struct ListAssociatedContactsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.contactSummaryList = contactSummaryList
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAttachedFilesConfigurationsInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page. The default MaxResult size is 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A summary of the attached files configuration.
+    public struct AttachedFilesConfigurationSummary: Swift.Sendable {
+        /// The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+        /// This member is required.
+        public var attachmentScope: ConnectClientTypes.AttachmentScope?
+        /// The configuration for allowed file extensions.
+        public var extensionConfiguration: ConnectClientTypes.ExtensionConfiguration?
+        /// The identifier of the Amazon Connect instance.
+        /// This member is required.
+        public var instanceId: Swift.String?
+        /// The maximum size limit for attached files in bytes. The minimum value is 1 and the maximum value is 104857600 (100 MB).
+        public var maximumSizeLimitInBytes: Swift.Int?
+
+        public init(
+            attachmentScope: ConnectClientTypes.AttachmentScope? = nil,
+            extensionConfiguration: ConnectClientTypes.ExtensionConfiguration? = nil,
+            instanceId: Swift.String? = nil,
+            maximumSizeLimitInBytes: Swift.Int? = nil
+        ) {
+            self.attachmentScope = attachmentScope
+            self.extensionConfiguration = extensionConfiguration
+            self.instanceId = instanceId
+            self.maximumSizeLimitInBytes = maximumSizeLimitInBytes
+        }
+    }
+}
+
+public struct ListAttachedFilesConfigurationsOutput: Swift.Sendable {
+    /// Information about the attached files configurations.
+    public var attachedFilesConfigurations: [ConnectClientTypes.AttachedFilesConfigurationSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        attachedFilesConfigurations: [ConnectClientTypes.AttachedFilesConfigurationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.attachedFilesConfigurations = attachedFilesConfigurations
         self.nextToken = nextToken
     }
 }
@@ -31173,6 +31375,60 @@ public struct UpdateAgentStatusInput: Swift.Sendable {
     }
 }
 
+public struct UpdateAttachedFilesConfigurationInput: Swift.Sendable {
+    /// The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+    /// This member is required.
+    public var attachmentScope: ConnectClientTypes.AttachmentScope?
+    /// The configuration for allowed file extensions.
+    public var extensionConfiguration: ConnectClientTypes.ExtensionConfiguration?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum size limit for attached files in bytes. The minimum value is 1 and the maximum value is 104857600 (100 MB).
+    public var maximumSizeLimitInBytes: Swift.Int?
+
+    public init(
+        attachmentScope: ConnectClientTypes.AttachmentScope? = nil,
+        extensionConfiguration: ConnectClientTypes.ExtensionConfiguration? = nil,
+        instanceId: Swift.String? = nil,
+        maximumSizeLimitInBytes: Swift.Int? = nil
+    ) {
+        self.attachmentScope = attachmentScope
+        self.extensionConfiguration = extensionConfiguration
+        self.instanceId = instanceId
+        self.maximumSizeLimitInBytes = maximumSizeLimitInBytes
+    }
+}
+
+public struct UpdateAttachedFilesConfigurationOutput: Swift.Sendable {
+    /// The scope of the attachment.
+    /// This member is required.
+    public var attachmentScope: ConnectClientTypes.AttachmentScope?
+    /// The configuration for allowed file extensions.
+    public var extensionConfiguration: ConnectClientTypes.ExtensionConfiguration?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The timestamp when the configuration was last modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// The maximum size limit for attached files in bytes.
+    public var maximumSizeLimitInBytes: Swift.Int?
+
+    public init(
+        attachmentScope: ConnectClientTypes.AttachmentScope? = nil,
+        extensionConfiguration: ConnectClientTypes.ExtensionConfiguration? = nil,
+        instanceId: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        maximumSizeLimitInBytes: Swift.Int? = nil
+    ) {
+        self.attachmentScope = attachmentScope
+        self.extensionConfiguration = extensionConfiguration
+        self.instanceId = instanceId
+        self.lastModifiedTime = lastModifiedTime
+        self.maximumSizeLimitInBytes = maximumSizeLimitInBytes
+    }
+}
+
 public struct UpdateAuthenticationProfileInput: Swift.Sendable {
     /// A list of IP address range strings that are allowed to access the instance. For more information on how to configure IP addresses, see[Configure session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts) in the Amazon Connect Administrator Guide.
     public var allowedIps: [Swift.String]?
@@ -37329,6 +37585,19 @@ extension DescribeAgentStatusInput {
     }
 }
 
+extension DescribeAttachedFilesConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeAttachedFilesConfigurationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let attachmentScope = value.attachmentScope else {
+            return nil
+        }
+        return "/attached-files-configurations/\(instanceId.urlPercentEncoding())/\(attachmentScope.rawValue.urlPercentEncoding())"
+    }
+}
+
 extension DescribeAuthenticationProfileInput {
 
     static func urlPathProvider(_ value: DescribeAuthenticationProfileInput) -> Swift.String? {
@@ -38532,6 +38801,32 @@ extension ListAssociatedContactsInput {
         }
         let contactIdQueryItem = Smithy.URIQueryItem(name: "contactId".urlPercentEncoding(), value: Swift.String(contactId).urlPercentEncoding())
         items.append(contactIdQueryItem)
+        return items
+    }
+}
+
+extension ListAttachedFilesConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListAttachedFilesConfigurationsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/attached-files-configurations/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension ListAttachedFilesConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListAttachedFilesConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
         return items
     }
 }
@@ -40811,6 +41106,19 @@ extension UpdateAgentStatusInput {
             return nil
         }
         return "/agent-status/\(instanceId.urlPercentEncoding())/\(agentStatusId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateAttachedFilesConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateAttachedFilesConfigurationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let attachmentScope = value.attachmentScope else {
+            return nil
+        }
+        return "/attached-files-configurations/\(instanceId.urlPercentEncoding())/\(attachmentScope.rawValue.urlPercentEncoding())"
     }
 }
 
@@ -43398,6 +43706,15 @@ extension UpdateAgentStatusInput {
     }
 }
 
+extension UpdateAttachedFilesConfigurationInput {
+
+    static func write(value: UpdateAttachedFilesConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExtensionConfiguration"].write(value.extensionConfiguration, with: ConnectClientTypes.ExtensionConfiguration.write(value:to:))
+        try writer["MaximumSizeLimitInBytes"].write(value.maximumSizeLimitInBytes)
+    }
+}
+
 extension UpdateAuthenticationProfileInput {
 
     static func write(value: UpdateAuthenticationProfileInput?, to writer: SmithyJSON.Writer) throws {
@@ -45078,6 +45395,18 @@ extension DescribeAgentStatusOutput {
     }
 }
 
+extension DescribeAttachedFilesConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAttachedFilesConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAttachedFilesConfigurationOutput()
+        value.attachedFilesConfiguration = try reader["AttachedFilesConfiguration"].readIfPresent(with: ConnectClientTypes.AttachedFilesConfiguration.read(from:))
+        return value
+    }
+}
+
 extension DescribeAuthenticationProfileOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAuthenticationProfileOutput {
@@ -45920,6 +46249,19 @@ extension ListAssociatedContactsOutput {
         let reader = responseReader
         var value = ListAssociatedContactsOutput()
         value.contactSummaryList = try reader["ContactSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AssociatedContactSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAttachedFilesConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAttachedFilesConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAttachedFilesConfigurationsOutput()
+        value.attachedFilesConfigurations = try reader["AttachedFilesConfigurations"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AttachedFilesConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -47473,6 +47815,22 @@ extension UpdateAgentStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAgentStatusOutput {
         return UpdateAgentStatusOutput()
+    }
+}
+
+extension UpdateAttachedFilesConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAttachedFilesConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAttachedFilesConfigurationOutput()
+        value.attachmentScope = try reader["AttachmentScope"].readIfPresent() ?? .sdkUnknown("")
+        value.extensionConfiguration = try reader["ExtensionConfiguration"].readIfPresent(with: ConnectClientTypes.ExtensionConfiguration.read(from:))
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.maximumSizeLimitInBytes = try reader["MaximumSizeLimitInBytes"].readIfPresent()
+        return value
     }
 }
 
@@ -50056,6 +50414,24 @@ enum DescribeAgentStatusOutputError {
     }
 }
 
+enum DescribeAttachedFilesConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeAuthenticationProfileOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -51382,6 +51758,24 @@ enum ListAssociatedContactsOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAttachedFilesConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -53690,6 +54084,24 @@ enum UpdateAgentStatusOutputError {
     }
 }
 
+enum UpdateAttachedFilesConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateAuthenticationProfileOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -55521,6 +55933,21 @@ extension ConnectClientTypes.AllowedCapabilities {
     }
 }
 
+extension ConnectClientTypes.AllowedExtension {
+
+    static func write(value: ConnectClientTypes.AllowedExtension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Extension"].write(value.`extension`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AllowedExtension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AllowedExtension()
+        value.`extension` = try reader["Extension"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ConnectClientTypes.AnalyticsDataAssociationResult {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AnalyticsDataAssociationResult {
@@ -55649,6 +56076,33 @@ extension ConnectClientTypes.AttachedFileError {
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.fileId = try reader["FileId"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.AttachedFilesConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AttachedFilesConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AttachedFilesConfiguration()
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.attachmentScope = try reader["AttachmentScope"].readIfPresent() ?? .sdkUnknown("")
+        value.maximumSizeLimitInBytes = try reader["MaximumSizeLimitInBytes"].readIfPresent()
+        value.extensionConfiguration = try reader["ExtensionConfiguration"].readIfPresent(with: ConnectClientTypes.ExtensionConfiguration.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConnectClientTypes.AttachedFilesConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AttachedFilesConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AttachedFilesConfigurationSummary()
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.attachmentScope = try reader["AttachmentScope"].readIfPresent() ?? .sdkUnknown("")
+        value.maximumSizeLimitInBytes = try reader["MaximumSizeLimitInBytes"].readIfPresent()
+        value.extensionConfiguration = try reader["ExtensionConfiguration"].readIfPresent(with: ConnectClientTypes.ExtensionConfiguration.read(from:))
         return value
     }
 }
@@ -58440,6 +58894,21 @@ extension ConnectClientTypes.Expression {
         value.andExpression = try reader["AndExpression"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.orExpression = try reader["OrExpression"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.notAttributeCondition = try reader["NotAttributeCondition"].readIfPresent(with: ConnectClientTypes.AttributeCondition.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.ExtensionConfiguration {
+
+    static func write(value: ConnectClientTypes.ExtensionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedExtensions"].writeList(value.allowedExtensions, memberWritingClosure: ConnectClientTypes.AllowedExtension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ExtensionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ExtensionConfiguration()
+        value.allowedExtensions = try reader["AllowedExtensions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AllowedExtension.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

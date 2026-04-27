@@ -610,7 +610,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension ConnectHealthClientTypes {
 
-    /// Input configuration for creating a Pulse web application. Used only in CreateDomain operation input.
+    /// Input configuration for creating a web application. Used only in CreateDomain operation input.
     public struct CreateWebAppConfiguration: Swift.Sendable {
         /// ARN of the IAM role used for EHR operations.
         /// This member is required.

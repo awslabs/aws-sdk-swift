@@ -2756,6 +2756,7 @@ extension BedrockAgentCoreControlClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
     /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit

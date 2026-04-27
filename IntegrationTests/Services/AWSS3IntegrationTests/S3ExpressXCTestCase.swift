@@ -32,6 +32,33 @@ class S3ExpressXCTestCase: XCTestCase {
         try await super.setUp()
         self.config = try await S3Client.S3ClientConfig(region: region)
         self.client = S3Client(config: config)
+        try? await deleteStaleDirectoryBuckets()
+    }
+
+    /// Deletes orphaned directory buckets older than 1 day from previous test runs
+    /// that were not cleaned up (e.g. due to process kill, timeout, or crash).
+    private func deleteStaleDirectoryBuckets() async throws {
+        let response = try await client.listDirectoryBuckets(input: ListDirectoryBucketsInput())
+        guard let allBuckets = response.buckets else { return }
+        let oneDayAgo = Date().addingTimeInterval(-86400)
+        let suffix = "--\(azID)--x-s3"
+        let stale = allBuckets.filter {
+            ($0.name ?? "").hasSuffix(suffix) && ($0.creationDate ?? Date()) < oneDayAgo
+        }
+        for bucket in stale {
+            guard let name = bucket.name else { continue }
+            try? await emptyBucket(bucket: name)
+            try? await deleteBucket(bucket: name)
+        }
+    }
+
+    private func emptyBucket(bucket: String) async throws {
+        let response = try await client.listObjectsV2(input: ListObjectsV2Input(bucket: bucket))
+        guard let objects = response.contents else { return }
+        for object in objects {
+            guard let key = object.key else { continue }
+            try? await deleteObject(bucket: bucket, key: key)
+        }
     }
 
     override func tearDown() async throws {
