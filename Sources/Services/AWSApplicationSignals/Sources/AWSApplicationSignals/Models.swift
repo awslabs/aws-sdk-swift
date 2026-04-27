@@ -372,6 +372,101 @@ extension ApplicationSignalsClientTypes {
 
 extension ApplicationSignalsClientTypes {
 
+    /// Identifies a single operation to include in a composite SLI for a service-level SLO. Used as an element of the Components list in CompositeSliConfig.
+    public enum CompositeSliComponent: Swift.Sendable {
+        /// The name of the operation to include in the composite SLI.
+        case operationname(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The strategy for selecting operations to include in a service-level SLO.
+    ///
+    /// * EXPLICIT — You provide a specific list of operations in the Components field of CompositeSliConfig.
+    ///
+    /// * PREFIX — You provide a prefix string in the Pattern field of SelectionConfig, and all operations whose names start with the prefix are included.
+    ///
+    /// * REGEX — You provide a regular expression in the Pattern field of SelectionConfig, and all operations whose names match the pattern are included.
+    public enum SelectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case explicit
+        case `prefix`
+        case regex
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SelectionType] {
+            return [
+                .explicit,
+                .prefix,
+                .regex
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .explicit: return "EXPLICIT"
+            case .prefix: return "PREFIX"
+            case .regex: return "REGEX"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// Defines how operations are selected for a service-level SLO.
+    public struct SelectionConfig: Swift.Sendable {
+        /// A prefix string or regular expression that specifies which operations to include in a service-level SLO. When SelectionType is PREFIX, this value is a prefix string that matches the beginning of operation names. When SelectionType is REGEX, this value is a regular expression that matches operation names.
+        public var pattern: Swift.String?
+        /// The strategy for selecting operations to include in a service-level SLO.
+        ///
+        /// * EXPLICIT — You provide a specific list of operations in the Components field of CompositeSliConfig.
+        ///
+        /// * PREFIX — You provide a prefix string in the Pattern field of SelectionConfig, and all operations whose names start with the prefix are included.
+        ///
+        /// * REGEX — You provide a regular expression in the Pattern field of SelectionConfig, and all operations whose names match the pattern are included.
+        /// This member is required.
+        public var type: ApplicationSignalsClientTypes.SelectionType?
+
+        public init(
+            pattern: Swift.String? = nil,
+            type: ApplicationSignalsClientTypes.SelectionType? = nil
+        ) {
+            self.pattern = pattern
+            self.type = type
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// This structure contains the configuration for a composite service level indicator (SLI) that aggregates metrics across multiple operations of a service for service-level SLOs.
+    public struct CompositeSliConfig: Swift.Sendable {
+        /// The list of operations included in this composite SLI. You must specify between 2 and 20 components. Each component is a CompositeSliComponent that identifies a single operation by its OperationName.
+        public var components: [ApplicationSignalsClientTypes.CompositeSliComponent]?
+        /// Specifies how operations are selected for this service-level SLO. Operations can be selected explicitly by listing them, by specifying a prefix to match operation names, or by providing a regular expression pattern.
+        /// This member is required.
+        public var selectionConfig: ApplicationSignalsClientTypes.SelectionConfig?
+
+        public init(
+            components: [ApplicationSignalsClientTypes.CompositeSliComponent]? = nil,
+            selectionConfig: ApplicationSignalsClientTypes.SelectionConfig? = nil
+        ) {
+            self.components = components
+            self.selectionConfig = selectionConfig
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
     /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName. When creating a service dependency SLO, you must specify the KeyAttributes of the service, and the DependencyConfig for the dependency. You can specify the OperationName of the service, from which it calls the dependency. Alternatively, you can exclude OperationName and the SLO will monitor all of the service's operations that call the dependency.
     public struct DependencyConfig: Swift.Sendable {
         /// This is a string-to-string map. It can include the following fields.
@@ -690,6 +785,8 @@ extension ApplicationSignalsClientTypes {
 
     /// This structure contains the information about the metric that is used for a request-based SLO.
     public struct RequestBasedServiceLevelIndicatorMetric: Swift.Sendable {
+        /// The composite SLI configuration for service-level SLOs that monitor multiple operations of a service.
+        public var compositeSliConfig: ApplicationSignalsClientTypes.CompositeSliConfig?
         /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
         public var dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig?
         /// This is a string-to-string map that contains information about the type of object that this SLO is related to. It can include the following fields.
@@ -718,6 +815,7 @@ extension ApplicationSignalsClientTypes {
         public var totalRequestCountMetric: [ApplicationSignalsClientTypes.MetricDataQuery]?
 
         public init(
+            compositeSliConfig: ApplicationSignalsClientTypes.CompositeSliConfig? = nil,
             dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
             metricSource: ApplicationSignalsClientTypes.MetricSource? = nil,
@@ -726,6 +824,7 @@ extension ApplicationSignalsClientTypes {
             operationName: Swift.String? = nil,
             totalRequestCountMetric: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil
         ) {
+            self.compositeSliConfig = compositeSliConfig
             self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricSource = metricSource
@@ -765,6 +864,8 @@ extension ApplicationSignalsClientTypes {
 
     /// This structure contains the information about the metric that is used for a period-based SLO.
     public struct ServiceLevelIndicatorMetric: Swift.Sendable {
+        /// The composite SLI configuration for service-level SLOs that monitor multiple operations of a service.
+        public var compositeSliConfig: ApplicationSignalsClientTypes.CompositeSliConfig?
         /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
         public var dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig?
         /// This is a string-to-string map that contains information about the type of object that this SLO is related to. It can include the following fields.
@@ -790,6 +891,7 @@ extension ApplicationSignalsClientTypes {
         public var operationName: Swift.String?
 
         public init(
+            compositeSliConfig: ApplicationSignalsClientTypes.CompositeSliConfig? = nil,
             dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
             metricDataQueries: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil,
@@ -797,6 +899,7 @@ extension ApplicationSignalsClientTypes {
             metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType? = nil,
             operationName: Swift.String? = nil
         ) {
+            self.compositeSliConfig = compositeSliConfig
             self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
@@ -2741,6 +2844,8 @@ extension ApplicationSignalsClientTypes {
 
     /// Use this structure to specify the information for the metric that a period-based SLO will monitor.
     public struct RequestBasedServiceLevelIndicatorMetricConfig: Swift.Sendable {
+        /// The composite SLI configuration for service-level SLOs that monitor multiple operations of a service.
+        public var compositeSliConfig: ApplicationSignalsClientTypes.CompositeSliConfig?
         /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
         public var dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig?
         /// If this SLO is related to a metric collected by Application Signals, you must use this field to specify which service the SLO metric is related to. To do so, you must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.
@@ -2769,6 +2874,7 @@ extension ApplicationSignalsClientTypes {
         public var totalRequestCountMetric: [ApplicationSignalsClientTypes.MetricDataQuery]?
 
         public init(
+            compositeSliConfig: ApplicationSignalsClientTypes.CompositeSliConfig? = nil,
             dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
             metricName: Swift.String? = nil,
@@ -2778,6 +2884,7 @@ extension ApplicationSignalsClientTypes {
             operationName: Swift.String? = nil,
             totalRequestCountMetric: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil
         ) {
+            self.compositeSliConfig = compositeSliConfig
             self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricName = metricName
@@ -2818,6 +2925,8 @@ extension ApplicationSignalsClientTypes {
 
     /// Use this structure to specify the information for the metric that a period-based SLO will monitor.
     public struct ServiceLevelIndicatorMetricConfig: Swift.Sendable {
+        /// The composite SLI configuration for service-level SLOs that monitor multiple operations of a service.
+        public var compositeSliConfig: ApplicationSignalsClientTypes.CompositeSliConfig?
         /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
         public var dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig?
         /// If this SLO is related to a metric collected by Application Signals, you must use this field to specify which service the SLO metric is related to. To do so, you must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.
@@ -2848,6 +2957,7 @@ extension ApplicationSignalsClientTypes {
         public var statistic: Swift.String?
 
         public init(
+            compositeSliConfig: ApplicationSignalsClientTypes.CompositeSliConfig? = nil,
             dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
             metricDataQueries: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil,
@@ -2858,6 +2968,7 @@ extension ApplicationSignalsClientTypes {
             periodSeconds: Swift.Int? = nil,
             statistic: Swift.String? = nil
         ) {
+            self.compositeSliConfig = compositeSliConfig
             self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
@@ -2896,6 +3007,8 @@ extension ApplicationSignalsClientTypes {
 }
 
 public struct CreateServiceLevelObjectiveInput: Swift.Sendable {
+    /// Indicates whether DevOps Agent will automatically investigate this SLO when it is breached
+    public var autoInvestigationEnabled: Swift.Bool?
     /// Use this array to create burn rates for this SLO. Each burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
     public var burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]?
     /// Set this to true to create a recommended SLO out of the box. When set to true, you don't need to specify the MetricThreshold or ComparisonOperator in the SliConfig or RequestBasedSliConfig. The default value is false. This is supported for SLOs on a service, service operation, or a dependency.
@@ -2915,6 +3028,7 @@ public struct CreateServiceLevelObjectiveInput: Swift.Sendable {
     public var tags: [ApplicationSignalsClientTypes.Tag]?
 
     public init(
+        autoInvestigationEnabled: Swift.Bool? = nil,
         burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]? = nil,
         createRecommendedSlo: Swift.Bool? = nil,
         description: Swift.String? = nil,
@@ -2924,6 +3038,7 @@ public struct CreateServiceLevelObjectiveInput: Swift.Sendable {
         sliConfig: ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig? = nil,
         tags: [ApplicationSignalsClientTypes.Tag]? = nil
     ) {
+        self.autoInvestigationEnabled = autoInvestigationEnabled
         self.burnRateConfigurations = burnRateConfigurations
         self.createRecommendedSlo = createRecommendedSlo
         self.description = description
@@ -2983,6 +3098,8 @@ extension ApplicationSignalsClientTypes {
         /// The ARN of this SLO.
         /// This member is required.
         public var arn: Swift.String?
+        /// Indicates whether DevOps Agent will automatically investigate this SLO when it is breached
+        public var autoInvestigationEnabled: Swift.Bool?
         /// Each object in this array defines the length of the look-back window used to calculate one burn rate metric for this SLO. The burn rate measures how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
         public var burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]?
         /// The date and time that this SLO was created. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
@@ -3022,6 +3139,7 @@ extension ApplicationSignalsClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            autoInvestigationEnabled: Swift.Bool? = nil,
             burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]? = nil,
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
@@ -3034,6 +3152,7 @@ extension ApplicationSignalsClientTypes {
             sli: ApplicationSignalsClientTypes.ServiceLevelIndicator? = nil
         ) {
             self.arn = arn
+            self.autoInvestigationEnabled = autoInvestigationEnabled
             self.burnRateConfigurations = burnRateConfigurations
             self.createdTime = createdTime
             self.description = description
@@ -3173,6 +3292,8 @@ extension ApplicationSignalsClientTypes {
         /// The ARN of this service level objective.
         /// This member is required.
         public var arn: Swift.String?
+        /// The composite SLI configuration for service-level SLOs that monitor multiple operations of a service.
+        public var compositeSliConfig: ApplicationSignalsClientTypes.CompositeSliConfig?
         /// The date and time that this service level objective was created. It is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public var createdTime: Foundation.Date?
         /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
@@ -3215,6 +3336,7 @@ extension ApplicationSignalsClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            compositeSliConfig: ApplicationSignalsClientTypes.CompositeSliConfig? = nil,
             createdTime: Foundation.Date? = nil,
             dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             evaluationType: ApplicationSignalsClientTypes.EvaluationType? = nil,
@@ -3225,6 +3347,7 @@ extension ApplicationSignalsClientTypes {
             operationName: Swift.String? = nil
         ) {
             self.arn = arn
+            self.compositeSliConfig = compositeSliConfig
             self.createdTime = createdTime
             self.dependencyConfig = dependencyConfig
             self.evaluationType = evaluationType
@@ -3253,6 +3376,8 @@ public struct ListServiceLevelObjectivesOutput: Swift.Sendable {
 }
 
 public struct UpdateServiceLevelObjectiveInput: Swift.Sendable {
+    /// Indicates whether DevOps Agent will automatically investigate this SLO when it is breached
+    public var autoInvestigationEnabled: Swift.Bool?
     /// Use this array to create burn rates for this SLO. Each burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
     public var burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]?
     /// An optional description for the SLO.
@@ -3268,6 +3393,7 @@ public struct UpdateServiceLevelObjectiveInput: Swift.Sendable {
     public var sliConfig: ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig?
 
     public init(
+        autoInvestigationEnabled: Swift.Bool? = nil,
         burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]? = nil,
         description: Swift.String? = nil,
         goal: ApplicationSignalsClientTypes.Goal? = nil,
@@ -3275,6 +3401,7 @@ public struct UpdateServiceLevelObjectiveInput: Swift.Sendable {
         requestBasedSliConfig: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorConfig? = nil,
         sliConfig: ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig? = nil
     ) {
+        self.autoInvestigationEnabled = autoInvestigationEnabled
         self.burnRateConfigurations = burnRateConfigurations
         self.description = description
         self.goal = goal
@@ -3800,6 +3927,7 @@ extension CreateServiceLevelObjectiveInput {
 
     static func write(value: CreateServiceLevelObjectiveInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AutoInvestigationEnabled"].write(value.autoInvestigationEnabled)
         try writer["BurnRateConfigurations"].writeList(value.burnRateConfigurations, memberWritingClosure: ApplicationSignalsClientTypes.BurnRateConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CreateRecommendedSlo"].write(value.createRecommendedSlo)
         try writer["Description"].write(value.description)
@@ -3920,6 +4048,7 @@ extension UpdateServiceLevelObjectiveInput {
 
     static func write(value: UpdateServiceLevelObjectiveInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AutoInvestigationEnabled"].write(value.autoInvestigationEnabled)
         try writer["BurnRateConfigurations"].writeList(value.burnRateConfigurations, memberWritingClosure: ApplicationSignalsClientTypes.BurnRateConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
         try writer["Goal"].write(value.goal, with: ApplicationSignalsClientTypes.Goal.write(value:to:))
@@ -4792,6 +4921,47 @@ extension ApplicationSignalsClientTypes.ChangeEvent {
     }
 }
 
+extension ApplicationSignalsClientTypes.CompositeSliComponent {
+
+    static func write(value: ApplicationSignalsClientTypes.CompositeSliComponent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .operationname(operationname):
+                try writer["OperationName"].write(operationname)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.CompositeSliComponent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "OperationName":
+                return .operationname(try reader["OperationName"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes.CompositeSliConfig {
+
+    static func write(value: ApplicationSignalsClientTypes.CompositeSliConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Components"].writeList(value.components, memberWritingClosure: ApplicationSignalsClientTypes.CompositeSliComponent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SelectionConfig"].write(value.selectionConfig, with: ApplicationSignalsClientTypes.SelectionConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.CompositeSliConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.CompositeSliConfig()
+        value.selectionConfig = try reader["SelectionConfig"].readIfPresent(with: ApplicationSignalsClientTypes.SelectionConfig.read(from:))
+        value.components = try reader["Components"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.CompositeSliComponent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ApplicationSignalsClientTypes.DependencyConfig {
 
     static func write(value: ApplicationSignalsClientTypes.DependencyConfig?, to writer: SmithyJSON.Writer) throws {
@@ -5151,6 +5321,7 @@ extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetric 
         value.monitoredRequestCountMetric = try reader["MonitoredRequestCountMetric"].readIfPresent(with: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries.read(from:))
         value.dependencyConfig = try reader["DependencyConfig"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyConfig.read(from:))
         value.metricSource = try reader["MetricSource"].readIfPresent(with: ApplicationSignalsClientTypes.MetricSource.read(from:))
+        value.compositeSliConfig = try reader["CompositeSliConfig"].readIfPresent(with: ApplicationSignalsClientTypes.CompositeSliConfig.read(from:))
         return value
     }
 }
@@ -5159,6 +5330,7 @@ extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetricC
 
     static func write(value: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetricConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CompositeSliConfig"].write(value.compositeSliConfig, with: ApplicationSignalsClientTypes.CompositeSliConfig.write(value:to:))
         try writer["DependencyConfig"].write(value.dependencyConfig, with: ApplicationSignalsClientTypes.DependencyConfig.write(value:to:))
         try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["MetricName"].write(value.metricName)
@@ -5183,6 +5355,23 @@ extension ApplicationSignalsClientTypes.RollingInterval {
         var value = ApplicationSignalsClientTypes.RollingInterval()
         value.durationUnit = try reader["DurationUnit"].readIfPresent() ?? .sdkUnknown("")
         value.duration = try reader["Duration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.SelectionConfig {
+
+    static func write(value: ApplicationSignalsClientTypes.SelectionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Pattern"].write(value.pattern)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.SelectionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.SelectionConfig()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.pattern = try reader["Pattern"].readIfPresent()
         return value
     }
 }
@@ -5284,6 +5473,7 @@ extension ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric {
         value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.dependencyConfig = try reader["DependencyConfig"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyConfig.read(from:))
         value.metricSource = try reader["MetricSource"].readIfPresent(with: ApplicationSignalsClientTypes.MetricSource.read(from:))
+        value.compositeSliConfig = try reader["CompositeSliConfig"].readIfPresent(with: ApplicationSignalsClientTypes.CompositeSliConfig.read(from:))
         return value
     }
 }
@@ -5292,6 +5482,7 @@ extension ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig {
 
     static func write(value: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CompositeSliConfig"].write(value.compositeSliConfig, with: ApplicationSignalsClientTypes.CompositeSliConfig.write(value:to:))
         try writer["DependencyConfig"].write(value.dependencyConfig, with: ApplicationSignalsClientTypes.DependencyConfig.write(value:to:))
         try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: ApplicationSignalsClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -5320,6 +5511,7 @@ extension ApplicationSignalsClientTypes.ServiceLevelObjective {
         value.goal = try reader["Goal"].readIfPresent(with: ApplicationSignalsClientTypes.Goal.read(from:))
         value.burnRateConfigurations = try reader["BurnRateConfigurations"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.BurnRateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.metricSourceType = try reader["MetricSourceType"].readIfPresent()
+        value.autoInvestigationEnabled = try reader["AutoInvestigationEnabled"].readIfPresent()
         return value
     }
 }
@@ -5381,6 +5573,7 @@ extension ApplicationSignalsClientTypes.ServiceLevelObjectiveSummary {
         value.evaluationType = try reader["EvaluationType"].readIfPresent()
         value.metricSourceType = try reader["MetricSourceType"].readIfPresent()
         value.metricSource = try reader["MetricSource"].readIfPresent(with: ApplicationSignalsClientTypes.MetricSource.read(from:))
+        value.compositeSliConfig = try reader["CompositeSliConfig"].readIfPresent(with: ApplicationSignalsClientTypes.CompositeSliConfig.read(from:))
         return value
     }
 }

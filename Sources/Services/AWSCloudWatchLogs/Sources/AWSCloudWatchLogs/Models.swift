@@ -7152,6 +7152,8 @@ extension CloudWatchLogsClientTypes {
         public var dataSource: CloudWatchLogsClientTypes.DataSource?
         /// The unique identifier for this data source association.
         public var identifier: Swift.String?
+        /// The identifier of the parent data source for this association.
+        public var parentSourceIdentifier: Swift.String?
         /// The current status of the data source association.
         public var status: CloudWatchLogsClientTypes.S3TableIntegrationSourceStatus?
         /// Additional information about the status of the data source association.
@@ -7161,12 +7163,14 @@ extension CloudWatchLogsClientTypes {
             createdTimeStamp: Swift.Int? = nil,
             dataSource: CloudWatchLogsClientTypes.DataSource? = nil,
             identifier: Swift.String? = nil,
+            parentSourceIdentifier: Swift.String? = nil,
             status: CloudWatchLogsClientTypes.S3TableIntegrationSourceStatus? = nil,
             statusReason: Swift.String? = nil
         ) {
             self.createdTimeStamp = createdTimeStamp
             self.dataSource = dataSource
             self.identifier = identifier
+            self.parentSourceIdentifier = parentSourceIdentifier
             self.status = status
             self.statusReason = statusReason
         }
@@ -7604,7 +7608,7 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.
     ///
-    /// * For PCS, the valid values are PCS_SCHEDULER_LOGS and PCS_JOBCOMP_LOGS.
+    /// * For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, and PCS_SCHEDULER_AUDIT_LOGS.
     ///
     /// * For Quick, the valid values are CHAT_LOGS and FEEDBACK_LOGS.
     ///
@@ -7613,6 +7617,8 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     /// * For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.
     ///
     /// * For Amazon Web Services Security Hub CSPM, the valid value is SECURITY_FINDING_LOGS.
+    ///
+    /// * For Amazon Web Services Security Hub, the valid value is SECURITY_FINDING_LOGS.
     ///
     /// * For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS.
     ///
@@ -7624,7 +7630,7 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     /// A name for this delivery source. This name must be unique for all delivery sources in your account.
     /// This member is required.
     public var name: Swift.String?
-    /// The ARN of the Amazon Web Services resource that is generating and sending logs. For example, arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234 For the SECURITY_FINDING_LOGS logType, use a wildcard ARN for the hub resource. For example, arn:aws:securityhub:us-east-1:111122223333:hub/*
+    /// The ARN of the Amazon Web Services resource that is generating and sending logs. For example, arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234 For the SECURITY_FINDING_LOGS logType, use a wildcard ARN for the hub resource. For Amazon Web Services Security Hub CSPM, use arn:aws:securityhub:us-east-1:111122223333:hub/* and for Amazon Web Services Security Hub, use arn:aws:securityhub:us-east-1:111122223333:hubv2/*
     /// This member is required.
     public var resourceArn: Swift.String?
     /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
@@ -15988,6 +15994,7 @@ extension CloudWatchLogsClientTypes.S3TableIntegrationSource {
         value.status = try reader["status"].readIfPresent()
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.createdTimeStamp = try reader["createdTimeStamp"].readIfPresent()
+        value.parentSourceIdentifier = try reader["parentSourceIdentifier"].readIfPresent()
         return value
     }
 }
