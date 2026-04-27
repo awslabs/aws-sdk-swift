@@ -54,7 +54,10 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
         }
     }
 
-    private fun renderCustomErrorResolver(writer: SwiftWriter, noErrorWrapping: Boolean) {
+    private fun renderCustomErrorResolver(
+        writer: SwiftWriter,
+        noErrorWrapping: Boolean,
+    ) {
         writer.write("import Foundation")
         writer.write("@_spi(SmithyReadWrite) import ClientRuntime")
         writer.write("import SmithyHTTPAPI")
@@ -108,7 +111,10 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
             writer.openBlock("if var s3Error = error as? S3ErrorRequestIDSettable {", "}") {
                 writer.write("s3Error.requestID = response.requestID")
                 writer.write("s3Error.requestID2 = response.requestID2")
-                writer.openBlock("if let updated = s3Error as? any (ClientRuntime.ServiceError & ClientRuntime.HTTPError & Swift.Error) {", "}") {
+                writer.openBlock(
+                    "if let updated = s3Error as? any (ClientRuntime.ServiceError & ClientRuntime.HTTPError & Swift.Error) {",
+                    "}",
+                ) {
                     writer.write("error = updated")
                 }
             }
@@ -123,8 +129,10 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
         }
     }
 
-
-    private fun renderConformances(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
+    private fun renderConformances(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+    ) {
         val errorShapes = mutableSetOf<software.amazon.smithy.model.shapes.StructureShape>()
         ctx.service.errors.forEach { errorId ->
             ctx.model.getShape(errorId).ifPresent { shape ->
