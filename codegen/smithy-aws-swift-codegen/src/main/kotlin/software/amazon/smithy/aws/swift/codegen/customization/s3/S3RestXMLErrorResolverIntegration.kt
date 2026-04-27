@@ -57,6 +57,15 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
         writer: SwiftWriter,
         noErrorWrapping: Boolean,
     ) {
+        writer.write("import Foundation")
+        writer.write("@_spi(SmithyReadWrite) import ClientRuntime")
+        writer.write("import SmithyHTTPAPI")
+        writer.write("@_spi(SmithyReadWrite) import SmithyXML")
+        writer.write("@_spi(SchemaBasedSerde) import SmithySerialization")
+        writer.write("@_spi(SchemaBasedSerde) import Smithy")
+        writer.write("@_spi(UnknownAWSHTTPServiceError) import AWSClientRuntime")
+        writer.write("")
+
         // The custom error resolver handles errors that the generic TypeRegistry path
         // cannot: candidate errors (InvalidAccessKeyId) and unknown errors with requestID2.
         // For modeled errors (those in the TypeRegistry), it returns nil so the generic path
