@@ -73,7 +73,7 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
         // For modeled errors (those in the TypeRegistry), it returns nil so the generic path
         // handles deserialization.
         writer.openBlock(
-            "func s3CustomErrorResolver(_ response: SmithyHTTPAPI.HTTPResponse, _ bodyData: Foundation.Data, _ errorTypeRegistry: SmithySerialization.TypeRegistry, _ noErrorWrapping: Bool) async throws -> Swift.Error? {",
+            "@Sendable func s3CustomErrorResolver(_ response: SmithyHTTPAPI.HTTPResponse, _ bodyData: Foundation.Data, _ errorTypeRegistry: SmithySerialization.TypeRegistry, _ noErrorWrapping: Bool) async throws -> Swift.Error? {",
             "}",
         ) {
             writer.write("let responseReader = try SmithyXML.Reader.from(data: bodyData)")
@@ -103,7 +103,7 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
     private fun renderErrorPostProcessor(writer: SwiftWriter) {
         // Post-processor sets requestID and requestID2 on modeled S3 errors
         writer.openBlock(
-            "func s3ErrorPostProcessor(_ error: inout any (ClientRuntime.ServiceError & ClientRuntime.HTTPError & Swift.Error), _ response: SmithyHTTPAPI.HTTPResponse) {",
+            "@Sendable func s3ErrorPostProcessor(_ error: inout any (ClientRuntime.ServiceError & ClientRuntime.HTTPError & Swift.Error), _ response: SmithyHTTPAPI.HTTPResponse) {",
             "}",
         ) {
             writer.openBlock("if var s3Error = error as? S3ErrorRequestIDSettable {", "}") {
