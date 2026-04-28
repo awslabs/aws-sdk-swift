@@ -81,6 +81,29 @@ struct PrepareRelease {
     func run() throws {
         try FileManager.default.changeWorkingDirectory(repoPath)
 
+        guard BuildRequestReader.buildRequestAndMappingExist() else {
+            // If the build request or mapping input files
+            // don't exist, create an empty release-manifest.json file.
+            log("build-request.json and/or feature-service-id.json don't exist.")
+            log("Writing empty manifest and exiting.")
+            try createEmptyReleaseManifest()
+            // Return without creating new commit or tag in local repos.
+            // This makes GitPublisher be no-op.
+            return
+        }
+
+        let buildRequest = try BuildRequestReader().getFeaturesFromFile()
+        guard buildRequest.buildType != .dryRun || buildRequest.stage != .dev else {
+            // If the build request is a dry run AND in dev stage,
+            // create an empty release-manifest.json file.
+            log("Build is a dry run.")
+            log("Writing empty manifest and exiting.")
+            try createEmptyReleaseManifest()
+            // Return without creating new commit or tag in local repos.
+            // This makes GitPublisher be no-op.
+            return
+        }
+
         let previousVersion = try getPreviousVersion()
         guard try repoHasChanges(previousVersion) else {
             // If repo has no changes, create an empty release-manifest.json file.
@@ -100,30 +123,6 @@ struct PrepareRelease {
             log("Renaming feature-service-id-smithy.json to feature-service-id.json.")
             try FileManager.default.moveItem(atPath: "../feature-service-id-smithy.json", toPath: "../feature-service-id.json")
             log("Renamed feature-service-id-smithy.json to feature-service-id.json.")
-        }
-
-        guard BuildRequestReader.buildRequestAndMappingExist() else {
-            // If the build request or mapping input files
-            // don't exist, create an empty release-manifest.json file.
-            log("build-request.json and/or feature-service-id.json don't exist.")
-            log("Writing empty manifest and exiting.")
-            try createEmptyReleaseManifest()
-            // Return without creating new commit or tag in local repos.
-            // This makes GitPublisher be no-op.
-            return
-        }
-
-        let buildRequest = try BuildRequestReader().getFeaturesFromFile()
-
-        guard buildRequest.buildType != .dryRun else {
-            // If the build request is a dry run,
-            // create an empty release-manifest.json file.
-            log("Build is a dry run.")
-            log("Writing empty manifest and exiting.")
-            try createEmptyReleaseManifest()
-            // Return without creating new commit or tag in local repos.
-            // This makes GitPublisher be no-op.
-            return
         }
 
         let newVersion = try createNewVersion(previousVersion)

@@ -31,6 +31,7 @@ struct BuildRequestReader {
 
 struct BuildRequest: Decodable {
     let buildType: BuildType?
+    let stage: BuildStage?
     let features: [Feature]?
 }
 
@@ -76,6 +77,54 @@ enum BuildType: Decodable, RawRepresentable, Equatable {
             return "PULL_REQUEST"
         case .dryRun:
             return "DRY_RUN"
+        case .unknown(let value):
+            return value
+        }
+    }
+}
+
+enum BuildStage: Decodable, RawRepresentable, Equatable {
+    typealias RawValue = String
+
+    case dev
+    case alpha
+    case beta
+    case prod
+    case unknown(String)
+
+    init?(rawValue: String) {
+        switch rawValue {
+        case "DEV":
+            self = .dev
+        case "ALPHA":
+            self = .alpha
+        case "BETA":
+            self = .beta
+        case "PROD":
+            self = .prod
+        default:
+            self = .unknown(rawValue)
+        }
+    }
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        // Force-unwrap is safe below because our init?(rawValue:) (just above)
+        // never returns nil.
+        self.init(rawValue: rawValue)!
+    }
+
+    var rawValue: String {
+        switch self {
+        case .dev:
+            return "DEV"
+        case .alpha:
+            return "ALPHA"
+        case .beta:
+            return "BETA"
+        case .prod:
+            return "PROD"
         case .unknown(let value):
             return value
         }
