@@ -81,22 +81,18 @@ struct PrepareRelease {
     func run() throws {
         try FileManager.default.changeWorkingDirectory(repoPath)
 
+        // Rename feature-service-id-smithy.json to feature-service-id.json if it exists
+        // This is needed when a build is triggered manually & merge step doesn't run
+        if FileManager.default.fileExists(atPath: "../feature-service-id-smithy.json") {
+            log("Renaming feature-service-id-smithy.json to feature-service-id.json.")
+            try FileManager.default.moveItem(atPath: "../feature-service-id-smithy.json", toPath: "../feature-service-id.json")
+            log("Renamed feature-service-id-smithy.json to feature-service-id.json.")
+        }
+
         guard BuildRequestReader.buildRequestAndMappingExist() else {
             // If the build request or mapping input files
             // don't exist, create an empty release-manifest.json file.
             log("build-request.json and/or feature-service-id.json don't exist.")
-            log("Writing empty manifest and exiting.")
-            try createEmptyReleaseManifest()
-            // Return without creating new commit or tag in local repos.
-            // This makes GitPublisher be no-op.
-            return
-        }
-
-        let buildRequest = try BuildRequestReader().getFeaturesFromFile()
-        guard buildRequest.buildType != .dryRun || buildRequest.stage != .dev else {
-            // If the build request is a dry run AND in dev stage,
-            // create an empty release-manifest.json file.
-            log("Build is a dry run.")
             log("Writing empty manifest and exiting.")
             try createEmptyReleaseManifest()
             // Return without creating new commit or tag in local repos.
@@ -118,18 +114,11 @@ struct PrepareRelease {
             return
         }
 
-        // Rename feature-service-id-smithy.json to feature-service-id.json if it exists
-        if FileManager.default.fileExists(atPath: "../feature-service-id-smithy.json") {
-            log("Renaming feature-service-id-smithy.json to feature-service-id.json.")
-            try FileManager.default.moveItem(atPath: "../feature-service-id-smithy.json", toPath: "../feature-service-id.json")
-            log("Renamed feature-service-id-smithy.json to feature-service-id.json.")
-        }
-
         let newVersion = try createNewVersion(previousVersion)
 
-        // For known types that don't require publishing,
+        // Determine the build type.  For known types that don't require publishing,
         // add the -nonrelease modifier to the tag
-        let buildType = buildRequest.buildType
+        let buildType = try BuildRequestReader().getFeaturesFromFile().buildType
         let modifier = [BuildType.preview, .dryRun, .pullRequest].contains(buildType) ? "-nonrelease" : ""
 
         try stageFiles()
