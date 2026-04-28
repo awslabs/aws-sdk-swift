@@ -81,21 +81,8 @@ struct PrepareRelease {
     func run() throws {
         try FileManager.default.changeWorkingDirectory(repoPath)
 
-        let previousVersion = try getPreviousVersion()
-        guard try repoHasChanges(previousVersion) else {
-            // If repo has no changes, create an empty release-manifest.json file.
-            // Empty manifest file makes GitHubReleasePublisher be no-op.
-            // The manifest file is required regardless of whether there should
-            // be a release or not.
-            log("Repo has no changes to publish.")
-            log("Writing empty manifest and exiting.")
-            try createEmptyReleaseManifest()
-            // Return without creating new commit or tag in local repos.
-            // This makes GitPublisher be no-op.
-            return
-        }
-
         // Rename feature-service-id-smithy.json to feature-service-id.json if it exists
+        // This is needed when a build is triggered manually & merge step doesn't run
         if FileManager.default.fileExists(atPath: "../feature-service-id-smithy.json") {
             log("Renaming feature-service-id-smithy.json to feature-service-id.json.")
             try FileManager.default.moveItem(atPath: "../feature-service-id-smithy.json", toPath: "../feature-service-id.json")
@@ -113,12 +100,13 @@ struct PrepareRelease {
             return
         }
 
-        let buildRequest = try BuildRequestReader().getFeaturesFromFile()
-
-        guard buildRequest.buildType != .dryRun else {
-            // If the build request is a dry run,
-            // create an empty release-manifest.json file.
-            log("Build is a dry run.")
+        let previousVersion = try getPreviousVersion()
+        guard try repoHasChanges(previousVersion) else {
+            // If repo has no changes, create an empty release-manifest.json file.
+            // Empty manifest file makes GitHubReleasePublisher be no-op.
+            // The manifest file is required regardless of whether there should
+            // be a release or not.
+            log("Repo has no changes to publish.")
             log("Writing empty manifest and exiting.")
             try createEmptyReleaseManifest()
             // Return without creating new commit or tag in local repos.
@@ -128,9 +116,9 @@ struct PrepareRelease {
 
         let newVersion = try createNewVersion(previousVersion)
 
-        // For known types that don't require publishing,
+        // Determine the build type.  For known types that don't require publishing,
         // add the -nonrelease modifier to the tag
-        let buildType = buildRequest.buildType
+        let buildType = try BuildRequestReader().getFeaturesFromFile().buildType
         let modifier = [BuildType.preview, .dryRun, .pullRequest].contains(buildType) ? "-nonrelease" : ""
 
         try stageFiles()
