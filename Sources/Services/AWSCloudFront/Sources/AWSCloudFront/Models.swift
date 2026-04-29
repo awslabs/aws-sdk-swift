@@ -2110,6 +2110,22 @@ extension CloudFrontClientTypes {
     }
 }
 
+extension CloudFrontClientTypes {
+
+    /// A complex type that specifies the HTTP header name from which CloudFront extracts cache tags from origin responses. When you add CacheTagConfig to a distribution, CloudFront reads the specified header from origin responses, parses the comma-separated tag values, and stores them with the cached object. You can then invalidate cached objects by tag using the CreateInvalidation API.
+    public struct CacheTagConfig: Swift.Sendable {
+        /// The name of the HTTP header that your origin includes in responses. CloudFront uses this header to extract cache tags. The header value must contain comma-separated tag values (for example, product:electronics, category:tv, brand:example).
+        /// This member is required.
+        public var headerName: Swift.String?
+
+        public init(
+            headerName: Swift.String? = nil
+        ) {
+            self.headerName = headerName
+        }
+    }
+}
+
 /// You can't change the value of a public key.
 public struct CannotChangeImmutablePublicKeyFields: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -4898,6 +4914,8 @@ extension CloudFrontClientTypes {
         public var anycastIpListId: Swift.String?
         /// A complex type that contains zero or more CacheBehavior elements.
         public var cacheBehaviors: CloudFrontClientTypes.CacheBehaviors?
+        /// Configuration for cache tag extraction from origin responses. When specified, CloudFront reads the header named in HeaderName from origin responses and stores the comma-separated values as cache tags on the object. Distributions without CacheTagConfig do not extract tags. When CacheTagConfig is removed from a distribution via UpdateDistribution, CloudFront stops extracting tags from origin responses. Changing the HeaderName on an existing distribution does not retroactively affect previously cached objects. Tag-based invalidations will not apply to objects already cached using a previous header. To ensure tag invalidations function after updating the header name, use path-based invalidations to recache all objects that use cache tags.
+        public var cacheTagConfig: CloudFrontClientTypes.CacheTagConfig?
         /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the DistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value that you already sent in a previous request to create a distribution, CloudFront returns a DistributionAlreadyExists error.
         /// This member is required.
         public var callerReference: Swift.String?
@@ -4964,6 +4982,7 @@ extension CloudFrontClientTypes {
             aliases: CloudFrontClientTypes.Aliases? = nil,
             anycastIpListId: Swift.String? = nil,
             cacheBehaviors: CloudFrontClientTypes.CacheBehaviors? = nil,
+            cacheTagConfig: CloudFrontClientTypes.CacheTagConfig? = nil,
             callerReference: Swift.String? = nil,
             comment: Swift.String? = nil,
             connectionFunctionAssociation: CloudFrontClientTypes.ConnectionFunctionAssociation? = nil,
@@ -4989,6 +5008,7 @@ extension CloudFrontClientTypes {
             self.aliases = aliases
             self.anycastIpListId = anycastIpListId
             self.cacheBehaviors = cacheBehaviors
+            self.cacheTagConfig = cacheTagConfig
             self.callerReference = callerReference
             self.comment = comment
             self.connectionFunctionAssociation = connectionFunctionAssociation
@@ -5016,7 +5036,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.DistributionConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DistributionConfig(aliases: \(Swift.String(describing: aliases)), anycastIpListId: \(Swift.String(describing: anycastIpListId)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), callerReference: \(Swift.String(describing: callerReference)), connectionFunctionAssociation: \(Swift.String(describing: connectionFunctionAssociation)), connectionMode: \(Swift.String(describing: connectionMode)), continuousDeploymentPolicyId: \(Swift.String(describing: continuousDeploymentPolicyId)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), defaultRootObject: \(Swift.String(describing: defaultRootObject)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), logging: \(Swift.String(describing: logging)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), staging: \(Swift.String(describing: staging)), tenantConfig: \(Swift.String(describing: tenantConfig)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), viewerMtlsConfig: \(Swift.String(describing: viewerMtlsConfig)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
+        "DistributionConfig(aliases: \(Swift.String(describing: aliases)), anycastIpListId: \(Swift.String(describing: anycastIpListId)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), cacheTagConfig: \(Swift.String(describing: cacheTagConfig)), callerReference: \(Swift.String(describing: callerReference)), connectionFunctionAssociation: \(Swift.String(describing: connectionFunctionAssociation)), connectionMode: \(Swift.String(describing: connectionMode)), continuousDeploymentPolicyId: \(Swift.String(describing: continuousDeploymentPolicyId)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), defaultRootObject: \(Swift.String(describing: defaultRootObject)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), logging: \(Swift.String(describing: logging)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), staging: \(Swift.String(describing: staging)), tenantConfig: \(Swift.String(describing: tenantConfig)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), viewerMtlsConfig: \(Swift.String(describing: viewerMtlsConfig)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudFrontClientTypes {
@@ -27710,6 +27730,21 @@ extension CloudFrontClientTypes.CachePolicySummary {
     }
 }
 
+extension CloudFrontClientTypes.CacheTagConfig {
+
+    static func write(value: CloudFrontClientTypes.CacheTagConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["HeaderName"].write(value.headerName)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CacheTagConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.CacheTagConfig()
+        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CloudFrontClientTypes.Certificate {
 
     static func write(value: CloudFrontClientTypes.Certificate?, to writer: SmithyXML.Writer) throws {
@@ -28256,6 +28291,7 @@ extension CloudFrontClientTypes.DistributionConfig {
         try writer["Aliases"].write(value.aliases, with: CloudFrontClientTypes.Aliases.write(value:to:))
         try writer["AnycastIpListId"].write(value.anycastIpListId)
         try writer["CacheBehaviors"].write(value.cacheBehaviors, with: CloudFrontClientTypes.CacheBehaviors.write(value:to:))
+        try writer["CacheTagConfig"].write(value.cacheTagConfig, with: CloudFrontClientTypes.CacheTagConfig.write(value:to:))
         try writer["CallerReference"].write(value.callerReference)
         try writer["Comment"].write(value.comment)
         try writer["ConnectionFunctionAssociation"].write(value.connectionFunctionAssociation, with: CloudFrontClientTypes.ConnectionFunctionAssociation.write(value:to:))
@@ -28306,6 +28342,7 @@ extension CloudFrontClientTypes.DistributionConfig {
         value.connectionMode = try reader["ConnectionMode"].readIfPresent()
         value.viewerMtlsConfig = try reader["ViewerMtlsConfig"].readIfPresent(with: CloudFrontClientTypes.ViewerMtlsConfig.read(from:))
         value.connectionFunctionAssociation = try reader["ConnectionFunctionAssociation"].readIfPresent(with: CloudFrontClientTypes.ConnectionFunctionAssociation.read(from:))
+        value.cacheTagConfig = try reader["CacheTagConfig"].readIfPresent(with: CloudFrontClientTypes.CacheTagConfig.read(from:))
         return value
     }
 }

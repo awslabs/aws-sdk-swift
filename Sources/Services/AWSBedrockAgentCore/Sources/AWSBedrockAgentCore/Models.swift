@@ -72,6 +72,313 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
+extension BedrockAgentCoreClientTypes {
+
+    /// An online evaluation configuration associated with a specific A/B test variant.
+    public struct PerVariantOnlineEvaluationConfig: Swift.Sendable {
+        /// The name of the variant this evaluation configuration applies to.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the online evaluation configuration for this variant.
+        /// This member is required.
+        public var onlineEvaluationConfigArn: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            onlineEvaluationConfigArn: Swift.String? = nil
+        ) {
+            self.name = name
+            self.onlineEvaluationConfigArn = onlineEvaluationConfigArn
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The evaluation configuration for an A/B test, specifying which online evaluation configurations to use for measuring variant performance.
+    public enum ABTestEvaluationConfig: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of a single online evaluation configuration to use for both variants.
+        case onlineevaluationconfigarn(Swift.String)
+        /// Per-variant online evaluation configurations, allowing different evaluation settings for each variant.
+        case pervariantonlineevaluationconfig([BedrockAgentCoreClientTypes.PerVariantOnlineEvaluationConfig])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum ABTestExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notStarted
+        case paused
+        case running
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ABTestExecutionStatus] {
+            return [
+                .notStarted,
+                .paused,
+                .running,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notStarted: return "NOT_STARTED"
+            case .paused: return "PAUSED"
+            case .running: return "RUNNING"
+            case .stopped: return "STOPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Statistics for the control variant in an A/B test.
+    public struct ControlStats: Swift.Sendable {
+        /// The mean evaluation score for the control variant.
+        /// This member is required.
+        public var mean: Swift.Double?
+        /// The number of sessions evaluated for the control variant.
+        /// This member is required.
+        public var sampleSize: Swift.Int?
+        /// The name of the control variant.
+        /// This member is required.
+        public var variantName: Swift.String?
+
+        public init(
+            mean: Swift.Double? = nil,
+            sampleSize: Swift.Int? = nil,
+            variantName: Swift.String? = nil
+        ) {
+            self.mean = mean
+            self.sampleSize = sampleSize
+            self.variantName = variantName
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A confidence interval for a statistical measurement.
+    public struct ConfidenceInterval: Swift.Sendable {
+        /// The lower bound of the confidence interval.
+        public var lower: Swift.Double?
+        /// The upper bound of the confidence interval.
+        public var upper: Swift.Double?
+
+        public init(
+            lower: Swift.Double? = nil,
+            upper: Swift.Double? = nil
+        ) {
+            self.lower = lower
+            self.upper = upper
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Statistical results for a treatment variant compared against the control.
+    public struct VariantResult: Swift.Sendable {
+        /// The absolute change in mean score compared to the control variant.
+        public var absoluteChange: Swift.Double?
+        /// The confidence interval for the observed difference.
+        public var confidenceInterval: BedrockAgentCoreClientTypes.ConfidenceInterval?
+        /// Whether the observed difference is statistically significant.
+        /// This member is required.
+        public var isSignificant: Swift.Bool?
+        /// The mean evaluation score for this variant.
+        /// This member is required.
+        public var mean: Swift.Double?
+        /// The p-value indicating the statistical significance of the observed difference.
+        public var pValue: Swift.Double?
+        /// The percentage change in mean score compared to the control variant.
+        public var percentChange: Swift.Double?
+        /// The number of sessions evaluated for this variant.
+        /// This member is required.
+        public var sampleSize: Swift.Int?
+        /// The name of the treatment variant.
+        /// This member is required.
+        public var variantName: Swift.String?
+
+        public init(
+            absoluteChange: Swift.Double? = nil,
+            confidenceInterval: BedrockAgentCoreClientTypes.ConfidenceInterval? = nil,
+            isSignificant: Swift.Bool? = nil,
+            mean: Swift.Double? = nil,
+            pValue: Swift.Double? = nil,
+            percentChange: Swift.Double? = nil,
+            sampleSize: Swift.Int? = nil,
+            variantName: Swift.String? = nil
+        ) {
+            self.absoluteChange = absoluteChange
+            self.confidenceInterval = confidenceInterval
+            self.isSignificant = isSignificant
+            self.mean = mean
+            self.pValue = pValue
+            self.percentChange = percentChange
+            self.sampleSize = sampleSize
+            self.variantName = variantName
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Statistical metrics for a single evaluator comparing control and treatment variants.
+    public struct EvaluatorMetric: Swift.Sendable {
+        /// The statistics for the control variant.
+        /// This member is required.
+        public var controlStats: BedrockAgentCoreClientTypes.ControlStats?
+        /// The Amazon Resource Name (ARN) of the evaluator.
+        /// This member is required.
+        public var evaluatorArn: Swift.String?
+        /// The results for each treatment variant compared against the control.
+        /// This member is required.
+        public var variantResults: [BedrockAgentCoreClientTypes.VariantResult]?
+
+        public init(
+            controlStats: BedrockAgentCoreClientTypes.ControlStats? = nil,
+            evaluatorArn: Swift.String? = nil,
+            variantResults: [BedrockAgentCoreClientTypes.VariantResult]? = nil
+        ) {
+            self.controlStats = controlStats
+            self.evaluatorArn = evaluatorArn
+            self.variantResults = variantResults
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The statistical results of an A/B test.
+    public struct ABTestResults: Swift.Sendable {
+        /// The timestamp when the analysis was performed.
+        public var analysisTimestamp: Foundation.Date?
+        /// The per-evaluator metrics comparing control and treatment variants.
+        /// This member is required.
+        public var evaluatorMetrics: [BedrockAgentCoreClientTypes.EvaluatorMetric]?
+
+        public init(
+            analysisTimestamp: Foundation.Date? = nil,
+            evaluatorMetrics: [BedrockAgentCoreClientTypes.EvaluatorMetric]? = nil
+        ) {
+            self.analysisTimestamp = analysisTimestamp
+            self.evaluatorMetrics = evaluatorMetrics
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum ABTestStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case deleteFailed
+        case deleting
+        case failed
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ABTestStatus] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleteFailed,
+                .deleting,
+                .failed,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Summary information about an A/B test.
+    public struct ABTestSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the A/B test.
+        /// This member is required.
+        public var abTestArn: Swift.String?
+        /// The unique identifier of the A/B test.
+        /// This member is required.
+        public var abTestId: Swift.String?
+        /// The timestamp when the A/B test was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the A/B test.
+        public var description: Swift.String?
+        /// The execution status of the A/B test.
+        /// This member is required.
+        public var executionStatus: BedrockAgentCoreClientTypes.ABTestExecutionStatus?
+        /// The Amazon Resource Name (ARN) of the gateway used for traffic splitting.
+        public var gatewayArn: Swift.String?
+        /// The name of the A/B test.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The current status of the A/B test.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.ABTestStatus?
+        /// The timestamp when the A/B test was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            abTestArn: Swift.String? = nil,
+            abTestId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            executionStatus: BedrockAgentCoreClientTypes.ABTestExecutionStatus? = nil,
+            gatewayArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: BedrockAgentCoreClientTypes.ABTestStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.abTestArn = abTestArn
+            self.abTestId = abTestId
+            self.createdAt = createdAt
+            self.description = description
+            self.executionStatus = executionStatus
+            self.gatewayArn = gatewayArn
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
 /// The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -843,6 +1150,155 @@ extension BedrockAgentCoreClientTypes {
             self.skillDefinition = skillDefinition
             self.skillMd = skillMd
         }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum CloudWatchLogsFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contains
+        case equals
+        case greaterThan
+        case greaterThanOrEqual
+        case lessThan
+        case lessThanOrEqual
+        case notContains
+        case notEquals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CloudWatchLogsFilterOperator] {
+            return [
+                .contains,
+                .equals,
+                .greaterThan,
+                .greaterThanOrEqual,
+                .lessThan,
+                .lessThanOrEqual,
+                .notContains,
+                .notEquals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contains: return "Contains"
+            case .equals: return "Equals"
+            case .greaterThan: return "GreaterThan"
+            case .greaterThanOrEqual: return "GreaterThanOrEqual"
+            case .lessThan: return "LessThan"
+            case .lessThanOrEqual: return "LessThanOrEqual"
+            case .notContains: return "NotContains"
+            case .notEquals: return "NotEquals"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A value used in filter comparisons, supporting different data types.
+    public enum FilterValue: Swift.Sendable {
+        /// A string value for text-based filtering.
+        case stringvalue(Swift.String)
+        /// A numeric value for numerical filtering and comparisons.
+        case doublevalue(Swift.Double)
+        /// A boolean value for true/false filtering conditions.
+        case booleanvalue(Swift.Bool)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A filter for narrowing down agent traces from CloudWatch Logs based on key-value comparisons.
+    public struct CloudWatchLogsFilter: Swift.Sendable {
+        /// The key or field name to filter on within the agent trace data.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The comparison operator to use for filtering.
+        /// This member is required.
+        public var `operator`: BedrockAgentCoreClientTypes.CloudWatchLogsFilterOperator?
+        /// The value to compare against using the specified operator.
+        /// This member is required.
+        public var value: BedrockAgentCoreClientTypes.FilterValue?
+
+        public init(
+            key: Swift.String? = nil,
+            `operator`: BedrockAgentCoreClientTypes.CloudWatchLogsFilterOperator? = nil,
+            value: BedrockAgentCoreClientTypes.FilterValue? = nil
+        ) {
+            self.key = key
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A rule configuration for filtering agent traces from CloudWatch Logs.
+    public struct CloudWatchLogsRule: Swift.Sendable {
+        /// The list of filters to apply when reading agent traces.
+        public var filters: [BedrockAgentCoreClientTypes.CloudWatchLogsFilter]?
+
+        public init(
+            filters: [BedrockAgentCoreClientTypes.CloudWatchLogsFilter]? = nil
+        ) {
+            self.filters = filters
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for reading agent traces from CloudWatch Logs for recommendation analysis.
+    public struct CloudWatchLogsTraceConfig: Swift.Sendable {
+        /// The end time of the time range to read traces from.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The list of CloudWatch log group ARNs to read agent traces from.
+        /// This member is required.
+        public var logGroupArns: [Swift.String]?
+        /// Optional rule configuration for filtering traces.
+        public var rule: BedrockAgentCoreClientTypes.CloudWatchLogsRule?
+        /// The list of service names to filter traces within the specified log groups.
+        /// This member is required.
+        public var serviceNames: [Swift.String]?
+        /// The start time of the time range to read traces from.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            logGroupArns: [Swift.String]? = nil,
+            rule: BedrockAgentCoreClientTypes.CloudWatchLogsRule? = nil,
+            serviceNames: [Swift.String]? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.logGroupArns = logGroupArns
+            self.rule = rule
+            self.serviceNames = serviceNames
+            self.startTime = startTime
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The configuration specifying where to read agent traces from for recommendation analysis.
+    public enum AgentTracesConfig: Swift.Sendable {
+        /// Agent traces provided as inline session spans in OpenTelemetry format.
+        case sessionspans([Smithy.Document])
+        /// Agent traces read from CloudWatch Logs.
+        case cloudwatchlogs(BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -2508,6 +2964,369 @@ public struct CompleteResourceTokenAuthOutput: Swift.Sendable {
     public init() { }
 }
 
+extension BedrockAgentCoreClientTypes {
+
+    /// A filter to restrict which gateway target paths are included in the A/B test.
+    public struct GatewayFilter: Swift.Sendable {
+        /// A list of target path patterns to include in the A/B test.
+        public var targetPaths: [Swift.String]?
+
+        public init(
+            targetPaths: [Swift.String]? = nil
+        ) {
+            self.targetPaths = targetPaths
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A reference to a specific version of a configuration bundle.
+    public struct ConfigurationBundleRef: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the configuration bundle.
+        /// This member is required.
+        public var bundleArn: Swift.String?
+        /// The version of the configuration bundle.
+        /// This member is required.
+        public var bundleVersion: Swift.String?
+
+        public init(
+            bundleArn: Swift.String? = nil,
+            bundleVersion: Swift.String? = nil
+        ) {
+            self.bundleArn = bundleArn
+            self.bundleVersion = bundleVersion
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A reference to a gateway target.
+    public struct TargetRef: Swift.Sendable {
+        /// The name of the gateway target.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        ) {
+            self.name = name
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The configuration for an A/B test variant.
+    public struct VariantConfiguration: Swift.Sendable {
+        /// A reference to a configuration bundle version to use for this variant.
+        public var configurationBundle: BedrockAgentCoreClientTypes.ConfigurationBundleRef?
+        /// A reference to a gateway target to route traffic to for this variant.
+        public var target: BedrockAgentCoreClientTypes.TargetRef?
+
+        public init(
+            configurationBundle: BedrockAgentCoreClientTypes.ConfigurationBundleRef? = nil,
+            target: BedrockAgentCoreClientTypes.TargetRef? = nil
+        ) {
+            self.configurationBundle = configurationBundle
+            self.target = target
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A variant in an A/B test, representing either the control (C) or treatment (T1) configuration.
+    public struct Variant: Swift.Sendable {
+        /// The name of the variant. Must be C for control or T1 for treatment.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The configuration for this variant, including the configuration bundle or target reference.
+        /// This member is required.
+        public var variantConfiguration: BedrockAgentCoreClientTypes.VariantConfiguration?
+        /// The percentage of traffic to route to this variant. Weights across all variants must sum to 100.
+        /// This member is required.
+        public var weight: Swift.Int?
+
+        public init(
+            name: Swift.String? = nil,
+            variantConfiguration: BedrockAgentCoreClientTypes.VariantConfiguration? = nil,
+            weight: Swift.Int? = nil
+        ) {
+            self.name = name
+            self.variantConfiguration = variantConfiguration
+            self.weight = weight
+        }
+    }
+}
+
+public struct CreateABTestInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The description of the A/B test.
+    public var description: Swift.String?
+    /// Whether to enable the A/B test immediately upon creation. If true, traffic splitting begins automatically.
+    public var enableOnCreate: Swift.Bool?
+    /// The evaluation configuration specifying which online evaluation configurations to use for measuring variant performance.
+    /// This member is required.
+    public var evaluationConfig: BedrockAgentCoreClientTypes.ABTestEvaluationConfig?
+    /// The Amazon Resource Name (ARN) of the gateway to use for traffic splitting.
+    /// This member is required.
+    public var gatewayArn: Swift.String?
+    /// Optional filter to restrict which gateway target paths are included in the A/B test.
+    public var gatewayFilter: BedrockAgentCoreClientTypes.GatewayFilter?
+    /// The name of the A/B test. Must be unique within your account.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The IAM role ARN that grants permissions for the A/B test to access gateway and evaluation resources.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The list of variants for the A/B test. Must contain exactly two variants: a control (C) and a treatment (T1), each with a configuration bundle or target reference and a traffic weight.
+    /// This member is required.
+    public var variants: [BedrockAgentCoreClientTypes.Variant]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        enableOnCreate: Swift.Bool? = nil,
+        evaluationConfig: BedrockAgentCoreClientTypes.ABTestEvaluationConfig? = nil,
+        gatewayArn: Swift.String? = nil,
+        gatewayFilter: BedrockAgentCoreClientTypes.GatewayFilter? = nil,
+        name: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        variants: [BedrockAgentCoreClientTypes.Variant]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.enableOnCreate = enableOnCreate
+        self.evaluationConfig = evaluationConfig
+        self.gatewayArn = gatewayArn
+        self.gatewayFilter = gatewayFilter
+        self.name = name
+        self.roleArn = roleArn
+        self.variants = variants
+    }
+}
+
+public struct CreateABTestOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created A/B test.
+    /// This member is required.
+    public var abTestArn: Swift.String?
+    /// The unique identifier of the created A/B test.
+    /// This member is required.
+    public var abTestId: Swift.String?
+    /// The timestamp when the A/B test was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The execution status indicating whether the A/B test is currently running.
+    /// This member is required.
+    public var executionStatus: BedrockAgentCoreClientTypes.ABTestExecutionStatus?
+    /// The name of the A/B test.
+    public var name: Swift.String?
+    /// The status of the A/B test.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.ABTestStatus?
+
+    public init(
+        abTestArn: Swift.String? = nil,
+        abTestId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        executionStatus: BedrockAgentCoreClientTypes.ABTestExecutionStatus? = nil,
+        name: Swift.String? = nil,
+        status: BedrockAgentCoreClientTypes.ABTestStatus? = nil
+    ) {
+        self.abTestArn = abTestArn
+        self.abTestId = abTestId
+        self.createdAt = createdAt
+        self.executionStatus = executionStatus
+        self.name = name
+        self.status = status
+    }
+}
+
+public struct DeleteABTestInput: Swift.Sendable {
+    /// The unique identifier of the A/B test to delete.
+    /// This member is required.
+    public var abTestId: Swift.String?
+
+    public init(
+        abTestId: Swift.String? = nil
+    ) {
+        self.abTestId = abTestId
+    }
+}
+
+public struct DeleteABTestOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the deleted A/B test.
+    /// This member is required.
+    public var abTestArn: Swift.String?
+    /// The unique identifier of the deleted A/B test.
+    /// This member is required.
+    public var abTestId: Swift.String?
+    /// The status of the A/B test deletion operation.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.ABTestStatus?
+
+    public init(
+        abTestArn: Swift.String? = nil,
+        abTestId: Swift.String? = nil,
+        status: BedrockAgentCoreClientTypes.ABTestStatus? = nil
+    ) {
+        self.abTestArn = abTestArn
+        self.abTestId = abTestId
+        self.status = status
+    }
+}
+
+public struct DeleteBatchEvaluationInput: Swift.Sendable {
+    /// The unique identifier of the batch evaluation to delete.
+    /// This member is required.
+    public var batchEvaluationId: Swift.String?
+
+    public init(
+        batchEvaluationId: Swift.String? = nil
+    ) {
+        self.batchEvaluationId = batchEvaluationId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum BatchEvaluationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case completedWithErrors
+        case deleting
+        case failed
+        case inProgress
+        case pending
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchEvaluationStatus] {
+            return [
+                .completed,
+                .completedWithErrors,
+                .deleting,
+                .failed,
+                .inProgress,
+                .pending,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .completedWithErrors: return "COMPLETED_WITH_ERRORS"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteBatchEvaluationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the deleted batch evaluation.
+    /// This member is required.
+    public var batchEvaluationArn: Swift.String?
+    /// The unique identifier of the deleted batch evaluation.
+    /// This member is required.
+    public var batchEvaluationId: Swift.String?
+    /// The status of the batch evaluation deletion operation.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.BatchEvaluationStatus?
+
+    public init(
+        batchEvaluationArn: Swift.String? = nil,
+        batchEvaluationId: Swift.String? = nil,
+        status: BedrockAgentCoreClientTypes.BatchEvaluationStatus? = nil
+    ) {
+        self.batchEvaluationArn = batchEvaluationArn
+        self.batchEvaluationId = batchEvaluationId
+        self.status = status
+    }
+}
+
+public struct DeleteRecommendationInput: Swift.Sendable {
+    /// The unique identifier of the recommendation to delete.
+    /// This member is required.
+    public var recommendationId: Swift.String?
+
+    public init(
+        recommendationId: Swift.String? = nil
+    ) {
+        self.recommendationId = recommendationId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum RecommendationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case deleting
+        case failed
+        case inProgress
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationStatus] {
+            return [
+                .completed,
+                .deleting,
+                .failed,
+                .inProgress,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteRecommendationOutput: Swift.Sendable {
+    /// The unique identifier of the deleted recommendation.
+    /// This member is required.
+    public var recommendationId: Swift.String?
+    /// The status of the recommendation deletion operation.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.RecommendationStatus?
+
+    public init(
+        recommendationId: Swift.String? = nil,
+        status: BedrockAgentCoreClientTypes.RecommendationStatus? = nil
+    ) {
+        self.recommendationId = recommendationId
+        self.status = status
+    }
+}
+
 /// An exception thrown when attempting to create a resource with an identifier that already exists.
 public struct DuplicateIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2766,6 +3585,1403 @@ public struct EvaluateOutput: Swift.Sendable {
         evaluationResults: [BedrockAgentCoreClientTypes.EvaluationResultContent]? = nil
     ) {
         self.evaluationResults = evaluationResults
+    }
+}
+
+public struct GetABTestInput: Swift.Sendable {
+    /// The unique identifier of the A/B test to retrieve.
+    /// This member is required.
+    public var abTestId: Swift.String?
+
+    public init(
+        abTestId: Swift.String? = nil
+    ) {
+        self.abTestId = abTestId
+    }
+}
+
+public struct GetABTestOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the A/B test.
+    /// This member is required.
+    public var abTestArn: Swift.String?
+    /// The unique identifier of the A/B test.
+    /// This member is required.
+    public var abTestId: Swift.String?
+    /// The timestamp when the A/B test was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the current run of the A/B test.
+    public var currentRunId: Swift.String?
+    /// The description of the A/B test.
+    public var description: Swift.String?
+    /// The error details if the A/B test encountered failures.
+    public var errorDetails: [Swift.String]?
+    /// The evaluation configuration for measuring variant performance.
+    /// This member is required.
+    public var evaluationConfig: BedrockAgentCoreClientTypes.ABTestEvaluationConfig?
+    /// The execution status indicating whether the A/B test is currently running.
+    /// This member is required.
+    public var executionStatus: BedrockAgentCoreClientTypes.ABTestExecutionStatus?
+    /// The Amazon Resource Name (ARN) of the gateway used for traffic splitting.
+    /// This member is required.
+    public var gatewayArn: Swift.String?
+    /// The gateway filter restricting which target paths are included.
+    public var gatewayFilter: BedrockAgentCoreClientTypes.GatewayFilter?
+    /// The timestamp when the A/B test will automatically expire.
+    public var maxDurationExpiresAt: Foundation.Date?
+    /// The name of the A/B test.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The statistical results of the A/B test, including per-evaluator metrics and significance analysis.
+    public var results: BedrockAgentCoreClientTypes.ABTestResults?
+    /// The IAM role ARN used by the A/B test.
+    public var roleArn: Swift.String?
+    /// The timestamp when the A/B test was started.
+    public var startedAt: Foundation.Date?
+    /// The current status of the A/B test.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.ABTestStatus?
+    /// The timestamp when the A/B test was stopped.
+    public var stoppedAt: Foundation.Date?
+    /// The timestamp when the A/B test was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// The list of variants in the A/B test.
+    /// This member is required.
+    public var variants: [BedrockAgentCoreClientTypes.Variant]?
+
+    public init(
+        abTestArn: Swift.String? = nil,
+        abTestId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        currentRunId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        errorDetails: [Swift.String]? = nil,
+        evaluationConfig: BedrockAgentCoreClientTypes.ABTestEvaluationConfig? = nil,
+        executionStatus: BedrockAgentCoreClientTypes.ABTestExecutionStatus? = nil,
+        gatewayArn: Swift.String? = nil,
+        gatewayFilter: BedrockAgentCoreClientTypes.GatewayFilter? = nil,
+        maxDurationExpiresAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        results: BedrockAgentCoreClientTypes.ABTestResults? = nil,
+        roleArn: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: BedrockAgentCoreClientTypes.ABTestStatus? = nil,
+        stoppedAt: Foundation.Date? = nil,
+        updatedAt: Foundation.Date? = nil,
+        variants: [BedrockAgentCoreClientTypes.Variant]? = nil
+    ) {
+        self.abTestArn = abTestArn
+        self.abTestId = abTestId
+        self.createdAt = createdAt
+        self.currentRunId = currentRunId
+        self.description = description
+        self.errorDetails = errorDetails
+        self.evaluationConfig = evaluationConfig
+        self.executionStatus = executionStatus
+        self.gatewayArn = gatewayArn
+        self.gatewayFilter = gatewayFilter
+        self.maxDurationExpiresAt = maxDurationExpiresAt
+        self.name = name
+        self.results = results
+        self.roleArn = roleArn
+        self.startedAt = startedAt
+        self.status = status
+        self.stoppedAt = stoppedAt
+        self.updatedAt = updatedAt
+        self.variants = variants
+    }
+}
+
+public struct GetBatchEvaluationInput: Swift.Sendable {
+    /// The unique identifier of the batch evaluation to retrieve.
+    /// This member is required.
+    public var batchEvaluationId: Swift.String?
+
+    public init(
+        batchEvaluationId: Swift.String? = nil
+    ) {
+        self.batchEvaluationId = batchEvaluationId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A time range filter for selecting sessions. Specifies the start and end times to narrow down which sessions are included.
+    public struct SessionFilterConfig: Swift.Sendable {
+        /// The end time of the time range. Only sessions with activity before this timestamp are included.
+        public var endTime: Foundation.Date?
+        /// The start time of the time range. Only sessions with activity at or after this timestamp are included.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Filter configuration for narrowing down CloudWatch Logs sessions for evaluation.
+    public struct CloudWatchFilterConfig: Swift.Sendable {
+        /// A list of specific session IDs to evaluate. If specified, only these sessions are included in the evaluation.
+        public var sessionIds: [Swift.String]?
+        /// The time range filter for selecting sessions to evaluate.
+        public var timeRange: BedrockAgentCoreClientTypes.SessionFilterConfig?
+
+        public init(
+            sessionIds: [Swift.String]? = nil,
+            timeRange: BedrockAgentCoreClientTypes.SessionFilterConfig? = nil
+        ) {
+            self.sessionIds = sessionIds
+            self.timeRange = timeRange
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The configuration for reading agent traces from CloudWatch Logs.
+    public struct CloudWatchLogsSource: Swift.Sendable {
+        /// Optional filter configuration to narrow down which sessions to evaluate.
+        public var filterConfig: BedrockAgentCoreClientTypes.CloudWatchFilterConfig?
+        /// The list of CloudWatch log group names to read agent traces from. Maximum of 5 log groups.
+        /// This member is required.
+        public var logGroupNames: [Swift.String]?
+        /// The list of agent service names to filter traces within the specified log groups.
+        /// This member is required.
+        public var serviceNames: [Swift.String]?
+
+        public init(
+            filterConfig: BedrockAgentCoreClientTypes.CloudWatchFilterConfig? = nil,
+            logGroupNames: [Swift.String]? = nil,
+            serviceNames: [Swift.String]? = nil
+        ) {
+            self.filterConfig = filterConfig
+            self.logGroupNames = logGroupNames
+            self.serviceNames = serviceNames
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Where to pull session spans from
+    public enum DataSourceConfig: Swift.Sendable {
+        /// Pull session spans from CloudWatch
+        case cloudwatchlogs(BedrockAgentCoreClientTypes.CloudWatchLogsSource)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Aggregated statistics for an evaluator.
+    public struct EvaluatorStatistics: Swift.Sendable {
+        /// The average score across all evaluated sessions for this evaluator.
+        public var averageScore: Swift.Double?
+
+        public init(
+            averageScore: Swift.Double? = nil
+        ) {
+            self.averageScore = averageScore
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Summary statistics for a single evaluator within a batch evaluation.
+    public struct EvaluatorSummary: Swift.Sendable {
+        /// The unique identifier of the evaluator.
+        public var evaluatorId: Swift.String?
+        /// The aggregated statistics for this evaluator.
+        public var statistics: BedrockAgentCoreClientTypes.EvaluatorStatistics?
+        /// The total number of sessions evaluated by this evaluator.
+        public var totalEvaluated: Swift.Int?
+        /// The total number of sessions that failed evaluation by this evaluator.
+        public var totalFailed: Swift.Int?
+
+        public init(
+            evaluatorId: Swift.String? = nil,
+            statistics: BedrockAgentCoreClientTypes.EvaluatorStatistics? = nil,
+            totalEvaluated: Swift.Int? = nil,
+            totalFailed: Swift.Int? = nil
+        ) {
+            self.evaluatorId = evaluatorId
+            self.statistics = statistics
+            self.totalEvaluated = totalEvaluated
+            self.totalFailed = totalFailed
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Aggregated results from a batch evaluation, including session completion counts and evaluator score summaries.
+    public struct EvaluationJobResults: Swift.Sendable {
+        /// A list of per-evaluator summary statistics.
+        public var evaluatorSummaries: [BedrockAgentCoreClientTypes.EvaluatorSummary]?
+        /// The number of sessions that have been successfully evaluated.
+        public var numberOfSessionsCompleted: Swift.Int?
+        /// The number of sessions that failed evaluation.
+        public var numberOfSessionsFailed: Swift.Int?
+        /// The number of sessions that were ignored during evaluation.
+        public var numberOfSessionsIgnored: Swift.Int?
+        /// The number of sessions currently being evaluated.
+        public var numberOfSessionsInProgress: Swift.Int?
+        /// The total number of sessions included in the batch evaluation.
+        public var totalNumberOfSessions: Swift.Int?
+
+        public init(
+            evaluatorSummaries: [BedrockAgentCoreClientTypes.EvaluatorSummary]? = nil,
+            numberOfSessionsCompleted: Swift.Int? = nil,
+            numberOfSessionsFailed: Swift.Int? = nil,
+            numberOfSessionsIgnored: Swift.Int? = nil,
+            numberOfSessionsInProgress: Swift.Int? = nil,
+            totalNumberOfSessions: Swift.Int? = nil
+        ) {
+            self.evaluatorSummaries = evaluatorSummaries
+            self.numberOfSessionsCompleted = numberOfSessionsCompleted
+            self.numberOfSessionsFailed = numberOfSessionsFailed
+            self.numberOfSessionsIgnored = numberOfSessionsIgnored
+            self.numberOfSessionsInProgress = numberOfSessionsInProgress
+            self.totalNumberOfSessions = totalNumberOfSessions
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// An evaluator to run against sessions
+    public struct Evaluator: Swift.Sendable {
+        /// The unique identifier of the evaluator. Can reference built-in evaluators (e.g., Builtin.Helpfulness) or custom evaluators.
+        /// This member is required.
+        public var evaluatorId: Swift.String?
+
+        public init(
+            evaluatorId: Swift.String? = nil
+        ) {
+            self.evaluatorId = evaluatorId
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// CloudWatch Logs destination for batch evaluation results
+    public struct CloudWatchOutputConfig: Swift.Sendable {
+        /// The name of the CloudWatch log group where evaluation results will be written.
+        /// This member is required.
+        public var logGroupName: Swift.String?
+        /// The name of the CloudWatch log stream where evaluation results will be written.
+        /// This member is required.
+        public var logStreamName: Swift.String?
+
+        public init(
+            logGroupName: Swift.String? = nil,
+            logStreamName: Swift.String? = nil
+        ) {
+            self.logGroupName = logGroupName
+            self.logStreamName = logStreamName
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Output destination configuration
+    public enum OutputConfig: Swift.Sendable {
+        /// The CloudWatch Logs configuration for writing evaluation results.
+        case cloudwatchconfig(BedrockAgentCoreClientTypes.CloudWatchOutputConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct GetBatchEvaluationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the batch evaluation.
+    /// This member is required.
+    public var batchEvaluationArn: Swift.String?
+    /// The unique identifier of the batch evaluation.
+    /// This member is required.
+    public var batchEvaluationId: Swift.String?
+    /// The name of the batch evaluation.
+    /// This member is required.
+    public var batchEvaluationName: Swift.String?
+    /// The timestamp when the batch evaluation was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The data source configuration specifying where agent traces are pulled from.
+    public var dataSourceConfig: BedrockAgentCoreClientTypes.DataSourceConfig?
+    /// The description of the batch evaluation.
+    public var description: Swift.String?
+    /// The error details if the batch evaluation encountered failures.
+    public var errorDetails: [Swift.String]?
+    /// The aggregated evaluation results, including session completion counts and evaluator score summaries.
+    public var evaluationResults: BedrockAgentCoreClientTypes.EvaluationJobResults?
+    /// The list of evaluators applied during the batch evaluation.
+    public var evaluators: [BedrockAgentCoreClientTypes.Evaluator]?
+    /// The output configuration specifying where evaluation results are written.
+    public var outputConfig: BedrockAgentCoreClientTypes.OutputConfig?
+    /// The current status of the batch evaluation.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.BatchEvaluationStatus?
+    /// The timestamp when the batch evaluation was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        batchEvaluationArn: Swift.String? = nil,
+        batchEvaluationId: Swift.String? = nil,
+        batchEvaluationName: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataSourceConfig: BedrockAgentCoreClientTypes.DataSourceConfig? = nil,
+        description: Swift.String? = nil,
+        errorDetails: [Swift.String]? = nil,
+        evaluationResults: BedrockAgentCoreClientTypes.EvaluationJobResults? = nil,
+        evaluators: [BedrockAgentCoreClientTypes.Evaluator]? = nil,
+        outputConfig: BedrockAgentCoreClientTypes.OutputConfig? = nil,
+        status: BedrockAgentCoreClientTypes.BatchEvaluationStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.batchEvaluationArn = batchEvaluationArn
+        self.batchEvaluationId = batchEvaluationId
+        self.batchEvaluationName = batchEvaluationName
+        self.createdAt = createdAt
+        self.dataSourceConfig = dataSourceConfig
+        self.description = description
+        self.errorDetails = errorDetails
+        self.evaluationResults = evaluationResults
+        self.evaluators = evaluators
+        self.outputConfig = outputConfig
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct GetRecommendationInput: Swift.Sendable {
+    /// The unique identifier of the recommendation to retrieve.
+    /// This member is required.
+    public var recommendationId: Swift.String?
+
+    public init(
+        recommendationId: Swift.String? = nil
+    ) {
+        self.recommendationId = recommendationId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A reference to an evaluator used for recommendation assessment.
+    public struct RecommendationEvaluatorReference: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the evaluator.
+        /// This member is required.
+        public var evaluatorArn: Swift.String?
+
+        public init(
+            evaluatorArn: Swift.String? = nil
+        ) {
+            self.evaluatorArn = evaluatorArn
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The evaluation configuration for assessing recommendation quality.
+    public struct RecommendationEvaluationConfig: Swift.Sendable {
+        /// The list of evaluators to use for assessing recommendation quality.
+        /// This member is required.
+        public var evaluators: [BedrockAgentCoreClientTypes.RecommendationEvaluatorReference]?
+
+        public init(
+            evaluators: [BedrockAgentCoreClientTypes.RecommendationEvaluatorReference]? = nil
+        ) {
+            self.evaluators = evaluators
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A system prompt sourced from a configuration bundle version.
+    public struct SystemPromptConfigurationBundle: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the configuration bundle.
+        /// This member is required.
+        public var bundleArn: Swift.String?
+        /// The JSON path within the configuration bundle that contains the system prompt.
+        /// This member is required.
+        public var systemPromptJsonPath: Swift.String?
+        /// The version identifier of the configuration bundle.
+        /// This member is required.
+        public var versionId: Swift.String?
+
+        public init(
+            bundleArn: Swift.String? = nil,
+            systemPromptJsonPath: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.bundleArn = bundleArn
+            self.systemPromptJsonPath = systemPromptJsonPath
+            self.versionId = versionId
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The system prompt input, either as inline text or from a configuration bundle.
+    public enum SystemPromptConfig: Swift.Sendable {
+        /// The system prompt text provided inline.
+        case text(Swift.String)
+        /// The system prompt sourced from a configuration bundle version.
+        case configurationbundle(BedrockAgentCoreClientTypes.SystemPromptConfigurationBundle)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for generating system prompt optimization recommendations.
+    public struct SystemPromptRecommendationConfig: Swift.Sendable {
+        /// The agent traces to analyze for generating recommendations.
+        /// This member is required.
+        public var agentTraces: BedrockAgentCoreClientTypes.AgentTracesConfig?
+        /// The evaluation configuration specifying which evaluator to use for assessing recommendation quality.
+        /// This member is required.
+        public var evaluationConfig: BedrockAgentCoreClientTypes.RecommendationEvaluationConfig?
+        /// The current system prompt to optimize.
+        /// This member is required.
+        public var systemPrompt: BedrockAgentCoreClientTypes.SystemPromptConfig?
+
+        public init(
+            agentTraces: BedrockAgentCoreClientTypes.AgentTracesConfig? = nil,
+            evaluationConfig: BedrockAgentCoreClientTypes.RecommendationEvaluationConfig? = nil,
+            systemPrompt: BedrockAgentCoreClientTypes.SystemPromptConfig? = nil
+        ) {
+            self.agentTraces = agentTraces
+            self.evaluationConfig = evaluationConfig
+            self.systemPrompt = systemPrompt
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Maps a tool name to its JSON path within a configuration bundle.
+    public struct ConfigurationBundleToolEntry: Swift.Sendable {
+        /// The JSON path within the configuration bundle's components that contains the tool description.
+        /// This member is required.
+        public var toolDescriptionJsonPath: Swift.String?
+        /// The name of the tool.
+        /// This member is required.
+        public var toolName: Swift.String?
+
+        public init(
+            toolDescriptionJsonPath: Swift.String? = nil,
+            toolName: Swift.String? = nil
+        ) {
+            self.toolDescriptionJsonPath = toolDescriptionJsonPath
+            self.toolName = toolName
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Tool descriptions sourced from a configuration bundle version.
+    public struct ToolDescriptionConfigurationBundle: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the configuration bundle.
+        /// This member is required.
+        public var bundleArn: Swift.String?
+        /// The list of tool entries mapping tool names to their JSON paths within the bundle.
+        /// This member is required.
+        public var tools: [BedrockAgentCoreClientTypes.ConfigurationBundleToolEntry]?
+        /// The version identifier of the configuration bundle.
+        /// This member is required.
+        public var versionId: Swift.String?
+
+        public init(
+            bundleArn: Swift.String? = nil,
+            tools: [BedrockAgentCoreClientTypes.ConfigurationBundleToolEntry]? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.bundleArn = bundleArn
+            self.tools = tools
+            self.versionId = versionId
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The tool description content.
+    public enum ToolDescriptionConfig: Swift.Sendable {
+        /// The tool description as inline text.
+        case text(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A tool description input containing the tool name and its current description.
+    public struct ToolDescriptionInput: Swift.Sendable {
+        /// The current description of the tool to optimize.
+        /// This member is required.
+        public var toolDescription: BedrockAgentCoreClientTypes.ToolDescriptionConfig?
+        /// The name of the tool.
+        /// This member is required.
+        public var toolName: Swift.String?
+
+        public init(
+            toolDescription: BedrockAgentCoreClientTypes.ToolDescriptionConfig? = nil,
+            toolName: Swift.String? = nil
+        ) {
+            self.toolDescription = toolDescription
+            self.toolName = toolName
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Inline tool description input containing a list of tools.
+    public struct ToolDescriptionTextInput: Swift.Sendable {
+        /// The list of tool descriptions to optimize.
+        /// This member is required.
+        public var tools: [BedrockAgentCoreClientTypes.ToolDescriptionInput]?
+
+        public init(
+            tools: [BedrockAgentCoreClientTypes.ToolDescriptionInput]? = nil
+        ) {
+            self.tools = tools
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The source of tool descriptions, either inline text or from a configuration bundle.
+    public enum ToolDescriptionSource: Swift.Sendable {
+        /// Tool descriptions provided as inline text.
+        case tooldescriptiontext(BedrockAgentCoreClientTypes.ToolDescriptionTextInput)
+        /// Tool descriptions sourced from a configuration bundle version.
+        case configurationbundle(BedrockAgentCoreClientTypes.ToolDescriptionConfigurationBundle)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for generating tool description optimization recommendations.
+    public struct ToolDescriptionRecommendationConfig: Swift.Sendable {
+        /// The agent traces to analyze for generating tool description recommendations.
+        /// This member is required.
+        public var agentTraces: BedrockAgentCoreClientTypes.AgentTracesConfig?
+        /// The current tool descriptions to optimize.
+        /// This member is required.
+        public var toolDescription: BedrockAgentCoreClientTypes.ToolDescriptionSource?
+
+        public init(
+            agentTraces: BedrockAgentCoreClientTypes.AgentTracesConfig? = nil,
+            toolDescription: BedrockAgentCoreClientTypes.ToolDescriptionSource? = nil
+        ) {
+            self.agentTraces = agentTraces
+            self.toolDescription = toolDescription
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The configuration for a recommendation, varying by recommendation type.
+    public enum RecommendationConfig: Swift.Sendable {
+        /// The configuration for a system prompt recommendation.
+        case systempromptrecommendationconfig(BedrockAgentCoreClientTypes.SystemPromptRecommendationConfig)
+        /// The configuration for a tool description recommendation.
+        case tooldescriptionrecommendationconfig(BedrockAgentCoreClientTypes.ToolDescriptionRecommendationConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A configuration bundle reference in a recommendation result.
+    public struct RecommendationResultConfigurationBundle: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the configuration bundle.
+        /// This member is required.
+        public var bundleArn: Swift.String?
+        /// The version identifier of the configuration bundle containing the recommendation.
+        /// This member is required.
+        public var versionId: Swift.String?
+
+        public init(
+            bundleArn: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.bundleArn = bundleArn
+            self.versionId = versionId
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The result of a system prompt recommendation, containing the optimized prompt.
+    public struct SystemPromptRecommendationResult: Swift.Sendable {
+        /// The configuration bundle containing the recommended system prompt, if the input was sourced from a configuration bundle.
+        public var configurationBundle: BedrockAgentCoreClientTypes.RecommendationResultConfigurationBundle?
+        /// The error code if the recommendation failed.
+        public var errorCode: Swift.String?
+        /// The error message if the recommendation failed.
+        public var errorMessage: Swift.String?
+        /// The optimized system prompt text generated by the recommendation.
+        public var recommendedSystemPrompt: Swift.String?
+
+        public init(
+            configurationBundle: BedrockAgentCoreClientTypes.RecommendationResultConfigurationBundle? = nil,
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            recommendedSystemPrompt: Swift.String? = nil
+        ) {
+            self.configurationBundle = configurationBundle
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.recommendedSystemPrompt = recommendedSystemPrompt
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.SystemPromptRecommendationResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SystemPromptRecommendationResult(configurationBundle: \(Swift.String(describing: configurationBundle)), errorCode: \(Swift.String(describing: errorCode)), errorMessage: \(Swift.String(describing: errorMessage)), recommendedSystemPrompt: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The output for a single tool description recommendation.
+    public struct ToolDescriptionOutput: Swift.Sendable {
+        /// The optimized tool description text generated by the recommendation.
+        public var recommendedToolDescription: Swift.String?
+        /// The name of the tool.
+        /// This member is required.
+        public var toolName: Swift.String?
+
+        public init(
+            recommendedToolDescription: Swift.String? = nil,
+            toolName: Swift.String? = nil
+        ) {
+            self.recommendedToolDescription = recommendedToolDescription
+            self.toolName = toolName
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ToolDescriptionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ToolDescriptionOutput(toolName: \(Swift.String(describing: toolName)), recommendedToolDescription: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The result of a tool description recommendation, containing optimized descriptions.
+    public struct ToolDescriptionRecommendationResult: Swift.Sendable {
+        /// The configuration bundle containing the recommended tool descriptions, if the input was sourced from a configuration bundle.
+        public var configurationBundle: BedrockAgentCoreClientTypes.RecommendationResultConfigurationBundle?
+        /// The error code if the recommendation failed.
+        public var errorCode: Swift.String?
+        /// The error message if the recommendation failed.
+        public var errorMessage: Swift.String?
+        /// The list of tools with their recommended descriptions.
+        public var tools: [BedrockAgentCoreClientTypes.ToolDescriptionOutput]?
+
+        public init(
+            configurationBundle: BedrockAgentCoreClientTypes.RecommendationResultConfigurationBundle? = nil,
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            tools: [BedrockAgentCoreClientTypes.ToolDescriptionOutput]? = nil
+        ) {
+            self.configurationBundle = configurationBundle
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.tools = tools
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The result of a recommendation, containing the optimized output.
+    public enum RecommendationResult: Swift.Sendable {
+        /// The result of a system prompt recommendation.
+        case systempromptrecommendationresult(BedrockAgentCoreClientTypes.SystemPromptRecommendationResult)
+        /// The result of a tool description recommendation.
+        case tooldescriptionrecommendationresult(BedrockAgentCoreClientTypes.ToolDescriptionRecommendationResult)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum RecommendationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case systemPromptRecommendation
+        case toolDescriptionRecommendation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationType] {
+            return [
+                .systemPromptRecommendation,
+                .toolDescriptionRecommendation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .systemPromptRecommendation: return "SYSTEM_PROMPT_RECOMMENDATION"
+            case .toolDescriptionRecommendation: return "TOOL_DESCRIPTION_RECOMMENDATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetRecommendationOutput: Swift.Sendable {
+    /// The timestamp when the recommendation was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the recommendation.
+    public var description: Swift.String?
+    /// The name of the recommendation.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the recommendation.
+    /// This member is required.
+    public var recommendationArn: Swift.String?
+    /// The configuration for the recommendation.
+    /// This member is required.
+    public var recommendationConfig: BedrockAgentCoreClientTypes.RecommendationConfig?
+    /// The unique identifier of the recommendation.
+    /// This member is required.
+    public var recommendationId: Swift.String?
+    /// The result of the recommendation, containing the optimized system prompt or tool descriptions. Only present when the recommendation status is COMPLETED.
+    public var recommendationResult: BedrockAgentCoreClientTypes.RecommendationResult?
+    /// The current status of the recommendation.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.RecommendationStatus?
+    /// The type of recommendation.
+    /// This member is required.
+    public var type: BedrockAgentCoreClientTypes.RecommendationType?
+    /// The timestamp when the recommendation was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        recommendationArn: Swift.String? = nil,
+        recommendationConfig: BedrockAgentCoreClientTypes.RecommendationConfig? = nil,
+        recommendationId: Swift.String? = nil,
+        recommendationResult: BedrockAgentCoreClientTypes.RecommendationResult? = nil,
+        status: BedrockAgentCoreClientTypes.RecommendationStatus? = nil,
+        type: BedrockAgentCoreClientTypes.RecommendationType? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.name = name
+        self.recommendationArn = recommendationArn
+        self.recommendationConfig = recommendationConfig
+        self.recommendationId = recommendationId
+        self.recommendationResult = recommendationResult
+        self.status = status
+        self.type = type
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct ListABTestsInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListABTestsOutput: Swift.Sendable {
+    /// The list of A/B test summaries.
+    /// This member is required.
+    public var abTests: [BedrockAgentCoreClientTypes.ABTestSummary]?
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        abTests: [BedrockAgentCoreClientTypes.ABTestSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.abTests = abTests
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListBatchEvaluationsInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Summary representation for list responses
+    public struct BatchEvaluationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the batch evaluation.
+        /// This member is required.
+        public var batchEvaluationArn: Swift.String?
+        /// The unique identifier of the batch evaluation.
+        /// This member is required.
+        public var batchEvaluationId: Swift.String?
+        /// The name of the batch evaluation.
+        /// This member is required.
+        public var batchEvaluationName: Swift.String?
+        /// The timestamp when the batch evaluation was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the batch evaluation.
+        public var description: Swift.String?
+        /// The error details if the batch evaluation encountered failures.
+        public var errorDetails: [Swift.String]?
+        /// The aggregated evaluation results.
+        public var evaluationResults: BedrockAgentCoreClientTypes.EvaluationJobResults?
+        /// The list of evaluators applied during the batch evaluation.
+        public var evaluators: [BedrockAgentCoreClientTypes.Evaluator]?
+        /// The current status of the batch evaluation.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.BatchEvaluationStatus?
+        /// The timestamp when the batch evaluation was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            batchEvaluationArn: Swift.String? = nil,
+            batchEvaluationId: Swift.String? = nil,
+            batchEvaluationName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            errorDetails: [Swift.String]? = nil,
+            evaluationResults: BedrockAgentCoreClientTypes.EvaluationJobResults? = nil,
+            evaluators: [BedrockAgentCoreClientTypes.Evaluator]? = nil,
+            status: BedrockAgentCoreClientTypes.BatchEvaluationStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.batchEvaluationArn = batchEvaluationArn
+            self.batchEvaluationId = batchEvaluationId
+            self.batchEvaluationName = batchEvaluationName
+            self.createdAt = createdAt
+            self.description = description
+            self.errorDetails = errorDetails
+            self.evaluationResults = evaluationResults
+            self.evaluators = evaluators
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListBatchEvaluationsOutput: Swift.Sendable {
+    /// The list of batch evaluation summaries.
+    /// This member is required.
+    public var batchEvaluations: [BedrockAgentCoreClientTypes.BatchEvaluationSummary]?
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        batchEvaluations: [BedrockAgentCoreClientTypes.BatchEvaluationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.batchEvaluations = batchEvaluations
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListRecommendationsInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// Optional filter to return only recommendations with the specified status.
+    public var statusFilter: BedrockAgentCoreClientTypes.RecommendationStatus?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        statusFilter: BedrockAgentCoreClientTypes.RecommendationStatus? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.statusFilter = statusFilter
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Summary information about a recommendation.
+    public struct RecommendationSummary: Swift.Sendable {
+        /// The timestamp when the recommendation was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the recommendation.
+        public var description: Swift.String?
+        /// The name of the recommendation.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the recommendation.
+        /// This member is required.
+        public var recommendationArn: Swift.String?
+        /// The unique identifier of the recommendation.
+        /// This member is required.
+        public var recommendationId: Swift.String?
+        /// The current status of the recommendation.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.RecommendationStatus?
+        /// The type of recommendation.
+        /// This member is required.
+        public var type: BedrockAgentCoreClientTypes.RecommendationType?
+        /// The timestamp when the recommendation was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            recommendationArn: Swift.String? = nil,
+            recommendationId: Swift.String? = nil,
+            status: BedrockAgentCoreClientTypes.RecommendationStatus? = nil,
+            type: BedrockAgentCoreClientTypes.RecommendationType? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.name = name
+            self.recommendationArn = recommendationArn
+            self.recommendationId = recommendationId
+            self.status = status
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListRecommendationsOutput: Swift.Sendable {
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// The list of recommendation summaries.
+    /// This member is required.
+    public var recommendationSummaries: [BedrockAgentCoreClientTypes.RecommendationSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        recommendationSummaries: [BedrockAgentCoreClientTypes.RecommendationSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.recommendationSummaries = recommendationSummaries
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The input for a ground truth conversation turn.
+    public enum GroundTruthTurnInput: Swift.Sendable {
+        /// The text prompt for this conversation turn.
+        case prompt(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Ground truth data for a single conversation turn.
+    public struct GroundTruthTurn: Swift.Sendable {
+        /// The expected response for this conversation turn.
+        public var expectedResponse: BedrockAgentCoreClientTypes.EvaluationContent?
+        /// The input for this conversation turn.
+        public var input: BedrockAgentCoreClientTypes.GroundTruthTurnInput?
+
+        public init(
+            expectedResponse: BedrockAgentCoreClientTypes.EvaluationContent? = nil,
+            input: BedrockAgentCoreClientTypes.GroundTruthTurnInput? = nil
+        ) {
+            self.expectedResponse = expectedResponse
+            self.input = input
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Inline ground truth data containing assertions, expected trajectories, and per-turn expected responses.
+    public struct InlineGroundTruth: Swift.Sendable {
+        /// assertions for evaluation, reuses common model EvaluationContentList
+        public var assertions: [BedrockAgentCoreClientTypes.EvaluationContent]?
+        /// expectedTrajectory for evaluation, reuses common model EvaluationExpectedTrajectory
+        public var expectedTrajectory: BedrockAgentCoreClientTypes.EvaluationExpectedTrajectory?
+        /// A list of per-turn ground truth data, each containing an input prompt and expected response.
+        public var turns: [BedrockAgentCoreClientTypes.GroundTruthTurn]?
+
+        public init(
+            assertions: [BedrockAgentCoreClientTypes.EvaluationContent]? = nil,
+            expectedTrajectory: BedrockAgentCoreClientTypes.EvaluationExpectedTrajectory? = nil,
+            turns: [BedrockAgentCoreClientTypes.GroundTruthTurn]? = nil
+        ) {
+            self.assertions = assertions
+            self.expectedTrajectory = expectedTrajectory
+            self.turns = turns
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Where to pull ground truth from
+    public enum GroundTruthSource: Swift.Sendable {
+        /// Provide ground truth inline
+        case inline(BedrockAgentCoreClientTypes.InlineGroundTruth)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Metadata for a specific session in a batch evaluation, including ground truth data and test scenario identifiers.
+    public struct SessionMetadataShape: Swift.Sendable {
+        /// The ground truth data for this session, including expected responses and assertions.
+        public var groundTruth: BedrockAgentCoreClientTypes.GroundTruthSource?
+        /// Additional key-value metadata associated with this session.
+        public var metadata: [Swift.String: Swift.String]?
+        /// The unique identifier of the session this metadata applies to.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// An optional test scenario identifier for categorizing and tracking evaluation results.
+        public var testScenarioId: Swift.String?
+
+        public init(
+            groundTruth: BedrockAgentCoreClientTypes.GroundTruthSource? = nil,
+            metadata: [Swift.String: Swift.String]? = nil,
+            sessionId: Swift.String? = nil,
+            testScenarioId: Swift.String? = nil
+        ) {
+            self.groundTruth = groundTruth
+            self.metadata = metadata
+            self.sessionId = sessionId
+            self.testScenarioId = testScenarioId
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Metadata for the evaluation, including session-specific ground truth data.
+    public enum EvaluationMetadata: Swift.Sendable {
+        /// A list of session metadata entries containing ground truth data and test scenario identifiers for specific sessions.
+        case sessionmetadata([BedrockAgentCoreClientTypes.SessionMetadataShape])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct StartBatchEvaluationInput: Swift.Sendable {
+    /// The name of the batch evaluation. Must be unique within your account.
+    /// This member is required.
+    public var batchEvaluationName: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The data source configuration that specifies where to pull agent session traces from for evaluation.
+    /// This member is required.
+    public var dataSourceConfig: BedrockAgentCoreClientTypes.DataSourceConfig?
+    /// The description of the batch evaluation.
+    public var description: Swift.String?
+    /// Optional metadata for the evaluation, including session-specific ground truth data and test scenario identifiers.
+    public var evaluationMetadata: BedrockAgentCoreClientTypes.EvaluationMetadata?
+    /// The list of evaluators to apply during the batch evaluation. Can include both built-in evaluators and custom evaluators. Maximum of 10 evaluators.
+    public var evaluators: [BedrockAgentCoreClientTypes.Evaluator]?
+
+    public init(
+        batchEvaluationName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        dataSourceConfig: BedrockAgentCoreClientTypes.DataSourceConfig? = nil,
+        description: Swift.String? = nil,
+        evaluationMetadata: BedrockAgentCoreClientTypes.EvaluationMetadata? = nil,
+        evaluators: [BedrockAgentCoreClientTypes.Evaluator]? = nil
+    ) {
+        self.batchEvaluationName = batchEvaluationName
+        self.clientToken = clientToken
+        self.dataSourceConfig = dataSourceConfig
+        self.description = description
+        self.evaluationMetadata = evaluationMetadata
+        self.evaluators = evaluators
+    }
+}
+
+public struct StartBatchEvaluationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created batch evaluation.
+    /// This member is required.
+    public var batchEvaluationArn: Swift.String?
+    /// The unique identifier of the created batch evaluation.
+    /// This member is required.
+    public var batchEvaluationId: Swift.String?
+    /// The name of the batch evaluation.
+    /// This member is required.
+    public var batchEvaluationName: Swift.String?
+    /// The timestamp when the batch evaluation was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the batch evaluation.
+    public var description: Swift.String?
+    /// The list of evaluators applied during the batch evaluation.
+    public var evaluators: [BedrockAgentCoreClientTypes.Evaluator]?
+    /// The output configuration specifying where evaluation results are written.
+    public var outputConfig: BedrockAgentCoreClientTypes.OutputConfig?
+    /// The status of the batch evaluation.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.BatchEvaluationStatus?
+
+    public init(
+        batchEvaluationArn: Swift.String? = nil,
+        batchEvaluationId: Swift.String? = nil,
+        batchEvaluationName: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        evaluators: [BedrockAgentCoreClientTypes.Evaluator]? = nil,
+        outputConfig: BedrockAgentCoreClientTypes.OutputConfig? = nil,
+        status: BedrockAgentCoreClientTypes.BatchEvaluationStatus? = nil
+    ) {
+        self.batchEvaluationArn = batchEvaluationArn
+        self.batchEvaluationId = batchEvaluationId
+        self.batchEvaluationName = batchEvaluationName
+        self.createdAt = createdAt
+        self.description = description
+        self.evaluators = evaluators
+        self.outputConfig = outputConfig
+        self.status = status
+    }
+}
+
+public struct StartRecommendationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The description of the recommendation.
+    public var description: Swift.String?
+    /// The name of the recommendation. Must be unique within your account.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The configuration for the recommendation, including the input to optimize, agent traces to analyze, and evaluation settings.
+    /// This member is required.
+    public var recommendationConfig: BedrockAgentCoreClientTypes.RecommendationConfig?
+    /// The type of recommendation to generate. Valid values are SYSTEM_PROMPT_RECOMMENDATION for system prompt optimization or TOOL_DESCRIPTION_RECOMMENDATION for tool description optimization.
+    /// This member is required.
+    public var type: BedrockAgentCoreClientTypes.RecommendationType?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        recommendationConfig: BedrockAgentCoreClientTypes.RecommendationConfig? = nil,
+        type: BedrockAgentCoreClientTypes.RecommendationType? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+        self.recommendationConfig = recommendationConfig
+        self.type = type
+    }
+}
+
+public struct StartRecommendationOutput: Swift.Sendable {
+    /// The timestamp when the recommendation was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the recommendation.
+    public var description: Swift.String?
+    /// The name of the recommendation.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the created recommendation.
+    /// This member is required.
+    public var recommendationArn: Swift.String?
+    /// The configuration for the recommendation.
+    /// This member is required.
+    public var recommendationConfig: BedrockAgentCoreClientTypes.RecommendationConfig?
+    /// The unique identifier of the created recommendation.
+    /// This member is required.
+    public var recommendationId: Swift.String?
+    /// The status of the recommendation.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.RecommendationStatus?
+    /// The type of recommendation.
+    /// This member is required.
+    public var type: BedrockAgentCoreClientTypes.RecommendationType?
+    /// The timestamp when the recommendation was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        recommendationArn: Swift.String? = nil,
+        recommendationConfig: BedrockAgentCoreClientTypes.RecommendationConfig? = nil,
+        recommendationId: Swift.String? = nil,
+        status: BedrockAgentCoreClientTypes.RecommendationStatus? = nil,
+        type: BedrockAgentCoreClientTypes.RecommendationType? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.name = name
+        self.recommendationArn = recommendationArn
+        self.recommendationConfig = recommendationConfig
+        self.recommendationId = recommendationId
+        self.status = status
+        self.type = type
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct StopBatchEvaluationInput: Swift.Sendable {
+    /// The unique identifier of the batch evaluation to stop.
+    /// This member is required.
+    public var batchEvaluationId: Swift.String?
+
+    public init(
+        batchEvaluationId: Swift.String? = nil
+    ) {
+        self.batchEvaluationId = batchEvaluationId
+    }
+}
+
+public struct StopBatchEvaluationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the stopped batch evaluation.
+    /// This member is required.
+    public var batchEvaluationArn: Swift.String?
+    /// The unique identifier of the stopped batch evaluation.
+    /// This member is required.
+    public var batchEvaluationId: Swift.String?
+    /// The description of the batch evaluation.
+    public var description: Swift.String?
+    /// The status of the batch evaluation after the stop request.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.BatchEvaluationStatus?
+
+    public init(
+        batchEvaluationArn: Swift.String? = nil,
+        batchEvaluationId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        status: BedrockAgentCoreClientTypes.BatchEvaluationStatus? = nil
+    ) {
+        self.batchEvaluationArn = batchEvaluationArn
+        self.batchEvaluationId = batchEvaluationId
+        self.description = description
+        self.status = status
+    }
+}
+
+public struct UpdateABTestInput: Swift.Sendable {
+    /// The unique identifier of the A/B test to update.
+    /// This member is required.
+    public var abTestId: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The updated description of the A/B test.
+    public var description: Swift.String?
+    /// The updated evaluation configuration.
+    public var evaluationConfig: BedrockAgentCoreClientTypes.ABTestEvaluationConfig?
+    /// The updated execution status to enable or disable the A/B test.
+    public var executionStatus: BedrockAgentCoreClientTypes.ABTestExecutionStatus?
+    /// The updated gateway filter.
+    public var gatewayFilter: BedrockAgentCoreClientTypes.GatewayFilter?
+    /// The updated name of the A/B test.
+    public var name: Swift.String?
+    /// The updated IAM role ARN.
+    public var roleArn: Swift.String?
+    /// The updated list of variants.
+    public var variants: [BedrockAgentCoreClientTypes.Variant]?
+
+    public init(
+        abTestId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        evaluationConfig: BedrockAgentCoreClientTypes.ABTestEvaluationConfig? = nil,
+        executionStatus: BedrockAgentCoreClientTypes.ABTestExecutionStatus? = nil,
+        gatewayFilter: BedrockAgentCoreClientTypes.GatewayFilter? = nil,
+        name: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        variants: [BedrockAgentCoreClientTypes.Variant]? = nil
+    ) {
+        self.abTestId = abTestId
+        self.clientToken = clientToken
+        self.description = description
+        self.evaluationConfig = evaluationConfig
+        self.executionStatus = executionStatus
+        self.gatewayFilter = gatewayFilter
+        self.name = name
+        self.roleArn = roleArn
+        self.variants = variants
+    }
+}
+
+public struct UpdateABTestOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated A/B test.
+    /// This member is required.
+    public var abTestArn: Swift.String?
+    /// The unique identifier of the updated A/B test.
+    /// This member is required.
+    public var abTestId: Swift.String?
+    /// The execution status of the A/B test.
+    /// This member is required.
+    public var executionStatus: BedrockAgentCoreClientTypes.ABTestExecutionStatus?
+    /// The status of the A/B test.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.ABTestStatus?
+    /// The timestamp when the A/B test was updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        abTestArn: Swift.String? = nil,
+        abTestId: Swift.String? = nil,
+        executionStatus: BedrockAgentCoreClientTypes.ABTestExecutionStatus? = nil,
+        status: BedrockAgentCoreClientTypes.ABTestStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.abTestArn = abTestArn
+        self.abTestId = abTestId
+        self.executionStatus = executionStatus
+        self.status = status
+        self.updatedAt = updatedAt
     }
 }
 
@@ -4045,7 +6261,7 @@ extension BedrockAgentCoreClientTypes {
         /// The ARN of the desired AgentCore Gateway.
         /// This member is required.
         public var gatewayArn: Swift.String?
-        /// How Loopy authenticates to this Gateway. Defaults to AWS_IAM (SigV4) if omitted.
+        /// How harness authenticates to this Gateway. Defaults to AWS_IAM (SigV4) if omitted.
         public var outboundAuth: BedrockAgentCoreClientTypes.HarnessGatewayOutboundAuth?
 
         public init(
@@ -4088,7 +6304,7 @@ extension BedrockAgentCoreClientTypes {
 
     /// Configuration for connecting to a remote MCP server.
     public struct HarnessRemoteMcpConfig: Swift.Sendable {
-        /// Map of key/value pairs for HTTP headers.
+        /// Custom headers to include when connecting to the remote MCP server.
         public var headers: [Swift.String: Swift.String]?
         /// URL of the MCP endpoint.
         /// This member is required.
@@ -6427,6 +8643,13 @@ extension CompleteResourceTokenAuthInput {
     }
 }
 
+extension CreateABTestInput {
+
+    static func urlPathProvider(_ value: CreateABTestInput) -> Swift.String? {
+        return "/ab-tests"
+    }
+}
+
 extension CreateEventInput {
 
     static func urlPathProvider(_ value: CreateEventInput) -> Swift.String? {
@@ -6434,6 +8657,26 @@ extension CreateEventInput {
             return nil
         }
         return "/memories/\(memoryId.urlPercentEncoding())/events"
+    }
+}
+
+extension DeleteABTestInput {
+
+    static func urlPathProvider(_ value: DeleteABTestInput) -> Swift.String? {
+        guard let abTestId = value.abTestId else {
+            return nil
+        }
+        return "/ab-tests/\(abTestId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteBatchEvaluationInput {
+
+    static func urlPathProvider(_ value: DeleteBatchEvaluationInput) -> Swift.String? {
+        guard let batchEvaluationId = value.batchEvaluationId else {
+            return nil
+        }
+        return "/evaluations/batch-evaluate/\(batchEvaluationId.urlPercentEncoding())"
     }
 }
 
@@ -6469,6 +8712,16 @@ extension DeleteMemoryRecordInput {
     }
 }
 
+extension DeleteRecommendationInput {
+
+    static func urlPathProvider(_ value: DeleteRecommendationInput) -> Swift.String? {
+        guard let recommendationId = value.recommendationId else {
+            return nil
+        }
+        return "/recommendations/\(recommendationId.urlPercentEncoding())"
+    }
+}
+
 extension EvaluateInput {
 
     static func urlPathProvider(_ value: EvaluateInput) -> Swift.String? {
@@ -6476,6 +8729,16 @@ extension EvaluateInput {
             return nil
         }
         return "/evaluations/evaluate/\(evaluatorId.urlPercentEncoding())"
+    }
+}
+
+extension GetABTestInput {
+
+    static func urlPathProvider(_ value: GetABTestInput) -> Swift.String? {
+        guard let abTestId = value.abTestId else {
+            return nil
+        }
+        return "/ab-tests/\(abTestId.urlPercentEncoding())"
     }
 }
 
@@ -6509,6 +8772,16 @@ extension GetAgentCardInput {
             items.append(qualifierQueryItem)
         }
         return items
+    }
+}
+
+extension GetBatchEvaluationInput {
+
+    static func urlPathProvider(_ value: GetBatchEvaluationInput) -> Swift.String? {
+        guard let batchEvaluationId = value.batchEvaluationId else {
+            return nil
+        }
+        return "/evaluations/batch-evaluate/\(batchEvaluationId.urlPercentEncoding())"
     }
 }
 
@@ -6589,6 +8862,16 @@ extension GetMemoryRecordInput {
             return nil
         }
         return "/memories/\(memoryId.urlPercentEncoding())/memoryRecord/\(memoryRecordId.urlPercentEncoding())"
+    }
+}
+
+extension GetRecommendationInput {
+
+    static func urlPathProvider(_ value: GetRecommendationInput) -> Swift.String? {
+        guard let recommendationId = value.recommendationId else {
+            return nil
+        }
+        return "/recommendations/\(recommendationId.urlPercentEncoding())"
     }
 }
 
@@ -6826,6 +9109,29 @@ extension InvokeHarnessInput {
     }
 }
 
+extension ListABTestsInput {
+
+    static func urlPathProvider(_ value: ListABTestsInput) -> Swift.String? {
+        return "/ab-tests"
+    }
+}
+
+extension ListABTestsInput {
+
+    static func queryItemProvider(_ value: ListABTestsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListActorsInput {
 
     static func urlPathProvider(_ value: ListActorsInput) -> Swift.String? {
@@ -6833,6 +9139,29 @@ extension ListActorsInput {
             return nil
         }
         return "/memories/\(memoryId.urlPercentEncoding())/actors"
+    }
+}
+
+extension ListBatchEvaluationsInput {
+
+    static func urlPathProvider(_ value: ListBatchEvaluationsInput) -> Swift.String? {
+        return "/evaluations/batch-evaluate"
+    }
+}
+
+extension ListBatchEvaluationsInput {
+
+    static func queryItemProvider(_ value: ListBatchEvaluationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -6892,6 +9221,33 @@ extension ListMemoryRecordsInput {
     }
 }
 
+extension ListRecommendationsInput {
+
+    static func urlPathProvider(_ value: ListRecommendationsInput) -> Swift.String? {
+        return "/recommendations"
+    }
+}
+
+extension ListRecommendationsInput {
+
+    static func queryItemProvider(_ value: ListRecommendationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let statusFilter = value.statusFilter {
+            let statusFilterQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(statusFilter.rawValue).urlPercentEncoding())
+            items.append(statusFilterQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListSessionsInput {
 
     static func urlPathProvider(_ value: ListSessionsInput) -> Swift.String? {
@@ -6943,6 +9299,13 @@ extension SearchRegistryRecordsInput {
 
     static func urlPathProvider(_ value: SearchRegistryRecordsInput) -> Swift.String? {
         return "/registry-records/search"
+    }
+}
+
+extension StartBatchEvaluationInput {
+
+    static func urlPathProvider(_ value: StartBatchEvaluationInput) -> Swift.String? {
+        return "/evaluations/batch-evaluate"
     }
 }
 
@@ -7001,6 +9364,23 @@ extension StartMemoryExtractionJobInput {
             return nil
         }
         return "/memories/\(memoryId.urlPercentEncoding())/extractionJobs/start"
+    }
+}
+
+extension StartRecommendationInput {
+
+    static func urlPathProvider(_ value: StartRecommendationInput) -> Swift.String? {
+        return "/recommendations"
+    }
+}
+
+extension StopBatchEvaluationInput {
+
+    static func urlPathProvider(_ value: StopBatchEvaluationInput) -> Swift.String? {
+        guard let batchEvaluationId = value.batchEvaluationId else {
+            return nil
+        }
+        return "/evaluations/batch-evaluate/\(batchEvaluationId.urlPercentEncoding())/stop"
     }
 }
 
@@ -7113,6 +9493,16 @@ extension StopRuntimeSessionInput {
     }
 }
 
+extension UpdateABTestInput {
+
+    static func urlPathProvider(_ value: UpdateABTestInput) -> Swift.String? {
+        guard let abTestId = value.abTestId else {
+            return nil
+        }
+        return "/ab-tests/\(abTestId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateBrowserStreamInput {
 
     static func urlPathProvider(_ value: UpdateBrowserStreamInput) -> Swift.String? {
@@ -7168,6 +9558,22 @@ extension CompleteResourceTokenAuthInput {
         guard let value else { return }
         try writer["sessionUri"].write(value.sessionUri)
         try writer["userIdentifier"].write(value.userIdentifier, with: BedrockAgentCoreClientTypes.UserIdentifier.write(value:to:))
+    }
+}
+
+extension CreateABTestInput {
+
+    static func write(value: CreateABTestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["enableOnCreate"].write(value.enableOnCreate)
+        try writer["evaluationConfig"].write(value.evaluationConfig, with: BedrockAgentCoreClientTypes.ABTestEvaluationConfig.write(value:to:))
+        try writer["gatewayArn"].write(value.gatewayArn)
+        try writer["gatewayFilter"].write(value.gatewayFilter, with: BedrockAgentCoreClientTypes.GatewayFilter.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["variants"].writeList(value.variants, memberWritingClosure: BedrockAgentCoreClientTypes.Variant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -7401,6 +9807,19 @@ extension SearchRegistryRecordsInput {
     }
 }
 
+extension StartBatchEvaluationInput {
+
+    static func write(value: StartBatchEvaluationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["batchEvaluationName"].write(value.batchEvaluationName)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["dataSourceConfig"].write(value.dataSourceConfig, with: BedrockAgentCoreClientTypes.DataSourceConfig.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["evaluationMetadata"].write(value.evaluationMetadata, with: BedrockAgentCoreClientTypes.EvaluationMetadata.write(value:to:))
+        try writer["evaluators"].writeList(value.evaluators, memberWritingClosure: BedrockAgentCoreClientTypes.Evaluator.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension StartBrowserSessionInput {
 
     static func write(value: StartBrowserSessionInput?, to writer: SmithyJSON.Writer) throws {
@@ -7437,6 +9856,18 @@ extension StartMemoryExtractionJobInput {
     }
 }
 
+extension StartRecommendationInput {
+
+    static func write(value: StartRecommendationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["recommendationConfig"].write(value.recommendationConfig, with: BedrockAgentCoreClientTypes.RecommendationConfig.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+}
+
 extension StopBrowserSessionInput {
 
     static func write(value: StopBrowserSessionInput?, to writer: SmithyJSON.Writer) throws {
@@ -7458,6 +9889,21 @@ extension StopRuntimeSessionInput {
     static func write(value: StopRuntimeSessionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+    }
+}
+
+extension UpdateABTestInput {
+
+    static func write(value: UpdateABTestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["evaluationConfig"].write(value.evaluationConfig, with: BedrockAgentCoreClientTypes.ABTestEvaluationConfig.write(value:to:))
+        try writer["executionStatus"].write(value.executionStatus)
+        try writer["gatewayFilter"].write(value.gatewayFilter, with: BedrockAgentCoreClientTypes.GatewayFilter.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["variants"].writeList(value.variants, memberWritingClosure: BedrockAgentCoreClientTypes.Variant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -7516,6 +9962,23 @@ extension CompleteResourceTokenAuthOutput {
     }
 }
 
+extension CreateABTestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateABTestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateABTestOutput()
+        value.abTestArn = try reader["abTestArn"].readIfPresent() ?? ""
+        value.abTestId = try reader["abTestId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.executionStatus = try reader["executionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CreateEventOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEventOutput {
@@ -7524,6 +9987,34 @@ extension CreateEventOutput {
         let reader = responseReader
         var value = CreateEventOutput()
         value.event = try reader["event"].readIfPresent(with: BedrockAgentCoreClientTypes.Event.read(from:))
+        return value
+    }
+}
+
+extension DeleteABTestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteABTestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteABTestOutput()
+        value.abTestArn = try reader["abTestArn"].readIfPresent() ?? ""
+        value.abTestId = try reader["abTestId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeleteBatchEvaluationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBatchEvaluationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteBatchEvaluationOutput()
+        value.batchEvaluationArn = try reader["batchEvaluationArn"].readIfPresent() ?? ""
+        value.batchEvaluationId = try reader["batchEvaluationId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7552,6 +10043,19 @@ extension DeleteMemoryRecordOutput {
     }
 }
 
+extension DeleteRecommendationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRecommendationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteRecommendationOutput()
+        value.recommendationId = try reader["recommendationId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension EvaluateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EvaluateOutput {
@@ -7560,6 +10064,36 @@ extension EvaluateOutput {
         let reader = responseReader
         var value = EvaluateOutput()
         value.evaluationResults = try reader["evaluationResults"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.EvaluationResultContent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GetABTestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetABTestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetABTestOutput()
+        value.abTestArn = try reader["abTestArn"].readIfPresent() ?? ""
+        value.abTestId = try reader["abTestId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.currentRunId = try reader["currentRunId"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.evaluationConfig = try reader["evaluationConfig"].readIfPresent(with: BedrockAgentCoreClientTypes.ABTestEvaluationConfig.read(from:))
+        value.executionStatus = try reader["executionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
+        value.gatewayFilter = try reader["gatewayFilter"].readIfPresent(with: BedrockAgentCoreClientTypes.GatewayFilter.read(from:))
+        value.maxDurationExpiresAt = try reader["maxDurationExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.results = try reader["results"].readIfPresent(with: BedrockAgentCoreClientTypes.ABTestResults.read(from:))
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.stoppedAt = try reader["stoppedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.variants = try reader["variants"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Variant.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7575,6 +10109,29 @@ extension GetAgentCardOutput {
             value.agentCard = try Smithy.Document.make(from: data)
         }
         value.statusCode = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension GetBatchEvaluationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBatchEvaluationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBatchEvaluationOutput()
+        value.batchEvaluationArn = try reader["batchEvaluationArn"].readIfPresent() ?? ""
+        value.batchEvaluationId = try reader["batchEvaluationId"].readIfPresent() ?? ""
+        value.batchEvaluationName = try reader["batchEvaluationName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataSourceConfig = try reader["dataSourceConfig"].readIfPresent(with: BedrockAgentCoreClientTypes.DataSourceConfig.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.evaluationResults = try reader["evaluationResults"].readIfPresent(with: BedrockAgentCoreClientTypes.EvaluationJobResults.read(from:))
+        value.evaluators = try reader["evaluators"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Evaluator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputConfig = try reader["outputConfig"].readIfPresent(with: BedrockAgentCoreClientTypes.OutputConfig.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -7643,6 +10200,27 @@ extension GetMemoryRecordOutput {
         let reader = responseReader
         var value = GetMemoryRecordOutput()
         value.memoryRecord = try reader["memoryRecord"].readIfPresent(with: BedrockAgentCoreClientTypes.MemoryRecord.read(from:))
+        return value
+    }
+}
+
+extension GetRecommendationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRecommendationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRecommendationOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.recommendationArn = try reader["recommendationArn"].readIfPresent() ?? ""
+        value.recommendationConfig = try reader["recommendationConfig"].readIfPresent(with: BedrockAgentCoreClientTypes.RecommendationConfig.read(from:))
+        value.recommendationId = try reader["recommendationId"].readIfPresent() ?? ""
+        value.recommendationResult = try reader["recommendationResult"].readIfPresent(with: BedrockAgentCoreClientTypes.RecommendationResult.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7827,6 +10405,19 @@ extension InvokeHarnessOutput {
     }
 }
 
+extension ListABTestsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListABTestsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListABTestsOutput()
+        value.abTests = try reader["abTests"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.ABTestSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListActorsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListActorsOutput {
@@ -7835,6 +10426,19 @@ extension ListActorsOutput {
         let reader = responseReader
         var value = ListActorsOutput()
         value.actorSummaries = try reader["actorSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.ActorSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListBatchEvaluationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListBatchEvaluationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBatchEvaluationsOutput()
+        value.batchEvaluations = try reader["batchEvaluations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.BatchEvaluationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7905,6 +10509,19 @@ extension ListMemoryRecordsOutput {
     }
 }
 
+extension ListRecommendationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRecommendationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRecommendationsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.recommendationSummaries = try reader["recommendationSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.RecommendationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListSessionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSessionsOutput {
@@ -7958,6 +10575,25 @@ extension SearchRegistryRecordsOutput {
     }
 }
 
+extension StartBatchEvaluationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartBatchEvaluationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartBatchEvaluationOutput()
+        value.batchEvaluationArn = try reader["batchEvaluationArn"].readIfPresent() ?? ""
+        value.batchEvaluationId = try reader["batchEvaluationId"].readIfPresent() ?? ""
+        value.batchEvaluationName = try reader["batchEvaluationName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.evaluators = try reader["evaluators"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Evaluator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputConfig = try reader["outputConfig"].readIfPresent(with: BedrockAgentCoreClientTypes.OutputConfig.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension StartBrowserSessionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartBrowserSessionOutput {
@@ -7999,6 +10635,41 @@ extension StartMemoryExtractionJobOutput {
     }
 }
 
+extension StartRecommendationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartRecommendationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartRecommendationOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.recommendationArn = try reader["recommendationArn"].readIfPresent() ?? ""
+        value.recommendationConfig = try reader["recommendationConfig"].readIfPresent(with: BedrockAgentCoreClientTypes.RecommendationConfig.read(from:))
+        value.recommendationId = try reader["recommendationId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension StopBatchEvaluationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopBatchEvaluationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopBatchEvaluationOutput()
+        value.batchEvaluationArn = try reader["batchEvaluationArn"].readIfPresent() ?? ""
+        value.batchEvaluationId = try reader["batchEvaluationId"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension StopBrowserSessionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopBrowserSessionOutput {
@@ -8035,6 +10706,22 @@ extension StopRuntimeSessionOutput {
             value.runtimeSessionId = runtimeSessionIdHeaderValue
         }
         value.statusCode = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateABTestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateABTestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateABTestOutput()
+        value.abTestArn = try reader["abTestArn"].readIfPresent() ?? ""
+        value.abTestId = try reader["abTestId"].readIfPresent() ?? ""
+        value.executionStatus = try reader["executionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -8130,6 +10817,26 @@ enum CompleteResourceTokenAuthOutputError {
     }
 }
 
+enum CreateABTestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateEventOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8145,6 +10852,46 @@ enum CreateEventOutputError {
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottledException": return try ThrottledException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteABTestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteBatchEvaluationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8191,6 +10938,25 @@ enum DeleteMemoryRecordOutputError {
     }
 }
 
+enum DeleteRecommendationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum EvaluateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8213,6 +10979,25 @@ enum EvaluateOutputError {
     }
 }
 
+enum GetABTestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAgentCardOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8227,6 +11012,25 @@ enum GetAgentCardOutputError {
             case "RuntimeClientError": return try RuntimeClientError.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetBatchEvaluationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8303,6 +11107,24 @@ enum GetMemoryRecordOutputError {
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottledException": return try ThrottledException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRecommendationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8501,6 +11323,24 @@ enum InvokeHarnessOutputError {
     }
 }
 
+enum ListABTestsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListActorsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8515,6 +11355,24 @@ enum ListActorsOutputError {
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottledException": return try ThrottledException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListBatchEvaluationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8616,6 +11474,23 @@ enum ListMemoryRecordsOutputError {
     }
 }
 
+enum ListRecommendationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListSessionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8694,6 +11569,26 @@ enum SearchRegistryRecordsOutputError {
     }
 }
 
+enum StartBatchEvaluationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartBrowserSessionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8753,6 +11648,45 @@ enum StartMemoryExtractionJobOutputError {
     }
 }
 
+enum StartRecommendationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopBatchEvaluationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopBrowserSessionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8806,6 +11740,27 @@ enum StopRuntimeSessionOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "RuntimeClientError": return try RuntimeClientError.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateABTestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
@@ -8954,6 +11909,19 @@ extension UnauthorizedException {
     }
 }
 
+extension ConflictException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidInputException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidInputException {
@@ -8973,19 +11941,6 @@ extension RetryableConflictException {
         let reader = baseError.errorBodyReader
         var value = RetryableConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9191,6 +12146,63 @@ extension BedrockAgentCoreClientTypes.A2aDescriptor {
     }
 }
 
+extension BedrockAgentCoreClientTypes.ABTestEvaluationConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.ABTestEvaluationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .onlineevaluationconfigarn(onlineevaluationconfigarn):
+                try writer["onlineEvaluationConfigArn"].write(onlineevaluationconfigarn)
+            case let .pervariantonlineevaluationconfig(pervariantonlineevaluationconfig):
+                try writer["perVariantOnlineEvaluationConfig"].writeList(pervariantonlineevaluationconfig, memberWritingClosure: BedrockAgentCoreClientTypes.PerVariantOnlineEvaluationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ABTestEvaluationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "onlineEvaluationConfigArn":
+                return .onlineevaluationconfigarn(try reader["onlineEvaluationConfigArn"].read())
+            case "perVariantOnlineEvaluationConfig":
+                return .pervariantonlineevaluationconfig(try reader["perVariantOnlineEvaluationConfig"].readList(memberReadingClosure: BedrockAgentCoreClientTypes.PerVariantOnlineEvaluationConfig.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ABTestResults {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ABTestResults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ABTestResults()
+        value.analysisTimestamp = try reader["analysisTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.evaluatorMetrics = try reader["evaluatorMetrics"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.EvaluatorMetric.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ABTestSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ABTestSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ABTestSummary()
+        value.abTestId = try reader["abTestId"].readIfPresent() ?? ""
+        value.abTestArn = try reader["abTestArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.executionStatus = try reader["executionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
+        value.gatewayArn = try reader["gatewayArn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension AccessDeniedException {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessDeniedException {
@@ -9233,6 +12245,34 @@ extension BedrockAgentCoreClientTypes.AgentSkillsDescriptor {
     }
 }
 
+extension BedrockAgentCoreClientTypes.AgentTracesConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.AgentTracesConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cloudwatchlogs(cloudwatchlogs):
+                try writer["cloudwatchLogs"].write(cloudwatchlogs, with: BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig.write(value:to:))
+            case let .sessionspans(sessionspans):
+                try writer["sessionSpans"].writeList(sessionspans, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.AgentTracesConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "sessionSpans":
+                return .sessionspans(try reader["sessionSpans"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), memberNodeInfo: "member", isFlattened: false))
+            case "cloudwatchLogs":
+                return .cloudwatchlogs(try reader["cloudwatchLogs"].read(with: BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreClientTypes.AutomationStream {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.AutomationStream {
@@ -9263,6 +12303,25 @@ extension BedrockAgentCoreClientTypes.BasicAuth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreClientTypes.BasicAuth()
         value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.BatchEvaluationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.BatchEvaluationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.BatchEvaluationSummary()
+        value.batchEvaluationId = try reader["batchEvaluationId"].readIfPresent() ?? ""
+        value.batchEvaluationArn = try reader["batchEvaluationArn"].readIfPresent() ?? ""
+        value.batchEvaluationName = try reader["batchEvaluationName"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.evaluators = try reader["evaluators"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Evaluator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.evaluationResults = try reader["evaluationResults"].readIfPresent(with: BedrockAgentCoreClientTypes.EvaluationJobResults.read(from:))
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -9460,6 +12519,110 @@ extension BedrockAgentCoreClientTypes.CertificateLocation {
     }
 }
 
+extension BedrockAgentCoreClientTypes.CloudWatchFilterConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.CloudWatchFilterConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sessionIds"].writeList(value.sessionIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["timeRange"].write(value.timeRange, with: BedrockAgentCoreClientTypes.SessionFilterConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.CloudWatchFilterConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.CloudWatchFilterConfig()
+        value.sessionIds = try reader["sessionIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timeRange = try reader["timeRange"].readIfPresent(with: BedrockAgentCoreClientTypes.SessionFilterConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.CloudWatchLogsFilter {
+
+    static func write(value: BedrockAgentCoreClientTypes.CloudWatchLogsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["operator"].write(value.`operator`)
+        try writer["value"].write(value.value, with: BedrockAgentCoreClientTypes.FilterValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.CloudWatchLogsFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.CloudWatchLogsFilter()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.`operator` = try reader["operator"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent(with: BedrockAgentCoreClientTypes.FilterValue.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.CloudWatchLogsRule {
+
+    static func write(value: BedrockAgentCoreClientTypes.CloudWatchLogsRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: BedrockAgentCoreClientTypes.CloudWatchLogsFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.CloudWatchLogsRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.CloudWatchLogsRule()
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.CloudWatchLogsFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.CloudWatchLogsSource {
+
+    static func write(value: BedrockAgentCoreClientTypes.CloudWatchLogsSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filterConfig"].write(value.filterConfig, with: BedrockAgentCoreClientTypes.CloudWatchFilterConfig.write(value:to:))
+        try writer["logGroupNames"].writeList(value.logGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["serviceNames"].writeList(value.serviceNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.CloudWatchLogsSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.CloudWatchLogsSource()
+        value.serviceNames = try reader["serviceNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.logGroupNames = try reader["logGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.filterConfig = try reader["filterConfig"].readIfPresent(with: BedrockAgentCoreClientTypes.CloudWatchFilterConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["logGroupArns"].writeList(value.logGroupArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["rule"].write(value.rule, with: BedrockAgentCoreClientTypes.CloudWatchLogsRule.write(value:to:))
+        try writer["serviceNames"].writeList(value.serviceNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig()
+        value.logGroupArns = try reader["logGroupArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.serviceNames = try reader["serviceNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.rule = try reader["rule"].readIfPresent(with: BedrockAgentCoreClientTypes.CloudWatchLogsRule.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.CloudWatchOutputConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.CloudWatchOutputConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.CloudWatchOutputConfig()
+        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
+        value.logStreamName = try reader["logStreamName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.CodeInterpreterResult {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.CodeInterpreterResult {
@@ -9483,6 +12646,51 @@ extension BedrockAgentCoreClientTypes.CodeInterpreterSessionSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ConfidenceInterval {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ConfidenceInterval {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ConfidenceInterval()
+        value.lower = try reader["lower"].readIfPresent()
+        value.upper = try reader["upper"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ConfigurationBundleRef {
+
+    static func write(value: BedrockAgentCoreClientTypes.ConfigurationBundleRef?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bundleArn"].write(value.bundleArn)
+        try writer["bundleVersion"].write(value.bundleVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ConfigurationBundleRef {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ConfigurationBundleRef()
+        value.bundleArn = try reader["bundleArn"].readIfPresent() ?? ""
+        value.bundleVersion = try reader["bundleVersion"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ConfigurationBundleToolEntry {
+
+    static func write(value: BedrockAgentCoreClientTypes.ConfigurationBundleToolEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["toolDescriptionJsonPath"].write(value.toolDescriptionJsonPath)
+        try writer["toolName"].write(value.toolName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ConfigurationBundleToolEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ConfigurationBundleToolEntry()
+        value.toolName = try reader["toolName"].readIfPresent() ?? ""
+        value.toolDescriptionJsonPath = try reader["toolDescriptionJsonPath"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9593,6 +12801,18 @@ extension BedrockAgentCoreClientTypes.Context {
     }
 }
 
+extension BedrockAgentCoreClientTypes.ControlStats {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ControlStats {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ControlStats()
+        value.variantName = try reader["variantName"].readIfPresent() ?? ""
+        value.sampleSize = try reader["sampleSize"].readIfPresent() ?? 0
+        value.mean = try reader["mean"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.Conversational {
 
     static func write(value: BedrockAgentCoreClientTypes.Conversational?, to writer: SmithyJSON.Writer) throws {
@@ -9617,6 +12837,30 @@ extension BedrockAgentCoreClientTypes.CustomDescriptor {
         var value = BedrockAgentCoreClientTypes.CustomDescriptor()
         value.inlineContent = try reader["inlineContent"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.DataSourceConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.DataSourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cloudwatchlogs(cloudwatchlogs):
+                try writer["cloudWatchLogs"].write(cloudwatchlogs, with: BedrockAgentCoreClientTypes.CloudWatchLogsSource.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.DataSourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "cloudWatchLogs":
+                return .cloudwatchlogs(try reader["cloudWatchLogs"].read(with: BedrockAgentCoreClientTypes.CloudWatchLogsSource.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -9667,6 +12911,34 @@ extension BedrockAgentCoreClientTypes.EvaluationInput {
     }
 }
 
+extension BedrockAgentCoreClientTypes.EvaluationJobResults {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.EvaluationJobResults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.EvaluationJobResults()
+        value.numberOfSessionsCompleted = try reader["numberOfSessionsCompleted"].readIfPresent()
+        value.numberOfSessionsInProgress = try reader["numberOfSessionsInProgress"].readIfPresent()
+        value.numberOfSessionsFailed = try reader["numberOfSessionsFailed"].readIfPresent()
+        value.totalNumberOfSessions = try reader["totalNumberOfSessions"].readIfPresent()
+        value.numberOfSessionsIgnored = try reader["numberOfSessionsIgnored"].readIfPresent()
+        value.evaluatorSummaries = try reader["evaluatorSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.EvaluatorSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.EvaluationMetadata {
+
+    static func write(value: BedrockAgentCoreClientTypes.EvaluationMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .sessionmetadata(sessionmetadata):
+                try writer["sessionMetadata"].writeList(sessionmetadata, memberWritingClosure: BedrockAgentCoreClientTypes.SessionMetadataShape.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension BedrockAgentCoreClientTypes.EvaluationReferenceInput {
 
     static func write(value: BedrockAgentCoreClientTypes.EvaluationReferenceInput?, to writer: SmithyJSON.Writer) throws {
@@ -9710,6 +12982,56 @@ extension BedrockAgentCoreClientTypes.EvaluationTarget {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.Evaluator {
+
+    static func write(value: BedrockAgentCoreClientTypes.Evaluator?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["evaluatorId"].write(value.evaluatorId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.Evaluator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.Evaluator()
+        value.evaluatorId = try reader["evaluatorId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.EvaluatorMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.EvaluatorMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.EvaluatorMetric()
+        value.evaluatorArn = try reader["evaluatorArn"].readIfPresent() ?? ""
+        value.controlStats = try reader["controlStats"].readIfPresent(with: BedrockAgentCoreClientTypes.ControlStats.read(from:))
+        value.variantResults = try reader["variantResults"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.VariantResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.EvaluatorStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.EvaluatorStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.EvaluatorStatistics()
+        value.averageScore = try reader["averageScore"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.EvaluatorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.EvaluatorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.EvaluatorSummary()
+        value.evaluatorId = try reader["evaluatorId"].readIfPresent()
+        value.statistics = try reader["statistics"].readIfPresent(with: BedrockAgentCoreClientTypes.EvaluatorStatistics.read(from:))
+        value.totalEvaluated = try reader["totalEvaluated"].readIfPresent()
+        value.totalFailed = try reader["totalFailed"].readIfPresent()
+        return value
     }
 }
 
@@ -9816,6 +13138,88 @@ extension BedrockAgentCoreClientTypes.FilterInput {
         guard let value else { return }
         try writer["branch"].write(value.branch, with: BedrockAgentCoreClientTypes.BranchFilter.write(value:to:))
         try writer["eventMetadata"].writeList(value.eventMetadata, memberWritingClosure: BedrockAgentCoreClientTypes.EventMetadataFilterExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.FilterValue {
+
+    static func write(value: BedrockAgentCoreClientTypes.FilterValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .booleanvalue(booleanvalue):
+                try writer["booleanValue"].write(booleanvalue)
+            case let .doublevalue(doublevalue):
+                try writer["doubleValue"].write(doublevalue)
+            case let .stringvalue(stringvalue):
+                try writer["stringValue"].write(stringvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.FilterValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "stringValue":
+                return .stringvalue(try reader["stringValue"].read())
+            case "doubleValue":
+                return .doublevalue(try reader["doubleValue"].read())
+            case "booleanValue":
+                return .booleanvalue(try reader["booleanValue"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.GatewayFilter {
+
+    static func write(value: BedrockAgentCoreClientTypes.GatewayFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetPaths"].writeList(value.targetPaths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.GatewayFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.GatewayFilter()
+        value.targetPaths = try reader["targetPaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.GroundTruthSource {
+
+    static func write(value: BedrockAgentCoreClientTypes.GroundTruthSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .inline(inline):
+                try writer["inline"].write(inline, with: BedrockAgentCoreClientTypes.InlineGroundTruth.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.GroundTruthTurn {
+
+    static func write(value: BedrockAgentCoreClientTypes.GroundTruthTurn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["expectedResponse"].write(value.expectedResponse, with: BedrockAgentCoreClientTypes.EvaluationContent.write(value:to:))
+        try writer["input"].write(value.input, with: BedrockAgentCoreClientTypes.GroundTruthTurnInput.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreClientTypes.GroundTruthTurnInput {
+
+    static func write(value: BedrockAgentCoreClientTypes.GroundTruthTurnInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .prompt(prompt):
+                try writer["prompt"].write(prompt)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
@@ -10270,6 +13674,16 @@ extension BedrockAgentCoreClientTypes.HarnessToolUseBlockStart {
     }
 }
 
+extension BedrockAgentCoreClientTypes.InlineGroundTruth {
+
+    static func write(value: BedrockAgentCoreClientTypes.InlineGroundTruth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assertions"].writeList(value.assertions, memberWritingClosure: BedrockAgentCoreClientTypes.EvaluationContent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["expectedTrajectory"].write(value.expectedTrajectory, with: BedrockAgentCoreClientTypes.EvaluationExpectedTrajectory.write(value:to:))
+        try writer["turns"].writeList(value.turns, memberWritingClosure: BedrockAgentCoreClientTypes.GroundTruthTurn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BedrockAgentCoreClientTypes.InputContentBlock {
 
     static func write(value: BedrockAgentCoreClientTypes.InputContentBlock?, to writer: SmithyJSON.Writer) throws {
@@ -10636,6 +14050,20 @@ extension BedrockAgentCoreClientTypes.OAuthCredentialProvider {
     }
 }
 
+extension BedrockAgentCoreClientTypes.OutputConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.OutputConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "cloudWatchConfig":
+                return .cloudwatchconfig(try reader["cloudWatchConfig"].read(with: BedrockAgentCoreClientTypes.CloudWatchOutputConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreClientTypes.PayloadType {
 
     static func write(value: BedrockAgentCoreClientTypes.PayloadType?, to writer: SmithyJSON.Writer) throws {
@@ -10661,6 +14089,23 @@ extension BedrockAgentCoreClientTypes.PayloadType {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.PerVariantOnlineEvaluationConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.PerVariantOnlineEvaluationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["onlineEvaluationConfigArn"].write(value.onlineEvaluationConfigArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.PerVariantOnlineEvaluationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.PerVariantOnlineEvaluationConfig()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.onlineEvaluationConfigArn = try reader["onlineEvaluationConfigArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -10741,6 +14186,108 @@ extension BedrockAgentCoreClientTypes.ProxyCredentials {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.RecommendationConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.RecommendationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .systempromptrecommendationconfig(systempromptrecommendationconfig):
+                try writer["systemPromptRecommendationConfig"].write(systempromptrecommendationconfig, with: BedrockAgentCoreClientTypes.SystemPromptRecommendationConfig.write(value:to:))
+            case let .tooldescriptionrecommendationconfig(tooldescriptionrecommendationconfig):
+                try writer["toolDescriptionRecommendationConfig"].write(tooldescriptionrecommendationconfig, with: BedrockAgentCoreClientTypes.ToolDescriptionRecommendationConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.RecommendationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "systemPromptRecommendationConfig":
+                return .systempromptrecommendationconfig(try reader["systemPromptRecommendationConfig"].read(with: BedrockAgentCoreClientTypes.SystemPromptRecommendationConfig.read(from:)))
+            case "toolDescriptionRecommendationConfig":
+                return .tooldescriptionrecommendationconfig(try reader["toolDescriptionRecommendationConfig"].read(with: BedrockAgentCoreClientTypes.ToolDescriptionRecommendationConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.RecommendationEvaluationConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.RecommendationEvaluationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["evaluators"].writeList(value.evaluators, memberWritingClosure: BedrockAgentCoreClientTypes.RecommendationEvaluatorReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.RecommendationEvaluationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.RecommendationEvaluationConfig()
+        value.evaluators = try reader["evaluators"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.RecommendationEvaluatorReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.RecommendationEvaluatorReference {
+
+    static func write(value: BedrockAgentCoreClientTypes.RecommendationEvaluatorReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["evaluatorArn"].write(value.evaluatorArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.RecommendationEvaluatorReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.RecommendationEvaluatorReference()
+        value.evaluatorArn = try reader["evaluatorArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.RecommendationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.RecommendationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "systemPromptRecommendationResult":
+                return .systempromptrecommendationresult(try reader["systemPromptRecommendationResult"].read(with: BedrockAgentCoreClientTypes.SystemPromptRecommendationResult.read(from:)))
+            case "toolDescriptionRecommendationResult":
+                return .tooldescriptionrecommendationresult(try reader["toolDescriptionRecommendationResult"].read(with: BedrockAgentCoreClientTypes.ToolDescriptionRecommendationResult.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.RecommendationResultConfigurationBundle {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.RecommendationResultConfigurationBundle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.RecommendationResultConfigurationBundle()
+        value.bundleArn = try reader["bundleArn"].readIfPresent() ?? ""
+        value.versionId = try reader["versionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.RecommendationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.RecommendationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.RecommendationSummary()
+        value.recommendationId = try reader["recommendationId"].readIfPresent() ?? ""
+        value.recommendationArn = try reader["recommendationArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 
@@ -10941,6 +14488,34 @@ extension BedrockAgentCoreClientTypes.SessionFilter {
     }
 }
 
+extension BedrockAgentCoreClientTypes.SessionFilterConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.SessionFilterConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.SessionFilterConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.SessionFilterConfig()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.SessionMetadataShape {
+
+    static func write(value: BedrockAgentCoreClientTypes.SessionMetadataShape?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groundTruth"].write(value.groundTruth, with: BedrockAgentCoreClientTypes.GroundTruthSource.write(value:to:))
+        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["sessionId"].write(value.sessionId)
+        try writer["testScenarioId"].write(value.testScenarioId)
+    }
+}
+
 extension BedrockAgentCoreClientTypes.SessionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.SessionSummary {
@@ -11006,6 +14581,100 @@ extension BedrockAgentCoreClientTypes.StreamUpdate {
     }
 }
 
+extension BedrockAgentCoreClientTypes.SystemPromptConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.SystemPromptConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .configurationbundle(configurationbundle):
+                try writer["configurationBundle"].write(configurationbundle, with: BedrockAgentCoreClientTypes.SystemPromptConfigurationBundle.write(value:to:))
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.SystemPromptConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read())
+            case "configurationBundle":
+                return .configurationbundle(try reader["configurationBundle"].read(with: BedrockAgentCoreClientTypes.SystemPromptConfigurationBundle.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.SystemPromptConfigurationBundle {
+
+    static func write(value: BedrockAgentCoreClientTypes.SystemPromptConfigurationBundle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bundleArn"].write(value.bundleArn)
+        try writer["systemPromptJsonPath"].write(value.systemPromptJsonPath)
+        try writer["versionId"].write(value.versionId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.SystemPromptConfigurationBundle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.SystemPromptConfigurationBundle()
+        value.bundleArn = try reader["bundleArn"].readIfPresent() ?? ""
+        value.versionId = try reader["versionId"].readIfPresent() ?? ""
+        value.systemPromptJsonPath = try reader["systemPromptJsonPath"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.SystemPromptRecommendationConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.SystemPromptRecommendationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentTraces"].write(value.agentTraces, with: BedrockAgentCoreClientTypes.AgentTracesConfig.write(value:to:))
+        try writer["evaluationConfig"].write(value.evaluationConfig, with: BedrockAgentCoreClientTypes.RecommendationEvaluationConfig.write(value:to:))
+        try writer["systemPrompt"].write(value.systemPrompt, with: BedrockAgentCoreClientTypes.SystemPromptConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.SystemPromptRecommendationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.SystemPromptRecommendationConfig()
+        value.systemPrompt = try reader["systemPrompt"].readIfPresent(with: BedrockAgentCoreClientTypes.SystemPromptConfig.read(from:))
+        value.agentTraces = try reader["agentTraces"].readIfPresent(with: BedrockAgentCoreClientTypes.AgentTracesConfig.read(from:))
+        value.evaluationConfig = try reader["evaluationConfig"].readIfPresent(with: BedrockAgentCoreClientTypes.RecommendationEvaluationConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.SystemPromptRecommendationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.SystemPromptRecommendationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.SystemPromptRecommendationResult()
+        value.recommendedSystemPrompt = try reader["recommendedSystemPrompt"].readIfPresent()
+        value.configurationBundle = try reader["configurationBundle"].readIfPresent(with: BedrockAgentCoreClientTypes.RecommendationResultConfigurationBundle.read(from:))
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.TargetRef {
+
+    static func write(value: BedrockAgentCoreClientTypes.TargetRef?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.TargetRef {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.TargetRef()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ThrottlingException {
@@ -11042,6 +14711,150 @@ extension BedrockAgentCoreClientTypes.ToolArguments {
         try writer["paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["runtime"].write(value.runtime)
         try writer["taskId"].write(value.taskId)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ToolDescriptionConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.ToolDescriptionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ToolDescriptionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ToolDescriptionConfigurationBundle {
+
+    static func write(value: BedrockAgentCoreClientTypes.ToolDescriptionConfigurationBundle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bundleArn"].write(value.bundleArn)
+        try writer["tools"].writeList(value.tools, memberWritingClosure: BedrockAgentCoreClientTypes.ConfigurationBundleToolEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["versionId"].write(value.versionId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ToolDescriptionConfigurationBundle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ToolDescriptionConfigurationBundle()
+        value.bundleArn = try reader["bundleArn"].readIfPresent() ?? ""
+        value.versionId = try reader["versionId"].readIfPresent() ?? ""
+        value.tools = try reader["tools"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.ConfigurationBundleToolEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ToolDescriptionInput {
+
+    static func write(value: BedrockAgentCoreClientTypes.ToolDescriptionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["toolDescription"].write(value.toolDescription, with: BedrockAgentCoreClientTypes.ToolDescriptionConfig.write(value:to:))
+        try writer["toolName"].write(value.toolName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ToolDescriptionInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ToolDescriptionInput()
+        value.toolName = try reader["toolName"].readIfPresent() ?? ""
+        value.toolDescription = try reader["toolDescription"].readIfPresent(with: BedrockAgentCoreClientTypes.ToolDescriptionConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ToolDescriptionOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ToolDescriptionOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ToolDescriptionOutput()
+        value.toolName = try reader["toolName"].readIfPresent() ?? ""
+        value.recommendedToolDescription = try reader["recommendedToolDescription"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ToolDescriptionRecommendationConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.ToolDescriptionRecommendationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentTraces"].write(value.agentTraces, with: BedrockAgentCoreClientTypes.AgentTracesConfig.write(value:to:))
+        try writer["toolDescription"].write(value.toolDescription, with: BedrockAgentCoreClientTypes.ToolDescriptionSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ToolDescriptionRecommendationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ToolDescriptionRecommendationConfig()
+        value.toolDescription = try reader["toolDescription"].readIfPresent(with: BedrockAgentCoreClientTypes.ToolDescriptionSource.read(from:))
+        value.agentTraces = try reader["agentTraces"].readIfPresent(with: BedrockAgentCoreClientTypes.AgentTracesConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ToolDescriptionRecommendationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ToolDescriptionRecommendationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ToolDescriptionRecommendationResult()
+        value.tools = try reader["tools"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.ToolDescriptionOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.configurationBundle = try reader["configurationBundle"].readIfPresent(with: BedrockAgentCoreClientTypes.RecommendationResultConfigurationBundle.read(from:))
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ToolDescriptionSource {
+
+    static func write(value: BedrockAgentCoreClientTypes.ToolDescriptionSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .configurationbundle(configurationbundle):
+                try writer["configurationBundle"].write(configurationbundle, with: BedrockAgentCoreClientTypes.ToolDescriptionConfigurationBundle.write(value:to:))
+            case let .tooldescriptiontext(tooldescriptiontext):
+                try writer["toolDescriptionText"].write(tooldescriptiontext, with: BedrockAgentCoreClientTypes.ToolDescriptionTextInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ToolDescriptionSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "toolDescriptionText":
+                return .tooldescriptiontext(try reader["toolDescriptionText"].read(with: BedrockAgentCoreClientTypes.ToolDescriptionTextInput.read(from:)))
+            case "configurationBundle":
+                return .configurationbundle(try reader["configurationBundle"].read(with: BedrockAgentCoreClientTypes.ToolDescriptionConfigurationBundle.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ToolDescriptionTextInput {
+
+    static func write(value: BedrockAgentCoreClientTypes.ToolDescriptionTextInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tools"].writeList(value.tools, memberWritingClosure: BedrockAgentCoreClientTypes.ToolDescriptionInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ToolDescriptionTextInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ToolDescriptionTextInput()
+        value.tools = try reader["tools"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.ToolDescriptionInput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -11105,6 +14918,59 @@ extension BedrockAgentCoreClientTypes.ValidationExceptionField {
         var value = BedrockAgentCoreClientTypes.ValidationExceptionField()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.Variant {
+
+    static func write(value: BedrockAgentCoreClientTypes.Variant?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["variantConfiguration"].write(value.variantConfiguration, with: BedrockAgentCoreClientTypes.VariantConfiguration.write(value:to:))
+        try writer["weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.Variant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.Variant()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.weight = try reader["weight"].readIfPresent() ?? 0
+        value.variantConfiguration = try reader["variantConfiguration"].readIfPresent(with: BedrockAgentCoreClientTypes.VariantConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.VariantConfiguration {
+
+    static func write(value: BedrockAgentCoreClientTypes.VariantConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configurationBundle"].write(value.configurationBundle, with: BedrockAgentCoreClientTypes.ConfigurationBundleRef.write(value:to:))
+        try writer["target"].write(value.target, with: BedrockAgentCoreClientTypes.TargetRef.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.VariantConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.VariantConfiguration()
+        value.configurationBundle = try reader["configurationBundle"].readIfPresent(with: BedrockAgentCoreClientTypes.ConfigurationBundleRef.read(from:))
+        value.target = try reader["target"].readIfPresent(with: BedrockAgentCoreClientTypes.TargetRef.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.VariantResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.VariantResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.VariantResult()
+        value.variantName = try reader["variantName"].readIfPresent() ?? ""
+        value.sampleSize = try reader["sampleSize"].readIfPresent() ?? 0
+        value.mean = try reader["mean"].readIfPresent() ?? 0.0
+        value.absoluteChange = try reader["absoluteChange"].readIfPresent()
+        value.percentChange = try reader["percentChange"].readIfPresent()
+        value.pValue = try reader["pValue"].readIfPresent()
+        value.confidenceInterval = try reader["confidenceInterval"].readIfPresent(with: BedrockAgentCoreClientTypes.ConfidenceInterval.read(from:))
+        value.isSignificant = try reader["isSignificant"].readIfPresent() ?? false
         return value
     }
 }
