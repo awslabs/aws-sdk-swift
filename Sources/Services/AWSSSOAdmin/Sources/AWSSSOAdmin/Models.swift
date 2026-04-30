@@ -746,6 +746,8 @@ extension SSOAdminClientTypes {
         public var createdFrom: Swift.String?
         /// The description of the application.
         public var description: Swift.String?
+        /// The ARN of the identity store that is connected to the instance of IAM Identity Center.
+        public var identityStoreArn: Swift.String?
         /// The ARN of the instance of IAM Identity Center that is configured with this application.
         public var instanceArn: Swift.String?
         /// The name of the application.
@@ -762,6 +764,7 @@ extension SSOAdminClientTypes {
             createdDate: Foundation.Date? = nil,
             createdFrom: Swift.String? = nil,
             description: Swift.String? = nil,
+            identityStoreArn: Swift.String? = nil,
             instanceArn: Swift.String? = nil,
             name: Swift.String? = nil,
             portalOptions: SSOAdminClientTypes.PortalOptions? = nil,
@@ -773,6 +776,7 @@ extension SSOAdminClientTypes {
             self.createdDate = createdDate
             self.createdFrom = createdFrom
             self.description = description
+            self.identityStoreArn = identityStoreArn
             self.instanceArn = instanceArn
             self.name = name
             self.portalOptions = portalOptions
@@ -1739,11 +1743,19 @@ public struct CreateApplicationInput: Swift.Sendable {
 public struct CreateApplicationOutput: Swift.Sendable {
     /// Specifies the ARN of the application.
     public var applicationArn: Swift.String?
+    /// The ARN of the identity store that is connected to the instance of IAM Identity Center.
+    public var identityStoreArn: Swift.String?
+    /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    public var instanceArn: Swift.String?
 
     public init(
-        applicationArn: Swift.String? = nil
+        applicationArn: Swift.String? = nil,
+        identityStoreArn: Swift.String? = nil,
+        instanceArn: Swift.String? = nil
     ) {
         self.applicationArn = applicationArn
+        self.identityStoreArn = identityStoreArn
+        self.instanceArn = instanceArn
     }
 }
 
@@ -2350,6 +2362,8 @@ public struct DescribeApplicationOutput: Swift.Sendable {
     public var createdFrom: Swift.String?
     /// The description of the .
     public var description: Swift.String?
+    /// The ARN of the identity store that is connected to the instance of IAM Identity Center.
+    public var identityStoreArn: Swift.String?
     /// The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     public var instanceArn: Swift.String?
     /// The application name.
@@ -2366,6 +2380,7 @@ public struct DescribeApplicationOutput: Swift.Sendable {
         createdDate: Foundation.Date? = nil,
         createdFrom: Swift.String? = nil,
         description: Swift.String? = nil,
+        identityStoreArn: Swift.String? = nil,
         instanceArn: Swift.String? = nil,
         name: Swift.String? = nil,
         portalOptions: SSOAdminClientTypes.PortalOptions? = nil,
@@ -2377,6 +2392,7 @@ public struct DescribeApplicationOutput: Swift.Sendable {
         self.createdDate = createdDate
         self.createdFrom = createdFrom
         self.description = description
+        self.identityStoreArn = identityStoreArn
         self.instanceArn = instanceArn
         self.name = name
         self.portalOptions = portalOptions
@@ -5807,6 +5823,8 @@ extension CreateApplicationOutput {
         let reader = responseReader
         var value = CreateApplicationOutput()
         value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.identityStoreArn = try reader["IdentityStoreArn"].readIfPresent()
+        value.instanceArn = try reader["InstanceArn"].readIfPresent()
         return value
     }
 }
@@ -5987,6 +6005,7 @@ extension DescribeApplicationOutput {
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdFrom = try reader["CreatedFrom"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
+        value.identityStoreArn = try reader["IdentityStoreArn"].readIfPresent()
         value.instanceArn = try reader["InstanceArn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.portalOptions = try reader["PortalOptions"].readIfPresent(with: SSOAdminClientTypes.PortalOptions.read(from:))
@@ -8261,6 +8280,7 @@ extension SSOAdminClientTypes.Application {
         value.name = try reader["Name"].readIfPresent()
         value.applicationAccount = try reader["ApplicationAccount"].readIfPresent()
         value.instanceArn = try reader["InstanceArn"].readIfPresent()
+        value.identityStoreArn = try reader["IdentityStoreArn"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.portalOptions = try reader["PortalOptions"].readIfPresent(with: SSOAdminClientTypes.PortalOptions.read(from:))
         value.description = try reader["Description"].readIfPresent()

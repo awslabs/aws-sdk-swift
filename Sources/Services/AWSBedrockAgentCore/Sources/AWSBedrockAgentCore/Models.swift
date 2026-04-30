@@ -5028,12 +5028,14 @@ extension BedrockAgentCoreClientTypes {
 
     public enum Oauth2FlowType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case m2m
+        case onBehalfOfTokenExchange
         case userFederation
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Oauth2FlowType] {
             return [
                 .m2m,
+                .onBehalfOfTokenExchange,
                 .userFederation
             ]
         }
@@ -5046,6 +5048,7 @@ extension BedrockAgentCoreClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .m2m: return "M2M"
+            case .onBehalfOfTokenExchange: return "ON_BEHALF_OF_TOKEN_EXCHANGE"
             case .userFederation: return "USER_FEDERATION"
             case let .sdkUnknown(s): return s
             }
@@ -5054,6 +5057,8 @@ extension BedrockAgentCoreClientTypes {
 }
 
 public struct GetResourceOauth2TokenInput: Swift.Sendable {
+    /// The audiences to include in the token request. These are used to specify the intended recipients of the OAuth2 token.
+    public var audiences: [Swift.String]?
     /// A map of custom parameters to include in the authorization request to the resource credential provider. These parameters are in addition to the standard OAuth 2.0 flow parameters, and will not override them.
     public var customParameters: [Swift.String: Swift.String]?
     /// An opaque string that will be sent back to the callback URL provided in resourceOauth2ReturnUrl. This state should be used to protect the callback URL of your application against CSRF attacks by ensuring the response corresponds to the original request.
@@ -5068,6 +5073,8 @@ public struct GetResourceOauth2TokenInput: Swift.Sendable {
     public var resourceCredentialProviderName: Swift.String?
     /// The callback URL to redirect to after the OAuth 2.0 token retrieval is complete. This URL must be one of the provided URLs configured for the workload identity.
     public var resourceOauth2ReturnUrl: Swift.String?
+    /// The resources to include in the token request. These are used to specify the target resources for which the OAuth2 token is being requested.
+    public var resources: [Swift.String]?
     /// The OAuth scopes being requested.
     /// This member is required.
     public var scopes: [Swift.String]?
@@ -5078,22 +5085,26 @@ public struct GetResourceOauth2TokenInput: Swift.Sendable {
     public var workloadIdentityToken: Swift.String?
 
     public init(
+        audiences: [Swift.String]? = nil,
         customParameters: [Swift.String: Swift.String]? = nil,
         customState: Swift.String? = nil,
         forceAuthentication: Swift.Bool? = nil,
         oauth2Flow: BedrockAgentCoreClientTypes.Oauth2FlowType? = nil,
         resourceCredentialProviderName: Swift.String? = nil,
         resourceOauth2ReturnUrl: Swift.String? = nil,
+        resources: [Swift.String]? = nil,
         scopes: [Swift.String]? = nil,
         sessionUri: Swift.String? = nil,
         workloadIdentityToken: Swift.String? = nil
     ) {
+        self.audiences = audiences
         self.customParameters = customParameters
         self.customState = customState
         self.forceAuthentication = forceAuthentication
         self.oauth2Flow = oauth2Flow
         self.resourceCredentialProviderName = resourceCredentialProviderName
         self.resourceOauth2ReturnUrl = resourceOauth2ReturnUrl
+        self.resources = resources
         self.scopes = scopes
         self.sessionUri = sessionUri
         self.workloadIdentityToken = workloadIdentityToken
@@ -5102,7 +5113,7 @@ public struct GetResourceOauth2TokenInput: Swift.Sendable {
 
 extension GetResourceOauth2TokenInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetResourceOauth2TokenInput(forceAuthentication: \(Swift.String(describing: forceAuthentication)), oauth2Flow: \(Swift.String(describing: oauth2Flow)), resourceCredentialProviderName: \(Swift.String(describing: resourceCredentialProviderName)), resourceOauth2ReturnUrl: \(Swift.String(describing: resourceOauth2ReturnUrl)), scopes: \(Swift.String(describing: scopes)), sessionUri: \(Swift.String(describing: sessionUri)), customParameters: [keys: \(Swift.String(describing: customParameters?.keys)), values: \"CONTENT_REDACTED\"], customState: \"CONTENT_REDACTED\", workloadIdentityToken: \"CONTENT_REDACTED\")"}
+        "GetResourceOauth2TokenInput(audiences: \(Swift.String(describing: audiences)), forceAuthentication: \(Swift.String(describing: forceAuthentication)), oauth2Flow: \(Swift.String(describing: oauth2Flow)), resourceCredentialProviderName: \(Swift.String(describing: resourceCredentialProviderName)), resourceOauth2ReturnUrl: \(Swift.String(describing: resourceOauth2ReturnUrl)), resources: \(Swift.String(describing: resources)), scopes: \(Swift.String(describing: scopes)), sessionUri: \(Swift.String(describing: sessionUri)), customParameters: [keys: \(Swift.String(describing: customParameters?.keys)), values: \"CONTENT_REDACTED\"], customState: \"CONTENT_REDACTED\", workloadIdentityToken: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreClientTypes {
@@ -6905,6 +6916,22 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The value of a memory record metadata entry.
+    public enum MemoryRecordMetadataValue: Swift.Sendable {
+        /// A string value.
+        case stringvalue(Swift.String)
+        /// A list of string values.
+        case stringlistvalue([Swift.String])
+        /// A numeric value.
+        case numbervalue(Swift.Double)
+        /// A timestamp value in ISO 8601 UTC format.
+        case datetimevalue(Foundation.Date)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Input structure to create a new memory record.
     public struct MemoryRecordCreateInput: Swift.Sendable {
         /// The content to be stored within the memory record.
@@ -6912,6 +6939,8 @@ extension BedrockAgentCoreClientTypes {
         public var content: BedrockAgentCoreClientTypes.MemoryContent?
         /// The ID of the memory strategy that defines how this memory record is grouped.
         public var memoryStrategyId: Swift.String?
+        /// Metadata key-value pairs to be stored with the memory record.
+        public var metadata: [Swift.String: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue]?
         /// A list of namespace identifiers that categorize or group the memory record.
         /// This member is required.
         public var namespaces: [Swift.String]?
@@ -6925,12 +6954,14 @@ extension BedrockAgentCoreClientTypes {
         public init(
             content: BedrockAgentCoreClientTypes.MemoryContent? = nil,
             memoryStrategyId: Swift.String? = nil,
+            metadata: [Swift.String: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue]? = nil,
             namespaces: [Swift.String]? = nil,
             requestIdentifier: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
         ) {
             self.content = content
             self.memoryStrategyId = memoryStrategyId
+            self.metadata = metadata
             self.namespaces = namespaces
             self.requestIdentifier = requestIdentifier
             self.timestamp = timestamp
@@ -7099,6 +7130,8 @@ extension BedrockAgentCoreClientTypes {
         public var memoryRecordId: Swift.String?
         /// The updated ID of the memory strategy that defines how this memory record is grouped.
         public var memoryStrategyId: Swift.String?
+        /// Metadata key-value pairs to be stored with the memory record.
+        public var metadata: [Swift.String: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue]?
         /// The updated list of namespace identifiers for categorizing the memory record.
         public var namespaces: [Swift.String]?
         /// Time at which the memory record was updated
@@ -7109,12 +7142,14 @@ extension BedrockAgentCoreClientTypes {
             content: BedrockAgentCoreClientTypes.MemoryContent? = nil,
             memoryRecordId: Swift.String? = nil,
             memoryStrategyId: Swift.String? = nil,
+            metadata: [Swift.String: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue]? = nil,
             namespaces: [Swift.String]? = nil,
             timestamp: Foundation.Date? = nil
         ) {
             self.content = content
             self.memoryRecordId = memoryRecordId
             self.memoryStrategyId = memoryStrategyId
+            self.metadata = metadata
             self.namespaces = namespaces
             self.timestamp = timestamp
         }
@@ -7556,7 +7591,7 @@ extension BedrockAgentCoreClientTypes {
         /// This member is required.
         public var memoryStrategyId: Swift.String?
         /// A map of metadata key-value pairs associated with a memory record.
-        public var metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]?
+        public var metadata: [Swift.String: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue]?
         /// The namespaces associated with this memory record. Namespaces help organize and categorize memory records.
         /// This member is required.
         public var namespaces: [Swift.String]?
@@ -7566,7 +7601,7 @@ extension BedrockAgentCoreClientTypes {
             createdAt: Foundation.Date? = nil,
             memoryRecordId: Swift.String? = nil,
             memoryStrategyId: Swift.String? = nil,
-            metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]? = nil,
+            metadata: [Swift.String: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue]? = nil,
             namespaces: [Swift.String]? = nil
         ) {
             self.content = content
@@ -7962,6 +7997,104 @@ public struct ListMemoryExtractionJobsOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreClientTypes {
+
+    /// The left-hand side of a memory record metadata filter expression.
+    public enum MemoryRecordLeftExpression: Swift.Sendable {
+        /// The metadata key to filter on.
+        case metadatakey(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum MemoryRecordOperatorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case after
+        case before
+        case contains
+        case equalsTo
+        case exists
+        case greaterThan
+        case greaterThanOrEquals
+        case lessThan
+        case lessThanOrEquals
+        case notExists
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MemoryRecordOperatorType] {
+            return [
+                .after,
+                .before,
+                .contains,
+                .equalsTo,
+                .exists,
+                .greaterThan,
+                .greaterThanOrEquals,
+                .lessThan,
+                .lessThanOrEquals,
+                .notExists
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .after: return "AFTER"
+            case .before: return "BEFORE"
+            case .contains: return "CONTAINS"
+            case .equalsTo: return "EQUALS_TO"
+            case .exists: return "EXISTS"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanOrEquals: return "GREATER_THAN_OR_EQUALS"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanOrEquals: return "LESS_THAN_OR_EQUALS"
+            case .notExists: return "NOT_EXISTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The right-hand side of a memory record metadata filter expression.
+    public enum MemoryRecordRightExpression: Swift.Sendable {
+        /// The metadata value to compare against.
+        case metadatavalue(BedrockAgentCoreClientTypes.MemoryRecordMetadataValue)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Filters to apply to metadata associated with a memory. Specify the metadata key and value in the left and right fields and use the operator field to define the relationship to match.
+    public struct MemoryMetadataFilterExpression: Swift.Sendable {
+        /// The metadata key to evaluate.
+        /// This member is required.
+        public var `left`: BedrockAgentCoreClientTypes.MemoryRecordLeftExpression?
+        /// The relationship between the metadata key and value to match when applying the metadata filter.
+        /// This member is required.
+        public var `operator`: BedrockAgentCoreClientTypes.MemoryRecordOperatorType?
+        /// The value to compare against. Required for all operators except EXISTS and NOT_EXISTS.
+        public var `right`: BedrockAgentCoreClientTypes.MemoryRecordRightExpression?
+
+        public init(
+            `left`: BedrockAgentCoreClientTypes.MemoryRecordLeftExpression? = nil,
+            `operator`: BedrockAgentCoreClientTypes.MemoryRecordOperatorType? = nil,
+            `right`: BedrockAgentCoreClientTypes.MemoryRecordRightExpression? = nil
+        ) {
+            self.`left` = `left`
+            self.`operator` = `operator`
+            self.`right` = `right`
+        }
+    }
+}
+
 public struct ListMemoryRecordsInput: Swift.Sendable {
     /// The maximum number of results to return in a single call. The default value is 20.
     public var maxResults: Swift.Int?
@@ -7970,6 +8103,8 @@ public struct ListMemoryRecordsInput: Swift.Sendable {
     public var memoryId: Swift.String?
     /// The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
     public var memoryStrategyId: Swift.String?
+    /// A list of metadata filter expressions to scope the returned memory records.
+    public var metadataFilters: [BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression]?
     /// The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix.
     public var namespace: Swift.String?
     /// Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy.
@@ -7981,6 +8116,7 @@ public struct ListMemoryRecordsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         memoryId: Swift.String? = nil,
         memoryStrategyId: Swift.String? = nil,
+        metadataFilters: [BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression]? = nil,
         namespace: Swift.String? = nil,
         namespacePath: Swift.String? = nil,
         nextToken: Swift.String? = nil
@@ -7988,6 +8124,7 @@ public struct ListMemoryRecordsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.memoryId = memoryId
         self.memoryStrategyId = memoryStrategyId
+        self.metadataFilters = metadataFilters
         self.namespace = namespace
         self.namespacePath = namespacePath
         self.nextToken = nextToken
@@ -8011,7 +8148,7 @@ extension BedrockAgentCoreClientTypes {
         /// This member is required.
         public var memoryStrategyId: Swift.String?
         /// A map of metadata key-value pairs associated with a memory record.
-        public var metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]?
+        public var metadata: [Swift.String: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue]?
         /// The namespaces associated with this memory record.
         /// This member is required.
         public var namespaces: [Swift.String]?
@@ -8023,7 +8160,7 @@ extension BedrockAgentCoreClientTypes {
             createdAt: Foundation.Date? = nil,
             memoryRecordId: Swift.String? = nil,
             memoryStrategyId: Swift.String? = nil,
-            metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]? = nil,
+            metadata: [Swift.String: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue]? = nil,
             namespaces: [Swift.String]? = nil,
             score: Swift.Double? = nil
         ) {
@@ -8164,31 +8301,6 @@ public struct ListSessionsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.sessionSummaries = sessionSummaries
-    }
-}
-
-extension BedrockAgentCoreClientTypes {
-
-    /// Filters to apply to metadata associated with a memory. Specify the metadata key and value in the left and right fields and use the operator field to define the relationship to match.
-    public struct MemoryMetadataFilterExpression: Swift.Sendable {
-        /// Left expression of the event metadata filter.
-        /// This member is required.
-        public var `left`: BedrockAgentCoreClientTypes.LeftExpression?
-        /// The relationship between the metadata key and value to match when applying the metadata filter.
-        /// This member is required.
-        public var `operator`: BedrockAgentCoreClientTypes.OperatorType?
-        /// Right expression of the eventMetadatafilter.
-        public var `right`: BedrockAgentCoreClientTypes.RightExpression?
-
-        public init(
-            `left`: BedrockAgentCoreClientTypes.LeftExpression? = nil,
-            `operator`: BedrockAgentCoreClientTypes.OperatorType? = nil,
-            `right`: BedrockAgentCoreClientTypes.RightExpression? = nil
-        ) {
-            self.`left` = `left`
-            self.`operator` = `operator`
-            self.`right` = `right`
-        }
     }
 }
 
@@ -9614,12 +9726,14 @@ extension GetResourceOauth2TokenInput {
 
     static func write(value: GetResourceOauth2TokenInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audiences"].writeList(value.audiences, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["customParameters"].writeMap(value.customParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["customState"].write(value.customState)
         try writer["forceAuthentication"].write(value.forceAuthentication)
         try writer["oauth2Flow"].write(value.oauth2Flow)
         try writer["resourceCredentialProviderName"].write(value.resourceCredentialProviderName)
         try writer["resourceOauth2ReturnUrl"].write(value.resourceOauth2ReturnUrl)
+        try writer["resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["sessionUri"].write(value.sessionUri)
         try writer["workloadIdentityToken"].write(value.workloadIdentityToken)
@@ -9758,6 +9872,7 @@ extension ListMemoryRecordsInput {
         guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["memoryStrategyId"].write(value.memoryStrategyId)
+        try writer["metadataFilters"].writeList(value.metadataFilters, memberWritingClosure: BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespace"].write(value.namespace)
         try writer["namespacePath"].write(value.namespacePath)
         try writer["nextToken"].write(value.nextToken)
@@ -13833,9 +13948,9 @@ extension BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression {
 
     static func write(value: BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["left"].write(value.`left`, with: BedrockAgentCoreClientTypes.LeftExpression.write(value:to:))
+        try writer["left"].write(value.`left`, with: BedrockAgentCoreClientTypes.MemoryRecordLeftExpression.write(value:to:))
         try writer["operator"].write(value.`operator`)
-        try writer["right"].write(value.`right`, with: BedrockAgentCoreClientTypes.RightExpression.write(value:to:))
+        try writer["right"].write(value.`right`, with: BedrockAgentCoreClientTypes.MemoryRecordRightExpression.write(value:to:))
     }
 }
 
@@ -13849,7 +13964,7 @@ extension BedrockAgentCoreClientTypes.MemoryRecord {
         value.memoryStrategyId = try reader["memoryStrategyId"].readIfPresent() ?? ""
         value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: BedrockAgentCoreClientTypes.MetadataValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -13860,6 +13975,7 @@ extension BedrockAgentCoreClientTypes.MemoryRecordCreateInput {
         guard let value else { return }
         try writer["content"].write(value.content, with: BedrockAgentCoreClientTypes.MemoryContent.write(value:to:))
         try writer["memoryStrategyId"].write(value.memoryStrategyId)
+        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["requestIdentifier"].write(value.requestIdentifier)
         try writer["timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -13871,6 +13987,55 @@ extension BedrockAgentCoreClientTypes.MemoryRecordDeleteInput {
     static func write(value: BedrockAgentCoreClientTypes.MemoryRecordDeleteInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["memoryRecordId"].write(value.memoryRecordId)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MemoryRecordLeftExpression {
+
+    static func write(value: BedrockAgentCoreClientTypes.MemoryRecordLeftExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .metadatakey(metadatakey):
+                try writer["metadataKey"].write(metadatakey)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MemoryRecordMetadataValue {
+
+    static func write(value: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .datetimevalue(datetimevalue):
+                try writer["dateTimeValue"].writeTimestamp(datetimevalue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+            case let .numbervalue(numbervalue):
+                try writer["numberValue"].write(numbervalue)
+            case let .stringlistvalue(stringlistvalue):
+                try writer["stringListValue"].writeList(stringlistvalue, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .stringvalue(stringvalue):
+                try writer["stringValue"].write(stringvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.MemoryRecordMetadataValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "stringValue":
+                return .stringvalue(try reader["stringValue"].read())
+            case "stringListValue":
+                return .stringlistvalue(try reader["stringListValue"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+            case "numberValue":
+                return .numbervalue(try reader["numberValue"].read())
+            case "dateTimeValue":
+                return .datetimevalue(try reader["dateTimeValue"].readTimestamp(format: SmithyTimestamps.TimestampFormat.epochSeconds))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -13888,6 +14053,19 @@ extension BedrockAgentCoreClientTypes.MemoryRecordOutput {
     }
 }
 
+extension BedrockAgentCoreClientTypes.MemoryRecordRightExpression {
+
+    static func write(value: BedrockAgentCoreClientTypes.MemoryRecordRightExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .metadatavalue(metadatavalue):
+                try writer["metadataValue"].write(metadatavalue, with: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension BedrockAgentCoreClientTypes.MemoryRecordSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.MemoryRecordSummary {
@@ -13899,7 +14077,7 @@ extension BedrockAgentCoreClientTypes.MemoryRecordSummary {
         value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.score = try reader["score"].readIfPresent()
-        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: BedrockAgentCoreClientTypes.MetadataValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -13911,6 +14089,7 @@ extension BedrockAgentCoreClientTypes.MemoryRecordUpdateInput {
         try writer["content"].write(value.content, with: BedrockAgentCoreClientTypes.MemoryContent.write(value:to:))
         try writer["memoryRecordId"].write(value.memoryRecordId)
         try writer["memoryStrategyId"].write(value.memoryStrategyId)
+        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }

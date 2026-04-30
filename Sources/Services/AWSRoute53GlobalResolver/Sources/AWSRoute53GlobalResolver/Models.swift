@@ -4186,19 +4186,23 @@ public struct UpdateGlobalResolverInput: Swift.Sendable {
     public var name: Swift.String?
     /// The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated.
     public var observabilityRegion: Swift.String?
+    /// The list of Amazon Web Services Regions where the Global Resolver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolution.
+    public var regions: [Swift.String]?
 
     public init(
         description: Swift.String? = nil,
         globalResolverId: Swift.String? = nil,
         ipAddressType: Route53GlobalResolverClientTypes.GlobalResolverIpAddressType? = nil,
         name: Swift.String? = nil,
-        observabilityRegion: Swift.String? = nil
+        observabilityRegion: Swift.String? = nil,
+        regions: [Swift.String]? = nil
     ) {
         self.description = description
         self.globalResolverId = globalResolverId
         self.ipAddressType = ipAddressType
         self.name = name
         self.observabilityRegion = observabilityRegion
+        self.regions = regions
     }
 }
 
@@ -5495,6 +5499,7 @@ extension UpdateGlobalResolverInput {
         try writer["ipAddressType"].write(value.ipAddressType)
         try writer["name"].write(value.name)
         try writer["observabilityRegion"].write(value.observabilityRegion)
+        try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6585,6 +6590,7 @@ enum DeleteAccessTokenOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)

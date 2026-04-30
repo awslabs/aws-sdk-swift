@@ -1501,6 +1501,21 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// Access control settings for zookeeper
+    public struct ZookeeperAccess: Swift.Sendable {
+        /// Zookeeper Access was on or off for the cluster
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Information about cluster attributes that can be updated via update APIs.
     public struct MutableClusterInfo: Swift.Sendable {
         /// Describes brokers being changed during a broker count update.
@@ -1531,6 +1546,8 @@ extension KafkaClientTypes {
         public var rebalancing: KafkaClientTypes.Rebalancing?
         /// This controls storage mode for supported storage tiers.
         public var storageMode: KafkaClientTypes.StorageMode?
+        /// Access control settings for zookeeper
+        public var zookeeperAccess: KafkaClientTypes.ZookeeperAccess?
 
         public init(
             brokerCountUpdateInfo: KafkaClientTypes.BrokerCountUpdateInfo? = nil,
@@ -1546,7 +1563,8 @@ extension KafkaClientTypes {
             numberOfBrokerNodes: Swift.Int? = nil,
             openMonitoring: KafkaClientTypes.OpenMonitoring? = nil,
             rebalancing: KafkaClientTypes.Rebalancing? = nil,
-            storageMode: KafkaClientTypes.StorageMode? = nil
+            storageMode: KafkaClientTypes.StorageMode? = nil,
+            zookeeperAccess: KafkaClientTypes.ZookeeperAccess? = nil
         ) {
             self.brokerCountUpdateInfo = brokerCountUpdateInfo
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
@@ -1562,6 +1580,7 @@ extension KafkaClientTypes {
             self.openMonitoring = openMonitoring
             self.rebalancing = rebalancing
             self.storageMode = storageMode
+            self.zookeeperAccess = zookeeperAccess
         }
     }
 }
@@ -5662,20 +5681,23 @@ public struct UpdateConnectivityInput: Swift.Sendable {
     /// This member is required.
     public var clusterArn: Swift.String?
     /// Information about the broker access configuration.
-    /// This member is required.
     public var connectivityInfo: KafkaClientTypes.ConnectivityInfo?
     /// The version of the MSK cluster to update. Cluster versions aren't simple numbers. You can describe an MSK cluster to find its version. When this update operation is successful, it generates a new cluster version.
     /// This member is required.
     public var currentVersion: Swift.String?
+    /// Access control settings for zookeeper
+    public var zookeeperAccess: KafkaClientTypes.ZookeeperAccess?
 
     public init(
         clusterArn: Swift.String? = nil,
         connectivityInfo: KafkaClientTypes.ConnectivityInfo? = nil,
-        currentVersion: Swift.String? = nil
+        currentVersion: Swift.String? = nil,
+        zookeeperAccess: KafkaClientTypes.ZookeeperAccess? = nil
     ) {
         self.clusterArn = clusterArn
         self.connectivityInfo = connectivityInfo
         self.currentVersion = currentVersion
+        self.zookeeperAccess = zookeeperAccess
     }
 }
 
@@ -7056,6 +7078,7 @@ extension UpdateConnectivityInput {
         guard let value else { return }
         try writer["connectivityInfo"].write(value.connectivityInfo, with: KafkaClientTypes.ConnectivityInfo.write(value:to:))
         try writer["currentVersion"].write(value.currentVersion)
+        try writer["zookeeperAccess"].write(value.zookeeperAccess, with: KafkaClientTypes.ZookeeperAccess.write(value:to:))
     }
 }
 
@@ -10023,6 +10046,7 @@ extension KafkaClientTypes.MutableClusterInfo {
         value.numberOfBrokerNodes = try reader["numberOfBrokerNodes"].readIfPresent()
         value.enhancedMonitoring = try reader["enhancedMonitoring"].readIfPresent()
         value.openMonitoring = try reader["openMonitoring"].readIfPresent(with: KafkaClientTypes.OpenMonitoring.read(from:))
+        value.zookeeperAccess = try reader["zookeeperAccess"].readIfPresent(with: KafkaClientTypes.ZookeeperAccess.read(from:))
         value.kafkaVersion = try reader["kafkaVersion"].readIfPresent()
         value.loggingInfo = try reader["loggingInfo"].readIfPresent(with: KafkaClientTypes.LoggingInfo.read(from:))
         value.instanceType = try reader["instanceType"].readIfPresent()
@@ -10793,6 +10817,21 @@ extension KafkaClientTypes.VpcConnectivityTls {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectivityTls {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.VpcConnectivityTls()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ZookeeperAccess {
+
+    static func write(value: KafkaClientTypes.ZookeeperAccess?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ZookeeperAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ZookeeperAccess()
         value.enabled = try reader["enabled"].readIfPresent()
         return value
     }

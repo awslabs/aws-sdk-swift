@@ -1242,6 +1242,57 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// Enumeration of supported enhanced monitoring levels for Amazon MSK clusters: DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and PER_TOPIC_PER_PARTITION.
+    public enum MskEnhancedMonitoringLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case perBroker
+        case perTopicPerBroker
+        case perTopicPerPartition
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MskEnhancedMonitoringLevel] {
+            return [
+                .default,
+                .perBroker,
+                .perTopicPerBroker,
+                .perTopicPerPartition
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "DEFAULT"
+            case .perBroker: return "PER_BROKER"
+            case .perTopicPerBroker: return "PER_TOPIC_PER_BROKER"
+            case .perTopicPerPartition: return "PER_TOPIC_PER_PARTITION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Configuration parameters for Amazon MSK cluster monitoring, including enhanced monitoring level settings.
+    public struct MskMonitoringParameters: Swift.Sendable {
+        /// The level of enhanced monitoring for the MSK cluster.
+        public var enhancedMonitoring: ObservabilityAdminClientTypes.MskEnhancedMonitoringLevel?
+
+        public init(
+            enhancedMonitoring: ObservabilityAdminClientTypes.MskEnhancedMonitoringLevel? = nil
+        ) {
+            self.enhancedMonitoring = enhancedMonitoring
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     /// Configuration parameters specific to VPC Flow Logs.
     public struct VPCFlowLogParameters: Swift.Sendable {
         /// The format in which VPC Flow Log entries should be logged.
@@ -1471,6 +1522,8 @@ extension ObservabilityAdminClientTypes {
         public var elbLoadBalancerLoggingParameters: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters?
         /// Configuration parameters specific to Amazon Bedrock AgentCore logging when Amazon Bedrock AgentCore is the resource type.
         public var logDeliveryParameters: ObservabilityAdminClientTypes.LogDeliveryParameters?
+        /// Configuration parameters specific to MSK monitoring when MSK is the resource type.
+        public var mskMonitoringParameters: ObservabilityAdminClientTypes.MskMonitoringParameters?
         /// The number of days to retain the telemetry data in the destination.
         public var retentionInDays: Swift.Int?
         /// Configuration parameters specific to VPC Flow Logs when VPC is the resource type.
@@ -1484,6 +1537,7 @@ extension ObservabilityAdminClientTypes {
             destinationType: ObservabilityAdminClientTypes.DestinationType? = nil,
             elbLoadBalancerLoggingParameters: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters? = nil,
             logDeliveryParameters: ObservabilityAdminClientTypes.LogDeliveryParameters? = nil,
+            mskMonitoringParameters: ObservabilityAdminClientTypes.MskMonitoringParameters? = nil,
             retentionInDays: Swift.Int? = nil,
             vpcFlowLogParameters: ObservabilityAdminClientTypes.VPCFlowLogParameters? = nil,
             wafLoggingParameters: ObservabilityAdminClientTypes.WAFLoggingParameters? = nil
@@ -1493,6 +1547,7 @@ extension ObservabilityAdminClientTypes {
             self.destinationType = destinationType
             self.elbLoadBalancerLoggingParameters = elbLoadBalancerLoggingParameters
             self.logDeliveryParameters = logDeliveryParameters
+            self.mskMonitoringParameters = mskMonitoringParameters
             self.retentionInDays = retentionInDays
             self.vpcFlowLogParameters = vpcFlowLogParameters
             self.wafLoggingParameters = wafLoggingParameters
@@ -1508,6 +1563,7 @@ extension ObservabilityAdminClientTypes {
         case awsBedrockAgentcoreGateway
         case awsBedrockAgentcoreMemory
         case awsBedrockAgentcoreRuntime
+        case awsBedrockAgentcoreWorkloadIdentity
         case awsCloudfrontDistribution
         case awsCloudtrail
         case awsEc2Instance
@@ -1515,6 +1571,8 @@ extension ObservabilityAdminClientTypes {
         case awsEksCluster
         case awsElbLoadbalancer
         case awsLamdbaFunction
+        case awsMskCluster
+        case awsOtelEnrichment
         case awsRoute53ResolverResolverEndpoint
         case awsSecurityHub
         case awsSecurityHubHubv2
@@ -1528,6 +1586,7 @@ extension ObservabilityAdminClientTypes {
                 .awsBedrockAgentcoreGateway,
                 .awsBedrockAgentcoreMemory,
                 .awsBedrockAgentcoreRuntime,
+                .awsBedrockAgentcoreWorkloadIdentity,
                 .awsCloudfrontDistribution,
                 .awsCloudtrail,
                 .awsEc2Instance,
@@ -1535,6 +1594,8 @@ extension ObservabilityAdminClientTypes {
                 .awsEksCluster,
                 .awsElbLoadbalancer,
                 .awsLamdbaFunction,
+                .awsMskCluster,
+                .awsOtelEnrichment,
                 .awsRoute53ResolverResolverEndpoint,
                 .awsSecurityHub,
                 .awsSecurityHubHubv2,
@@ -1554,6 +1615,7 @@ extension ObservabilityAdminClientTypes {
             case .awsBedrockAgentcoreGateway: return "AWS::BedrockAgentCore::Gateway"
             case .awsBedrockAgentcoreMemory: return "AWS::BedrockAgentCore::Memory"
             case .awsBedrockAgentcoreRuntime: return "AWS::BedrockAgentCore::Runtime"
+            case .awsBedrockAgentcoreWorkloadIdentity: return "AWS::BedrockAgentCore::WorkloadIdentity"
             case .awsCloudfrontDistribution: return "AWS::CloudFront::Distribution"
             case .awsCloudtrail: return "AWS::CloudTrail"
             case .awsEc2Instance: return "AWS::EC2::Instance"
@@ -1561,6 +1623,8 @@ extension ObservabilityAdminClientTypes {
             case .awsEksCluster: return "AWS::EKS::Cluster"
             case .awsElbLoadbalancer: return "AWS::ElasticLoadBalancingV2::LoadBalancer"
             case .awsLamdbaFunction: return "AWS::Lambda::Function"
+            case .awsMskCluster: return "AWS::MSK::Cluster"
+            case .awsOtelEnrichment: return "AWS::CloudWatch::OTelEnrichment"
             case .awsRoute53ResolverResolverEndpoint: return "AWS::Route53Resolver::ResolverEndpoint"
             case .awsSecurityHub: return "AWS::SecurityHub::Hub"
             case .awsSecurityHubHubv2: return "AWS::SecurityHub::HubV2"
@@ -5465,6 +5529,21 @@ extension ObservabilityAdminClientTypes.LogsEncryptionConfiguration {
     }
 }
 
+extension ObservabilityAdminClientTypes.MskMonitoringParameters {
+
+    static func write(value: ObservabilityAdminClientTypes.MskMonitoringParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnhancedMonitoring"].write(value.enhancedMonitoring)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.MskMonitoringParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.MskMonitoringParameters()
+        value.enhancedMonitoring = try reader["EnhancedMonitoring"].readIfPresent()
+        return value
+    }
+}
+
 extension ObservabilityAdminClientTypes.PipelineOutput {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.PipelineOutput {
@@ -5585,6 +5664,7 @@ extension ObservabilityAdminClientTypes.TelemetryDestinationConfiguration {
         try writer["DestinationType"].write(value.destinationType)
         try writer["ELBLoadBalancerLoggingParameters"].write(value.elbLoadBalancerLoggingParameters, with: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters.write(value:to:))
         try writer["LogDeliveryParameters"].write(value.logDeliveryParameters, with: ObservabilityAdminClientTypes.LogDeliveryParameters.write(value:to:))
+        try writer["MskMonitoringParameters"].write(value.mskMonitoringParameters, with: ObservabilityAdminClientTypes.MskMonitoringParameters.write(value:to:))
         try writer["RetentionInDays"].write(value.retentionInDays)
         try writer["VPCFlowLogParameters"].write(value.vpcFlowLogParameters, with: ObservabilityAdminClientTypes.VPCFlowLogParameters.write(value:to:))
         try writer["WAFLoggingParameters"].write(value.wafLoggingParameters, with: ObservabilityAdminClientTypes.WAFLoggingParameters.write(value:to:))
@@ -5601,6 +5681,7 @@ extension ObservabilityAdminClientTypes.TelemetryDestinationConfiguration {
         value.elbLoadBalancerLoggingParameters = try reader["ELBLoadBalancerLoggingParameters"].readIfPresent(with: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters.read(from:))
         value.wafLoggingParameters = try reader["WAFLoggingParameters"].readIfPresent(with: ObservabilityAdminClientTypes.WAFLoggingParameters.read(from:))
         value.logDeliveryParameters = try reader["LogDeliveryParameters"].readIfPresent(with: ObservabilityAdminClientTypes.LogDeliveryParameters.read(from:))
+        value.mskMonitoringParameters = try reader["MskMonitoringParameters"].readIfPresent(with: ObservabilityAdminClientTypes.MskMonitoringParameters.read(from:))
         return value
     }
 }
