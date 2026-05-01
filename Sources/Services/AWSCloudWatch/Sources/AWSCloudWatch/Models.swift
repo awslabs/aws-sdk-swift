@@ -3423,7 +3423,7 @@ public struct ListMetricStreamsOutput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies) in the Amazon Web Services General Reference.
+    /// The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name  The ARN format of a dashboard is arn:aws:cloudwatch::account-id:dashboard/dashboard-name  The ARN format of a metric stream is arn:aws:cloudwatch:Region:account-id:metric-stream/metric-stream-name  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceARN: Swift.String?
 
@@ -3704,13 +3704,17 @@ public struct PutDashboardInput: Swift.Sendable {
     /// The name of the dashboard. If a dashboard with this name already exists, this call modifies that dashboard, replacing its current contents. Otherwise, a new dashboard is created. The maximum length is 255, and valid characters are A-Z, a-z, 0-9, "-", and "_". This parameter is required.
     /// This member is required.
     public var dashboardName: Swift.String?
+    /// A list of key-value pairs to associate with the dashboard. You can associate as many as 50 tags with a dashboard. Tags can help you organize and categorize your dashboards. You can also use them to scope user permissions by granting a user permission to access or change only dashboards with certain tag values. You can use this parameter only when creating a new dashboard. If you specify Tags when updating an existing dashboard, the tag updates are ignored. To add or update tags on an existing dashboard, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html). To remove tags, use [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
+    public var tags: [CloudWatchClientTypes.Tag]?
 
     public init(
         dashboardBody: Swift.String? = nil,
-        dashboardName: Swift.String? = nil
+        dashboardName: Swift.String? = nil,
+        tags: [CloudWatchClientTypes.Tag]? = nil
     ) {
         self.dashboardBody = dashboardBody
         self.dashboardName = dashboardName
+        self.tags = tags
     }
 }
 
@@ -4278,7 +4282,7 @@ public struct StopOTelEnrichmentOutput: Swift.Sendable {
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// The ARN of the CloudWatch resource that you're adding tags to. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies) in the Amazon Web Services General Reference.
+    /// The ARN of the CloudWatch resource that you're adding tags to. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name  The ARN format of a dashboard is arn:aws:cloudwatch::account-id:dashboard/dashboard-name  The ARN format of a metric stream is arn:aws:cloudwatch:Region:account-id:metric-stream/metric-stream-name  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// The list of key-value pairs to associate with the alarm.
@@ -4300,7 +4304,7 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// The ARN of the CloudWatch resource that you're removing tags from. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies) in the Amazon Web Services General Reference.
+    /// The ARN of the CloudWatch resource that you're removing tags from. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name  The ARN format of a dashboard is arn:aws:cloudwatch::account-id:dashboard/dashboard-name  The ARN format of a metric stream is arn:aws:cloudwatch:Region:account-id:metric-stream/metric-stream-name  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// The list of tag keys to remove from the resource.
@@ -5004,6 +5008,7 @@ extension PutDashboardInput {
         guard let value else { return }
         try writer["DashboardBody"].write(value.dashboardBody)
         try writer["DashboardName"].write(value.dashboardName)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: CloudWatchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -5698,7 +5703,6 @@ enum DeleteDashboardsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
-            case "ResourceNotFound": return try DashboardNotFoundError.makeError(baseError: baseError)
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6482,19 +6486,6 @@ extension ConflictException {
     }
 }
 
-extension DashboardNotFoundError {
-
-    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> DashboardNotFoundError {
-        let reader = baseError.errorBodyReader
-        var value = DashboardNotFoundError()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidNextToken {
 
     static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidNextToken {
@@ -6514,6 +6505,19 @@ extension LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DashboardNotFoundError {
+
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> DashboardNotFoundError {
+        let reader = baseError.errorBodyReader
+        var value = DashboardNotFoundError()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

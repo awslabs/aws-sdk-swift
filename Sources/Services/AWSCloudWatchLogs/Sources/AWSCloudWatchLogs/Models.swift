@@ -6881,6 +6881,36 @@ public struct ListLogAnomalyDetectorsOutput: Swift.Sendable {
     }
 }
 
+extension CloudWatchLogsClientTypes {
+
+    /// A tag filter that specifies a tag key and optional tag values for filtering log groups by tags.
+    public struct TagFilter: Swift.Sendable {
+        /// The tag key to filter on.
+        /// This member is required.
+        public var key: Swift.String?
+        /// An optional list of tag values to filter on.
+        ///
+        /// * If you specify a filter that contains more than one value for a key, the response returns log groups that match any of the specified values for that key.
+        ///
+        /// * If you don't specify values, the response returns all log groups that are tagged with that key, with any or no value.
+        ///
+        /// * Use * for wildcard matching. For example, prod* matches values that start with prod.
+        ///
+        /// * Use ! as a prefix for negation. For example, !prod matches values that are not prod.
+        ///
+        /// * Exact matching and negation are case-sensitive. Wildcard matching is case-insensitive.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.values = values
+        }
+    }
+}
+
 public struct ListLogGroupsInput: Swift.Sendable {
     /// When includeLinkedAccounts is set to true, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
     public var accountIdentifiers: [Swift.String]?
@@ -6905,6 +6935,8 @@ public struct ListLogGroupsInput: Swift.Sendable {
     ///
     /// You can specify as many as five different regular expression patterns in this field, each of which must be between 3 and 24 characters. You can include the ^ symbol as many as five times, and include the | symbol as many as four times.
     public var logGroupNamePattern: Swift.String?
+    /// An array of tag filters to return only log groups that have specific tags. Multiple filters are combined with AND logic.
+    public var logGroupTags: [CloudWatchLogsClientTypes.TagFilter]?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
 
@@ -6916,6 +6948,7 @@ public struct ListLogGroupsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
         logGroupNamePattern: Swift.String? = nil,
+        logGroupTags: [CloudWatchLogsClientTypes.TagFilter]? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.accountIdentifiers = accountIdentifiers
@@ -6925,6 +6958,7 @@ public struct ListLogGroupsInput: Swift.Sendable {
         self.limit = limit
         self.logGroupClass = logGroupClass
         self.logGroupNamePattern = logGroupNamePattern
+        self.logGroupTags = logGroupTags
         self.nextToken = nextToken
     }
 }
@@ -10564,6 +10598,7 @@ extension ListLogGroupsInput {
         try writer["limit"].write(value.limit)
         try writer["logGroupClass"].write(value.logGroupClass)
         try writer["logGroupNamePattern"].write(value.logGroupNamePattern)
+        try writer["logGroupTags"].writeList(value.logGroupTags, memberWritingClosure: CloudWatchLogsClientTypes.TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["nextToken"].write(value.nextToken)
     }
 }
@@ -16154,6 +16189,15 @@ extension CloudWatchLogsClientTypes.SuppressionPeriod {
         guard let value else { return }
         try writer["suppressionUnit"].write(value.suppressionUnit)
         try writer["value"].write(value.value)
+    }
+}
+
+extension CloudWatchLogsClientTypes.TagFilter {
+
+    static func write(value: CloudWatchLogsClientTypes.TagFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
