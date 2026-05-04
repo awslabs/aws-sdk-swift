@@ -238,6 +238,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct CreateBotVersionInput: Swift.Sendable {
     /// Identifies a specific revision of the $LATEST version of the bot. If you specify a checksum and the $LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
     public var checksum: Swift.String?
@@ -477,6 +478,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct CreateBotVersionOutput: Swift.Sendable {
     /// The message that Amazon Lex uses to cancel a conversation. For more information, see [PutBot].
     public var abortStatement: LexModelBuildingClientTypes.Statement?
@@ -552,6 +554,7 @@ public struct CreateBotVersionOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct CreateIntentVersionInput: Swift.Sendable {
     /// Checksum of the $LATEST version of the intent that should be used to create the new version. If you specify a checksum and the $LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
     public var checksum: Swift.String?
@@ -883,6 +886,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct CreateIntentVersionOutput: Swift.Sendable {
     /// Checksum of the intent version created.
     public var checksum: Swift.String?
@@ -962,6 +966,7 @@ public struct CreateIntentVersionOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct CreateSlotTypeVersionInput: Swift.Sendable {
     /// Checksum for the $LATEST version of the slot type that you want to publish. If you specify a checksum and the $LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
     public var checksum: Swift.String?
@@ -1077,6 +1082,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct CreateSlotTypeVersionOutput: Swift.Sendable {
     /// Checksum of the $LATEST version of the slot type.
     public var checksum: Swift.String?
@@ -1209,6 +1215,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteBotInput: Swift.Sendable {
     /// The name of the bot. The name is case sensitive.
     /// This member is required.
@@ -1221,6 +1228,7 @@ public struct DeleteBotInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteBotAliasInput: Swift.Sendable {
     /// The name of the bot that the alias points to.
     /// This member is required.
@@ -1238,6 +1246,7 @@ public struct DeleteBotAliasInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteBotChannelAssociationInput: Swift.Sendable {
     /// An alias that points to the specific version of the Amazon Lex bot to which this association is being made.
     /// This member is required.
@@ -1260,6 +1269,7 @@ public struct DeleteBotChannelAssociationInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteBotVersionInput: Swift.Sendable {
     /// The name of the bot.
     /// This member is required.
@@ -1277,6 +1287,7 @@ public struct DeleteBotVersionInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteIntentInput: Swift.Sendable {
     /// The name of the intent. The name is case sensitive.
     /// This member is required.
@@ -1289,6 +1300,7 @@ public struct DeleteIntentInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteIntentVersionInput: Swift.Sendable {
     /// The name of the intent.
     /// This member is required.
@@ -1306,6 +1318,7 @@ public struct DeleteIntentVersionInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteSlotTypeInput: Swift.Sendable {
     /// The name of the slot type. The name is case sensitive.
     /// This member is required.
@@ -1318,6 +1331,7 @@ public struct DeleteSlotTypeInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteSlotTypeVersionInput: Swift.Sendable {
     /// The name of the slot type.
     /// This member is required.
@@ -1335,6 +1349,7 @@ public struct DeleteSlotTypeVersionInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteUtterancesInput: Swift.Sendable {
     /// The name of the bot that stored the utterances.
     /// This member is required.
@@ -1352,6 +1367,7 @@ public struct DeleteUtterancesInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotInput: Swift.Sendable {
     /// The name of the bot. The name is case sensitive.
     /// This member is required.
@@ -1369,6 +1385,7 @@ public struct GetBotInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotOutput: Swift.Sendable {
     /// The message that Amazon Lex returns when the user elects to end the conversation without completing it. For more information, see [PutBot].
     public var abortStatement: LexModelBuildingClientTypes.Statement?
@@ -1448,6 +1465,7 @@ public struct GetBotOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotAliasInput: Swift.Sendable {
     /// The name of the bot.
     /// This member is required.
@@ -1573,6 +1591,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotAliasOutput: Swift.Sendable {
     /// The name of the bot that the alias points to.
     public var botName: Swift.String?
@@ -1612,6 +1631,7 @@ public struct GetBotAliasOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotAliasesInput: Swift.Sendable {
     /// The name of the bot.
     /// This member is required.
@@ -1679,6 +1699,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotAliasesOutput: Swift.Sendable {
     /// An array of BotAliasMetadata objects, each describing a bot alias.
     public var botAliases: [LexModelBuildingClientTypes.BotAliasMetadata]?
@@ -1694,6 +1715,7 @@ public struct GetBotAliasesOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotChannelAssociationInput: Swift.Sendable {
     /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
     /// This member is required.
@@ -1783,6 +1805,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotChannelAssociationOutput: Swift.Sendable {
     /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
     public var botAlias: Swift.String?
@@ -1837,6 +1860,7 @@ extension GetBotChannelAssociationOutput: Swift.CustomDebugStringConvertible {
         "GetBotChannelAssociationOutput(botAlias: \(Swift.String(describing: botAlias)), botName: \(Swift.String(describing: botName)), createdDate: \(Swift.String(describing: createdDate)), description: \(Swift.String(describing: description)), failureReason: \(Swift.String(describing: failureReason)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), botConfiguration: \"CONTENT_REDACTED\")"}
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotChannelAssociationsInput: Swift.Sendable {
     /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
     /// This member is required.
@@ -1924,6 +1948,7 @@ extension LexModelBuildingClientTypes.BotChannelAssociation: Swift.CustomDebugSt
         "BotChannelAssociation(botAlias: \(Swift.String(describing: botAlias)), botName: \(Swift.String(describing: botName)), createdDate: \(Swift.String(describing: createdDate)), description: \(Swift.String(describing: description)), failureReason: \(Swift.String(describing: failureReason)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), botConfiguration: \"CONTENT_REDACTED\")"}
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotChannelAssociationsOutput: Swift.Sendable {
     /// An array of objects, one for each association, that provides information about the Amazon Lex bot and its association with the channel.
     public var botChannelAssociations: [LexModelBuildingClientTypes.BotChannelAssociation]?
@@ -1939,6 +1964,7 @@ public struct GetBotChannelAssociationsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotsInput: Swift.Sendable {
     /// The maximum number of bots to return in the response that the request will return. The default is 10.
     public var maxResults: Swift.Int?
@@ -1993,6 +2019,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotsOutput: Swift.Sendable {
     /// An array of botMetadata objects, with one entry for each bot.
     public var bots: [LexModelBuildingClientTypes.BotMetadata]?
@@ -2008,6 +2035,7 @@ public struct GetBotsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotVersionsInput: Swift.Sendable {
     /// The maximum number of bot versions to return in the response. The default is 10.
     public var maxResults: Swift.Int?
@@ -2028,6 +2056,7 @@ public struct GetBotVersionsInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotVersionsOutput: Swift.Sendable {
     /// An array of BotMetadata objects, one for each numbered version of the bot plus one for the $LATEST version.
     public var bots: [LexModelBuildingClientTypes.BotMetadata]?
@@ -2043,6 +2072,7 @@ public struct GetBotVersionsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBuiltinIntentInput: Swift.Sendable {
     /// The unique identifier for a built-in intent. To find the signature for an intent, see [Standard Built-in Intents](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/standard-intents) in the Alexa Skills Kit.
     /// This member is required.
@@ -2070,6 +2100,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBuiltinIntentOutput: Swift.Sendable {
     /// The unique identifier for a built-in intent.
     public var signature: Swift.String?
@@ -2089,6 +2120,7 @@ public struct GetBuiltinIntentOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBuiltinIntentsInput: Swift.Sendable {
     /// A list of locales that the intent supports.
     public var locale: LexModelBuildingClientTypes.Locale?
@@ -2131,6 +2163,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBuiltinIntentsOutput: Swift.Sendable {
     /// An array of builtinIntentMetadata objects, one for each intent in the response.
     public var intents: [LexModelBuildingClientTypes.BuiltinIntentMetadata]?
@@ -2146,6 +2179,7 @@ public struct GetBuiltinIntentsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBuiltinSlotTypesInput: Swift.Sendable {
     /// A list of locales that the slot type supports.
     public var locale: LexModelBuildingClientTypes.Locale?
@@ -2188,6 +2222,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBuiltinSlotTypesOutput: Swift.Sendable {
     /// If the response is truncated, the response includes a pagination token that you can use in your next request to fetch the next page of slot types.
     public var nextToken: Swift.String?
@@ -2264,6 +2299,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetExportInput: Swift.Sendable {
     /// The format of the exported data.
     /// This member is required.
@@ -2323,6 +2359,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetExportOutput: Swift.Sendable {
     /// The status of the export.
     ///
@@ -2364,6 +2401,7 @@ public struct GetExportOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetImportInput: Swift.Sendable {
     /// The identifier of the import job information to return.
     /// This member is required.
@@ -2437,6 +2475,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetImportOutput: Swift.Sendable {
     /// A timestamp for the date and time that the import job was created.
     public var createdDate: Foundation.Date?
@@ -2472,6 +2511,7 @@ public struct GetImportOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetIntentInput: Swift.Sendable {
     /// The name of the intent. The name is case sensitive.
     /// This member is required.
@@ -2489,6 +2529,7 @@ public struct GetIntentInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetIntentOutput: Swift.Sendable {
     /// Checksum of the intent.
     public var checksum: Swift.String?
@@ -2568,6 +2609,7 @@ public struct GetIntentOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetIntentsInput: Swift.Sendable {
     /// The maximum number of intents to return in the response. The default is 10.
     public var maxResults: Swift.Int?
@@ -2618,6 +2660,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetIntentsOutput: Swift.Sendable {
     /// An array of Intent objects. For more information, see [PutBot].
     public var intents: [LexModelBuildingClientTypes.IntentMetadata]?
@@ -2633,6 +2676,7 @@ public struct GetIntentsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetIntentVersionsInput: Swift.Sendable {
     /// The maximum number of intent versions to return in the response. The default is 10.
     public var maxResults: Swift.Int?
@@ -2653,6 +2697,7 @@ public struct GetIntentVersionsInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetIntentVersionsOutput: Swift.Sendable {
     /// An array of IntentMetadata objects, one for each numbered version of the intent plus one for the $LATEST version.
     public var intents: [LexModelBuildingClientTypes.IntentMetadata]?
@@ -2668,6 +2713,7 @@ public struct GetIntentVersionsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetMigrationInput: Swift.Sendable {
     /// The unique identifier of the migration to view. The migrationID is returned by the operation.
     /// This member is required.
@@ -2801,6 +2847,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetMigrationOutput: Swift.Sendable {
     /// A list of alerts and warnings that indicate issues with the migration for the Amazon Lex V1 bot to Amazon Lex V2. You receive a warning when an Amazon Lex V1 feature has a different implementation if Amazon Lex V2. For more information, see [Migrating a bot](https://docs.aws.amazon.com/lexv2/latest/dg/migrate.html) in the Amazon Lex V2 developer guide.
     public var alerts: [LexModelBuildingClientTypes.MigrationAlert]?
@@ -2910,6 +2957,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetMigrationsInput: Swift.Sendable {
     /// The maximum number of migrations to return in the response. The default is 10.
     public var maxResults: Swift.Int?
@@ -2988,6 +3036,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetMigrationsOutput: Swift.Sendable {
     /// An array of summaries for migrations from Amazon Lex V1 to Amazon Lex V2. To see details of the migration, use the migrationId from the summary in a call to the operation.
     public var migrationSummaries: [LexModelBuildingClientTypes.MigrationSummary]?
@@ -3003,6 +3052,7 @@ public struct GetMigrationsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetSlotTypeInput: Swift.Sendable {
     /// The name of the slot type. The name is case sensitive.
     /// This member is required.
@@ -3020,6 +3070,7 @@ public struct GetSlotTypeInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetSlotTypeOutput: Swift.Sendable {
     /// Checksum of the $LATEST version of the slot type.
     public var checksum: Swift.String?
@@ -3067,6 +3118,7 @@ public struct GetSlotTypeOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetSlotTypesInput: Swift.Sendable {
     /// The maximum number of slot types to return in the response. The default is 10.
     public var maxResults: Swift.Int?
@@ -3117,6 +3169,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetSlotTypesOutput: Swift.Sendable {
     /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of slot types.
     public var nextToken: Swift.String?
@@ -3132,6 +3185,7 @@ public struct GetSlotTypesOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetSlotTypeVersionsInput: Swift.Sendable {
     /// The maximum number of slot type versions to return in the response. The default is 10.
     public var maxResults: Swift.Int?
@@ -3152,6 +3206,7 @@ public struct GetSlotTypeVersionsInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetSlotTypeVersionsOutput: Swift.Sendable {
     /// A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request.
     public var nextToken: Swift.String?
@@ -3196,6 +3251,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetUtterancesViewInput: Swift.Sendable {
     /// The name of the bot for which utterance information should be returned.
     /// This member is required.
@@ -3268,6 +3324,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetUtterancesViewOutput: Swift.Sendable {
     /// The name of the bot for which utterance information was returned.
     public var botName: Swift.String?
@@ -3283,6 +3340,7 @@ public struct GetUtterancesViewOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to get a list of tags for.
     /// This member is required.
@@ -3316,6 +3374,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct ListTagsForResourceOutput: Swift.Sendable {
     /// The tags associated with a resource.
     public var tags: [LexModelBuildingClientTypes.Tag]?
@@ -3356,6 +3415,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutBotInput: Swift.Sendable {
     /// When Amazon Lex can't understand the user's input in context, it tries to elicit the information a few times. After that, Amazon Lex sends the message defined in abortStatement to the user, and then cancels the conversation. To set the number of retries, use the valueElicitationPrompt field for the slot type. For example, in a pizza ordering bot, Amazon Lex might ask a user "What type of crust would you like?" If the user's response is not one of the expected responses (for example, "thin crust, "deep dish," etc.), Amazon Lex tries to elicit a correct response a few more times. For example, in a pizza ordering application, OrderPizza might be one of the intents. This intent might require the CrustType slot. You specify the valueElicitationPrompt field when you create the CrustType slot. If you have defined a fallback intent the cancel statement will not be sent to the user, the fallback intent is used instead. For more information, see [ AMAZON.FallbackIntent](https://docs.aws.amazon.com/lex/latest/dg/built-in-intent-fallback.html).
     public var abortStatement: LexModelBuildingClientTypes.Statement?
@@ -3466,6 +3526,7 @@ public struct PutBotInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutBotOutput: Swift.Sendable {
     /// The message that Amazon Lex uses to cancel a conversation. For more information, see [PutBot].
     public var abortStatement: LexModelBuildingClientTypes.Statement?
@@ -3604,6 +3665,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutBotAliasInput: Swift.Sendable {
     /// The name of the bot.
     /// This member is required.
@@ -3642,6 +3704,7 @@ public struct PutBotAliasInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutBotAliasOutput: Swift.Sendable {
     /// The name of the bot that the alias points to.
     public var botName: Swift.String?
@@ -3685,6 +3748,7 @@ public struct PutBotAliasOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutIntentInput: Swift.Sendable {
     /// Identifies a specific revision of the $LATEST version. When you create a new intent, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a intent, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
     public var checksum: Swift.String?
@@ -3768,6 +3832,7 @@ public struct PutIntentInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutIntentOutput: Swift.Sendable {
     /// Checksum of the $LATESTversion of the intent created or updated.
     public var checksum: Swift.String?
@@ -3851,6 +3916,7 @@ public struct PutIntentOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutSlotTypeInput: Swift.Sendable {
     /// Identifies a specific revision of the $LATEST version. When you create a new slot type, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a slot type, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
     public var checksum: Swift.String?
@@ -3898,6 +3964,7 @@ public struct PutSlotTypeInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutSlotTypeOutput: Swift.Sendable {
     /// Checksum of the $LATEST version of the slot type.
     public var checksum: Swift.String?
@@ -3949,6 +4016,7 @@ public struct PutSlotTypeOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct StartImportInput: Swift.Sendable {
     /// Specifies the action that the StartImport operation should take when there is an existing resource with the same name.
     ///
@@ -3981,6 +4049,7 @@ public struct StartImportInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct StartImportOutput: Swift.Sendable {
     /// A timestamp for the date and time that the import job was requested.
     public var createdDate: Foundation.Date?
@@ -4016,6 +4085,7 @@ public struct StartImportOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct StartMigrationInput: Swift.Sendable {
     /// The strategy used to conduct the migration.
     ///
@@ -4056,6 +4126,7 @@ public struct StartMigrationInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct StartMigrationOutput: Swift.Sendable {
     /// The unique identifier that Amazon Lex assigned to the migration.
     public var migrationId: Swift.String?
@@ -4095,6 +4166,7 @@ public struct StartMigrationOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the bot, bot alias, or bot channel to tag.
     /// This member is required.
@@ -4112,11 +4184,13 @@ public struct TagResourceInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to remove the tags from.
     /// This member is required.
@@ -4134,6 +4208,7 @@ public struct UntagResourceInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
