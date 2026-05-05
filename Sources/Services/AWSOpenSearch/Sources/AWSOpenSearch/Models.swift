@@ -3465,15 +3465,19 @@ extension OpenSearchClientTypes {
 
     /// Options to specify the subnets and security groups for an Amazon OpenSearch Service VPC endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
     public struct VPCOptions: Swift.Sendable {
+        /// Controls whether egress traffic from the domain is routed through the customer VPC. When true, outbound traffic flows through the VPC. When false, outbound traffic goes through the public internet.
+        public var egressEnabled: Swift.Bool?
         /// The list of security group IDs associated with the VPC endpoints for the domain. If you do not provide a security group ID, OpenSearch Service uses the default security group for the VPC.
         public var securityGroupIds: [Swift.String]?
         /// A list of subnet IDs associated with the VPC endpoints for the domain. If your domain uses multiple Availability Zones, you need to provide two subnet IDs, one per zone. Otherwise, provide only one.
         public var subnetIds: [Swift.String]?
 
         public init(
+            egressEnabled: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         ) {
+            self.egressEnabled = egressEnabled
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -3921,6 +3925,8 @@ extension OpenSearchClientTypes {
     public struct VPCDerivedInfo: Swift.Sendable {
         /// The list of Availability Zones associated with the VPC subnets.
         public var availabilityZones: [Swift.String]?
+        /// Indicates whether egress traffic from the domain is routed through the customer VPC. When true, outbound traffic flows through the VPC. When false, outbound traffic goes through the public internet.
+        public var egressEnabled: Swift.Bool?
         /// The list of security group IDs associated with the VPC endpoints for the domain.
         public var securityGroupIds: [Swift.String]?
         /// A list of subnet IDs associated with the VPC endpoints for the domain.
@@ -3930,11 +3936,13 @@ extension OpenSearchClientTypes {
 
         public init(
             availabilityZones: [Swift.String]? = nil,
+            egressEnabled: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
         ) {
             self.availabilityZones = availabilityZones
+            self.egressEnabled = egressEnabled
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -16950,6 +16958,7 @@ extension OpenSearchClientTypes.VPCDerivedInfo {
         value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.egressEnabled = try reader["EgressEnabled"].readIfPresent()
         return value
     }
 }
@@ -17009,6 +17018,7 @@ extension OpenSearchClientTypes.VPCOptions {
 
     static func write(value: OpenSearchClientTypes.VPCOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["EgressEnabled"].write(value.egressEnabled)
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }

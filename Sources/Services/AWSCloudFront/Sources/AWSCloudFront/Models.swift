@@ -7461,21 +7461,25 @@ public struct CreateFunctionInput: Swift.Sendable {
     /// A name to identify the function.
     /// This member is required.
     public var name: Swift.String?
+    /// A complex type that contains zero or more Tag elements.
+    public var tags: CloudFrontClientTypes.Tags?
 
     public init(
         functionCode: Foundation.Data? = nil,
         functionConfig: CloudFrontClientTypes.FunctionConfig? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        tags: CloudFrontClientTypes.Tags? = nil
     ) {
         self.functionCode = functionCode
         self.functionConfig = functionConfig
         self.name = name
+        self.tags = tags
     }
 }
 
 extension CreateFunctionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateFunctionInput(functionConfig: \(Swift.String(describing: functionConfig)), name: \(Swift.String(describing: name)), functionCode: \"CONTENT_REDACTED\")"}
+        "CreateFunctionInput(functionConfig: \(Swift.String(describing: functionConfig)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), functionCode: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudFrontClientTypes {
@@ -7923,15 +7927,19 @@ public struct CreateKeyValueStoreInput: Swift.Sendable {
     /// The name of the key value store. The minimum length is 1 character and the maximum length is 64 characters.
     /// This member is required.
     public var name: Swift.String?
+    /// A complex type that contains zero or more Tag elements.
+    public var tags: CloudFrontClientTypes.Tags?
 
     public init(
         comment: Swift.String? = nil,
         importSource: CloudFrontClientTypes.ImportSource? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        tags: CloudFrontClientTypes.Tags? = nil
     ) {
         self.comment = comment
         self.importSource = importSource
         self.name = name
+        self.tags = tags
     }
 }
 
@@ -19486,6 +19494,7 @@ extension CreateFunctionInput {
         try writer["FunctionCode"].write(value.functionCode)
         try writer["FunctionConfig"].write(value.functionConfig, with: CloudFrontClientTypes.FunctionConfig.write(value:to:))
         try writer["Name"].write(value.name)
+        try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
     }
 }
 
@@ -19520,6 +19529,7 @@ extension CreateKeyValueStoreInput {
         try writer["Comment"].write(value.comment)
         try writer["ImportSource"].write(value.importSource, with: CloudFrontClientTypes.ImportSource.write(value:to:))
         try writer["Name"].write(value.name)
+        try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
     }
 }
 
