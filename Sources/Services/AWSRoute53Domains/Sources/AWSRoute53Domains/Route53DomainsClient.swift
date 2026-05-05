@@ -841,6 +841,7 @@ extension Route53DomainsClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
+    /// - `TLDInMaintenance` : The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func checkDomainAvailability(input: CheckDomainAvailabilityInput) async throws -> CheckDomainAvailabilityOutput {
         let context = Smithy.ContextBuilder()
@@ -911,6 +912,7 @@ extension Route53DomainsClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
+    /// - `TLDInMaintenance` : The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func checkDomainTransferability(input: CheckDomainTransferabilityInput) async throws -> CheckDomainTransferabilityOutput {
         let context = Smithy.ContextBuilder()
@@ -977,7 +979,7 @@ extension Route53DomainsClient {
     ///
     /// * The registry for the top-level domain might hold the domain name for a brief time before releasing it for other users to register (varies by registry).
     ///
-    /// * When the registration has been deleted, we'll send you a confirmation to the registrant contact. The email will come from noreply@domainnameverification.net or noreply@registrar.amazon.com.
+    /// * When the registration has been deleted, we'll send you a confirmation to the registrant contact. The email will come from noreply@domainnameverification.net or noreply@emailverification.info or noreply@registrar.amazon.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDomainInput`)
     ///
@@ -1631,6 +1633,7 @@ extension Route53DomainsClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
+    /// - `TLDInMaintenance` : The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func getDomainSuggestions(input: GetDomainSuggestionsInput) async throws -> GetDomainSuggestionsOutput {
         let context = Smithy.ContextBuilder()
@@ -2062,6 +2065,7 @@ extension Route53DomainsClient {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
+    /// - `TLDInMaintenance` : The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func pushDomain(input: PushDomainInput) async throws -> PushDomainOutput {
         let context = Smithy.ContextBuilder()
@@ -2361,6 +2365,7 @@ extension Route53DomainsClient {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
+    /// - `TLDInMaintenance` : The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func resendContactReachabilityEmail(input: ResendContactReachabilityEmailInput) async throws -> ResendContactReachabilityEmailOutput {
         let context = Smithy.ContextBuilder()
@@ -2431,6 +2436,7 @@ extension Route53DomainsClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
+    /// - `TLDInMaintenance` : The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
     public func resendOperationAuthorization(input: ResendOperationAuthorizationInput) async throws -> ResendOperationAuthorizationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2500,6 +2506,7 @@ extension Route53DomainsClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
+    /// - `TLDInMaintenance` : The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func retrieveDomainAuthCode(input: RetrieveDomainAuthCodeInput) async throws -> RetrieveDomainAuthCodeOutput {
         let context = Smithy.ContextBuilder()

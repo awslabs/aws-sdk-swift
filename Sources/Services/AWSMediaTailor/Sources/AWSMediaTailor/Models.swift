@@ -78,6 +78,8 @@ extension MediaTailorClientTypes {
         case makingAdsRequest
         case modifiedTargetUrl
         case nonAdMarkerFound
+        case preAdsRequestFunctionError
+        case preAdsRequestHookError
         case redirectedVastResponse
         case vastRedirect
         case vastResponse
@@ -123,6 +125,8 @@ extension MediaTailorClientTypes {
                 .makingAdsRequest,
                 .modifiedTargetUrl,
                 .nonAdMarkerFound,
+                .preAdsRequestFunctionError,
+                .preAdsRequestHookError,
                 .redirectedVastResponse,
                 .vastRedirect,
                 .vastResponse,
@@ -174,6 +178,8 @@ extension MediaTailorClientTypes {
             case .makingAdsRequest: return "MAKING_ADS_REQUEST"
             case .modifiedTargetUrl: return "MODIFIED_TARGET_URL"
             case .nonAdMarkerFound: return "NON_AD_MARKER_FOUND"
+            case .preAdsRequestFunctionError: return "PRE_ADS_REQUEST_FUNCTION_ERROR"
+            case .preAdsRequestHookError: return "PRE_ADS_REQUEST_HOOK_ERROR"
             case .redirectedVastResponse: return "REDIRECTED_VAST_RESPONSE"
             case .vastRedirect: return "VAST_REDIRECT"
             case .vastResponse: return "VAST_RESPONSE"
@@ -192,12 +198,16 @@ extension MediaTailorClientTypes {
 extension MediaTailorClientTypes {
 
     public enum AdsInteractionPublishOptInEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case preAdsRequestFunctionCompleted
+        case preAdsRequestHookSummary
         case rawAdsRequest
         case rawAdsResponse
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AdsInteractionPublishOptInEventType] {
             return [
+                .preAdsRequestFunctionCompleted,
+                .preAdsRequestHookSummary,
                 .rawAdsRequest,
                 .rawAdsResponse
             ]
@@ -210,6 +220,8 @@ extension MediaTailorClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .preAdsRequestFunctionCompleted: return "PRE_ADS_REQUEST_FUNCTION_COMPLETED"
+            case .preAdsRequestHookSummary: return "PRE_ADS_REQUEST_HOOK_SUMMARY"
             case .rawAdsRequest: return "RAW_ADS_REQUEST"
             case .rawAdsResponse: return "RAW_ADS_RESPONSE"
             case let .sdkUnknown(s): return s
@@ -822,6 +834,251 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    /// A reference to a child function within a SEQUENTIAL_EXECUTOR function.
+    public struct FunctionRef: Swift.Sendable {
+        /// The identifier of the child function to execute in this step.
+        public var functionId: Swift.String?
+        /// An optional expression that evaluates to a boolean. MediaTailor evaluates this expression immediately before running the step, using the accumulated state at that point in the sequence. If the expression evaluates to false, MediaTailor skips the step and moves to the next one. If omitted, the step always runs.
+        public var runCondition: Swift.String?
+
+        public init(
+            functionId: Swift.String? = nil,
+            runCondition: Swift.String? = nil
+        ) {
+            self.functionId = functionId
+            self.runCondition = runCondition
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum RuntimeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case jsonata
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuntimeType] {
+            return [
+                .jsonata
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .jsonata: return "JSONATA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The configuration for a CUSTOM_OUTPUT function. MediaTailor evaluates the output expressions against the current session state and commits the results as output bindings. CUSTOM_OUTPUT functions do not make external calls. For more information, see [CUSTOM_OUTPUT](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types-custom-output.html) in the MediaTailor User Guide.
+    public struct CustomOutputConfiguration: Swift.Sendable {
+        /// A map of output bindings. Each key is a namespaced output path (such as player_params.device_type or temp.variant), and each value is an expression that MediaTailor evaluates at runtime against the current session state. For more information about expression syntax, see [JSONata expression reference](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-jsonata.html) in the MediaTailor User Guide.
+        public var output: [Swift.String: Swift.String]?
+        /// The expression language used to evaluate expressions in the function configuration. Set this to JSONata.
+        /// This member is required.
+        public var runtime: MediaTailorClientTypes.RuntimeType?
+
+        public init(
+            output: [Swift.String: Swift.String]? = nil,
+            runtime: MediaTailorClientTypes.RuntimeType? = nil
+        ) {
+            self.output = output
+            self.runtime = runtime
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// -- Define Enums
+    public enum FunctionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customOutput
+        case httpRequest
+        case sequentialExecutor
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FunctionType] {
+            return [
+                .customOutput,
+                .httpRequest,
+                .sequentialExecutor
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customOutput: return "CUSTOM_OUTPUT"
+            case .httpRequest: return "HTTP_REQUEST"
+            case .sequentialExecutor: return "SEQUENTIAL_EXECUTOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum MethodType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `get`
+        case post
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MethodType] {
+            return [
+                .get,
+                .post
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .get: return "GET"
+            case .post: return "POST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// -- Function Configuration DataStructure
+    public struct HttpRequestConfiguration: Swift.Sendable {
+        /// An expression that evaluates to the request body. Used with POST requests. The maximum size after evaluation is 64 KB.
+        public var body: Swift.String?
+        /// A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound HTTP request. Maximum 50 headers.
+        public var headers: [Swift.String: Swift.String]?
+        /// The HTTP method for the request. Valid values: GET and POST.
+        /// This member is required.
+        public var methodType: MediaTailorClientTypes.MethodType?
+        /// A map of output bindings. Each key is a namespaced output path (such as player_params.device_type or temp.identity), and each value is an expression that MediaTailor evaluates at runtime. Output expressions in an HTTP_REQUEST function can reference the response object returned by the HTTP call. For more information about expression syntax, see [JSONata expression reference](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-jsonata.html) in the MediaTailor User Guide.
+        public var output: [Swift.String: Swift.String]?
+        /// The maximum time, in milliseconds, that MediaTailor waits for a response from the external service. If the call exceeds this timeout, MediaTailor sets the response status code to null and proceeds with output expression evaluation. Valid values: 100 to 2000.
+        /// This member is required.
+        public var requestTimeoutMilliseconds: Swift.Int?
+        /// The expression language used to evaluate expressions in the function configuration. Set this to JSONata.
+        /// This member is required.
+        public var runtime: MediaTailorClientTypes.RuntimeType?
+        /// An expression that evaluates to the request URL. Use {%...%} delimiters for dynamic expressions. The maximum length after evaluation is 2,048 characters.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            body: Swift.String? = nil,
+            headers: [Swift.String: Swift.String]? = nil,
+            methodType: MediaTailorClientTypes.MethodType? = nil,
+            output: [Swift.String: Swift.String]? = nil,
+            requestTimeoutMilliseconds: Swift.Int? = nil,
+            runtime: MediaTailorClientTypes.RuntimeType? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.body = body
+            self.headers = headers
+            self.methodType = methodType
+            self.output = output
+            self.requestTimeoutMilliseconds = requestTimeoutMilliseconds
+            self.runtime = runtime
+            self.url = url
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The configuration for a SEQUENTIAL_EXECUTOR function. A SEQUENTIAL_EXECUTOR runs a sequence of child functions in order, passing data between steps through temporary data. For more information, see [SEQUENTIAL_EXECUTOR](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types-sequential-executor.html) in the MediaTailor User Guide.
+    public struct SequentialExecutorConfiguration: Swift.Sendable {
+        /// An ordered list of 1 to 10 steps. Each step specifies a child function to execute and an optional run condition expression that controls whether the step runs. MediaTailor executes steps in order, passing data between steps through temporary data.
+        /// This member is required.
+        public var functionList: [MediaTailorClientTypes.FunctionRef]?
+        /// An optional map of output bindings that controls which bindings the sequence commits to the session state after all steps complete. If omitted, MediaTailor commits all accumulated output bindings from all child steps.
+        public var output: [Swift.String: Swift.String]?
+        /// The expression language used to evaluate expressions in the function configuration. Set this to JSONata.
+        /// This member is required.
+        public var runtime: MediaTailorClientTypes.RuntimeType?
+        /// The maximum time, in milliseconds, for the entire sequence to complete. This timeout covers all steps, including any HTTP calls made by child functions. If the sequence exceeds this timeout, MediaTailor discards all output from the sequence and proceeds with default behavior.
+        /// This member is required.
+        public var timeoutMilliseconds: Swift.Int?
+
+        public init(
+            functionList: [MediaTailorClientTypes.FunctionRef]? = nil,
+            output: [Swift.String: Swift.String]? = nil,
+            runtime: MediaTailorClientTypes.RuntimeType? = nil,
+            timeoutMilliseconds: Swift.Int? = nil
+        ) {
+            self.functionList = functionList
+            self.output = output
+            self.runtime = runtime
+            self.timeoutMilliseconds = timeoutMilliseconds
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// -- Define Mixin --
+    public struct Function: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the function.
+        public var arn: Swift.String?
+        /// The configuration for a CUSTOM_OUTPUT function.
+        public var customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration?
+        /// A description of the function.
+        public var description: Swift.String?
+        /// The identifier of the function.
+        /// This member is required.
+        public var functionId: Swift.String?
+        /// The type of the function.
+        /// This member is required.
+        public var functionType: MediaTailorClientTypes.FunctionType?
+        /// The configuration for an HTTP_REQUEST function.
+        public var httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration?
+        /// The configuration for a SEQUENTIAL_EXECUTOR function.
+        public var sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration?
+        /// The tags assigned to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration? = nil,
+            description: Swift.String? = nil,
+            functionId: Swift.String? = nil,
+            functionType: MediaTailorClientTypes.FunctionType? = nil,
+            httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration? = nil,
+            sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.arn = arn
+            self.customOutputConfiguration = customOutputConfiguration
+            self.description = description
+            self.functionId = functionId
+            self.functionType = functionType
+            self.httpRequestConfiguration = httpRequestConfiguration
+            self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
+            self.tags = tags
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     public enum ModelType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dash
         case hls
@@ -1268,6 +1525,35 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    public enum EventName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case preAdsRequest
+        case preSessionInitialization
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventName] {
+            return [
+                .preAdsRequest,
+                .preSessionInitialization
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .preAdsRequest: return "PRE_ADS_REQUEST"
+            case .preSessionInitialization: return "PRE_SESSION_INITIALIZATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// The configuration for HLS content.
     public struct HlsConfiguration: Swift.Sendable {
         /// The URL that is used to initiate a playback session for devices that support Apple HLS. The session uses server-side reporting.
@@ -1377,6 +1663,8 @@ extension MediaTailorClientTypes {
         case noMediaPlaylist
         case originManifest
         case parsingError
+        case preSessionInitFunctionError
+        case preSessionInitHookError
         case scte35ParsingError
         case sessionInitialized
         case timeoutError
@@ -1413,6 +1701,8 @@ extension MediaTailorClientTypes {
                 .noMediaPlaylist,
                 .originManifest,
                 .parsingError,
+                .preSessionInitFunctionError,
+                .preSessionInitHookError,
                 .scte35ParsingError,
                 .sessionInitialized,
                 .timeoutError,
@@ -1455,6 +1745,8 @@ extension MediaTailorClientTypes {
             case .noMediaPlaylist: return "NO_MEDIA_PLAYLIST"
             case .originManifest: return "ORIGIN_MANIFEST"
             case .parsingError: return "PARSING_ERROR"
+            case .preSessionInitFunctionError: return "PRE_SESSION_INIT_FUNCTION_ERROR"
+            case .preSessionInitHookError: return "PRE_SESSION_INIT_HOOK_ERROR"
             case .scte35ParsingError: return "SCTE35_PARSING_ERROR"
             case .sessionInitialized: return "SESSION_INITIALIZED"
             case .timeoutError: return "TIMEOUT_ERROR"
@@ -1470,15 +1762,48 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    public enum ManifestServicePublishOptInEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case preSessionInitFunctionCompleted
+        case preSessionInitHookSummary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManifestServicePublishOptInEventType] {
+            return [
+                .preSessionInitFunctionCompleted,
+                .preSessionInitHookSummary
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .preSessionInitFunctionCompleted: return "PRE_SESSION_INIT_FUNCTION_COMPLETED"
+            case .preSessionInitHookSummary: return "PRE_SESSION_INIT_HOOK_SUMMARY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// Settings for customizing what events are included in logs for interactions with the origin server. For more information about manifest service logs, including descriptions of the event types, see [MediaTailor manifest logs description and event types](https://docs.aws.amazon.com/mediatailor/latest/ug/log-types.html) in Elemental MediaTailor User Guide.
     public struct ManifestServiceInteractionLog: Swift.Sendable {
         /// Indicates that MediaTailor won't emit the selected events in the logs for playback sessions that are initialized with this configuration.
         public var excludeEventTypes: [MediaTailorClientTypes.ManifestServiceExcludeEventType]?
+        /// Indicates that MediaTailor will emit the selected events in the logs for playback sessions that are initialized with this configuration. These events are not emitted by default and must be explicitly opted in.
+        public var publishOptInEventTypes: [MediaTailorClientTypes.ManifestServicePublishOptInEventType]?
 
         public init(
-            excludeEventTypes: [MediaTailorClientTypes.ManifestServiceExcludeEventType]? = nil
+            excludeEventTypes: [MediaTailorClientTypes.ManifestServiceExcludeEventType]? = nil,
+            publishOptInEventTypes: [MediaTailorClientTypes.ManifestServicePublishOptInEventType]? = nil
         ) {
             self.excludeEventTypes = excludeEventTypes
+            self.publishOptInEventTypes = publishOptInEventTypes
         }
     }
 }
@@ -1562,6 +1887,8 @@ extension MediaTailorClientTypes {
         public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
         /// The configuration for a DASH source.
         public var dashConfiguration: MediaTailorClientTypes.DashConfiguration?
+        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
+        public var functionMapping: [Swift.String: Swift.String]?
         /// The configuration for HLS content.
         public var hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
         /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
@@ -1600,6 +1927,7 @@ extension MediaTailorClientTypes {
             cdnConfiguration: MediaTailorClientTypes.CdnConfiguration? = nil,
             configurationAliases: [Swift.String: [Swift.String: Swift.String]]? = nil,
             dashConfiguration: MediaTailorClientTypes.DashConfiguration? = nil,
+            functionMapping: [Swift.String: Swift.String]? = nil,
             hlsConfiguration: MediaTailorClientTypes.HlsConfiguration? = nil,
             insertionMode: MediaTailorClientTypes.InsertionMode? = nil,
             livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration? = nil,
@@ -1623,6 +1951,7 @@ extension MediaTailorClientTypes {
             self.cdnConfiguration = cdnConfiguration
             self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
+            self.functionMapping = functionMapping
             self.hlsConfiguration = hlsConfiguration
             self.insertionMode = insertionMode
             self.livePreRollConfiguration = livePreRollConfiguration
@@ -2934,7 +3263,7 @@ public struct CreateProgramOutput: Swift.Sendable {
     public var scheduledStartTime: Foundation.Date?
     /// The name to assign to the source location for this program.
     public var sourceLocationName: Swift.String?
-    /// The tags to assign to the program. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    /// The tags assigned to the program. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
     public var tags: [Swift.String: Swift.String]?
     /// The name that's used to refer to a VOD source.
     public var vodSourceName: Swift.String?
@@ -3490,7 +3819,7 @@ public struct CreatePrefetchScheduleOutput: Swift.Sendable {
     public var scheduleType: MediaTailorClientTypes.PrefetchScheduleType?
     /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
     public var streamId: Swift.String?
-    /// The tags to assign to the prefetch schedule. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    /// The tags assigned to the prefetch schedule. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -3670,6 +3999,23 @@ extension MediaTailorClientTypes {
             self.originManifestType = originManifestType
         }
     }
+}
+
+public struct DeleteFunctionInput: Swift.Sendable {
+    /// The identifier of the function to delete.
+    /// This member is required.
+    public var functionId: Swift.String?
+
+    public init(
+        functionId: Swift.String? = nil
+    ) {
+        self.functionId = functionId
+    }
+}
+
+public struct DeleteFunctionOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteLiveSourceInput: Swift.Sendable {
@@ -3935,6 +4281,171 @@ public struct DescribeVodSourceOutput: Swift.Sendable {
     }
 }
 
+/// -- Request/Response DataStructures --
+public struct GetFunctionInput: Swift.Sendable {
+    /// The identifier of the function.
+    /// This member is required.
+    public var functionId: Swift.String?
+
+    public init(
+        functionId: Swift.String? = nil
+    ) {
+        self.functionId = functionId
+    }
+}
+
+/// -- Define Mixin --
+public struct GetFunctionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the function.
+    public var arn: Swift.String?
+    /// The configuration for a CUSTOM_OUTPUT function.
+    public var customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration?
+    /// A description of the function.
+    public var description: Swift.String?
+    /// The identifier of the function.
+    /// This member is required.
+    public var functionId: Swift.String?
+    /// The type of the function.
+    /// This member is required.
+    public var functionType: MediaTailorClientTypes.FunctionType?
+    /// The configuration for an HTTP_REQUEST function.
+    public var httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration?
+    /// The configuration for a SEQUENTIAL_EXECUTOR function.
+    public var sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration?
+    /// The tags assigned to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration? = nil,
+        description: Swift.String? = nil,
+        functionId: Swift.String? = nil,
+        functionType: MediaTailorClientTypes.FunctionType? = nil,
+        httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration? = nil,
+        sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.arn = arn
+        self.customOutputConfiguration = customOutputConfiguration
+        self.description = description
+        self.functionId = functionId
+        self.functionType = functionType
+        self.httpRequestConfiguration = httpRequestConfiguration
+        self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
+        self.tags = tags
+    }
+}
+
+public struct ListFunctionsInput: Swift.Sendable {
+    /// The maximum number of functions that you want MediaTailor to return in response to the current request. If there are more than MaxResults functions, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses token-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
+    public var maxResults: Swift.Int?
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListFunctions request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListFunctionsOutput: Swift.Sendable {
+    /// A list of functions associated with your account in the current Region.
+    public var items: [MediaTailorClientTypes.Function]?
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListFunctions request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MediaTailorClientTypes.Function]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+/// -- Define Mixin --
+public struct PutFunctionInput: Swift.Sendable {
+    /// The configuration for a CUSTOM_OUTPUT function. Specifies the runtime and output expressions. Required when FunctionType is CUSTOM_OUTPUT.
+    public var customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration?
+    /// A description of the function.
+    public var description: Swift.String?
+    /// The identifier of the function. The identifier must be unique within your account.
+    /// This member is required.
+    public var functionId: Swift.String?
+    /// The type of the function. The function type determines what the function can do at runtime. Valid values: CUSTOM_OUTPUT evaluates expressions and produces output bindings with no external calls. HTTP_REQUEST makes an HTTP call to an external service and evaluates output expressions that can reference the response. SEQUENTIAL_EXECUTOR runs a sequence of child functions in order, passing data between steps through temporary data. For more information, see [Function types and composition](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types.html) in the MediaTailor User Guide.
+    /// This member is required.
+    public var functionType: MediaTailorClientTypes.FunctionType?
+    /// The configuration for an HTTP_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions. Required when FunctionType is HTTP_REQUEST.
+    public var httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration?
+    /// The configuration for a SEQUENTIAL_EXECUTOR function. Specifies the ordered list of child functions to execute, an optional output block, and a timeout. Required when FunctionType is SEQUENTIAL_EXECUTOR.
+    public var sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration?
+    /// The tags to assign to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration? = nil,
+        description: Swift.String? = nil,
+        functionId: Swift.String? = nil,
+        functionType: MediaTailorClientTypes.FunctionType? = nil,
+        httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration? = nil,
+        sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.customOutputConfiguration = customOutputConfiguration
+        self.description = description
+        self.functionId = functionId
+        self.functionType = functionType
+        self.httpRequestConfiguration = httpRequestConfiguration
+        self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
+        self.tags = tags
+    }
+}
+
+/// -- Define Mixin --
+public struct PutFunctionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the function.
+    public var arn: Swift.String?
+    /// The configuration for a CUSTOM_OUTPUT function.
+    public var customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration?
+    /// A description of the function.
+    public var description: Swift.String?
+    /// The identifier of the function.
+    /// This member is required.
+    public var functionId: Swift.String?
+    /// The type of the function.
+    /// This member is required.
+    public var functionType: MediaTailorClientTypes.FunctionType?
+    /// The configuration for an HTTP_REQUEST function.
+    public var httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration?
+    /// The configuration for a SEQUENTIAL_EXECUTOR function.
+    public var sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration?
+    /// The tags assigned to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration? = nil,
+        description: Swift.String? = nil,
+        functionId: Swift.String? = nil,
+        functionType: MediaTailorClientTypes.FunctionType? = nil,
+        httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration? = nil,
+        sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.arn = arn
+        self.customOutputConfiguration = customOutputConfiguration
+        self.description = description
+        self.functionId = functionId
+        self.functionType = functionType
+        self.httpRequestConfiguration = httpRequestConfiguration
+        self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
+        self.tags = tags
+    }
+}
+
 public struct GetPlaybackConfigurationInput: Swift.Sendable {
     /// The identifier for the playback configuration.
     /// This member is required.
@@ -3964,6 +4475,8 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
     /// The configuration for DASH content.
     public var dashConfiguration: MediaTailorClientTypes.DashConfiguration?
+    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
+    public var functionMapping: [Swift.String: Swift.String]?
     /// The configuration for HLS content.
     public var hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
     /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
@@ -4002,6 +4515,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
         cdnConfiguration: MediaTailorClientTypes.CdnConfiguration? = nil,
         configurationAliases: [Swift.String: [Swift.String: Swift.String]]? = nil,
         dashConfiguration: MediaTailorClientTypes.DashConfiguration? = nil,
+        functionMapping: [Swift.String: Swift.String]? = nil,
         hlsConfiguration: MediaTailorClientTypes.HlsConfiguration? = nil,
         insertionMode: MediaTailorClientTypes.InsertionMode? = nil,
         livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration? = nil,
@@ -4025,6 +4539,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
         self.cdnConfiguration = cdnConfiguration
         self.configurationAliases = configurationAliases
         self.dashConfiguration = dashConfiguration
+        self.functionMapping = functionMapping
         self.hlsConfiguration = hlsConfiguration
         self.insertionMode = insertionMode
         self.livePreRollConfiguration = livePreRollConfiguration
@@ -4439,6 +4954,8 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
     public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
     /// The configuration for DASH content.
     public var dashConfiguration: MediaTailorClientTypes.DashConfigurationForPut?
+    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
+    public var functionMapping: [Swift.String: Swift.String]?
     /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
     public var insertionMode: MediaTailorClientTypes.InsertionMode?
     /// The configuration for pre-roll ad insertion.
@@ -4468,6 +4985,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
         cdnConfiguration: MediaTailorClientTypes.CdnConfiguration? = nil,
         configurationAliases: [Swift.String: [Swift.String: Swift.String]]? = nil,
         dashConfiguration: MediaTailorClientTypes.DashConfigurationForPut? = nil,
+        functionMapping: [Swift.String: Swift.String]? = nil,
         insertionMode: MediaTailorClientTypes.InsertionMode? = nil,
         livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration? = nil,
         manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules? = nil,
@@ -4486,6 +5004,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
         self.cdnConfiguration = cdnConfiguration
         self.configurationAliases = configurationAliases
         self.dashConfiguration = dashConfiguration
+        self.functionMapping = functionMapping
         self.insertionMode = insertionMode
         self.livePreRollConfiguration = livePreRollConfiguration
         self.manifestProcessingRules = manifestProcessingRules
@@ -4515,6 +5034,8 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
     /// The configuration for DASH content.
     public var dashConfiguration: MediaTailorClientTypes.DashConfiguration?
+    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
+    public var functionMapping: [Swift.String: Swift.String]?
     /// The configuration for HLS content.
     public var hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
     /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
@@ -4553,6 +5074,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
         cdnConfiguration: MediaTailorClientTypes.CdnConfiguration? = nil,
         configurationAliases: [Swift.String: [Swift.String: Swift.String]]? = nil,
         dashConfiguration: MediaTailorClientTypes.DashConfiguration? = nil,
+        functionMapping: [Swift.String: Swift.String]? = nil,
         hlsConfiguration: MediaTailorClientTypes.HlsConfiguration? = nil,
         insertionMode: MediaTailorClientTypes.InsertionMode? = nil,
         livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration? = nil,
@@ -4576,6 +5098,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
         self.cdnConfiguration = cdnConfiguration
         self.configurationAliases = configurationAliases
         self.dashConfiguration = dashConfiguration
+        self.functionMapping = functionMapping
         self.hlsConfiguration = hlsConfiguration
         self.insertionMode = insertionMode
         self.livePreRollConfiguration = livePreRollConfiguration
@@ -4862,6 +5385,16 @@ extension DeleteChannelPolicyInput {
     }
 }
 
+extension DeleteFunctionInput {
+
+    static func urlPathProvider(_ value: DeleteFunctionInput) -> Swift.String? {
+        guard let functionId = value.functionId else {
+            return nil
+        }
+        return "/function/\(functionId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteLiveSourceInput {
 
     static func urlPathProvider(_ value: DeleteLiveSourceInput) -> Swift.String? {
@@ -5037,6 +5570,16 @@ extension GetChannelScheduleInput {
     }
 }
 
+extension GetFunctionInput {
+
+    static func urlPathProvider(_ value: GetFunctionInput) -> Swift.String? {
+        guard let functionId = value.functionId else {
+            return nil
+        }
+        return "/function/\(functionId.urlPercentEncoding())"
+    }
+}
+
 extension GetPlaybackConfigurationInput {
 
     static func urlPathProvider(_ value: GetPlaybackConfigurationInput) -> Swift.String? {
@@ -5106,6 +5649,29 @@ extension ListChannelsInput {
         }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListFunctionsInput {
+
+    static func urlPathProvider(_ value: ListFunctionsInput) -> Swift.String? {
+        return "/functions"
+    }
+}
+
+extension ListFunctionsInput {
+
+    static func queryItemProvider(_ value: ListFunctionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -5237,6 +5803,16 @@ extension PutChannelPolicyInput {
             return nil
         }
         return "/channel/\(channelName.urlPercentEncoding())/policy"
+    }
+}
+
+extension PutFunctionInput {
+
+    static func urlPathProvider(_ value: PutFunctionInput) -> Swift.String? {
+        guard let functionId = value.functionId else {
+            return nil
+        }
+        return "/function/\(functionId.urlPercentEncoding())"
     }
 }
 
@@ -5473,6 +6049,19 @@ extension PutChannelPolicyInput {
     }
 }
 
+extension PutFunctionInput {
+
+    static func write(value: PutFunctionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomOutputConfiguration"].write(value.customOutputConfiguration, with: MediaTailorClientTypes.CustomOutputConfiguration.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["FunctionType"].write(value.functionType)
+        try writer["HttpRequestConfiguration"].write(value.httpRequestConfiguration, with: MediaTailorClientTypes.HttpRequestConfiguration.write(value:to:))
+        try writer["SequentialExecutorConfiguration"].write(value.sequentialExecutorConfiguration, with: MediaTailorClientTypes.SequentialExecutorConfiguration.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension PutPlaybackConfigurationInput {
 
     static func write(value: PutPlaybackConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -5485,6 +6074,7 @@ extension PutPlaybackConfigurationInput {
         try writer["CdnConfiguration"].write(value.cdnConfiguration, with: MediaTailorClientTypes.CdnConfiguration.write(value:to:))
         try writer["ConfigurationAliases"].writeMap(value.configurationAliases, valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["DashConfiguration"].write(value.dashConfiguration, with: MediaTailorClientTypes.DashConfigurationForPut.write(value:to:))
+        try writer["FunctionMapping"].writeMap(value.functionMapping, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["InsertionMode"].write(value.insertionMode)
         try writer["LivePreRollConfiguration"].write(value.livePreRollConfiguration, with: MediaTailorClientTypes.LivePreRollConfiguration.write(value:to:))
         try writer["ManifestProcessingRules"].write(value.manifestProcessingRules, with: MediaTailorClientTypes.ManifestProcessingRules.write(value:to:))
@@ -5719,6 +6309,13 @@ extension DeleteChannelPolicyOutput {
     }
 }
 
+extension DeleteFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFunctionOutput {
+        return DeleteFunctionOutput()
+    }
+}
+
 extension DeleteLiveSourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLiveSourceOutput {
@@ -5891,6 +6488,25 @@ extension GetChannelScheduleOutput {
     }
 }
 
+extension GetFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFunctionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFunctionOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.customOutputConfiguration = try reader["CustomOutputConfiguration"].readIfPresent(with: MediaTailorClientTypes.CustomOutputConfiguration.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.functionId = try reader["FunctionId"].readIfPresent() ?? ""
+        value.functionType = try reader["FunctionType"].readIfPresent() ?? .sdkUnknown("")
+        value.httpRequestConfiguration = try reader["HttpRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.HttpRequestConfiguration.read(from:))
+        value.sequentialExecutorConfiguration = try reader["SequentialExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.SequentialExecutorConfiguration.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension GetPlaybackConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPlaybackConfigurationOutput {
@@ -5906,6 +6522,7 @@ extension GetPlaybackConfigurationOutput {
         value.cdnConfiguration = try reader["CdnConfiguration"].readIfPresent(with: MediaTailorClientTypes.CdnConfiguration.read(from:))
         value.configurationAliases = try reader["ConfigurationAliases"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.dashConfiguration = try reader["DashConfiguration"].readIfPresent(with: MediaTailorClientTypes.DashConfiguration.read(from:))
+        value.functionMapping = try reader["FunctionMapping"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.hlsConfiguration = try reader["HlsConfiguration"].readIfPresent(with: MediaTailorClientTypes.HlsConfiguration.read(from:))
         value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? MediaTailorClientTypes.InsertionMode.stitchedOnly
         value.livePreRollConfiguration = try reader["LivePreRollConfiguration"].readIfPresent(with: MediaTailorClientTypes.LivePreRollConfiguration.read(from:))
@@ -5965,6 +6582,19 @@ extension ListChannelsOutput {
         let reader = responseReader
         var value = ListChannelsOutput()
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.Channel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListFunctionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFunctionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFunctionsOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.Function.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -6054,6 +6684,25 @@ extension PutChannelPolicyOutput {
     }
 }
 
+extension PutFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutFunctionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutFunctionOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.customOutputConfiguration = try reader["CustomOutputConfiguration"].readIfPresent(with: MediaTailorClientTypes.CustomOutputConfiguration.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.functionId = try reader["FunctionId"].readIfPresent() ?? ""
+        value.functionType = try reader["FunctionType"].readIfPresent() ?? .sdkUnknown("")
+        value.httpRequestConfiguration = try reader["HttpRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.HttpRequestConfiguration.read(from:))
+        value.sequentialExecutorConfiguration = try reader["SequentialExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.SequentialExecutorConfiguration.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension PutPlaybackConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutPlaybackConfigurationOutput {
@@ -6069,6 +6718,7 @@ extension PutPlaybackConfigurationOutput {
         value.cdnConfiguration = try reader["CdnConfiguration"].readIfPresent(with: MediaTailorClientTypes.CdnConfiguration.read(from:))
         value.configurationAliases = try reader["ConfigurationAliases"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.dashConfiguration = try reader["DashConfiguration"].readIfPresent(with: MediaTailorClientTypes.DashConfiguration.read(from:))
+        value.functionMapping = try reader["FunctionMapping"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.hlsConfiguration = try reader["HlsConfiguration"].readIfPresent(with: MediaTailorClientTypes.HlsConfiguration.read(from:))
         value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? MediaTailorClientTypes.InsertionMode.stitchedOnly
         value.livePreRollConfiguration = try reader["LivePreRollConfiguration"].readIfPresent(with: MediaTailorClientTypes.LivePreRollConfiguration.read(from:))
@@ -6348,6 +6998,19 @@ enum DeleteChannelPolicyOutputError {
     }
 }
 
+enum DeleteFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteLiveSourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6517,6 +7180,19 @@ enum GetChannelScheduleOutputError {
     }
 }
 
+enum GetFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetPlaybackConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6557,6 +7233,19 @@ enum ListAlertsOutputError {
 }
 
 enum ListChannelsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListFunctionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6649,6 +7338,19 @@ enum ListVodSourcesOutputError {
 }
 
 enum PutChannelPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutFunctionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7087,6 +7789,23 @@ extension MediaTailorClientTypes.ClipRange {
     }
 }
 
+extension MediaTailorClientTypes.CustomOutputConfiguration {
+
+    static func write(value: MediaTailorClientTypes.CustomOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Output"].writeMap(value.output, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Runtime"].write(value.runtime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.CustomOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.CustomOutputConfiguration()
+        value.runtime = try reader["Runtime"].readIfPresent() ?? .sdkUnknown("")
+        value.output = try reader["Output"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension MediaTailorClientTypes.DashConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.DashConfiguration {
@@ -7140,6 +7859,40 @@ extension MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration()
         value.baseUrl = try reader["BaseUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.Function {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.Function {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.Function()
+        value.functionId = try reader["FunctionId"].readIfPresent() ?? ""
+        value.functionType = try reader["FunctionType"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["Description"].readIfPresent()
+        value.httpRequestConfiguration = try reader["HttpRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.HttpRequestConfiguration.read(from:))
+        value.customOutputConfiguration = try reader["CustomOutputConfiguration"].readIfPresent(with: MediaTailorClientTypes.CustomOutputConfiguration.read(from:))
+        value.sequentialExecutorConfiguration = try reader["SequentialExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.SequentialExecutorConfiguration.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.FunctionRef {
+
+    static func write(value: MediaTailorClientTypes.FunctionRef?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FunctionId"].write(value.functionId)
+        try writer["RunCondition"].write(value.runCondition)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.FunctionRef {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.FunctionRef()
+        value.runCondition = try reader["RunCondition"].readIfPresent()
+        value.functionId = try reader["FunctionId"].readIfPresent()
         return value
     }
 }
@@ -7222,6 +7975,33 @@ extension MediaTailorClientTypes.HttpRequest {
         value.body = try reader["Body"].readIfPresent()
         value.headers = try reader["Headers"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.compressRequest = try reader["CompressRequest"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.HttpRequestConfiguration {
+
+    static func write(value: MediaTailorClientTypes.HttpRequestConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
+        try writer["Headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MethodType"].write(value.methodType)
+        try writer["Output"].writeMap(value.output, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["RequestTimeoutMilliseconds"].write(value.requestTimeoutMilliseconds)
+        try writer["Runtime"].write(value.runtime)
+        try writer["Url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HttpRequestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.HttpRequestConfiguration()
+        value.runtime = try reader["Runtime"].readIfPresent() ?? .sdkUnknown("")
+        value.output = try reader["Output"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.methodType = try reader["MethodType"].readIfPresent() ?? .sdkUnknown("")
+        value.requestTimeoutMilliseconds = try reader["RequestTimeoutMilliseconds"].readIfPresent() ?? 0
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        value.body = try reader["Body"].readIfPresent()
+        value.headers = try reader["Headers"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -7319,11 +8099,13 @@ extension MediaTailorClientTypes.ManifestServiceInteractionLog {
     static func write(value: MediaTailorClientTypes.ManifestServiceInteractionLog?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ExcludeEventTypes"].writeList(value.excludeEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.ManifestServiceExcludeEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PublishOptInEventTypes"].writeList(value.publishOptInEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.ManifestServicePublishOptInEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ManifestServiceInteractionLog {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.ManifestServiceInteractionLog()
+        value.publishOptInEventTypes = try reader["PublishOptInEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.ManifestServicePublishOptInEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.excludeEventTypes = try reader["ExcludeEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.ManifestServiceExcludeEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7356,6 +8138,7 @@ extension MediaTailorClientTypes.PlaybackConfiguration {
         value.videoContentSourceUrl = try reader["VideoContentSourceUrl"].readIfPresent()
         value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
         value.adDecisionServerConfiguration = try reader["AdDecisionServerConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdDecisionServerConfiguration.read(from:))
+        value.functionMapping = try reader["FunctionMapping"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -7611,6 +8394,27 @@ extension MediaTailorClientTypes.SegmentDeliveryConfiguration {
         var value = MediaTailorClientTypes.SegmentDeliveryConfiguration()
         value.baseUrl = try reader["BaseUrl"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.SequentialExecutorConfiguration {
+
+    static func write(value: MediaTailorClientTypes.SequentialExecutorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FunctionList"].writeList(value.functionList, memberWritingClosure: MediaTailorClientTypes.FunctionRef.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Output"].writeMap(value.output, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Runtime"].write(value.runtime)
+        try writer["TimeoutMilliseconds"].write(value.timeoutMilliseconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.SequentialExecutorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.SequentialExecutorConfiguration()
+        value.runtime = try reader["Runtime"].readIfPresent() ?? .sdkUnknown("")
+        value.output = try reader["Output"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.functionList = try reader["FunctionList"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.FunctionRef.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.timeoutMilliseconds = try reader["TimeoutMilliseconds"].readIfPresent() ?? 0
         return value
     }
 }

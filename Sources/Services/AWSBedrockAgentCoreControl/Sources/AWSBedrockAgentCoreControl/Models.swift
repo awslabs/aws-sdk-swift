@@ -1262,7 +1262,7 @@ extension BedrockAgentCoreControlClientTypes {
         /// The IP address type for the resource configuration endpoint.
         /// This member is required.
         public var endpointIpAddressType: BedrockAgentCoreControlClientTypes.EndpointIpAddressType?
-        /// An intermediate publicly resolvable domain used as the VPC Lattice resource configuration endpoint. Required when your private endpoint uses a domain that is not publicly resolvable.
+        /// An intermediate domain to use as the resource configuration endpoint instead of the actual target domain. Use this when you want to route traffic through an intermediate component such as a VPC endpoint or internal load balancer. For more information, see xref:lattice-vpc-egress-routing-domain[Route traffic through an intermediate domain].
         public var routingDomain: Swift.String?
         /// The security group IDs to associate with the VPC Lattice resource gateway. If not specified, the default security group for the VPC is used.
         public var securityGroupIds: [Swift.String]?
@@ -5255,22 +5255,60 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The session configuration for an MCP gateway. This structure defines settings that control session behavior.
+    public struct SessionConfiguration: Swift.Sendable {
+        /// The session timeout in seconds. After this timeout, the session expires and subsequent requests to this session will receive an error. The minimum value is 900 seconds (15 minutes), the maximum value is 28800 seconds (8 hours), and the default value is 3600 seconds (1 hour).
+        public var sessionTimeoutInSeconds: Swift.Int?
+
+        public init(
+            sessionTimeoutInSeconds: Swift.Int? = nil
+        ) {
+            self.sessionTimeoutInSeconds = sessionTimeoutInSeconds
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The streaming configuration for an MCP gateway. This structure defines settings that control response streaming behavior.
+    public struct StreamingConfiguration: Swift.Sendable {
+        /// Indicates whether response streaming is enabled for the gateway. When set to true, the gateway streams responses from targets back to the client.
+        public var enableResponseStreaming: Swift.Bool?
+
+        public init(
+            enableResponseStreaming: Swift.Bool? = nil
+        ) {
+            self.enableResponseStreaming = enableResponseStreaming
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// The configuration for a Model Context Protocol (MCP) gateway. This structure defines how the gateway implements the MCP protocol.
     public struct MCPGatewayConfiguration: Swift.Sendable {
         /// The instructions for using the Model Context Protocol gateway. These instructions provide guidance on how to interact with the gateway.
         public var instructions: Swift.String?
         /// The search type for the Model Context Protocol gateway. This field specifies how the gateway handles search operations.
         public var searchType: BedrockAgentCoreControlClientTypes.SearchType?
+        /// The session configuration for the MCP gateway. This configuration controls session behavior, including session timeout settings.
+        public var sessionConfiguration: BedrockAgentCoreControlClientTypes.SessionConfiguration?
+        /// The streaming configuration for the MCP gateway. This configuration controls whether response streaming is enabled for the gateway.
+        public var streamingConfiguration: BedrockAgentCoreControlClientTypes.StreamingConfiguration?
         /// The supported versions of the Model Context Protocol. This field specifies which versions of the protocol the gateway can use.
         public var supportedVersions: [Swift.String]?
 
         public init(
             instructions: Swift.String? = nil,
             searchType: BedrockAgentCoreControlClientTypes.SearchType? = nil,
+            sessionConfiguration: BedrockAgentCoreControlClientTypes.SessionConfiguration? = nil,
+            streamingConfiguration: BedrockAgentCoreControlClientTypes.StreamingConfiguration? = nil,
             supportedVersions: [Swift.String]? = nil
         ) {
             self.instructions = instructions
             self.searchType = searchType
+            self.sessionConfiguration = sessionConfiguration
+            self.streamingConfiguration = streamingConfiguration
             self.supportedVersions = supportedVersions
         }
     }
@@ -11017,9 +11055,9 @@ extension BedrockAgentCoreControlClientTypes {
 extension BedrockAgentCoreControlClientTypes {
 
     public enum OnBehalfOfTokenExchangeGrantTypeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// RFC 7523 - Adopted by Microsoft Entra ID grant type = urn:ietf:params:oauth:grant-type:jwt-bearer
+        /// RFC 7523 JWT authorization grant, adopted by Microsoft Entra ID.
         case jwtAuthorizationGrant
-        /// RFC 8693 - Adopted by majority of IDPs supporting OBO grant type = urn:ietf:params:oauth:grant-type:token-exchange
+        /// RFC 8693 token exchange, adopted by the majority of identity providers supporting on-behalf-of flows.
         case tokenExchange
         case sdkUnknown(Swift.String)
 
@@ -11047,12 +11085,12 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Configuration for RFC 8693 Token Exchange
+    /// Configuration for RFC 8693 token exchange.
     public struct TokenExchangeGrantTypeConfigType: Swift.Sendable {
         /// The content type for the actor token in the token exchange.
         /// This member is required.
         public var actorTokenContent: BedrockAgentCoreControlClientTypes.ActorTokenContentType?
-        /// Only valid when actorTokenContent is M2M
+        /// The scopes for the actor token. Only valid when actorTokenContent is M2M.
         public var actorTokenScopes: [Swift.String]?
 
         public init(
@@ -11067,12 +11105,12 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Configuration for on-behalf-of token exchange
+    /// Configuration for on-behalf-of token exchange.
     public struct OnBehalfOfTokenExchangeConfigType: Swift.Sendable {
         /// The grant type for the on-behalf-of token exchange.
         /// This member is required.
         public var grantType: BedrockAgentCoreControlClientTypes.OnBehalfOfTokenExchangeGrantTypeType?
-        /// Configuration specific to TOKEN_EXCHANGE grant type (RFC 8693)
+        /// Configuration specific to the TOKEN_EXCHANGE grant type (RFC 8693).
         public var tokenExchangeGrantTypeConfig: BedrockAgentCoreControlClientTypes.TokenExchangeGrantTypeConfigType?
 
         public init(
@@ -25754,6 +25792,8 @@ extension BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration {
         guard let value else { return }
         try writer["instructions"].write(value.instructions)
         try writer["searchType"].write(value.searchType)
+        try writer["sessionConfiguration"].write(value.sessionConfiguration, with: BedrockAgentCoreControlClientTypes.SessionConfiguration.write(value:to:))
+        try writer["streamingConfiguration"].write(value.streamingConfiguration, with: BedrockAgentCoreControlClientTypes.StreamingConfiguration.write(value:to:))
         try writer["supportedVersions"].writeList(value.supportedVersions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -25763,6 +25803,8 @@ extension BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration {
         value.supportedVersions = try reader["supportedVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.instructions = try reader["instructions"].readIfPresent()
         value.searchType = try reader["searchType"].readIfPresent()
+        value.sessionConfiguration = try reader["sessionConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SessionConfiguration.read(from:))
+        value.streamingConfiguration = try reader["streamingConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.StreamingConfiguration.read(from:))
         return value
     }
 }
@@ -27159,6 +27201,21 @@ extension BedrockAgentCoreControlClientTypes.SessionConfig {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.SessionConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SessionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sessionTimeoutInSeconds"].write(value.sessionTimeoutInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SessionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SessionConfiguration()
+        value.sessionTimeoutInSeconds = try reader["sessionTimeoutInSeconds"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.SessionStorageConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.SessionStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -27307,6 +27364,21 @@ extension BedrockAgentCoreControlClientTypes.StreamDeliveryResources {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.StreamDeliveryResources()
         value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.StreamDeliveryResource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.StreamingConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.StreamingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enableResponseStreaming"].write(value.enableResponseStreaming)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.StreamingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.StreamingConfiguration()
+        value.enableResponseStreaming = try reader["enableResponseStreaming"].readIfPresent()
         return value
     }
 }
