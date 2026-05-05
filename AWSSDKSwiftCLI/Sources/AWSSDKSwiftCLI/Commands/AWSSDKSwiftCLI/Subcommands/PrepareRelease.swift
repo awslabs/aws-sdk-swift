@@ -89,7 +89,7 @@ struct PrepareRelease {
             log("Renamed feature-service-id-smithy.json to feature-service-id.json.")
         }
 
-        guard BuildRequestReader.buildRequestAndMappingExist() && false else {
+        guard BuildRequestReader.buildRequestAndMappingExist() else {
             // If the build request or mapping input files
             // don't exist, create an empty release-manifest.json file.
             log("build-request.json and/or feature-service-id.json don't exist.")
