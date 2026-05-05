@@ -298,25 +298,19 @@ private func unitTestTarget(_ service: ServiceClientData) -> Target {
 }
 
 private var selectedServiceClientData: [ServiceClientData] {
+    // If the batch env vars aren't set with valid values,
+    // then include all services
     let env = ProcessInfo.processInfo.environment
     guard let batchNumberString = env["AWS_SWIFT_SDK_BATCH_NUMBER"],
-          let batchTotalString = env["AWS_SWIFT_SDK_BATCH_TOTAL"] else {
+          let batchNumber = UInt(batchNumberString),
+          let batchTotalString = env["AWS_SWIFT_SDK_BATCH_TOTAL"],
+          let batchTotal = UInt(batchTotalString) else {
         return serviceClientData
     }
-    guard let batchNumber = UInt(batchNumberString), let batchTotal = UInt(batchTotalString) else {
-        return serviceClientData
-    }
 
-    // Don't do more batches than there are services
-    let numberOfBatches = min(batchTotal, UInt(serviceClientData.count))
-
-    // If there are more batches than services, don't include any services
-    // in any excess batch
-    guard batchNumber < numberOfBatches else { return [] }
-
-    // Select services to include by batching
+    // Select services to include, batching services by their index
     return serviceClientData.enumerated().filter {
-        UInt($0.offset) % numberOfBatches == batchNumber
+        UInt($0.offset) % batchTotal == batchNumber
     }.map { $0.element }
 }
 
