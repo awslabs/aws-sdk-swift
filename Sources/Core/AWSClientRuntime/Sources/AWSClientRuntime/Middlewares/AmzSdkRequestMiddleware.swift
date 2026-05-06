@@ -69,10 +69,14 @@ extension AmzSdkRequestMiddleware: Interceptor {
 
 // Calculates & returns TTL datetime in strftime format `YYYYmmddTHHMMSSZ`.
 func awsGetTTL(now: Date, estimatedSkew: TimeInterval, socketTimeout: TimeInterval) -> String {
+    let ttlDate = now.addingTimeInterval(estimatedSkew + socketTimeout)
+    return dateFormatter.string(from: ttlDate)
+}
+
+private let dateFormatter: DateFormatter = {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyyMMdd'T'HHmmss'Z'"
     dateFormatter.locale = Locale(identifier: "en_US_POSIX")
     dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
-    let ttlDate = now.addingTimeInterval(estimatedSkew + socketTimeout)
-    return dateFormatter.string(from: ttlDate)
-}
+    return dateFormatter
+}()

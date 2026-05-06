@@ -8,7 +8,6 @@
 import typealias AWSSDKCommon.CRTFileBasedConfiguration
 @_spi(FileBasedConfig) import struct AWSSDKCommon.FieldResolver
 import struct Foundation.Date
-import class Foundation.ISO8601DateFormatter
 import class Foundation.JSONDecoder
 import struct Foundation.URL
 import struct Smithy.Attributes

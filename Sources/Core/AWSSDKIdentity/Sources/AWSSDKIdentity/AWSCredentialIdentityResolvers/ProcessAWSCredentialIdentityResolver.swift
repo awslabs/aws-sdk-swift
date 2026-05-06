@@ -7,7 +7,6 @@
 
 @_spi(FileBasedConfig) import AWSSDKCommon
 import class Foundation.DispatchQueue
-import class Foundation.ISO8601DateFormatter
 import class Foundation.JSONDecoder
 import class Foundation.Pipe
 #if os(macOS) || os(Linux)

@@ -267,8 +267,6 @@ struct SSOToken: Codable {
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withInternetDateTime]
 
         try container.encode(accessToken, forKey: .accessToken)
         try container.encode(dateFormatter.string(from: expiresAt), forKey: .expiresAt)
@@ -305,3 +303,9 @@ struct SSOToken: Codable {
         try data.write(to: fileURL, options: [.atomic])
     }
 }
+
+private let dateFormatter: ISO8601DateFormatter = {
+    let dateFormatter = ISO8601DateFormatter()
+    dateFormatter.formatOptions = [.withInternetDateTime]
+    return dateFormatter
+}()
