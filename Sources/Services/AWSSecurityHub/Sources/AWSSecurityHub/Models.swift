@@ -1595,7 +1595,7 @@ extension SecurityHubClientTypes {
         /// * ResourceType NOT_EQUALS AwsEc2NetworkInterface
         ///
         ///
-        /// CONTAINS and NOT_CONTAINS operators can be used only with automation rules V1. CONTAINS_WORD operator is only supported in GetFindingsV2, GetFindingStatisticsV2, GetResourcesV2, and GetResourcesStatisticsV2 APIs. For more information, see [Automation rules](https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html) in the Security Hub CSPM User Guide.
+        /// The CONTAINS operator works with automation rules V1 and V2. The NOT_CONTAINS operator works only with automation rules V1. The CONTAINS_WORD operator works only in the GetFindingsV2, GetFindingStatisticsV2, GetResourcesV2, and GetResourcesStatisticsV2 APIs. For more information, see [Automation rules](https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html) in the Security Hub CSPM User Guide.
         public var comparison: SecurityHubClientTypes.StringFilterComparison?
         /// The string filter value. Filter values are case sensitive. For example, the product name for control-based findings is Security Hub CSPM. If you provide security hub as the filter value, there's no match.
         public var value: Swift.String?
@@ -1643,6 +1643,35 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    public enum DateRangeComparison: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case olderThan
+        case within
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DateRangeComparison] {
+            return [
+                .olderThan,
+                .within
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .olderThan: return "OLDER_THAN"
+            case .within: return "WITHIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     public enum DateRangeUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case days
         case sdkUnknown(Swift.String)
@@ -1671,15 +1700,19 @@ extension SecurityHubClientTypes {
 
     /// A date range for the date filter.
     public struct DateRange: Swift.Sendable {
+        /// The condition to apply to a date range filter. If you specify WITHIN, Security Hub filters for dates within the specified date range. If you specify OLDER_THAN, Security Hub filters for dates before the specified date range. If you don't specify a value, the default is WITHIN.
+        public var comparison: SecurityHubClientTypes.DateRangeComparison?
         /// A date range unit for the date filter.
         public var unit: SecurityHubClientTypes.DateRangeUnit?
         /// A date range value for the date filter.
         public var value: Swift.Int?
 
         public init(
+            comparison: SecurityHubClientTypes.DateRangeComparison? = nil,
             unit: SecurityHubClientTypes.DateRangeUnit? = nil,
             value: Swift.Int? = nil
         ) {
+            self.comparison = comparison
             self.unit = unit
             self.value = value
         }
@@ -25635,6 +25668,23 @@ extension SecurityHubClientTypes {
     }
 }
 
+public struct GenerateRecommendedPolicyV2Input: Swift.Sendable {
+    /// The unique identifier (ID) of Security Hub OCSF findings found under the metadata.uid field of the finding.
+    /// This member is required.
+    public var metadataUid: Swift.String?
+
+    public init(
+        metadataUid: Swift.String? = nil
+    ) {
+        self.metadataUid = metadataUid
+    }
+}
+
+public struct GenerateRecommendedPolicyV2Output: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct GetAdministratorAccountInput: Swift.Sendable {
 
     public init() { }
@@ -26771,6 +26821,175 @@ public struct GetMembersOutput: Swift.Sendable {
     ) {
         self.members = members
         self.unprocessedAccounts = unprocessedAccounts
+    }
+}
+
+public struct GetRecommendedPolicyV2Input: Swift.Sendable {
+    /// The maximum number of recommendation steps to return.
+    public var maxResults: Swift.Int?
+    /// The unique identifier (ID) of Security Hub OCSF findings found under the metadata.uid field of the finding.
+    /// This member is required.
+    public var metadataUid: Swift.String?
+    /// The token used to paginate the RecommendationSteps list returned. On your first call to GetRecommendedPolicyV2, omit this parameter or set it to NULL. For subsequent calls, use the NextToken value returned in the previous response to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        metadataUid: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.metadataUid = metadataUid
+        self.nextToken = nextToken
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains information about the reason that the retrieval of a recommended policy for a finding failed.
+    public struct RecommendationError: Swift.Sendable {
+        /// The error code for a failed retrieval of a recommended policy for a finding.
+        public var code: Swift.String?
+        /// The error message for a failed retrieval of a recommended policy for a finding.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains information about the action to take for a policy in an unused permissions finding.
+    public struct UnusedPermissionsRecommendationStep: Swift.Sendable {
+        /// The contents of the existing policy identified by ExistingPolicyId which needs to be replaced, when the RecommendedAction is CREATE_POLICY.
+        public var existingPolicy: Swift.String?
+        /// The ID of an existing policy to be replaced or detached.
+        public var existingPolicyId: Swift.String?
+        /// The time at which the existing policy for the unused permissions finding was last updated.
+        public var policyUpdatedAt: Foundation.Date?
+        /// A recommendation of whether to create or detach a policy for an unused permissions finding.
+        public var recommendedAction: Swift.String?
+        /// The contents of the least-privileged recommended replacement for ExistingPolicyId, when the RecommendedAction is CREATE_POLICY.
+        public var recommendedPolicy: Swift.String?
+
+        public init(
+            existingPolicy: Swift.String? = nil,
+            existingPolicyId: Swift.String? = nil,
+            policyUpdatedAt: Foundation.Date? = nil,
+            recommendedAction: Swift.String? = nil,
+            recommendedPolicy: Swift.String? = nil
+        ) {
+            self.existingPolicy = existingPolicy
+            self.existingPolicyId = existingPolicyId
+            self.policyUpdatedAt = policyUpdatedAt
+            self.recommendedAction = recommendedAction
+            self.recommendedPolicy = recommendedPolicy
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains information about a recommended step to remediate a Security Hub finding.
+    public enum RecommendationStep: Swift.Sendable {
+        /// A recommended step to remediate an unused permissions finding.
+        case unusedpermissions(SecurityHubClientTypes.UnusedPermissionsRecommendationStep)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum RecommendationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case unusedPermissionRecommendation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationType] {
+            return [
+                .unusedPermissionRecommendation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .unusedPermissionRecommendation: return "UNUSED_PERMISSION_RECOMMENDATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum RecommendationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetRecommendedPolicyV2Output: Swift.Sendable {
+    /// Detailed information for a FAILED retrieval status.
+    public var error: SecurityHubClientTypes.RecommendationError?
+    /// The pagination token to use to request the next page of results.
+    public var nextToken: Swift.String?
+    /// The recommended steps to take to resolve the finding.
+    public var recommendationSteps: [SecurityHubClientTypes.RecommendationStep]?
+    /// The type of recommendation for the finding.
+    public var recommendationType: SecurityHubClientTypes.RecommendationType?
+    /// The ARN of the resource of the finding.
+    public var resourceArn: Swift.String?
+    /// The current status of the recommended policy retrieval.
+    public var status: SecurityHubClientTypes.RecommendationStatus?
+
+    public init(
+        error: SecurityHubClientTypes.RecommendationError? = nil,
+        nextToken: Swift.String? = nil,
+        recommendationSteps: [SecurityHubClientTypes.RecommendationStep]? = nil,
+        recommendationType: SecurityHubClientTypes.RecommendationType? = nil,
+        resourceArn: Swift.String? = nil,
+        status: SecurityHubClientTypes.RecommendationStatus? = nil
+    ) {
+        self.error = error
+        self.nextToken = nextToken
+        self.recommendationSteps = recommendationSteps
+        self.recommendationType = recommendationType
+        self.resourceArn = resourceArn
+        self.status = status
     }
 }
 
@@ -29665,6 +29884,16 @@ extension EnableSecurityHubV2Input {
     }
 }
 
+extension GenerateRecommendedPolicyV2Input {
+
+    static func urlPathProvider(_ value: GenerateRecommendedPolicyV2Input) -> Swift.String? {
+        guard let metadataUid = value.metadataUid else {
+            return nil
+        }
+        return "/recommendedPolicyV2/\(metadataUid.urlPercentEncoding())"
+    }
+}
+
 extension GetAdministratorAccountInput {
 
     static func urlPathProvider(_ value: GetAdministratorAccountInput) -> Swift.String? {
@@ -29806,6 +30035,32 @@ extension GetMembersInput {
 
     static func urlPathProvider(_ value: GetMembersInput) -> Swift.String? {
         return "/members/get"
+    }
+}
+
+extension GetRecommendedPolicyV2Input {
+
+    static func urlPathProvider(_ value: GetRecommendedPolicyV2Input) -> Swift.String? {
+        guard let metadataUid = value.metadataUid else {
+            return nil
+        }
+        return "/recommendedPolicyV2/\(metadataUid.urlPercentEncoding())"
+    }
+}
+
+extension GetRecommendedPolicyV2Input {
+
+    static func queryItemProvider(_ value: GetRecommendedPolicyV2Input) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
@@ -31567,6 +31822,13 @@ extension EnableSecurityHubV2Output {
     }
 }
 
+extension GenerateRecommendedPolicyV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GenerateRecommendedPolicyV2Output {
+        return GenerateRecommendedPolicyV2Output()
+    }
+}
+
 extension GetAdministratorAccountOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAdministratorAccountOutput {
@@ -31822,6 +32084,23 @@ extension GetMembersOutput {
         var value = GetMembersOutput()
         value.members = try reader["Members"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Member.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.unprocessedAccounts = try reader["UnprocessedAccounts"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Result.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetRecommendedPolicyV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRecommendedPolicyV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRecommendedPolicyV2Output()
+        value.error = try reader["Error"].readIfPresent(with: SecurityHubClientTypes.RecommendationError.read(from:))
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.recommendationSteps = try reader["RecommendationSteps"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.RecommendationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recommendationType = try reader["RecommendationType"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -33190,6 +33469,25 @@ enum EnableSecurityHubV2OutputError {
     }
 }
 
+enum GenerateRecommendedPolicyV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAdministratorAccountOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33514,6 +33812,25 @@ enum GetMembersOutputError {
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRecommendedPolicyV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -46758,6 +47075,7 @@ extension SecurityHubClientTypes.DateRange {
 
     static func write(value: SecurityHubClientTypes.DateRange?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Comparison"].write(value.comparison)
         try writer["Unit"].write(value.unit)
         try writer["Value"].write(value.value)
     }
@@ -46767,6 +47085,7 @@ extension SecurityHubClientTypes.DateRange {
         var value = SecurityHubClientTypes.DateRange()
         value.value = try reader["Value"].readIfPresent()
         value.unit = try reader["Unit"].readIfPresent()
+        value.comparison = try reader["Comparison"].readIfPresent()
         return value
     }
 }
@@ -48279,6 +48598,31 @@ extension SecurityHubClientTypes.Recommendation {
         value.text = try reader["Text"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
         return value
+    }
+}
+
+extension SecurityHubClientTypes.RecommendationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RecommendationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.RecommendationError()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.RecommendationStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RecommendationStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "UnusedPermissions":
+                return .unusedpermissions(try reader["UnusedPermissions"].read(with: SecurityHubClientTypes.UnusedPermissionsRecommendationStep.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -49922,6 +50266,20 @@ extension SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate {
         value.standardsControlAssociationUpdate = try reader["StandardsControlAssociationUpdate"].readIfPresent(with: SecurityHubClientTypes.StandardsControlAssociationUpdate.read(from:))
         value.errorCode = try reader["ErrorCode"].readIfPresent() ?? .sdkUnknown("")
         value.errorReason = try reader["ErrorReason"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.UnusedPermissionsRecommendationStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.UnusedPermissionsRecommendationStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.UnusedPermissionsRecommendationStep()
+        value.recommendedAction = try reader["RecommendedAction"].readIfPresent()
+        value.existingPolicy = try reader["ExistingPolicy"].readIfPresent()
+        value.existingPolicyId = try reader["ExistingPolicyId"].readIfPresent()
+        value.policyUpdatedAt = try reader["PolicyUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.recommendedPolicy = try reader["RecommendedPolicy"].readIfPresent()
         return value
     }
 }

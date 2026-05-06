@@ -1388,6 +1388,48 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// Configuration for an Amazon EFS access point filesystem mounted into the AgentCore Runtime. EFS access points provide shared file storage accessible from your AgentCore Runtime sessions.
+    public struct EfsAccessPointConfiguration: Swift.Sendable {
+        /// The ARN of the EFS access point to mount into the AgentCore Runtime.
+        /// This member is required.
+        public var accessPointArn: Swift.String?
+        /// The mount path for the EFS access point inside the AgentCore Runtime. The path must be under /mnt with exactly one subdirectory level (for example, /mnt/data).
+        /// This member is required.
+        public var mountPath: Swift.String?
+
+        public init(
+            accessPointArn: Swift.String? = nil,
+            mountPath: Swift.String? = nil
+        ) {
+            self.accessPointArn = accessPointArn
+            self.mountPath = mountPath
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for an Amazon S3 Files access point filesystem mounted into the AgentCore Runtime. S3 Files access points provide shared file storage accessible from your AgentCore Runtime sessions.
+    public struct S3FilesAccessPointConfiguration: Swift.Sendable {
+        /// The ARN of the S3 Files access point to mount into the AgentCore Runtime.
+        /// This member is required.
+        public var accessPointArn: Swift.String?
+        /// The mount path for the S3 Files access point inside the AgentCore Runtime. The path must be under /mnt with exactly one subdirectory level (for example, /mnt/data).
+        /// This member is required.
+        public var mountPath: Swift.String?
+
+        public init(
+            accessPointArn: Swift.String? = nil,
+            mountPath: Swift.String? = nil
+        ) {
+            self.accessPointArn = accessPointArn
+            self.mountPath = mountPath
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Configuration for a session storage filesystem mounted into the AgentCore Runtime. Session storage provides persistent storage that is preserved across AgentCore Runtime session invocations.
     public struct SessionStorageConfiguration: Swift.Sendable {
         /// The mount path for the session storage filesystem inside the AgentCore Runtime. The path must be under /mnt with exactly one subdirectory level (for example, /mnt/data).
@@ -1408,6 +1450,10 @@ extension BedrockAgentCoreControlClientTypes {
     public enum FilesystemConfiguration: Swift.Sendable {
         /// Configuration for session storage. Session storage provides persistent storage that is preserved across AgentCore Runtime session invocations.
         case sessionstorage(BedrockAgentCoreControlClientTypes.SessionStorageConfiguration)
+        /// Configuration for an Amazon S3 Files access point to mount into the AgentCore Runtime.
+        case s3filesaccesspoint(BedrockAgentCoreControlClientTypes.S3FilesAccessPointConfiguration)
+        /// Configuration for an Amazon EFS access point to mount into the AgentCore Runtime.
+        case efsaccesspoint(BedrockAgentCoreControlClientTypes.EfsAccessPointConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -24243,6 +24289,23 @@ extension BedrockAgentCoreControlClientTypes.Descriptors {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.EfsAccessPointConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.EfsAccessPointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessPointArn"].write(value.accessPointArn)
+        try writer["mountPath"].write(value.mountPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EfsAccessPointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.EfsAccessPointConfiguration()
+        value.accessPointArn = try reader["accessPointArn"].readIfPresent() ?? ""
+        value.mountPath = try reader["mountPath"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.EpisodicConsolidationOverride {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EpisodicConsolidationOverride {
@@ -24493,6 +24556,10 @@ extension BedrockAgentCoreControlClientTypes.FilesystemConfiguration {
     static func write(value: BedrockAgentCoreControlClientTypes.FilesystemConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .efsaccesspoint(efsaccesspoint):
+                try writer["efsAccessPoint"].write(efsaccesspoint, with: BedrockAgentCoreControlClientTypes.EfsAccessPointConfiguration.write(value:to:))
+            case let .s3filesaccesspoint(s3filesaccesspoint):
+                try writer["s3FilesAccessPoint"].write(s3filesaccesspoint, with: BedrockAgentCoreControlClientTypes.S3FilesAccessPointConfiguration.write(value:to:))
             case let .sessionstorage(sessionstorage):
                 try writer["sessionStorage"].write(sessionstorage, with: BedrockAgentCoreControlClientTypes.SessionStorageConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -24506,6 +24573,10 @@ extension BedrockAgentCoreControlClientTypes.FilesystemConfiguration {
         switch name {
             case "sessionStorage":
                 return .sessionstorage(try reader["sessionStorage"].read(with: BedrockAgentCoreControlClientTypes.SessionStorageConfiguration.read(from:)))
+            case "s3FilesAccessPoint":
+                return .s3filesaccesspoint(try reader["s3FilesAccessPoint"].read(with: BedrockAgentCoreControlClientTypes.S3FilesAccessPointConfiguration.read(from:)))
+            case "efsAccessPoint":
+                return .efsaccesspoint(try reader["efsAccessPoint"].read(with: BedrockAgentCoreControlClientTypes.EfsAccessPointConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -26956,6 +27027,23 @@ extension BedrockAgentCoreControlClientTypes.S3Configuration {
         var value = BedrockAgentCoreControlClientTypes.S3Configuration()
         value.uri = try reader["uri"].readIfPresent()
         value.bucketOwnerAccountId = try reader["bucketOwnerAccountId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.S3FilesAccessPointConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.S3FilesAccessPointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessPointArn"].write(value.accessPointArn)
+        try writer["mountPath"].write(value.mountPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.S3FilesAccessPointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.S3FilesAccessPointConfiguration()
+        value.accessPointArn = try reader["accessPointArn"].readIfPresent() ?? ""
+        value.mountPath = try reader["mountPath"].readIfPresent() ?? ""
         return value
     }
 }

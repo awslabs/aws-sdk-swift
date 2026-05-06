@@ -2562,6 +2562,82 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes {
 
+    /// The audio filler identifier played during speech-to-speech interactions. Supported values include melody and typing variants such as MELODY_CHIPPER_CHIME, MELODY_CURIOUS_CRAWL, MELODY_RISING_RIPPLE, MELODY_PATIENT_PING, MELODY_PONDERING_PONG, TYPING_KINETIC_KEYS, and TYPING_QUIET_QWERTY.
+    public enum AudioFillerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case melodyChipperChime
+        case melodyCuriousCrawl
+        case melodyPatientPing
+        case melodyPonderingPong
+        case melodyRisingRipple
+        case typingKineticKeys
+        case typingQuietQwerty
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioFillerType] {
+            return [
+                .melodyChipperChime,
+                .melodyCuriousCrawl,
+                .melodyPatientPing,
+                .melodyPonderingPong,
+                .melodyRisingRipple,
+                .typingKineticKeys,
+                .typingQuietQwerty
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .melodyChipperChime: return "MELODY_CHIPPER_CHIME"
+            case .melodyCuriousCrawl: return "MELODY_CURIOUS_CRAWL"
+            case .melodyPatientPing: return "MELODY_PATIENT_PING"
+            case .melodyPonderingPong: return "MELODY_PONDERING_PONG"
+            case .melodyRisingRipple: return "MELODY_RISING_RIPPLE"
+            case .typingKineticKeys: return "TYPING_KINETIC_KEYS"
+            case .typingQuietQwerty: return "TYPING_QUIET_QWERTY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Configuration that plays background filler audio during speech-to-speech interactions to mask processing delays and improve the perceived responsiveness of the bot. Audio filler requires unifiedSpeechSettings (speech-to-speech) to be enabled on the bot locale when enabled is true.
+    public struct AudioFillerSettings: Swift.Sendable {
+        /// The identifier of the audio filler to play while Amazon Lex processes the user's input. This field is required when enabled is true.
+        public var audioType: LexModelsV2ClientTypes.AudioFillerType?
+        /// Specifies whether audio filler playback is enabled for the bot locale. Set to true to play filler audio while Amazon Lex processes a user utterance. Set to false to disable filler audio.
+        public var enabled: Swift.Bool
+        /// The minimum time, in milliseconds, that audio filler plays once it has started, even if the bot response becomes ready sooner. Valid range is 1000 to 5000 milliseconds. If not specified, Amazon Lex uses a default of 3000 milliseconds.
+        public var minimumPlayDurationInMilliseconds: Swift.Int?
+        /// The silent delay, in milliseconds, inserted between the end of audio filler playback and the start of the bot's response. Valid range is 200 to 1000 milliseconds. If not specified, Amazon Lex uses a default of 500 milliseconds.
+        public var responseDeliveryDelayInMilliseconds: Swift.Int?
+        /// The time, in milliseconds, to wait after the end of the user's utterance before starting audio filler playback. Valid range is 500 to 5000 milliseconds. If not specified, Amazon Lex uses a default of 2500 milliseconds.
+        public var startDelayInMilliseconds: Swift.Int?
+
+        public init(
+            audioType: LexModelsV2ClientTypes.AudioFillerType? = nil,
+            enabled: Swift.Bool = false,
+            minimumPlayDurationInMilliseconds: Swift.Int? = nil,
+            responseDeliveryDelayInMilliseconds: Swift.Int? = nil,
+            startDelayInMilliseconds: Swift.Int? = nil
+        ) {
+            self.audioType = audioType
+            self.enabled = enabled
+            self.minimumPlayDurationInMilliseconds = minimumPlayDurationInMilliseconds
+            self.responseDeliveryDelayInMilliseconds = responseDeliveryDelayInMilliseconds
+            self.startDelayInMilliseconds = startDelayInMilliseconds
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
     /// Specifies an Amazon S3 bucket for logging audio conversations
     public struct S3BucketLogDestination: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of an Amazon Web Services Key Management Service (KMS) key for encrypting audio log files stored in an S3 bucket.
@@ -4110,6 +4186,8 @@ extension LexModelsV2ClientTypes {
 
     /// Provides the bot locale parameters required for importing a bot locale.
     public struct BotLocaleImportSpecification: Swift.Sendable {
+        /// Audio filler settings to apply when importing the bot locale configuration. Audio filler requires unifiedSpeechSettings (speech-to-speech) to be enabled when enabled is true.
+        public var audioFillerSettings: LexModelsV2ClientTypes.AudioFillerSettings?
         /// The identifier of the bot to import the locale to.
         /// This member is required.
         public var botId: Swift.String?
@@ -4147,6 +4225,7 @@ extension LexModelsV2ClientTypes {
         public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
         public init(
+            audioFillerSettings: LexModelsV2ClientTypes.AudioFillerSettings? = nil,
             botId: Swift.String? = nil,
             botVersion: Swift.String? = nil,
             localeId: Swift.String? = nil,
@@ -4156,6 +4235,7 @@ extension LexModelsV2ClientTypes {
             unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
             voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
         ) {
+            self.audioFillerSettings = audioFillerSettings
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
@@ -6225,6 +6305,8 @@ extension LexModelsV2ClientTypes {
 }
 
 public struct CreateBotLocaleInput: Swift.Sendable {
+    /// Audio filler settings to configure for the new bot locale. When enabled, Amazon Lex plays a brief background audio filler during speech-to-speech interactions to mask processing delays. Requires unifiedSpeechSettings (speech-to-speech) to be configured on the bot locale.
+    public var audioFillerSettings: LexModelsV2ClientTypes.AudioFillerSettings?
     /// The identifier of the bot to create the locale for.
     /// This member is required.
     public var botId: Swift.String?
@@ -6259,6 +6341,7 @@ public struct CreateBotLocaleInput: Swift.Sendable {
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
     public init(
+        audioFillerSettings: LexModelsV2ClientTypes.AudioFillerSettings? = nil,
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -6270,6 +6353,7 @@ public struct CreateBotLocaleInput: Swift.Sendable {
         unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
+        self.audioFillerSettings = audioFillerSettings
         self.botId = botId
         self.botVersion = botVersion
         self.description = description
@@ -6284,6 +6368,8 @@ public struct CreateBotLocaleInput: Swift.Sendable {
 }
 
 public struct CreateBotLocaleOutput: Swift.Sendable {
+    /// The audio filler settings configured for the created bot locale.
+    public var audioFillerSettings: LexModelsV2ClientTypes.AudioFillerSettings?
     /// The specified bot identifier.
     public var botId: Swift.String?
     /// The status of the bot. When the status is Creating the bot locale is being configured. When the status is Building Amazon Lex is building the bot for testing and use. If the status of the bot is ReadyExpressTesting, you can test the bot using the exact utterances specified in the bots' intents. When the bot is ready for full testing or to run, the status is Built. If there was a problem with building the bot, the status is Failed. If the bot was saved but not built, the status is NotBuilt.
@@ -6312,6 +6398,7 @@ public struct CreateBotLocaleOutput: Swift.Sendable {
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
     public init(
+        audioFillerSettings: LexModelsV2ClientTypes.AudioFillerSettings? = nil,
         botId: Swift.String? = nil,
         botLocaleStatus: LexModelsV2ClientTypes.BotLocaleStatus? = nil,
         botVersion: Swift.String? = nil,
@@ -6326,6 +6413,7 @@ public struct CreateBotLocaleOutput: Swift.Sendable {
         unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
+        self.audioFillerSettings = audioFillerSettings
         self.botId = botId
         self.botLocaleStatus = botLocaleStatus
         self.botVersion = botVersion
@@ -8828,6 +8916,8 @@ public struct DescribeBotLocaleInput: Swift.Sendable {
 }
 
 public struct DescribeBotLocaleOutput: Swift.Sendable {
+    /// The audio filler settings configured for the bot locale.
+    public var audioFillerSettings: LexModelsV2ClientTypes.AudioFillerSettings?
     /// The identifier of the bot associated with the locale.
     public var botId: Swift.String?
     /// History of changes, such as when a locale is used in an alias, that have taken place for the locale.
@@ -8870,6 +8960,7 @@ public struct DescribeBotLocaleOutput: Swift.Sendable {
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
     public init(
+        audioFillerSettings: LexModelsV2ClientTypes.AudioFillerSettings? = nil,
         botId: Swift.String? = nil,
         botLocaleHistoryEvents: [LexModelsV2ClientTypes.BotLocaleHistoryEvent]? = nil,
         botLocaleStatus: LexModelsV2ClientTypes.BotLocaleStatus? = nil,
@@ -8891,6 +8982,7 @@ public struct DescribeBotLocaleOutput: Swift.Sendable {
         unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
+        self.audioFillerSettings = audioFillerSettings
         self.botId = botId
         self.botLocaleHistoryEvents = botLocaleHistoryEvents
         self.botLocaleStatus = botLocaleStatus
@@ -15065,6 +15157,8 @@ public struct UpdateBotAliasOutput: Swift.Sendable {
 }
 
 public struct UpdateBotLocaleInput: Swift.Sendable {
+    /// Updated audio filler settings to apply to the bot locale. When enabled, requires unifiedSpeechSettings (speech-to-speech) to be configured on the bot locale.
+    public var audioFillerSettings: LexModelsV2ClientTypes.AudioFillerSettings?
     /// The unique identifier of the bot that contains the locale.
     /// This member is required.
     public var botId: Swift.String?
@@ -15091,6 +15185,7 @@ public struct UpdateBotLocaleInput: Swift.Sendable {
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
     public init(
+        audioFillerSettings: LexModelsV2ClientTypes.AudioFillerSettings? = nil,
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -15102,6 +15197,7 @@ public struct UpdateBotLocaleInput: Swift.Sendable {
         unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
+        self.audioFillerSettings = audioFillerSettings
         self.botId = botId
         self.botVersion = botVersion
         self.description = description
@@ -15116,6 +15212,8 @@ public struct UpdateBotLocaleInput: Swift.Sendable {
 }
 
 public struct UpdateBotLocaleOutput: Swift.Sendable {
+    /// The updated audio filler settings for the bot locale.
+    public var audioFillerSettings: LexModelsV2ClientTypes.AudioFillerSettings?
     /// The identifier of the bot that contains the updated locale.
     public var botId: Swift.String?
     /// The current status of the locale. When the bot status is Built the locale is ready for use.
@@ -15150,6 +15248,7 @@ public struct UpdateBotLocaleOutput: Swift.Sendable {
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
     public init(
+        audioFillerSettings: LexModelsV2ClientTypes.AudioFillerSettings? = nil,
         botId: Swift.String? = nil,
         botLocaleStatus: LexModelsV2ClientTypes.BotLocaleStatus? = nil,
         botVersion: Swift.String? = nil,
@@ -15167,6 +15266,7 @@ public struct UpdateBotLocaleOutput: Swift.Sendable {
         unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
+        self.audioFillerSettings = audioFillerSettings
         self.botId = botId
         self.botLocaleStatus = botLocaleStatus
         self.botVersion = botVersion
@@ -18716,6 +18816,7 @@ extension CreateBotLocaleInput {
 
     static func write(value: CreateBotLocaleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioFillerSettings"].write(value.audioFillerSettings, with: LexModelsV2ClientTypes.AudioFillerSettings.write(value:to:))
         try writer["description"].write(value.description)
         try writer["generativeAISettings"].write(value.generativeAISettings, with: LexModelsV2ClientTypes.GenerativeAISettings.write(value:to:))
         try writer["localeId"].write(value.localeId)
@@ -19302,6 +19403,7 @@ extension UpdateBotLocaleInput {
 
     static func write(value: UpdateBotLocaleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioFillerSettings"].write(value.audioFillerSettings, with: LexModelsV2ClientTypes.AudioFillerSettings.write(value:to:))
         try writer["description"].write(value.description)
         try writer["generativeAISettings"].write(value.generativeAISettings, with: LexModelsV2ClientTypes.GenerativeAISettings.write(value:to:))
         try writer["nluIntentConfidenceThreshold"].write(value.nluIntentConfidenceThreshold)
@@ -19513,6 +19615,7 @@ extension CreateBotLocaleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateBotLocaleOutput()
+        value.audioFillerSettings = try reader["audioFillerSettings"].readIfPresent(with: LexModelsV2ClientTypes.AudioFillerSettings.read(from:))
         value.botId = try reader["botId"].readIfPresent()
         value.botLocaleStatus = try reader["botLocaleStatus"].readIfPresent()
         value.botVersion = try reader["botVersion"].readIfPresent()
@@ -19963,6 +20066,7 @@ extension DescribeBotLocaleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeBotLocaleOutput()
+        value.audioFillerSettings = try reader["audioFillerSettings"].readIfPresent(with: LexModelsV2ClientTypes.AudioFillerSettings.read(from:))
         value.botId = try reader["botId"].readIfPresent()
         value.botLocaleHistoryEvents = try reader["botLocaleHistoryEvents"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.BotLocaleHistoryEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.botLocaleStatus = try reader["botLocaleStatus"].readIfPresent()
@@ -21033,6 +21137,7 @@ extension UpdateBotLocaleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateBotLocaleOutput()
+        value.audioFillerSettings = try reader["audioFillerSettings"].readIfPresent(with: LexModelsV2ClientTypes.AudioFillerSettings.read(from:))
         value.botId = try reader["botId"].readIfPresent()
         value.botLocaleStatus = try reader["botLocaleStatus"].readIfPresent()
         value.botVersion = try reader["botVersion"].readIfPresent()
@@ -23688,6 +23793,29 @@ extension LexModelsV2ClientTypes.AudioAndDTMFInputSpecification {
     }
 }
 
+extension LexModelsV2ClientTypes.AudioFillerSettings {
+
+    static func write(value: LexModelsV2ClientTypes.AudioFillerSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioType"].write(value.audioType)
+        try writer["enabled"].write(value.enabled)
+        try writer["minimumPlayDurationInMilliseconds"].write(value.minimumPlayDurationInMilliseconds)
+        try writer["responseDeliveryDelayInMilliseconds"].write(value.responseDeliveryDelayInMilliseconds)
+        try writer["startDelayInMilliseconds"].write(value.startDelayInMilliseconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.AudioFillerSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.AudioFillerSettings()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.audioType = try reader["audioType"].readIfPresent()
+        value.startDelayInMilliseconds = try reader["startDelayInMilliseconds"].readIfPresent()
+        value.minimumPlayDurationInMilliseconds = try reader["minimumPlayDurationInMilliseconds"].readIfPresent()
+        value.responseDeliveryDelayInMilliseconds = try reader["responseDeliveryDelayInMilliseconds"].readIfPresent()
+        return value
+    }
+}
+
 extension LexModelsV2ClientTypes.AudioLogDestination {
 
     static func write(value: LexModelsV2ClientTypes.AudioLogDestination?, to writer: SmithyJSON.Writer) throws {
@@ -24013,6 +24141,7 @@ extension LexModelsV2ClientTypes.BotLocaleImportSpecification {
 
     static func write(value: LexModelsV2ClientTypes.BotLocaleImportSpecification?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioFillerSettings"].write(value.audioFillerSettings, with: LexModelsV2ClientTypes.AudioFillerSettings.write(value:to:))
         try writer["botId"].write(value.botId)
         try writer["botVersion"].write(value.botVersion)
         try writer["localeId"].write(value.localeId)
@@ -24034,6 +24163,7 @@ extension LexModelsV2ClientTypes.BotLocaleImportSpecification {
         value.speechRecognitionSettings = try reader["speechRecognitionSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeechRecognitionSettings.read(from:))
         value.speechDetectionSensitivity = try reader["speechDetectionSensitivity"].readIfPresent()
         value.unifiedSpeechSettings = try reader["unifiedSpeechSettings"].readIfPresent(with: LexModelsV2ClientTypes.UnifiedSpeechSettings.read(from:))
+        value.audioFillerSettings = try reader["audioFillerSettings"].readIfPresent(with: LexModelsV2ClientTypes.AudioFillerSettings.read(from:))
         return value
     }
 }
