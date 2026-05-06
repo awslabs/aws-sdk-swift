@@ -436,6 +436,34 @@ public struct CancelDomainTransferToAnotherAwsAccountOutput: Swift.Sendable {
     }
 }
 
+/// The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
+public struct TLDInMaintenance: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
+        public internal(set) var message: Swift.String? = nil
+        /// The top-level domain that is currently undergoing maintenance.
+        public internal(set) var tld: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TLDInMaintenance" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        tld: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.tld = tld
+    }
+}
+
 /// The CheckDomainAvailability request contains the following elements.
 public struct CheckDomainAvailabilityInput: Swift.Sendable {
     /// The name of the domain that you want to get availability for. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:
@@ -561,7 +589,7 @@ extension CheckDomainTransferabilityInput: Swift.CustomDebugStringConvertible {
 
 extension Route53DomainsClientTypes {
 
-    /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
+    /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW The TLD registry didn't respond in time or didn't provide a definitive answer about domain transferability, which can occur due to registry maintenance or temporary delays. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
     public enum Transferable: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case domainInAnotherAccount
         case domainInOwnAccount
@@ -605,7 +633,7 @@ extension Route53DomainsClientTypes {
 
     /// A complex type that contains information about whether the specified domain can be transferred to Route 53.
     public struct DomainTransferability: Swift.Sendable {
-        /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
+        /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW The TLD registry didn't respond in time or didn't provide a definitive answer about domain transferability, which can occur due to registry maintenance or temporary delays. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
         public var transferable: Route53DomainsClientTypes.Transferable?
 
         public init(
@@ -1596,7 +1624,9 @@ extension Route53DomainsClientTypes {
 
     /// ExtraParam includes the following elements.
     public struct ExtraParam: Swift.Sendable {
-        /// The name of an additional parameter that is required by a top-level domain. Here are the top-level domains that require additional parameters and the names of the parameters that they require: .com.au and .net.au
+        /// The name of an additional parameter that is required by a top-level domain. Here are the top-level domains that require additional parameters and the names of the parameters that they require: .au, .com.au, and .net.au
+        ///
+        /// * AU_REGISTRANT_NAME
         ///
         /// * AU_ID_NUMBER
         ///
@@ -1607,6 +1637,104 @@ extension Route53DomainsClientTypes {
         /// * ACN (Australian company number)
         ///
         /// * TM (Trademark number)
+        ///
+        ///
+        ///
+        ///
+        /// * AU_ELIGIBILITY_TYPE Valid values include the following:
+        ///
+        /// * CHARITABLE_TRUST (Charitable trust)
+        ///
+        /// * CHARITY (Charity)
+        ///
+        /// * CHILD_CARE_CENTRE (Child care centre)
+        ///
+        /// * CLUB (Club)
+        ///
+        /// * COMMERCIAL_STATUTORY_BODY (Commercial statutory body)
+        ///
+        /// * COMMONWEALTH_ENTITY (Commonwealth entity)
+        ///
+        /// * COMPANY (Company)
+        ///
+        /// * COMPANY_LIMITED_BY_GUARANTEE (Company limited by guarantee)
+        ///
+        /// * EDUCATIONAL_INSTITUTION (Educational institution)
+        ///
+        /// * GOVERNMENT_SCHOOL (Government school)
+        ///
+        /// * HIGHER_EDUCATION_INSTITUTION (Higher education institution)
+        ///
+        /// * INCORPORATED_ASSOCIATION (Incorporated association)
+        ///
+        /// * INDIGENOUS_CORPORATION (Indigenous corporation)
+        ///
+        /// * INDUSTRY_BODY (Industry body)
+        ///
+        /// * INDUSTRY_ORGANISATION (Industry association)
+        ///
+        /// * NATIONAL_BODY (National body)
+        ///
+        /// * NON_DISTRIBUTING_COOPERATIVE (Non-distributing cooperative)
+        ///
+        /// * NON_GOVERNMENT_SCHOOL (Non-government school)
+        ///
+        /// * NON_PROFIT_ORGANISATION (Non-profit organisation)
+        ///
+        /// * NON_TRADING_COOPERATIVE (Non-trading cooperative)
+        ///
+        /// * NOT_FOR_PROFIT_COMMUNITY_GROUP (Not-for-profit community group)
+        ///
+        /// * PARTNERSHIP (Partnership)
+        ///
+        /// * PEAK_STATE_TERRITORY_BODY (Peak state/territory body)
+        ///
+        /// * PENDING_TM_OWNER (Pending TM owner)
+        ///
+        /// * POLITICAL_PARTY (Political party)
+        ///
+        /// * PRESCHOOL (Pre-school)
+        ///
+        /// * PUBLIC_PRIVATE_ANCILLARY_FUND (Public/private ancillary fund)
+        ///
+        /// * REGISTERED_BUSINESS (Registered business)
+        ///
+        /// * REGISTERED_ORGANISATION (Registered organisation)
+        ///
+        /// * REGISTRABLE_BODY (Registrable body)
+        ///
+        /// * RESEARCH_ORGANISATION (Research organisation)
+        ///
+        /// * STATUTORY_BODY (Statutory body)
+        ///
+        /// * TRADE_UNION (Trade union)
+        ///
+        /// * TRADEMARK_OWNER (Trademark owner)
+        ///
+        /// * TRADING_COOPERATIVE (Trading cooperative)
+        ///
+        /// * TRAINING_ORGANISATION (Training organisation)
+        ///
+        /// * TRUST (Trust)
+        ///
+        /// * UNINCORPORATED_ASSOCIATION (Unincorporated association)
+        ///
+        /// * EDUCATION_AND_CARE_SERVICES_CHILDCARE (Education and care services (child care))
+        ///
+        /// * GOVERNMENT_BODY (Government body)
+        ///
+        /// * PROVIDER_OF_NON_ACCREDITED_TRAINING (Provider of non-accredited training)
+        ///
+        /// * RELIGIOUS_CHURCH_GROUP (Religious/church group)
+        ///
+        /// * SOLE_TRADER (Sole trader)
+        ///
+        ///
+        ///
+        ///
+        /// * AU_POLICY_REASON Valid values include the following:
+        ///
+        /// * POLICY_REASON_1POLICY_REASON_2
         ///
         ///
         ///
@@ -2602,7 +2730,7 @@ public struct GetDomainDetailOutput: Swift.Sendable {
     public var registrarUrl: Swift.String?
     /// Reserved for future use.
     public var registryDomainId: Swift.String?
-    /// Reseller of the domain. Domains registered or transferred using Route 53 domains will have "Amazon" as the reseller.
+    /// Reserved for future use.
     public var reseller: Swift.String?
     /// An array of domain name status codes, also known as Extensible Provisioning Protocol (EPP) status codes. ICANN, the organization that maintains a central database of domain names, has developed a set of domain name status codes that tell you the status of a variety of operations on a domain name, for example, registering a domain name, transferring a domain name to another registrar, renewing the registration for a domain name, and so on. All registrars use this same set of status codes. For a current list of domain name status codes and an explanation of what each code means, go to the [ICANN website](https://www.icann.org/) and search for epp status codes. (Search on the ICANN website; web searches sometimes return an old version of the document.)
     public var statusList: [Swift.String]?
@@ -2691,7 +2819,7 @@ public struct GetDomainSuggestionsInput: Swift.Sendable {
     /// If OnlyAvailable is true, Route 53 returns only domain names that are available. If OnlyAvailable is false, Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDomainAvailability for each suggestion.
     /// This member is required.
     public var onlyAvailable: Swift.Bool?
-    /// The number of suggested domain names that you want Route 53 to return. Specify a value between 1 and 50.
+    /// The number of suggested domain names that you want Route 53 to return. Specify a value between 1 and 50. Note that fewer than the requested number might be returned.
     /// This member is required.
     public var suggestionCount: Swift.Int?
 
@@ -3418,8 +3546,7 @@ public struct TransferDomainInput: Swift.Sendable {
     /// * Period (.) to separate the labels in the name, such as the . in example.com.
     /// This member is required.
     public var domainName: Swift.String?
-    /// The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. Default: 1
-    /// This member is required.
+    /// Reserved for future use. Currently, the effect of a domain transfer on the registration period varies by TLD. For information about how transferring a domain affects the expiration date, see the Transfer Term column in the pricing information at [Amazon Route 53 Pricing](http://aws.amazon.com/route53/pricing/). Default: 1
     public var durationInYears: Swift.Int?
     /// Reserved for future use.
     public var idnLangCode: Swift.String?
@@ -4772,6 +4899,7 @@ enum CheckDomainAvailabilityOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "TLDInMaintenance": return try TLDInMaintenance.makeError(baseError: baseError)
             case "UnsupportedTLD": return try UnsupportedTLD.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4787,6 +4915,7 @@ enum CheckDomainTransferabilityOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "TLDInMaintenance": return try TLDInMaintenance.makeError(baseError: baseError)
             case "UnsupportedTLD": return try UnsupportedTLD.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4951,6 +5080,7 @@ enum GetDomainSuggestionsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "TLDInMaintenance": return try TLDInMaintenance.makeError(baseError: baseError)
             case "UnsupportedTLD": return try UnsupportedTLD.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5040,6 +5170,7 @@ enum PushDomainOutputError {
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
             case "OperationLimitExceeded": return try OperationLimitExceeded.makeError(baseError: baseError)
+            case "TLDInMaintenance": return try TLDInMaintenance.makeError(baseError: baseError)
             case "UnsupportedTLD": return try UnsupportedTLD.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5109,6 +5240,7 @@ enum ResendContactReachabilityEmailOutputError {
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
             case "OperationLimitExceeded": return try OperationLimitExceeded.makeError(baseError: baseError)
+            case "TLDInMaintenance": return try TLDInMaintenance.makeError(baseError: baseError)
             case "UnsupportedTLD": return try UnsupportedTLD.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5124,6 +5256,7 @@ enum ResendOperationAuthorizationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "TLDInMaintenance": return try TLDInMaintenance.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5138,6 +5271,7 @@ enum RetrieveDomainAuthCodeOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "TLDInMaintenance": return try TLDInMaintenance.makeError(baseError: baseError)
             case "UnsupportedTLD": return try UnsupportedTLD.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5349,6 +5483,20 @@ extension TLDRulesViolation {
         let reader = baseError.errorBodyReader
         var value = TLDRulesViolation()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TLDInMaintenance {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TLDInMaintenance {
+        let reader = baseError.errorBodyReader
+        var value = TLDInMaintenance()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.tld = try reader["tld"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

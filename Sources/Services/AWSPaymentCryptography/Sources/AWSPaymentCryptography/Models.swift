@@ -665,6 +665,71 @@ extension PaymentCryptographyClientTypes {
 
 extension PaymentCryptographyClientTypes {
 
+    public enum SessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case cancelled
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionStatus] {
+            return [
+                .approved,
+                .cancelled,
+                .failed,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .cancelled: return "CANCELLED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
+    /// The status of an MPA session.
+    public struct MpaStatus: Swift.Sendable {
+        /// The date and time when the MPA session was initiated.
+        /// This member is required.
+        public var initiationDate: Foundation.Date?
+        /// The ARN of the MPA session.
+        /// This member is required.
+        public var mpaSessionArn: Swift.String?
+        /// The current status of the MPA session.
+        /// This member is required.
+        public var status: PaymentCryptographyClientTypes.SessionStatus?
+        /// The message providing additional information about the MPA session status.
+        public var statusMessage: Swift.String?
+
+        public init(
+            initiationDate: Foundation.Date? = nil,
+            mpaSessionArn: Swift.String? = nil,
+            status: PaymentCryptographyClientTypes.SessionStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.initiationDate = initiationDate
+            self.mpaSessionArn = mpaSessionArn
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
     /// Defines the replication type of a key
     public enum MultiRegionKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case primary
@@ -786,6 +851,8 @@ extension PaymentCryptographyClientTypes {
         /// The state of key that is being created or deleted.
         /// This member is required.
         public var keyState: PaymentCryptographyClientTypes.KeyState?
+        /// The Multi-Party Approval (MPA) status for the key, if applicable.
+        public var mpaStatus: PaymentCryptographyClientTypes.MpaStatus?
         /// Indicates whether this key is a Multi-Region key and its role in the Multi-Region key hierarchy. Multi-Region replication keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a Primary Region key (PRK) (which can be replicated to other Amazon Web Services Regions) or a Replica Region key (RRK) (which is a copy of a PRK in another Region). For more information, see [Multi-Region key replication](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html).
         public var multiRegionKeyType: PaymentCryptographyClientTypes.MultiRegionKeyType?
         /// An Amazon Web Services Region identifier in the standard format (e.g., us-east-1, eu-west-1). Used to specify regions for key replication operations. The region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available.
@@ -812,6 +879,7 @@ extension PaymentCryptographyClientTypes {
             keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm? = nil,
             keyOrigin: PaymentCryptographyClientTypes.KeyOrigin? = nil,
             keyState: PaymentCryptographyClientTypes.KeyState? = nil,
+            mpaStatus: PaymentCryptographyClientTypes.MpaStatus? = nil,
             multiRegionKeyType: PaymentCryptographyClientTypes.MultiRegionKeyType? = nil,
             primaryRegion: Swift.String? = nil,
             replicationStatus: [Swift.String: PaymentCryptographyClientTypes.ReplicationStatusType]? = nil,
@@ -831,6 +899,7 @@ extension PaymentCryptographyClientTypes {
             self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
             self.keyOrigin = keyOrigin
             self.keyState = keyState
+            self.mpaStatus = mpaStatus
             self.multiRegionKeyType = multiRegionKeyType
             self.primaryRegion = primaryRegion
             self.replicationStatus = replicationStatus
@@ -1066,6 +1135,132 @@ extension PaymentCryptographyClientTypes {
 
 extension PaymentCryptographyClientTypes {
 
+    public enum MpaOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case importRootPublicKeyCertificate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MpaOperation] {
+            return [
+                .importRootPublicKeyCertificate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .importRootPublicKeyCertificate: return "IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AssociateMpaTeamInput: Swift.Sendable {
+    /// The protected operation to associate with the MPA team. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE.
+    /// This member is required.
+    public var action: PaymentCryptographyClientTypes.MpaOperation?
+    /// The ARN of the MPA team to associate with the protected operation.
+    /// This member is required.
+    public var mpaTeamArn: Swift.String?
+    /// The comment from the requester explaining the reason for the association. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+    public var requesterComment: Swift.String?
+
+    public init(
+        action: PaymentCryptographyClientTypes.MpaOperation? = nil,
+        mpaTeamArn: Swift.String? = nil,
+        requesterComment: Swift.String? = nil
+    ) {
+        self.action = action
+        self.mpaTeamArn = mpaTeamArn
+        self.requesterComment = requesterComment
+    }
+}
+
+extension AssociateMpaTeamInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssociateMpaTeamInput(action: \(Swift.String(describing: action)), mpaTeamArn: \(Swift.String(describing: mpaTeamArn)), requesterComment: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyClientTypes {
+
+    public enum AssociationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deletePending
+        case updatePending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssociationState] {
+            return [
+                .active,
+                .deletePending,
+                .updatePending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deletePending: return "DELETE_PENDING"
+            case .updatePending: return "UPDATE_PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
+    /// The details of an MPA team association with a protected operation.
+    public struct MpaTeamAssociation: Swift.Sendable {
+        /// The protected operation associated with the MPA team.
+        /// This member is required.
+        public var action: PaymentCryptographyClientTypes.MpaOperation?
+        /// The state of the MPA team association.
+        /// This member is required.
+        public var associationState: PaymentCryptographyClientTypes.AssociationState?
+        /// The MPA session status for the association, if applicable.
+        public var mpaStatus: PaymentCryptographyClientTypes.MpaStatus?
+        /// The ARN of the MPA team.
+        /// This member is required.
+        public var mpaTeamArn: Swift.String?
+
+        public init(
+            action: PaymentCryptographyClientTypes.MpaOperation? = nil,
+            associationState: PaymentCryptographyClientTypes.AssociationState? = nil,
+            mpaStatus: PaymentCryptographyClientTypes.MpaStatus? = nil,
+            mpaTeamArn: Swift.String? = nil
+        ) {
+            self.action = action
+            self.associationState = associationState
+            self.mpaStatus = mpaStatus
+            self.mpaTeamArn = mpaTeamArn
+        }
+    }
+}
+
+public struct AssociateMpaTeamOutput: Swift.Sendable {
+    /// The details of the MPA team association.
+    /// This member is required.
+    public var mpaTeamAssociation: PaymentCryptographyClientTypes.MpaTeamAssociation?
+
+    public init(
+        mpaTeamAssociation: PaymentCryptographyClientTypes.MpaTeamAssociation? = nil
+    ) {
+        self.mpaTeamAssociation = mpaTeamAssociation
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
     /// The metadata used to create the certificate signing request.
     public struct CertificateSubjectType: Swift.Sendable {
         /// The city you provide to create the certificate signing request.
@@ -1202,6 +1397,23 @@ public struct DeleteKeyOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteResourcePolicyInput: Swift.Sendable {
+    /// The KeyARN of the key whose resource-based policy you want to delete.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct DeleteResourcePolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension PaymentCryptographyClientTypes {
 
     /// The shared information used when deriving a key using ECDH.
@@ -1235,6 +1447,39 @@ public struct DisableDefaultKeyReplicationRegionsOutput: Swift.Sendable {
         enabledReplicationRegions: [Swift.String]? = nil
     ) {
         self.enabledReplicationRegions = enabledReplicationRegions
+    }
+}
+
+public struct DisassociateMpaTeamInput: Swift.Sendable {
+    /// The protected operation to disassociate from the MPA team. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE.
+    /// This member is required.
+    public var action: PaymentCryptographyClientTypes.MpaOperation?
+    /// The comment from the requester explaining the reason for the disassociation. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+    public var requesterComment: Swift.String?
+
+    public init(
+        action: PaymentCryptographyClientTypes.MpaOperation? = nil,
+        requesterComment: Swift.String? = nil
+    ) {
+        self.action = action
+        self.requesterComment = requesterComment
+    }
+}
+
+extension DisassociateMpaTeamInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DisassociateMpaTeamInput(action: \(Swift.String(describing: action)), requesterComment: \"CONTENT_REDACTED\")"}
+}
+
+public struct DisassociateMpaTeamOutput: Swift.Sendable {
+    /// The details of the MPA team association.
+    /// This member is required.
+    public var mpaTeamAssociation: PaymentCryptographyClientTypes.MpaTeamAssociation?
+
+    public init(
+        mpaTeamAssociation: PaymentCryptographyClientTypes.MpaTeamAssociation? = nil
+    ) {
+        self.mpaTeamAssociation = mpaTeamAssociation
     }
 }
 
@@ -1930,6 +2175,30 @@ public struct GetKeyOutput: Swift.Sendable {
     }
 }
 
+public struct GetMpaTeamAssociationInput: Swift.Sendable {
+    /// The protected operation whose MPA team association you want to retrieve. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE.
+    /// This member is required.
+    public var action: PaymentCryptographyClientTypes.MpaOperation?
+
+    public init(
+        action: PaymentCryptographyClientTypes.MpaOperation? = nil
+    ) {
+        self.action = action
+    }
+}
+
+public struct GetMpaTeamAssociationOutput: Swift.Sendable {
+    /// The details of the MPA team association.
+    /// This member is required.
+    public var mpaTeamAssociation: PaymentCryptographyClientTypes.MpaTeamAssociation?
+
+    public init(
+        mpaTeamAssociation: PaymentCryptographyClientTypes.MpaTeamAssociation? = nil
+    ) {
+        self.mpaTeamAssociation = mpaTeamAssociation
+    }
+}
+
 extension PaymentCryptographyClientTypes {
 
     public enum KeyMaterialType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2100,6 +2369,35 @@ public struct GetPublicKeyCertificateOutput: Swift.Sendable {
     ) {
         self.keyCertificate = keyCertificate
         self.keyCertificateChain = keyCertificateChain
+    }
+}
+
+public struct GetResourcePolicyInput: Swift.Sendable {
+    /// The KeyARN of the key whose resource-based policy you want to retrieve.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct GetResourcePolicyOutput: Swift.Sendable {
+    /// The resource-based policy attached to the key, in JSON format.
+    /// This member is required.
+    public var policy: Swift.String?
+    /// The KeyARN of the key.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.policy = policy
+        self.resourceArn = resourceArn
     }
 }
 
@@ -2402,6 +2700,8 @@ public struct ImportKeyInput: Swift.Sendable {
     public var keyMaterial: PaymentCryptographyClientTypes.ImportKeyMaterial?
     /// A list of Amazon Web Services Regions for key replication operations. Each region in the list must be a valid Amazon Web Services Region identifier where Amazon Web Services Payment Cryptography is available. This list is used to specify which regions should be added to or removed from a key's replication configuration.
     public var replicationRegions: [Swift.String]?
+    /// The comment from the requester explaining the reason for the import. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+    public var requesterComment: Swift.String?
     /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is imported. To tag an existing Amazon Web Services Payment Cryptography key, use the [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html) operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the specified one. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
     public var tags: [PaymentCryptographyClientTypes.Tag]?
 
@@ -2410,14 +2710,21 @@ public struct ImportKeyInput: Swift.Sendable {
         keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm? = nil,
         keyMaterial: PaymentCryptographyClientTypes.ImportKeyMaterial? = nil,
         replicationRegions: [Swift.String]? = nil,
+        requesterComment: Swift.String? = nil,
         tags: [PaymentCryptographyClientTypes.Tag]? = nil
     ) {
         self.enabled = enabled
         self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
         self.keyMaterial = keyMaterial
         self.replicationRegions = replicationRegions
+        self.requesterComment = requesterComment
         self.tags = tags
     }
+}
+
+extension ImportKeyInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ImportKeyInput(enabled: \(Swift.String(describing: enabled)), keyCheckValueAlgorithm: \(Swift.String(describing: keyCheckValueAlgorithm)), keyMaterial: \(Swift.String(describing: keyMaterial)), replicationRegions: \(Swift.String(describing: replicationRegions)), tags: \(Swift.String(describing: tags)), requesterComment: \"CONTENT_REDACTED\")"}
 }
 
 public struct ImportKeyOutput: Swift.Sendable {
@@ -2655,6 +2962,63 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+/// The resource-based policy would grant public access to the key. Modify the policy to restrict access to specific principals and resubmit the request.
+public struct PublicPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PublicPolicyException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Sendable {
+    /// The resource-based policy to attach to the key, in JSON format.
+    /// This member is required.
+    public var policy: Swift.String?
+    /// The KeyARN of the key to attach the resource-based policy to.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.policy = policy
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct PutResourcePolicyOutput: Swift.Sendable {
+    /// The resource-based policy that was attached to the key.
+    /// This member is required.
+    public var policy: Swift.String?
+    /// The KeyARN of the key that the resource-based policy was attached to.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.policy = policy
+        self.resourceArn = resourceArn
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The KeyARN of the key whose tags are being updated.
     /// This member is required.
@@ -2706,6 +3070,13 @@ extension AddKeyReplicationRegionsInput {
     }
 }
 
+extension AssociateMpaTeamInput {
+
+    static func urlPathProvider(_ value: AssociateMpaTeamInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateAliasInput {
 
     static func urlPathProvider(_ value: CreateAliasInput) -> Swift.String? {
@@ -2734,9 +3105,23 @@ extension DeleteKeyInput {
     }
 }
 
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DisableDefaultKeyReplicationRegionsInput {
 
     static func urlPathProvider(_ value: DisableDefaultKeyReplicationRegionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DisassociateMpaTeamInput {
+
+    static func urlPathProvider(_ value: DisassociateMpaTeamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2783,6 +3168,13 @@ extension GetKeyInput {
     }
 }
 
+extension GetMpaTeamAssociationInput {
+
+    static func urlPathProvider(_ value: GetMpaTeamAssociationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetParametersForExportInput {
 
     static func urlPathProvider(_ value: GetParametersForExportInput) -> Swift.String? {
@@ -2800,6 +3192,13 @@ extension GetParametersForImportInput {
 extension GetPublicKeyCertificateInput {
 
     static func urlPathProvider(_ value: GetPublicKeyCertificateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2828,6 +3227,13 @@ extension ListKeysInput {
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2890,6 +3296,16 @@ extension AddKeyReplicationRegionsInput {
     }
 }
 
+extension AssociateMpaTeamInput {
+
+    static func write(value: AssociateMpaTeamInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["MpaTeamArn"].write(value.mpaTeamArn)
+        try writer["RequesterComment"].write(value.requesterComment)
+    }
+}
+
 extension CreateAliasInput {
 
     static func write(value: CreateAliasInput?, to writer: SmithyJSON.Writer) throws {
@@ -2930,11 +3346,28 @@ extension DeleteKeyInput {
     }
 }
 
+extension DeleteResourcePolicyInput {
+
+    static func write(value: DeleteResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
 extension DisableDefaultKeyReplicationRegionsInput {
 
     static func write(value: DisableDefaultKeyReplicationRegionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ReplicationRegions"].writeList(value.replicationRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DisassociateMpaTeamInput {
+
+    static func write(value: DisassociateMpaTeamInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["RequesterComment"].write(value.requesterComment)
     }
 }
 
@@ -2990,6 +3423,14 @@ extension GetKeyInput {
     }
 }
 
+extension GetMpaTeamAssociationInput {
+
+    static func write(value: GetMpaTeamAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+    }
+}
+
 extension GetParametersForExportInput {
 
     static func write(value: GetParametersForExportInput?, to writer: SmithyJSON.Writer) throws {
@@ -3018,6 +3459,14 @@ extension GetPublicKeyCertificateInput {
     }
 }
 
+extension GetResourcePolicyInput {
+
+    static func write(value: GetResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
 extension ImportKeyInput {
 
     static func write(value: ImportKeyInput?, to writer: SmithyJSON.Writer) throws {
@@ -3026,6 +3475,7 @@ extension ImportKeyInput {
         try writer["KeyCheckValueAlgorithm"].write(value.keyCheckValueAlgorithm)
         try writer["KeyMaterial"].write(value.keyMaterial, with: PaymentCryptographyClientTypes.ImportKeyMaterial.write(value:to:))
         try writer["ReplicationRegions"].writeList(value.replicationRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RequesterComment"].write(value.requesterComment)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: PaymentCryptographyClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -3056,6 +3506,15 @@ extension ListTagsForResourceInput {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
+extension PutResourcePolicyInput {
+
+    static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Policy"].write(value.policy)
         try writer["ResourceArn"].write(value.resourceArn)
     }
 }
@@ -3132,6 +3591,18 @@ extension AddKeyReplicationRegionsOutput {
     }
 }
 
+extension AssociateMpaTeamOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateMpaTeamOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateMpaTeamOutput()
+        value.mpaTeamAssociation = try reader["MpaTeamAssociation"].readIfPresent(with: PaymentCryptographyClientTypes.MpaTeamAssociation.read(from:))
+        return value
+    }
+}
+
 extension CreateAliasOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAliasOutput {
@@ -3175,6 +3646,13 @@ extension DeleteKeyOutput {
     }
 }
 
+extension DeleteResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourcePolicyOutput {
+        return DeleteResourcePolicyOutput()
+    }
+}
+
 extension DisableDefaultKeyReplicationRegionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableDefaultKeyReplicationRegionsOutput {
@@ -3183,6 +3661,18 @@ extension DisableDefaultKeyReplicationRegionsOutput {
         let reader = responseReader
         var value = DisableDefaultKeyReplicationRegionsOutput()
         value.enabledReplicationRegions = try reader["EnabledReplicationRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DisassociateMpaTeamOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateMpaTeamOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateMpaTeamOutput()
+        value.mpaTeamAssociation = try reader["MpaTeamAssociation"].readIfPresent(with: PaymentCryptographyClientTypes.MpaTeamAssociation.read(from:))
         return value
     }
 }
@@ -3259,6 +3749,18 @@ extension GetKeyOutput {
     }
 }
 
+extension GetMpaTeamAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMpaTeamAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMpaTeamAssociationOutput()
+        value.mpaTeamAssociation = try reader["MpaTeamAssociation"].readIfPresent(with: PaymentCryptographyClientTypes.MpaTeamAssociation.read(from:))
+        return value
+    }
+}
+
 extension GetParametersForExportOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetParametersForExportOutput {
@@ -3300,6 +3802,19 @@ extension GetPublicKeyCertificateOutput {
         var value = GetPublicKeyCertificateOutput()
         value.keyCertificate = try reader["KeyCertificate"].readIfPresent() ?? ""
         value.keyCertificateChain = try reader["KeyCertificateChain"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourcePolicyOutput()
+        value.policy = try reader["Policy"].readIfPresent() ?? ""
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3351,6 +3866,19 @@ extension ListTagsForResourceOutput {
         var value = ListTagsForResourceOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PaymentCryptographyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension PutResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutResourcePolicyOutput()
+        value.policy = try reader["Policy"].readIfPresent() ?? ""
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3449,6 +3977,27 @@ enum AddKeyReplicationRegionsOutputError {
     }
 }
 
+enum AssociateMpaTeamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateAliasOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3531,6 +4080,26 @@ enum DeleteKeyOutputError {
     }
 }
 
+enum DeleteResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisableDefaultKeyReplicationRegionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3544,6 +4113,27 @@ enum DisableDefaultKeyReplicationRegionsOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateMpaTeamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3668,6 +4258,27 @@ enum GetKeyOutputError {
     }
 }
 
+enum GetMpaTeamAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetParametersForExportOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3711,6 +4322,25 @@ enum GetParametersForImportOutputError {
 }
 
 enum GetPublicKeyCertificateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetResourcePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3799,6 +4429,28 @@ enum ListTagsForResourceOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "PublicPolicyException": return try PublicPolicyException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -4055,6 +4707,19 @@ extension ServiceUnavailableException {
     }
 }
 
+extension PublicPolicyException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PublicPolicyException {
+        let reader = baseError.errorBodyReader
+        var value = PublicPolicyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension PaymentCryptographyClientTypes.Alias {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.Alias {
@@ -4301,6 +4966,7 @@ extension PaymentCryptographyClientTypes.Key {
         value.primaryRegion = try reader["PrimaryRegion"].readIfPresent()
         value.replicationStatus = try reader["ReplicationStatus"].readMapIfPresent(valueReadingClosure: PaymentCryptographyClientTypes.ReplicationStatusType.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.usingDefaultReplicationRegions = try reader["UsingDefaultReplicationRegions"].readIfPresent()
+        value.mpaStatus = try reader["MpaStatus"].readIfPresent(with: PaymentCryptographyClientTypes.MpaStatus.read(from:))
         return value
     }
 }
@@ -4381,6 +5047,32 @@ extension PaymentCryptographyClientTypes.KeySummary {
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
         value.multiRegionKeyType = try reader["MultiRegionKeyType"].readIfPresent()
         value.primaryRegion = try reader["PrimaryRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension PaymentCryptographyClientTypes.MpaStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.MpaStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PaymentCryptographyClientTypes.MpaStatus()
+        value.mpaSessionArn = try reader["MpaSessionArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.initiationDate = try reader["InitiationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension PaymentCryptographyClientTypes.MpaTeamAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.MpaTeamAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PaymentCryptographyClientTypes.MpaTeamAssociation()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.mpaTeamArn = try reader["MpaTeamArn"].readIfPresent() ?? ""
+        value.associationState = try reader["AssociationState"].readIfPresent() ?? .sdkUnknown("")
+        value.mpaStatus = try reader["MpaStatus"].readIfPresent(with: PaymentCryptographyClientTypes.MpaStatus.read(from:))
         return value
     }
 }

@@ -833,7 +833,7 @@ extension CloudWatchClient {
 
     /// Performs the `DeleteDashboards` operation on the `CloudWatch` service.
     ///
-    /// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, no dashboards are deleted.
+    /// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, the operation attempts to delete as many dashboards as possible.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDashboardsInput`)
     ///
@@ -843,7 +843,6 @@ extension CloudWatchClient {
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : This operation attempted to create a resource that already exists.
-    /// - `DashboardNotFoundError` : The specified dashboard does not exist.
     /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
     /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     public func deleteDashboards(input: DeleteDashboardsInput) async throws -> DeleteDashboardsOutput {
@@ -2353,7 +2352,7 @@ extension CloudWatchClient {
 
     /// Performs the `GetOTelEnrichment` operation on the `CloudWatch` service.
     ///
-    /// Returns the current status of vended metric enrichment for the account, including whether CloudWatch vended metrics are enriched with resource ARN and resource tag labels and queryable using PromQL. For the list of supported resources, see [Supported AWS infrastructure metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html).
+    /// Returns the current status of vended metric enrichment for the account, including whether CloudWatch vended metrics are enriched with resource ARN and resource tag labels and queryable using PromQL. For the list of supported resources, see [Supported Amazon Web Services infrastructure metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetOTelEnrichmentInput`)
     ///
@@ -2793,7 +2792,7 @@ extension CloudWatchClient {
 
     /// Performs the `ListTagsForResource` operation on the `CloudWatch` service.
     ///
-    /// Displays the tags associated with a CloudWatch resource. Currently, alarms and Contributor Insights rules support tagging.
+    /// Displays the tags associated with a CloudWatch resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules support tagging.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
@@ -3725,7 +3724,7 @@ extension CloudWatchClient {
 
     /// Performs the `StartOTelEnrichment` operation on the `CloudWatch` service.
     ///
-    /// Enables enrichment and PromQL access for CloudWatch vended metrics for [supported AWS resources](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html) in the account. Once enabled, metrics that contain a resource identifier dimension (for example, EC2 CPUUtilization with an InstanceId dimension) are enriched with resource ARN and resource tag labels and become queryable using PromQL. Before calling this operation, you must enable resource tags on telemetry for your account. For more information, see [Enable resource tags on telemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/EnableResourceTagsOnTelemetry.html).
+    /// Enables enrichment and PromQL access for CloudWatch vended metrics for [supported Amazon Web Services resources](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html) in the account. Once enabled, metrics that contain a resource identifier dimension (for example, EC2 CPUUtilization with an InstanceId dimension) are enriched with resource ARN and resource tag labels and become queryable using PromQL. Before calling this operation, you must enable resource tags on telemetry for your account. For more information, see [Enable resource tags on telemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/EnableResourceTagsOnTelemetry.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `StartOTelEnrichmentInput`)
     ///
@@ -3867,7 +3866,7 @@ extension CloudWatchClient {
 
     /// Performs the `StopOTelEnrichment` operation on the `CloudWatch` service.
     ///
-    /// Disables enrichment and PromQL access for CloudWatch vended metrics for [supported AWS resources](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html) in the account. After disabling, these metrics are no longer enriched with resource ARN and resource tag labels, and cannot be queried using PromQL.
+    /// Disables enrichment and PromQL access for CloudWatch vended metrics for [supported Amazon Web Services resources](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html) in the account. After disabling, these metrics are no longer enriched with resource ARN and resource tag labels, and cannot be queried using PromQL.
     ///
     /// - Parameter input: [no documentation found] (Type: `StopOTelEnrichmentInput`)
     ///
@@ -3934,7 +3933,7 @@ extension CloudWatchClient {
 
     /// Performs the `TagResource` operation on the `CloudWatch` service.
     ///
-    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that can be tagged are alarms and Contributor Insights rules. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
+    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that can be tagged are alarms, dashboards, metric streams and Contributor Insights rules. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
@@ -4011,7 +4010,7 @@ extension CloudWatchClient {
 
     /// Performs the `UntagResource` operation on the `CloudWatch` service.
     ///
-    /// Removes one or more tags from the specified resource.
+    /// Removes one or more tags from the specified resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules support tagging.
     ///
     /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///

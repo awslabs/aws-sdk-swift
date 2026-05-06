@@ -4340,7 +4340,7 @@ extension TransferClient {
     ///
     /// * path: the complete path of a remote directory, relative to the directory of the listing request for your SFTP connector on the remote server.
     ///
-    /// * truncated: a flag indicating whether the list output contains all of the items contained in the remote directory or not. If your Truncated output value is true, you can increase the value provided in the optional max-items input attribute to be able to list more items (up to the maximum allowed list size of 10,000 items).
+    /// * truncated: a flag indicating whether the list output contains all of the items contained in the remote directory or not. If your Truncated output value is true, you can increase the value provided in the optional max-items input attribute to be able to list more items (up to the maximum allowed list size of 200,000 items).
     ///
     /// - Parameter input: [no documentation found] (Type: `StartDirectoryListingInput`)
     ///

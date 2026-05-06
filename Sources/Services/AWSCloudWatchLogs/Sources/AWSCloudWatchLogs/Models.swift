@@ -1256,6 +1256,101 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes {
 
+    public enum DeliverySourceConfigurationSchemaValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case boolean
+        case double
+        case int
+        case long
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeliverySourceConfigurationSchemaValueType] {
+            return [
+                .boolean,
+                .double,
+                .int,
+                .long,
+                .string
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .boolean: return "boolean"
+            case .double: return "double"
+            case .int: return "int"
+            case .long: return "long"
+            case .string: return "string"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// A structure that describes a single configuration for a log type, including its name, value type, default value, and the range of supported values.
+    public struct DeliverySourceConfigurationSchema: Swift.Sendable {
+        /// The default value of the configuration that is used when a value is not specified in a [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html) request.
+        /// This member is required.
+        public var defaultValue: Swift.String?
+        /// The name of the configuration.
+        /// This member is required.
+        public var keyName: Swift.String?
+        /// The maximum numeric value allowed for the configuration. This applies only when the valueType is a numeric type.
+        public var maxValue: Swift.Double?
+        /// The minimum numeric value allowed for the configuration. This applies only when the valueType is a numeric type.
+        public var minValue: Swift.Double?
+        /// The list of allowed values for the configuration. Empty for free-form configuration.
+        public var supportedValues: [Swift.String]?
+        /// The data type of the configuration value. Valid values are string, boolean, int, double, and long.
+        /// This member is required.
+        public var valueType: CloudWatchLogsClientTypes.DeliverySourceConfigurationSchemaValueType?
+
+        public init(
+            defaultValue: Swift.String? = nil,
+            keyName: Swift.String? = nil,
+            maxValue: Swift.Double? = nil,
+            minValue: Swift.Double? = nil,
+            supportedValues: [Swift.String]? = nil,
+            valueType: CloudWatchLogsClientTypes.DeliverySourceConfigurationSchemaValueType? = nil
+        ) {
+            self.defaultValue = defaultValue
+            self.keyName = keyName
+            self.maxValue = maxValue
+            self.minValue = minValue
+            self.supportedValues = supportedValues
+            self.valueType = valueType
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// Contains information about the S3 Tables integration configuration for a configuration template.
+    public struct S3TablesIntegration: Swift.Sendable {
+        /// The name of the S3 Tables datasource.
+        public var datasourceName: Swift.String?
+        /// The type of the S3 Tables datasource.
+        public var datasourceType: Swift.String?
+
+        public init(
+            datasourceName: Swift.String? = nil,
+            datasourceType: Swift.String? = nil
+        ) {
+            self.datasourceName = datasourceName
+            self.datasourceType = datasourceType
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
     /// A structure containing information about the deafult settings and available settings that you can use to configure a [delivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_Delivery.html) or a [delivery destination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeliveryDestination.html).
     public struct ConfigurationTemplate: Swift.Sendable {
         /// The action permissions that a caller needs to have to be able to successfully create a delivery source on the desired resource type when calling [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html).
@@ -1272,10 +1367,14 @@ extension CloudWatchLogsClientTypes {
         public var defaultDeliveryConfigValues: CloudWatchLogsClientTypes.ConfigurationTemplateDeliveryConfigValues?
         /// A string specifying which destination type this configuration template applies to.
         public var deliveryDestinationType: CloudWatchLogsClientTypes.DeliveryDestinationType?
+        /// The schema of the delivery source configuration that is available for this log type. Each element describes a configuration that can be set when calling [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html), including the configuration name, type, and default value.
+        public var deliverySourceConfiguration: [CloudWatchLogsClientTypes.DeliverySourceConfigurationSchema]?
         /// A string specifying which log type this configuration template applies to.
         public var logType: Swift.String?
         /// A string specifying which resource type this configuration template applies to.
         public var resourceType: Swift.String?
+        /// The S3 Tables integration configuration for this configuration template, including the datasource name and type.
+        public var s3TablesIntegration: CloudWatchLogsClientTypes.S3TablesIntegration?
         /// A string specifying which service this configuration template applies to. For more information about supported services see [Enable logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html).
         public var service: Swift.String?
 
@@ -1287,8 +1386,10 @@ extension CloudWatchLogsClientTypes {
             allowedSuffixPathFields: [Swift.String]? = nil,
             defaultDeliveryConfigValues: CloudWatchLogsClientTypes.ConfigurationTemplateDeliveryConfigValues? = nil,
             deliveryDestinationType: CloudWatchLogsClientTypes.DeliveryDestinationType? = nil,
+            deliverySourceConfiguration: [CloudWatchLogsClientTypes.DeliverySourceConfigurationSchema]? = nil,
             logType: Swift.String? = nil,
             resourceType: Swift.String? = nil,
+            s3TablesIntegration: CloudWatchLogsClientTypes.S3TablesIntegration? = nil,
             service: Swift.String? = nil
         ) {
             self.allowedActionForAllowVendedLogsDeliveryForResource = allowedActionForAllowVendedLogsDeliveryForResource
@@ -1298,8 +1399,10 @@ extension CloudWatchLogsClientTypes {
             self.allowedSuffixPathFields = allowedSuffixPathFields
             self.defaultDeliveryConfigValues = defaultDeliveryConfigValues
             self.deliveryDestinationType = deliveryDestinationType
+            self.deliverySourceConfiguration = deliverySourceConfiguration
             self.logType = logType
             self.resourceType = resourceType
+            self.s3TablesIntegration = s3TablesIntegration
             self.service = service
         }
     }
@@ -2535,6 +2638,61 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes {
 
+    public enum DeliverySourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeliverySourceStatus] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    public enum DeliverySourceStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case resourceDeleted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeliverySourceStatusReason] {
+            return [
+                .resourceDeleted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .resourceDeleted: return "RESOURCE_DELETED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
     /// This structure contains information about one delivery source in your account. A delivery source is an Amazon Web Services resource that sends logs to an Amazon Web Services destination. The destination can be CloudWatch Logs, Amazon S3, or Firehose. Only some Amazon Web Services services support being configured as a delivery source. These services are listed as Supported [V2 Permissions] in the table at [Enabling logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html) To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:
     ///
     /// * Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more information, see [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html).
@@ -2550,6 +2708,8 @@ extension CloudWatchLogsClientTypes {
     public struct DeliverySource: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that uniquely identifies this delivery source.
         public var arn: Swift.String?
+        /// The map of key-value pairs that configure the delivery source.
+        public var deliverySourceConfiguration: [Swift.String: Swift.String]?
         /// The type of log that the source is sending. For valid values for this parameter, see the documentation for the source service.
         public var logType: Swift.String?
         /// The unique name of the delivery source.
@@ -2558,22 +2718,32 @@ extension CloudWatchLogsClientTypes {
         public var resourceArns: [Swift.String]?
         /// The Amazon Web Services service that is sending logs.
         public var service: Swift.String?
+        /// The status of the delivery source. A delivery source can have the status ACTIVE or INACTIVE. Note: This value is defined for selective log types.
+        public var status: CloudWatchLogsClientTypes.DeliverySourceStatus?
+        /// The reason for the status of the delivery source. A status reason of RESOURCE_DELETED indicates that the resource associated with the delivery source has been deleted. Note: This value is defined for selective log types.
+        public var statusReason: CloudWatchLogsClientTypes.DeliverySourceStatusReason?
         /// The tags that have been assigned to this delivery source.
         public var tags: [Swift.String: Swift.String]?
 
         public init(
             arn: Swift.String? = nil,
+            deliverySourceConfiguration: [Swift.String: Swift.String]? = nil,
             logType: Swift.String? = nil,
             name: Swift.String? = nil,
             resourceArns: [Swift.String]? = nil,
             service: Swift.String? = nil,
+            status: CloudWatchLogsClientTypes.DeliverySourceStatus? = nil,
+            statusReason: CloudWatchLogsClientTypes.DeliverySourceStatusReason? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.arn = arn
+            self.deliverySourceConfiguration = deliverySourceConfiguration
             self.logType = logType
             self.name = name
             self.resourceArns = resourceArns
             self.service = service
+            self.status = status
+            self.statusReason = statusReason
             self.tags = tags
         }
     }
@@ -6881,6 +7051,36 @@ public struct ListLogAnomalyDetectorsOutput: Swift.Sendable {
     }
 }
 
+extension CloudWatchLogsClientTypes {
+
+    /// A tag filter that specifies a tag key and optional tag values for filtering log groups by tags.
+    public struct TagFilter: Swift.Sendable {
+        /// The tag key to filter on.
+        /// This member is required.
+        public var key: Swift.String?
+        /// An optional list of tag values to filter on.
+        ///
+        /// * If you specify a filter that contains more than one value for a key, the response returns log groups that match any of the specified values for that key.
+        ///
+        /// * If you don't specify values, the response returns all log groups that are tagged with that key, with any or no value.
+        ///
+        /// * Use * for wildcard matching. For example, prod* matches values that start with prod.
+        ///
+        /// * Use ! as a prefix for negation. For example, !prod matches values that are not prod.
+        ///
+        /// * Exact matching and negation are case-sensitive. Wildcard matching is case-insensitive.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.values = values
+        }
+    }
+}
+
 public struct ListLogGroupsInput: Swift.Sendable {
     /// When includeLinkedAccounts is set to true, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
     public var accountIdentifiers: [Swift.String]?
@@ -6905,6 +7105,8 @@ public struct ListLogGroupsInput: Swift.Sendable {
     ///
     /// You can specify as many as five different regular expression patterns in this field, each of which must be between 3 and 24 characters. You can include the ^ symbol as many as five times, and include the | symbol as many as four times.
     public var logGroupNamePattern: Swift.String?
+    /// An array of tag filters to return only log groups that have specific tags. Multiple filters are combined with AND logic.
+    public var logGroupTags: [CloudWatchLogsClientTypes.TagFilter]?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
 
@@ -6916,6 +7118,7 @@ public struct ListLogGroupsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
         logGroupNamePattern: Swift.String? = nil,
+        logGroupTags: [CloudWatchLogsClientTypes.TagFilter]? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.accountIdentifiers = accountIdentifiers
@@ -6925,6 +7128,7 @@ public struct ListLogGroupsInput: Swift.Sendable {
         self.limit = limit
         self.logGroupClass = logGroupClass
         self.logGroupNamePattern = logGroupNamePattern
+        self.logGroupTags = logGroupTags
         self.nextToken = nextToken
     }
 }
@@ -7572,6 +7776,8 @@ public struct PutDeliveryDestinationPolicyOutput: Swift.Sendable {
 }
 
 public struct PutDeliverySourceInput: Swift.Sendable {
+    /// A map of key-value pairs to configure the delivery source. Both keys and values must be between 1 and 255 characters in length. For example, {"samplingRate": "50"}.
+    public var deliverySourceConfiguration: [Swift.String: Swift.String]?
     /// Defines the type of log that the source is sending.
     ///
     /// * For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.
@@ -7637,11 +7843,13 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        deliverySourceConfiguration: [Swift.String: Swift.String]? = nil,
         logType: Swift.String? = nil,
         name: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.deliverySourceConfiguration = deliverySourceConfiguration
         self.logType = logType
         self.name = name
         self.resourceArn = resourceArn
@@ -10564,6 +10772,7 @@ extension ListLogGroupsInput {
         try writer["limit"].write(value.limit)
         try writer["logGroupClass"].write(value.logGroupClass)
         try writer["logGroupNamePattern"].write(value.logGroupNamePattern)
+        try writer["logGroupTags"].writeList(value.logGroupTags, memberWritingClosure: CloudWatchLogsClientTypes.TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["nextToken"].write(value.nextToken)
     }
 }
@@ -10669,6 +10878,7 @@ extension PutDeliverySourceInput {
 
     static func write(value: PutDeliverySourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["deliverySourceConfiguration"].writeMap(value.deliverySourceConfiguration, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["logType"].write(value.logType)
         try writer["name"].write(value.name)
         try writer["resourceArn"].write(value.resourceArn)
@@ -14627,6 +14837,8 @@ extension CloudWatchLogsClientTypes.ConfigurationTemplate {
         value.allowedActionForAllowVendedLogsDeliveryForResource = try reader["allowedActionForAllowVendedLogsDeliveryForResource"].readIfPresent()
         value.allowedFieldDelimiters = try reader["allowedFieldDelimiters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.allowedSuffixPathFields = try reader["allowedSuffixPathFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deliverySourceConfiguration = try reader["deliverySourceConfiguration"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.DeliverySourceConfigurationSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.s3TablesIntegration = try reader["s3TablesIntegration"].readIfPresent(with: CloudWatchLogsClientTypes.S3TablesIntegration.read(from:))
         return value
     }
 }
@@ -14827,6 +15039,24 @@ extension CloudWatchLogsClientTypes.DeliverySource {
         value.service = try reader["service"].readIfPresent()
         value.logType = try reader["logType"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.deliverySourceConfiguration = try reader["deliverySourceConfiguration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.DeliverySourceConfigurationSchema {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.DeliverySourceConfigurationSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.DeliverySourceConfigurationSchema()
+        value.keyName = try reader["keyName"].readIfPresent() ?? ""
+        value.valueType = try reader["valueType"].readIfPresent() ?? .sdkUnknown("")
+        value.defaultValue = try reader["defaultValue"].readIfPresent() ?? ""
+        value.supportedValues = try reader["supportedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.minValue = try reader["minValue"].readIfPresent()
+        value.maxValue = try reader["maxValue"].readIfPresent()
         return value
     }
 }
@@ -15999,6 +16229,17 @@ extension CloudWatchLogsClientTypes.S3TableIntegrationSource {
     }
 }
 
+extension CloudWatchLogsClientTypes.S3TablesIntegration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.S3TablesIntegration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.S3TablesIntegration()
+        value.datasourceName = try reader["datasourceName"].readIfPresent()
+        value.datasourceType = try reader["datasourceType"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudWatchLogsClientTypes.ScheduledQueryDestination {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.ScheduledQueryDestination {
@@ -16154,6 +16395,15 @@ extension CloudWatchLogsClientTypes.SuppressionPeriod {
         guard let value else { return }
         try writer["suppressionUnit"].write(value.suppressionUnit)
         try writer["value"].write(value.value)
+    }
+}
+
+extension CloudWatchLogsClientTypes.TagFilter {
+
+    static func write(value: CloudWatchLogsClientTypes.TagFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

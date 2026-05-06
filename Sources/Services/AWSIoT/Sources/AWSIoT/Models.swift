@@ -800,6 +800,8 @@ extension IoTClientTypes {
 
     /// Configuration settings for batching.
     public struct BatchConfig: Swift.Sendable {
+        /// Whether to allow batching messages from different MQTT topics into a single HTTP request. By default, only messages from the same topic are batched together. The default value is false.
+        public var batchAcrossTopics: Swift.Bool
         /// The maximum amount of time (in milliseconds) that an outgoing call waits for other calls with which it batches messages of the same type. The higher the setting, the longer the latency of the batched HTTP Action will be.
         public var maxBatchOpenMs: Swift.Int?
         /// The maximum number of messages that are batched together in a single action execution.
@@ -808,10 +810,12 @@ extension IoTClientTypes {
         public var maxBatchSizeBytes: Swift.Int?
 
         public init(
+            batchAcrossTopics: Swift.Bool = false,
             maxBatchOpenMs: Swift.Int? = nil,
             maxBatchSize: Swift.Int? = nil,
             maxBatchSizeBytes: Swift.Int? = nil
         ) {
+            self.batchAcrossTopics = batchAcrossTopics
             self.maxBatchOpenMs = maxBatchOpenMs
             self.maxBatchSize = maxBatchSize
             self.maxBatchSizeBytes = maxBatchSizeBytes
@@ -35090,6 +35094,7 @@ extension IoTClientTypes.BatchConfig {
 
     static func write(value: IoTClientTypes.BatchConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["batchAcrossTopics"].write(value.batchAcrossTopics)
         try writer["maxBatchOpenMs"].write(value.maxBatchOpenMs)
         try writer["maxBatchSize"].write(value.maxBatchSize)
         try writer["maxBatchSizeBytes"].write(value.maxBatchSizeBytes)
@@ -35101,6 +35106,7 @@ extension IoTClientTypes.BatchConfig {
         value.maxBatchOpenMs = try reader["maxBatchOpenMs"].readIfPresent()
         value.maxBatchSize = try reader["maxBatchSize"].readIfPresent()
         value.maxBatchSizeBytes = try reader["maxBatchSizeBytes"].readIfPresent()
+        value.batchAcrossTopics = try reader["batchAcrossTopics"].readIfPresent() ?? false
         return value
     }
 }

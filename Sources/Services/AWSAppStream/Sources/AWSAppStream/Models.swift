@@ -169,6 +169,218 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes {
 
+    /// The image format for agent screen captures.
+    ///
+    /// * PNG - PNG format.
+    ///
+    /// * JPEG - JPEG format.
+    public enum ScreenImageFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case jpeg
+        case png
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScreenImageFormat] {
+            return [
+                .jpeg,
+                .png
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .jpeg: return "JPEG"
+            case .png: return "PNG"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// The screen resolution for the agent streaming environment.
+    ///
+    /// * W_1280xH_720 - 1280 x 720 pixels.
+    public enum ScreenResolution: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case w1280xh720
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScreenResolution] {
+            return [
+                .w1280xh720
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .w1280xh720: return "W_1280xH_720"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// The type of agent action.
+    ///
+    /// * COMPUTER_VISION - Allows agents to take screenshots of the desktop.
+    ///
+    /// * COMPUTER_INPUT - Allows agents to click, type, and scroll on the desktop. Requires COMPUTER_VISION to also be enabled.
+    public enum AgentAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case computerInput
+        case computerVision
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentAction] {
+            return [
+                .computerInput,
+                .computerVision
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .computerInput: return "COMPUTER_INPUT"
+            case .computerVision: return "COMPUTER_VISION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    public enum Permission: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Permission] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// A permission setting for an agent action. Each setting specifies an agent action and whether it is enabled or disabled.
+    public struct AgentAccessSetting: Swift.Sendable {
+        /// The agent action to configure. Valid values are COMPUTER_VISION and COMPUTER_INPUT. If you enable COMPUTER_INPUT, you must also enable COMPUTER_VISION.
+        /// This member is required.
+        public var agentAction: AppStreamClientTypes.AgentAction?
+        /// Whether the agent action is enabled or disabled.
+        /// This member is required.
+        public var permission: AppStreamClientTypes.Permission?
+
+        public init(
+            agentAction: AppStreamClientTypes.AgentAction? = nil,
+            permission: AppStreamClientTypes.Permission? = nil
+        ) {
+            self.agentAction = agentAction
+            self.permission = permission
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// The configuration for agent access on a stack. Agent access enables AI agents to interact with desktop applications during streaming sessions.
+    public struct AgentAccessConfig: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored. Required when ScreenshotsUploadEnabled is true.
+        public var s3BucketArn: Swift.String?
+        /// The image format for agent screen captures.
+        /// This member is required.
+        public var screenImageFormat: AppStreamClientTypes.ScreenImageFormat?
+        /// The screen resolution for the agent streaming environment.
+        /// This member is required.
+        public var screenResolution: AppStreamClientTypes.ScreenResolution?
+        /// Indicates whether screenshot uploads to Amazon S3 are enabled for agent sessions.
+        public var screenshotsUploadEnabled: Swift.Bool?
+        /// The list of agent access settings that define permissions for each agent action. You must specify at least one setting.
+        /// This member is required.
+        public var settings: [AppStreamClientTypes.AgentAccessSetting]?
+
+        public init(
+            s3BucketArn: Swift.String? = nil,
+            screenImageFormat: AppStreamClientTypes.ScreenImageFormat? = nil,
+            screenResolution: AppStreamClientTypes.ScreenResolution? = nil,
+            screenshotsUploadEnabled: Swift.Bool? = nil,
+            settings: [AppStreamClientTypes.AgentAccessSetting]? = nil
+        ) {
+            self.s3BucketArn = s3BucketArn
+            self.screenImageFormat = screenImageFormat
+            self.screenResolution = screenResolution
+            self.screenshotsUploadEnabled = screenshotsUploadEnabled
+            self.settings = settings
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// The configuration for updating agent access on a stack. This type supports partial updates, so you only need to specify the fields you want to change.
+    public struct AgentAccessConfigForUpdate: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored.
+        public var s3BucketArn: Swift.String?
+        /// The image format for agent screen captures.
+        public var screenImageFormat: AppStreamClientTypes.ScreenImageFormat?
+        /// The screen resolution for the agent streaming environment.
+        public var screenResolution: AppStreamClientTypes.ScreenResolution?
+        /// Indicates whether screenshot uploads to Amazon S3 are enabled for agent sessions.
+        public var screenshotsUploadEnabled: Swift.Bool?
+        /// The list of agent access settings that define permissions for each agent action.
+        public var settings: [AppStreamClientTypes.AgentAccessSetting]?
+
+        public init(
+            s3BucketArn: Swift.String? = nil,
+            screenImageFormat: AppStreamClientTypes.ScreenImageFormat? = nil,
+            screenResolution: AppStreamClientTypes.ScreenResolution? = nil,
+            screenshotsUploadEnabled: Swift.Bool? = nil,
+            settings: [AppStreamClientTypes.AgentAccessSetting]? = nil
+        ) {
+            self.s3BucketArn = s3BucketArn
+            self.screenImageFormat = screenImageFormat
+            self.screenResolution = screenResolution
+            self.screenshotsUploadEnabled = screenshotsUploadEnabled
+            self.settings = settings
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
     /// The image type is the type of AppStream image resource.
     public enum AgentSoftwareVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case alwaysLatest
@@ -4324,35 +4536,6 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes {
 
-    public enum Permission: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Permission] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension AppStreamClientTypes {
-
     /// Describes an action and whether the action is enabled or disabled for users during their streaming sessions.
     public struct UserSetting: Swift.Sendable {
         /// The action that is enabled or disabled.
@@ -4379,6 +4562,8 @@ extension AppStreamClientTypes {
 public struct CreateStackInput: Swift.Sendable {
     /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
+    /// The configuration for agent access on the stack. If specified, agent access is enabled for the stack.
+    public var agentAccessConfig: AppStreamClientTypes.AgentAccessConfig?
     /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
     public var applicationSettings: AppStreamClientTypes.ApplicationSettings?
     /// Configuration for bidirectional URL redirection between the streaming session and the local client. Use HostToClient to redirect URLs from the remote desktop to the local browser.
@@ -4407,6 +4592,7 @@ public struct CreateStackInput: Swift.Sendable {
 
     public init(
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
+        agentAccessConfig: AppStreamClientTypes.AgentAccessConfig? = nil,
         applicationSettings: AppStreamClientTypes.ApplicationSettings? = nil,
         contentRedirection: AppStreamClientTypes.ContentRedirection? = nil,
         description: Swift.String? = nil,
@@ -4421,6 +4607,7 @@ public struct CreateStackInput: Swift.Sendable {
         userSettings: [AppStreamClientTypes.UserSetting]? = nil
     ) {
         self.accessEndpoints = accessEndpoints
+        self.agentAccessConfig = agentAccessConfig
         self.applicationSettings = applicationSettings
         self.contentRedirection = contentRedirection
         self.description = description
@@ -4490,6 +4677,8 @@ extension AppStreamClientTypes {
     public struct Stack: Swift.Sendable {
         /// The list of virtual private cloud (VPC) interface endpoint objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
         public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
+        /// The agent access configuration of the stack, if agent access is enabled.
+        public var agentAccessConfig: AppStreamClientTypes.AgentAccessConfig?
         /// The persistent application settings for users of the stack.
         public var applicationSettings: AppStreamClientTypes.ApplicationSettingsResponse?
         /// The ARN of the stack.
@@ -4522,6 +4711,7 @@ extension AppStreamClientTypes {
 
         public init(
             accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
+            agentAccessConfig: AppStreamClientTypes.AgentAccessConfig? = nil,
             applicationSettings: AppStreamClientTypes.ApplicationSettingsResponse? = nil,
             arn: Swift.String? = nil,
             contentRedirection: AppStreamClientTypes.ContentRedirection? = nil,
@@ -4538,6 +4728,7 @@ extension AppStreamClientTypes {
             userSettings: [AppStreamClientTypes.UserSetting]? = nil
         ) {
             self.accessEndpoints = accessEndpoints
+            self.agentAccessConfig = agentAccessConfig
             self.applicationSettings = applicationSettings
             self.arn = arn
             self.contentRedirection = contentRedirection
@@ -7520,8 +7711,36 @@ public struct UpdateImagePermissionsOutput: Swift.Sendable {
 
 extension AppStreamClientTypes {
 
+    /// The stack attributes to delete.
+    ///
+    /// * STORAGE_CONNECTORS
+    ///
+    /// * STORAGE_CONNECTOR_HOMEFOLDERS
+    ///
+    /// * STORAGE_CONNECTOR_GOOGLE_DRIVE
+    ///
+    /// * STORAGE_CONNECTOR_ONE_DRIVE
+    ///
+    /// * REDIRECT_URL
+    ///
+    /// * FEEDBACK_URL
+    ///
+    /// * THEME_NAME
+    ///
+    /// * USER_SETTINGS
+    ///
+    /// * EMBED_HOST_DOMAINS
+    ///
+    /// * IAM_ROLE_ARN
+    ///
+    /// * ACCESS_ENDPOINTS
+    ///
+    /// * STREAMING_EXPERIENCE_SETTINGS
+    ///
+    /// * AGENT_ACCESS_CONFIG
     public enum StackAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessEndpoints
+        case agentAccessConfig
         case contentRedirection
         case embedHostDomains
         case feedbackUrl
@@ -7539,6 +7758,7 @@ extension AppStreamClientTypes {
         public static var allCases: [StackAttribute] {
             return [
                 .accessEndpoints,
+                .agentAccessConfig,
                 .contentRedirection,
                 .embedHostDomains,
                 .feedbackUrl,
@@ -7562,6 +7782,7 @@ extension AppStreamClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accessEndpoints: return "ACCESS_ENDPOINTS"
+            case .agentAccessConfig: return "AGENT_ACCESS_CONFIG"
             case .contentRedirection: return "CONTENT_REDIRECTION"
             case .embedHostDomains: return "EMBED_HOST_DOMAINS"
             case .feedbackUrl: return "FEEDBACK_URL"
@@ -7583,6 +7804,8 @@ extension AppStreamClientTypes {
 public struct UpdateStackInput: Swift.Sendable {
     /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
+    /// The configuration for agent access on the stack. Specify this to update agent access settings. To remove agent access, use AttributesToDelete with the AGENT_ACCESS_CONFIG value.
+    public var agentAccessConfig: AppStreamClientTypes.AgentAccessConfigForUpdate?
     /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
     public var applicationSettings: AppStreamClientTypes.ApplicationSettings?
     /// The stack attributes to delete.
@@ -7614,6 +7837,7 @@ public struct UpdateStackInput: Swift.Sendable {
 
     public init(
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
+        agentAccessConfig: AppStreamClientTypes.AgentAccessConfigForUpdate? = nil,
         applicationSettings: AppStreamClientTypes.ApplicationSettings? = nil,
         attributesToDelete: [AppStreamClientTypes.StackAttribute]? = nil,
         contentRedirection: AppStreamClientTypes.ContentRedirection? = nil,
@@ -7629,6 +7853,7 @@ public struct UpdateStackInput: Swift.Sendable {
         userSettings: [AppStreamClientTypes.UserSetting]? = nil
     ) {
         self.accessEndpoints = accessEndpoints
+        self.agentAccessConfig = agentAccessConfig
         self.applicationSettings = applicationSettings
         self.attributesToDelete = attributesToDelete
         self.contentRedirection = contentRedirection
@@ -8610,6 +8835,7 @@ extension CreateStackInput {
     static func write(value: CreateStackInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: AppStreamClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AgentAccessConfig"].write(value.agentAccessConfig, with: AppStreamClientTypes.AgentAccessConfig.write(value:to:))
         try writer["ApplicationSettings"].write(value.applicationSettings, with: AppStreamClientTypes.ApplicationSettings.write(value:to:))
         try writer["ContentRedirection"].write(value.contentRedirection, with: AppStreamClientTypes.ContentRedirection.write(value:to:))
         try writer["Description"].write(value.description)
@@ -9302,6 +9528,7 @@ extension UpdateStackInput {
     static func write(value: UpdateStackInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: AppStreamClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AgentAccessConfig"].write(value.agentAccessConfig, with: AppStreamClientTypes.AgentAccessConfigForUpdate.write(value:to:))
         try writer["ApplicationSettings"].write(value.applicationSettings, with: AppStreamClientTypes.ApplicationSettings.write(value:to:))
         try writer["AttributesToDelete"].writeList(value.attributesToDelete, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AppStreamClientTypes.StackAttribute>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ContentRedirection"].write(value.contentRedirection, with: AppStreamClientTypes.ContentRedirection.write(value:to:))
@@ -11995,6 +12222,58 @@ extension AppStreamClientTypes.AdminAppLicenseUsageRecord {
     }
 }
 
+extension AppStreamClientTypes.AgentAccessConfig {
+
+    static func write(value: AppStreamClientTypes.AgentAccessConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3BucketArn"].write(value.s3BucketArn)
+        try writer["ScreenImageFormat"].write(value.screenImageFormat)
+        try writer["ScreenResolution"].write(value.screenResolution)
+        try writer["ScreenshotsUploadEnabled"].write(value.screenshotsUploadEnabled)
+        try writer["Settings"].writeList(value.settings, memberWritingClosure: AppStreamClientTypes.AgentAccessSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AgentAccessConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.AgentAccessConfig()
+        value.settings = try reader["Settings"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.AgentAccessSetting.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.s3BucketArn = try reader["S3BucketArn"].readIfPresent()
+        value.screenshotsUploadEnabled = try reader["ScreenshotsUploadEnabled"].readIfPresent()
+        value.screenResolution = try reader["ScreenResolution"].readIfPresent() ?? .sdkUnknown("")
+        value.screenImageFormat = try reader["ScreenImageFormat"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AppStreamClientTypes.AgentAccessConfigForUpdate {
+
+    static func write(value: AppStreamClientTypes.AgentAccessConfigForUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3BucketArn"].write(value.s3BucketArn)
+        try writer["ScreenImageFormat"].write(value.screenImageFormat)
+        try writer["ScreenResolution"].write(value.screenResolution)
+        try writer["ScreenshotsUploadEnabled"].write(value.screenshotsUploadEnabled)
+        try writer["Settings"].writeList(value.settings, memberWritingClosure: AppStreamClientTypes.AgentAccessSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension AppStreamClientTypes.AgentAccessSetting {
+
+    static func write(value: AppStreamClientTypes.AgentAccessSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AgentAction"].write(value.agentAction)
+        try writer["Permission"].write(value.permission)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AgentAccessSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.AgentAccessSetting()
+        value.agentAction = try reader["AgentAction"].readIfPresent() ?? .sdkUnknown("")
+        value.permission = try reader["Permission"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension AppStreamClientTypes.AppBlock {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AppBlock {
@@ -12614,6 +12893,7 @@ extension AppStreamClientTypes.Stack {
         value.embedHostDomains = try reader["EmbedHostDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.streamingExperienceSettings = try reader["StreamingExperienceSettings"].readIfPresent(with: AppStreamClientTypes.StreamingExperienceSettings.read(from:))
         value.contentRedirection = try reader["ContentRedirection"].readIfPresent(with: AppStreamClientTypes.ContentRedirection.read(from:))
+        value.agentAccessConfig = try reader["AgentAccessConfig"].readIfPresent(with: AppStreamClientTypes.AgentAccessConfig.read(from:))
         return value
     }
 }

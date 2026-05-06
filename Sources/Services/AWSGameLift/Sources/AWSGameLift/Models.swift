@@ -2622,7 +2622,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// The set of port numbers to open on each instance in a container fleet. Connection ports are used by inbound traffic to connect with processes that are running in containers on the fleet.
+    /// The set of port numbers to open on each instance in a container fleet. Connection ports are used by inbound traffic to connect with processes that are running in containers on the fleet. The port range must not overlap with the Amazon GameLift Servers reserved port range 4092-4191. This range is reserved for internal Amazon GameLift Servers services.
     public struct ConnectionPortRange: Swift.Sendable {
         /// Starting value for the port range.
         /// This member is required.
@@ -3163,7 +3163,7 @@ extension GameLiftClientTypes {
         public var gameServerContainerGroupsPerInstance: Swift.Int?
         /// A policy that limits the number of game sessions that each individual player can create on instances in this fleet. The limit applies for a specified span of time.
         public var gameSessionCreationLimitPolicy: GameLiftClientTypes.GameSessionCreationLimitPolicy?
-        /// The set of port numbers to open on each instance in a container fleet. Connection ports are used by inbound traffic to connect with processes that are running in containers on the fleet.
+        /// The set of port numbers to open on each instance in a container fleet. Connection ports are used by inbound traffic to connect with processes that are running in containers on the fleet. The port range must not overlap with the Amazon GameLift Servers reserved port range 4092-4191. This range is reserved for internal Amazon GameLift Servers services.
         public var instanceConnectionPortRange: GameLiftClientTypes.ConnectionPortRange?
         /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet.
         public var instanceInboundPermissions: [GameLiftClientTypes.IpPermission]?
@@ -3694,6 +3694,57 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
+    /// Describes a mapping between a container port and a connection port on a fleet instance. You define container ports in a container group definition. Amazon GameLift Servers assigns connection ports when it deploys the container group to an instance. Part of: [ContainerGroupPortMapping](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupPortMapping.html)
+    public struct ContainerPortMapping: Swift.Sendable {
+        /// The port number on the fleet instance that maps to the container port. Connection ports are assigned by Amazon GameLift Servers when the container group is deployed to an instance.
+        public var connectionPort: Swift.Int?
+        /// The port number on the container. This port is defined in the container group definition. Container port numbers must be unique within a container group definition.
+        public var containerPort: Swift.Int?
+        /// The network protocol for the port mapping. Valid values are TCP or UDP.
+        public var `protocol`: GameLiftClientTypes.IpProtocol?
+
+        public init(
+            connectionPort: Swift.Int? = nil,
+            containerPort: Swift.Int? = nil,
+            `protocol`: GameLiftClientTypes.IpProtocol? = nil
+        ) {
+            self.connectionPort = connectionPort
+            self.containerPort = containerPort
+            self.`protocol` = `protocol`
+        }
+    }
+}
+
+extension GameLiftClientTypes.ContainerPortMapping: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ContainerPortMapping(protocol: \(Swift.String(describing: `protocol`)), connectionPort: \"CONTENT_REDACTED\", containerPort: \"CONTENT_REDACTED\")"}
+}
+
+extension GameLiftClientTypes {
+
+    /// Describes the port mappings for a single container in a container group. Each mapping shows how a container port maps to a connection port on the fleet instance. Returned by: [DescribeContainerGroupPortMappings](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupPortMappings.html)
+    public struct ContainerGroupPortMapping: Swift.Sendable {
+        /// The name of the container, as defined in the container group definition.
+        public var containerName: Swift.String?
+        /// A list of ContainerPortMapping objects that describe the port mappings for this container.
+        public var containerPortMappings: [GameLiftClientTypes.ContainerPortMapping]?
+        /// The runtime ID for the container that's running in a compute. This value is unique within the compute.
+        public var containerRuntimeId: Swift.String?
+
+        public init(
+            containerName: Swift.String? = nil,
+            containerPortMappings: [GameLiftClientTypes.ContainerPortMapping]? = nil,
+            containerRuntimeId: Swift.String? = nil
+        ) {
+            self.containerName = containerName
+            self.containerPortMappings = containerPortMappings
+            self.containerRuntimeId = containerRuntimeId
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
     /// A unique identifier for a container in a compute on a managed container fleet instance. This information makes it possible to remotely connect to a specific container on a fleet instance. Related to: [ContainerAttribute](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerAttribute.html) Use with: [GetComputeAccess](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess.html)
     public struct ContainerIdentifier: Swift.Sendable {
         /// The identifier for a container that's running in a compute.
@@ -3931,7 +3982,7 @@ public struct CreateContainerFleetInput: Swift.Sendable {
     /// * Port range: 4192 to a number calculated based on your fleet configuration. Amazon GameLift Servers uses the following formula: 4192 + [# of game server container groups per fleet instance] * [# of container ports in the game server container group definition] + [# of container ports in the game server container group definition]
     ///
     ///
-    /// You can also choose to manually set this parameter. When manually setting this parameter, you must use port numbers that match the fleet's inbound permissions port range. If you set values manually, Amazon GameLift Servers no longer calculates a port range for you, even if you later remove the manual settings.
+    /// You can also choose to manually set this parameter. When manually setting this parameter, you must use port numbers that match the fleet's inbound permissions port range. If you set values manually, Amazon GameLift Servers no longer calculates a port range for you, even if you later remove the manual settings. The port range must not overlap with the Amazon GameLift Servers reserved port range 4092-4191. This range is reserved for internal Amazon GameLift Servers services.
     public var instanceConnectionPortRange: GameLiftClientTypes.ConnectionPortRange?
     /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. As a best practice, when remotely accessing a fleet instance, we recommend opening ports only when you need them and closing them when you're finished. By default, Amazon GameLift Servers calculates an optimal port range based on your fleet configuration. To use the calculated range, don't set this parameter. The values are:
     ///
@@ -3940,7 +3991,7 @@ public struct CreateContainerFleetInput: Swift.Sendable {
     /// * Port range: 4192 to a number calculated based on your fleet configuration. Amazon GameLift Servers uses the following formula: 4192 + [# of game server container groups per fleet instance] * [# of container ports in the game server container group definition] + [# of container ports in the game server container group definition]
     ///
     ///
-    /// You can also choose to manually set this parameter. When manually setting this parameter, you must use port numbers that match the fleet's connection port range. If you set values manually, Amazon GameLift Servers no longer calculates a port range for you, even if you later remove the manual settings.
+    /// You can also choose to manually set this parameter. When manually setting this parameter, you must use port numbers that match the fleet's connection port range. If you set values manually, Amazon GameLift Servers no longer calculates a port range for you, even if you later remove the manual settings. The port range must not overlap with the Amazon GameLift Servers reserved port range 4092-4191. This range is reserved for internal Amazon GameLift Servers services.
     public var instanceInboundPermissions: [GameLiftClientTypes.IpPermission]?
     /// The Amazon EC2 instance type to use for all instances in the fleet. For multi-location fleets, the instance type must be available in the home region and all remote locations. Instance type determines the computing resources and processing power that's available to host your game servers. This includes including CPU, memory, storage, and networking capacity. By default, Amazon GameLift Servers selects an instance type that fits the needs of your container groups and is available in all selected fleet locations. You can also choose to manually set this parameter. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types. You can't update this fleet property later.
     public var instanceType: Swift.String?
@@ -5584,7 +5635,7 @@ public struct CreateGameSessionInput: Swift.Sendable {
     public var gameSessionData: Swift.String?
     /// This parameter is deprecated. Use IdempotencyToken instead. Custom string that uniquely identifies a request for a new game session. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID.
     public var gameSessionId: Swift.String?
-    /// Custom string that uniquely identifies the new game session request. This is useful for ensuring that game session requests with the same idempotency token are processed only once. Subsequent requests with the same string return the original GameSession object, with an updated status. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. A game session ARN has the following format: arn:aws:gamelift:::gamesession//. Idempotency tokens remain in use for 30 days after a game session has ended; game session objects are retained for this time period and then deleted.
+    /// Custom string that uniquely identifies the new game session request. This is useful for ensuring that game session requests with the same idempotency token are processed only once. Subsequent requests with the same string return the original GameSession object, with an updated status. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//. Idempotency tokens remain in use for 30 days after a game session has ended; game session objects are retained for this time period and then deleted.
     public var idempotencyToken: Swift.String?
     /// A fleet's remote location to place the new game session in. If this parameter is not set, the new game session is placed in the fleet's home Region. Specify a remote location with an Amazon Web Services Region code such as us-west-2. When using an Anywhere fleet, this parameter is required and must be set to the Anywhere fleet's custom location.
     public var location: Swift.String?
@@ -5751,7 +5802,7 @@ extension GameLiftClientTypes {
         public var gameProperties: [GameLiftClientTypes.GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession).
         public var gameSessionData: Swift.String?
-        /// A unique identifier for the game session. A game session ARN has the following format: arn:aws:gamelift:::gamesession//.
+        /// An identifier for the game session that is unique across all regions. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//.
         public var gameSessionId: Swift.String?
         /// The IP address of the game session. To connect to a Amazon GameLift Servers game server, an app needs both the IP address and port number.
         public var ipAddress: Swift.String?
@@ -6473,7 +6524,7 @@ public struct InvalidGameSessionStatusException: ClientRuntime.ModeledError, Cli
 }
 
 public struct CreatePlayerSessionInput: Swift.Sendable {
-    /// A unique identifier for the game session to add a player to.
+    /// An identifier for the game session that is unique across all regions to add a player to. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//.
     /// This member is required.
     public var gameSessionId: Swift.String?
     /// Developer-defined information related to a player. Amazon GameLift Servers does not use this data, so it can be formatted as needed for use in the game.
@@ -6552,7 +6603,7 @@ extension GameLiftClientTypes {
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet that the player's game session is running on.
         public var fleetId: Swift.String?
-        /// A unique identifier for the game session that the player session is connected to.
+        /// An identifier for the game session that is unique across all regions that the player session is connected to. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//.
         public var gameSessionId: Swift.String?
         /// The IP address of the game session. To connect to a Amazon GameLift Servers game server, an app needs both the IP address and port number.
         public var ipAddress: Swift.String?
@@ -6624,7 +6675,7 @@ public struct CreatePlayerSessionOutput: Swift.Sendable {
 }
 
 public struct CreatePlayerSessionsInput: Swift.Sendable {
-    /// A unique identifier for the game session to add players to.
+    /// An identifier for the game session that is unique across all regions to add players to. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//.
     /// This member is required.
     public var gameSessionId: Swift.String?
     /// Map of string pairs, each specifying a player ID and a set of developer-defined information related to the player. Amazon GameLift Servers does not use this data, so it can be formatted as needed for use in the game. Any player data strings for player IDs that are not included in the PlayerIds parameter are ignored.
@@ -7436,6 +7487,74 @@ public struct DescribeContainerGroupDefinitionOutput: Swift.Sendable {
         containerGroupDefinition: GameLiftClientTypes.ContainerGroupDefinition? = nil
     ) {
         self.containerGroupDefinition = containerGroupDefinition
+    }
+}
+
+public struct DescribeContainerGroupPortMappingsInput: Swift.Sendable {
+    /// A unique identifier for the compute resource for which to retrieve port mappings. For a container fleet, a compute represents a game server container group running on a fleet instance. You can use either the compute name or ARN value. When ContainerGroupType is GAME_SERVER, this parameter is required. When ContainerGroupType is PER_INSTANCE, do not provide this parameter. If you provide a compute name with PER_INSTANCE, the request fails with an InvalidRequestException.
+    public var computeName: Swift.String?
+    /// The type of container group to retrieve port mappings for.
+    ///
+    /// * GAME_SERVER -- Get port mappings for a game server container group.
+    ///
+    /// * PER_INSTANCE -- Get port mappings for a per-instance container group.
+    /// This member is required.
+    public var containerGroupType: GameLiftClientTypes.ContainerGroupType?
+    /// A container name to filter the results. When provided, the operation returns port mappings for the specified container only. If no container with the specified name exists in the container group, the request fails with a NotFoundException. If not provided, the operation returns port mappings for all containers in the container group.
+    public var containerName: Swift.String?
+    /// A unique identifier for the container fleet. You can use either the fleet ID or ARN value.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// A unique identifier for the fleet instance to retrieve port mappings for. When ContainerGroupType is PER_INSTANCE, this parameter is required. When ContainerGroupType is GAME_SERVER, this parameter is optional. If you provide an instance ID, it must match the instance that's running the specified compute. If the instance ID doesn't match, the request fails with an InvalidRequestException.
+    public var instanceId: Swift.String?
+
+    public init(
+        computeName: Swift.String? = nil,
+        containerGroupType: GameLiftClientTypes.ContainerGroupType? = nil,
+        containerName: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.computeName = computeName
+        self.containerGroupType = containerGroupType
+        self.containerName = containerName
+        self.fleetId = fleetId
+        self.instanceId = instanceId
+    }
+}
+
+public struct DescribeContainerGroupPortMappingsOutput: Swift.Sendable {
+    /// A unique identifier for the compute resource running the game server container group. Returned when ContainerGroupType is GAME_SERVER.
+    public var computeName: Swift.String?
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to the container group definition. The ARN value also identifies the specific container group definition version in use.
+    public var containerGroupDefinitionArn: Swift.String?
+    /// A list of ContainerGroupPortMapping objects that describe the port mappings for each container in the container group.
+    public var containerGroupPortMappings: [GameLiftClientTypes.ContainerGroupPortMapping]?
+    /// The type of container group that was specified in the request. Valid values are GAME_SERVER or PER_INSTANCE.
+    public var containerGroupType: GameLiftClientTypes.ContainerGroupType?
+    /// A unique identifier for the container fleet.
+    public var fleetId: Swift.String?
+    /// A unique identifier for the fleet instance. For GAME_SERVER requests, this is the instance running the specified compute. For PER_INSTANCE requests, this is the instance specified in the request.
+    public var instanceId: Swift.String?
+    /// The location of the fleet instance, expressed as an Amazon Web Services Region code, such as us-west-2.
+    public var location: Swift.String?
+
+    public init(
+        computeName: Swift.String? = nil,
+        containerGroupDefinitionArn: Swift.String? = nil,
+        containerGroupPortMappings: [GameLiftClientTypes.ContainerGroupPortMapping]? = nil,
+        containerGroupType: GameLiftClientTypes.ContainerGroupType? = nil,
+        fleetId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        location: Swift.String? = nil
+    ) {
+        self.computeName = computeName
+        self.containerGroupDefinitionArn = containerGroupDefinitionArn
+        self.containerGroupPortMappings = containerGroupPortMappings
+        self.containerGroupType = containerGroupType
+        self.fleetId = fleetId
+        self.instanceId = instanceId
+        self.location = location
     }
 }
 
@@ -8619,7 +8738,7 @@ public struct DescribeGameSessionDetailsInput: Swift.Sendable {
     public var aliasId: Swift.String?
     /// A unique identifier for the fleet to retrieve all game sessions active on the fleet. You can use either the fleet ID or ARN value.
     public var fleetId: Swift.String?
-    /// A unique identifier for the game session to retrieve.
+    /// An identifier for the game session that is unique across all regions to retrieve. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//.
     public var gameSessionId: Swift.String?
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var limit: Swift.Int?
@@ -8863,11 +8982,11 @@ extension GameLiftClientTypes {
         ///
         /// * If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         public var gameProperties: [GameLiftClientTypes.GameProperty]?
-        /// Identifier for the game session created by this placement request. This identifier is unique across all Regions. This value isn't final until placement status is FULFILLED.
+        /// An identifier for the game session that is unique across all regions. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//. This value is the same as GameSessionId. This value isn't final until placement status is FULFILLED.
         public var gameSessionArn: Swift.String?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession).
         public var gameSessionData: Swift.String?
-        /// A unique identifier for the game session. This value isn't final until placement status is FULFILLED.
+        /// An identifier for the game session that is unique across all regions. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//. This value is the same as GameSessionArn. This value isn't final until placement status is FULFILLED.
         public var gameSessionId: Swift.String?
         /// A descriptive label that is associated with a game session. Session names do not need to be unique.
         public var gameSessionName: Swift.String?
@@ -9013,7 +9132,7 @@ public struct DescribeGameSessionsInput: Swift.Sendable {
     public var aliasId: Swift.String?
     /// A unique identifier for the fleet to retrieve game sessions for. You can use either the fleet ID or ARN value.
     public var fleetId: Swift.String?
-    /// A unique identifier for the game session to retrieve.
+    /// An identifier for the game session that is unique across all regions to retrieve. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//.
     public var gameSessionId: Swift.String?
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var limit: Swift.Int?
@@ -9251,7 +9370,7 @@ extension GameLiftClientTypes {
         ///
         /// When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
         public var dnsName: Swift.String?
-        /// A unique identifier for the game session. Use the game session ID.
+        /// An identifier for the game session that is unique across all regions. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//.
         public var gameSessionArn: Swift.String?
         /// The IP address of the game session. To connect to a Amazon GameLift Servers game server, an app needs both the IP address and port number.
         public var ipAddress: Swift.String?
@@ -9527,7 +9646,7 @@ public struct DescribeMatchmakingRuleSetsOutput: Swift.Sendable {
 }
 
 public struct DescribePlayerSessionsInput: Swift.Sendable {
-    /// A unique identifier for the game session to retrieve player sessions for.
+    /// An identifier for the game session that is unique across all regions to retrieve player sessions for. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//.
     public var gameSessionId: Swift.String?
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. If a player session ID is specified, this parameter is ignored.
     public var limit: Swift.Int?
@@ -10203,7 +10322,7 @@ public struct GetComputeAuthTokenOutput: Swift.Sendable {
 }
 
 public struct GetGameSessionLogUrlInput: Swift.Sendable {
-    /// A unique identifier for the game session to get logs for.
+    /// An identifier for the game session that is unique across all regions to get logs for. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//.
     /// This member is required.
     public var gameSessionId: Swift.String?
 
@@ -10315,7 +10434,7 @@ public struct GetInstanceAccessOutput: Swift.Sendable {
 }
 
 public struct GetPlayerConnectionDetailsInput: Swift.Sendable {
-    /// A unique identifier for the game session for which to retrieve player connection details.
+    /// An identifier for the game session that is unique across all regions for which to retrieve player connection details. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//.
     /// This member is required.
     public var gameSessionId: Swift.String?
     /// List of unique identifiers for players. Connection details are returned for each player in this list.
@@ -10393,7 +10512,7 @@ extension GameLiftClientTypes.PlayerConnectionDetail: Swift.CustomDebugStringCon
 }
 
 public struct GetPlayerConnectionDetailsOutput: Swift.Sendable {
-    /// A unique identifier for the game session for which the player connection details were retrieved.
+    /// An identifier for the game session that is unique across all regions for which the player connection details were retrieved. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//.
     public var gameSessionId: Swift.String?
     /// A collection of player connection detail objects, one for each requested player.
     public var playerConnectionDetails: [GameLiftClientTypes.PlayerConnectionDetail]?
@@ -11404,7 +11523,7 @@ public struct StartMatchBackfillInput: Swift.Sendable {
     /// Name of the matchmaker to use for this request. You can use either the configuration name or ARN value. The ARN of the matchmaker that was used with the original game session is listed in the GameSession object, MatchmakerData property.
     /// This member is required.
     public var configurationName: Swift.String?
-    /// A unique identifier for the game session. Use the game session ID. When using FlexMatch as a standalone matchmaking solution, this parameter is not needed.
+    /// An identifier for the game session that is unique across all regions. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//. When using FlexMatch as a standalone matchmaking solution, this parameter is not needed.
     public var gameSessionArn: Swift.String?
     /// Match information on all players that are currently assigned to the game session. This information is used by the matchmaker to find new players and add them to the existing game. You can include up to 199 Players in a StartMatchBackfill request.
     ///
@@ -11628,7 +11747,7 @@ extension GameLiftClientTypes {
 }
 
 public struct TerminateGameSessionInput: Swift.Sendable {
-    /// A unique identifier for the game session to be terminated. A game session ARN has the following format: arn:aws:gamelift:::gamesession//.
+    /// An identifier for the game session that is unique across all regions to be terminated. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//.
     /// This member is required.
     public var gameSessionId: Swift.String?
     /// The method to use to terminate the game session. Available methods include:
@@ -11761,9 +11880,9 @@ public struct UpdateContainerFleetInput: Swift.Sendable {
     public var gameServerContainerGroupsPerInstance: Swift.Int?
     /// A policy that limits the number of game sessions that each individual player can create on instances in this fleet. The limit applies for a specified span of time.
     public var gameSessionCreationLimitPolicy: GameLiftClientTypes.GameSessionCreationLimitPolicy?
-    /// A revised set of port numbers to open on each fleet instance. By default, Amazon GameLift Servers calculates an optimal port range based on your fleet configuration. If you previously set this parameter manually, you can't reset this to use the calculated settings.
+    /// A revised set of port numbers to open on each fleet instance. By default, Amazon GameLift Servers calculates an optimal port range based on your fleet configuration. If you previously set this parameter manually, you can't reset this to use the calculated settings. The port range must not overlap with the Amazon GameLift Servers reserved port range 4092-4191. This range is reserved for internal Amazon GameLift Servers services.
     public var instanceConnectionPortRange: GameLiftClientTypes.ConnectionPortRange?
-    /// A set of ports to add to the container fleet's inbound permissions.
+    /// A set of ports to add to the container fleet's inbound permissions. The port range must not overlap with the Amazon GameLift Servers reserved port range 4092-4191. This range is reserved for internal Amazon GameLift Servers services.
     public var instanceInboundPermissionAuthorizations: [GameLiftClientTypes.IpPermission]?
     /// A set of ports to remove from the container fleet's inbound permissions.
     public var instanceInboundPermissionRevocations: [GameLiftClientTypes.IpPermission]?
@@ -12136,7 +12255,7 @@ public struct UpdateGameSessionInput: Swift.Sendable {
     ///
     /// * If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
-    /// A unique identifier for the game session to update.
+    /// An identifier for the game session that is unique across all regions to update. The value is always a full ARN in the following format: arn:aws:gamelift:::gamesession//.
     /// This member is required.
     public var gameSessionId: Swift.String?
     /// The maximum number of players that can be connected simultaneously to the game session.
@@ -12688,6 +12807,13 @@ extension DescribeContainerGroupDefinitionInput {
 
     static func urlPathProvider(_ value: DescribeContainerGroupDefinitionInput) -> Swift.String? {
         return "/service/GameLift/operation/DescribeContainerGroupDefinition"
+    }
+}
+
+extension DescribeContainerGroupPortMappingsInput {
+
+    static func urlPathProvider(_ value: DescribeContainerGroupPortMappingsInput) -> Swift.String? {
+        return "/service/GameLift/operation/DescribeContainerGroupPortMappings"
     }
 }
 
@@ -13690,6 +13816,18 @@ extension DescribeContainerGroupDefinitionInput {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["VersionNumber"].write(value.versionNumber)
+    }
+}
+
+extension DescribeContainerGroupPortMappingsInput {
+
+    static func write(value: DescribeContainerGroupPortMappingsInput?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["ComputeName"].write(value.computeName)
+        try writer["ContainerGroupType"].write(value.containerGroupType)
+        try writer["ContainerName"].write(value.containerName)
+        try writer["FleetId"].write(value.fleetId)
+        try writer["InstanceId"].write(value.instanceId)
     }
 }
 
@@ -14935,6 +15073,24 @@ extension DescribeContainerGroupDefinitionOutput {
         let reader = responseReader
         var value = DescribeContainerGroupDefinitionOutput()
         value.containerGroupDefinition = try reader["ContainerGroupDefinition"].readIfPresent(with: GameLiftClientTypes.ContainerGroupDefinition.read(from:))
+        return value
+    }
+}
+
+extension DescribeContainerGroupPortMappingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeContainerGroupPortMappingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeContainerGroupPortMappingsOutput()
+        value.computeName = try reader["ComputeName"].readIfPresent()
+        value.containerGroupDefinitionArn = try reader["ContainerGroupDefinitionArn"].readIfPresent()
+        value.containerGroupPortMappings = try reader["ContainerGroupPortMappings"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerGroupPortMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.containerGroupType = try reader["ContainerGroupType"].readIfPresent()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent()
         return value
     }
 }
@@ -16664,6 +16820,25 @@ enum DescribeContainerGroupDefinitionOutputError {
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "UnsupportedRegionException": return try UnsupportedRegionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeContainerGroupPortMappingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "UnsupportedRegionException": return try UnsupportedRegionException.makeError(baseError: baseError)
@@ -18509,6 +18684,18 @@ extension GameLiftClientTypes.ContainerGroupDefinition {
     }
 }
 
+extension GameLiftClientTypes.ContainerGroupPortMapping {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> GameLiftClientTypes.ContainerGroupPortMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ContainerGroupPortMapping()
+        value.containerName = try reader["ContainerName"].readIfPresent()
+        value.containerRuntimeId = try reader["ContainerRuntimeId"].readIfPresent()
+        value.containerPortMappings = try reader["ContainerPortMappings"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerPortMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GameLiftClientTypes.ContainerHealthCheck {
 
     static func write(value: GameLiftClientTypes.ContainerHealthCheck?, to writer: SmithyCBOR.Writer) throws {
@@ -18573,6 +18760,18 @@ extension GameLiftClientTypes.ContainerPortConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GameLiftClientTypes.ContainerPortConfiguration()
         value.containerPortRanges = try reader["ContainerPortRanges"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerPortRange.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ContainerPortMapping {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> GameLiftClientTypes.ContainerPortMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ContainerPortMapping()
+        value.containerPort = try reader["ContainerPort"].readIfPresent()
+        value.connectionPort = try reader["ConnectionPort"].readIfPresent()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
         return value
     }
 }

@@ -4536,6 +4536,15 @@ public struct CancelSubscriptionOutput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
+    /// The information about a cell in a notebook run in Amazon DataZone.
+    public struct CellInformation: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DataZoneClientTypes {
+
     public enum ChangeAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case publish
         case unpublish
@@ -4575,6 +4584,25 @@ extension DataZoneClientTypes {
             templateUrl: Swift.String? = nil
         ) {
             self.templateUrl = templateUrl
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The compute configuration for a notebook run in Amazon DataZone.
+    public struct ComputeConfig: Swift.Sendable {
+        /// The environment version for the notebook run compute.
+        public var environmentVersion: Swift.String?
+        /// The instance type for the notebook run compute.
+        public var instanceType: Swift.String?
+
+        public init(
+            environmentVersion: Swift.String? = nil,
+            instanceType: Swift.String? = nil
+        ) {
+            self.environmentVersion = environmentVersion
+            self.instanceType = instanceType
         }
     }
 }
@@ -20243,6 +20271,748 @@ public struct StartMetadataGenerationRunOutput: Swift.Sendable {
     }
 }
 
+extension DataZoneClientTypes {
+
+    /// The package manager for a notebook run environment in Amazon DataZone.
+    public enum PackageManager: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The UV package manager.
+        case uv
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PackageManager] {
+            return [
+                .uv
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .uv: return "UV"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The package configuration for a notebook run environment in Amazon DataZone.
+    public struct PackageConfig: Swift.Sendable {
+        /// The package manager for the notebook run environment. The default value is UV.
+        /// This member is required.
+        public var packageManager: DataZoneClientTypes.PackageManager?
+        /// The package specification content for the notebook run environment. The maximum length is 10240 characters.
+        public var packageSpecification: Swift.String?
+
+        public init(
+            packageManager: DataZoneClientTypes.PackageManager? = .uv,
+            packageSpecification: Swift.String? = nil
+        ) {
+            self.packageManager = packageManager
+            self.packageSpecification = packageSpecification
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The environment configuration for a notebook run in Amazon DataZone.
+    public struct EnvironmentConfig: Swift.Sendable {
+        /// The image version for the notebook run environment.
+        public var imageVersion: Swift.String?
+        /// The package configuration for the notebook run environment.
+        public var packageConfig: DataZoneClientTypes.PackageConfig?
+
+        public init(
+            imageVersion: Swift.String? = nil,
+            packageConfig: DataZoneClientTypes.PackageConfig? = nil
+        ) {
+            self.imageVersion = imageVersion
+            self.packageConfig = packageConfig
+        }
+    }
+}
+
+public struct GetNotebookRunInput: Swift.Sendable {
+    /// The identifier of the Amazon DataZone domain in which the notebook run exists.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The identifier of the notebook run.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The error details of a failed notebook run in Amazon DataZone.
+    public struct NotebookRunError: Swift.Sendable {
+        /// The error message. The maximum length is 1024 characters.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        ) {
+            self.message = message
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The network access type for a notebook run in Amazon DataZone.
+    public enum NetworkAccessType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The notebook run uses public internet access only.
+        case publicInternetOnly
+        /// The notebook run uses VPC access only.
+        case vpcOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkAccessType] {
+            return [
+                .publicInternetOnly,
+                .vpcOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .publicInternetOnly: return "PUBLIC_INTERNET_ONLY"
+            case .vpcOnly: return "VPC_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The network configuration for a notebook run in Amazon DataZone.
+    public struct NetworkConfig: Swift.Sendable {
+        /// The network access type for the notebook run. Valid values are PUBLIC_INTERNET_ONLY and VPC_ONLY.
+        /// This member is required.
+        public var networkAccessType: DataZoneClientTypes.NetworkAccessType?
+        /// The identifiers of the security groups for the notebook run. You can specify up to 5 security groups.
+        public var securityGroupIds: [Swift.String]?
+        /// The identifiers of the subnets for the notebook run. You can specify up to 10 subnets.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the VPC for the notebook run. This is required when the network access type is VPC_ONLY.
+        public var vpcId: Swift.String?
+
+        public init(
+            networkAccessType: DataZoneClientTypes.NetworkAccessType? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.networkAccessType = networkAccessType
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The status of a notebook run in Amazon DataZone.
+    public enum NotebookRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The notebook run failed.
+        case failed
+        /// The notebook run is queued.
+        case queued
+        /// The notebook run is running.
+        case running
+        /// The notebook run is starting.
+        case starting
+        /// The notebook run was stopped.
+        case stopped
+        /// The notebook run is stopping.
+        case stopping
+        /// The notebook run succeeded.
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotebookRunStatus] {
+            return [
+                .failed,
+                .queued,
+                .running,
+                .starting,
+                .stopped,
+                .stopping,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .queued: return "QUEUED"
+            case .running: return "RUNNING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The storage configuration for a notebook run in Amazon DataZone.
+    public struct StorageConfig: Swift.Sendable {
+        /// The ARN of the KMS key used for encryption.
+        public var kmsKeyArn: Swift.String?
+        /// The Amazon Simple Storage Service path for the project storage.
+        public var projectS3Path: Swift.String?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil,
+            projectS3Path: Swift.String? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+            self.projectS3Path = projectS3Path
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The timeout configuration for a notebook run in Amazon DataZone.
+    public struct TimeoutConfig: Swift.Sendable {
+        /// The timeout for the notebook run, in minutes. The minimum value is 60 minutes (1 hour), the maximum value is 1440 minutes (24 hours), and the default value is 720 minutes (12 hours).
+        public var runTimeoutInMinutes: Swift.Int?
+
+        public init(
+            runTimeoutInMinutes: Swift.Int? = nil
+        ) {
+            self.runTimeoutInMinutes = runTimeoutInMinutes
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The type of trigger source for a notebook run in Amazon DataZone.
+    public enum TriggerSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The notebook run was triggered manually.
+        case manual
+        /// The notebook run was triggered by a schedule.
+        case scheduled
+        /// The notebook run was triggered by a workflow.
+        case workflow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TriggerSourceType] {
+            return [
+                .manual,
+                .scheduled,
+                .workflow
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .manual: return "MANUAL"
+            case .scheduled: return "SCHEDULED"
+            case .workflow: return "WORKFLOW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The source that triggered a notebook run in Amazon DataZone.
+    public struct TriggerSource: Swift.Sendable {
+        /// The name of the trigger source.
+        public var name: Swift.String?
+        /// The type of the trigger source. Valid values are MANUAL, SCHEDULED, and WORKFLOW.
+        public var type: DataZoneClientTypes.TriggerSourceType?
+
+        public init(
+            name: Swift.String? = nil,
+            type: DataZoneClientTypes.TriggerSourceType? = nil
+        ) {
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+public struct GetNotebookRunOutput: Swift.Sendable {
+    /// The ordered list of cells in the notebook run.
+    public var cellOrder: [DataZoneClientTypes.CellInformation]?
+    /// The timestamp of when the notebook run completed.
+    public var completedAt: Foundation.Date?
+    /// The compute configuration of the notebook run.
+    public var computeConfiguration: DataZoneClientTypes.ComputeConfig?
+    /// The timestamp of when the notebook run was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who created the notebook run.
+    public var createdBy: Swift.String?
+    /// The identifier of the Amazon DataZone domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The environment configuration of the notebook run, including image version and package settings.
+    public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
+    /// The error details if the notebook run failed.
+    public var error: DataZoneClientTypes.NotebookRunError?
+    /// The identifier of the notebook run.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The metadata of the notebook run.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The network configuration of the notebook run.
+    public var networkConfiguration: DataZoneClientTypes.NetworkConfig?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var notebookId: Swift.String?
+    /// The identifier of the project that owns the notebook run.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The sensitive parameters of the notebook run.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The identifier of the schedule associated with the notebook run.
+    public var scheduleId: Swift.String?
+    /// The timestamp of when the notebook run started executing.
+    public var startedAt: Foundation.Date?
+    /// The status of the notebook run.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookRunStatus?
+    /// The storage configuration of the notebook run, including the Amazon Simple Storage Service path and KMS key ARN.
+    public var storageConfiguration: DataZoneClientTypes.StorageConfig?
+    /// The timeout configuration of the notebook run.
+    public var timeoutConfiguration: DataZoneClientTypes.TimeoutConfig?
+    /// The source that triggered the notebook run.
+    public var triggerSource: DataZoneClientTypes.TriggerSource?
+    /// The timestamp of when the notebook run was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The identifier of the user who last updated the notebook run.
+    public var updatedBy: Swift.String?
+
+    public init(
+        cellOrder: [DataZoneClientTypes.CellInformation]? = nil,
+        completedAt: Foundation.Date? = nil,
+        computeConfiguration: DataZoneClientTypes.ComputeConfig? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
+        error: DataZoneClientTypes.NotebookRunError? = nil,
+        id: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        networkConfiguration: DataZoneClientTypes.NetworkConfig? = nil,
+        notebookId: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        scheduleId: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: DataZoneClientTypes.NotebookRunStatus? = nil,
+        storageConfiguration: DataZoneClientTypes.StorageConfig? = nil,
+        timeoutConfiguration: DataZoneClientTypes.TimeoutConfig? = nil,
+        triggerSource: DataZoneClientTypes.TriggerSource? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.cellOrder = cellOrder
+        self.completedAt = completedAt
+        self.computeConfiguration = computeConfiguration
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.domainId = domainId
+        self.environmentConfiguration = environmentConfiguration
+        self.error = error
+        self.id = id
+        self.metadata = metadata
+        self.networkConfiguration = networkConfiguration
+        self.notebookId = notebookId
+        self.owningProjectId = owningProjectId
+        self.parameters = parameters
+        self.scheduleId = scheduleId
+        self.startedAt = startedAt
+        self.status = status
+        self.storageConfiguration = storageConfiguration
+        self.timeoutConfiguration = timeoutConfiguration
+        self.triggerSource = triggerSource
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension GetNotebookRunOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetNotebookRunOutput(cellOrder: \(Swift.String(describing: cellOrder)), completedAt: \(Swift.String(describing: completedAt)), computeConfiguration: \(Swift.String(describing: computeConfiguration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), notebookId: \(Swift.String(describing: notebookId)), owningProjectId: \(Swift.String(describing: owningProjectId)), scheduleId: \(Swift.String(describing: scheduleId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), timeoutConfiguration: \(Swift.String(describing: timeoutConfiguration)), triggerSource: \(Swift.String(describing: triggerSource)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListNotebookRunsInput: Swift.Sendable {
+    /// The identifier of the Amazon DataZone domain in which to list notebook runs.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The maximum number of notebook runs to return in a single call. When the number of notebook runs exceeds the value of MaxResults, the response contains a NextToken value.
+    public var maxResults: Swift.Int?
+    /// When the number of notebook runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of notebook runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListNotebookRuns to list the next set of notebook runs.
+    public var nextToken: Swift.String?
+    /// The identifier of the notebook to filter runs by.
+    public var notebookIdentifier: Swift.String?
+    /// The identifier of the project that owns the notebook runs.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+    /// The identifier of the schedule to filter notebook runs by.
+    public var scheduleIdentifier: Swift.String?
+    /// The sort order for the results.
+    public var sortOrder: DataZoneClientTypes.SortOrder?
+    /// The status to filter notebook runs by.
+    public var status: DataZoneClientTypes.NotebookRunStatus?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        notebookIdentifier: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil,
+        scheduleIdentifier: Swift.String? = nil,
+        sortOrder: DataZoneClientTypes.SortOrder? = nil,
+        status: DataZoneClientTypes.NotebookRunStatus? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.notebookIdentifier = notebookIdentifier
+        self.owningProjectIdentifier = owningProjectIdentifier
+        self.scheduleIdentifier = scheduleIdentifier
+        self.sortOrder = sortOrder
+        self.status = status
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The summary of a notebook run in Amazon DataZone.
+    public struct NotebookRunSummary: Swift.Sendable {
+        /// The timestamp of when the notebook run completed.
+        public var completedAt: Foundation.Date?
+        /// The timestamp of when the notebook run was created.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the user who created the notebook run.
+        public var createdBy: Swift.String?
+        /// The identifier of the Amazon DataZone domain.
+        /// This member is required.
+        public var domainId: Swift.String?
+        /// The identifier of the notebook run.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The identifier of the notebook.
+        /// This member is required.
+        public var notebookId: Swift.String?
+        /// The identifier of the project that owns the notebook run.
+        /// This member is required.
+        public var owningProjectId: Swift.String?
+        /// The identifier of the schedule associated with the notebook run.
+        public var scheduleId: Swift.String?
+        /// The timestamp of when the notebook run started executing.
+        public var startedAt: Foundation.Date?
+        /// The status of the notebook run.
+        /// This member is required.
+        public var status: DataZoneClientTypes.NotebookRunStatus?
+        /// The source that triggered the notebook run.
+        public var triggerSource: DataZoneClientTypes.TriggerSource?
+        /// The timestamp of when the notebook run was last updated.
+        public var updatedAt: Foundation.Date?
+        /// The identifier of the user who last updated the notebook run.
+        public var updatedBy: Swift.String?
+
+        public init(
+            completedAt: Foundation.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            notebookId: Swift.String? = nil,
+            owningProjectId: Swift.String? = nil,
+            scheduleId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: DataZoneClientTypes.NotebookRunStatus? = nil,
+            triggerSource: DataZoneClientTypes.TriggerSource? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.completedAt = completedAt
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.id = id
+            self.notebookId = notebookId
+            self.owningProjectId = owningProjectId
+            self.scheduleId = scheduleId
+            self.startedAt = startedAt
+            self.status = status
+            self.triggerSource = triggerSource
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+public struct ListNotebookRunsOutput: Swift.Sendable {
+    /// The results of the ListNotebookRuns action.
+    public var items: [DataZoneClientTypes.NotebookRunSummary]?
+    /// When the number of notebook runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of notebook runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListNotebookRuns to list the next set of notebook runs.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.NotebookRunSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct StartNotebookRunInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The compute configuration for the notebook run, including instance type and environment version.
+    public var computeConfiguration: DataZoneClientTypes.ComputeConfig?
+    /// The identifier of the Amazon DataZone domain in which the notebook run is started.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The metadata for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The network configuration for the notebook run, including network access type and optional VPC settings.
+    public var networkConfiguration: DataZoneClientTypes.NetworkConfig?
+    /// The identifier of the notebook to run.
+    /// This member is required.
+    public var notebookIdentifier: Swift.String?
+    /// The identifier of the project that owns the notebook run.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+    /// The sensitive parameters for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The identifier of the schedule associated with the notebook run.
+    public var scheduleIdentifier: Swift.String?
+    /// The timeout configuration for the notebook run. The default timeout is 720 minutes (12 hours) and the maximum is 1440 minutes (24 hours).
+    public var timeoutConfiguration: DataZoneClientTypes.TimeoutConfig?
+    /// The source that triggered the notebook run.
+    public var triggerSource: DataZoneClientTypes.TriggerSource?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        computeConfiguration: DataZoneClientTypes.ComputeConfig? = nil,
+        domainIdentifier: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        networkConfiguration: DataZoneClientTypes.NetworkConfig? = nil,
+        notebookIdentifier: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        scheduleIdentifier: Swift.String? = nil,
+        timeoutConfiguration: DataZoneClientTypes.TimeoutConfig? = nil,
+        triggerSource: DataZoneClientTypes.TriggerSource? = nil
+    ) {
+        self.clientToken = clientToken
+        self.computeConfiguration = computeConfiguration
+        self.domainIdentifier = domainIdentifier
+        self.metadata = metadata
+        self.networkConfiguration = networkConfiguration
+        self.notebookIdentifier = notebookIdentifier
+        self.owningProjectIdentifier = owningProjectIdentifier
+        self.parameters = parameters
+        self.scheduleIdentifier = scheduleIdentifier
+        self.timeoutConfiguration = timeoutConfiguration
+        self.triggerSource = triggerSource
+    }
+}
+
+extension StartNotebookRunInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartNotebookRunInput(clientToken: \(Swift.String(describing: clientToken)), computeConfiguration: \(Swift.String(describing: computeConfiguration)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), notebookIdentifier: \(Swift.String(describing: notebookIdentifier)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), scheduleIdentifier: \(Swift.String(describing: scheduleIdentifier)), timeoutConfiguration: \(Swift.String(describing: timeoutConfiguration)), triggerSource: \(Swift.String(describing: triggerSource)), metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartNotebookRunOutput: Swift.Sendable {
+    /// The ordered list of cells in the notebook run.
+    public var cellOrder: [DataZoneClientTypes.CellInformation]?
+    /// The timestamp of when the notebook run completed.
+    public var completedAt: Foundation.Date?
+    /// The compute configuration of the notebook run.
+    public var computeConfiguration: DataZoneClientTypes.ComputeConfig?
+    /// The timestamp of when the notebook run was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who created the notebook run.
+    public var createdBy: Swift.String?
+    /// The identifier of the Amazon DataZone domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The environment configuration of the notebook run, including image version and package settings.
+    public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
+    /// The error details if the notebook run failed.
+    public var error: DataZoneClientTypes.NotebookRunError?
+    /// The identifier of the notebook run.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The metadata of the notebook run.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The network configuration of the notebook run.
+    public var networkConfiguration: DataZoneClientTypes.NetworkConfig?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var notebookId: Swift.String?
+    /// The identifier of the project that owns the notebook run.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The sensitive parameters of the notebook run.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The identifier of the schedule associated with the notebook run.
+    public var scheduleId: Swift.String?
+    /// The timestamp of when the notebook run started executing.
+    public var startedAt: Foundation.Date?
+    /// The status of the notebook run.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookRunStatus?
+    /// The storage configuration of the notebook run, including the Amazon Simple Storage Service path and KMS key ARN.
+    public var storageConfiguration: DataZoneClientTypes.StorageConfig?
+    /// The timeout configuration of the notebook run.
+    public var timeoutConfiguration: DataZoneClientTypes.TimeoutConfig?
+    /// The source that triggered the notebook run.
+    public var triggerSource: DataZoneClientTypes.TriggerSource?
+    /// The timestamp of when the notebook run was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The identifier of the user who last updated the notebook run.
+    public var updatedBy: Swift.String?
+
+    public init(
+        cellOrder: [DataZoneClientTypes.CellInformation]? = nil,
+        completedAt: Foundation.Date? = nil,
+        computeConfiguration: DataZoneClientTypes.ComputeConfig? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
+        error: DataZoneClientTypes.NotebookRunError? = nil,
+        id: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        networkConfiguration: DataZoneClientTypes.NetworkConfig? = nil,
+        notebookId: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        scheduleId: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: DataZoneClientTypes.NotebookRunStatus? = nil,
+        storageConfiguration: DataZoneClientTypes.StorageConfig? = nil,
+        timeoutConfiguration: DataZoneClientTypes.TimeoutConfig? = nil,
+        triggerSource: DataZoneClientTypes.TriggerSource? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.cellOrder = cellOrder
+        self.completedAt = completedAt
+        self.computeConfiguration = computeConfiguration
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.domainId = domainId
+        self.environmentConfiguration = environmentConfiguration
+        self.error = error
+        self.id = id
+        self.metadata = metadata
+        self.networkConfiguration = networkConfiguration
+        self.notebookId = notebookId
+        self.owningProjectId = owningProjectId
+        self.parameters = parameters
+        self.scheduleId = scheduleId
+        self.startedAt = startedAt
+        self.status = status
+        self.storageConfiguration = storageConfiguration
+        self.timeoutConfiguration = timeoutConfiguration
+        self.triggerSource = triggerSource
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension StartNotebookRunOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartNotebookRunOutput(cellOrder: \(Swift.String(describing: cellOrder)), completedAt: \(Swift.String(describing: completedAt)), computeConfiguration: \(Swift.String(describing: computeConfiguration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), notebookId: \(Swift.String(describing: notebookId)), owningProjectId: \(Swift.String(describing: owningProjectId)), scheduleId: \(Swift.String(describing: scheduleId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), timeoutConfiguration: \(Swift.String(describing: timeoutConfiguration)), triggerSource: \(Swift.String(describing: triggerSource)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct StopNotebookRunInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The identifier of the Amazon DataZone domain in which the notebook run is stopped.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The identifier of the notebook run to stop.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct StopNotebookRunOutput: Swift.Sendable {
+    /// The identifier of the Amazon DataZone domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The identifier of the notebook run.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The identifier of the project that owns the notebook run.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The status of the notebook run.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookRunStatus?
+
+    public init(
+        domainId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        status: DataZoneClientTypes.NotebookRunStatus? = nil
+    ) {
+        self.domainId = domainId
+        self.id = id
+        self.owningProjectId = owningProjectId
+        self.status = status
+    }
+}
+
 public struct PostLineageEventInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     public var clientToken: Swift.String?
@@ -25527,6 +26297,19 @@ extension GetMetadataGenerationRunInput {
     }
 }
 
+extension GetNotebookRunInput {
+
+    static func urlPathProvider(_ value: GetNotebookRunInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-runs/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension GetProjectInput {
 
     static func urlPathProvider(_ value: GetProjectInput) -> Swift.String? {
@@ -26473,6 +27256,54 @@ extension ListMetadataGenerationRunsInput {
     }
 }
 
+extension ListNotebookRunsInput {
+
+    static func urlPathProvider(_ value: ListNotebookRunsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-runs"
+    }
+}
+
+extension ListNotebookRunsInput {
+
+    static func queryItemProvider(_ value: ListNotebookRunsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let owningProjectIdentifier = value.owningProjectIdentifier else {
+            let message = "Creating a URL Query Item failed. owningProjectIdentifier is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let owningProjectIdentifierQueryItem = Smithy.URIQueryItem(name: "owningProjectIdentifier".urlPercentEncoding(), value: Swift.String(owningProjectIdentifier).urlPercentEncoding())
+        items.append(owningProjectIdentifierQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let scheduleIdentifier = value.scheduleIdentifier {
+            let scheduleIdentifierQueryItem = Smithy.URIQueryItem(name: "scheduleIdentifier".urlPercentEncoding(), value: Swift.String(scheduleIdentifier).urlPercentEncoding())
+            items.append(scheduleIdentifierQueryItem)
+        }
+        if let notebookIdentifier = value.notebookIdentifier {
+            let notebookIdentifierQueryItem = Smithy.URIQueryItem(name: "notebookIdentifier".urlPercentEncoding(), value: Swift.String(notebookIdentifier).urlPercentEncoding())
+            items.append(notebookIdentifierQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListNotificationsInput {
 
     static func urlPathProvider(_ value: ListNotificationsInput) -> Swift.String? {
@@ -27264,6 +28095,29 @@ extension StartMetadataGenerationRunInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/metadata-generation-runs"
+    }
+}
+
+extension StartNotebookRunInput {
+
+    static func urlPathProvider(_ value: StartNotebookRunInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-runs"
+    }
+}
+
+extension StopNotebookRunInput {
+
+    static func urlPathProvider(_ value: StopNotebookRunInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-runs/\(identifier.urlPercentEncoding())/stop"
     }
 }
 
@@ -28225,6 +29079,31 @@ extension StartMetadataGenerationRunInput {
         try writer["target"].write(value.target, with: DataZoneClientTypes.MetadataGenerationRunTarget.write(value:to:))
         try writer["type"].write(value.type)
         try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataZoneClientTypes.MetadataGenerationRunType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension StartNotebookRunInput {
+
+    static func write(value: StartNotebookRunInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["computeConfiguration"].write(value.computeConfiguration, with: DataZoneClientTypes.ComputeConfig.write(value:to:))
+        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: DataZoneClientTypes.NetworkConfig.write(value:to:))
+        try writer["notebookIdentifier"].write(value.notebookIdentifier)
+        try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["scheduleIdentifier"].write(value.scheduleIdentifier)
+        try writer["timeoutConfiguration"].write(value.timeoutConfiguration, with: DataZoneClientTypes.TimeoutConfig.write(value:to:))
+        try writer["triggerSource"].write(value.triggerSource, with: DataZoneClientTypes.TriggerSource.write(value:to:))
+    }
+}
+
+extension StopNotebookRunInput {
+
+    static func write(value: StopNotebookRunInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
     }
 }
 
@@ -30115,6 +30994,39 @@ extension GetMetadataGenerationRunOutput {
     }
 }
 
+extension GetNotebookRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetNotebookRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetNotebookRunOutput()
+        value.cellOrder = try reader["cellOrder"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CellInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: DataZoneClientTypes.ComputeConfig.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentConfiguration = try reader["environmentConfiguration"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfig.read(from:))
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookRunError.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: DataZoneClientTypes.NetworkConfig.read(from:))
+        value.notebookId = try reader["notebookId"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.scheduleId = try reader["scheduleId"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: DataZoneClientTypes.StorageConfig.read(from:))
+        value.timeoutConfiguration = try reader["timeoutConfiguration"].readIfPresent(with: DataZoneClientTypes.TimeoutConfig.read(from:))
+        value.triggerSource = try reader["triggerSource"].readIfPresent(with: DataZoneClientTypes.TriggerSource.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
 extension GetProjectOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetProjectOutput {
@@ -30593,6 +31505,19 @@ extension ListMetadataGenerationRunsOutput {
     }
 }
 
+extension ListNotebookRunsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNotebookRunsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListNotebookRunsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.NotebookRunSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListNotificationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNotificationsOutput {
@@ -31000,6 +31925,54 @@ extension StartMetadataGenerationRunOutput {
         value.status = try reader["status"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
         value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.MetadataGenerationRunType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension StartNotebookRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartNotebookRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartNotebookRunOutput()
+        value.cellOrder = try reader["cellOrder"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CellInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: DataZoneClientTypes.ComputeConfig.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentConfiguration = try reader["environmentConfiguration"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfig.read(from:))
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookRunError.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: DataZoneClientTypes.NetworkConfig.read(from:))
+        value.notebookId = try reader["notebookId"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.scheduleId = try reader["scheduleId"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: DataZoneClientTypes.StorageConfig.read(from:))
+        value.timeoutConfiguration = try reader["timeoutConfiguration"].readIfPresent(with: DataZoneClientTypes.TimeoutConfig.read(from:))
+        value.triggerSource = try reader["triggerSource"].readIfPresent(with: DataZoneClientTypes.TriggerSource.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension StopNotebookRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopNotebookRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopNotebookRunOutput()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -33349,6 +34322,25 @@ enum GetMetadataGenerationRunOutputError {
     }
 }
 
+enum GetNotebookRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetProjectOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33917,6 +34909,24 @@ enum ListMetadataGenerationRunsOutputError {
     }
 }
 
+enum ListNotebookRunsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListNotificationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -34461,6 +35471,47 @@ enum StartMetadataGenerationRunOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartNotebookRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopNotebookRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -35709,6 +36760,14 @@ extension DataZoneClientTypes.BusinessNameGenerationConfiguration {
     }
 }
 
+extension DataZoneClientTypes.CellInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CellInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DataZoneClientTypes.CellInformation()
+    }
+}
+
 extension DataZoneClientTypes.CloudFormationProperties {
 
     static func write(value: DataZoneClientTypes.CloudFormationProperties?, to writer: SmithyJSON.Writer) throws {
@@ -35735,6 +36794,23 @@ extension DataZoneClientTypes.ColumnFilterConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.ColumnFilterConfiguration()
         value.includedColumnNames = try reader["includedColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ComputeConfig {
+
+    static func write(value: DataZoneClientTypes.ComputeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["environmentVersion"].write(value.environmentVersion)
+        try writer["instanceType"].write(value.instanceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ComputeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ComputeConfig()
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.environmentVersion = try reader["environmentVersion"].readIfPresent()
         return value
     }
 }
@@ -36556,6 +37632,17 @@ extension DataZoneClientTypes.EnvironmentBlueprintSummary {
         value.provisioningProperties = try reader["provisioningProperties"].readIfPresent(with: DataZoneClientTypes.ProvisioningProperties.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentConfig()
+        value.imageVersion = try reader["imageVersion"].readIfPresent()
+        value.packageConfig = try reader["packageConfig"].readIfPresent(with: DataZoneClientTypes.PackageConfig.read(from:))
         return value
     }
 }
@@ -37946,6 +39033,59 @@ extension DataZoneClientTypes.NameIdentifier {
     }
 }
 
+extension DataZoneClientTypes.NetworkConfig {
+
+    static func write(value: DataZoneClientTypes.NetworkConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkAccessType"].write(value.networkAccessType)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcId"].write(value.vpcId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NetworkConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NetworkConfig()
+        value.networkAccessType = try reader["networkAccessType"].readIfPresent() ?? .sdkUnknown("")
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NotebookRunError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotebookRunError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NotebookRunError()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NotebookRunSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotebookRunSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NotebookRunSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.notebookId = try reader["notebookId"].readIfPresent() ?? ""
+        value.scheduleId = try reader["scheduleId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.triggerSource = try reader["triggerSource"].readIfPresent(with: DataZoneClientTypes.TriggerSource.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension DataZoneClientTypes.NotEqualToExpression {
 
     static func write(value: DataZoneClientTypes.NotEqualToExpression?, to writer: SmithyJSON.Writer) throws {
@@ -38178,6 +39318,17 @@ extension DataZoneClientTypes.OwnerUserPropertiesOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.OwnerUserPropertiesOutput()
         value.userId = try reader["userId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.PackageConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PackageConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.PackageConfig()
+        value.packageManager = try reader["packageManager"].readIfPresent() ?? DataZoneClientTypes.PackageManager.uv
+        value.packageSpecification = try reader["packageSpecification"].readIfPresent()
         return value
     }
 }
@@ -39466,6 +40617,17 @@ extension DataZoneClientTypes.SsoUserProfileDetails {
     }
 }
 
+extension DataZoneClientTypes.StorageConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.StorageConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.StorageConfig()
+        value.projectS3Path = try reader["projectS3Path"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
 extension DataZoneClientTypes.SubscribedAsset {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedAsset {
@@ -39804,6 +40966,21 @@ extension DataZoneClientTypes.TextMatchItem {
     }
 }
 
+extension DataZoneClientTypes.TimeoutConfig {
+
+    static func write(value: DataZoneClientTypes.TimeoutConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["runTimeoutInMinutes"].write(value.runTimeoutInMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.TimeoutConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.TimeoutConfig()
+        value.runTimeoutInMinutes = try reader["runTimeoutInMinutes"].readIfPresent()
+        return value
+    }
+}
+
 extension DataZoneClientTypes.TimeSeriesDataPointFormInput {
 
     static func write(value: DataZoneClientTypes.TimeSeriesDataPointFormInput?, to writer: SmithyJSON.Writer) throws {
@@ -39854,6 +41031,23 @@ extension DataZoneClientTypes.Topic {
         value.subject = try reader["subject"].readIfPresent() ?? ""
         value.resource = try reader["resource"].readIfPresent(with: DataZoneClientTypes.NotificationResource.read(from:))
         value.role = try reader["role"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DataZoneClientTypes.TriggerSource {
+
+    static func write(value: DataZoneClientTypes.TriggerSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.TriggerSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.TriggerSource()
+        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
         return value
     }
 }
