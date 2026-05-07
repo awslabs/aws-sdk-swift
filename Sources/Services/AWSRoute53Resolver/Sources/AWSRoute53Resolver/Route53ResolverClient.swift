@@ -1904,6 +1904,7 @@ extension Route53ResolverClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceInUseException` : The resource that you tried to update or delete is currently in use.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
@@ -2203,6 +2204,7 @@ extension Route53ResolverClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
     public func disassociateResolverRule(input: DisassociateResolverRuleInput) async throws -> DisassociateResolverRuleOutput {

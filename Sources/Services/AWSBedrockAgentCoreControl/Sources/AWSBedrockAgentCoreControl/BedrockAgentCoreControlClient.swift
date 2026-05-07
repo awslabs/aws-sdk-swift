@@ -1735,6 +1735,233 @@ extension BedrockAgentCoreControlClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreatePaymentConnector` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Creates a new payment connector for a payment manager. A payment connector integrates with a supported payment provider to enable payment processing capabilities.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreatePaymentConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreatePaymentConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func createPaymentConnector(input: CreatePaymentConnectorInput) async throws -> CreatePaymentConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createPaymentConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreatePaymentConnectorInput, CreatePaymentConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreatePaymentConnectorInput, CreatePaymentConnectorOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePaymentConnectorInput, CreatePaymentConnectorOutput>(CreatePaymentConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePaymentConnectorInput, CreatePaymentConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePaymentConnectorInput, CreatePaymentConnectorOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreatePaymentConnectorInput, CreatePaymentConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePaymentConnectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePaymentConnectorInput, CreatePaymentConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePaymentConnectorOutput>(CreatePaymentConnectorOutput.httpOutput(from:), CreatePaymentConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePaymentConnectorInput, CreatePaymentConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreatePaymentConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePaymentConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePaymentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePaymentConnectorInput, CreatePaymentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePaymentConnectorInput, CreatePaymentConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePaymentConnectorInput, CreatePaymentConnectorOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePaymentConnector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreatePaymentCredentialProvider` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Creates a new payment credential provider for storing authentication credentials used by payment connectors to communicate with external payment providers.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreatePaymentCredentialProviderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreatePaymentCredentialProviderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
+    /// - `DecryptionFailure` : Exception thrown when decryption of a secret fails.
+    /// - `EncryptionFailure` : Exception thrown when encryption of a secret fails.
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceLimitExceededException` : Exception thrown when a resource limit is exceeded.
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `UnauthorizedException` : This exception is thrown when the JWT bearer token is invalid or not found for OAuth bearer token based access
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func createPaymentCredentialProvider(input: CreatePaymentCredentialProviderInput) async throws -> CreatePaymentCredentialProviderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createPaymentCredentialProvider")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreatePaymentCredentialProviderInput, CreatePaymentCredentialProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePaymentCredentialProviderInput, CreatePaymentCredentialProviderOutput>(CreatePaymentCredentialProviderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePaymentCredentialProviderInput, CreatePaymentCredentialProviderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePaymentCredentialProviderInput, CreatePaymentCredentialProviderOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreatePaymentCredentialProviderInput, CreatePaymentCredentialProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePaymentCredentialProviderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePaymentCredentialProviderInput, CreatePaymentCredentialProviderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePaymentCredentialProviderOutput>(CreatePaymentCredentialProviderOutput.httpOutput(from:), CreatePaymentCredentialProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePaymentCredentialProviderInput, CreatePaymentCredentialProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreatePaymentCredentialProviderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePaymentCredentialProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePaymentCredentialProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePaymentCredentialProviderInput, CreatePaymentCredentialProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePaymentCredentialProviderInput, CreatePaymentCredentialProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePaymentCredentialProviderInput, CreatePaymentCredentialProviderOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePaymentCredentialProvider")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreatePaymentManager` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Creates a new payment manager in your Amazon Web Services account. A payment manager serves as the top-level resource for managing payment processing capabilities, including payment connectors that integrate with supported payment providers. If you specify CUSTOM_JWT as the authorizerType, you must provide an authorizerConfiguration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreatePaymentManagerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreatePaymentManagerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func createPaymentManager(input: CreatePaymentManagerInput) async throws -> CreatePaymentManagerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createPaymentManager")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreatePaymentManagerInput, CreatePaymentManagerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreatePaymentManagerInput, CreatePaymentManagerOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePaymentManagerInput, CreatePaymentManagerOutput>(CreatePaymentManagerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePaymentManagerInput, CreatePaymentManagerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePaymentManagerInput, CreatePaymentManagerOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreatePaymentManagerInput, CreatePaymentManagerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePaymentManagerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePaymentManagerInput, CreatePaymentManagerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePaymentManagerOutput>(CreatePaymentManagerOutput.httpOutput(from:), CreatePaymentManagerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePaymentManagerInput, CreatePaymentManagerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreatePaymentManagerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePaymentManagerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePaymentManagerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePaymentManagerInput, CreatePaymentManagerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePaymentManagerInput, CreatePaymentManagerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePaymentManagerInput, CreatePaymentManagerOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePaymentManager")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreatePolicy` operation on the `BedrockAgentCoreControl` service.
     ///
     /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the [GetPolicy](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_GetPolicy.html) operation to poll the status field to track completion.
@@ -3165,6 +3392,221 @@ extension BedrockAgentCoreControlClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteOnlineEvaluationConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeletePaymentConnector` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Deletes a payment connector.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeletePaymentConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeletePaymentConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    public func deletePaymentConnector(input: DeletePaymentConnectorInput) async throws -> DeletePaymentConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deletePaymentConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePaymentConnectorInput, DeletePaymentConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeletePaymentConnectorInput, DeletePaymentConnectorOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePaymentConnectorInput, DeletePaymentConnectorOutput>(DeletePaymentConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePaymentConnectorInput, DeletePaymentConnectorOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePaymentConnectorInput, DeletePaymentConnectorOutput>(DeletePaymentConnectorInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePaymentConnectorOutput>(DeletePaymentConnectorOutput.httpOutput(from:), DeletePaymentConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePaymentConnectorInput, DeletePaymentConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeletePaymentConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePaymentConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePaymentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePaymentConnectorInput, DeletePaymentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePaymentConnectorInput, DeletePaymentConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePaymentConnectorInput, DeletePaymentConnectorOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePaymentConnector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeletePaymentCredentialProvider` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Deletes a payment credential provider and its associated stored credentials.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeletePaymentCredentialProviderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeletePaymentCredentialProviderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `UnauthorizedException` : This exception is thrown when the JWT bearer token is invalid or not found for OAuth bearer token based access
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func deletePaymentCredentialProvider(input: DeletePaymentCredentialProviderInput) async throws -> DeletePaymentCredentialProviderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deletePaymentCredentialProvider")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePaymentCredentialProviderInput, DeletePaymentCredentialProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePaymentCredentialProviderInput, DeletePaymentCredentialProviderOutput>(DeletePaymentCredentialProviderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePaymentCredentialProviderInput, DeletePaymentCredentialProviderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePaymentCredentialProviderInput, DeletePaymentCredentialProviderOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeletePaymentCredentialProviderInput, DeletePaymentCredentialProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePaymentCredentialProviderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePaymentCredentialProviderInput, DeletePaymentCredentialProviderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePaymentCredentialProviderOutput>(DeletePaymentCredentialProviderOutput.httpOutput(from:), DeletePaymentCredentialProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePaymentCredentialProviderInput, DeletePaymentCredentialProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeletePaymentCredentialProviderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePaymentCredentialProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePaymentCredentialProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePaymentCredentialProviderInput, DeletePaymentCredentialProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePaymentCredentialProviderInput, DeletePaymentCredentialProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePaymentCredentialProviderInput, DeletePaymentCredentialProviderOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePaymentCredentialProvider")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeletePaymentManager` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Deletes a payment manager. All payment connectors associated with the payment manager must be deleted before the payment manager can be deleted. This operation initiates the deletion process asynchronously.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeletePaymentManagerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeletePaymentManagerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    public func deletePaymentManager(input: DeletePaymentManagerInput) async throws -> DeletePaymentManagerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deletePaymentManager")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePaymentManagerInput, DeletePaymentManagerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeletePaymentManagerInput, DeletePaymentManagerOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePaymentManagerInput, DeletePaymentManagerOutput>(DeletePaymentManagerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePaymentManagerInput, DeletePaymentManagerOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePaymentManagerInput, DeletePaymentManagerOutput>(DeletePaymentManagerInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePaymentManagerOutput>(DeletePaymentManagerOutput.httpOutput(from:), DeletePaymentManagerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePaymentManagerInput, DeletePaymentManagerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeletePaymentManagerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePaymentManagerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePaymentManagerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePaymentManagerInput, DeletePaymentManagerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePaymentManagerInput, DeletePaymentManagerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePaymentManagerInput, DeletePaymentManagerOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePaymentManager")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4705,6 +5147,218 @@ extension BedrockAgentCoreControlClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetOnlineEvaluationConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetPaymentConnector` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Retrieves information about a specific payment connector.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetPaymentConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetPaymentConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func getPaymentConnector(input: GetPaymentConnectorInput) async throws -> GetPaymentConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getPaymentConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetPaymentConnectorInput, GetPaymentConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPaymentConnectorInput, GetPaymentConnectorOutput>(GetPaymentConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPaymentConnectorInput, GetPaymentConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPaymentConnectorOutput>(GetPaymentConnectorOutput.httpOutput(from:), GetPaymentConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPaymentConnectorInput, GetPaymentConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetPaymentConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPaymentConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPaymentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPaymentConnectorInput, GetPaymentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPaymentConnectorInput, GetPaymentConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPaymentConnectorInput, GetPaymentConnectorOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPaymentConnector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetPaymentCredentialProvider` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Retrieves information about a specific payment credential provider.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetPaymentCredentialProviderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetPaymentCredentialProviderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `DecryptionFailure` : Exception thrown when decryption of a secret fails.
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `UnauthorizedException` : This exception is thrown when the JWT bearer token is invalid or not found for OAuth bearer token based access
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func getPaymentCredentialProvider(input: GetPaymentCredentialProviderInput) async throws -> GetPaymentCredentialProviderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getPaymentCredentialProvider")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetPaymentCredentialProviderInput, GetPaymentCredentialProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPaymentCredentialProviderInput, GetPaymentCredentialProviderOutput>(GetPaymentCredentialProviderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPaymentCredentialProviderInput, GetPaymentCredentialProviderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPaymentCredentialProviderInput, GetPaymentCredentialProviderOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetPaymentCredentialProviderInput, GetPaymentCredentialProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPaymentCredentialProviderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPaymentCredentialProviderInput, GetPaymentCredentialProviderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPaymentCredentialProviderOutput>(GetPaymentCredentialProviderOutput.httpOutput(from:), GetPaymentCredentialProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPaymentCredentialProviderInput, GetPaymentCredentialProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetPaymentCredentialProviderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPaymentCredentialProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPaymentCredentialProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPaymentCredentialProviderInput, GetPaymentCredentialProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPaymentCredentialProviderInput, GetPaymentCredentialProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPaymentCredentialProviderInput, GetPaymentCredentialProviderOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPaymentCredentialProvider")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetPaymentManager` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Retrieves information about a specific payment manager.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetPaymentManagerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetPaymentManagerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func getPaymentManager(input: GetPaymentManagerInput) async throws -> GetPaymentManagerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getPaymentManager")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetPaymentManagerInput, GetPaymentManagerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPaymentManagerInput, GetPaymentManagerOutput>(GetPaymentManagerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPaymentManagerInput, GetPaymentManagerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPaymentManagerOutput>(GetPaymentManagerOutput.httpOutput(from:), GetPaymentManagerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPaymentManagerInput, GetPaymentManagerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetPaymentManagerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPaymentManagerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPaymentManagerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPaymentManagerInput, GetPaymentManagerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPaymentManagerInput, GetPaymentManagerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPaymentManagerInput, GetPaymentManagerOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPaymentManager")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6459,6 +7113,217 @@ extension BedrockAgentCoreControlClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListOnlineEvaluationConfigs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListPaymentConnectors` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Lists all payment connectors for a specified payment manager.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListPaymentConnectorsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListPaymentConnectorsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func listPaymentConnectors(input: ListPaymentConnectorsInput) async throws -> ListPaymentConnectorsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPaymentConnectors")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListPaymentConnectorsInput, ListPaymentConnectorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPaymentConnectorsInput, ListPaymentConnectorsOutput>(ListPaymentConnectorsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPaymentConnectorsInput, ListPaymentConnectorsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListPaymentConnectorsInput, ListPaymentConnectorsOutput>(ListPaymentConnectorsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPaymentConnectorsOutput>(ListPaymentConnectorsOutput.httpOutput(from:), ListPaymentConnectorsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPaymentConnectorsInput, ListPaymentConnectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPaymentConnectorsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPaymentConnectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPaymentConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPaymentConnectorsInput, ListPaymentConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPaymentConnectorsInput, ListPaymentConnectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPaymentConnectorsInput, ListPaymentConnectorsOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPaymentConnectors")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListPaymentCredentialProviders` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Lists all payment credential providers in the account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListPaymentCredentialProvidersInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListPaymentCredentialProvidersOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `UnauthorizedException` : This exception is thrown when the JWT bearer token is invalid or not found for OAuth bearer token based access
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func listPaymentCredentialProviders(input: ListPaymentCredentialProvidersInput) async throws -> ListPaymentCredentialProvidersOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPaymentCredentialProviders")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListPaymentCredentialProvidersInput, ListPaymentCredentialProvidersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPaymentCredentialProvidersInput, ListPaymentCredentialProvidersOutput>(ListPaymentCredentialProvidersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPaymentCredentialProvidersInput, ListPaymentCredentialProvidersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPaymentCredentialProvidersInput, ListPaymentCredentialProvidersOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListPaymentCredentialProvidersInput, ListPaymentCredentialProvidersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPaymentCredentialProvidersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPaymentCredentialProvidersInput, ListPaymentCredentialProvidersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPaymentCredentialProvidersOutput>(ListPaymentCredentialProvidersOutput.httpOutput(from:), ListPaymentCredentialProvidersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPaymentCredentialProvidersInput, ListPaymentCredentialProvidersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPaymentCredentialProvidersOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPaymentCredentialProvidersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPaymentCredentialProvidersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPaymentCredentialProvidersInput, ListPaymentCredentialProvidersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPaymentCredentialProvidersInput, ListPaymentCredentialProvidersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPaymentCredentialProvidersInput, ListPaymentCredentialProvidersOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPaymentCredentialProviders")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListPaymentManagers` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Lists all payment managers in the account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListPaymentManagersInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListPaymentManagersOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func listPaymentManagers(input: ListPaymentManagersInput) async throws -> ListPaymentManagersOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPaymentManagers")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListPaymentManagersInput, ListPaymentManagersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPaymentManagersInput, ListPaymentManagersOutput>(ListPaymentManagersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPaymentManagersInput, ListPaymentManagersOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListPaymentManagersInput, ListPaymentManagersOutput>(ListPaymentManagersInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPaymentManagersOutput>(ListPaymentManagersOutput.httpOutput(from:), ListPaymentManagersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPaymentManagersInput, ListPaymentManagersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPaymentManagersOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPaymentManagersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPaymentManagersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPaymentManagersInput, ListPaymentManagersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPaymentManagersInput, ListPaymentManagersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPaymentManagersInput, ListPaymentManagersOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPaymentManagers")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -8426,6 +9291,233 @@ extension BedrockAgentCoreControlClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateOnlineEvaluationConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdatePaymentConnector` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Updates an existing payment connector. This operation uses PATCH semantics, so you only need to specify the fields you want to change.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdatePaymentConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdatePaymentConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func updatePaymentConnector(input: UpdatePaymentConnectorInput) async throws -> UpdatePaymentConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updatePaymentConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdatePaymentConnectorInput, UpdatePaymentConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdatePaymentConnectorInput, UpdatePaymentConnectorOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePaymentConnectorInput, UpdatePaymentConnectorOutput>(UpdatePaymentConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePaymentConnectorInput, UpdatePaymentConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePaymentConnectorInput, UpdatePaymentConnectorOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePaymentConnectorInput, UpdatePaymentConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePaymentConnectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePaymentConnectorInput, UpdatePaymentConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePaymentConnectorOutput>(UpdatePaymentConnectorOutput.httpOutput(from:), UpdatePaymentConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePaymentConnectorInput, UpdatePaymentConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePaymentConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePaymentConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePaymentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePaymentConnectorInput, UpdatePaymentConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePaymentConnectorInput, UpdatePaymentConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePaymentConnectorInput, UpdatePaymentConnectorOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePaymentConnector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdatePaymentCredentialProvider` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Updates an existing payment credential provider with new authentication credentials.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdatePaymentCredentialProviderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdatePaymentCredentialProviderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
+    /// - `DecryptionFailure` : Exception thrown when decryption of a secret fails.
+    /// - `EncryptionFailure` : Exception thrown when encryption of a secret fails.
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `UnauthorizedException` : This exception is thrown when the JWT bearer token is invalid or not found for OAuth bearer token based access
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func updatePaymentCredentialProvider(input: UpdatePaymentCredentialProviderInput) async throws -> UpdatePaymentCredentialProviderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updatePaymentCredentialProvider")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdatePaymentCredentialProviderInput, UpdatePaymentCredentialProviderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePaymentCredentialProviderInput, UpdatePaymentCredentialProviderOutput>(UpdatePaymentCredentialProviderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePaymentCredentialProviderInput, UpdatePaymentCredentialProviderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePaymentCredentialProviderInput, UpdatePaymentCredentialProviderOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePaymentCredentialProviderInput, UpdatePaymentCredentialProviderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePaymentCredentialProviderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePaymentCredentialProviderInput, UpdatePaymentCredentialProviderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePaymentCredentialProviderOutput>(UpdatePaymentCredentialProviderOutput.httpOutput(from:), UpdatePaymentCredentialProviderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePaymentCredentialProviderInput, UpdatePaymentCredentialProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePaymentCredentialProviderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePaymentCredentialProviderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePaymentCredentialProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePaymentCredentialProviderInput, UpdatePaymentCredentialProviderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePaymentCredentialProviderInput, UpdatePaymentCredentialProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePaymentCredentialProviderInput, UpdatePaymentCredentialProviderOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePaymentCredentialProvider")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdatePaymentManager` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Updates an existing payment manager. This operation uses PATCH semantics, so you only need to specify the fields you want to change.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdatePaymentManagerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdatePaymentManagerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func updatePaymentManager(input: UpdatePaymentManagerInput) async throws -> UpdatePaymentManagerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updatePaymentManager")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdatePaymentManagerInput, UpdatePaymentManagerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdatePaymentManagerInput, UpdatePaymentManagerOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePaymentManagerInput, UpdatePaymentManagerOutput>(UpdatePaymentManagerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePaymentManagerInput, UpdatePaymentManagerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePaymentManagerInput, UpdatePaymentManagerOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePaymentManagerInput, UpdatePaymentManagerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePaymentManagerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePaymentManagerInput, UpdatePaymentManagerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePaymentManagerOutput>(UpdatePaymentManagerOutput.httpOutput(from:), UpdatePaymentManagerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePaymentManagerInput, UpdatePaymentManagerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePaymentManagerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePaymentManagerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePaymentManagerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePaymentManagerInput, UpdatePaymentManagerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePaymentManagerInput, UpdatePaymentManagerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePaymentManagerInput, UpdatePaymentManagerOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePaymentManager")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

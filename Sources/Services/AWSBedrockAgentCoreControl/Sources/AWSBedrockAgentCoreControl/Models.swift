@@ -1353,7 +1353,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var discoveryUrl: Swift.String?
         /// The private endpoint configuration for a gateway target. Defines how the gateway connects to private resources in your VPC.
         public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
-        /// A list of private endpoint overrides for the JWT authorizer. Each override maps a specific domain to a private endpoint, enabling secure connectivity through VPC Lattice resource configurations.
+        /// The private endpoint overrides for the custom JWT authorizer configuration.
         public var privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]?
 
         public init(
@@ -11186,7 +11186,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var onBehalfOfTokenExchangeConfig: BedrockAgentCoreControlClientTypes.OnBehalfOfTokenExchangeConfigType?
         /// The default private endpoint for the custom OAuth2 provider, enabling secure connectivity through a VPC Lattice resource configuration.
         public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
-        /// The list of private endpoint overrides for the custom OAuth2 provider. Each override maps a specific domain to a private endpoint, enabling secure connectivity through VPC Lattice resource configurations.
+        /// The private endpoint overrides for the custom OAuth2 provider configuration.
         public var privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]?
 
         public init(
@@ -11499,7 +11499,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var onBehalfOfTokenExchangeConfig: BedrockAgentCoreControlClientTypes.OnBehalfOfTokenExchangeConfigType?
         /// The default private endpoint for the custom OAuth2 provider, enabling secure connectivity through a VPC Lattice resource configuration.
         public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
-        /// The list of private endpoint overrides for the custom OAuth2 provider. Each override maps a specific domain to a private endpoint, enabling secure connectivity through VPC Lattice resource configurations.
+        /// The private endpoint overrides for the custom OAuth2 provider configuration.
         public var privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]?
 
         public init(
@@ -11808,7 +11808,7 @@ public struct GetOauth2CredentialProviderOutput: Swift.Sendable {
     /// The vendor of the OAuth2 credential provider.
     /// This member is required.
     public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.CredentialProviderVendorType?
-    /// The reason for the failure if the OAuth2 credential provider is in a failed state.
+    /// The reason for failure if the OAuth2 credential provider is in a failed state.
     public var failureReason: Swift.String?
     /// The timestamp when the OAuth2 credential provider was last updated.
     /// This member is required.
@@ -11960,7 +11960,7 @@ public struct UpdateOauth2CredentialProviderOutput: Swift.Sendable {
     /// The configuration output for the OAuth2 provider.
     /// This member is required.
     public var oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput?
-    /// The current status of the OAuth2 credential provider.
+    /// The current status of the updated OAuth2 credential provider.
     public var status: BedrockAgentCoreControlClientTypes.Status?
 
     public init(
@@ -12661,6 +12661,1307 @@ public struct UpdateOnlineEvaluationConfigOutput: Swift.Sendable {
         self.onlineEvaluationConfigId = onlineEvaluationConfigId
         self.status = status
         self.updatedAt = updatedAt
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Supported vendor types for payment providers using non-standard auth protocols
+    public enum PaymentCredentialProviderVendorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Coinbase Developer Platform - https://docs.cdp.coinbase.com/
+        case coinbasecdp
+        /// Stripe + Privy - https://docs.privy.io/
+        case stripeprivy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentCredentialProviderVendorType] {
+            return [
+                .coinbasecdp,
+                .stripeprivy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .coinbasecdp: return "CoinbaseCDP"
+            case .stripeprivy: return "StripePrivy"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Coinbase CDP configuration - credentials provided by Coinbase Developer Platform
+    public struct CoinbaseCdpConfigurationInput: Swift.Sendable {
+        /// The API key identifier provided by Coinbase Developer Platform.
+        /// This member is required.
+        public var apiKeyId: Swift.String?
+        /// The API key secret provided by Coinbase Developer Platform.
+        /// This member is required.
+        public var apiKeySecret: Swift.String?
+        /// The wallet secret provided by Coinbase Developer Platform.
+        /// This member is required.
+        public var walletSecret: Swift.String?
+
+        public init(
+            apiKeyId: Swift.String? = nil,
+            apiKeySecret: Swift.String? = nil,
+            walletSecret: Swift.String? = nil
+        ) {
+            self.apiKeyId = apiKeyId
+            self.apiKeySecret = apiKeySecret
+            self.walletSecret = walletSecret
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CoinbaseCdpConfigurationInput(apiKeyId: \(Swift.String(describing: apiKeyId)), apiKeySecret: \"CONTENT_REDACTED\", walletSecret: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// StripePrivy configuration - credentials provided by Stripe + Privy
+    public struct StripePrivyConfigurationInput: Swift.Sendable {
+        /// The app ID provided by Privy.
+        /// This member is required.
+        public var appId: Swift.String?
+        /// The app secret provided by Privy.
+        /// This member is required.
+        public var appSecret: Swift.String?
+        /// The authorization ID for the Stripe Privy integration.
+        /// This member is required.
+        public var authorizationId: Swift.String?
+        /// The authorization private key for the Stripe Privy integration.
+        /// This member is required.
+        public var authorizationPrivateKey: Swift.String?
+
+        public init(
+            appId: Swift.String? = nil,
+            appSecret: Swift.String? = nil,
+            authorizationId: Swift.String? = nil,
+            authorizationPrivateKey: Swift.String? = nil
+        ) {
+            self.appId = appId
+            self.appSecret = appSecret
+            self.authorizationId = authorizationId
+            self.authorizationPrivateKey = authorizationPrivateKey
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.StripePrivyConfigurationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StripePrivyConfigurationInput(appId: \(Swift.String(describing: appId)), authorizationId: \(Swift.String(describing: authorizationId)), appSecret: \"CONTENT_REDACTED\", authorizationPrivateKey: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// PROVIDER CONFIGURATION INPUT - Contains secrets for creation/update
+    public enum PaymentProviderConfigurationInput: Swift.Sendable {
+        /// Coinbase CDP configuration - credentials provided by Coinbase Developer Platform
+        case coinbasecdpconfiguration(BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationInput)
+        /// StripePrivy configuration - credentials provided by Stripe + Privy
+        case stripeprivyconfiguration(BedrockAgentCoreControlClientTypes.StripePrivyConfigurationInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreatePaymentCredentialProviderInput: Swift.Sendable {
+    /// The vendor type (e.g., CoinbaseCDP)
+    /// This member is required.
+    public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType?
+    /// Unique name for the payment credential provider
+    /// This member is required.
+    public var name: Swift.String?
+    /// Configuration specific to the vendor, including API credentials
+    /// This member is required.
+    public var providerConfigurationInput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationInput?
+    /// Optional tags for resource organization
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType? = nil,
+        name: Swift.String? = nil,
+        providerConfigurationInput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationInput? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.credentialProviderVendor = credentialProviderVendor
+        self.name = name
+        self.providerConfigurationInput = providerConfigurationInput
+        self.tags = tags
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Coinbase CDP configuration output with secret ARNs
+    public struct CoinbaseCdpConfigurationOutput: Swift.Sendable {
+        /// The API key identifier provided by Coinbase Developer Platform.
+        /// This member is required.
+        public var apiKeyId: Swift.String?
+        /// Contains information about a secret in AWS Secrets Manager.
+        /// This member is required.
+        public var apiKeySecretArn: BedrockAgentCoreControlClientTypes.Secret?
+        /// Contains information about a secret in AWS Secrets Manager.
+        /// This member is required.
+        public var walletSecretArn: BedrockAgentCoreControlClientTypes.Secret?
+
+        public init(
+            apiKeyId: Swift.String? = nil,
+            apiKeySecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
+            walletSecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil
+        ) {
+            self.apiKeyId = apiKeyId
+            self.apiKeySecretArn = apiKeySecretArn
+            self.walletSecretArn = walletSecretArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// StripePrivy configuration output with secret ARNs
+    public struct StripePrivyConfigurationOutput: Swift.Sendable {
+        /// The app ID provided by Privy.
+        /// This member is required.
+        public var appId: Swift.String?
+        /// Contains information about a secret in AWS Secrets Manager.
+        /// This member is required.
+        public var appSecretArn: BedrockAgentCoreControlClientTypes.Secret?
+        /// The authorization ID for the Stripe Privy integration.
+        /// This member is required.
+        public var authorizationId: Swift.String?
+        /// Contains information about a secret in AWS Secrets Manager.
+        /// This member is required.
+        public var authorizationPrivateKeyArn: BedrockAgentCoreControlClientTypes.Secret?
+
+        public init(
+            appId: Swift.String? = nil,
+            appSecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
+            authorizationId: Swift.String? = nil,
+            authorizationPrivateKeyArn: BedrockAgentCoreControlClientTypes.Secret? = nil
+        ) {
+            self.appId = appId
+            self.appSecretArn = appSecretArn
+            self.authorizationId = authorizationId
+            self.authorizationPrivateKeyArn = authorizationPrivateKeyArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// PROVIDER CONFIGURATION OUTPUT - No raw secrets, only ARNs
+    public enum PaymentProviderConfigurationOutput: Swift.Sendable {
+        /// Coinbase CDP configuration output with secret ARNs
+        case coinbasecdpconfiguration(BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationOutput)
+        /// StripePrivy configuration output with secret ARNs
+        case stripeprivyconfiguration(BedrockAgentCoreControlClientTypes.StripePrivyConfigurationOutput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreatePaymentCredentialProviderOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created payment credential provider.
+    /// This member is required.
+    public var credentialProviderArn: Swift.String?
+    /// Supported vendor types for payment providers using non-standard auth protocols
+    /// This member is required.
+    public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType?
+    /// The name of the created payment credential provider.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Output configuration (contains secret ARNs, excludes actual secret values)
+    /// This member is required.
+    public var providerConfigurationOutput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput?
+
+    public init(
+        credentialProviderArn: Swift.String? = nil,
+        credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType? = nil,
+        name: Swift.String? = nil,
+        providerConfigurationOutput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput? = nil
+    ) {
+        self.credentialProviderArn = credentialProviderArn
+        self.credentialProviderVendor = credentialProviderVendor
+        self.name = name
+        self.providerConfigurationOutput = providerConfigurationOutput
+    }
+}
+
+public struct DeletePaymentCredentialProviderInput: Swift.Sendable {
+    /// The name of the payment credential provider to delete.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    ) {
+        self.name = name
+    }
+}
+
+public struct DeletePaymentCredentialProviderOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetPaymentCredentialProviderInput: Swift.Sendable {
+    /// The name of the payment credential provider to retrieve.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    ) {
+        self.name = name
+    }
+}
+
+public struct GetPaymentCredentialProviderOutput: Swift.Sendable {
+    /// The timestamp when the payment credential provider was created.
+    /// This member is required.
+    public var createdTime: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the payment credential provider.
+    /// This member is required.
+    public var credentialProviderArn: Swift.String?
+    /// Supported vendor types for payment providers using non-standard auth protocols
+    /// This member is required.
+    public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType?
+    /// The timestamp when the payment credential provider was last updated.
+    /// This member is required.
+    public var lastUpdatedTime: Foundation.Date?
+    /// The name of the payment credential provider.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Output configuration (contains secret ARNs, excludes actual secret values)
+    /// This member is required.
+    public var providerConfigurationOutput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput?
+    /// The tags associated with the payment credential provider.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        createdTime: Foundation.Date? = nil,
+        credentialProviderArn: Swift.String? = nil,
+        credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        providerConfigurationOutput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.createdTime = createdTime
+        self.credentialProviderArn = credentialProviderArn
+        self.credentialProviderVendor = credentialProviderVendor
+        self.lastUpdatedTime = lastUpdatedTime
+        self.name = name
+        self.providerConfigurationOutput = providerConfigurationOutput
+        self.tags = tags
+    }
+}
+
+public struct ListPaymentCredentialProvidersInput: Swift.Sendable {
+    /// Maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// Pagination token.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains summary information about a payment credential provider.
+    public struct PaymentCredentialProviderItem: Swift.Sendable {
+        /// The timestamp when the payment credential provider was created.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the payment credential provider.
+        /// This member is required.
+        public var credentialProviderArn: Swift.String?
+        /// Supported vendor types for payment providers using non-standard auth protocols
+        /// This member is required.
+        public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType?
+        /// The timestamp when the payment credential provider was last updated.
+        /// This member is required.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The name of the payment credential provider.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            createdTime: Foundation.Date? = nil,
+            credentialProviderArn: Swift.String? = nil,
+            credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.createdTime = createdTime
+            self.credentialProviderArn = credentialProviderArn
+            self.credentialProviderVendor = credentialProviderVendor
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+        }
+    }
+}
+
+public struct ListPaymentCredentialProvidersOutput: Swift.Sendable {
+    /// The list of payment credential providers.
+    /// This member is required.
+    public var credentialProviders: [BedrockAgentCoreControlClientTypes.PaymentCredentialProviderItem]?
+    /// Pagination token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        credentialProviders: [BedrockAgentCoreControlClientTypes.PaymentCredentialProviderItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.credentialProviders = credentialProviders
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdatePaymentCredentialProviderInput: Swift.Sendable {
+    /// Supported vendor types for payment providers using non-standard auth protocols
+    /// This member is required.
+    public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType?
+    /// The name of the payment credential provider to update.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Configuration specific to the vendor, including API credentials
+    /// This member is required.
+    public var providerConfigurationInput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationInput?
+
+    public init(
+        credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType? = nil,
+        name: Swift.String? = nil,
+        providerConfigurationInput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationInput? = nil
+    ) {
+        self.credentialProviderVendor = credentialProviderVendor
+        self.name = name
+        self.providerConfigurationInput = providerConfigurationInput
+    }
+}
+
+public struct UpdatePaymentCredentialProviderOutput: Swift.Sendable {
+    /// The timestamp when the payment credential provider was created.
+    /// This member is required.
+    public var createdTime: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the updated payment credential provider.
+    /// This member is required.
+    public var credentialProviderArn: Swift.String?
+    /// Supported vendor types for payment providers using non-standard auth protocols
+    /// This member is required.
+    public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType?
+    /// The timestamp when the payment credential provider was last updated.
+    /// This member is required.
+    public var lastUpdatedTime: Foundation.Date?
+    /// The name of the updated payment credential provider.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Output configuration (contains secret ARNs, excludes actual secret values)
+    /// This member is required.
+    public var providerConfigurationOutput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput?
+
+    public init(
+        createdTime: Foundation.Date? = nil,
+        credentialProviderArn: Swift.String? = nil,
+        credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        providerConfigurationOutput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput? = nil
+    ) {
+        self.createdTime = createdTime
+        self.credentialProviderArn = credentialProviderArn
+        self.credentialProviderVendor = credentialProviderVendor
+        self.lastUpdatedTime = lastUpdatedTime
+        self.name = name
+        self.providerConfigurationOutput = providerConfigurationOutput
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum PaymentsAuthorizerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsIam
+        case customJwt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentsAuthorizerType] {
+            return [
+                .awsIam,
+                .customJwt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsIam: return "AWS_IAM"
+            case .customJwt: return "CUSTOM_JWT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePaymentManagerInput: Swift.Sendable {
+    /// The authorizer configuration for the payment manager.
+    public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
+    /// The type of authorizer to use for the payment manager.
+    ///
+    /// * CUSTOM_JWT - Authorize with a bearer token.
+    ///
+    /// * AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
+    /// This member is required.
+    public var authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// A description of the payment manager.
+    public var description: Swift.String?
+    /// The name of the payment manager.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that the payment manager assumes to access resources on your behalf.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// A map of tag keys and values to assign to the payment manager.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
+        authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.authorizerConfiguration = authorizerConfiguration
+        self.authorizerType = authorizerType
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+        self.roleArn = roleArn
+        self.tags = tags
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum PaymentManagerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createFailed
+        case creating
+        case deleteFailed
+        case deleting
+        case ready
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentManagerStatus] {
+            return [
+                .createFailed,
+                .creating,
+                .deleteFailed,
+                .deleting,
+                .ready,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .ready: return "READY"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePaymentManagerOutput: Swift.Sendable {
+    /// Represents inbound authorization configuration options used to authenticate incoming requests.
+    public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
+    /// The type of authorizer for the created payment manager.
+    /// This member is required.
+    public var authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType?
+    /// The timestamp when the payment manager was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The name of the created payment manager.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the created payment manager.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The unique identifier of the created payment manager.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role associated with the created payment manager.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The current status of the payment manager. Possible values include CREATING, READY, UPDATING, DELETING, CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.PaymentManagerStatus?
+    /// The tags associated with the created payment manager.
+    public var tags: [Swift.String: Swift.String]?
+    /// The information about the workload identity.
+    public var workloadIdentityDetails: BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails?
+
+    public init(
+        authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
+        authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType? = nil,
+        createdAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        paymentManagerArn: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.PaymentManagerStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        workloadIdentityDetails: BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails? = nil
+    ) {
+        self.authorizerConfiguration = authorizerConfiguration
+        self.authorizerType = authorizerType
+        self.createdAt = createdAt
+        self.name = name
+        self.paymentManagerArn = paymentManagerArn
+        self.paymentManagerId = paymentManagerId
+        self.roleArn = roleArn
+        self.status = status
+        self.tags = tags
+        self.workloadIdentityDetails = workloadIdentityDetails
+    }
+}
+
+public struct DeletePaymentManagerInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The unique identifier of the payment manager to delete.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.paymentManagerId = paymentManagerId
+    }
+}
+
+public struct DeletePaymentManagerOutput: Swift.Sendable {
+    /// The unique identifier of the deleted payment manager.
+    public var paymentManagerId: Swift.String?
+    /// The current status of the payment manager, set to DELETING when deletion is initiated. Possible values include CREATING, READY, UPDATING, DELETING, CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.PaymentManagerStatus?
+
+    public init(
+        paymentManagerId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.PaymentManagerStatus? = nil
+    ) {
+        self.paymentManagerId = paymentManagerId
+        self.status = status
+    }
+}
+
+public struct GetPaymentManagerInput: Swift.Sendable {
+    /// The unique identifier of the payment manager to retrieve.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+
+    public init(
+        paymentManagerId: Swift.String? = nil
+    ) {
+        self.paymentManagerId = paymentManagerId
+    }
+}
+
+public struct GetPaymentManagerOutput: Swift.Sendable {
+    /// Represents inbound authorization configuration options used to authenticate incoming requests.
+    public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
+    /// The type of authorizer used by the payment manager.
+    ///
+    /// * CUSTOM_JWT - Authorize with a bearer token.
+    ///
+    /// * AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
+    /// This member is required.
+    public var authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType?
+    /// The timestamp when the payment manager was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the payment manager.
+    public var description: Swift.String?
+    /// The timestamp when the payment manager was last updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the payment manager.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the payment manager.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The unique identifier of the payment manager.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role associated with the payment manager.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The current status of the payment manager. Possible values include CREATING, READY, UPDATING, DELETING, CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.PaymentManagerStatus?
+    /// The tags associated with the payment manager.
+    public var tags: [Swift.String: Swift.String]?
+    /// The information about the workload identity.
+    public var workloadIdentityDetails: BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails?
+
+    public init(
+        authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
+        authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        paymentManagerArn: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.PaymentManagerStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        workloadIdentityDetails: BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails? = nil
+    ) {
+        self.authorizerConfiguration = authorizerConfiguration
+        self.authorizerType = authorizerType
+        self.createdAt = createdAt
+        self.description = description
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.paymentManagerArn = paymentManagerArn
+        self.paymentManagerId = paymentManagerId
+        self.roleArn = roleArn
+        self.status = status
+        self.tags = tags
+        self.workloadIdentityDetails = workloadIdentityDetails
+    }
+}
+
+public struct ListPaymentManagersInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains summary information about a payment manager.
+    public struct PaymentManagerSummary: Swift.Sendable {
+        /// The type of authorizer used by the payment manager.
+        ///
+        /// * CUSTOM_JWT - Authorize with a bearer token.
+        ///
+        /// * AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
+        /// This member is required.
+        public var authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType?
+        /// The timestamp when the payment manager was created.
+        public var createdAt: Foundation.Date?
+        /// The description of the payment manager.
+        public var description: Swift.String?
+        /// The timestamp when the payment manager was last updated.
+        /// This member is required.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The name of the payment manager.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the payment manager.
+        /// This member is required.
+        public var paymentManagerArn: Swift.String?
+        /// The unique identifier of the payment manager.
+        /// This member is required.
+        public var paymentManagerId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the payment manager.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The current status of the payment manager. Possible values include CREATING, READY, UPDATING, DELETING, CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.PaymentManagerStatus?
+
+        public init(
+            authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            paymentManagerArn: Swift.String? = nil,
+            paymentManagerId: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            status: BedrockAgentCoreControlClientTypes.PaymentManagerStatus? = nil
+        ) {
+            self.authorizerType = authorizerType
+            self.createdAt = createdAt
+            self.description = description
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.paymentManagerArn = paymentManagerArn
+            self.paymentManagerId = paymentManagerId
+            self.roleArn = roleArn
+            self.status = status
+        }
+    }
+}
+
+public struct ListPaymentManagersOutput: Swift.Sendable {
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// The list of payment manager summaries. For details about the fields in each summary, see the PaymentManagerSummary data type.
+    /// This member is required.
+    public var paymentManagers: [BedrockAgentCoreControlClientTypes.PaymentManagerSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        paymentManagers: [BedrockAgentCoreControlClientTypes.PaymentManagerSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.paymentManagers = paymentManagers
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for a payment credential provider that stores authentication credentials for a payment provider.
+    public struct PaymentCredentialProviderConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the credential provider that stores the authentication credentials for the payment provider.
+        /// This member is required.
+        public var credentialProviderArn: Swift.String?
+
+        public init(
+            credentialProviderArn: Swift.String? = nil
+        ) {
+            self.credentialProviderArn = credentialProviderArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The credential provider configuration for a payment connector. Specifies the payment provider type and its associated credential provider.
+    public enum CredentialsProviderConfiguration: Swift.Sendable {
+        /// The credential provider configuration for a Coinbase CDP payment connector.
+        case coinbasecdp(BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration)
+        /// The credential provider configuration for a Stripe Privy payment connector.
+        case stripeprivy(BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum PaymentConnectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case coinbaseCdp
+        case stripePrivy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentConnectorType] {
+            return [
+                .coinbaseCdp,
+                .stripePrivy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .coinbaseCdp: return "CoinbaseCDP"
+            case .stripePrivy: return "StripePrivy"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePaymentConnectorInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The credential provider configurations for the payment connector. These configurations specify how the connector authenticates with the payment provider.
+    /// This member is required.
+    public var credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]?
+    /// A description of the payment connector.
+    public var description: Swift.String?
+    /// The name of the payment connector.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The unique identifier of the payment manager to create the connector for.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+    /// The type of payment connector, which determines the payment provider integration.
+    /// This member is required.
+    public var type: BedrockAgentCoreControlClientTypes.PaymentConnectorType?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil,
+        type: BedrockAgentCoreControlClientTypes.PaymentConnectorType? = nil
+    ) {
+        self.clientToken = clientToken
+        self.credentialProviderConfigurations = credentialProviderConfigurations
+        self.description = description
+        self.name = name
+        self.paymentManagerId = paymentManagerId
+        self.type = type
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum PaymentConnectorStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createFailed
+        case creating
+        case deleteFailed
+        case deleting
+        case ready
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentConnectorStatus] {
+            return [
+                .createFailed,
+                .creating,
+                .deleteFailed,
+                .deleting,
+                .ready,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .ready: return "READY"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePaymentConnectorOutput: Swift.Sendable {
+    /// The timestamp when the payment connector was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The credential provider configurations for the created payment connector.
+    /// This member is required.
+    public var credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]?
+    /// The name of the created payment connector.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The unique identifier of the created payment connector.
+    /// This member is required.
+    public var paymentConnectorId: Swift.String?
+    /// The unique identifier of the parent payment manager.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+    /// The current status of the payment connector. Possible values include CREATING, READY, UPDATING, DELETING, CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus?
+    /// The type of the created payment connector.
+    /// This member is required.
+    public var type: BedrockAgentCoreControlClientTypes.PaymentConnectorType?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]? = nil,
+        name: Swift.String? = nil,
+        paymentConnectorId: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus? = nil,
+        type: BedrockAgentCoreControlClientTypes.PaymentConnectorType? = nil
+    ) {
+        self.createdAt = createdAt
+        self.credentialProviderConfigurations = credentialProviderConfigurations
+        self.name = name
+        self.paymentConnectorId = paymentConnectorId
+        self.paymentManagerId = paymentManagerId
+        self.status = status
+        self.type = type
+    }
+}
+
+public struct DeletePaymentConnectorInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The unique identifier of the payment connector to delete.
+    /// This member is required.
+    public var paymentConnectorId: Swift.String?
+    /// The unique identifier of the parent payment manager.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        paymentConnectorId: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.paymentConnectorId = paymentConnectorId
+        self.paymentManagerId = paymentManagerId
+    }
+}
+
+public struct DeletePaymentConnectorOutput: Swift.Sendable {
+    /// The unique identifier of the deleted payment connector.
+    public var paymentConnectorId: Swift.String?
+    /// The current status of the payment connector, set to DELETING when deletion is initiated. Possible values include CREATING, READY, UPDATING, DELETING, CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus?
+
+    public init(
+        paymentConnectorId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus? = nil
+    ) {
+        self.paymentConnectorId = paymentConnectorId
+        self.status = status
+    }
+}
+
+public struct GetPaymentConnectorInput: Swift.Sendable {
+    /// The unique identifier of the payment connector to retrieve.
+    /// This member is required.
+    public var paymentConnectorId: Swift.String?
+    /// The unique identifier of the parent payment manager.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+
+    public init(
+        paymentConnectorId: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil
+    ) {
+        self.paymentConnectorId = paymentConnectorId
+        self.paymentManagerId = paymentManagerId
+    }
+}
+
+public struct GetPaymentConnectorOutput: Swift.Sendable {
+    /// The timestamp when the payment connector was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The credential provider configurations for the payment connector.
+    /// This member is required.
+    public var credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]?
+    /// The description of the payment connector.
+    public var description: Swift.String?
+    /// The timestamp when the payment connector was last updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the payment connector.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The unique identifier of the payment connector.
+    /// This member is required.
+    public var paymentConnectorId: Swift.String?
+    /// The current status of the payment connector. Possible values include CREATING, READY, UPDATING, DELETING, CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus?
+    /// The type of the payment connector, which determines the payment provider integration.
+    /// This member is required.
+    public var type: BedrockAgentCoreControlClientTypes.PaymentConnectorType?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]? = nil,
+        description: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        paymentConnectorId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus? = nil,
+        type: BedrockAgentCoreControlClientTypes.PaymentConnectorType? = nil
+    ) {
+        self.createdAt = createdAt
+        self.credentialProviderConfigurations = credentialProviderConfigurations
+        self.description = description
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.paymentConnectorId = paymentConnectorId
+        self.status = status
+        self.type = type
+    }
+}
+
+public struct ListPaymentConnectorsInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the payment manager whose connectors to list.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.paymentManagerId = paymentManagerId
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains summary information about a payment connector.
+    public struct PaymentConnectorSummary: Swift.Sendable {
+        /// The timestamp when the payment connector was last updated.
+        /// This member is required.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The name of the payment connector.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The unique identifier of the payment connector.
+        /// This member is required.
+        public var paymentConnectorId: Swift.String?
+        /// The current status of the payment connector. Possible values include CREATING, READY, UPDATING, DELETING, CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus?
+        /// The type of the payment connector, which determines the payment provider integration.
+        /// This member is required.
+        public var type: BedrockAgentCoreControlClientTypes.PaymentConnectorType?
+
+        public init(
+            lastUpdatedAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            paymentConnectorId: Swift.String? = nil,
+            status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus? = nil,
+            type: BedrockAgentCoreControlClientTypes.PaymentConnectorType? = nil
+        ) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.paymentConnectorId = paymentConnectorId
+            self.status = status
+            self.type = type
+        }
+    }
+}
+
+public struct ListPaymentConnectorsOutput: Swift.Sendable {
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// The list of payment connector summaries. For details about the fields in each summary, see the PaymentConnectorSummary data type.
+    /// This member is required.
+    public var paymentConnectors: [BedrockAgentCoreControlClientTypes.PaymentConnectorSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        paymentConnectors: [BedrockAgentCoreControlClientTypes.PaymentConnectorSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.paymentConnectors = paymentConnectors
+    }
+}
+
+public struct UpdatePaymentConnectorInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The updated credential provider configurations for the payment connector.
+    public var credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]?
+    /// The updated description of the payment connector.
+    public var description: Swift.String?
+    /// The unique identifier of the payment connector to update.
+    /// This member is required.
+    public var paymentConnectorId: Swift.String?
+    /// The unique identifier of the parent payment manager.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+    /// The updated type of the payment connector.
+    public var type: BedrockAgentCoreControlClientTypes.PaymentConnectorType?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]? = nil,
+        description: Swift.String? = nil,
+        paymentConnectorId: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil,
+        type: BedrockAgentCoreControlClientTypes.PaymentConnectorType? = nil
+    ) {
+        self.clientToken = clientToken
+        self.credentialProviderConfigurations = credentialProviderConfigurations
+        self.description = description
+        self.paymentConnectorId = paymentConnectorId
+        self.paymentManagerId = paymentManagerId
+        self.type = type
+    }
+}
+
+public struct UpdatePaymentConnectorOutput: Swift.Sendable {
+    /// The credential provider configurations for the updated payment connector.
+    /// This member is required.
+    public var credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]?
+    /// The timestamp when the payment connector was last updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the updated payment connector.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The unique identifier of the updated payment connector.
+    /// This member is required.
+    public var paymentConnectorId: Swift.String?
+    /// The unique identifier of the parent payment manager.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+    /// The current status of the updated payment connector. Possible values include CREATING, READY, UPDATING, DELETING, CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus?
+    /// The type of the updated payment connector.
+    /// This member is required.
+    public var type: BedrockAgentCoreControlClientTypes.PaymentConnectorType?
+
+    public init(
+        credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        paymentConnectorId: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus? = nil,
+        type: BedrockAgentCoreControlClientTypes.PaymentConnectorType? = nil
+    ) {
+        self.credentialProviderConfigurations = credentialProviderConfigurations
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.paymentConnectorId = paymentConnectorId
+        self.paymentManagerId = paymentManagerId
+        self.status = status
+        self.type = type
+    }
+}
+
+public struct UpdatePaymentManagerInput: Swift.Sendable {
+    /// The updated authorizer configuration for the payment manager.
+    public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
+    /// The updated authorizer type for the payment manager.
+    public var authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The updated description of the payment manager.
+    public var description: Swift.String?
+    /// The unique identifier of the payment manager to update.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+    /// The updated Amazon Resource Name (ARN) of the IAM role for the payment manager.
+    public var roleArn: Swift.String?
+
+    public init(
+        authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
+        authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil,
+        roleArn: Swift.String? = nil
+    ) {
+        self.authorizerConfiguration = authorizerConfiguration
+        self.authorizerType = authorizerType
+        self.clientToken = clientToken
+        self.description = description
+        self.paymentManagerId = paymentManagerId
+        self.roleArn = roleArn
+    }
+}
+
+public struct UpdatePaymentManagerOutput: Swift.Sendable {
+    /// The type of authorizer for the updated payment manager.
+    /// This member is required.
+    public var authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType?
+    /// The timestamp when the payment manager was last updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the updated payment manager.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the updated payment manager.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The unique identifier of the updated payment manager.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role associated with the updated payment manager.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The current status of the updated payment manager. Possible values include CREATING, READY, UPDATING, DELETING, CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.PaymentManagerStatus?
+    /// The information about the workload identity.
+    public var workloadIdentityDetails: BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails?
+
+    public init(
+        authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        paymentManagerArn: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.PaymentManagerStatus? = nil,
+        workloadIdentityDetails: BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails? = nil
+    ) {
+        self.authorizerType = authorizerType
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.paymentManagerArn = paymentManagerArn
+        self.paymentManagerId = paymentManagerId
+        self.roleArn = roleArn
+        self.status = status
+        self.workloadIdentityDetails = workloadIdentityDetails
     }
 }
 
@@ -16759,6 +18060,30 @@ extension CreateOnlineEvaluationConfigInput {
     }
 }
 
+extension CreatePaymentConnectorInput {
+
+    static func urlPathProvider(_ value: CreatePaymentConnectorInput) -> Swift.String? {
+        guard let paymentManagerId = value.paymentManagerId else {
+            return nil
+        }
+        return "/payments/managers/\(paymentManagerId.urlPercentEncoding())/connectors"
+    }
+}
+
+extension CreatePaymentCredentialProviderInput {
+
+    static func urlPathProvider(_ value: CreatePaymentCredentialProviderInput) -> Swift.String? {
+        return "/identities/CreatePaymentCredentialProvider"
+    }
+}
+
+extension CreatePaymentManagerInput {
+
+    static func urlPathProvider(_ value: CreatePaymentManagerInput) -> Swift.String? {
+        return "/payments/managers"
+    }
+}
+
 extension CreatePolicyInput {
 
     static func urlPathProvider(_ value: CreatePolicyInput) -> Swift.String? {
@@ -17037,6 +18362,60 @@ extension DeleteOnlineEvaluationConfigInput {
     }
 }
 
+extension DeletePaymentConnectorInput {
+
+    static func urlPathProvider(_ value: DeletePaymentConnectorInput) -> Swift.String? {
+        guard let paymentManagerId = value.paymentManagerId else {
+            return nil
+        }
+        guard let paymentConnectorId = value.paymentConnectorId else {
+            return nil
+        }
+        return "/payments/managers/\(paymentManagerId.urlPercentEncoding())/connectors/\(paymentConnectorId.urlPercentEncoding())"
+    }
+}
+
+extension DeletePaymentConnectorInput {
+
+    static func queryItemProvider(_ value: DeletePaymentConnectorInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeletePaymentCredentialProviderInput {
+
+    static func urlPathProvider(_ value: DeletePaymentCredentialProviderInput) -> Swift.String? {
+        return "/identities/DeletePaymentCredentialProvider"
+    }
+}
+
+extension DeletePaymentManagerInput {
+
+    static func urlPathProvider(_ value: DeletePaymentManagerInput) -> Swift.String? {
+        guard let paymentManagerId = value.paymentManagerId else {
+            return nil
+        }
+        return "/payments/managers/\(paymentManagerId.urlPercentEncoding())"
+    }
+}
+
+extension DeletePaymentManagerInput {
+
+    static func queryItemProvider(_ value: DeletePaymentManagerInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeletePolicyInput {
 
     static func urlPathProvider(_ value: DeletePolicyInput) -> Swift.String? {
@@ -17311,6 +18690,36 @@ extension GetOnlineEvaluationConfigInput {
             return nil
         }
         return "/online-evaluation-configs/\(onlineEvaluationConfigId.urlPercentEncoding())"
+    }
+}
+
+extension GetPaymentConnectorInput {
+
+    static func urlPathProvider(_ value: GetPaymentConnectorInput) -> Swift.String? {
+        guard let paymentManagerId = value.paymentManagerId else {
+            return nil
+        }
+        guard let paymentConnectorId = value.paymentConnectorId else {
+            return nil
+        }
+        return "/payments/managers/\(paymentManagerId.urlPercentEncoding())/connectors/\(paymentConnectorId.urlPercentEncoding())"
+    }
+}
+
+extension GetPaymentCredentialProviderInput {
+
+    static func urlPathProvider(_ value: GetPaymentCredentialProviderInput) -> Swift.String? {
+        return "/identities/GetPaymentCredentialProvider"
+    }
+}
+
+extension GetPaymentManagerInput {
+
+    static func urlPathProvider(_ value: GetPaymentManagerInput) -> Swift.String? {
+        guard let paymentManagerId = value.paymentManagerId else {
+            return nil
+        }
+        return "/payments/managers/\(paymentManagerId.urlPercentEncoding())"
     }
 }
 
@@ -17763,6 +19172,62 @@ extension ListOnlineEvaluationConfigsInput {
     }
 }
 
+extension ListPaymentConnectorsInput {
+
+    static func urlPathProvider(_ value: ListPaymentConnectorsInput) -> Swift.String? {
+        guard let paymentManagerId = value.paymentManagerId else {
+            return nil
+        }
+        return "/payments/managers/\(paymentManagerId.urlPercentEncoding())/connectors-list"
+    }
+}
+
+extension ListPaymentConnectorsInput {
+
+    static func queryItemProvider(_ value: ListPaymentConnectorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListPaymentCredentialProvidersInput {
+
+    static func urlPathProvider(_ value: ListPaymentCredentialProvidersInput) -> Swift.String? {
+        return "/identities/ListPaymentCredentialProviders"
+    }
+}
+
+extension ListPaymentManagersInput {
+
+    static func urlPathProvider(_ value: ListPaymentManagersInput) -> Swift.String? {
+        return "/payments/managers-list"
+    }
+}
+
+extension ListPaymentManagersInput {
+
+    static func queryItemProvider(_ value: ListPaymentManagersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListPoliciesInput {
 
     static func urlPathProvider(_ value: ListPoliciesInput) -> Swift.String? {
@@ -18162,6 +19627,36 @@ extension UpdateOnlineEvaluationConfigInput {
     }
 }
 
+extension UpdatePaymentConnectorInput {
+
+    static func urlPathProvider(_ value: UpdatePaymentConnectorInput) -> Swift.String? {
+        guard let paymentManagerId = value.paymentManagerId else {
+            return nil
+        }
+        guard let paymentConnectorId = value.paymentConnectorId else {
+            return nil
+        }
+        return "/payments/managers/\(paymentManagerId.urlPercentEncoding())/connectors/\(paymentConnectorId.urlPercentEncoding())"
+    }
+}
+
+extension UpdatePaymentCredentialProviderInput {
+
+    static func urlPathProvider(_ value: UpdatePaymentCredentialProviderInput) -> Swift.String? {
+        return "/identities/UpdatePaymentCredentialProvider"
+    }
+}
+
+extension UpdatePaymentManagerInput {
+
+    static func urlPathProvider(_ value: UpdatePaymentManagerInput) -> Swift.String? {
+        guard let paymentManagerId = value.paymentManagerId else {
+            return nil
+        }
+        return "/payments/managers/\(paymentManagerId.urlPercentEncoding())"
+    }
+}
+
 extension UpdatePolicyInput {
 
     static func urlPathProvider(_ value: UpdatePolicyInput) -> Swift.String? {
@@ -18456,6 +19951,43 @@ extension CreateOnlineEvaluationConfigInput {
     }
 }
 
+extension CreatePaymentConnectorInput {
+
+    static func write(value: CreatePaymentConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["credentialProviderConfigurations"].writeList(value.credentialProviderConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension CreatePaymentCredentialProviderInput {
+
+    static func write(value: CreatePaymentCredentialProviderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentialProviderVendor"].write(value.credentialProviderVendor)
+        try writer["name"].write(value.name)
+        try writer["providerConfigurationInput"].write(value.providerConfigurationInput, with: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationInput.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreatePaymentManagerInput {
+
+    static func write(value: CreatePaymentManagerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizerConfiguration"].write(value.authorizerConfiguration, with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.write(value:to:))
+        try writer["authorizerType"].write(value.authorizerType)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreatePolicyInput {
 
     static func write(value: CreatePolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -18534,6 +20066,14 @@ extension DeleteOauth2CredentialProviderInput {
     }
 }
 
+extension DeletePaymentCredentialProviderInput {
+
+    static func write(value: DeletePaymentCredentialProviderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+}
+
 extension DeleteWorkloadIdentityInput {
 
     static func write(value: DeleteWorkloadIdentityInput?, to writer: SmithyJSON.Writer) throws {
@@ -18553,6 +20093,14 @@ extension GetApiKeyCredentialProviderInput {
 extension GetOauth2CredentialProviderInput {
 
     static func write(value: GetOauth2CredentialProviderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+}
+
+extension GetPaymentCredentialProviderInput {
+
+    static func write(value: GetPaymentCredentialProviderInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
     }
@@ -18611,6 +20159,15 @@ extension ListMemoriesInput {
 extension ListOauth2CredentialProvidersInput {
 
     static func write(value: ListOauth2CredentialProvidersInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListPaymentCredentialProvidersInput {
+
+    static func write(value: ListPaymentCredentialProvidersInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
@@ -18835,6 +20392,39 @@ extension UpdateOnlineEvaluationConfigInput {
         try writer["evaluators"].writeList(value.evaluators, memberWritingClosure: BedrockAgentCoreControlClientTypes.EvaluatorReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["executionStatus"].write(value.executionStatus)
         try writer["rule"].write(value.rule, with: BedrockAgentCoreControlClientTypes.Rule.write(value:to:))
+    }
+}
+
+extension UpdatePaymentConnectorInput {
+
+    static func write(value: UpdatePaymentConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["credentialProviderConfigurations"].writeList(value.credentialProviderConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension UpdatePaymentCredentialProviderInput {
+
+    static func write(value: UpdatePaymentCredentialProviderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentialProviderVendor"].write(value.credentialProviderVendor)
+        try writer["name"].write(value.name)
+        try writer["providerConfigurationInput"].write(value.providerConfigurationInput, with: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationInput.write(value:to:))
+    }
+}
+
+extension UpdatePaymentManagerInput {
+
+    static func write(value: UpdatePaymentManagerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizerConfiguration"].write(value.authorizerConfiguration, with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.write(value:to:))
+        try writer["authorizerType"].write(value.authorizerType)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["roleArn"].write(value.roleArn)
     }
 }
 
@@ -19160,6 +20750,60 @@ extension CreateOnlineEvaluationConfigOutput {
     }
 }
 
+extension CreatePaymentConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePaymentConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePaymentConnectorOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.paymentConnectorId = try reader["paymentConnectorId"].readIfPresent() ?? ""
+        value.paymentManagerId = try reader["paymentManagerId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CreatePaymentCredentialProviderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePaymentCredentialProviderOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePaymentCredentialProviderOutput()
+        value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
+        value.credentialProviderVendor = try reader["credentialProviderVendor"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.providerConfigurationOutput = try reader["providerConfigurationOutput"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput.read(from:))
+        return value
+    }
+}
+
+extension CreatePaymentManagerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePaymentManagerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePaymentManagerOutput()
+        value.authorizerConfiguration = try reader["authorizerConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.read(from:))
+        value.authorizerType = try reader["authorizerType"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.paymentManagerArn = try reader["paymentManagerArn"].readIfPresent() ?? ""
+        value.paymentManagerId = try reader["paymentManagerId"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.workloadIdentityDetails = try reader["workloadIdentityDetails"].readIfPresent(with: BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails.read(from:))
+        return value
+    }
+}
+
 extension CreatePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePolicyOutput {
@@ -19428,6 +21072,39 @@ extension DeleteOnlineEvaluationConfigOutput {
         var value = DeleteOnlineEvaluationConfigOutput()
         value.onlineEvaluationConfigArn = try reader["onlineEvaluationConfigArn"].readIfPresent() ?? ""
         value.onlineEvaluationConfigId = try reader["onlineEvaluationConfigId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeletePaymentConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePaymentConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeletePaymentConnectorOutput()
+        value.paymentConnectorId = try reader["paymentConnectorId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeletePaymentCredentialProviderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePaymentCredentialProviderOutput {
+        return DeletePaymentCredentialProviderOutput()
+    }
+}
+
+extension DeletePaymentManagerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePaymentManagerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeletePaymentManagerOutput()
+        value.paymentManagerId = try reader["paymentManagerId"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
@@ -19854,6 +21531,66 @@ extension GetOnlineEvaluationConfigOutput {
     }
 }
 
+extension GetPaymentConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPaymentConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPaymentConnectorOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.description = try reader["description"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.paymentConnectorId = try reader["paymentConnectorId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetPaymentCredentialProviderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPaymentCredentialProviderOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPaymentCredentialProviderOutput()
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
+        value.credentialProviderVendor = try reader["credentialProviderVendor"].readIfPresent() ?? .sdkUnknown("")
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.providerConfigurationOutput = try reader["providerConfigurationOutput"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetPaymentManagerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPaymentManagerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPaymentManagerOutput()
+        value.authorizerConfiguration = try reader["authorizerConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.read(from:))
+        value.authorizerType = try reader["authorizerType"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.paymentManagerArn = try reader["paymentManagerArn"].readIfPresent() ?? ""
+        value.paymentManagerId = try reader["paymentManagerId"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.workloadIdentityDetails = try reader["workloadIdentityDetails"].readIfPresent(with: BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails.read(from:))
+        return value
+    }
+}
+
 extension GetPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPolicyOutput {
@@ -20222,6 +21959,45 @@ extension ListOnlineEvaluationConfigsOutput {
         var value = ListOnlineEvaluationConfigsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.onlineEvaluationConfigs = try reader["onlineEvaluationConfigs"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.OnlineEvaluationConfigSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListPaymentConnectorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPaymentConnectorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPaymentConnectorsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.paymentConnectors = try reader["paymentConnectors"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.PaymentConnectorSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListPaymentCredentialProvidersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPaymentCredentialProvidersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPaymentCredentialProvidersOutput()
+        value.credentialProviders = try reader["credentialProviders"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListPaymentManagersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPaymentManagersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPaymentManagersOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.paymentManagers = try reader["paymentManagers"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.PaymentManagerSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -20635,6 +22411,60 @@ extension UpdateOnlineEvaluationConfigOutput {
         value.onlineEvaluationConfigId = try reader["onlineEvaluationConfigId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension UpdatePaymentConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePaymentConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdatePaymentConnectorOutput()
+        value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.paymentConnectorId = try reader["paymentConnectorId"].readIfPresent() ?? ""
+        value.paymentManagerId = try reader["paymentManagerId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension UpdatePaymentCredentialProviderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePaymentCredentialProviderOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdatePaymentCredentialProviderOutput()
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
+        value.credentialProviderVendor = try reader["credentialProviderVendor"].readIfPresent() ?? .sdkUnknown("")
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.providerConfigurationOutput = try reader["providerConfigurationOutput"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput.read(from:))
+        return value
+    }
+}
+
+extension UpdatePaymentManagerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePaymentManagerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdatePaymentManagerOutput()
+        value.authorizerType = try reader["authorizerType"].readIfPresent() ?? .sdkUnknown("")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.paymentManagerArn = try reader["paymentManagerArn"].readIfPresent() ?? ""
+        value.paymentManagerId = try reader["paymentManagerId"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.workloadIdentityDetails = try reader["workloadIdentityDetails"].readIfPresent(with: BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails.read(from:))
         return value
     }
 }
@@ -21059,6 +22889,69 @@ enum CreateOnlineEvaluationConfigOutputError {
     }
 }
 
+enum CreatePaymentConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreatePaymentCredentialProviderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DecryptionFailure": return try DecryptionFailure.makeError(baseError: baseError)
+            case "EncryptionFailure": return try EncryptionFailure.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceLimitExceededException": return try ResourceLimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreatePaymentManagerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreatePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -21437,6 +23330,61 @@ enum DeleteOnlineEvaluationConfigOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePaymentConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePaymentCredentialProviderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePaymentManagerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -21830,6 +23778,62 @@ enum GetOauth2CredentialProviderOutputError {
 }
 
 enum GetOnlineEvaluationConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPaymentConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPaymentCredentialProviderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DecryptionFailure": return try DecryptionFailure.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPaymentManagerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -22275,6 +24279,59 @@ enum ListOauth2CredentialProvidersOutputError {
 }
 
 enum ListOnlineEvaluationConfigsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPaymentConnectorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPaymentCredentialProvidersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPaymentManagersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -22793,6 +24850,69 @@ enum UpdateOauth2CredentialProviderOutputError {
 }
 
 enum UpdateOnlineEvaluationConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdatePaymentConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdatePaymentCredentialProviderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DecryptionFailure": return try DecryptionFailure.makeError(baseError: baseError)
+            case "EncryptionFailure": return try EncryptionFailure.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdatePaymentManagerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -23788,6 +25908,28 @@ extension BedrockAgentCoreControlClientTypes.CodeInterpreterSummary {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["apiKeyId"].write(value.apiKeyId)
+        try writer["apiKeySecret"].write(value.apiKeySecret)
+        try writer["walletSecret"].write(value.walletSecret)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationOutput()
+        value.apiKeyId = try reader["apiKeyId"].readIfPresent() ?? ""
+        value.apiKeySecretArn = try reader["apiKeySecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        value.walletSecretArn = try reader["walletSecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.ComponentConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.ComponentConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -24008,6 +26150,34 @@ extension BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration {
         value.credentialProviderType = try reader["credentialProviderType"].readIfPresent() ?? .sdkUnknown("")
         value.credentialProvider = try reader["credentialProvider"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CredentialProvider.read(from:))
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .coinbasecdp(coinbasecdp):
+                try writer["coinbaseCDP"].write(coinbasecdp, with: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration.write(value:to:))
+            case let .stripeprivy(stripeprivy):
+                try writer["stripePrivy"].write(stripeprivy, with: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "coinbaseCDP":
+                return .coinbasecdp(try reader["coinbaseCDP"].read(with: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration.read(from:)))
+            case "stripePrivy":
+                return .stripeprivy(try reader["stripePrivy"].read(with: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -26506,6 +28676,98 @@ extension BedrockAgentCoreControlClientTypes.OutputConfig {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.PaymentConnectorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PaymentConnectorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.PaymentConnectorSummary()
+        value.paymentConnectorId = try reader["paymentConnectorId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentialProviderArn"].write(value.credentialProviderArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration()
+        value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PaymentCredentialProviderItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PaymentCredentialProviderItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.PaymentCredentialProviderItem()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.credentialProviderVendor = try reader["credentialProviderVendor"].readIfPresent() ?? .sdkUnknown("")
+        value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PaymentManagerSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PaymentManagerSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.PaymentManagerSummary()
+        value.paymentManagerArn = try reader["paymentManagerArn"].readIfPresent() ?? ""
+        value.paymentManagerId = try reader["paymentManagerId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.authorizerType = try reader["authorizerType"].readIfPresent() ?? .sdkUnknown("")
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .coinbasecdpconfiguration(coinbasecdpconfiguration):
+                try writer["coinbaseCdpConfiguration"].write(coinbasecdpconfiguration, with: BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationInput.write(value:to:))
+            case let .stripeprivyconfiguration(stripeprivyconfiguration):
+                try writer["stripePrivyConfiguration"].write(stripeprivyconfiguration, with: BedrockAgentCoreControlClientTypes.StripePrivyConfigurationInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "coinbaseCdpConfiguration":
+                return .coinbasecdpconfiguration(try reader["coinbaseCdpConfiguration"].read(with: BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationOutput.read(from:)))
+            case "stripePrivyConfiguration":
+                return .stripeprivyconfiguration(try reader["stripePrivyConfiguration"].read(with: BedrockAgentCoreControlClientTypes.StripePrivyConfigurationOutput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.Policy {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Policy {
@@ -27499,6 +29761,30 @@ extension BedrockAgentCoreControlClientTypes.StringValidation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.StringValidation()
         value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.StripePrivyConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.StripePrivyConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appId"].write(value.appId)
+        try writer["appSecret"].write(value.appSecret)
+        try writer["authorizationId"].write(value.authorizationId)
+        try writer["authorizationPrivateKey"].write(value.authorizationPrivateKey)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.StripePrivyConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.StripePrivyConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.StripePrivyConfigurationOutput()
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        value.appSecretArn = try reader["appSecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        value.authorizationPrivateKeyArn = try reader["authorizationPrivateKeyArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        value.authorizationId = try reader["authorizationId"].readIfPresent() ?? ""
         return value
     }
 }
