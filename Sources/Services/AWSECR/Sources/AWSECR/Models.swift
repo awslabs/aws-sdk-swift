@@ -3668,7 +3668,7 @@ public struct GetAccountSettingInput: Swift.Sendable {
 public struct GetAccountSettingOutput: Swift.Sendable {
     /// Retrieves the name of the account setting.
     public var name: Swift.String?
-    /// The setting value for the setting name. Valid value for basic scan type: AWS_NATIVE. Valid values for registry policy scope: V1 or V2. Valid values for blob mounting: ENABLED or DISABLED.
+    /// The setting value for the setting name. Valid value for basic scan type: AWS_NATIVE. Valid values for registry policy scope: V2. Valid values for blob mounting: ENABLED or DISABLED.
     public var value: Swift.String?
 
     public init(
@@ -4713,7 +4713,7 @@ public struct PutAccountSettingInput: Swift.Sendable {
     /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION, REGISTRY_POLICY_SCOPE, or BLOB_MOUNTING.
     /// This member is required.
     public var name: Swift.String?
-    /// Setting value that is specified. Valid value for basic scan type: AWS_NATIVE. Valid values for registry policy scope: V1 or V2. Valid values for blob mounting: ENABLED or DISABLED.
+    /// Setting value that is specified. Valid value for basic scan type: AWS_NATIVE. Valid values for registry policy scope: V2. Valid values for blob mounting: ENABLED or DISABLED.
     /// This member is required.
     public var value: Swift.String?
 

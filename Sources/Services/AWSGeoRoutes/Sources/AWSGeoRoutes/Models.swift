@@ -124,9 +124,7 @@ extension GeoRoutesClientTypes {
 extension GeoRoutesClientTypes {
 
     public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// The input cannot be parsed. For example a required JSON document, ARN identifier, date value, or numeric field cannot be parsed.
         case cannotParse
-        /// The input is present and parsable, but it is otherwise invalid. For example, a required numeric argument is outside the allowed range.
         case fieldValidationFailed
         /// The required input is missing.
         case missing
@@ -4218,8 +4216,10 @@ extension GeoRoutesClientTypes {
         case other
         case potentialViolatedVehicleRestrictionUsage
         case seasonalClosure
+        case violatedAvoidAreas
         case violatedAvoidFerry
         case violatedAvoidRailFerry
+        case violatedVehicleRestriction
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RouteFerryNoticeCode] {
@@ -4229,8 +4229,10 @@ extension GeoRoutesClientTypes {
                 .other,
                 .potentialViolatedVehicleRestrictionUsage,
                 .seasonalClosure,
+                .violatedAvoidAreas,
                 .violatedAvoidFerry,
-                .violatedAvoidRailFerry
+                .violatedAvoidRailFerry,
+                .violatedVehicleRestriction
             ]
         }
 
@@ -4246,8 +4248,10 @@ extension GeoRoutesClientTypes {
             case .other: return "Other"
             case .potentialViolatedVehicleRestrictionUsage: return "PotentialViolatedVehicleRestrictionUsage"
             case .seasonalClosure: return "SeasonalClosure"
+            case .violatedAvoidAreas: return "ViolatedAvoidAreas"
             case .violatedAvoidFerry: return "ViolatedAvoidFerry"
             case .violatedAvoidRailFerry: return "ViolatedAvoidRailFerry"
+            case .violatedVehicleRestriction: return "ViolatedVehicleRestriction"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4735,6 +4739,7 @@ extension GeoRoutesClientTypes {
     public enum RoutePedestrianNoticeCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accuratePolylineUnavailable
         case other
+        case violatedAvoidAreas
         case violatedAvoidDirtRoad
         case violatedAvoidTunnel
         case violatedPedestrianOption
@@ -4744,6 +4749,7 @@ extension GeoRoutesClientTypes {
             return [
                 .accuratePolylineUnavailable,
                 .other,
+                .violatedAvoidAreas,
                 .violatedAvoidDirtRoad,
                 .violatedAvoidTunnel,
                 .violatedPedestrianOption
@@ -4759,6 +4765,7 @@ extension GeoRoutesClientTypes {
             switch self {
             case .accuratePolylineUnavailable: return "AccuratePolylineUnavailable"
             case .other: return "Other"
+            case .violatedAvoidAreas: return "ViolatedAvoidAreas"
             case .violatedAvoidDirtRoad: return "ViolatedAvoidDirtRoad"
             case .violatedAvoidTunnel: return "ViolatedAvoidTunnel"
             case .violatedPedestrianOption: return "ViolatedPedestrianOption"
@@ -5974,6 +5981,7 @@ extension GeoRoutesClientTypes {
         case tollsDataTemporarilyUnavailable
         case tollsDataUnavailable
         case tollTransponder
+        case travelTimeExceedsDriverWorkHours
         case violatedAvoidControlledAccessHighway
         case violatedAvoidDifficultTurns
         case violatedAvoidDirtRoad
@@ -6005,6 +6013,7 @@ extension GeoRoutesClientTypes {
                 .tollsDataTemporarilyUnavailable,
                 .tollsDataUnavailable,
                 .tollTransponder,
+                .travelTimeExceedsDriverWorkHours,
                 .violatedAvoidControlledAccessHighway,
                 .violatedAvoidDifficultTurns,
                 .violatedAvoidDirtRoad,
@@ -6042,6 +6051,7 @@ extension GeoRoutesClientTypes {
             case .tollsDataTemporarilyUnavailable: return "TollsDataTemporarilyUnavailable"
             case .tollsDataUnavailable: return "TollsDataUnavailable"
             case .tollTransponder: return "TollTransponder"
+            case .travelTimeExceedsDriverWorkHours: return "TravelTimeExceedsDriverWorkHours"
             case .violatedAvoidControlledAccessHighway: return "ViolatedAvoidControlledAccessHighway"
             case .violatedAvoidDifficultTurns: return "ViolatedAvoidDifficultTurns"
             case .violatedAvoidDirtRoad: return "ViolatedAvoidDirtRoad"
@@ -7834,19 +7844,14 @@ extension GeoRoutesClientTypes {
     public struct WaypointOptimizationDrivingDistanceOptions: Swift.Sendable {
         /// DrivingDistance assigns all the waypoints that are within driving distance of each other into a single cluster.
         /// This member is required.
-        public var drivingDistance: Swift.Int
+        public var drivingDistance: Swift.Int?
 
         public init(
-            drivingDistance: Swift.Int = 0
+            drivingDistance: Swift.Int? = 5
         ) {
             self.drivingDistance = drivingDistance
         }
     }
-}
-
-extension GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "WaypointOptimizationDrivingDistanceOptions(drivingDistance: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {

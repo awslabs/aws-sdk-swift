@@ -864,6 +864,62 @@ public struct GetDICOMImportJobInput: Swift.Sendable {
 
 extension MedicalImagingClientTypes {
 
+    /// Maps DCM files to their metadata.
+    public struct DicomMetadataMapping: Swift.Sendable {
+        /// The path to the JSON metadata file relative to inputS3Uri.
+        /// This member is required.
+        public var metadataFilePath: Swift.String?
+        /// The Series Instance UID that identifies the series. This parameter is optional because the mapping might be at the study level.
+        public var seriesInstanceUID: Swift.String?
+        /// The Study Instance UID that identifies the study.
+        /// This member is required.
+        public var studyInstanceUID: Swift.String?
+
+        public init(
+            metadataFilePath: Swift.String? = nil,
+            seriesInstanceUID: Swift.String? = nil,
+            studyInstanceUID: Swift.String? = nil
+        ) {
+            self.metadataFilePath = metadataFilePath
+            self.seriesInstanceUID = seriesInstanceUID
+            self.studyInstanceUID = studyInstanceUID
+        }
+    }
+}
+
+extension MedicalImagingClientTypes.DicomMetadataMapping: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DicomMetadataMapping(metadataFilePath: \(Swift.String(describing: metadataFilePath)), seriesInstanceUID: \"CONTENT_REDACTED\", studyInstanceUID: \"CONTENT_REDACTED\")"}
+}
+
+extension MedicalImagingClientTypes {
+
+    /// The configuration parameters that are specific to DICOM JSON metadata import operations.
+    public struct DicomJsonMetadataImportConfiguration: Swift.Sendable {
+        /// Maps DCM files to their metadata.
+        /// This member is required.
+        public var dicomMetadataMappings: [MedicalImagingClientTypes.DicomMetadataMapping]?
+
+        public init(
+            dicomMetadataMappings: [MedicalImagingClientTypes.DicomMetadataMapping]? = nil
+        ) {
+            self.dicomMetadataMappings = dicomMetadataMappings
+        }
+    }
+}
+
+extension MedicalImagingClientTypes {
+
+    /// The configuration options for different types of import operations.
+    public enum ImportConfiguration: Swift.Sendable {
+        /// The configuration parameters that are specific to DICOM JSON metadata import operations.
+        case dicomjsonmetadataimportconfiguration(MedicalImagingClientTypes.DicomJsonMetadataImportConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MedicalImagingClientTypes {
+
     public enum JobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case failed
@@ -909,6 +965,8 @@ extension MedicalImagingClientTypes {
         public var datastoreId: Swift.String?
         /// The timestamp for when the import job was ended.
         public var endedAt: Foundation.Date?
+        /// The object containing DicomJsonMetadataImportConfiguration.
+        public var importConfiguration: MedicalImagingClientTypes.ImportConfiguration?
         /// The input prefix path for the S3 bucket that contains the DICOM P10 files to be imported.
         /// This member is required.
         public var inputS3Uri: Swift.String?
@@ -933,6 +991,7 @@ extension MedicalImagingClientTypes {
             dataAccessRoleArn: Swift.String? = nil,
             datastoreId: Swift.String? = nil,
             endedAt: Foundation.Date? = nil,
+            importConfiguration: MedicalImagingClientTypes.ImportConfiguration? = nil,
             inputS3Uri: Swift.String? = nil,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
@@ -944,6 +1003,7 @@ extension MedicalImagingClientTypes {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
             self.endedAt = endedAt
+            self.importConfiguration = importConfiguration
             self.inputS3Uri = inputS3Uri
             self.jobId = jobId
             self.jobName = jobName
@@ -1881,6 +1941,8 @@ public struct StartDICOMImportJobInput: Swift.Sendable {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
+    /// The import configuration for the import job.
+    public var importConfiguration: MedicalImagingClientTypes.ImportConfiguration?
     /// The account ID of the source S3 bucket owner.
     public var inputOwnerAccountId: Swift.String?
     /// The input prefix path for the S3 bucket that contains the DICOM files to be imported.
@@ -1896,6 +1958,7 @@ public struct StartDICOMImportJobInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         dataAccessRoleArn: Swift.String? = nil,
         datastoreId: Swift.String? = nil,
+        importConfiguration: MedicalImagingClientTypes.ImportConfiguration? = nil,
         inputOwnerAccountId: Swift.String? = nil,
         inputS3Uri: Swift.String? = nil,
         jobName: Swift.String? = nil,
@@ -1904,6 +1967,7 @@ public struct StartDICOMImportJobInput: Swift.Sendable {
         self.clientToken = clientToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.datastoreId = datastoreId
+        self.importConfiguration = importConfiguration
         self.inputOwnerAccountId = inputOwnerAccountId
         self.inputS3Uri = inputS3Uri
         self.jobName = jobName
@@ -2491,6 +2555,7 @@ extension StartDICOMImportJobInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["dataAccessRoleArn"].write(value.dataAccessRoleArn)
+        try writer["importConfiguration"].write(value.importConfiguration, with: MedicalImagingClientTypes.ImportConfiguration.write(value:to:))
         try writer["inputOwnerAccountId"].write(value.inputOwnerAccountId)
         try writer["inputS3Uri"].write(value.inputS3Uri)
         try writer["jobName"].write(value.jobName)
@@ -3338,6 +3403,7 @@ extension MedicalImagingClientTypes.DICOMImportJobProperties {
         value.inputS3Uri = try reader["inputS3Uri"].readIfPresent() ?? ""
         value.outputS3Uri = try reader["outputS3Uri"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent()
+        value.importConfiguration = try reader["importConfiguration"].readIfPresent(with: MedicalImagingClientTypes.ImportConfiguration.read(from:))
         return value
     }
 }
@@ -3355,6 +3421,40 @@ extension MedicalImagingClientTypes.DICOMImportJobSummary {
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension MedicalImagingClientTypes.DicomJsonMetadataImportConfiguration {
+
+    static func write(value: MedicalImagingClientTypes.DicomJsonMetadataImportConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dicomMetadataMappings"].writeList(value.dicomMetadataMappings, memberWritingClosure: MedicalImagingClientTypes.DicomMetadataMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DicomJsonMetadataImportConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MedicalImagingClientTypes.DicomJsonMetadataImportConfiguration()
+        value.dicomMetadataMappings = try reader["dicomMetadataMappings"].readListIfPresent(memberReadingClosure: MedicalImagingClientTypes.DicomMetadataMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MedicalImagingClientTypes.DicomMetadataMapping {
+
+    static func write(value: MedicalImagingClientTypes.DicomMetadataMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metadataFilePath"].write(value.metadataFilePath)
+        try writer["seriesInstanceUID"].write(value.seriesInstanceUID)
+        try writer["studyInstanceUID"].write(value.studyInstanceUID)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DicomMetadataMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MedicalImagingClientTypes.DicomMetadataMapping()
+        value.studyInstanceUID = try reader["studyInstanceUID"].readIfPresent() ?? ""
+        value.seriesInstanceUID = try reader["seriesInstanceUID"].readIfPresent()
+        value.metadataFilePath = try reader["metadataFilePath"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3443,6 +3543,30 @@ extension MedicalImagingClientTypes.ImageSetsMetadataSummary {
         value.dicomTags = try reader["DICOMTags"].readIfPresent(with: MedicalImagingClientTypes.DICOMTags.read(from:))
         value.isPrimary = try reader["isPrimary"].readIfPresent()
         return value
+    }
+}
+
+extension MedicalImagingClientTypes.ImportConfiguration {
+
+    static func write(value: MedicalImagingClientTypes.ImportConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .dicomjsonmetadataimportconfiguration(dicomjsonmetadataimportconfiguration):
+                try writer["dicomJsonMetadataImportConfiguration"].write(dicomjsonmetadataimportconfiguration, with: MedicalImagingClientTypes.DicomJsonMetadataImportConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.ImportConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "dicomJsonMetadataImportConfiguration":
+                return .dicomjsonmetadataimportconfiguration(try reader["dicomJsonMetadataImportConfiguration"].read(with: MedicalImagingClientTypes.DicomJsonMetadataImportConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

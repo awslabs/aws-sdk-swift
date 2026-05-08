@@ -1502,6 +1502,37 @@ extension VPCLatticeClientTypes {
     }
 }
 
+extension VPCLatticeClientTypes {
+
+    public enum ResourceConfigDnsResolution: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Enable private DNS resolution within VPC for resources behind this resource gateway
+        case inVpc
+        /// Use public DNS resolution for resources behind this resource gateway
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceConfigDnsResolution] {
+            return [
+                .inVpc,
+                .public
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inVpc: return "IN_VPC"
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateResourceGatewayInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     public var clientToken: Swift.String?
@@ -1521,6 +1552,12 @@ public struct CreateResourceGatewayInput: Swift.Sendable {
     /// The name of the resource gateway.
     /// This member is required.
     public var name: Swift.String?
+    /// Indicates how DNS is resolved for resource configurations associated to this resource gateway. ResourceConfigDnsResolution is set at creation time and cannot be changed.
+    ///
+    /// * IN_VPC - DNS resolution occurs privately within the resource gateway's VPC. DNS queries for resources behind this resource gateway resolve using the DNS resolvers defined in the VPC's DHCP option sets. Use this when your resource domain names are hosted in private Route 53 hosted zones or on-premises DNS servers reachable from the VPC.
+    ///
+    /// * PUBLIC - DNS resolution occurs against public DNS resolvers. DNS queries for resources behind this resource gateway resolve using standard public DNS. Use this when your resource domain names are publicly resolvable.
+    public var resourceConfigDnsResolution: VPCLatticeClientTypes.ResourceConfigDnsResolution?
     /// The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC.
     public var securityGroupIds: [Swift.String]?
     /// The IDs of the VPC subnets in which to create the resource gateway.
@@ -1535,6 +1572,7 @@ public struct CreateResourceGatewayInput: Swift.Sendable {
         ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
         ipv4AddressesPerEni: Swift.Int? = nil,
         name: Swift.String? = nil,
+        resourceConfigDnsResolution: VPCLatticeClientTypes.ResourceConfigDnsResolution? = nil,
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -1544,6 +1582,7 @@ public struct CreateResourceGatewayInput: Swift.Sendable {
         self.ipAddressType = ipAddressType
         self.ipv4AddressesPerEni = ipv4AddressesPerEni
         self.name = name
+        self.resourceConfigDnsResolution = resourceConfigDnsResolution
         self.securityGroupIds = securityGroupIds
         self.subnetIds = subnetIds
         self.tags = tags
@@ -1613,6 +1652,8 @@ public struct CreateResourceGatewayOutput: Swift.Sendable {
     public var ipv4AddressesPerEni: Swift.Int?
     /// The name of the resource gateway.
     public var name: Swift.String?
+    /// The DNS resolution type for resource configurations that are associated with this resource gateway.
+    public var resourceConfigDnsResolution: VPCLatticeClientTypes.ResourceConfigDnsResolution?
     /// The IDs of the security groups for the resource gateway.
     public var securityGroupIds: [Swift.String]?
     /// The status of the resource gateway.
@@ -1628,6 +1669,7 @@ public struct CreateResourceGatewayOutput: Swift.Sendable {
         ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
         ipv4AddressesPerEni: Swift.Int? = nil,
         name: Swift.String? = nil,
+        resourceConfigDnsResolution: VPCLatticeClientTypes.ResourceConfigDnsResolution? = nil,
         securityGroupIds: [Swift.String]? = nil,
         status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -1638,6 +1680,7 @@ public struct CreateResourceGatewayOutput: Swift.Sendable {
         self.ipAddressType = ipAddressType
         self.ipv4AddressesPerEni = ipv4AddressesPerEni
         self.name = name
+        self.resourceConfigDnsResolution = resourceConfigDnsResolution
         self.securityGroupIds = securityGroupIds
         self.status = status
         self.subnetIds = subnetIds
@@ -3640,10 +3683,16 @@ public struct GetResourceGatewayOutput: Swift.Sendable {
     public var ipv4AddressesPerEni: Swift.Int?
     /// The date and time that the resource gateway was last updated, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
+    /// The AWS service that manages the resource gateway.
+    public var managedBy: Swift.String?
     /// The name of the resource gateway.
     public var name: Swift.String?
+    /// The DNS resolution type for resource configurations that are associated with this resource gateway.
+    public var resourceConfigDnsResolution: VPCLatticeClientTypes.ResourceConfigDnsResolution?
     /// The security group IDs associated with the resource gateway.
     public var securityGroupIds: [Swift.String]?
+    /// Indicates whether the resource gateway is managed by an AWS service.
+    public var serviceManaged: Swift.Bool?
     /// The status for the resource gateway.
     public var status: VPCLatticeClientTypes.ResourceGatewayStatus?
     /// The IDs of the VPC subnets for resource gateway.
@@ -3658,8 +3707,11 @@ public struct GetResourceGatewayOutput: Swift.Sendable {
         ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
         ipv4AddressesPerEni: Swift.Int? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
+        managedBy: Swift.String? = nil,
         name: Swift.String? = nil,
+        resourceConfigDnsResolution: VPCLatticeClientTypes.ResourceConfigDnsResolution? = nil,
         securityGroupIds: [Swift.String]? = nil,
+        serviceManaged: Swift.Bool? = nil,
         status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil,
         subnetIds: [Swift.String]? = nil,
         vpcId: Swift.String? = nil
@@ -3670,8 +3722,11 @@ public struct GetResourceGatewayOutput: Swift.Sendable {
         self.ipAddressType = ipAddressType
         self.ipv4AddressesPerEni = ipv4AddressesPerEni
         self.lastUpdatedAt = lastUpdatedAt
+        self.managedBy = managedBy
         self.name = name
+        self.resourceConfigDnsResolution = resourceConfigDnsResolution
         self.securityGroupIds = securityGroupIds
+        self.serviceManaged = serviceManaged
         self.status = status
         self.subnetIds = subnetIds
         self.vpcId = vpcId
@@ -4581,6 +4636,8 @@ extension VPCLatticeClientTypes {
         public var lastUpdatedAt: Foundation.Date?
         /// The name of the resource gateway.
         public var name: Swift.String?
+        /// The DNS resolution type for resource configurations that are associated with this resource gateway.
+        public var resourceConfigDnsResolution: VPCLatticeClientTypes.ResourceConfigDnsResolution?
         /// The IDs of the security groups applied to the resource gateway.
         public var securityGroupIds: [Swift.String]?
         /// The name of the resource gateway.
@@ -4598,6 +4655,7 @@ extension VPCLatticeClientTypes {
             ipv4AddressesPerEni: Swift.Int? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            resourceConfigDnsResolution: VPCLatticeClientTypes.ResourceConfigDnsResolution? = nil,
             securityGroupIds: [Swift.String]? = nil,
             status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil,
             subnetIds: [Swift.String]? = nil,
@@ -4610,6 +4668,7 @@ extension VPCLatticeClientTypes {
             self.ipv4AddressesPerEni = ipv4AddressesPerEni
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.resourceConfigDnsResolution = resourceConfigDnsResolution
             self.securityGroupIds = securityGroupIds
             self.status = status
             self.subnetIds = subnetIds
@@ -5460,7 +5519,7 @@ extension VPCLatticeClientTypes {
         public var reasonCode: Swift.String?
         /// The status of the target.
         ///
-        /// * DRAINING: The target is being deregistered. No new connections are sent to this target while current connections are being drained. The default draining time is 5 minutes.
+        /// * DRAINING: The target is being deregistered. No new connections are sent to this target while current connections are being drained. The default draining time is 1 minute.
         ///
         /// * UNAVAILABLE: Health checks are unavailable for the target group.
         ///
@@ -7132,6 +7191,7 @@ extension CreateResourceGatewayInput {
         try writer["ipAddressType"].write(value.ipAddressType)
         try writer["ipv4AddressesPerEni"].write(value.ipv4AddressesPerEni)
         try writer["name"].write(value.name)
+        try writer["resourceConfigDnsResolution"].write(value.resourceConfigDnsResolution)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7450,6 +7510,7 @@ extension CreateResourceGatewayOutput {
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.ipv4AddressesPerEni = try reader["ipv4AddressesPerEni"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
+        value.resourceConfigDnsResolution = try reader["resourceConfigDnsResolution"].readIfPresent()
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent()
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7867,8 +7928,11 @@ extension GetResourceGatewayOutput {
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.ipv4AddressesPerEni = try reader["ipv4AddressesPerEni"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.managedBy = try reader["managedBy"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
+        value.resourceConfigDnsResolution = try reader["resourceConfigDnsResolution"].readIfPresent()
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceManaged = try reader["serviceManaged"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcId = try reader["vpcId"].readIfPresent()
@@ -10357,6 +10421,7 @@ extension VPCLatticeClientTypes.ResourceGatewaySummary {
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.ipv4AddressesPerEni = try reader["ipv4AddressesPerEni"].readIfPresent()
+        value.resourceConfigDnsResolution = try reader["resourceConfigDnsResolution"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value

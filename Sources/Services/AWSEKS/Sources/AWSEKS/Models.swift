@@ -1520,6 +1520,7 @@ extension EKSClientTypes {
         case updatedTier
         case updateStrategy
         case upgradePolicy
+        case vendedLogs
         case version
         case warmPoolEnabled
         case warmPoolMaxGroupPreparedCapacity
@@ -1569,6 +1570,7 @@ extension EKSClientTypes {
                 .updatedTier,
                 .updateStrategy,
                 .upgradePolicy,
+                .vendedLogs,
                 .version,
                 .warmPoolEnabled,
                 .warmPoolMaxGroupPreparedCapacity,
@@ -1624,6 +1626,7 @@ extension EKSClientTypes {
             case .updatedTier: return "UpdatedTier"
             case .updateStrategy: return "UpdateStrategy"
             case .upgradePolicy: return "UpgradePolicy"
+            case .vendedLogs: return "VendedLogs"
             case .version: return "Version"
             case .warmPoolEnabled: return "WarmPoolEnabled"
             case .warmPoolMaxGroupPreparedCapacity: return "WarmPoolMaxGroupPreparedCapacity"

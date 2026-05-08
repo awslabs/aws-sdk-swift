@@ -5086,20 +5086,42 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The title format text configuration for a sheet control. This is a tagged union type. Specify either PlainText or RichText, but not both.
+    public struct ControlTitleFormatText: Swift.Sendable {
+        /// The plain text format of the title text.
+        public var plainText: Swift.String?
+        /// The rich text format of the title text.
+        public var richText: Swift.String?
+
+        public init(
+            plainText: Swift.String? = nil,
+            richText: Swift.String? = nil
+        ) {
+            self.plainText = plainText
+            self.richText = richText
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The default configuration for all dependent controls of the filter.
     public struct DefaultFilterControlConfiguration: Swift.Sendable {
         /// The control option for the DefaultFilterControlConfiguration.
         /// This member is required.
         public var controlOptions: QuickSightClientTypes.DefaultFilterControlOptions?
+        /// The title text format configuration for the default filter control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The title of the DefaultFilterControlConfiguration. This title is shared by all controls that are tied to this filter.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
             controlOptions: QuickSightClientTypes.DefaultFilterControlOptions? = nil,
-            title: Swift.String? = nil
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
+            title: Swift.String? = ""
         ) {
             self.controlOptions = controlOptions
+            self.controlTitleFormatText = controlTitleFormatText
             self.title = title
         }
     }
@@ -6706,6 +6728,8 @@ extension QuickSightClientTypes {
     public struct FilterDateTimePickerControl: Swift.Sendable {
         /// The visibility configurationof the Apply button on a DateTimePickerControl.
         public var commitMode: QuickSightClientTypes.CommitMode?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions?
         /// The ID of the FilterDateTimePickerControl.
@@ -6715,7 +6739,6 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceFilterId: Swift.String?
         /// The title of the FilterDateTimePickerControl.
-        /// This member is required.
         public var title: Swift.String?
         /// The type of the FilterDropDownControl. Choose one of the following options:
         ///
@@ -6726,13 +6749,15 @@ extension QuickSightClientTypes {
 
         public init(
             commitMode: QuickSightClientTypes.CommitMode? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil,
-            title: Swift.String? = nil,
+            title: Swift.String? = "",
             type: QuickSightClientTypes.SheetControlDateTimePickerType? = nil
         ) {
             self.commitMode = commitMode
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -6752,6 +6777,8 @@ extension QuickSightClientTypes {
         public var commitMode: QuickSightClientTypes.CommitMode?
         /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
         public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of the FilterDropDownControl.
         public var displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions?
         /// The ID of the FilterDropDownControl.
@@ -6763,7 +6790,6 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceFilterId: Swift.String?
         /// The title of the FilterDropDownControl.
-        /// This member is required.
         public var title: Swift.String?
         /// The type of the FilterDropDownControl. Choose one of the following options:
         ///
@@ -6776,16 +6802,18 @@ extension QuickSightClientTypes {
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
             commitMode: QuickSightClientTypes.CommitMode? = nil,
             controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
             sourceFilterId: Swift.String? = nil,
-            title: Swift.String? = nil,
+            title: Swift.String? = "",
             type: QuickSightClientTypes.SheetControlListType? = nil
         ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.commitMode = commitMode
             self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.selectableValues = selectableValues
@@ -6804,6 +6832,8 @@ extension QuickSightClientTypes {
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
         /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
         public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.ListControlDisplayOptions?
         /// The ID of the FilterListControl.
@@ -6815,7 +6845,6 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceFilterId: Swift.String?
         /// The title of the FilterListControl.
-        /// This member is required.
         public var title: Swift.String?
         /// The type of the FilterListControl. Choose one of the following options:
         ///
@@ -6827,15 +6856,17 @@ extension QuickSightClientTypes {
         public init(
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
             controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.ListControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
             sourceFilterId: Swift.String? = nil,
-            title: Swift.String? = nil,
+            title: Swift.String? = "",
             type: QuickSightClientTypes.SheetControlListType? = nil
         ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.selectableValues = selectableValues
@@ -6852,6 +6883,8 @@ extension QuickSightClientTypes {
     public struct FilterRelativeDateTimeControl: Swift.Sendable {
         /// The visibility configuration of the Apply button on a FilterRelativeDateTimeControl.
         public var commitMode: QuickSightClientTypes.CommitMode?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions?
         /// The ID of the FilterTextAreaControl.
@@ -6861,17 +6894,18 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceFilterId: Swift.String?
         /// The title of the FilterTextAreaControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
             commitMode: QuickSightClientTypes.CommitMode? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
             self.commitMode = commitMode
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -6884,6 +6918,8 @@ extension QuickSightClientTypes {
 
     /// A control to display a horizontal toggle bar. This is used to change a value by sliding the toggle.
     public struct FilterSliderControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.SliderControlDisplayOptions?
         /// The ID of the FilterSliderControl.
@@ -6902,7 +6938,6 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var stepSize: Swift.Double
         /// The title of the FilterSliderControl.
-        /// This member is required.
         public var title: Swift.String?
         /// The type of the FilterSliderControl. Choose one of the following options:
         ///
@@ -6912,15 +6947,17 @@ extension QuickSightClientTypes {
         public var type: QuickSightClientTypes.SheetControlSliderType?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.SliderControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             maximumValue: Swift.Double = 0.0,
             minimumValue: Swift.Double = 0.0,
             sourceFilterId: Swift.String? = nil,
             stepSize: Swift.Double = 0.0,
-            title: Swift.String? = nil,
+            title: Swift.String? = "",
             type: QuickSightClientTypes.SheetControlSliderType? = nil
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.maximumValue = maximumValue
@@ -6937,6 +6974,8 @@ extension QuickSightClientTypes {
 
     /// A control to display a text box that is used to enter multiple entries.
     public struct FilterTextAreaControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The delimiter that is used to separate the lines in text.
         public var delimiter: Swift.String?
         /// The display options of a control.
@@ -6948,16 +6987,17 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceFilterId: Swift.String?
         /// The title of the FilterTextAreaControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             delimiter: Swift.String? = nil,
             displayOptions: QuickSightClientTypes.TextAreaControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.delimiter = delimiter
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
@@ -6971,6 +7011,8 @@ extension QuickSightClientTypes {
 
     /// A control to display a text box that is used to enter a single entry.
     public struct FilterTextFieldControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions?
         /// The ID of the FilterTextFieldControl.
@@ -6980,15 +7022,16 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceFilterId: Swift.String?
         /// The title of the FilterTextFieldControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -7860,6 +7903,8 @@ extension QuickSightClientTypes {
 
     /// A control from a date parameter that specifies date and time.
     public struct ParameterDateTimePickerControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions?
         /// The ID of the ParameterDateTimePickerControl.
@@ -7869,15 +7914,16 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceParameterName: Swift.String?
         /// The title of the ParameterDateTimePickerControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions? = nil,
             parameterControlId: Swift.String? = nil,
             sourceParameterName: Swift.String? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.sourceParameterName = sourceParameterName
@@ -7915,6 +7961,8 @@ extension QuickSightClientTypes {
         public var commitMode: QuickSightClientTypes.CommitMode?
         /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
         public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions?
         /// The ID of the ParameterDropDownControl.
@@ -7926,7 +7974,6 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceParameterName: Swift.String?
         /// The title of the ParameterDropDownControl.
-        /// This member is required.
         public var title: Swift.String?
         /// The type parameter name of the ParameterDropDownControl.
         public var type: QuickSightClientTypes.SheetControlListType?
@@ -7935,16 +7982,18 @@ extension QuickSightClientTypes {
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
             commitMode: QuickSightClientTypes.CommitMode? = nil,
             controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions? = nil,
             parameterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.ParameterSelectableValues? = nil,
             sourceParameterName: Swift.String? = nil,
-            title: Swift.String? = nil,
+            title: Swift.String? = "",
             type: QuickSightClientTypes.SheetControlListType? = nil
         ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.commitMode = commitMode
             self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.selectableValues = selectableValues
@@ -7963,6 +8012,8 @@ extension QuickSightClientTypes {
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
         /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
         public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.ListControlDisplayOptions?
         /// The ID of the ParameterListControl.
@@ -7974,7 +8025,6 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceParameterName: Swift.String?
         /// The title of the ParameterListControl.
-        /// This member is required.
         public var title: Swift.String?
         /// The type of ParameterListControl.
         public var type: QuickSightClientTypes.SheetControlListType?
@@ -7982,15 +8032,17 @@ extension QuickSightClientTypes {
         public init(
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
             controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.ListControlDisplayOptions? = nil,
             parameterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.ParameterSelectableValues? = nil,
             sourceParameterName: Swift.String? = nil,
-            title: Swift.String? = nil,
+            title: Swift.String? = "",
             type: QuickSightClientTypes.SheetControlListType? = nil
         ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.selectableValues = selectableValues
@@ -8005,6 +8057,8 @@ extension QuickSightClientTypes {
 
     /// A control to display a horizontal toggle bar. This is used to change a value by sliding the toggle.
     public struct ParameterSliderControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.SliderControlDisplayOptions?
         /// The larger value that is displayed at the right of the slider.
@@ -8023,18 +8077,19 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var stepSize: Swift.Double
         /// The title of the ParameterSliderControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.SliderControlDisplayOptions? = nil,
             maximumValue: Swift.Double = 0.0,
             minimumValue: Swift.Double = 0.0,
             parameterControlId: Swift.String? = nil,
             sourceParameterName: Swift.String? = nil,
             stepSize: Swift.Double = 0.0,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
@@ -8050,6 +8105,8 @@ extension QuickSightClientTypes {
 
     /// A control to display a text box that is used to enter multiple entries.
     public struct ParameterTextAreaControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The delimiter that is used to separate the lines in text.
         public var delimiter: Swift.String?
         /// The display options of a control.
@@ -8061,16 +8118,17 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceParameterName: Swift.String?
         /// The title of the ParameterTextAreaControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             delimiter: Swift.String? = nil,
             displayOptions: QuickSightClientTypes.TextAreaControlDisplayOptions? = nil,
             parameterControlId: Swift.String? = nil,
             sourceParameterName: Swift.String? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.delimiter = delimiter
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
@@ -8084,6 +8142,8 @@ extension QuickSightClientTypes {
 
     /// A control to display a text box that is used to enter a single entry.
     public struct ParameterTextFieldControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions?
         /// The ID of the ParameterTextFieldControl.
@@ -8093,15 +8153,16 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceParameterName: Swift.String?
         /// The title of the ParameterTextFieldControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions? = nil,
             parameterControlId: Swift.String? = nil,
             sourceParameterName: Swift.String? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.sourceParameterName = sourceParameterName
@@ -23746,6 +23807,8 @@ extension QuickSightClientTypes {
 
     /// An object that contains information needed to create a data source connection that uses OAuth client credentials. This option is available for data source connections that are made with Snowflake and Starburst.
     public struct OAuthParameters: Swift.Sendable {
+        /// The S3 URI of the identity provider's CA certificates bundle in PEM format. Use this parameter to provide a custom CA certificate bundle for the identity provider when the default trust store does not include the required certificates.
+        public var identityProviderCACertificatesBundleS3Uri: Swift.String?
         /// The resource uri of the identity provider.
         public var identityProviderResourceUri: Swift.String?
         /// VPC connection properties.
@@ -23757,11 +23820,13 @@ extension QuickSightClientTypes {
         public var tokenProviderUrl: Swift.String?
 
         public init(
+            identityProviderCACertificatesBundleS3Uri: Swift.String? = nil,
             identityProviderResourceUri: Swift.String? = nil,
             identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil,
             oAuthScope: Swift.String? = nil,
             tokenProviderUrl: Swift.String? = nil
         ) {
+            self.identityProviderCACertificatesBundleS3Uri = identityProviderCACertificatesBundleS3Uri
             self.identityProviderResourceUri = identityProviderResourceUri
             self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
             self.oAuthScope = oAuthScope
@@ -27347,6 +27412,8 @@ extension QuickSightClientTypes {
         public var sapPhysicalInventoryAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using SAP Product Master connectors.
         public var sapProductMasterDataAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform Scenario-related actions.
+        public var scenario: QuickSightClientTypes.CapabilityState?
         /// The ability to enable users to upgrade their user role.
         public var selfUpgradeUserRole: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using ServiceNow connectors.
@@ -27457,6 +27524,8 @@ extension QuickSightClientTypes {
         public var smartsheetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform space-related actions.
         public var space: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform Story-related actions.
+        public var story: QuickSightClientTypes.CapabilityState?
         /// The ability to subscribe to email reports.
         public var subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Textract connectors.
@@ -27675,6 +27744,7 @@ extension QuickSightClientTypes {
             sapMaterialStockAction: QuickSightClientTypes.CapabilityState? = nil,
             sapPhysicalInventoryAction: QuickSightClientTypes.CapabilityState? = nil,
             sapProductMasterDataAction: QuickSightClientTypes.CapabilityState? = nil,
+            scenario: QuickSightClientTypes.CapabilityState? = nil,
             selfUpgradeUserRole: QuickSightClientTypes.CapabilityState? = nil,
             serviceNowAction: QuickSightClientTypes.CapabilityState? = nil,
             shareAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27730,6 +27800,7 @@ extension QuickSightClientTypes {
             slackAction: QuickSightClientTypes.CapabilityState? = nil,
             smartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
             space: QuickSightClientTypes.CapabilityState? = nil,
+            story: QuickSightClientTypes.CapabilityState? = nil,
             subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
             textractAction: QuickSightClientTypes.CapabilityState? = nil,
             topic: QuickSightClientTypes.CapabilityState? = nil,
@@ -27897,6 +27968,7 @@ extension QuickSightClientTypes {
             self.sapMaterialStockAction = sapMaterialStockAction
             self.sapPhysicalInventoryAction = sapPhysicalInventoryAction
             self.sapProductMasterDataAction = sapProductMasterDataAction
+            self.scenario = scenario
             self.selfUpgradeUserRole = selfUpgradeUserRole
             self.serviceNowAction = serviceNowAction
             self.shareAmazonBedrockARSAction = shareAmazonBedrockARSAction
@@ -27952,6 +28024,7 @@ extension QuickSightClientTypes {
             self.slackAction = slackAction
             self.smartsheetAction = smartsheetAction
             self.space = space
+            self.story = story
             self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
             self.textractAction = textractAction
             self.topic = topic
@@ -28629,6 +28702,25 @@ public struct ConcurrentUpdatingException: ClientRuntime.ModeledError, AWSClient
     ) {
         self.properties.message = message
         self.properties.requestId = requestId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Configures the display properties of the control title.
+    public struct ControlTitleFontConfiguration: Swift.Sendable {
+        /// Configures the font settings for the control title.
+        public var fontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Determines the alignment of the control title.
+        public var textAlignment: QuickSightClientTypes.HorizontalTextAlignment?
+
+        public init(
+            fontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            textAlignment: QuickSightClientTypes.HorizontalTextAlignment? = nil
+        ) {
+            self.fontConfiguration = fontConfiguration
+            self.textAlignment = textAlignment
+        }
     }
 }
 
@@ -34298,6 +34390,8 @@ extension QuickSightClientTypes {
         public var axisLabelFontConfiguration: QuickSightClientTypes.FontConfiguration?
         /// Configures the display properties of the given text.
         public var axisTitleFontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Configures the display properties of the control title.
+        public var controlTitleFontConfiguration: QuickSightClientTypes.ControlTitleFontConfiguration?
         /// Configures the display properties of the given text.
         public var dataLabelFontConfiguration: QuickSightClientTypes.FontConfiguration?
         /// Determines the list of font families.
@@ -34314,6 +34408,7 @@ extension QuickSightClientTypes {
         public init(
             axisLabelFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
             axisTitleFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            controlTitleFontConfiguration: QuickSightClientTypes.ControlTitleFontConfiguration? = nil,
             dataLabelFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
             fontFamilies: [QuickSightClientTypes.Font]? = nil,
             legendTitleFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
@@ -34323,6 +34418,7 @@ extension QuickSightClientTypes {
         ) {
             self.axisLabelFontConfiguration = axisLabelFontConfiguration
             self.axisTitleFontConfiguration = axisTitleFontConfiguration
+            self.controlTitleFontConfiguration = controlTitleFontConfiguration
             self.dataLabelFontConfiguration = dataLabelFontConfiguration
             self.fontFamilies = fontFamilies
             self.legendTitleFontConfiguration = legendTitleFontConfiguration
@@ -43900,6 +43996,16 @@ public struct GetIdentityContextInput: Swift.Sendable {
     /// The ID for the Amazon Web Services account that the user whose identity context you want to retrieve is in. Currently, you use the ID for the Amazon Web Services account that contains your Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
+    /// The region in which the context is to be used. Use this parameter to obtain an identity context for cross-region use. The specified region must meet the following conditions:
+    ///
+    /// * The region must be in the same Amazon Web Services partition as the region you are calling from. Cross-partition requests are not supported. For example, you cannot specify a region in the aws-cn partition when calling from a region in the aws partition.
+    ///
+    /// * It must be a valid Amazon QuickSight supported region.
+    ///
+    /// * The calling customer account must be enabled in the specified context region.
+    ///
+    /// * This parameter is not supported when calling from an opt-in region.
+    public var contextRegion: Swift.String?
     /// The namespace of the user that you want to get identity context for. This parameter is required when the UserIdentifier is specified using Email or UserName.
     public var namespace: Swift.String?
     /// The timestamp at which the session will expire.
@@ -43910,11 +44016,13 @@ public struct GetIdentityContextInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil,
+        contextRegion: Swift.String? = nil,
         namespace: Swift.String? = nil,
         sessionExpiresAt: Foundation.Date? = nil,
         userIdentifier: QuickSightClientTypes.UserIdentifier? = nil
     ) {
         self.awsAccountId = awsAccountId
+        self.contextRegion = contextRegion
         self.namespace = namespace
         self.sessionExpiresAt = sessionExpiresAt
         self.userIdentifier = userIdentifier
@@ -54536,6 +54644,7 @@ extension GetIdentityContextInput {
 
     static func write(value: GetIdentityContextInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ContextRegion"].write(value.contextRegion)
         try writer["Namespace"].write(value.namespace)
         try writer["SessionExpiresAt"].writeTimestamp(value.sessionExpiresAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["UserIdentifier"].write(value.userIdentifier, with: QuickSightClientTypes.UserIdentifier.write(value:to:))
@@ -66291,6 +66400,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["SalesforceAction"].write(value.salesforceAction)
         try writer["SandPGMIAction"].write(value.sandPGMIAction)
         try writer["SandPGlobalEnergyAction"].write(value.sandPGlobalEnergyAction)
+        try writer["Scenario"].write(value.scenario)
         try writer["SelfUpgradeUserRole"].write(value.selfUpgradeUserRole)
         try writer["ServiceNowAction"].write(value.serviceNowAction)
         try writer["ShareAmazonBedrockARSAction"].write(value.shareAmazonBedrockARSAction)
@@ -66346,6 +66456,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["SlackAction"].write(value.slackAction)
         try writer["SmartsheetAction"].write(value.smartsheetAction)
         try writer["Space"].write(value.space)
+        try writer["Story"].write(value.story)
         try writer["SubscribeDashboardEmailReports"].write(value.subscribeDashboardEmailReports)
         try writer["TextractAction"].write(value.textractAction)
         try writer["Topic"].write(value.topic)
@@ -66622,6 +66733,8 @@ extension QuickSightClientTypes.Capabilities {
         value.`extension` = try reader["Extension"].readIfPresent()
         value.manageSharedFolders = try reader["ManageSharedFolders"].readIfPresent()
         value.generateAnalyses = try reader["GenerateAnalyses"].readIfPresent()
+        value.story = try reader["Story"].readIfPresent()
+        value.scenario = try reader["Scenario"].readIfPresent()
         return value
     }
 }
@@ -67747,6 +67860,40 @@ extension QuickSightClientTypes.ControlSortConfiguration {
         var value = QuickSightClientTypes.ControlSortConfiguration()
         value.selectableValuesSort = try reader["SelectableValuesSort"].readIfPresent(with: QuickSightClientTypes.SelectableValuesSort.read(from:))
         value.controlColumnSort = try reader["ControlColumnSort"].readIfPresent(with: QuickSightClientTypes.AggregationSortConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ControlTitleFontConfiguration {
+
+    static func write(value: QuickSightClientTypes.ControlTitleFontConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FontConfiguration"].write(value.fontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["TextAlignment"].write(value.textAlignment)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ControlTitleFontConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ControlTitleFontConfiguration()
+        value.fontConfiguration = try reader["FontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.textAlignment = try reader["TextAlignment"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ControlTitleFormatText {
+
+    static func write(value: QuickSightClientTypes.ControlTitleFormatText?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PlainText"].write(value.plainText)
+        try writer["RichText"].write(value.richText)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ControlTitleFormatText {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ControlTitleFormatText()
+        value.plainText = try reader["PlainText"].readIfPresent()
+        value.richText = try reader["RichText"].readIfPresent()
         return value
     }
 }
@@ -69925,6 +70072,7 @@ extension QuickSightClientTypes.DefaultFilterControlConfiguration {
     static func write(value: QuickSightClientTypes.DefaultFilterControlConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ControlOptions"].write(value.controlOptions, with: QuickSightClientTypes.DefaultFilterControlOptions.write(value:to:))
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["Title"].write(value.title)
     }
 
@@ -69933,6 +70081,7 @@ extension QuickSightClientTypes.DefaultFilterControlConfiguration {
         var value = QuickSightClientTypes.DefaultFilterControlConfiguration()
         value.title = try reader["Title"].readIfPresent() ?? ""
         value.controlOptions = try reader["ControlOptions"].readIfPresent(with: QuickSightClientTypes.DefaultFilterControlOptions.read(from:))
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -70983,6 +71132,7 @@ extension QuickSightClientTypes.FilterDateTimePickerControl {
     static func write(value: QuickSightClientTypes.FilterDateTimePickerControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CommitMode"].write(value.commitMode)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SourceFilterId"].write(value.sourceFilterId)
@@ -70999,6 +71149,7 @@ extension QuickSightClientTypes.FilterDateTimePickerControl {
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
         value.commitMode = try reader["CommitMode"].readIfPresent()
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -71010,6 +71161,7 @@ extension QuickSightClientTypes.FilterDropDownControl {
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
         try writer["CommitMode"].write(value.commitMode)
         try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DropDownControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.FilterSelectableValues.write(value:to:))
@@ -71030,6 +71182,7 @@ extension QuickSightClientTypes.FilterDropDownControl {
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
         value.commitMode = try reader["CommitMode"].readIfPresent()
         value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -71084,6 +71237,7 @@ extension QuickSightClientTypes.FilterListControl {
         guard let value else { return }
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
         try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.ListControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.FilterSelectableValues.write(value:to:))
@@ -71103,6 +71257,7 @@ extension QuickSightClientTypes.FilterListControl {
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.FilterSelectableValues.read(from:))
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
         value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -71167,6 +71322,7 @@ extension QuickSightClientTypes.FilterRelativeDateTimeControl {
     static func write(value: QuickSightClientTypes.FilterRelativeDateTimeControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CommitMode"].write(value.commitMode)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SourceFilterId"].write(value.sourceFilterId)
@@ -71181,6 +71337,7 @@ extension QuickSightClientTypes.FilterRelativeDateTimeControl {
         value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions.read(from:))
         value.commitMode = try reader["CommitMode"].readIfPresent()
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -71221,6 +71378,7 @@ extension QuickSightClientTypes.FilterSliderControl {
 
     static func write(value: QuickSightClientTypes.FilterSliderControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.SliderControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["MaximumValue"].write(value.maximumValue)
@@ -71242,6 +71400,7 @@ extension QuickSightClientTypes.FilterSliderControl {
         value.maximumValue = try reader["MaximumValue"].readIfPresent() ?? 0
         value.minimumValue = try reader["MinimumValue"].readIfPresent() ?? 0
         value.stepSize = try reader["StepSize"].readIfPresent() ?? 0
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -71269,6 +71428,7 @@ extension QuickSightClientTypes.FilterTextAreaControl {
 
     static func write(value: QuickSightClientTypes.FilterTextAreaControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["Delimiter"].write(value.delimiter)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.TextAreaControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
@@ -71284,6 +71444,7 @@ extension QuickSightClientTypes.FilterTextAreaControl {
         value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.delimiter = try reader["Delimiter"].readIfPresent()
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.TextAreaControlDisplayOptions.read(from:))
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -71292,6 +71453,7 @@ extension QuickSightClientTypes.FilterTextFieldControl {
 
     static func write(value: QuickSightClientTypes.FilterTextFieldControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.TextFieldControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SourceFilterId"].write(value.sourceFilterId)
@@ -71305,6 +71467,7 @@ extension QuickSightClientTypes.FilterTextFieldControl {
         value.title = try reader["Title"].readIfPresent() ?? ""
         value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.TextFieldControlDisplayOptions.read(from:))
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -75519,6 +75682,7 @@ extension QuickSightClientTypes.OAuthParameters {
 
     static func write(value: QuickSightClientTypes.OAuthParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["IdentityProviderCACertificatesBundleS3Uri"].write(value.identityProviderCACertificatesBundleS3Uri)
         try writer["IdentityProviderResourceUri"].write(value.identityProviderResourceUri)
         try writer["IdentityProviderVpcConnectionProperties"].write(value.identityProviderVpcConnectionProperties, with: QuickSightClientTypes.VpcConnectionProperties.write(value:to:))
         try writer["OAuthScope"].write(value.oAuthScope)
@@ -75532,6 +75696,7 @@ extension QuickSightClientTypes.OAuthParameters {
         value.oAuthScope = try reader["OAuthScope"].readIfPresent()
         value.identityProviderVpcConnectionProperties = try reader["IdentityProviderVpcConnectionProperties"].readIfPresent(with: QuickSightClientTypes.VpcConnectionProperties.read(from:))
         value.identityProviderResourceUri = try reader["IdentityProviderResourceUri"].readIfPresent()
+        value.identityProviderCACertificatesBundleS3Uri = try reader["IdentityProviderCACertificatesBundleS3Uri"].readIfPresent()
         return value
     }
 }
@@ -75720,6 +75885,7 @@ extension QuickSightClientTypes.ParameterDateTimePickerControl {
 
     static func write(value: QuickSightClientTypes.ParameterDateTimePickerControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.write(value:to:))
         try writer["ParameterControlId"].write(value.parameterControlId)
         try writer["SourceParameterName"].write(value.sourceParameterName)
@@ -75733,6 +75899,7 @@ extension QuickSightClientTypes.ParameterDateTimePickerControl {
         value.title = try reader["Title"].readIfPresent() ?? ""
         value.sourceParameterName = try reader["SourceParameterName"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.read(from:))
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -75765,6 +75932,7 @@ extension QuickSightClientTypes.ParameterDropDownControl {
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
         try writer["CommitMode"].write(value.commitMode)
         try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DropDownControlDisplayOptions.write(value:to:))
         try writer["ParameterControlId"].write(value.parameterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.ParameterSelectableValues.write(value:to:))
@@ -75785,6 +75953,7 @@ extension QuickSightClientTypes.ParameterDropDownControl {
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
         value.commitMode = try reader["CommitMode"].readIfPresent()
         value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -75795,6 +75964,7 @@ extension QuickSightClientTypes.ParameterListControl {
         guard let value else { return }
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
         try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.ListControlDisplayOptions.write(value:to:))
         try writer["ParameterControlId"].write(value.parameterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.ParameterSelectableValues.write(value:to:))
@@ -75814,6 +75984,7 @@ extension QuickSightClientTypes.ParameterListControl {
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.ParameterSelectableValues.read(from:))
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
         value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -75860,6 +76031,7 @@ extension QuickSightClientTypes.ParameterSliderControl {
 
     static func write(value: QuickSightClientTypes.ParameterSliderControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.SliderControlDisplayOptions.write(value:to:))
         try writer["MaximumValue"].write(value.maximumValue)
         try writer["MinimumValue"].write(value.minimumValue)
@@ -75879,6 +76051,7 @@ extension QuickSightClientTypes.ParameterSliderControl {
         value.maximumValue = try reader["MaximumValue"].readIfPresent() ?? 0
         value.minimumValue = try reader["MinimumValue"].readIfPresent() ?? 0
         value.stepSize = try reader["StepSize"].readIfPresent() ?? 0
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -75887,6 +76060,7 @@ extension QuickSightClientTypes.ParameterTextAreaControl {
 
     static func write(value: QuickSightClientTypes.ParameterTextAreaControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["Delimiter"].write(value.delimiter)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.TextAreaControlDisplayOptions.write(value:to:))
         try writer["ParameterControlId"].write(value.parameterControlId)
@@ -75902,6 +76076,7 @@ extension QuickSightClientTypes.ParameterTextAreaControl {
         value.sourceParameterName = try reader["SourceParameterName"].readIfPresent() ?? ""
         value.delimiter = try reader["Delimiter"].readIfPresent()
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.TextAreaControlDisplayOptions.read(from:))
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -75910,6 +76085,7 @@ extension QuickSightClientTypes.ParameterTextFieldControl {
 
     static func write(value: QuickSightClientTypes.ParameterTextFieldControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.TextFieldControlDisplayOptions.write(value:to:))
         try writer["ParameterControlId"].write(value.parameterControlId)
         try writer["SourceParameterName"].write(value.sourceParameterName)
@@ -75923,6 +76099,7 @@ extension QuickSightClientTypes.ParameterTextFieldControl {
         value.title = try reader["Title"].readIfPresent() ?? ""
         value.sourceParameterName = try reader["SourceParameterName"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.TextFieldControlDisplayOptions.read(from:))
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -82322,6 +82499,7 @@ extension QuickSightClientTypes.Typography {
         guard let value else { return }
         try writer["AxisLabelFontConfiguration"].write(value.axisLabelFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
         try writer["AxisTitleFontConfiguration"].write(value.axisTitleFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["ControlTitleFontConfiguration"].write(value.controlTitleFontConfiguration, with: QuickSightClientTypes.ControlTitleFontConfiguration.write(value:to:))
         try writer["DataLabelFontConfiguration"].write(value.dataLabelFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
         try writer["FontFamilies"].writeList(value.fontFamilies, memberWritingClosure: QuickSightClientTypes.Font.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LegendTitleFontConfiguration"].write(value.legendTitleFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
@@ -82341,6 +82519,7 @@ extension QuickSightClientTypes.Typography {
         value.dataLabelFontConfiguration = try reader["DataLabelFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
         value.visualTitleFontConfiguration = try reader["VisualTitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.VisualTitleFontConfiguration.read(from:))
         value.visualSubtitleFontConfiguration = try reader["VisualSubtitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleFontConfiguration.read(from:))
+        value.controlTitleFontConfiguration = try reader["ControlTitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.ControlTitleFontConfiguration.read(from:))
         return value
     }
 }

@@ -1617,7 +1617,7 @@ extension MedicalImagingClient {
 
     /// Performs the `StartDICOMImportJob` operation on the `MedicalImaging` service.
     ///
-    /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter.
+    /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files or enhances existing DICOM files with JSON metadata. The importConfiguration parameter specifies the import type. The data is found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartDICOMImportJobInput`)
     ///

@@ -6611,6 +6611,27 @@ public struct ListSpansInput: Swift.Sendable {
 
 extension QConnectClientTypes {
 
+    /// Model reasoning and it's internal decision making process
+    public struct SpanReasoningValue: Swift.Sendable {
+        /// The reasoning text content
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            value: Swift.String? = nil
+        ) {
+            self.value = value
+        }
+    }
+}
+
+extension QConnectClientTypes.SpanReasoningValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SpanReasoningValue(value: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
     /// A citation that spans a specific range of text.
     public struct SpanCitation: Swift.Sendable {
         /// The identifier of the content being cited in the span.
@@ -12432,7 +12453,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 
 extension QConnectClientTypes {
 
-    /// Message content value - can be text, tool invocation, or tool result
+    /// Message content value - can be text, tool invocation, tool result, or reasoning
     public indirect enum SpanMessageValue: Swift.Sendable {
         /// Text message content
         case text(QConnectClientTypes.SpanTextValue)
@@ -12440,6 +12461,8 @@ extension QConnectClientTypes {
         case tooluse(QConnectClientTypes.SpanToolUseValue)
         /// Tool result message content
         case toolresult(QConnectClientTypes.SpanToolResultValue)
+        /// Model reasoning and it's internal decision making process
+        case reasoning(QConnectClientTypes.SpanReasoningValue)
         case sdkUnknown(Swift.String)
     }
 }
@@ -12516,7 +12539,7 @@ extension QConnectClientTypes {
         /// Message timestamp
         /// This member is required.
         public var timestamp: Foundation.Date?
-        /// Message content values (text, tool use, tool result)
+        /// Message content values (text, tool use, tool result, reasoning)
         /// This member is required.
         public var values: [QConnectClientTypes.SpanMessageValue]?
 
@@ -12861,6 +12884,8 @@ extension QConnectClientTypes {
         public var systemInstructions: [QConnectClientTypes.SpanMessageValue]?
         /// Sampling temperature for generation
         public var temperature: Swift.Float?
+        /// Time to first token in milliseconds, measured from when Amazon Bedrock was invoked to when the first token was returned
+        public var timeToFirstTokenMs: Swift.Int?
         /// Top-p sampling parameter for generation
         public var topp: Swift.Float?
         /// Number of input tokens in prompt
@@ -12901,6 +12926,7 @@ extension QConnectClientTypes {
             sessionName: Swift.String? = nil,
             systemInstructions: [QConnectClientTypes.SpanMessageValue]? = nil,
             temperature: Swift.Float? = nil,
+            timeToFirstTokenMs: Swift.Int? = nil,
             topp: Swift.Float? = nil,
             usageInputTokens: Swift.Int? = nil,
             usageOutputTokens: Swift.Int? = nil,
@@ -12936,6 +12962,7 @@ extension QConnectClientTypes {
             self.sessionName = sessionName
             self.systemInstructions = systemInstructions
             self.temperature = temperature
+            self.timeToFirstTokenMs = timeToFirstTokenMs
             self.topp = topp
             self.usageInputTokens = usageInputTokens
             self.usageOutputTokens = usageOutputTokens
@@ -12982,6 +13009,8 @@ extension QConnectClientTypes {
         /// Span completion status
         /// This member is required.
         public var status: QConnectClientTypes.SpanStatus?
+        /// Human-readable error description when status is ERROR or TIMEOUT
+        public var statusDescription: Swift.String?
 
         public init(
             assistantId: Swift.String? = nil,
@@ -12995,7 +13024,8 @@ extension QConnectClientTypes {
             spanName: Swift.String? = nil,
             spanType: QConnectClientTypes.SpanType? = nil,
             startTimestamp: Foundation.Date? = nil,
-            status: QConnectClientTypes.SpanStatus? = nil
+            status: QConnectClientTypes.SpanStatus? = nil,
+            statusDescription: Swift.String? = nil
         ) {
             self.assistantId = assistantId
             self.attributes = attributes
@@ -13009,6 +13039,7 @@ extension QConnectClientTypes {
             self.spanType = spanType
             self.startTimestamp = startTimestamp
             self.status = status
+            self.statusDescription = statusDescription
         }
     }
 }
@@ -21062,6 +21093,7 @@ extension QConnectClientTypes.Span {
         value.startTimestamp = try reader["startTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTimestamp = try reader["endTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusDescription = try reader["statusDescription"].readIfPresent()
         value.requestId = try reader["requestId"].readIfPresent() ?? ""
         value.originRequestId = try reader["originRequestId"].readIfPresent()
         value.attributes = try reader["attributes"].readIfPresent(with: QConnectClientTypes.SpanAttributes.read(from:))
@@ -21108,6 +21140,7 @@ extension QConnectClientTypes.SpanAttributes {
         value.promptType = try reader["promptType"].readIfPresent()
         value.promptName = try reader["promptName"].readIfPresent()
         value.promptVersion = try reader["promptVersion"].readIfPresent()
+        value.timeToFirstTokenMs = try reader["timeToFirstTokenMs"].readIfPresent()
         return value
     }
 }
@@ -21150,9 +21183,21 @@ extension QConnectClientTypes.SpanMessageValue {
                 return .tooluse(try reader["toolUse"].read(with: QConnectClientTypes.SpanToolUseValue.read(from:)))
             case "toolResult":
                 return .toolresult(try reader["toolResult"].read(with: QConnectClientTypes.SpanToolResultValue.read(from:)))
+            case "reasoning":
+                return .reasoning(try reader["reasoning"].read(with: QConnectClientTypes.SpanReasoningValue.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension QConnectClientTypes.SpanReasoningValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SpanReasoningValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SpanReasoningValue()
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
     }
 }
 
