@@ -4259,6 +4259,12 @@ extension GameLiftClient {
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeContainerGroupPortMappings(input: DescribeContainerGroupPortMappingsInput) async throws -> DescribeContainerGroupPortMappingsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GameLiftClient.describeContainerGroupPortMappingsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -4271,19 +4277,19 @@ extension GameLiftClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput>(DescribeContainerGroupPortMappingsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContainerGroupPortMappingsOutput>(DescribeContainerGroupPortMappingsOutput.httpOutput(from:), DescribeContainerGroupPortMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4294,7 +4300,6 @@ extension GameLiftClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContainerGroupPortMappingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeContainerGroupPortMappingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerGroupPortMappingsInput, DescribeContainerGroupPortMappingsOutput>(contentType: "application/cbor"))
